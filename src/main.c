@@ -11,10 +11,26 @@
 #define TILE_W          16
 #define TILE_H          16
 #define NUM_TILES       3
-#define MAP_TILE_W      (GAME_X / TILE_W) * 4
+#define MAP_TILE_W      (GAME_X / TILE_W) * 2
 #define MAP_TILE_H      (GAME_Y / TILE_H) * 1
 
-uint8_t map[MAP_TILE_W][MAP_TILE_H];
+uint8_t map[MAP_TILE_H][MAP_TILE_W] =
+{
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,1},
+    {1,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
 BITMAP *tiles[NUM_TILES];
 BITMAP *mapScreen;
 BITMAP *buffer;
@@ -84,10 +100,11 @@ int main()
 
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    clear_to_color(buffer, 3);
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_X, GAME_Y);
-    create_map();
+    //create_map();
 
     //init scroll
     scroll.pos.x = 0;
@@ -113,7 +130,8 @@ int main()
         */
         //acquire_screen();
 
-        clear(buffer);
+        //clear_to_color(buffer, 3);
+        clear_to_color(mapScreen, 1);
     
         draw_map(mapScreen);
         draw_sprite(buffer, mapScreen, (SCREEN_W>>1) - ((mapScreen->w)>>1), (SCREEN_H>>1) - ((mapScreen->h)>>1));
@@ -137,24 +155,29 @@ END_OF_MAIN()
 
 void create_map()
 {
+    //Randomize map
     for (int j = 0; j < (MAP_TILE_H); j++)
     {
         for (int i = 0; i < (MAP_TILE_W); i++)        
         {
-            /* init tile*/            
             map[i][j] = rand() % NUM_TILES;
         }    
-    }    
+    }   
 }
 
 void draw_map(BITMAP *mapScreen)
 {
-    for (int j = 0; j < (GAME_Y / TILE_H); j++)
+    uint8_t tileNum;
+
+    for (int y = 0; y < (GAME_Y / TILE_H); y++)
     {
-        for (int i = 0; i < (GAME_X / TILE_W) + 1; i++)        
+        for (int x = 0; x < (GAME_X / TILE_W) + 1; x++)        
         {
-            /* blit tile*/            
-            draw_sprite(mapScreen, tiles[map[i+(scroll.pos.x / TILE_W)][j+(scroll.pos.y / TILE_H)]], (i * 16) - (scroll.pos.x % TILE_W) , (j * 16) - (scroll.pos.y % TILE_H));
+            tileNum = map[y+(scroll.pos.y / TILE_H)][x+(scroll.pos.x / TILE_W)];
+
+            /* blit tile*/
+            if (tileNum != 0)            
+                draw_sprite(mapScreen, tiles[tileNum - 1], (x * 16) - (scroll.pos.x % TILE_W) , (y * 16) - (scroll.pos.y % TILE_H));
         }    
     }    
 }
