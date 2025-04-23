@@ -6,13 +6,43 @@
 //SMS resolution: 256x192 (testing 256x208: extra Y tile to center screen)
 #define SCREEN_X        320
 #define SCREEN_Y        240
-#define GAME_X          256
-#define GAME_Y          208
+#define GAME_W          256
+#define GAME_H          208
+#define GAME_X          (SCREEN_W>>1) - (GAME_W>>1)
+#define GAME_Y          (SCREEN_H>>1) - (GAME_H>>1)
 #define TILE_W          16
 #define TILE_H          16
 #define NUM_TILES       3
-#define MAP_TILE_W      (GAME_X / TILE_W) * 2
-#define MAP_TILE_H      (GAME_Y / TILE_H) * 1
+#define MAP_TILE_W      (GAME_W / TILE_W) * 2
+#define MAP_TILE_H      (GAME_H / TILE_H) * 1
+
+#define PLAYER_ACC_X    ftofix(0.01)
+
+typedef struct tVector
+{
+    int16_t x;
+    int16_t y;
+} tVector;
+
+typedef struct tScroll
+{
+    tVector pos;
+} tScroll;
+
+typedef struct tEntity
+{
+    tVector pos;
+    fixed fX;
+    fixed fY;
+    fixed vX;
+    fixed vY;
+} tEntity;
+
+struct player  
+{
+    tEntity ent;
+    BITMAP *img;
+} player;
 
 uint8_t map[MAP_TILE_H][MAP_TILE_W] =
 {
@@ -36,17 +66,6 @@ BITMAP *mapScreen;
 BITMAP *buffer;
 RGB* gamePal;
 
-typedef struct tVector
-{
-    int16_t x;
-    int16_t y;
-} tVector;
-
-typedef struct tScroll
-{
-    tVector pos;
-} tScroll;
-
 bool gameExit = false;
 int fps;
 int frameCount;
@@ -55,6 +74,8 @@ tScroll scroll;
 //function declarations
 void create_map();
 void draw_map(BITMAP *mapScreen);
+void update_player();
+void draw_player();
 
 //update fps callback
 static void update_fps(void)
@@ -103,7 +124,7 @@ int main()
     clear_to_color(buffer, 3);
 
     //initialize map bitmap
-    mapScreen = create_bitmap(GAME_X, GAME_Y);
+    mapScreen = create_bitmap(GAME_W, GAME_H);
     //create_map();
 
     //init scroll
@@ -113,40 +134,47 @@ int main()
     /* set the color palette */
     set_palette(desktop_palette);
 
+    //init player
+    player.ent.pos.x = 0;
+    player.ent.pos.y = 0;
+    player.ent.fX = itofix(16);
+    player.ent.fY = itofix(100);
+    player.ent.vX = 0;
+    player.ent.vY = 0;
+    player.img = load_bmp("res/004.bmp", NULL);
+
     while (!gameExit)
     {
         if (key[KEY_ESC])
             gameExit = true;
+
+        update_player();
         
-        if (key[KEY_RIGHT] && scroll.pos.x < ((MAP_TILE_W * TILE_W) - GAME_X) - 1)
+        /*if (key[KEY_RIGHT] && scroll.pos.x < ((MAP_TILE_W * TILE_W) - GAME_X) - 1)
             scroll.pos.x++;
         
         if (key[KEY_LEFT] && scroll.pos.x > 0)
             scroll.pos.x--;
-        
-        /* you don't need to do this, but on some platforms (eg. Windows) things
-        * will be drawn more quickly if you always acquire the screen before
-        * trying to draw onto it.
         */
-        //acquire_screen();
-
+        
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
     
         draw_map(mapScreen);
-        draw_sprite(buffer, mapScreen, (SCREEN_W>>1) - ((mapScreen->w)>>1), (SCREEN_H>>1) - ((mapScreen->h)>>1));
-    
+        draw_player();
+
+        draw_sprite(buffer, mapScreen, GAME_X, GAME_Y);
+        
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps);
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
+        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
 
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
         frameCount++;
-        //vsync();
+        vsync();
 
-        /* you must always release bitmaps before calling any input functions */
-        //release_screen();
     }
 
     return 0;
@@ -169,9 +197,9 @@ void draw_map(BITMAP *mapScreen)
 {
     uint8_t tileNum;
 
-    for (int y = 0; y < (GAME_Y / TILE_H); y++)
+    for (int y = 0; y < (GAME_H / TILE_H); y++)
     {
-        for (int x = 0; x < (GAME_X / TILE_W) + 1; x++)        
+        for (int x = 0; x < (GAME_W / TILE_W) + 1; x++)        
         {
             tileNum = map[y+(scroll.pos.y / TILE_H)][x+(scroll.pos.x / TILE_W)];
 
@@ -182,3 +210,30 @@ void draw_map(BITMAP *mapScreen)
     }    
 }
 
+void update_player()
+{
+    fixed friction = ftofix(0.9);
+    fixed accel_x = ftofix(0.4);
+
+    //update controls
+    if (key[KEY_RIGHT])
+        player.ent.vX+= fixmul(accel_x, friction);
+
+    if (key[KEY_LEFT])
+        player.ent.vX-= fixmul(accel_x, friction);
+
+    player.ent.vX = fixmul(player.ent.vX, friction);
+        
+    //update velocity
+    player.ent.fX += player.ent.vX;
+    player.ent.fY += player.ent.vY;
+
+    //update position
+    player.ent.pos.x = fixtoi(player.ent.fX) +  GAME_X;
+    player.ent.pos.y = fixtoi(player.ent.fY) +  GAME_Y;
+}
+
+void draw_player()
+{
+    draw_sprite(mapScreen, player.img, player.ent.pos.x, player.ent.pos.y);
+}
