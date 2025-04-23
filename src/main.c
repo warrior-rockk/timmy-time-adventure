@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include "allegro.h"
 
 //SMS resolution: 256x192 (testing 256x208: extra Y tile to center screen)
@@ -9,13 +11,42 @@
 #define TILE_W          16
 #define TILE_H          16
 #define NUM_TILES       3
+#define MAP_TILE_W      (GAME_X / TILE_W) * 4
+#define MAP_TILE_H      (GAME_Y / TILE_H) * 1
 
+uint8_t map[MAP_TILE_W][MAP_TILE_H];
 BITMAP *tiles[NUM_TILES];
 BITMAP *mapScreen;
+BITMAP *buffer;
 RGB* gamePal;
 
+typedef struct tVector
+{
+    int16_t x;
+    int16_t y;
+} tVector;
+
+typedef struct tScroll
+{
+    tVector pos;
+} tScroll;
+
+bool gameExit = false;
+int fps;
+int frameCount;
+tScroll scroll;
+
 //function declarations
+void create_map();
 void draw_map(BITMAP *mapScreen);
+
+//update fps callback
+static void update_fps(void)
+{
+    fps = frameCount;
+    frameCount = 0;
+}
+END_OF_FUNCTION(update_fps);
 
 int main()
 {    
@@ -24,8 +55,15 @@ int main()
         return 1;
 
     /* set up the keyboard handler */
+    install_timer();
     install_keyboard(); 
     
+    fps = 0;
+    frameCount = 0;
+    LOCK_VARIABLE(fps);
+    LOCK_VARIABLE(frameCount);
+    install_int_ex(update_fps, BPS_TO_TIMER(1));
+
     set_color_depth(8);
 
     /* set a graphics mode sized 320x200 */
@@ -44,42 +82,79 @@ int main()
     tiles[1] = load_bmp("res/tiles/002.bmp", NULL);
     tiles[2] = load_bmp("res/tiles/003.bmp", NULL);
 
+    //initialize buffer screen
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_X, GAME_Y);
+    create_map();
 
+    //init scroll
+    scroll.pos.x = 0;
+    scroll.pos.y = 0;
+    
     /* set the color palette */
     set_palette(desktop_palette);
 
-    /* clear the screen to white */
-    clear_to_color(screen, 3);
-    
-    draw_map(mapScreen);
-    draw_sprite(screen, mapScreen, (SCREEN_W>>1) - ((mapScreen->w)>>1), (SCREEN_H>>1) - ((mapScreen->h)>>1));
-    
-    /* you don't need to do this, but on some platforms (eg. Windows) things
-    * will be drawn more quickly if you always acquire the screen before
-    * trying to draw onto it.
-    */
-    acquire_screen();
+    while (!gameExit)
+    {
+        if (key[KEY_ESC])
+            gameExit = true;
+        
+        if (key[KEY_RIGHT] && scroll.pos.x < ((MAP_TILE_W * TILE_W) - GAME_X) - 1)
+            scroll.pos.x++;
+        
+        if (key[KEY_LEFT] && scroll.pos.x > 0)
+            scroll.pos.x--;
+        
+        /* you don't need to do this, but on some platforms (eg. Windows) things
+        * will be drawn more quickly if you always acquire the screen before
+        * trying to draw onto it.
+        */
+        //acquire_screen();
 
-    /* you must always release bitmaps before calling any input functions */
-    release_screen();
+        clear(buffer);
+    
+        draw_map(mapScreen);
+        draw_sprite(buffer, mapScreen, (SCREEN_W>>1) - ((mapScreen->w)>>1), (SCREEN_H>>1) - ((mapScreen->h)>>1));
+    
+        textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps);
+        textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
 
-    /* wait for a key press */
-    readkey();
+        //blit to screen
+        blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
+        
+        frameCount++;
+        //vsync();
+
+        /* you must always release bitmaps before calling any input functions */
+        //release_screen();
+    }
 
     return 0;
 }
 END_OF_MAIN()
 
+void create_map()
+{
+    for (int j = 0; j < (MAP_TILE_H); j++)
+    {
+        for (int i = 0; i < (MAP_TILE_W); i++)        
+        {
+            /* init tile*/            
+            map[i][j] = rand() % NUM_TILES;
+        }    
+    }    
+}
+
 void draw_map(BITMAP *mapScreen)
 {
     for (int j = 0; j < (GAME_Y / TILE_H); j++)
     {
-        for (int i = 0; i < (GAME_X / TILE_W); i++)        
+        for (int i = 0; i < (GAME_X / TILE_W) + 1; i++)        
         {
             /* blit tile*/            
-            draw_sprite(mapScreen, tiles[rand() % NUM_TILES], (i * 16) , (j * 16) );
+            draw_sprite(mapScreen, tiles[map[i+(scroll.pos.x / TILE_W)][j+(scroll.pos.y / TILE_H)]], (i * 16) - (scroll.pos.x % TILE_W) , (j * 16) - (scroll.pos.y % TILE_H));
         }    
     }    
 }

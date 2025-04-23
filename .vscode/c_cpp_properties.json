@@ -24,7 +24,7 @@
                 "/Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/include/**"
             ],
             "defines": [],
-            "cStandard": "c89",
+            "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-gcc-x86",
             "compilerPath": "/Users/warrior/Downloads/djgpp/bin/i586-pc-msdosdjgpp-gcc"
