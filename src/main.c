@@ -16,8 +16,6 @@
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
-#define PLAYER_ACC_X    ftofix(0.01)
-
 typedef struct tVector
 {
     int16_t x;
@@ -168,6 +166,7 @@ int main()
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps);
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
+        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
 
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
@@ -214,6 +213,11 @@ void update_player()
 {
     fixed friction = ftofix(0.9);
     fixed accel_x = ftofix(0.4);
+    fixed gravity = ftofix(0.4);
+    fixed accel_y = ftofix(4.0);
+    int16_t floor = 160;
+    bool jump = false;
+    bool ground = false;
 
     //update controls
     if (key[KEY_RIGHT])
@@ -222,8 +226,30 @@ void update_player()
     if (key[KEY_LEFT])
         player.ent.vX-= fixmul(accel_x, friction);
 
+    if (key[KEY_UP] && ground)
+    {
+        player.ent.vY = -accel_y;
+        jump = true;
+        ground = false;
+    }
+
     player.ent.vX = fixmul(player.ent.vX, friction);
+    
+    if (player.ent.pos.y >= floor && !jump)
+    { 
+        player.ent.vY = 0;
+        //player.ent.fY = itofix(floor);
+        ground = true;
+    }
+    else
+    {
+        player.ent.vY += gravity;
+        jump = false;
+    }   
         
+
+    //player.ent.vY = player.ent.pos.y >= floor ? 0 : (player.ent.fY + gravity);
+
     //update velocity
     player.ent.fX += player.ent.vX;
     player.ent.fY += player.ent.vY;
