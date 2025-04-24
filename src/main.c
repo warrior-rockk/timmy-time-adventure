@@ -34,6 +34,8 @@ typedef struct tEntity
     fixed fY;
     fixed vX;
     fixed vY;
+    bool ground;
+    bool jump;
 } tEntity;
 
 struct player  
@@ -73,6 +75,7 @@ tScroll scroll;
 void create_map();
 void draw_map(BITMAP *mapScreen);
 void update_player();
+void update_scroll();
 void draw_player();
 
 //update fps callback
@@ -147,14 +150,8 @@ int main()
             gameExit = true;
 
         update_player();
-        
-        /*if (key[KEY_RIGHT] && scroll.pos.x < ((MAP_TILE_W * TILE_W) - GAME_X) - 1)
-            scroll.pos.x++;
-        
-        if (key[KEY_LEFT] && scroll.pos.x > 0)
-            scroll.pos.x--;
-        */
-        
+        update_scroll();
+
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
     
@@ -167,6 +164,7 @@ int main()
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
+        textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
 
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
@@ -213,12 +211,10 @@ void update_player()
 {
     fixed friction = ftofix(0.9);
     fixed accel_x = ftofix(0.4);
-    fixed gravity = ftofix(0.4);
+    fixed gravity = ftofix(0.2);
     fixed accel_y = ftofix(4.0);
     int16_t floor = 160;
-    bool jump = false;
-    bool ground = false;
-
+    
     //update controls
     if (key[KEY_RIGHT])
         player.ent.vX+= fixmul(accel_x, friction);
@@ -226,25 +222,25 @@ void update_player()
     if (key[KEY_LEFT])
         player.ent.vX-= fixmul(accel_x, friction);
 
-    if (key[KEY_UP] && ground)
+    if (key[KEY_UP] && player.ent.ground)
     {
         player.ent.vY = -accel_y;
-        jump = true;
-        ground = false;
+        player.ent.jump = true;
+        player.ent.ground = false;
     }
 
     player.ent.vX = fixmul(player.ent.vX, friction);
     
-    if (player.ent.pos.y >= floor && !jump)
+    if (player.ent.pos.y >= floor && !player.ent.jump)
     { 
         player.ent.vY = 0;
         //player.ent.fY = itofix(floor);
-        ground = true;
+        player.ent.ground = true;
     }
     else
     {
         player.ent.vY += gravity;
-        jump = false;
+        player.ent.jump = false;
     }   
         
 
@@ -255,11 +251,25 @@ void update_player()
     player.ent.fY += player.ent.vY;
 
     //update position
-    player.ent.pos.x = fixtoi(player.ent.fX) +  GAME_X;
-    player.ent.pos.y = fixtoi(player.ent.fY) +  GAME_Y;
+    player.ent.pos.x = fixtoi(player.ent.fX);// +  GAME_X;
+    player.ent.pos.y = fixtoi(player.ent.fY);// +  GAME_Y;
 }
 
 void draw_player()
 {
-    draw_sprite(mapScreen, player.img, player.ent.pos.x, player.ent.pos.y);
+    draw_sprite(mapScreen, player.img, player.ent.pos.x - scroll.pos.x, player.ent.pos.y - scroll.pos.y);
+}
+
+void update_scroll()
+{
+    //test: follow player 
+    scroll.pos.x = player.ent.pos.x - (GAME_W >> 1);
+    
+    //scroll limits
+    if (scroll.pos.x > (((MAP_TILE_W * TILE_W) - GAME_W) - 1))
+        scroll.pos.x = (((MAP_TILE_W * TILE_W) - GAME_W) - 1);
+              
+    if (scroll.pos.x < 0)
+        scroll.pos.x = 0;
+        
 }
