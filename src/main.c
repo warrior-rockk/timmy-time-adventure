@@ -6,13 +6,16 @@
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
 #define SCREEN_Y        240
+
 #define GAME_W          256
 #define GAME_H          208
 #define GAME_X          (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y          (SCREEN_H>>1) - (GAME_H>>1)
+
+#define NUM_TILES       3
 #define TILE_W          16
 #define TILE_H          16
-#define NUM_TILES       3
+
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
@@ -158,18 +161,23 @@ int main()
         draw_sprite(buffer, mapScreen, GAME_X, GAME_Y);
         
         //debug
-        textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps);
+        textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps); 
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
 
         //blit to screen
+        //blit(mapScreen, screen, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
         frameCount++;
         vsync();
 
+        /*
+        -850-780fps: draw mapScreen to screen directly
+        -850-719fps: draw mapScreen to buffer and blit to screen
+        */
     }
 
     return 0;
@@ -207,18 +215,23 @@ void draw_map(BITMAP *mapScreen)
 
 void update_player()
 {
-    fixed friction = ftofix(0.9);
-    fixed accel_x = ftofix(0.4);
+    fixed friction = ftofix(0.8); //more friction, more sloppy (0.94-0.96 is like ice)
+    fixed air_friction = ftofix(0.6);
+    fixed accel_x = ftofix(0.3);
     fixed gravity = ftofix(0.2);
     fixed accel_y = ftofix(4.0);
+    fixed max_vel_x = ftofix(2.5);
+
     int16_t floor = 160;
     
-    //update controls
-    if (key[KEY_RIGHT])
-        player.ent.vX+= fixmul(accel_x, friction);
+    fixed localFriction = player.ent.ground ? friction: air_friction;
 
-    if (key[KEY_LEFT])
-        player.ent.vX-= fixmul(accel_x, friction);
+    //update controls
+    if (key[KEY_RIGHT] && player.ent.vX < max_vel_x)
+        player.ent.vX+= fixmul(accel_x, (itofix(1) - localFriction));
+
+    if (key[KEY_LEFT] && player.ent.vX > -max_vel_x)
+        player.ent.vX-= fixmul(accel_x, (itofix(1) - localFriction));
 
     if (key[KEY_UP] && player.ent.ground)
     {
@@ -228,7 +241,8 @@ void update_player()
     }
 
     //update vels
-    player.ent.vX = fixmul(player.ent.vX, friction);
+    if (!key[KEY_RIGHT] && !key[KEY_LEFT])
+        player.ent.vX = fixmul(player.ent.vX, localFriction);
     
     if (player.ent.pos.y >= floor && !player.ent.jump)
     { 
