@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "allegro.h"
 
-//SMS resolution: 256x192 (testing 256x208: extra Y tile to center screen)
+//SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
 #define SCREEN_Y        240
 #define GAME_W          256
@@ -72,7 +72,7 @@ int frameCount;
 tScroll scroll;
 
 //function declarations
-void create_map();
+void create_rand_map();
 void draw_map(BITMAP *mapScreen);
 void update_player();
 void update_scroll();
@@ -88,11 +88,9 @@ END_OF_FUNCTION(update_fps);
 
 int main()
 {    
-    /* you should always do this at the start of Allegro programs */
     if (allegro_init() != 0)
         return 1;
 
-    /* set up the keyboard handler */
     install_timer();
     install_keyboard(); 
     
@@ -104,7 +102,6 @@ int main()
 
     set_color_depth(8);
 
-    /* set a graphics mode sized 320x200 */
     if (set_gfx_mode(GFX_AUTODETECT, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
     {
         if (set_gfx_mode(GFX_SAFE, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
@@ -120,21 +117,20 @@ int main()
     tiles[1] = load_bmp("res/tiles/002.bmp", NULL);
     tiles[2] = load_bmp("res/tiles/003.bmp", NULL);
 
+    /* set the color palette */
+    set_palette(desktop_palette);
+    
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear_to_color(buffer, 3);
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
-    //create_map();
-
+    
     //init scroll
     scroll.pos.x = 0;
     scroll.pos.y = 0;
     
-    /* set the color palette */
-    set_palette(desktop_palette);
-
     //init player
     player.ent.pos.x = 0;
     player.ent.pos.y = 0;
@@ -144,6 +140,7 @@ int main()
     player.ent.vY = 0;
     player.img = load_bmp("res/004.bmp", NULL);
 
+    //main loop
     while (!gameExit)
     {
         if (key[KEY_ESC])
@@ -160,6 +157,7 @@ int main()
 
         draw_sprite(buffer, mapScreen, GAME_X, GAME_Y);
         
+        //debug
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps);
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
@@ -178,7 +176,7 @@ int main()
 }
 END_OF_MAIN()
 
-void create_map()
+void create_rand_map()
 {
     //Randomize map
     for (int j = 0; j < (MAP_TILE_H); j++)
@@ -229,12 +227,13 @@ void update_player()
         player.ent.ground = false;
     }
 
+    //update vels
     player.ent.vX = fixmul(player.ent.vX, friction);
     
     if (player.ent.pos.y >= floor && !player.ent.jump)
     { 
         player.ent.vY = 0;
-        //player.ent.fY = itofix(floor);
+        player.ent.fY = itofix(floor);
         player.ent.ground = true;
     }
     else
@@ -242,17 +241,14 @@ void update_player()
         player.ent.vY += gravity;
         player.ent.jump = false;
     }   
-        
-
-    //player.ent.vY = player.ent.pos.y >= floor ? 0 : (player.ent.fY + gravity);
-
-    //update velocity
+    
+    //apply velocity
     player.ent.fX += player.ent.vX;
     player.ent.fY += player.ent.vY;
 
     //update position
-    player.ent.pos.x = fixtoi(player.ent.fX);// +  GAME_X;
-    player.ent.pos.y = fixtoi(player.ent.fY);// +  GAME_Y;
+    player.ent.pos.x = fixtoi(player.ent.fX);
+    player.ent.pos.y = fixtoi(player.ent.fY);
 }
 
 void draw_player()
