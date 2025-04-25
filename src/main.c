@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <time.h>
+
 #include "allegro.h"
 
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
@@ -91,6 +93,10 @@ END_OF_FUNCTION(update_fps);
 
 int main()
 {    
+    clock_t t;
+    double deltaTime;
+    int retrace; 
+
     if (allegro_init() != 0)
         return 1;
 
@@ -146,35 +152,44 @@ int main()
     //main loop
     while (!gameExit)
     {
+        t = clock();
+        retrace = retrace_count;
+
         if (key[KEY_ESC])
             gameExit = true;
 
-        //update_player();
+        update_player();
         update_scroll();
 
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
     
         draw_map(mapScreen);
-        //draw_player();
+        draw_player();
 
-        draw_sprite(buffer, mapScreen, GAME_X, GAME_Y);
-        //blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
-
+        //draw_sprite(buffer, mapScreen, GAME_X, GAME_Y); //slower
+        blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
+        
         //debug
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps); 
-        /*textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
+        textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
-        */
+        textprintf_ex(buffer, font, 0, 40, 0, 3, "time: %f", deltaTime);
+        textprintf_ex(buffer, font, 0, 48, 0, 3, "clock: %d", retrace_count);
+
         //blit to screen
         //blit(mapScreen, screen, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
         frameCount++;
+        
+        
         //vsync();
-
+        deltaTime = (double)(retrace_count - retrace) / CLOCKS_PER_SEC;
+        //if (deltaTime == 0)
+            //deltaTime = (float)(clock() - t) / CLOCKS_PER_SEC;
         /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
