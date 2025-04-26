@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "allegro.h"
 
@@ -73,7 +74,7 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
-fixed deltaTime;
+double deltaTime;
 tScroll scroll;
 
 //function declarations
@@ -104,6 +105,10 @@ int main()
     LOCK_VARIABLE(fps);
     LOCK_VARIABLE(frameCount);
     install_int_ex(update_fps, BPS_TO_TIMER(1));
+
+    clock_t tic;
+    clock_t toc;
+    int trace = 0;
 
     set_color_depth(8);
 
@@ -148,6 +153,9 @@ int main()
     //main loop
     while (!gameExit)
     {
+        tic = clock();
+        trace = retrace_count;
+
         if (key[KEY_ESC])
             gameExit = true;
 
@@ -168,19 +176,31 @@ int main()
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
+        textprintf_ex(buffer, font, 0, 40, 0, 3, "tic: %d", tic);
+        textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);
+        textprintf_ex(buffer, font, 0, 56, 0, 3, "delta: %f", deltaTime);
  
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
-        frameCount++;
         
         vsync();
         
+        frameCount++;
+
+        toc = clock();
+        //if (toc != tic)
+        //    deltaTime = ((double)(toc-tic) / CLOCKS_PER_SEC);
+        if (trace != retrace_count)
+            deltaTime = ((double)(retrace_count-trace) / 1.0);
+        
+            /* 
         if (fps > 0 )
             deltaTime = ftofix((float)(60 / fps));
         else
             deltaTime = itofix(1);
-        /*
+        */
+            /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
 
@@ -229,7 +249,7 @@ void update_player()
     fixed air_friction = ftofix(0.6);   //less than floor friction
     fixed gravity = ftofix(0.2);
     fixed accel_y = ftofix(4.0);        //jump acceleration
-    fixed max_vel_x = ftofix(2.5);
+    fixed max_vel_x = ftofix(1.0);
     fixed max_vel_y = ftofix(6);
 
     int16_t floor = 160;
@@ -262,13 +282,14 @@ void update_player()
     }
     else
     {
-        player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, deltaTime);
+        //player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+        player.ent.vY += fixmul(gravity, ftofix(deltaTime));
         player.ent.jump = false;
     }   
     
     //apply velocity
-    player.ent.fX += fixmul(player.ent.vX, deltaTime);
-    player.ent.fY += fixmul(player.ent.vY, deltaTime);
+    player.ent.fX += fixmul(player.ent.vX, ftofix(deltaTime));
+    player.ent.fY += fixmul(player.ent.vY, ftofix(deltaTime));
 
     //update position
     player.ent.pos.x = fixtoi(player.ent.fX);
