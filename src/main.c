@@ -73,7 +73,7 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
-double deltaTime;
+fixed deltaTime;
 tScroll scroll;
 
 //function declarations
@@ -93,8 +93,6 @@ END_OF_FUNCTION(update_fps);
 
 int main()
 {    
-    int retrace; 
-
     if (allegro_init() != 0)
         return 1;
 
@@ -150,8 +148,6 @@ int main()
     //main loop
     while (!gameExit)
     {
-        retrace = retrace_count;
-
         if (key[KEY_ESC])
             gameExit = true;
 
@@ -164,7 +160,6 @@ int main()
         draw_map(mapScreen);
         draw_player();
 
-        //draw_sprite(buffer, mapScreen, GAME_X, GAME_Y); //slower
         blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         
         //debug
@@ -173,18 +168,18 @@ int main()
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
-        textprintf_ex(buffer, font, 0, 40, 0, 3, "time: %f", deltaTime);
-        textprintf_ex(buffer, font, 0, 48, 0, 3, "clock: %d", retrace_count);
-
+ 
         //blit to screen
-        //blit(mapScreen, screen, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
         frameCount++;
         
         vsync();
-        deltaTime = (double)(retrace_count - retrace) / CLOCKS_PER_SEC;
         
+        if (fps > 0 )
+            deltaTime = ftofix((float)(60 / fps));
+        else
+            deltaTime = itofix(1);
         /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
@@ -267,14 +262,13 @@ void update_player()
     }
     else
     {
-        player.ent.vY += player.ent.vY >= max_vel_y ? 0 : gravity;
+        player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, deltaTime);
         player.ent.jump = false;
     }   
     
     //apply velocity
-    if (fps > 0)
-        player.ent.fX += fixmul(player.ent.vX, ftofix((float)(60/fps)));
-    player.ent.fY += player.ent.vY;
+    player.ent.fX += fixmul(player.ent.vX, deltaTime);
+    player.ent.fY += fixmul(player.ent.vY, deltaTime);
 
     //update position
     player.ent.pos.x = fixtoi(player.ent.fX);
