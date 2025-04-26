@@ -245,7 +245,7 @@ void draw_map(BITMAP *mapScreen)
 
 void update_player()
 {
-    fixed accel_x = ftofix(0.3);
+    fixed accel_x = ftofix(0.06);
     fixed friction = ftofix(0.86);       //more friction, more sloppy (0.94-0.96 is like ice)
     fixed air_friction = ftofix(0.6);   //less than floor friction
     fixed gravity = ftofix(0.2);
@@ -259,6 +259,7 @@ void update_player()
 
     //update controls
     if (key[KEY_RIGHT] && player.ent.vX < max_vel_x)
+        //player.ent.vX+= fixmul(accel_x, (itofix(1) - friction));
         player.ent.vX+= fixmul(accel_x, ftofix(deltaTime));
 
     if (key[KEY_LEFT] && player.ent.vX > -max_vel_x)
@@ -272,8 +273,8 @@ void update_player()
     }
 
     //update vels
-    //if (!key[KEY_RIGHT] && !key[KEY_LEFT])
-    player.ent.vX = fixmul(player.ent.vX, ftofix(pow(fixtof(friction), (deltaTime* fixtof(friction)))));
+    if (!key[KEY_RIGHT] && !key[KEY_LEFT])
+        player.ent.vX = fixmul(player.ent.vX, ftofix(pow(fixtof(friction), (deltaTime* fixtof(friction)))));
     
     if (player.ent.pos.y >= floor && !player.ent.jump)
     { 
