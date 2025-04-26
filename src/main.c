@@ -272,7 +272,8 @@ void update_player()
     }   
     
     //apply velocity
-    player.ent.fX += player.ent.vX;
+    if (fps > 0)
+        player.ent.fX += fixmul(player.ent.vX, ftofix((float)(60/fps)));
     player.ent.fY += player.ent.vY;
 
     //update position
