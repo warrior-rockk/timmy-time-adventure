@@ -261,7 +261,7 @@ void update_player()
 
     //update vels
     if (!key[KEY_RIGHT] && !key[KEY_LEFT])
-        player.ent.vX = fixmul(player.ent.vX, ftofix(pow(fixtof(friction), (deltaTime* fixtof(friction)))));
+        player.ent.vX = fixmul(player.ent.vX, ftofix(pow(fixtof(friction), (deltaTime * fixtof(friction))))); //this the equivalent formula for vX *= friction with deltaTime
     
     if (player.ent.pos.y >= floor && !player.ent.jump)
     { 
@@ -293,7 +293,14 @@ void draw_player()
 void update_scroll()
 {
     //test: follow player 
-    scroll.pos.x = player.ent.pos.x - (GAME_W >> 1);
+    //note: in sms games, the scroll moves when the player is offset to center in the direction of movement. A few pixels to right when move to right and viceversa
+    //if the player is in the offset zone, the scroll doesn't move allowing a tiny zone with not scroll movement
+    const uint16_t scrollOffset = 8;
+
+    if (player.ent.pos.x > (GAME_W >> 1) + scroll.pos.x + scrollOffset)
+        scroll.pos.x = player.ent.pos.x - (GAME_W >> 1) - scrollOffset;
+    else if (player.ent.pos.x < (GAME_W >> 1) + scroll.pos.x - scrollOffset)
+        scroll.pos.x = player.ent.pos.x - (GAME_W >> 1) + scrollOffset;
     
     //scroll limits
     if (scroll.pos.x > (((MAP_TILE_W * TILE_W) - GAME_W) - 1))
