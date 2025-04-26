@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <time.h>
 
 #include "allegro.h"
 
@@ -74,6 +73,7 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
+double deltaTime;
 tScroll scroll;
 
 //function declarations
@@ -93,8 +93,6 @@ END_OF_FUNCTION(update_fps);
 
 int main()
 {    
-    clock_t t;
-    double deltaTime;
     int retrace; 
 
     if (allegro_init() != 0)
@@ -152,7 +150,6 @@ int main()
     //main loop
     while (!gameExit)
     {
-        t = clock();
         retrace = retrace_count;
 
         if (key[KEY_ESC])
@@ -185,11 +182,9 @@ int main()
         
         frameCount++;
         
-        
-        //vsync();
+        vsync();
         deltaTime = (double)(retrace_count - retrace) / CLOCKS_PER_SEC;
-        //if (deltaTime == 0)
-            //deltaTime = (float)(clock() - t) / CLOCKS_PER_SEC;
+        
         /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
