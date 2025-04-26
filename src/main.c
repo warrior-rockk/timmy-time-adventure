@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <time.h>
 #include <math.h>
 
 #include "allegro.h"
@@ -107,8 +106,6 @@ int main()
     LOCK_VARIABLE(frameCount);
     install_int_ex(update_fps, BPS_TO_TIMER(1));
 
-    clock_t tic;
-    clock_t toc;
     int trace = 0;
 
     set_color_depth(8);
@@ -154,7 +151,6 @@ int main()
     //main loop
     while (!gameExit)
     {
-        tic = clock();
         trace = retrace_count;
 
         if (key[KEY_ESC])
@@ -177,9 +173,9 @@ int main()
         textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
         textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
-        textprintf_ex(buffer, font, 0, 40, 0, 3, "tic: %d", tic);
-        textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);
-        textprintf_ex(buffer, font, 0, 56, 0, 3, "delta: %f", deltaTime);
+        textprintf_ex(buffer, font, 0, 40, 0, 3, "p.y: %d", player.ent.pos.y);
+        //textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);
+        //textprintf_ex(buffer, font, 0, 56, 0, 3, "delta: %f", deltaTime);
  
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
@@ -189,18 +185,9 @@ int main()
         
         frameCount++;
 
-        toc = clock();
-        //if (toc != tic)
-        //    deltaTime = ((double)(toc-tic) / CLOCKS_PER_SEC);
         if (trace != retrace_count)
-            deltaTime = ((double)(retrace_count-trace) / 1.0);
+            deltaTime = (double)(retrace_count-trace);
         
-            /* 
-        if (fps > 0 )
-            deltaTime = ftofix((float)(60 / fps));
-        else
-            deltaTime = itofix(1);
-        */
             /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
@@ -284,8 +271,8 @@ void update_player()
     }
     else
     {
-        //player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-        player.ent.vY += fixmul(gravity, ftofix(deltaTime));
+        player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+        //player.ent.vY += fixmul(gravity, ftofix(deltaTime));
         player.ent.jump = false;
     }   
     
