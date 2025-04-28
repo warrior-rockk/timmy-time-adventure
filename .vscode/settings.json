@@ -2,6 +2,9 @@
     "files.associations": {
         "allegro.h": "c",
         "ALLEGRO.H": "cpp"
-    }
-    
+    },
+    "outline.showVariables": false,
+    "outline.showConstants": false,
+    "outline.showStructs": false
+
 }
