@@ -8,6 +8,7 @@
 typedef struct tEntity
 {
     tVector pos;
+    tVector size;
     fixed fX;
     fixed fY;
     fixed vX;

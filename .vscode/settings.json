@@ -1,7 +1,9 @@
 {    
     "files.associations": {
         "allegro.h": "c",
-        "ALLEGRO.H": "cpp"
+        "ALLEGRO.H": "cpp",
+        "collisions.h": "c",
+        "entity.h": "c"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,

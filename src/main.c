@@ -7,6 +7,7 @@
 
 #include "globals.h"
 #include "entity.h"
+#include "collisions.h"
 
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
@@ -32,6 +33,7 @@ typedef struct tScroll
 struct player  
 {
     tEntity ent;
+    tColPoint colPoint[NUM_COL_POINTS];   
     BITMAP *img;
 } player;
 
@@ -66,6 +68,7 @@ tScroll scroll;
 //function declarations
 void create_rand_map();
 void draw_map(BITMAP *mapScreen);
+void init_player();
 void update_player();
 void update_scroll();
 void draw_player();
@@ -125,14 +128,7 @@ int main()
     scroll.pos.x = 0;
     scroll.pos.y = 0;
     
-    //init player
-    player.ent.pos.x = 0;
-    player.ent.pos.y = 0;
-    player.ent.fX = itofix(16);
-    player.ent.fY = itofix(10);
-    player.ent.vX = 0;
-    player.ent.vY = 0;
-    player.img = load_bmp("res/004.bmp", NULL);
+    init_player();
 
     //main loop
     while (!gameExit)
@@ -303,4 +299,20 @@ void update_scroll()
     if (scroll.pos.x < 0)
         scroll.pos.x = 0;
         
+}
+
+void init_player()
+{
+    //init player
+    player.ent.pos.x = 0;
+    player.ent.pos.y = 0;
+    player.ent.fX = itofix(16);
+    player.ent.fY = itofix(10);
+    player.ent.vX = 0;
+    player.ent.vY = 0;
+    player.img = load_bmp("res/004.bmp", NULL);
+    player.ent.size.x = player.img->w;
+    player.ent.size.y = player.img->h;
+    
+    collision_init_entity_points(&player.ent, player.colPoint);
 }
