@@ -5,6 +5,9 @@
 
 #include "allegro.h"
 
+#include "globals.h"
+#include "entity.h"
+
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
 #define SCREEN_Y        240
@@ -21,27 +24,10 @@
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
-typedef struct tVector
-{
-    int16_t x;
-    int16_t y;
-} tVector;
-
 typedef struct tScroll
 {
     tVector pos;
 } tScroll;
-
-typedef struct tEntity
-{
-    tVector pos;
-    fixed fX;
-    fixed fY;
-    fixed vX;
-    fixed vY;
-    bool ground;
-    bool jump;
-} tEntity;
 
 struct player  
 {
@@ -180,7 +166,7 @@ int main()
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
-        //vsync();
+        vsync();
         
         frameCount++;
 
@@ -288,6 +274,9 @@ void update_player()
     //update position
     player.ent.pos.x = fixtoi(player.ent.fX);
     player.ent.pos.y = fixtoi(player.ent.fY);
+
+    //check collisions
+    
 }
 
 void draw_player()
