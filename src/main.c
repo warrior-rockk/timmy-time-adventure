@@ -180,8 +180,7 @@ int main()
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
         
-        
-        vsync();
+        //vsync();
         
         frameCount++;
 
@@ -216,16 +215,22 @@ void create_rand_map()
 void draw_map(BITMAP *mapScreen)
 {
     uint8_t tileNum;
+    int16_t lx = (GAME_W / TILE_W) + 1; //limit scroll x
+    int16_t ly = (GAME_H / TILE_H);     //limit scroll y
+    int16_t sx = scroll.pos.x % TILE_W; //tile pos x on scroll
+    int16_t sy = scroll.pos.y % TILE_H; //tile pos y on scroll
+    int16_t tx = scroll.pos.x / TILE_W; //tile num x on scroll
+    int16_t ty = scroll.pos.y / TILE_H; //tile num y on scroll   
 
-    for (int y = 0; y < (GAME_H / TILE_H); y++)
+    for (int y = 0; y < ly; y++)
     {
-        for (int x = 0; x < (GAME_W / TILE_W) + 1; x++)        
+        for (int x = 0; x < lx; x++)        
         {
-            tileNum = map[y+(scroll.pos.y / TILE_H)][x+(scroll.pos.x / TILE_W)];
+            tileNum = map[y + ty][x + tx];
 
             /* blit tile*/
             if (tileNum != 0)            
-                draw_sprite(mapScreen, tiles[tileNum - 1], (x * 16) - (scroll.pos.x % TILE_W) , (y * 16) - (scroll.pos.y % TILE_H));
+                draw_sprite(mapScreen, tiles[tileNum - 1], (x * 16) - sx, (y * 16) - sy);
         }    
     }    
 }
