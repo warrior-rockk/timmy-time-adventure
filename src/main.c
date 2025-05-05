@@ -72,6 +72,7 @@ void init_player();
 void update_player();
 void update_scroll();
 void draw_player();
+void init_level();
 
 //update fps callback
 static void update_fps(void)
@@ -129,6 +130,7 @@ int main()
     scroll.pos.y = 0;
     
     init_player();
+    init_level();
 
     //main loop
     while (!gameExit)
@@ -316,4 +318,9 @@ void init_player()
     player.ent.size.y = player.img->h;
     
     collision_init_entity_points(&player.ent, player.colPoint);
+}
+
+void init_level()
+{
+    entity_add((tEntity){12,0,0,0,0,0});
 }

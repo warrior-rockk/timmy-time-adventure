@@ -48,7 +48,7 @@ RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${S
 RELEASE_RESOURCES	:= ${patsubst ${RESOURCES_DIR}%, ${RELEASE_RES_DIR}%,${RESOURCES}}
 #compiler/linker flags
 CC					:= ${OS_GCC}
-DEBUG_CFLAGS  		:= -g -fgnu89-inline -I ${INCLUDES_DIR}
+DEBUG_CFLAGS  		:= -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 

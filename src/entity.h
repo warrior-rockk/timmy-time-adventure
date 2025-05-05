@@ -5,6 +5,7 @@
 #include "allegro.h"
 #include "globals.h"
 
+#define PLAYER_ENTITY_ID    0
 
 typedef struct tEntity
 {
@@ -19,6 +20,8 @@ typedef struct tEntity
 } tEntity;
 
 
+void entity_add(tEntity entity);
 void entities_update();
+
 
 #endif
