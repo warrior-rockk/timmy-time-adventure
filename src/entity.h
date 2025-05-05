@@ -1,9 +1,10 @@
 #ifndef _H_ENTITY
 #define _H_ENTITY
-
 #include <stdbool.h>
+
 #include "allegro.h"
 #include "globals.h"
+
 
 typedef struct tEntity
 {
@@ -16,5 +17,8 @@ typedef struct tEntity
     bool ground;
     bool jump;
 } tEntity;
+
+
+void entities_update();
 
 #endif

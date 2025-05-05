@@ -1,7 +1,7 @@
 #ifndef _H_GLOBALS
 #define _H_GLOBALS
 
-#include <stdint.h>
+#include "allegro.h"
 
 typedef struct tVector
 {

@@ -1,6 +1,7 @@
 #ifndef _H_COLLISIONS
 #define _H_COLLISIONS
 
+#include "allegro.h"
 #include <stdbool.h>
 #include "entity.h"
 

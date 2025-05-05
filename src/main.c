@@ -140,6 +140,7 @@ int main()
 
         update_player();
         update_scroll();
+        entities_update();
 
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);

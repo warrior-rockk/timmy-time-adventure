@@ -3,7 +3,8 @@
         "allegro.h": "c",
         "ALLEGRO.H": "cpp",
         "collisions.h": "c",
-        "entity.h": "c"
+        "entity.h": "c",
+        "globals.h": "c"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,
