@@ -4,6 +4,7 @@
 
 #include "allegro.h"
 #include "globals.h"
+#include "scroll.h"
 
 #define PLAYER_ENTITY_ID    0
 
@@ -15,6 +16,7 @@ typedef struct tEntity
     fixed fY;
     fixed vX;
     fixed vY;
+    BITMAP *img;
     bool ground;
     bool jump;
 } tEntity;
@@ -22,6 +24,7 @@ typedef struct tEntity
 
 void entity_add(tEntity entity);
 void entities_update();
+void entities_draw();
 
 
 #endif

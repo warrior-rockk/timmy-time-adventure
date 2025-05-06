@@ -8,6 +8,7 @@
 #include "globals.h"
 #include "entity.h"
 #include "collisions.h"
+#include "scroll.h"
 
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
@@ -25,16 +26,10 @@
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
-typedef struct tScroll
-{
-    tVector pos;
-} tScroll;
-
 struct player  
 {
     tEntity ent;
     tColPoint colPoint[NUM_COL_POINTS];   
-    BITMAP *img;
 } player;
 
 uint8_t map[MAP_TILE_H][MAP_TILE_W] =
@@ -125,12 +120,15 @@ int main()
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
     
+    scroll = create_scroll((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W),((MAP_TILE_H * TILE_H) - GAME_H)});
+
     //init scroll
-    scroll.pos.x = 0;
-    scroll.pos.y = 0;
+    //scroll.pos.x = 0;
+    //scroll.pos.y = 0;
     
     init_player();
     init_level();
+    scroll_init(&scroll);
 
     //main loop
     while (!gameExit)
@@ -141,7 +139,8 @@ int main()
             gameExit = true;
 
         update_player();
-        update_scroll();
+        //update_scroll();
+        scroll_update(&scroll, &player.ent.pos);        
         entities_update();
 
         //clear_to_color(buffer, 3);
@@ -280,7 +279,7 @@ void update_player()
 
 void draw_player()
 {
-    draw_sprite(mapScreen, player.img, player.ent.pos.x - scroll.pos.x, player.ent.pos.y - scroll.pos.y);
+    draw_sprite(mapScreen, player.ent.img, player.ent.pos.x - scroll.pos.x, player.ent.pos.y - scroll.pos.y);
 }
 
 void update_scroll()
@@ -313,9 +312,9 @@ void init_player()
     player.ent.fY = itofix(10);
     player.ent.vX = 0;
     player.ent.vY = 0;
-    player.img = load_bmp("res/004.bmp", NULL);
-    player.ent.size.x = player.img->w;
-    player.ent.size.y = player.img->h;
+    player.ent.img = load_bmp("res/004.bmp", NULL);
+    player.ent.size.x = player.ent.img->w;
+    player.ent.size.y = player.ent.img->h;
     
     collision_init_entity_points(&player.ent, player.colPoint);
 }
