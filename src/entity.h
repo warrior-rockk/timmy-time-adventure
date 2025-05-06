@@ -23,8 +23,9 @@ typedef struct tEntity
 
 
 void entity_add(tEntity entity);
+void create_entity(tVector pos, BITMAP *img);
 void entities_update();
-void entities_draw();
+void entities_draw(BITMAP *buffer, tScroll *scroll);
 
 
 #endif

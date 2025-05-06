@@ -148,6 +148,7 @@ int main()
     
         draw_map(mapScreen);
         draw_player();
+        entities_draw(mapScreen, &scroll);
 
         blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         
@@ -321,5 +322,6 @@ void init_player()
 
 void init_level()
 {
-    entity_add((tEntity){12,0,0,0,0,0});
+    entity_add(player.ent);
+    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL));
 }
