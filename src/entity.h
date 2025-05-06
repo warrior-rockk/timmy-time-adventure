@@ -19,11 +19,12 @@ typedef struct tEntity
     BITMAP *img;
     bool ground;
     bool jump;
+    void (*entity_update)(struct tEntity *entity);
 } tEntity;
 
 
 void entity_add(tEntity entity);
-void create_entity(tVector pos, BITMAP *img);
+void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
 void entities_update();
 void entities_draw(BITMAP *buffer, tScroll *scroll);
 

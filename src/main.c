@@ -10,6 +10,7 @@
 #include "entity.h"
 #include "collisions.h"
 #include "scroll.h"
+#include "objects.h"
 
 struct player  
 {
@@ -308,5 +309,5 @@ void init_player()
 void init_level()
 {
     entity_add(player.ent);
-    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL));
+    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update());
 }
