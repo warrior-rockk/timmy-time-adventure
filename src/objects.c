@@ -1,8 +1,8 @@
 #include "allegro.h"
 #include "objects.h"
 
-void object_gem_update()
+void object_gem_update(tEntity *entity)
 {
     TRACE("Aqui estoy!\n");
-    //object->pos.x++;
+    entity->pos.x++;
 }

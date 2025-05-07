@@ -3,6 +3,6 @@
 
 #include "entity.h"
 
-void object_gem_update();
+void object_gem_update(tEntity *entity);
 
 #endif

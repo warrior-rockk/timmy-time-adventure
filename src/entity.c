@@ -46,7 +46,7 @@ void entities_update()
     for (int i=0; i < numEntities; i++)
     {
         if (i > 0)
-            entityList[i].entity_update();
+            entityList[i].entity_update(&entityList[i]);
     }   
 }
 void entities_draw(BITMAP *buffer, tScroll *scroll)
