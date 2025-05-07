@@ -309,5 +309,5 @@ void init_player()
 void init_level()
 {
     entity_add(player.ent);
-    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update());
+    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update);
 }

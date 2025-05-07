@@ -19,7 +19,7 @@ typedef struct tEntity
     BITMAP *img;
     bool ground;
     bool jump;
-    void (*entity_update)(struct tEntity *entity);
+    void (*entity_update)(void);
 } tEntity;
 
 

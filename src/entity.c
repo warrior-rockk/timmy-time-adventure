@@ -36,7 +36,7 @@ void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *enti
     entityList[numEntities].size.x = img->w;
     entityList[numEntities].size.y = img->h;
 
-    entityList[numEntities].entity_update = &entity_update;
+    entityList[numEntities].entity_update = entity_update;
 
     numEntities++;
 }
@@ -46,7 +46,7 @@ void entities_update()
     for (int i=0; i < numEntities; i++)
     {
         if (i > 0)
-            entityList[i].entity_update(&entityList[i]);
+            entityList[i].entity_update();
     }   
 }
 void entities_draw(BITMAP *buffer, tScroll *scroll)
