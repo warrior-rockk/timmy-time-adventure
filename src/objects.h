@@ -9,6 +9,12 @@
 
 #include "entity.h"
 
-void object_gem_update(tEntity *entity);
+enum E_GEM_STATE{
+    GEM_IDLE_STATE,
+    GEM_MOVE_RIGHT_STATE,
+    GEM_MOVE_LEFT_STATE
+};
+
+void object_gem_update(tEntity *this);
 
 #endif

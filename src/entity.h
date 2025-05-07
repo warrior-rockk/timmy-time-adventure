@@ -22,6 +22,8 @@ typedef struct tEntity
     tFixVector fixPos;
     tFixVector fixVel;
     BITMAP *img;
+    uint8_t state;
+    uint8_t prevState;
     bool ground;
     bool jump;
     void (*entity_update)(struct tEntity *entity);

@@ -199,5 +199,5 @@ void init_level()
     //player    
     create_entity((tVector){16,10}, load_bmp("res/004.bmp",NULL), &player_update);
     //object
-    create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update);
+    create_entity((tVector){100,160}, load_bmp("res/object.bmp",NULL), &object_gem_update);
 }

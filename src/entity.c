@@ -50,15 +50,17 @@ int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *e
     if (numEntities < ENTITY_MAX_NUM)
     {
         //assign entity data
-        entityList[numEntities].pos = pos;
-        entityList[numEntities].fixPos.x = itofix(pos.x);
-        entityList[numEntities].fixPos.y = itofix(pos.y);
-        entityList[numEntities].fixVel.x = 0;
-        entityList[numEntities].fixVel.y = 0;
-        entityList[numEntities].img = img;
-        entityList[numEntities].size.x = img->w;
-        entityList[numEntities].size.y = img->h;
-        entityList[numEntities].entity_update = entity_update;
+        entityList[numEntities].pos             = pos;
+        entityList[numEntities].fixPos.x        = itofix(pos.x);
+        entityList[numEntities].fixPos.y        = itofix(pos.y);
+        entityList[numEntities].fixVel.x        = 0;
+        entityList[numEntities].fixVel.y        = 0;
+        entityList[numEntities].img             = img;
+        entityList[numEntities].size.x          = img->w;
+        entityList[numEntities].size.y          = img->h;
+        entityList[numEntities].state           = 0;
+        entityList[numEntities].prevState       = 0;
+        entityList[numEntities].entity_update   = entity_update;
 
         //add entity counter
         numEntities++;
