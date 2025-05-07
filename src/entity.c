@@ -11,11 +11,6 @@
 static tEntity *entityList;
 static uint16_t numEntities;
 
-static void entity_init()
-{
-
-}
-
 static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 {
     if (entity->img)
@@ -37,6 +32,7 @@ void entity_system_init()
 
 void entity_system_destroy()
 {
+    //free entity memory allocation
     free(entityList);
     numEntities = 0;
 }
@@ -62,7 +58,6 @@ int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *e
         entityList[numEntities].img = img;
         entityList[numEntities].size.x = img->w;
         entityList[numEntities].size.y = img->h;
-
         entityList[numEntities].entity_update = entity_update;
 
         //add entity counter
@@ -71,7 +66,7 @@ int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *e
         //allocate memory for next entity
         entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
 
-        return numEntities-1;
+        return numEntities - 1;
     }
     else
         abort_on_error("ERROR: Reached max. number of entities\n");
@@ -91,6 +86,7 @@ void entities_update()
             entityList[i].entity_update(&entityList[i]);
     }   
 }
+
 void entities_draw(BITMAP *buffer, tScroll *scroll)
 {
     for (int i=0; i < numEntities; i++)
