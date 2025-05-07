@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <math.h>
 
 #include "allegro.h"
 
@@ -44,13 +43,11 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
-//double deltaTime;
 tScroll scroll;
 
 //function declarations
 void create_rand_map();
 void draw_map(BITMAP *mapScreen);
-void update_scroll();
 void init_level();
 
 //update fps callback
@@ -105,12 +102,7 @@ int main()
     mapScreen = create_bitmap(GAME_W, GAME_H);
     
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W) - 1,((MAP_TILE_H * TILE_H) - GAME_H) - 1});
-
-    //init scroll
-    //scroll.pos.x = 0;
-    //scroll.pos.y = 0;
     
-    //init_player();
     init_level();
     scroll_init(&scroll);
     
@@ -153,7 +145,7 @@ int main()
         if (trace != retrace_count)
             deltaTime = (double)(retrace_count-trace);
         
-            /*
+        /*
         -850-780fps: draw mapScreen to screen directly
         -850-719fps: draw mapScreen to buffer and blit to screen <-
 
@@ -201,49 +193,9 @@ void draw_map(BITMAP *mapScreen)
     }    
 }
 
-/*
-void update_scroll()
-{
-    //test: follow player 
-    //note: in sms games, the scroll moves when the player is offset to center in the direction of movement. A few pixels to right when move to right and viceversa
-    //if the player is in the offset zone, the scroll doesn't move allowing a tiny zone with not scroll movement
-    const uint16_t scrollOffset = 8;
-
-    if (player.ent.pos.x > (GAME_W >> 1) + scroll.pos.x + scrollOffset)
-        scroll.pos.x = player.ent.pos.x - (GAME_W >> 1) - scrollOffset;
-    else if (player.ent.pos.x < (GAME_W >> 1) + scroll.pos.x - scrollOffset)
-        scroll.pos.x = player.ent.pos.x - (GAME_W >> 1) + scrollOffset;
-    
-    //scroll limits
-    if (scroll.pos.x > (((MAP_TILE_W * TILE_W) - GAME_W) - 1))
-        scroll.pos.x = (((MAP_TILE_W * TILE_W) - GAME_W) - 1);
-              
-    if (scroll.pos.x < 0)
-        scroll.pos.x = 0;
-        
-}*/
-
-/*
-void init_player()
-{
-    //init player
-    player.ent.pos.x = 0;
-    player.ent.pos.y = 0;
-    player.ent.fX = itofix(16);
-    player.ent.fY = itofix(10);
-    player.ent.vX = 0;
-    player.ent.vY = 0;
-    player.ent.img = load_bmp("res/004.bmp", NULL);
-    player.ent.size.x = player.ent.img->w;
-    player.ent.size.y = player.ent.img->h;
-    
-    collision_init_entity_points(&player.ent, player.colPoint);
-}*/
-
 void init_level()
 {
-    //player
-    //entity_add(player.ent);
+    //player    
     create_entity((tVector){16,10}, load_bmp("res/004.bmp",NULL), &player_update);
     //object
     create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update);

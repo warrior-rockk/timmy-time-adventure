@@ -5,6 +5,7 @@
 * Warcom Soft. 07/05/2025
 ********************************************************************/
 #include <stdbool.h>
+#include <math.h>
 #include "allegro.h"
 #include "player.h"
 #include "globals.h"
