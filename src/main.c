@@ -101,6 +101,7 @@ int main()
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
     
+    entity_system_init();
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W) - 1,((MAP_TILE_H * TILE_H) - GAME_H) - 1});
     
     init_level();

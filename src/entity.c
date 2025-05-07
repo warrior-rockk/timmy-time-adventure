@@ -6,8 +6,8 @@
 ********************************************************************/
 #include "entity.h"
 
-tEntity entityList[10];
-uint16_t numEntities = 0;
+static tEntity entityList[10];
+static uint16_t numEntities = 0;
 
 static void entity_init()
 {
@@ -22,6 +22,16 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 
 //public functions
 //================
+
+void entity_system_init()
+{
+    for (int i=0; i < 10; i++)
+    {
+        entityList[i] = (tEntity){};
+    }     
+
+    numEntities = 0;
+}
 
 void entity_add(tEntity entity)
 {

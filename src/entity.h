@@ -25,11 +25,17 @@ typedef struct tEntity
     void (*entity_update)(struct tEntity *entity);
 } tEntity;
 
-
+//inits entity system
+void entity_system_init();
+//adds entity object to entity list
 void entity_add(tEntity entity);
+//creates a new entity. Returns entity number
 int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
+//returns entity based on entity number
 tEntity* get_entity(uint16_t numEntity);
+//calls the update function on all entities
 void entities_update();
+//draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
 
 
