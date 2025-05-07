@@ -196,12 +196,6 @@ void draw_map(BITMAP *mapScreen)
 }
 
 /*
-void draw_player()
-{
-    draw_sprite(mapScreen, player.ent.img, player.ent.pos.x - scroll.pos.x, player.ent.pos.y - scroll.pos.y);
-}
-*/
-/*
 void update_scroll()
 {
     //test: follow player 

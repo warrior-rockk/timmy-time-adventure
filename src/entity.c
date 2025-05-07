@@ -25,7 +25,7 @@ void entity_add(tEntity entity)
     TRACE("Data: %d\n", entityList[numEntities-1].size.x);
 }
 
-void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
+int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
 {
     entityList[numEntities].pos = pos;
     entityList[numEntities].fX = itofix(pos.x);
@@ -39,6 +39,8 @@ void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *enti
     entityList[numEntities].entity_update = entity_update;
 
     numEntities++;
+
+    return numEntities-1;
 }
 
 tEntity* get_entity(uint16_t numEntity)
@@ -61,4 +63,3 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
         entity_draw(buffer, &entityList[i], scroll);
     }    
 }
-

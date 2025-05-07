@@ -22,7 +22,7 @@ typedef struct tEntity
 
 
 void entity_add(tEntity entity);
-void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
+int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
 tEntity* get_entity(uint16_t numEntity);
 void entities_update();
 void entities_draw(BITMAP *buffer, tScroll *scroll);
