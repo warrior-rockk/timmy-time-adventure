@@ -31,5 +31,7 @@ double deltaTime;
 
 //clamp value between min and max
 int clamp(int value, int min, int max);
+//function to abort program with critical error
+void abort_on_error(const char *format, ...);
 
 #endif

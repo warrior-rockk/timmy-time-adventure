@@ -51,25 +51,31 @@ void entity_add(tEntity entity)
 
 int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
 {
-    //assign entity data
-    entityList[numEntities].pos = pos;
-    entityList[numEntities].fixPos.x = itofix(pos.x);
-    entityList[numEntities].fixPos.y = itofix(pos.y);
-    entityList[numEntities].fixVel.x = 0;
-    entityList[numEntities].fixVel.y = 0;
-    entityList[numEntities].img = img;
-    entityList[numEntities].size.x = img->w;
-    entityList[numEntities].size.y = img->h;
+    if (numEntities < ENTITY_MAX_NUM)
+    {
+        //assign entity data
+        entityList[numEntities].pos = pos;
+        entityList[numEntities].fixPos.x = itofix(pos.x);
+        entityList[numEntities].fixPos.y = itofix(pos.y);
+        entityList[numEntities].fixVel.x = 0;
+        entityList[numEntities].fixVel.y = 0;
+        entityList[numEntities].img = img;
+        entityList[numEntities].size.x = img->w;
+        entityList[numEntities].size.y = img->h;
 
-    entityList[numEntities].entity_update = entity_update;
+        entityList[numEntities].entity_update = entity_update;
 
-    //add entity counter
-    numEntities++;
-    
-    //allocate memory for next entity
-    entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
+        //add entity counter
+        numEntities++;
 
-    return numEntities-1;
+        //allocate memory for next entity
+        entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
+
+        return numEntities-1;
+    }
+    else
+        abort_on_error("ERROR: Reached max. number of entities\n");
+        return -1;
 }
 
 tEntity* get_entity(uint16_t numEntity)

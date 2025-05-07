@@ -12,6 +12,8 @@
 #include "globals.h"
 #include "scroll.h"
 
+#define ENTITY_MAX_NUM      255     //Max. number of entities
+
 //entity object
 typedef struct tEntity
 {

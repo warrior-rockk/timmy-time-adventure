@@ -6,7 +6,8 @@
         "entity.h": "c",
         "globals.h": "c",
         "scroll.h": "c",
-        "UTILS.C": "cpp"
+        "UTILS.C": "cpp",
+        "GAME.C": "cpp"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,
