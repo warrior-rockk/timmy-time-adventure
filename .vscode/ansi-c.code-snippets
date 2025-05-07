@@ -7,7 +7,7 @@
 	// Placeholders with the same ids are connected.
 	// Example:
 	 "file-header": {
-	 	"scope": "all"
+	 	"scope": "c, c++"
 	 	"prefix": "header",
 	 	"body": [
 	 		"/********************************************************************"
@@ -20,7 +20,7 @@
 	 	"description": "add file header"
 	 },
 	 "include-guard": {
-		"scope": "all",
+		"scope": "c, c++",
 		"prefix": "inc-guard",
 		"body": [
 			"#ifndef _H_${TM_FILENAME/^([^\\.]*)\\..*$/${1:/upcase}/}_"
