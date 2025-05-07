@@ -105,7 +105,7 @@ ${RELEASE_RES_DIR}%: ${RESOURCES_DIR}%
 
 #run targets
 run_debug: debug
-	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} -conf dosbox.conf -exit -noconsole
+	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} -conf dosbox.conf  -noconsole
 run_release: release
 	cd ${RELEASE_BIN_DIR} && ${OS_DOSBOX} ${APP} -conf dosbox.conf -exit -noconsole
 

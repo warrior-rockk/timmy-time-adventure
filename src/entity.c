@@ -4,10 +4,12 @@
 *
 * Warcom Soft. 07/05/2025
 ********************************************************************/
+#include <stdlib.h>
 #include "entity.h"
 
-static tEntity entityList[10];
-static uint16_t numEntities = 0;
+//static tEntity entityList[10];
+static tEntity *entityList;
+static uint16_t numEntities;
 
 static void entity_init()
 {
@@ -25,11 +27,17 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 
 void entity_system_init()
 {
-    for (int i=0; i < 10; i++)
-    {
-        entityList[i] = (tEntity){};
-    }     
+    //allocate memory for one entity
+    entityList = (tEntity*)malloc(sizeof(tEntity));
+    //test memory allocation
+    ASSERT(entityList);
+    //set number of entities
+    numEntities = 0;
+}
 
+void entity_system_destroy()
+{
+    free(entityList);
     numEntities = 0;
 }
 
@@ -43,6 +51,7 @@ void entity_add(tEntity entity)
 
 int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
 {
+    //assign entity data
     entityList[numEntities].pos = pos;
     entityList[numEntities].fixPos.x = itofix(pos.x);
     entityList[numEntities].fixPos.y = itofix(pos.y);
@@ -54,7 +63,11 @@ int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *e
 
     entityList[numEntities].entity_update = entity_update;
 
+    //add entity counter
     numEntities++;
+    
+    //allocate memory for next entity
+    entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
 
     return numEntities-1;
 }
