@@ -13,11 +13,19 @@
     #define MY_ASSERT(condition)    ASSERT(condition)
 #endif
 
+//vector int16 object
 typedef struct tVector
 {
     int16_t x;
     int16_t y;
 } tVector;
+
+//vector fixed object
+typedef struct tFixVector
+{
+    fixed x;
+    fixed y;
+} tFixVector;
 
 double deltaTime;
 

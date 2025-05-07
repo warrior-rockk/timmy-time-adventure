@@ -26,44 +26,44 @@ void player_update(tEntity *player)
     fixed localFriction = player->ground ? friction: air_friction;
 
     //update controls
-    if (key[KEY_RIGHT] && player->vX < max_vel_x)
+    if (key[KEY_RIGHT] && player->fixVel.x < max_vel_x)
         //player->vX+= fixmul(accel_x, (itofix(1) - friction));
-        player->vX+= fixmul(accel_x, ftofix(deltaTime));
+        player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
 
-    if (key[KEY_LEFT] && player->vX > -max_vel_x)
-        player->vX-= fixmul(accel_x, ftofix(deltaTime));
+    if (key[KEY_LEFT] && player->fixVel.x > -max_vel_x)
+        player->fixVel.x-= fixmul(accel_x, ftofix(deltaTime));
 
     if (key[KEY_Z] && player->ground)
     {
-        player->vY = -accel_y;
+        player->fixVel.y = -accel_y;
         player->jump = true;
         player->ground = false;
     }
 
     //update vels
     if (!key[KEY_RIGHT] && !key[KEY_LEFT])
-        player->vX = fixmul(player->vX, ftofix(pow(fixtof(friction), (deltaTime * fixtof(friction))))); //this the equivalent formula for vX *= friction with deltaTime
+        player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(friction), (deltaTime * fixtof(friction))))); //this the equivalent formula for vX *= friction with deltaTime
     
     if (player->pos.y >= floor && !player->jump)
     { 
-        player->vY = 0;
-        player->fY = itofix(floor);
+        player->fixVel.y = 0;
+        player->fixPos.y = itofix(floor);
         player->ground = true;
     }
     else
     {
-        player->vY += player->vY >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+        player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
         //player->vY += fixmul(gravity, ftofix(deltaTime));
         player->jump = false;
     }   
     
     //apply velocity
-    player->fX += fixmul(player->vX, ftofix(deltaTime));
-    player->fY += fixmul(player->vY, ftofix(deltaTime));
+    player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));
+    player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
 
     //update position
-    player->pos.x = fixtoi(player->fX);
-    player->pos.y = fixtoi(player->fY);
+    player->pos.x = fixtoi(player->fixPos.x);
+    player->pos.y = fixtoi(player->fixPos.y);
 
     //check collisions
 }

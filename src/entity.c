@@ -34,10 +34,10 @@ void entity_add(tEntity entity)
 int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
 {
     entityList[numEntities].pos = pos;
-    entityList[numEntities].fX = itofix(pos.x);
-    entityList[numEntities].fY = itofix(pos.y);
-    entityList[numEntities].vX = 0;
-    entityList[numEntities].vY = 0;
+    entityList[numEntities].fixPos.x = itofix(pos.x);
+    entityList[numEntities].fixPos.y = itofix(pos.y);
+    entityList[numEntities].fixVel.x = 0;
+    entityList[numEntities].fixVel.y = 0;
     entityList[numEntities].img = img;
     entityList[numEntities].size.x = img->w;
     entityList[numEntities].size.y = img->h;

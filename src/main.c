@@ -128,8 +128,8 @@ int main()
         //debug
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps); 
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
-        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->vX));
-        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->vY));
+        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
+        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
         textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
         textprintf_ex(buffer, font, 0, 40, 0, 3, "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
         //textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);

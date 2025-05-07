@@ -12,14 +12,13 @@
 #include "globals.h"
 #include "scroll.h"
 
+//entity object
 typedef struct tEntity
 {
     tVector pos;
     tVector size;
-    fixed fX;
-    fixed fY;
-    fixed vX;
-    fixed vY;
+    tFixVector fixPos;
+    tFixVector fixVel;
     BITMAP *img;
     bool ground;
     bool jump;
