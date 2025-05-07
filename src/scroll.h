@@ -1,5 +1,11 @@
-#ifndef _H_SCROLL
-#define _H_SCROLL
+/********************************************************************
+* Scroll system
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_SCROLL_
+#define _H_SCROLL_
 
 #include "globals.h"
 

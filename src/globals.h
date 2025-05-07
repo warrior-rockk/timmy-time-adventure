@@ -1,5 +1,11 @@
-#ifndef _H_GLOBALS
-#define _H_GLOBALS
+/********************************************************************
+* Game Globals
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_GLOBALS_
+#define _H_GLOBALS_
 
 #include "allegro.h"
 

@@ -1,5 +1,11 @@
-#ifndef _H_PLAYER
-#define _H_PLAYER
+/********************************************************************
+* Player system
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_PLAYER_
+#define _H_PLAYER_
 
 void player_update();
 #endif

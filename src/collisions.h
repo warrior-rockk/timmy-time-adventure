@@ -1,5 +1,11 @@
-#ifndef _H_COLLISIONS
-#define _H_COLLISIONS
+/********************************************************************
+* Collision System
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_COLLISIONS_
+#define _H_COLLISIONS_
 
 #include "allegro.h"
 #include <stdbool.h>

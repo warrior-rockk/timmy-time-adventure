@@ -11,7 +11,7 @@
 	 	"prefix": "header",
 	 	"body": [
 	 		"/********************************************************************"
- 			"* ${TM_FILENAME/^([^\\.]*)\\..*$/${1:/upcase}/}"
+ 			"* ${TM_FILENAME/^([^\\.]*)\\..*$/${1:/downcase}/}$0"			
 			"*"
 			"*"
 			"* Warcom Soft. ${CURRENT_DATE}/${CURRENT_MONTH}/${CURRENT_YEAR}"

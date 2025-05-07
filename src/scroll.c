@@ -1,3 +1,9 @@
+/********************************************************************
+* Scroll System
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
 #include "scroll.h"
 
 tScroll create_scroll(tVector window, tVector limit)

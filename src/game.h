@@ -1,5 +1,11 @@
-#ifndef _H_GAME
-#define _H_GAME
+/********************************************************************
+* Game defines header
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_GAME_
+#define _H_GAME_
 
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320

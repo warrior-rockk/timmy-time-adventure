@@ -1,5 +1,11 @@
-#ifndef _H_OBJECTS
-#define _H_OBJECTS
+/********************************************************************
+* Objects entities (test)
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_OBJECTS_
+#define _H_OBJECTS_
 
 #include "entity.h"
 

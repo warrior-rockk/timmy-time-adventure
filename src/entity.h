@@ -1,5 +1,11 @@
-#ifndef _H_ENTITY
-#define _H_ENTITY
+/********************************************************************
+* Entity system
+*
+*
+* Warcom Soft. 07/05/2025
+********************************************************************/
+#ifndef _H_ENTITY_
+#define _H_ENTITY_
 #include <stdbool.h>
 
 #include "allegro.h"
