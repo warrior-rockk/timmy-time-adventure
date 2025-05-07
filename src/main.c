@@ -13,13 +13,6 @@
 #include "player.h"
 #include "objects.h"
 
-/*struct player  
-{
-    tEntity ent;
-    tColPoint colPoint[NUM_COL_POINTS];   
-} player;
-*/
-
 uint8_t map[MAP_TILE_H][MAP_TILE_W] =
 {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -123,9 +116,8 @@ int main()
         if (key[KEY_ESC])
             gameExit = true;
 
-        
-        scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
         entities_update();
+        scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
