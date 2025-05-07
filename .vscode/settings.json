@@ -5,7 +5,8 @@
         "collisions.h": "c",
         "entity.h": "c",
         "globals.h": "c",
-        "scroll.h": "c"
+        "scroll.h": "c",
+        "UTILS.C": "cpp"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,

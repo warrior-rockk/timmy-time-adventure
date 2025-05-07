@@ -104,7 +104,7 @@ int main()
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
     
-    scroll = create_scroll((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W),((MAP_TILE_H * TILE_H) - GAME_H)});
+    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W) - 1,((MAP_TILE_H * TILE_H) - GAME_H) - 1});
 
     //init scroll
     //scroll.pos.x = 0;
@@ -113,7 +113,7 @@ int main()
     //init_player();
     init_level();
     scroll_init(&scroll);
-
+    
     //main loop
     while (!gameExit)
     {

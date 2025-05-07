@@ -9,6 +9,10 @@
 
 #include "allegro.h"
 
+#ifdef ALLEGRO_H
+    #define MY_ASSERT(condition)    ASSERT(condition)
+#endif
+
 typedef struct tVector
 {
     int16_t x;
@@ -16,5 +20,8 @@ typedef struct tVector
 } tVector;
 
 double deltaTime;
+
+//clamp value between min and max
+int clamp(int value, int min, int max);
 
 #endif
