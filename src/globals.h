@@ -9,4 +9,6 @@ typedef struct tVector
     int16_t y;
 } tVector;
 
+double deltaTime;
+
 #endif

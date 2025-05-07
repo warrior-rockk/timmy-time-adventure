@@ -6,8 +6,6 @@
 #include "globals.h"
 #include "scroll.h"
 
-#define PLAYER_ENTITY_ID    0
-
 typedef struct tEntity
 {
     tVector pos;
@@ -25,6 +23,7 @@ typedef struct tEntity
 
 void entity_add(tEntity entity);
 void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
+tEntity* get_entity(uint16_t numEntity);
 void entities_update();
 void entities_draw(BITMAP *buffer, tScroll *scroll);
 

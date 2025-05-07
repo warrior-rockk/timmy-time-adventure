@@ -10,13 +10,15 @@
 #include "entity.h"
 #include "collisions.h"
 #include "scroll.h"
+#include "player.h"
 #include "objects.h"
 
-struct player  
+/*struct player  
 {
     tEntity ent;
     tColPoint colPoint[NUM_COL_POINTS];   
 } player;
+*/
 
 uint8_t map[MAP_TILE_H][MAP_TILE_W] =
 {
@@ -43,16 +45,13 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
-double deltaTime;
+//double deltaTime;
 tScroll scroll;
 
 //function declarations
 void create_rand_map();
 void draw_map(BITMAP *mapScreen);
-void init_player();
-void update_player();
 void update_scroll();
-void draw_player();
 void init_level();
 
 //update fps callback
@@ -112,7 +111,7 @@ int main()
     //scroll.pos.x = 0;
     //scroll.pos.y = 0;
     
-    init_player();
+    //init_player();
     init_level();
     scroll_init(&scroll);
 
@@ -124,16 +123,14 @@ int main()
         if (key[KEY_ESC])
             gameExit = true;
 
-        update_player();
-        //update_scroll();
-        scroll_update(&scroll, &player.ent.pos);        
+        
+        scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
         entities_update();
 
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
     
         draw_map(mapScreen);
-        draw_player();
         entities_draw(mapScreen, &scroll);
 
         blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
@@ -141,10 +138,10 @@ int main()
         //debug
         textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps); 
         textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
-        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(player.ent.vX));
-        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(player.ent.vY));
-        textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", player.ent.pos.x);
-        textprintf_ex(buffer, font, 0, 40, 0, 3, "p.y: %d", player.ent.pos.y);
+        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->vX));
+        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->vY));
+        textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
+        textprintf_ex(buffer, font, 0, 40, 0, 3, "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
         //textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);
         //textprintf_ex(buffer, font, 0, 56, 0, 3, "delta: %f", deltaTime);
  
@@ -206,69 +203,13 @@ void draw_map(BITMAP *mapScreen)
     }    
 }
 
-void update_player()
-{
-    fixed accel_x = ftofix(0.06);
-    fixed friction = ftofix(0.86);       //more friction, more sloppy (0.94-0.96 is like ice)
-    fixed air_friction = ftofix(0.6);   //less than floor friction
-    fixed gravity = ftofix(0.2);
-    fixed accel_y = ftofix(4.0);        //jump acceleration
-    fixed max_vel_x = ftofix(1.0);
-    fixed max_vel_y = ftofix(6);
-
-    int16_t floor = 160;
-    
-    fixed localFriction = player.ent.ground ? friction: air_friction;
-
-    //update controls
-    if (key[KEY_RIGHT] && player.ent.vX < max_vel_x)
-        //player.ent.vX+= fixmul(accel_x, (itofix(1) - friction));
-        player.ent.vX+= fixmul(accel_x, ftofix(deltaTime));
-
-    if (key[KEY_LEFT] && player.ent.vX > -max_vel_x)
-        player.ent.vX-= fixmul(accel_x, ftofix(deltaTime));
-
-    if (key[KEY_Z] && player.ent.ground)
-    {
-        player.ent.vY = -accel_y;
-        player.ent.jump = true;
-        player.ent.ground = false;
-    }
-
-    //update vels
-    if (!key[KEY_RIGHT] && !key[KEY_LEFT])
-        player.ent.vX = fixmul(player.ent.vX, ftofix(pow(fixtof(friction), (deltaTime * fixtof(friction))))); //this the equivalent formula for vX *= friction with deltaTime
-    
-    if (player.ent.pos.y >= floor && !player.ent.jump)
-    { 
-        player.ent.vY = 0;
-        player.ent.fY = itofix(floor);
-        player.ent.ground = true;
-    }
-    else
-    {
-        player.ent.vY += player.ent.vY >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-        //player.ent.vY += fixmul(gravity, ftofix(deltaTime));
-        player.ent.jump = false;
-    }   
-    
-    //apply velocity
-    player.ent.fX += fixmul(player.ent.vX, ftofix(deltaTime));
-    player.ent.fY += fixmul(player.ent.vY, ftofix(deltaTime));
-
-    //update position
-    player.ent.pos.x = fixtoi(player.ent.fX);
-    player.ent.pos.y = fixtoi(player.ent.fY);
-
-    //check collisions
-    
-}
-
+/*
 void draw_player()
 {
     draw_sprite(mapScreen, player.ent.img, player.ent.pos.x - scroll.pos.x, player.ent.pos.y - scroll.pos.y);
 }
-
+*/
+/*
 void update_scroll()
 {
     //test: follow player 
@@ -288,8 +229,9 @@ void update_scroll()
     if (scroll.pos.x < 0)
         scroll.pos.x = 0;
         
-}
+}*/
 
+/*
 void init_player()
 {
     //init player
@@ -304,10 +246,13 @@ void init_player()
     player.ent.size.y = player.ent.img->h;
     
     collision_init_entity_points(&player.ent, player.colPoint);
-}
+}*/
 
 void init_level()
 {
-    entity_add(player.ent);
+    //player
+    //entity_add(player.ent);
+    create_entity((tVector){16,10}, load_bmp("res/004.bmp",NULL), &player_update);
+    //object
     create_entity((tVector){100,200}, load_bmp("res/object.bmp",NULL), &object_gem_update);
 }

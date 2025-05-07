@@ -17,4 +17,7 @@
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
+
+#define PLAYER_ENTITY_ID    0
+
 #endif

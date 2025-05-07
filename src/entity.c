@@ -41,11 +41,16 @@ void create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *enti
     numEntities++;
 }
 
+tEntity* get_entity(uint16_t numEntity)
+{
+    return &entityList[numEntity];
+}
+
 void entities_update()
 {
     for (int i=0; i < numEntities; i++)
     {
-        if (i > 0)
+        if (entityList[i].entity_update)
             entityList[i].entity_update(&entityList[i]);
     }   
 }
