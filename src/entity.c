@@ -98,7 +98,7 @@ void entities_update()
 
 void entities_draw(BITMAP *buffer, tScroll *scroll)
 {
-    for (int i=0; i < numEntities; i++)
+    for (int i=numEntities - 1; i >= 0; i--)
     {
         entity_draw(buffer, &entityList[i], scroll);
     }    

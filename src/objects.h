@@ -24,6 +24,8 @@ enum E_GEM_STATE{
 typedef struct tGemLocalData
 {
     uint16_t health;
+    uint16_t data1;
+    uint16_t data2;
 } tGemLocalData;
 
 typedef struct tStoneLocalData
@@ -32,11 +34,21 @@ typedef struct tStoneLocalData
     bool solid;
 } tStoneLocalData;
 
+//debug trace entity object info
 void object_trace(tEntity *this);
+
+//initializes the object systen
 void object_system_init();
+//destroys the object system
+void object_system_destroy();
+//creates an entity passing his entity structure
 void object_create(tEntity *entity);
+//updates an entity passing his entity structure
 void object_update(tEntity *entity);
+
+//custom update function for gems objects
 void object_gem_update(tEntity *this, tGemLocalData *objData);
+//custom update function for stone objects
 void object_stone_update(tEntity *this, tStoneLocalData *objData);
 
 #endif

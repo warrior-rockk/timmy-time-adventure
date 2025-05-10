@@ -8,8 +8,8 @@
 #include "globals.h"
 #include "objects.h"
 
-uint16_t numObjectInstances;
-static void *objectDataList;
+uint16_t numObjectInstances;        //num of object instances
+static void *objectDataList;        //list of object local data
 
 void object_system_init()
 {
@@ -19,6 +19,15 @@ void object_system_init()
     numObjectInstances = 0;    
 }
 
+void object_system_destroy()
+{
+    //empty object list
+    free(objectDataList);
+    //set number of entities
+    numObjectInstances = 0;    
+}
+
+//check object entity type to add the local data structure to local data list and increases instances number
 void object_create(tEntity *entity)
 {
     //inc num instances
@@ -46,11 +55,12 @@ void object_create(tEntity *entity)
     entity->entInstance = numObjectInstances;                
 };
 
+//calls specified object type update function
 void object_update(tEntity *entity)
-{
+{   
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_TYPE:
+        case E_GEM_OBJECT_TYPE:            
             object_gem_update(entity, &objectDataList[entity->entInstance]);
         break;
         case E_STONE_OBJECT_TYPE:
@@ -92,13 +102,15 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
     this->pos.x = fixtoi(this->fixPos.x);
     this->pos.y = fixtoi(this->fixPos.y);
 
-    local->health++;
+    local->health = this->pos.x;
     object_trace(this);
+    TRACE("\tHealth:%d\n", local->health);
 }
 
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
     object_trace(this);
+    TRACE("\tSolid:%d\n", local->solid);
 }
 
 void object_trace(tEntity *this)

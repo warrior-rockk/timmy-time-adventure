@@ -200,10 +200,12 @@ void init_level()
 {
     //player    
     entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, &player_update);
-    //object 1
+    
+    //test objects
+    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
+    entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
     entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
-    //object 2
     entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
-    //object 3
     entity_create((tVector){50,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
+    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
 }
