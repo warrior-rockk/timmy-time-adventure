@@ -7,27 +7,17 @@
 #include "allegro.h"
 #include "objects.h"
 
-uint16_t numGemObjects= 0;
-static tGemObjectData *gemObjDataList;
-
-uint16_t numStoneObjects= 0;
-static tStoneObjectData *stoneObjDataList;
+uint16_t numObjectInstances;
+static void *objectDataList;
 
 void object_system_init()
 {
     //allocate memory for one entity
-    gemObjDataList = (tGemObjectData*)malloc(sizeof(tGemObjectData));
+    objectDataList = (tGemObjectData*)malloc(sizeof(tGemObjectData));
     //test memory allocation
-    ASSERT(gemObjDataList);
+    MY_ASSERT(objectDataList);
     //set number of entities
-    numGemObjects = 0;
-
-    //allocate memory for one entity
-    stoneObjDataList = (tStoneObjectData*)malloc(sizeof(tStoneObjectData));
-    //test memory allocation
-    ASSERT(stoneObjDataList);
-    //set number of entities
-    numStoneObjects = 0;
+    numObjectInstances = 0;
 }
 
 void object_create(tEntity *entity)
@@ -35,18 +25,18 @@ void object_create(tEntity *entity)
     switch (entity->entType)
     {
         case E_GEM_OBJECT_INSTANCE:
-            entity->entInstance = numGemObjects;                
+            entity->entInstance = numObjectInstances;                
             //add gem objects counter
-            numGemObjects++;
+            numObjectInstances++;
             //allocate memory for next gem Object
-            gemObjDataList = realloc(gemObjDataList, (numGemObjects + 1) * sizeof(tGemObjectData));
+            objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tGemObjectData));
         break;
         case E_STONE_OBJECT_INSTANCE:
-            entity->entInstance = numStoneObjects;                
+            entity->entInstance = numObjectInstances;                
             //add gem objects counter
-            numStoneObjects++;
+            numObjectInstances++;
             //allocate memory for next gem Object
-            stoneObjDataList = realloc(stoneObjDataList, (numStoneObjects + 1) * sizeof(tStoneObjectData));
+            objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tStoneObjectData));
         break;
         default:
         break;
@@ -58,10 +48,10 @@ void object_update(tEntity *entity)
     switch (entity->entType)
     {
         case E_GEM_OBJECT_INSTANCE:
-            object_gem_update(entity, &gemObjDataList[entity->entInstance]);
+            object_gem_update(entity, &objectDataList[entity->entInstance]);
         break;
         case E_STONE_OBJECT_INSTANCE:
-            object_stone_update(entity, &stoneObjDataList[entity->entInstance]);
+            object_stone_update(entity, &objectDataList[entity->entInstance]);
         break;
         default:
         break;
@@ -100,10 +90,11 @@ void object_gem_update(tEntity *this, tGemObjectData *objData)
     this->pos.y = fixtoi(this->fixPos.y);
 
     objData->health++;
-    TRACE("Object Instance: %d, Object Health: %d\n", this->entInstance, objData->health);
+    TRACE("Object Instance: %d\n\tObj Type:%d\n\tObject Health: %d\n", this->entInstance, this->entType, objData->health);
 }
 
 void object_stone_update(tEntity *this, tStoneObjectData *objData)
 {
-    TRACE("I'm a stone\n");
+    TRACE("Object Instance: %d\n\tObj Type:%d\n\tObject Solid: %d\n", this->entInstance, this->entType, objData->solid);
 }
+
