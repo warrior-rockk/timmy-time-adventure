@@ -204,4 +204,6 @@ void init_level()
     entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_INSTANCE, &object_create, &object_update);
     //object 2
     entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_INSTANCE, &object_create, &object_update);
+    //object 3
+    entity_create((tVector){50,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_INSTANCE, &object_create, &object_update);
 }

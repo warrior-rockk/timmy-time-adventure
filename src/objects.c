@@ -10,6 +10,9 @@
 uint16_t numGemObjects= 0;
 static tGemObjectData *gemObjDataList;
 
+uint16_t numStoneObjects= 0;
+static tStoneObjectData *stoneObjDataList;
+
 void object_system_init()
 {
     //allocate memory for one entity
@@ -18,6 +21,13 @@ void object_system_init()
     ASSERT(gemObjDataList);
     //set number of entities
     numGemObjects = 0;
+
+    //allocate memory for one entity
+    stoneObjDataList = (tStoneObjectData*)malloc(sizeof(tStoneObjectData));
+    //test memory allocation
+    ASSERT(stoneObjDataList);
+    //set number of entities
+    numStoneObjects = 0;
 }
 
 void object_create(tEntity *entity)
@@ -31,6 +41,13 @@ void object_create(tEntity *entity)
             //allocate memory for next gem Object
             gemObjDataList = realloc(gemObjDataList, (numGemObjects + 1) * sizeof(tGemObjectData));
         break;
+        case E_STONE_OBJECT_INSTANCE:
+            entity->entInstance = numStoneObjects;                
+            //add gem objects counter
+            numStoneObjects++;
+            //allocate memory for next gem Object
+            stoneObjDataList = realloc(stoneObjDataList, (numStoneObjects + 1) * sizeof(tStoneObjectData));
+        break;
         default:
         break;
     }
@@ -42,6 +59,9 @@ void object_update(tEntity *entity)
     {
         case E_GEM_OBJECT_INSTANCE:
             object_gem_update(entity, &gemObjDataList[entity->entInstance]);
+        break;
+        case E_STONE_OBJECT_INSTANCE:
+            object_stone_update(entity, &stoneObjDataList[entity->entInstance]);
         break;
         default:
         break;
@@ -81,4 +101,9 @@ void object_gem_update(tEntity *this, tGemObjectData *objData)
 
     objData->health++;
     TRACE("Object Instance: %d, Object Health: %d\n", this->entInstance, objData->health);
+}
+
+void object_stone_update(tEntity *this, tStoneObjectData *objData)
+{
+    TRACE("I'm a stone\n");
 }

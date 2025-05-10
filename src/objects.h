@@ -12,6 +12,7 @@
 enum E_OBJECT_INSTANCES
 {
     E_GEM_OBJECT_INSTANCE,
+    E_STONE_OBJECT_INSTANCE,
 };
 
 enum E_GEM_STATE{
@@ -25,9 +26,16 @@ typedef struct tGemObjectData
     uint16_t health;
 } tGemObjectData;
 
+typedef struct tStonebjectData
+{
+    uint8_t flags;
+    bool solid;
+} tStoneObjectData;
+
 void object_system_init();
 void object_create(tEntity *entity);
 void object_update(tEntity *entity);
 void object_gem_update(tEntity *this, tGemObjectData *objData);
+void object_stone_update(tEntity *this, tStoneObjectData *objData);
 
 #endif
