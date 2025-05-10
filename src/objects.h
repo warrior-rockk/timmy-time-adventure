@@ -32,6 +32,7 @@ typedef struct tStonebjectData
     bool solid;
 } tStoneObjectData;
 
+void trace_object(tEntity *this);
 void object_system_init();
 void object_create(tEntity *entity);
 void object_update(tEntity *entity);

@@ -11,6 +11,7 @@
 
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)    ASSERT(condition)
+    #define MY_TRACE                TRACE
 #endif
 
 //vector int16 object

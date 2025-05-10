@@ -5,6 +5,7 @@
 * Warcom Soft. 07/05/2025
 ********************************************************************/
 #include "allegro.h"
+#include "globals.h"
 #include "objects.h"
 
 uint16_t numObjectInstances;
@@ -90,11 +91,15 @@ void object_gem_update(tEntity *this, tGemObjectData *objData)
     this->pos.y = fixtoi(this->fixPos.y);
 
     objData->health++;
-    TRACE("Object Instance: %d\n\tObj Type:%d\n\tObject Health: %d\n", this->entInstance, this->entType, objData->health);
+    trace_object(this);
 }
 
 void object_stone_update(tEntity *this, tStoneObjectData *objData)
 {
-    TRACE("Object Instance: %d\n\tObj Type:%d\n\tObject Solid: %d\n", this->entInstance, this->entType, objData->solid);
+    trace_object(this);
 }
 
+void trace_object(tEntity *this)
+{
+    MY_TRACE("Object Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
+}
