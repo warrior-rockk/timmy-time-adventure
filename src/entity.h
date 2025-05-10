@@ -26,6 +26,7 @@ typedef struct tEntity
     uint8_t prevState;
     uint8_t entType;
     uint8_t entInstance;
+    bool dead;
     bool ground;
     bool jump;
     void (*entity_create)(struct tEntity *entity);

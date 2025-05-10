@@ -49,9 +49,9 @@ int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_c
         //test memory allocation
         ASSERT(entityList);
 
-        uint16_t newEntity = numEntities - 1;
-        
         //assign entity data
+        uint16_t newEntity = numEntities - 1;
+
         entityList[newEntity].pos             = pos;
         entityList[newEntity].fixPos.x        = itofix(pos.x);
         entityList[newEntity].fixPos.y        = itofix(pos.y);
@@ -91,12 +91,22 @@ tEntity* get_entity(uint16_t numEntity)
     return &entityList[numEntity];
 }
 
+void entity_destroy(uint16_t entityIndex)
+{
+    ; //TO-DO: delete entity index and move last entity to this position and decrement entity number
+}
+
 void entities_update()
 {
     for (int i=0; i < numEntities; i++)
     {
-        if (entityList[i].entity_update)
-            entityList[i].entity_update(&entityList[i]);          
+        if (entityList[i].dead)
+            entity_destroy(i);
+        else
+        {
+            if (entityList[i].entity_update)
+                entityList[i].entity_update(&entityList[i]);          
+        }
     }   
 }
 
