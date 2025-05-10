@@ -39,7 +39,7 @@ void object_create(tEntity *entity)
         case E_GEM_OBJECT_TYPE:
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
-            ((tGemLocalData*)objectDataList)[numObjectInstances].timer = 0;
+            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
@@ -53,7 +53,7 @@ void object_create(tEntity *entity)
     MY_ASSERT(objectDataList);
 
     //set actual instance num
-    entity->entInstance = numObjectInstances;                
+    entity->entInstance = numObjectInstances - 1;                
 };
 
 //calls specified object type update function
