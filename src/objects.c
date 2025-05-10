@@ -23,20 +23,19 @@ void object_system_init()
 
 void object_create(tEntity *entity)
 {
+    //set actual instance num
+    entity->entInstance = numObjectInstances;                
+    //inc num instances
+    numObjectInstances++;
+
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_INSTANCE:
-            entity->entInstance = numObjectInstances;                
-            //add gem objects counter
-            numObjectInstances++;
+        case E_GEM_OBJECT_TYPE:
             //allocate memory for next gem Object
             objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tGemObjectData));
         break;
-        case E_STONE_OBJECT_INSTANCE:
-            entity->entInstance = numObjectInstances;                
-            //add gem objects counter
-            numObjectInstances++;
-            //allocate memory for next gem Object
+        case E_STONE_OBJECT_TYPE:
+            //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tStoneObjectData));
         break;
         default:
@@ -48,10 +47,10 @@ void object_update(tEntity *entity)
 {
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_INSTANCE:
+        case E_GEM_OBJECT_TYPE:
             object_gem_update(entity, &objectDataList[entity->entInstance]);
         break;
-        case E_STONE_OBJECT_INSTANCE:
+        case E_STONE_OBJECT_TYPE:
             object_stone_update(entity, &objectDataList[entity->entInstance]);
         break;
         default:
@@ -91,15 +90,15 @@ void object_gem_update(tEntity *this, tGemObjectData *objData)
     this->pos.y = fixtoi(this->fixPos.y);
 
     objData->health++;
-    trace_object(this);
+    object_trace(this);
 }
 
 void object_stone_update(tEntity *this, tStoneObjectData *objData)
 {
-    trace_object(this);
+    object_trace(this);
 }
 
-void trace_object(tEntity *this)
+void object_trace(tEntity *this)
 {
     MY_TRACE("Object Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
 }

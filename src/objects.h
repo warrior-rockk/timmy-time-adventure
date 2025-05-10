@@ -9,10 +9,10 @@
 
 #include "entity.h"
 
-enum E_OBJECT_INSTANCES
+enum E_OBJECT_TYPE
 {
-    E_GEM_OBJECT_INSTANCE,
-    E_STONE_OBJECT_INSTANCE,
+    E_GEM_OBJECT_TYPE,
+    E_STONE_OBJECT_TYPE,
 };
 
 enum E_GEM_STATE{
@@ -32,7 +32,7 @@ typedef struct tStonebjectData
     bool solid;
 } tStoneObjectData;
 
-void trace_object(tEntity *this);
+void object_trace(tEntity *this);
 void object_system_init();
 void object_create(tEntity *entity);
 void object_update(tEntity *entity);
