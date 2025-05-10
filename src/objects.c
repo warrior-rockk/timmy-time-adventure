@@ -42,7 +42,7 @@ void object_create(tEntity *entity)
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, numObjectInstances  * sizeof(tStoneLocalData));
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
         break;
         default:
         break;
@@ -61,10 +61,10 @@ void object_update(tEntity *entity)
     switch (entity->entType)
     {
         case E_GEM_OBJECT_TYPE:            
-            object_gem_update(entity, &objectDataList[entity->entInstance]);
+            object_gem_update(entity, &((tGemLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_STONE_OBJECT_TYPE:
-            object_stone_update(entity, &objectDataList[entity->entInstance]);
+            object_stone_update(entity, &((tStoneLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
         break;
