@@ -24,8 +24,11 @@ typedef struct tEntity
     BITMAP *img;
     uint8_t state;
     uint8_t prevState;
+    uint8_t entType;
+    uint8_t entInstance;
     bool ground;
     bool jump;
+    void (*entity_create)(struct tEntity *entity);
     void (*entity_update)(struct tEntity *entity);
 } tEntity;
 
@@ -34,7 +37,7 @@ void entity_system_init();
 //adds entity object to entity list
 void entity_add(tEntity entity);
 //creates a new entity. Returns entity number
-int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity));
+int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity));
 //returns entity based on entity number
 tEntity* get_entity(uint16_t numEntity);
 //calls the update function on all entities

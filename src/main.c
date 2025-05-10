@@ -99,6 +99,8 @@ int main()
     clear_to_color(buffer, 3);
 
     entity_system_init();
+    object_system_init();
+
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
     //create scroll
@@ -197,7 +199,9 @@ void draw_map(BITMAP *mapScreen)
 void init_level()
 {
     //player    
-    create_entity((tVector){16,10}, load_bmp("res/004.bmp",NULL), &player_update);
-    //object
-    create_entity((tVector){100,160}, load_bmp("res/object.bmp",NULL), &object_gem_update);
+    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, &player_update);
+    //object 1
+    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_INSTANCE, &object_create, &object_update);
+    //object 2
+    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_INSTANCE, &object_create, &object_update);
 }

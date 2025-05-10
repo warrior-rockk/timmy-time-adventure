@@ -45,7 +45,7 @@ void entity_add(tEntity entity)
     TRACE("Data: %d\n", entityList[numEntities-1].size.x);
 }
 
-int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *entity))
+int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     if (numEntities < ENTITY_MAX_NUM)
     {
@@ -60,14 +60,21 @@ int16_t create_entity(tVector pos, BITMAP *img, void (*entity_update)(tEntity *e
         entityList[numEntities].size.y          = img->h;
         entityList[numEntities].state           = 0;
         entityList[numEntities].prevState       = 0;
+        entityList[numEntities].entType         = entType;
+        entityList[numEntities].entInstance     = 0;
+        entityList[numEntities].entity_create   = entity_create;
         entityList[numEntities].entity_update   = entity_update;
+
+        //call create function pointer of entity
+        if (entityList[numEntities].entity_create) 
+            entityList[numEntities].entity_create(&entityList[numEntities]);
 
         //add entity counter
         numEntities++;
 
         //allocate memory for next entity
         entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
-
+        
         return numEntities - 1;
     }
     else

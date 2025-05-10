@@ -26,4 +26,10 @@
 
 #define PLAYER_ENTITY_ID    0
 
+enum E_ENTITY_TYPE
+{
+    E_PLAYER_ENTITY_TYPE,
+    E_OBJECT_ENTITY_TYPE,
+};
+
 #endif

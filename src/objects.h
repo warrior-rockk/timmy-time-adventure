@@ -9,12 +9,25 @@
 
 #include "entity.h"
 
-enum E_GEM_STATE{
-    GEM_IDLE_STATE,
-    GEM_MOVE_RIGHT_STATE,
-    GEM_MOVE_LEFT_STATE
+enum E_OBJECT_INSTANCES
+{
+    E_GEM_OBJECT_INSTANCE,
 };
 
-void object_gem_update(tEntity *this);
+enum E_GEM_STATE{
+    E_GEM_IDLE_STATE,
+    E_GEM_MOVE_RIGHT_STATE,
+    E_GEM_MOVE_LEFT_STATE
+};
+
+typedef struct tGemObjectData
+{
+    uint16_t health;
+} tGemObjectData;
+
+void object_system_init();
+void object_create(tEntity *entity);
+void object_update(tEntity *entity);
+void object_gem_update(tEntity *this, tGemObjectData *objData);
 
 #endif
