@@ -22,11 +22,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 
 void entity_system_init()
 {
-    //allocate memory for one entity
-    entityList = (tEntity*)malloc(sizeof(tEntity));
-    //test memory allocation
-    ASSERT(entityList);
-    //set number of entities
+    //free entity memory allocation
+    free(entityList);
+    //clear num entities
     numEntities = 0;
 }
 
@@ -34,7 +32,50 @@ void entity_system_destroy()
 {
     //free entity memory allocation
     free(entityList);
+    //clear num entities
     numEntities = 0;
+}
+
+int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
+{
+    //inc num of entities
+    numEntities++;
+
+    if (numEntities <= ENTITY_MAX_NUM)
+    {
+        //allocate memory for entity
+        entityList = realloc(entityList, numEntities * sizeof(tEntity));
+        
+        //test memory allocation
+        ASSERT(entityList);
+
+        uint16_t newEntity = numEntities - 1;
+        
+        //assign entity data
+        entityList[newEntity].pos             = pos;
+        entityList[newEntity].fixPos.x        = itofix(pos.x);
+        entityList[newEntity].fixPos.y        = itofix(pos.y);
+        entityList[newEntity].fixVel.x        = 0;
+        entityList[newEntity].fixVel.y        = 0;
+        entityList[newEntity].img             = img;
+        entityList[newEntity].size.x          = img->w;
+        entityList[newEntity].size.y          = img->h;
+        entityList[newEntity].state           = 0;
+        entityList[newEntity].prevState       = 0;
+        entityList[newEntity].entType         = entType;
+        entityList[newEntity].entInstance     = 0;
+        entityList[newEntity].entity_create   = entity_create;
+        entityList[newEntity].entity_update   = entity_update;
+
+        //call create function pointer of entity
+        if (entityList[newEntity].entity_create) 
+            entityList[newEntity].entity_create(&entityList[newEntity]);
+        
+        return newEntity;
+    }
+    else
+        abort_on_error("ERROR: Reached max. number of entities\n");
+        return -1;
 }
 
 void entity_add(tEntity entity)
@@ -43,43 +84,6 @@ void entity_add(tEntity entity)
     numEntities++;
     TRACE("add entity\n");
     TRACE("Data: %d\n", entityList[numEntities-1].size.x);
-}
-
-int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
-{
-    if (numEntities < ENTITY_MAX_NUM)
-    {
-        //assign entity data
-        entityList[numEntities].pos             = pos;
-        entityList[numEntities].fixPos.x        = itofix(pos.x);
-        entityList[numEntities].fixPos.y        = itofix(pos.y);
-        entityList[numEntities].fixVel.x        = 0;
-        entityList[numEntities].fixVel.y        = 0;
-        entityList[numEntities].img             = img;
-        entityList[numEntities].size.x          = img->w;
-        entityList[numEntities].size.y          = img->h;
-        entityList[numEntities].state           = 0;
-        entityList[numEntities].prevState       = 0;
-        entityList[numEntities].entType         = entType;
-        entityList[numEntities].entInstance     = 0;
-        entityList[numEntities].entity_create   = entity_create;
-        entityList[numEntities].entity_update   = entity_update;
-
-        //call create function pointer of entity
-        if (entityList[numEntities].entity_create) 
-            entityList[numEntities].entity_create(&entityList[numEntities]);
-
-        //add entity counter
-        numEntities++;
-
-        //allocate memory for next entity
-        entityList = realloc(entityList, (numEntities + 1) * sizeof(tEntity));
-        
-        return numEntities - 1;
-    }
-    else
-        abort_on_error("ERROR: Reached max. number of entities\n");
-        return -1;
 }
 
 tEntity* get_entity(uint16_t numEntity)
@@ -92,7 +96,7 @@ void entities_update()
     for (int i=0; i < numEntities; i++)
     {
         if (entityList[i].entity_update)
-            entityList[i].entity_update(&entityList[i]);
+            entityList[i].entity_update(&entityList[i]);          
     }   
 }
 
