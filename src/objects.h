@@ -15,7 +15,8 @@ enum E_OBJECT_TYPE
     E_STONE_OBJECT_TYPE,
 };
 
-enum E_GEM_STATE{
+enum E_GEM_STATE
+{
     E_GEM_IDLE_STATE,
     E_GEM_MOVE_RIGHT_STATE,
     E_GEM_MOVE_LEFT_STATE
@@ -24,8 +25,7 @@ enum E_GEM_STATE{
 typedef struct tGemLocalData
 {
     uint16_t health;
-    uint16_t data1;
-    uint16_t data2;
+    uint16_t timer;
 } tGemLocalData;
 
 typedef struct tStoneLocalData

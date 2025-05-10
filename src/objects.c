@@ -39,6 +39,7 @@ void object_create(tEntity *entity)
         case E_GEM_OBJECT_TYPE:
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
+            ((tGemLocalData*)objectDataList)[numObjectInstances].timer = 0;
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
@@ -76,7 +77,13 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
     switch (this->state)
     {
         case E_GEM_IDLE_STATE:
-            this->state = E_GEM_MOVE_RIGHT_STATE;
+            if (local->timer >= this->pos.y)
+            {
+                this->state = E_GEM_MOVE_RIGHT_STATE;
+                local->timer = 0;
+            }
+            else
+                local->timer++;
         break;
         case E_GEM_MOVE_RIGHT_STATE:
             if (this->pos.x > 130)
@@ -110,6 +117,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
     object_trace(this);
+    local->solid = true;
     TRACE("\tSolid:%d\n", local->solid);
 }
 
