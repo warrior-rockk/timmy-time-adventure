@@ -13,34 +13,37 @@ static void *objectDataList;
 
 void object_system_init()
 {
-    //allocate memory for one entity
-    objectDataList = (tGemObjectData*)malloc(sizeof(tGemObjectData));
-    //test memory allocation
-    MY_ASSERT(objectDataList);
+    //empty object list
+    free(objectDataList);
     //set number of entities
-    numObjectInstances = 0;
+    numObjectInstances = 0;    
 }
 
 void object_create(tEntity *entity)
 {
-    //set actual instance num
-    entity->entInstance = numObjectInstances;                
     //inc num instances
     numObjectInstances++;
 
+    //alloc memory for specified object type local data
     switch (entity->entType)
     {
         case E_GEM_OBJECT_TYPE:
-            //allocate memory for next gem Object
-            objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tGemObjectData));
+            //allocate memory for gem Object
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, (numObjectInstances + 1) * sizeof(tStoneObjectData));
+            objectDataList = realloc(objectDataList, numObjectInstances  * sizeof(tStoneLocalData));
         break;
         default:
         break;
     }
+
+    //test memory allocation
+    MY_ASSERT(objectDataList);
+
+    //set actual instance num
+    entity->entInstance = numObjectInstances;                
 };
 
 void object_update(tEntity *entity)
@@ -58,7 +61,7 @@ void object_update(tEntity *entity)
     }
 }
 
-void object_gem_update(tEntity *this, tGemObjectData *objData)
+void object_gem_update(tEntity *this, tGemLocalData *local)
 {
     switch (this->state)
     {
@@ -89,11 +92,11 @@ void object_gem_update(tEntity *this, tGemObjectData *objData)
     this->pos.x = fixtoi(this->fixPos.x);
     this->pos.y = fixtoi(this->fixPos.y);
 
-    objData->health++;
+    local->health++;
     object_trace(this);
 }
 
-void object_stone_update(tEntity *this, tStoneObjectData *objData)
+void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
     object_trace(this);
 }

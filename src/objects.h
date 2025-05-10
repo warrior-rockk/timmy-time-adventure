@@ -21,22 +21,22 @@ enum E_GEM_STATE{
     E_GEM_MOVE_LEFT_STATE
 };
 
-typedef struct tGemObjectData
+typedef struct tGemLocalData
 {
     uint16_t health;
-} tGemObjectData;
+} tGemLocalData;
 
-typedef struct tStonebjectData
+typedef struct tStoneLocalData
 {
     uint8_t flags;
     bool solid;
-} tStoneObjectData;
+} tStoneLocalData;
 
 void object_trace(tEntity *this);
 void object_system_init();
 void object_create(tEntity *entity);
 void object_update(tEntity *entity);
-void object_gem_update(tEntity *this, tGemObjectData *objData);
-void object_stone_update(tEntity *this, tStoneObjectData *objData);
+void object_gem_update(tEntity *this, tGemLocalData *objData);
+void object_stone_update(tEntity *this, tStoneLocalData *objData);
 
 #endif
