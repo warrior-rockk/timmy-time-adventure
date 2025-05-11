@@ -66,6 +66,7 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*enti
         entityList[newEntity].entType         = entType;
         entityList[newEntity].entInstance     = 0;
         entityList[newEntity].dead            = false;
+        entityList[newEntity].visible         = true;
         entityList[newEntity].entity_create   = entity_create;
         entityList[newEntity].entity_init     = entity_init;
         entityList[newEntity].entity_update   = entity_update;
@@ -114,6 +115,7 @@ void entities_init()
         entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
         entityList[i].fixVel    = (tFixVector){0, 0};
         entityList[i].state     = 0;
+        entityList[i].visible   = true;
 
         if (entityList[i].entity_init)
         {
@@ -128,7 +130,7 @@ void entities_update()
     {
         if (entityList[i].dead)
             entity_destroy(i);
-        else
+        else if (entityList[i].visible)
         {
             if (entityList[i].entity_update)
                 entityList[i].entity_update(&entityList[i]);          
@@ -142,6 +144,7 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
 {
     for (int i=numEntities - 1; i >= 0; i--)
     {
-        entity_draw(buffer, &entityList[i], scroll);
+        if (entityList[i].visible)
+            entity_draw(buffer, &entityList[i], scroll);
     }    
 }

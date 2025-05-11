@@ -28,6 +28,7 @@ typedef struct tEntity
     uint8_t entType;        //entity type
     uint8_t entInstance;    //entity instance of type
     bool dead;              //dead flag
+    bool visible;           //visible flag
     bool ground;            //ground flag
     bool jump;              //jump flag
     //function pointers
