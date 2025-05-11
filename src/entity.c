@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include "entity.h"
 
-//static tEntity entityList[10];
-static tEntity *entityList;
-static uint16_t numEntities;
+static tEntity *entityList;     //dynamic list of entities
+static uint16_t numEntities;    //number of entities
 
+//private function to draw one entity
 static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 {
     if (entity->img)
@@ -20,6 +20,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 //public functions
 //================
 
+//inits entity system
 void entity_system_init()
 {
     //free entity memory allocation
@@ -28,6 +29,7 @@ void entity_system_init()
     numEntities = 0;
 }
 
+//destroys entity system
 void entity_system_destroy()
 {
     //free entity memory allocation
@@ -36,6 +38,7 @@ void entity_system_destroy()
     numEntities = 0;
 }
 
+//creates new entity based on passed values
 int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
@@ -82,20 +85,13 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*enti
         return -1;
 }
 
-void entity_add(tEntity entity)
-{
-    entityList[numEntities] = entity;
-    numEntities++;
-    TRACE("add entity\n");
-    TRACE("Data: %d\n", entityList[numEntities-1].size.x);
-}
-
+//function to return a entity
 tEntity* get_entity(uint16_t numEntity)
 {
     return &entityList[numEntity];
 }
 
-//destroys entity index number
+//function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {
     //copies last entity to deleted entity position
@@ -106,10 +102,12 @@ void entity_destroy(uint16_t entityIndex)
     entityList = realloc(entityList, numEntities * sizeof(tEntity));
 }
 
+//function to init the entities 
 void entities_init()
 {
     for (int i=0; i < numEntities; i++)
     {
+        //init entity data
         entityList[i].pos       = entityList[i].initPos;
         entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
         entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
@@ -117,6 +115,7 @@ void entities_init()
         entityList[i].state     = 0;
         entityList[i].visible   = true;
 
+        //call custom entity entity
         if (entityList[i].entity_init)
         {
             entityList[i].entity_init(&entityList[i]);          
@@ -124,12 +123,15 @@ void entities_init()
     }   
 }
 
+//function to update entities
 void entities_update()
 {
     for (int i=0; i < numEntities; i++)
     {
+        //destroy the entity if dead
         if (entityList[i].dead)
             entity_destroy(i);
+        //only update entity if visible
         else if (entityList[i].visible)
         {
             if (entityList[i].entity_update)
@@ -140,10 +142,12 @@ void entities_update()
     show_debug("Num entities: %d", numEntities);
 }
 
+//funtion to draws entities
 void entities_draw(BITMAP *buffer, tScroll *scroll)
 {
     for (int i=numEntities - 1; i >= 0; i--)
     {
+        //only draws if visible
         if (entityList[i].visible)
             entity_draw(buffer, &entityList[i], scroll);
     }    
