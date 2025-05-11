@@ -48,7 +48,8 @@ tScroll scroll;
 //function declarations
 void create_rand_map();
 void draw_map(BITMAP *mapScreen);
-void init_level();
+void create_level();
+void destroy_level();
 
 //update fps callback
 static void update_fps(void)
@@ -108,8 +109,6 @@ int main()
     mapScreen = create_bitmap(GAME_W, GAME_H);
     //create scroll
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W) - 1,((MAP_TILE_H * TILE_H) - GAME_H) - 1});
-    
-    init_level();
     scroll_init(&scroll);
     
     //main loop
@@ -122,6 +121,10 @@ int main()
 
         switch(game.state)
         {
+            case E_LOAD_LEVEL_GAME_STATE:
+                create_level();
+                game.state = E_INIT_LEVEL_GAME_STATE;
+            break;
             case E_INIT_LEVEL_GAME_STATE:
                 entities_init();
                 scroll_init(&scroll);
@@ -136,6 +139,16 @@ int main()
 
                 if (key[KEY_R])
                     game.state = E_INIT_LEVEL_GAME_STATE;
+                
+                if (key[KEY_E])
+                    game.state = E_DESTROY_LEVEL_GAME_STATE;
+            break;
+            case E_DESTROY_LEVEL_GAME_STATE:
+                destroy_level();
+                game.state = E_EXIT_GAME_STATE;
+            break;
+            case E_EXIT_GAME_STATE:
+                gameExit = true;
             break;
             default:
                 gameExit = true;
@@ -203,7 +216,7 @@ void draw_map(BITMAP *mapScreen)
     }    
 }
 
-void init_level()
+void create_level()
 {
     //player    
     entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, NULL, &player_update);
@@ -217,10 +230,15 @@ void init_level()
     entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
 }
 
+void destroy_level()
+{
+    entity_destroy_all();
+}
+
 void game_init()
 {
-    game.state = E_INIT_LEVEL_GAME_STATE;
-    game.prevState = E_INIT_LEVEL_GAME_STATE;
+    game.state      = E_LOAD_LEVEL_GAME_STATE;
+    game.prevState  = E_LOAD_LEVEL_GAME_STATE;
 }
 
 void game_draw()

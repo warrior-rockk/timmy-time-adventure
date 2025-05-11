@@ -51,6 +51,6 @@ void entities_init();
 void entities_update();
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
-
+void entity_destroy_all();
 
 #endif

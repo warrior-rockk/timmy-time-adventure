@@ -88,7 +88,8 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*enti
 //function to return a entity
 tEntity* get_entity(uint16_t numEntity)
 {
-    return &entityList[numEntity];
+    if (entityList)
+        return &entityList[numEntity];
 }
 
 //function to destroy entity by index entity number
@@ -98,8 +99,12 @@ void entity_destroy(uint16_t entityIndex)
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
     numEntities--;
-    //reallocates the array with decremented entity number    
-    entityList = realloc(entityList, numEntities * sizeof(tEntity));
+    if (numEntities == 0)
+        //free entity list
+        free(entityList);
+    else
+        //reallocates the array with decremented entity number    
+        entityList = realloc(entityList, numEntities * sizeof(tEntity));
 }
 
 //function to init the entities 
@@ -150,5 +155,14 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
         //only draws if visible
         if (entityList[i].visible)
             entity_draw(buffer, &entityList[i], scroll);
+    }    
+}
+
+//funtion to destroy all entities
+void entity_destroy_all()
+{
+    for (int i=numEntities - 1; i >= 0; i--)
+    {
+        entityList[i].dead = true;
     }    
 }
