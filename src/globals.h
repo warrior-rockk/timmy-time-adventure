@@ -37,6 +37,13 @@ typedef struct tFixVector
     fixed y;
 } tFixVector;
 
+//rectangle object
+typedef struct tRectangle
+{
+    tVector pos;
+    tVector size;
+} tRectangle;
+
 //debug structure
 #ifdef DEBUGMODE
 struct debug

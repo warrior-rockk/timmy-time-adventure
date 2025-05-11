@@ -40,3 +40,11 @@ void scroll_update(tScroll *scroll, tVector *targetPos)
     //limit scroll position
     scroll->pos.x = (int16_t)clamp(scroll->pos.x, 0, scroll->limit.x);      
 }
+
+bool scroll_rect_on_region(tRectangle rect)
+{
+	
+    return ((rect.pos.x - rect.size.x) <= scroll.pos.x && (rect.pos.x + rect.size.x) >= scroll.pos.x &&
+    (rect.pos.y + rect.size.y) >= scroll.pos.y && (rect.pos.y - rect.size.y) <= scroll.pos.y );
+		
+}
