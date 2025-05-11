@@ -16,13 +16,6 @@
 #define GAME_X          (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y          (SCREEN_H>>1) - (GAME_H>>1)
 
-#define NUM_TILES       3
-#define TILE_W          16
-#define TILE_H          16
-
-#define MAP_TILE_W      (GAME_W / TILE_W) * 2
-#define MAP_TILE_H      (GAME_H / TILE_H) * 1
-
 #define PLAYER_ENTITY_ID    0
 
 //game entity types

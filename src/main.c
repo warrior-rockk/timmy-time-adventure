@@ -13,29 +13,12 @@
 #include "globals.h"
 #include "game.h"
 #include "entity.h"
-#include "collisions.h"
 #include "scroll.h"
+#include "map.h"
+#include "collisions.h"
 #include "player.h"
 #include "objects.h"
 
-uint8_t map[MAP_TILE_H][MAP_TILE_W] =
-{
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,1},
-    {1,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
-BITMAP *tiles[NUM_TILES];
 BITMAP *mapScreen;
 BITMAP *buffer;
 RGB* gamePal;
@@ -45,9 +28,6 @@ int fps;
 int frameCount;
 tScroll scroll;
 
-//function declarations
-void create_rand_map();
-void draw_map(BITMAP *mapScreen);
 void create_level();
 void destroy_level();
 
@@ -89,12 +69,9 @@ int main()
     
     game_init();
 
-    //load tiles
-    tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
-    tiles[1] = load_bmp("res/tiles/002.bmp", NULL);
-    tiles[2] = load_bmp("res/tiles/003.bmp", NULL);
-
     /* set the color palette */
+    //temporaly
+    free(load_bmp("res/tiles/001.bmp", desktop_palette));
     set_palette(desktop_palette);
     
     //initialize buffer screen
@@ -123,6 +100,7 @@ int main()
         {
             case E_LOAD_LEVEL_GAME_STATE:
                 create_level();
+                map_load((tVector){(GAME_W / TILE_W) + 1, (GAME_H / TILE_H)});
                 game.state = E_INIT_LEVEL_GAME_STATE;
             break;
             case E_INIT_LEVEL_GAME_STATE:
@@ -134,7 +112,7 @@ int main()
                 entities_update();
                 scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
-                draw_map(mapScreen);
+                map_draw(mapScreen, &scroll);
                 entities_draw(mapScreen, &scroll);
 
                 if (key[KEY_R])
@@ -178,43 +156,6 @@ int main()
     return 0;
 }
 END_OF_MAIN()
-
-void create_rand_map()
-{
-    //Randomize map
-    for (int j = 0; j < (MAP_TILE_H); j++)
-    {
-        for (int i = 0; i < (MAP_TILE_W); i++)        
-        {
-            map[i][j] = rand() % NUM_TILES;
-        }    
-    }   
-}
-
-void draw_map(BITMAP *mapScreen)
-{
-    uint8_t tileNum;
-    int16_t lx = (GAME_W / TILE_W) + 1; //limit scroll x
-    int16_t ly = (GAME_H / TILE_H);     //limit scroll y
-    int16_t sx = scroll.pos.x % TILE_W; //tile pos x on scroll
-    int16_t sy = scroll.pos.y % TILE_H; //tile pos y on scroll
-    int16_t tx = scroll.pos.x / TILE_W; //tile num x on scroll
-    int16_t ty = scroll.pos.y / TILE_H; //tile num y on scroll   
-
-    clear_to_color(mapScreen, 1);
-
-    for (int y = 0; y < ly; y++)
-    {
-        for (int x = 0; x < lx; x++)        
-        {
-            tileNum = map[y + ty][x + tx];
-
-            /* blit tile*/
-            if (tileNum != 0)            
-                draw_sprite(mapScreen, tiles[tileNum - 1], (x * 16) - sx, (y * 16) - sy);
-        }    
-    }    
-}
 
 void create_level()
 {

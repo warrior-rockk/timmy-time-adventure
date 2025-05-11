@@ -1,0 +1,26 @@
+/********************************************************************
+* Map System
+*
+*
+* Warcom Soft. 11/05/2025
+********************************************************************/
+#ifndef _H_MAP_
+#define _H_MAP_
+
+#include "allegro.h"
+#include "globals.h"
+#include "scroll.h"
+
+#define NUM_TILES       3
+#define TILE_W          16
+#define TILE_H          16
+
+#define MAP_TILE_W      (256 / TILE_W) * 2
+#define MAP_TILE_H      (208 / TILE_H) * 1
+
+BITMAP *tiles[NUM_TILES];
+
+void map_load(tVector mapLimits);
+void map_draw(BITMAP *buffer, tScroll *scroll);
+
+#endif
