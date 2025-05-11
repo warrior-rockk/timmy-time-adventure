@@ -36,7 +36,7 @@ void entity_system_destroy()
     numEntities = 0;
 }
 
-int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
+int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
     numEntities++;
@@ -52,9 +52,10 @@ int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_c
         //assign entity data
         uint16_t newEntity = numEntities - 1;
 
-        entityList[newEntity].pos             = pos;
-        entityList[newEntity].fixPos.x        = itofix(pos.x);
-        entityList[newEntity].fixPos.y        = itofix(pos.y);
+        entityList[newEntity].initPos         = initPos;
+        entityList[newEntity].pos             = initPos;
+        entityList[newEntity].fixPos.x        = itofix(initPos.x);
+        entityList[newEntity].fixPos.y        = itofix(initPos.y);
         entityList[newEntity].fixVel.x        = 0;
         entityList[newEntity].fixVel.y        = 0;
         entityList[newEntity].img             = img;
@@ -66,6 +67,7 @@ int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_c
         entityList[newEntity].entInstance     = 0;
         entityList[newEntity].dead            = false;
         entityList[newEntity].entity_create   = entity_create;
+        entityList[newEntity].entity_init     = entity_init;
         entityList[newEntity].entity_update   = entity_update;
 
         //call create function pointer of entity
@@ -101,6 +103,23 @@ void entity_destroy(uint16_t entityIndex)
     numEntities--;
     //reallocates the array with decremented entity number    
     entityList = realloc(entityList, numEntities * sizeof(tEntity));
+}
+
+void entities_init()
+{
+    for (int i=0; i < numEntities; i++)
+    {
+        entityList[i].pos       = entityList[i].initPos;
+        entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
+        entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
+        entityList[i].fixVel    = (tFixVector){0, 0};
+        entityList[i].state     = 0;
+
+        if (entityList[i].entity_init)
+        {
+            entityList[i].entity_init(&entityList[i]);          
+        }
+    }   
 }
 
 void entities_update()

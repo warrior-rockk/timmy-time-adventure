@@ -122,12 +122,20 @@ int main()
 
         switch(game.state)
         {
+            case E_INIT_LEVEL_GAME_STATE:
+                entities_init();
+                scroll_init(&scroll);
+                game.state = E_PLAY_LEVEL_GAME_STATE;
+            break;
             case E_PLAY_LEVEL_GAME_STATE:
                 entities_update();
                 scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
                 draw_map(mapScreen);
                 entities_draw(mapScreen, &scroll);
+
+                if (key[KEY_R])
+                    game.state = E_INIT_LEVEL_GAME_STATE;
             break;
             default:
                 gameExit = true;
@@ -137,7 +145,7 @@ int main()
         game_debug_info();
         
         game_draw();
-        
+
         vsync();
         
         frameCount++;
@@ -198,21 +206,21 @@ void draw_map(BITMAP *mapScreen)
 void init_level()
 {
     //player    
-    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, &player_update);
+    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, NULL, &player_update);
     
     //test objects
-    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
-    entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
-    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
-    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
-    entity_create((tVector){50,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
-    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
+    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){50,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
 }
 
 void game_init()
 {
-    game.state = E_PLAY_LEVEL_GAME_STATE;
-    game.prevState = E_PLAY_LEVEL_GAME_STATE;
+    game.state = E_INIT_LEVEL_GAME_STATE;
+    game.prevState = E_INIT_LEVEL_GAME_STATE;
 }
 
 void game_draw()

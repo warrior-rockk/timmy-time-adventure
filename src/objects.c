@@ -72,6 +72,23 @@ void object_update(tEntity *entity)
     }
 }
 
+//calls specified object type init function
+void object_init(tEntity *entity)
+{   
+    switch (entity->entType)
+    {
+        case E_GEM_OBJECT_TYPE:            
+            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].health = 0;
+            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
+        break;
+        case E_STONE_OBJECT_TYPE:
+            ((tStoneLocalData*)objectDataList)[numObjectInstances - 1].solid = false;
+        break;
+        default:
+        break;
+    }
+}
+
 void object_gem_update(tEntity *this, tGemLocalData *local)
 {
     switch (this->state)

@@ -41,6 +41,8 @@ void object_trace(tEntity *this);
 void object_system_init();
 //destroys the object system
 void object_system_destroy();
+//inits an entity passing his entity structure
+void object_init(tEntity *entity);
 //creates an entity passing his entity structure
 void object_create(tEntity *entity);
 //updates an entity passing his entity structure
