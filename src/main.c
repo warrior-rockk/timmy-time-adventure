@@ -100,6 +100,7 @@ int main()
 
     entity_system_init();
     object_system_init();
+    debug_init();
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
@@ -122,21 +123,21 @@ int main()
 
         //clear_to_color(buffer, 3);
         clear_to_color(mapScreen, 1);
-    
+        
+        //debug info
+        show_debug("FPS: %d", fps);
+        show_debug("s.x: %d", scroll.pos.x);
+        show_debug( "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
+        show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
+        show_debug( "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
+        show_debug( "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
+
         draw_map(mapScreen);
         entities_draw(mapScreen, &scroll);
-
+        
         blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         
-        //debug
-        textprintf_ex(buffer, font, 0, 0, 0, 3, "FPS: %d", fps); 
-        textprintf_ex(buffer, font, 0, 8, 0, 3, "s.x: %d", scroll.pos.x);
-        textprintf_ex(buffer, font, 0, 16, 0, 3, "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
-        textprintf_ex(buffer, font, 0, 24, 0, 3, "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
-        textprintf_ex(buffer, font, 0, 32, 0, 3, "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
-        textprintf_ex(buffer, font, 0, 40, 0, 3, "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
-        //textprintf_ex(buffer, font, 0, 48, 0, 3, "toc: %d", toc);
-        //textprintf_ex(buffer, font, 0, 56, 0, 3, "delta: %f", deltaTime);
+        debug_draw(buffer);
  
         //blit to screen
         blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);

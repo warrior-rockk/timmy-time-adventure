@@ -1,13 +1,10 @@
 {    
     "files.associations": {
         "allegro.h": "c",
-        "ALLEGRO.H": "cpp",
         "collisions.h": "c",
         "entity.h": "c",
         "globals.h": "c",
-        "scroll.h": "c",
-        "UTILS.C": "cpp",
-        "GAME.C": "cpp"
+        "scroll.h": "c"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,
