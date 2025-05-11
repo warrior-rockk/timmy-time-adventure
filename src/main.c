@@ -86,6 +86,8 @@ int main()
         }
     }
     
+    game_init();
+
     //load tiles
     tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
     tiles[1] = load_bmp("res/tiles/002.bmp", NULL);
@@ -118,29 +120,23 @@ int main()
         if (key[KEY_ESC])
             gameExit = true;
 
-        entities_update();
-        scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
+        switch(game.state)
+        {
+            case E_PLAY_LEVEL_GAME_STATE:
+                entities_update();
+                scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
-        //clear_to_color(buffer, 3);
-        clear_to_color(mapScreen, 1);
+                draw_map(mapScreen);
+                entities_draw(mapScreen, &scroll);
+            break;
+            default:
+                gameExit = true;
+            break;
+        }
         
-        //debug info
-        show_debug("FPS: %d", fps);
-        show_debug("s.x: %d", scroll.pos.x);
-        show_debug( "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
-        show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
-        show_debug( "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
-        show_debug( "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
-
-        draw_map(mapScreen);
-        entities_draw(mapScreen, &scroll);
+        game_debug_info();
         
-        blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
-        
-        debug_draw(buffer);
- 
-        //blit to screen
-        blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
+        game_draw();
         
         vsync();
         
@@ -184,6 +180,8 @@ void draw_map(BITMAP *mapScreen)
     int16_t tx = scroll.pos.x / TILE_W; //tile num x on scroll
     int16_t ty = scroll.pos.y / TILE_H; //tile num y on scroll   
 
+    clear_to_color(mapScreen, 1);
+
     for (int y = 0; y < ly; y++)
     {
         for (int x = 0; x < lx; x++)        
@@ -209,4 +207,31 @@ void init_level()
     entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
     entity_create((tVector){50,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_create, &object_update);
     entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_create, &object_update);
+}
+
+void game_init()
+{
+    game.state = E_PLAY_LEVEL_GAME_STATE;
+    game.prevState = E_PLAY_LEVEL_GAME_STATE;
+}
+
+void game_draw()
+{
+    blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
+        
+    debug_draw(buffer);
+
+    //blit to screen
+    blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
+}
+
+void game_debug_info()
+{
+    //debug info
+    show_debug("FPS: %d", fps);
+    show_debug("s.x: %d", scroll.pos.x);
+    show_debug( "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
+    show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
+    show_debug( "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
+    show_debug( "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
 }

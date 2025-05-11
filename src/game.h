@@ -23,13 +23,32 @@
 #define MAP_TILE_W      (GAME_W / TILE_W) * 2
 #define MAP_TILE_H      (GAME_H / TILE_H) * 1
 
-
 #define PLAYER_ENTITY_ID    0
 
+//game entity types
 enum E_ENTITY_TYPE
 {
     E_PLAYER_ENTITY_TYPE,
     E_OBJECT_ENTITY_TYPE,
 };
 
+//game states
+enum E_GAME_STATE
+{
+    E_LOGO_GAME_STATE,
+    E_INTRO_GAME_STATE,
+    E_TITLE_GAME_STATE,
+    E_PLAY_LEVEL_GAME_STATE,
+};
+
+//game structure
+struct game
+{
+    uint8_t state;
+    uint8_t prevState;
+} game;
+
+void game_init();
+void game_draw();
+void game_debug_info();
 #endif

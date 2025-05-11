@@ -17,18 +17,20 @@
 //entity object
 typedef struct tEntity
 {
-    tVector pos;
-    tVector size;
-    tFixVector fixPos;
-    tFixVector fixVel;
-    BITMAP *img;
-    uint8_t state;
-    uint8_t prevState;
-    uint8_t entType;
-    uint8_t entInstance;
-    bool dead;
-    bool ground;
-    bool jump;
+    tVector pos;            //entity position
+    tVector size;           //entity size
+    tFixVector fixPos;      //entity fixed position
+    tFixVector fixVel;      //entity fixed velocities
+    BITMAP *img;            //actual entity frame image
+    uint8_t state;          //actual entity state
+    uint8_t prevState;      //previous entity state
+    uint8_t entType;        //entity type
+    uint8_t entInstance;    //entity instance of type
+    bool dead;              //dead flag
+    bool ground;            //ground flag
+    bool jump;              //jump flag
+    //function pointers
+    void (*entity_init)(struct tEntity *entity);
     void (*entity_create)(struct tEntity *entity);
     void (*entity_update)(struct tEntity *entity);
 } tEntity;

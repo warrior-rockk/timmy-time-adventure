@@ -115,6 +115,8 @@ void entities_update()
                 entityList[i].entity_update(&entityList[i]);          
         }
     }   
+
+    show_debug("Num entities: %d", numEntities);
 }
 
 void entities_draw(BITMAP *buffer, tScroll *scroll)
