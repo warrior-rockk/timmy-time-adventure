@@ -79,7 +79,8 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
         case E_GEM_IDLE_STATE:
             if (local->timer >= this->pos.y)
             {
-                this->state = E_GEM_MOVE_RIGHT_STATE;
+                this->dead = true;
+                //this->state = E_GEM_MOVE_RIGHT_STATE;
                 local->timer = 0;
             }
             else
@@ -92,7 +93,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
                 this->fixVel.x = ftofix(0.4);
         break;
         case E_GEM_MOVE_LEFT_STATE:
-        if (this->pos.x < 70)
+            if (this->pos.x < 70)
                 this->state = E_GEM_MOVE_RIGHT_STATE;
             else   
                 this->fixVel.x = ftofix(-0.4);

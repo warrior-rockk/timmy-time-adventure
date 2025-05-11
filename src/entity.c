@@ -64,6 +64,7 @@ int16_t entity_create(tVector pos, BITMAP *img, uint8_t entType, void (*entity_c
         entityList[newEntity].prevState       = 0;
         entityList[newEntity].entType         = entType;
         entityList[newEntity].entInstance     = 0;
+        entityList[newEntity].dead            = false;
         entityList[newEntity].entity_create   = entity_create;
         entityList[newEntity].entity_update   = entity_update;
 
@@ -91,9 +92,15 @@ tEntity* get_entity(uint16_t numEntity)
     return &entityList[numEntity];
 }
 
+//destroys entity index number
 void entity_destroy(uint16_t entityIndex)
 {
-    ; //TO-DO: delete entity index and move last entity to this position and decrement entity number
+    //copies last entity to deleted entity position
+    entityList[entityIndex] = entityList[numEntities - 1];
+    //decrement entity number
+    numEntities--;
+    //reallocates the array with decremented entity number    
+    entityList = realloc(entityList, numEntities * sizeof(tEntity));
 }
 
 void entities_update()
