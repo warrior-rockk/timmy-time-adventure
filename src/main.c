@@ -109,7 +109,7 @@ int main()
                 game.state = E_PLAY_LEVEL_GAME_STATE;
             break;
             case E_PLAY_LEVEL_GAME_STATE:
-                entities_update();
+                entities_update(&scroll);
                 scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
                 map_draw(mapScreen, &scroll);

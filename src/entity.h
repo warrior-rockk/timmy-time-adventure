@@ -48,7 +48,7 @@ tEntity* get_entity(uint16_t numEntity);
 //calls the init function on all entitites
 void entities_init();
 //calls the update function on all entities
-void entities_update();
+void entities_update(tScroll *scroll);
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
 void entity_destroy_all();

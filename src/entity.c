@@ -129,7 +129,7 @@ void entities_init()
 }
 
 //function to update entities
-void entities_update()
+void entities_update(tScroll *scroll)
 {
     for (int i=0; i < numEntities; i++)
     {
@@ -139,7 +139,10 @@ void entities_update()
         //only update entity if visible
         else if (entityList[i].visible)
         {
-            if (entityList[i].entity_update)
+            //check entity on region
+            if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
+                entityList[i].visible = false;
+            else if (entityList[i].entity_update)
                 entityList[i].entity_update(&entityList[i]);          
         }
     }   
