@@ -43,7 +43,7 @@ void scroll_update(tScroll *scroll, tVector *targetPos)
 
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll)
 {	
-    return ((rect.pos.x - rect.size.x) <= scroll->pos.x && (rect.pos.x + rect.size.x) >= scroll->pos.x &&
-    (rect.pos.y + rect.size.y) >= scroll->pos.y && (rect.pos.y - rect.size.y) <= scroll->pos.y );
-		
+    return  ((rect.pos.x + rect.size.x) >= scroll->pos.x) && (rect.pos.x < (scroll->pos.x + scroll->window.x)) &&
+            ((rect.pos.y + rect.size.y) >= scroll->pos.y) && (rect.pos.y < (scroll->pos.y + scroll->window.y));
+            
 }

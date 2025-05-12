@@ -131,23 +131,33 @@ void entities_init()
 //function to update entities
 void entities_update(tScroll *scroll)
 {
+    int visibleEntities = 0;
+
     for (int i=0; i < numEntities; i++)
     {
         //destroy the entity if dead
         if (entityList[i].dead)
             entity_destroy(i);
-        //only update entity if visible
-        else if (entityList[i].visible)
+        //check entity on region
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            //check entity on region
-            if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
-                entityList[i].visible = false;
-            else if (entityList[i].entity_update)
-                entityList[i].entity_update(&entityList[i]);          
+            entityList[i].visible = false;
+        }
+        else
+        {
+            //only update entity if visible
+            entityList[i].visible = true;        
+            visibleEntities++;
+            if (entityList[i].entity_update)
+            {
+                entityList[i].entity_update(&entityList[i]);
+                          
+            }
         }
     }   
 
-    show_debug("Num entities: %d", numEntities);
+    show_debug("Num entities: %d, Visibles: %d", numEntities, visibleEntities);
+    
 }
 
 //funtion to draws entities

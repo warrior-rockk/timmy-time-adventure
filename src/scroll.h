@@ -27,5 +27,6 @@ void scroll_init(tScroll *scroll);
 //updates scroll object. Receives the target follow position or NULL
 void scroll_update(tScroll *scroll, tVector *targetPos);
 
+//check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll);
 #endif

@@ -95,8 +95,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
         case E_GEM_IDLE_STATE:
             if (local->timer >= this->pos.y)
             {
-                this->visible = false;
-                //this->state = E_GEM_MOVE_RIGHT_STATE;
+                this->state = E_GEM_MOVE_RIGHT_STATE;
                 local->timer = 0;
             }
             else
