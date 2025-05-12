@@ -26,6 +26,7 @@ RGB* gamePal;
 bool gameExit = false;
 int fps;
 int frameCount;
+int tick;
 tScroll scroll;
 
 void create_level();
@@ -39,6 +40,14 @@ static void update_fps(void)
 }
 END_OF_FUNCTION(update_fps);
 
+//timer function callback
+static void incTick(void)
+{
+    //increment on 10ms
+    tick++;;
+}
+END_OF_FUNCTION(incTick);
+
 int main()
 {    
     if (allegro_init() != 0)
@@ -51,6 +60,9 @@ int main()
     frameCount = 0;
     LOCK_VARIABLE(fps);
     LOCK_VARIABLE(frameCount);
+    LOCK_VARIABLE(tick);
+    LOCK_FUNCTION(incTick);
+    install_int(incTick, 10);   //10ms game tick
     install_int_ex(update_fps, BPS_TO_TIMER(1));
 
     int trace = 0;
