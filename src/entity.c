@@ -90,6 +90,8 @@ tEntity* get_entity(uint16_t numEntity)
 {
     if (entityList)
         return &entityList[numEntity];
+    else   
+        return NULL;
 }
 
 //function to destroy entity by index entity number
