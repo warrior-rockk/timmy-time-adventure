@@ -12,6 +12,7 @@
 
 #include "globals.h"
 #include "game.h"
+#include "timer.h"
 #include "entity.h"
 #include "scroll.h"
 #include "map.h"
@@ -24,29 +25,10 @@ BITMAP *buffer;
 RGB* gamePal;
 
 bool gameExit = false;
-int fps;
-int frameCount;
-int tick;
 tScroll scroll;
 
 void create_level();
 void destroy_level();
-
-//update fps callback
-static void update_fps(void)
-{
-    fps = frameCount;
-    frameCount = 0;
-}
-END_OF_FUNCTION(update_fps);
-
-//timer function callback
-static void incTick(void)
-{
-    //increment on 10ms
-    tick++;;
-}
-END_OF_FUNCTION(incTick);
 
 int main()
 {    
@@ -56,17 +38,6 @@ int main()
     install_timer();
     install_keyboard(); 
     
-    fps = 0;
-    frameCount = 0;
-    LOCK_VARIABLE(fps);
-    LOCK_VARIABLE(frameCount);
-    LOCK_VARIABLE(tick);
-    LOCK_FUNCTION(incTick);
-    install_int(incTick, 10);   //10ms game tick
-    install_int_ex(update_fps, BPS_TO_TIMER(1));
-
-    int trace = 0;
-
     set_color_depth(8);
 
     if (set_gfx_mode(GFX_AUTODETECT, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
@@ -93,6 +64,7 @@ int main()
     entity_system_init();
     object_system_init();
     debug_init();
+    timer_init();
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
@@ -103,7 +75,7 @@ int main()
     //main loop
     while (!gameExit)
     {
-        trace = retrace_count;
+        timer_start_frame();
 
         if (key[KEY_ESC])
             gameExit = true;
@@ -151,10 +123,7 @@ int main()
 
         vsync();
         
-        frameCount++;
-
-        if (trace != retrace_count)
-            deltaTime = (double)(retrace_count-trace);
+        timer_end_frame(&deltaTime);
         
         /*
         -850-780fps: draw mapScreen to screen directly
@@ -207,7 +176,7 @@ void game_draw()
 void game_debug_info()
 {
     //debug info
-    show_debug("FPS: %d", fps);
+    show_debug("FPS: %d", get_fps());
     show_debug("s.x: %d", scroll.pos.x);
     show_debug( "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
     show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
