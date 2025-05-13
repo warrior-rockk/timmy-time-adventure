@@ -4,8 +4,12 @@
 *
 * Warcom Soft. 13/05/2025
 ********************************************************************/
-
 #include "timer.h"
+
+uint16_t fps;           //fps counter
+uint16_t frameCount;    //count of frames
+uint16_t tick;          //tick counter
+uint16_t trace;         //trace video counter
 
 //update fps callback
 static void update_fps(void)

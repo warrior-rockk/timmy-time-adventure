@@ -9,11 +9,6 @@
 
 #include "allegro.h"
 
-uint16_t fps;
-uint16_t frameCount;
-uint16_t tick;
-uint16_t trace;
-
 void timer_init();
 void timer_start_frame();
 void timer_end_frame(double *deltaTime);
