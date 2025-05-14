@@ -6,7 +6,8 @@
         "entity.h": "c",
         "globals.h": "c",
         "scroll.h": "c",
-        "KEYBOARD.H": "cpp"
+        "KEYBOARD.H": "cpp",
+        "TIMER.H": "cpp"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,

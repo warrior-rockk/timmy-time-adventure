@@ -7,7 +7,8 @@ ifeq ($(OS),Windows_NT)
 	OS_INC_DIR := 'D:/Instalables/Proyectos/Programacion DOS/cross-compile/djgpp/include'
 	OS_GCC	   := 'D:/Instalables/Proyectos/Programacion DOS/cross-compile/djgpp/bin/i586-pc-msdosdjgpp-gcc'	
 	OS_LIB_DIR := ./
-	OS_DOSBOX  := 'D:/Instalables/Proyectos/Old Days/bin/DOSBox/DosBox.exe'
+	#OS_DOSBOX  := 'D:/Instalables/Proyectos/Old Days/bin/DOSBox/DosBox.exe'
+	OS_DOSBOX  := 'D:/Instalables/Proyectos/DosBox-x/dosbox-x.exe'
 else
 	UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
@@ -18,7 +19,7 @@ else
 		OS_INC_DIR := /Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/include
 		OS_GCC	   := /Users/warrior/Downloads/djgpp/bin/i586-pc-msdosdjgpp-gcc	
 		OS_LIB_DIR := /Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/lib/djgpp
-		OS_DOSBOX  := /Applications/dosbox-x.app/Contents/MacOS/dosbox-x --fastbioslogo
+		OS_DOSBOX  := /Applications/dosbox-x.app/Contents/MacOS/dosbox-x
     endif
 endif
 
@@ -105,9 +106,9 @@ ${RELEASE_RES_DIR}%: ${RESOURCES_DIR}%
 
 #run targets
 run_debug: debug
-	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} -conf dosbox.conf -exit -noconsole
+	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 run_release: release
-	cd ${RELEASE_BIN_DIR} && ${OS_DOSBOX} ${APP} -conf dosbox.conf -exit -noconsole
+	cd ${RELEASE_BIN_DIR} && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 
 .PHONY: clean info
 

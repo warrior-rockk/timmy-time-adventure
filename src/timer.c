@@ -8,7 +8,8 @@
 
 uint16_t fps;           //fps counter
 uint16_t frameCount;    //count of frames
-uint16_t tick;          //tick counter
+uint16_t tickCount;     //tick counter
+bool tick;               //clock tick
 uint16_t trace;         //trace video counter
 
 //update fps callback
@@ -24,11 +25,11 @@ END_OF_FUNCTION(update_fps);
 static void update_tick(void)
 {
     //increment tick
-    tick++;
+    tickCount++;
 }
 END_OF_FUNCTION(update_tick);
 
-void timer_init()
+void timer_init(long gameTickDuration)
 {
     fps = 0;
     frameCount = 0;
@@ -39,12 +40,23 @@ void timer_init()
     LOCK_FUNCTION(update_fps);
     LOCK_FUNCTION(update_tick);
     install_int_ex(update_fps, BPS_TO_TIMER(1));
-    install_int(update_tick, 10);   //10ms game tick
+    install_int(update_tick, gameTickDuration);
 }
 
 void timer_start_frame()
 {
     trace = retrace_count;
+
+    //reset clock tick
+    tick = false;
+
+    if (tickCount)
+    {
+        //sets clock tick var
+        tick = true;
+        //reset timer interrupt var
+        tickCount = 0;
+    }
 }
 
 void timer_end_frame(double *deltaTime)
@@ -53,9 +65,16 @@ void timer_end_frame(double *deltaTime)
 
     if (trace != retrace_count)
         *deltaTime = (double)(retrace_count-trace);
+
+    tick = false;
 }
 
 uint16_t get_fps()
 {
     return fps;
+}
+
+bool get_clock_tick()
+{
+    return tick;
 }
