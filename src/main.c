@@ -29,7 +29,6 @@ tScroll scroll;
 
 void create_level();
 void destroy_level();
-void test_timer();
 
 int main()
 {    
