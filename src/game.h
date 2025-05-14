@@ -18,6 +18,8 @@
 
 #define PLAYER_ENTITY_ID    0
 
+#define GAME_CLOCK_TICK     10      //10ms game tick
+
 //game entity types
 enum E_ENTITY_TYPE
 {

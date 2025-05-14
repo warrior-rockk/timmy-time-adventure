@@ -6,11 +6,12 @@
 ********************************************************************/
 #include "timer.h"
 
-uint16_t fps;           //fps counter
-uint16_t frameCount;    //count of frames
-uint16_t tickCount;     //tick counter
-bool tick;               //clock tick
-uint16_t trace;         //trace video counter
+uint16_t fps;               //fps counter
+uint16_t frameCount;        //count of frames
+uint16_t tickCount;         //tick counter
+uint16_t lastTickCount;     //last tick counter
+bool tick;                  //clock tick
+uint16_t trace;             //trace video counter
 
 //update fps callback
 static void update_fps(void)
@@ -34,6 +35,9 @@ void timer_init(long gameTickDuration)
     fps = 0;
     frameCount = 0;
     trace = 0;
+    lastTickCount = 0;
+    tickCount = 0;
+    tick = false;
     LOCK_VARIABLE(fps);
     LOCK_VARIABLE(frameCount);
     LOCK_VARIABLE(tick);
@@ -54,6 +58,8 @@ void timer_start_frame()
     {
         //sets clock tick var
         tick = true;
+        //saves last tick count
+        lastTickCount = tickCount;
         //reset timer interrupt var
         tickCount = 0;
     }
@@ -74,7 +80,10 @@ uint16_t get_fps()
     return fps;
 }
 
-bool get_clock_tick()
+uint16_t get_clock_tick()
 {
-    return tick;
+    if (tick)
+        return lastTickCount;
+    else   
+        return 0;
 }

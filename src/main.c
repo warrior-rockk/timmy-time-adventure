@@ -65,7 +65,7 @@ int main()
     entity_system_init();
     object_system_init();
     debug_init();
-    timer_init(10);
+    timer_init(GAME_CLOCK_TICK);
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
@@ -119,7 +119,6 @@ int main()
         }
         
         game_debug_info();
-        test_timer();
         game_draw();
 
         vsync();
@@ -183,17 +182,4 @@ void game_debug_info()
     show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
     show_debug( "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
     show_debug( "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
-}
-
-void test_timer()
-{
-    static long time;
-    
-    if (get_clock_tick())
-    {
-        time += 1;        
-    }
-
-    show_debug("time: %d:%d", time / 100, time * 10);
-
 }

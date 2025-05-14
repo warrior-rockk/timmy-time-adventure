@@ -7,7 +7,8 @@
         "globals.h": "c",
         "scroll.h": "c",
         "KEYBOARD.H": "cpp",
-        "TIMER.H": "cpp"
+        "TIMER.H": "cpp",
+        "ASTDINT.H": "cpp"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,
