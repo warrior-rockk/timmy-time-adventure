@@ -6,7 +6,6 @@
 ********************************************************************/
 
 #include <stdint.h>
-#include "globals.h"
 #include "collisions.h"
 
 int16_t collision_check_tile(tEntity *idEntity,int i)
@@ -147,54 +146,54 @@ int16_t collision_check_tile(tEntity *idEntity,int i)
 //Funcion que crea puntos de colision del jugador
 void collision_init_entity_points(tEntity *entity, tColPoint *entColPoint)
 {	
-    entColPoint[RIGHT_UP_POINT].x 			    = (entity->size.x >> 1) - 1;
-	entColPoint[RIGHT_UP_POINT].y 			    = -(entity->size.y / 4);
-	entColPoint[RIGHT_UP_POINT].colCode 	    = COLDER;
-	entColPoint[RIGHT_UP_POINT].enabled 	    = true;
+    entColPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
+	entColPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
+	entColPoint[RIGHT_UP_POINT].colCode 	        = COLDER;
+	entColPoint[RIGHT_UP_POINT].enabled 	        = true;
 	
-	entColPoint[RIGHT_DOWN_POINT].x 		    = (entity->size.x >> 1) - 1;
-	entColPoint[RIGHT_DOWN_POINT].y 		    = (entity->size.y / 4);
-	entColPoint[RIGHT_DOWN_POINT].colCode      = COLDER;
-	entColPoint[RIGHT_DOWN_POINT].enabled      = true;
+	entColPoint[RIGHT_DOWN_POINT].offset.x 		    = (entity->size.x >> 1) - 1;
+	entColPoint[RIGHT_DOWN_POINT].offset.y 	        = (entity->size.y / 4);
+	entColPoint[RIGHT_DOWN_POINT].colCode           = COLDER;
+	entColPoint[RIGHT_DOWN_POINT].enabled           = true;
 	
-	entColPoint[LEFT_UP_POINT].x 		        = -(entity->size.x >> 1);
-	entColPoint[LEFT_UP_POINT].y 		        = -(entity->size.y / 4);
-    entColPoint[LEFT_UP_POINT].colCode         = COLIZQ;
-	entColPoint[LEFT_UP_POINT].enabled         = true;
+	entColPoint[LEFT_UP_POINT].offset.x 		    = -(entity->size.x >> 1);
+	entColPoint[LEFT_UP_POINT].offset.y 		    = -(entity->size.y / 4);
+    entColPoint[LEFT_UP_POINT].colCode              = COLIZQ;
+	entColPoint[LEFT_UP_POINT].enabled              = true;
 	
-	entColPoint[LEFT_DOWN_POINT].x 		    = -(entity->size.x >> 1);
-	entColPoint[LEFT_DOWN_POINT].y 		    = (entity->size.y / 4);
-	entColPoint[LEFT_DOWN_POINT].colCode       = COLIZQ;
-	entColPoint[LEFT_DOWN_POINT].enabled       = true;
+	entColPoint[LEFT_DOWN_POINT].offset.x 		    = -(entity->size.x >> 1);
+	entColPoint[LEFT_DOWN_POINT].offset.y 		    = (entity->size.y / 4);
+	entColPoint[LEFT_DOWN_POINT].colCode            = COLIZQ;
+	entColPoint[LEFT_DOWN_POINT].enabled            = true;
 	
-	entColPoint[DOWN_R_POINT].x 		        = (entity->size.x / 4);
-	entColPoint[DOWN_R_POINT].y 		        = (entity->size.y >> 1);
-	entColPoint[DOWN_R_POINT].colCode          = COLDOWN;
-	entColPoint[DOWN_R_POINT].enabled          = true;
+	entColPoint[DOWN_R_POINT].offset.x 		        = (entity->size.x / 4);
+	entColPoint[DOWN_R_POINT].offset.y 		        = (entity->size.y >> 1);
+	entColPoint[DOWN_R_POINT].colCode               = COLDOWN;
+	entColPoint[DOWN_R_POINT].enabled               = true;
 	
-	entColPoint[DOWN_L_POINT].x 		        = -(entity->size.x / 4);
-	entColPoint[DOWN_L_POINT].y 		        = (entity->size.y >> 1);
-	entColPoint[DOWN_L_POINT].colCode          = COLDOWN;
-	entColPoint[DOWN_L_POINT].enabled          = true;
+	entColPoint[DOWN_L_POINT].offset.x 		        = -(entity->size.x / 4);
+	entColPoint[DOWN_L_POINT].offset.y 		        = (entity->size.y >> 1);
+	entColPoint[DOWN_L_POINT].colCode               = COLDOWN;
+	entColPoint[DOWN_L_POINT].enabled               = true;
 	
-	entColPoint[UP_R_POINT].x 		            = (entity->size.x / 4);
-	entColPoint[UP_R_POINT].y 		            = -(entity->size.y >> 1);
-	entColPoint[UP_R_POINT].colCode            = COLUP;
-	entColPoint[UP_R_POINT].enabled            = true;
+	entColPoint[UP_R_POINT].offset.x 		        = (entity->size.x / 4);
+	entColPoint[UP_R_POINT].offset.y 		        = -(entity->size.y >> 1);
+	entColPoint[UP_R_POINT].colCode                 = COLUP;
+	entColPoint[UP_R_POINT].enabled                 = true;
 	
-	entColPoint[UP_L_POINT].x 		            = -(entity->size.x / 4);
-	entColPoint[UP_L_POINT].y 		            = -(entity->size.y >> 1);
-	entColPoint[UP_L_POINT].colCode            = COLUP;
-	entColPoint[UP_L_POINT].enabled            = true;
+	entColPoint[UP_L_POINT].offset.x 		        = -(entity->size.x / 4);
+	entColPoint[UP_L_POINT].offset.y 		        = -(entity->size.y >> 1);
+	entColPoint[UP_L_POINT].colCode                 = COLUP;
+	entColPoint[UP_L_POINT].enabled                 = true;
 	
-	entColPoint[CENTER_POINT].x 		        = 0;
-	entColPoint[CENTER_POINT].y 		        = 0;
-	entColPoint[CENTER_POINT].colCode          = COLCENTER;
-	entColPoint[CENTER_POINT].enabled          = false;
+	entColPoint[CENTER_POINT].offset.x 		        = 0;
+	entColPoint[CENTER_POINT].offset.y 		        = 0;
+	entColPoint[CENTER_POINT].colCode               = COLCENTER;
+	entColPoint[CENTER_POINT].enabled               = false;
 	
-	entColPoint[CENTER_DOWN_POINT].x 		    = 0;
-	entColPoint[CENTER_DOWN_POINT].y 		    = (entity->size.y >> 1);
-	entColPoint[CENTER_DOWN_POINT].colCode     = COLCENTER;
-	entColPoint[CENTER_DOWN_POINT].enabled     = false;
+	entColPoint[CENTER_DOWN_POINT].offset.x 		= 0;
+	entColPoint[CENTER_DOWN_POINT].offset.y 		= (entity->size.y >> 1);
+	entColPoint[CENTER_DOWN_POINT].colCode          = COLCENTER;
+	entColPoint[CENTER_DOWN_POINT].enabled          = false;
 	
 }
