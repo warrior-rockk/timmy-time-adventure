@@ -1,8 +1,8 @@
 /********************************************************************
 * Object entities (test)
 *
-*
-* Warcom Soft. 07/05/2025
+* 07/05/2025
+* Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #include "allegro.h"
 #include "globals.h"

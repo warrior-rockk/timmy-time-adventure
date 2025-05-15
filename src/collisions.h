@@ -1,8 +1,8 @@
 /********************************************************************
 * Collision System
 *
-*
-* Warcom Soft. 07/05/2025
+* 07/05/2025
+* Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #ifndef _H_COLLISIONS_
 #define _H_COLLISIONS_

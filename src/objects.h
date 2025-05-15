@@ -1,8 +1,8 @@
 /********************************************************************
 * Objects entities (test)
 *
-*
-* Warcom Soft. 07/05/2025
+* 07/05/2025
+* Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #ifndef _H_OBJECTS_
 #define _H_OBJECTS_

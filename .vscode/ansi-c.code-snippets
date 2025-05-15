@@ -13,8 +13,8 @@
 	 		"/********************************************************************"
  			"* ${TM_FILENAME/^([^\\.]*)\\..*$/${1:/downcase}/}$0"			
 			"*"
-			"*"
-			"* Warcom Soft. ${CURRENT_DATE}/${CURRENT_MONTH}/${CURRENT_YEAR}"
+			"* ${CURRENT_DATE}/${CURRENT_MONTH}/${CURRENT_YEAR}"
+			"* Warcom Soft. - warrior.rockk@gmail.com"
 			"********************************************************************/"			
 	 	],
 	 	"description": "add file header"
