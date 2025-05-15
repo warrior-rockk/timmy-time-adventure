@@ -62,6 +62,7 @@ int main()
     clear_to_color(buffer, 3);
 
     entity_system_init();
+    collision_system_init();
     object_system_init();
     debug_init();
     timer_init(GAME_CLOCK_TICK);
@@ -140,15 +141,15 @@ END_OF_MAIN()
 void create_level()
 {
     //player    
-    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, NULL, NULL, &player_update);
+    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, NULL, NULL, &player_update);
     
     //test objects
-    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
-    entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
-    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
-    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
-    entity_create((tVector){392,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, &object_init, &object_create, &object_update);
-    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, &object_init, &object_create, &object_update);
+    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){392,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
 }
 
 void destroy_level()

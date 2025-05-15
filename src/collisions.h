@@ -13,6 +13,8 @@
 #include "globals.h"
 #include "entity.h"
 
+#define ENTITY_MAX_NUM_COLLISION_POINTS     256
+
 //Puntos de colision
 //los puntos laterales deben estar primero de los inferiores/superiores
 //para el buen funcionamiento de la deteccion de obstaculos
@@ -48,10 +50,25 @@ typedef struct tColPoint
 	bool enabled;			        //Habilitacion del punto de colision
 } tColPoint;
 
+//entity collision points
+typedef struct tEntColPoints
+{
+    tColPoint colPoint[NUM_COL_POINTS];
+} tEntColPoints;
+
+
+//inits collision system
+void collision_system_init();
+//destroys collision system
+void collision_system_destroy();
+//function to create entity collision points for an entity
+void collision_create_entity_points(tEntity *entity);
+
+
+
 //Funcion de colision con tile segun mapa de durezas segun su punto de colision
 //Posiciona el objeto en el borde del tile y devuelve un int con el sentido de la colision o 0 si no lo hay
 int16_t collision_check_tile(tEntity *idEntity,int i);
-//function to init entity collision points
-void collision_init_entity_points(tEntity *entity, tColPoint *entColPoint);
+
 
 #endif

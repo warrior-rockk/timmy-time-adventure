@@ -14,6 +14,11 @@
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities
 
+enum E_ENTITY_PROPERTIES
+{
+    E_COLLISIONS_ON_PROPERTY = 0x01,
+};
+
 //entity object
 typedef struct tEntity
 {
@@ -27,6 +32,7 @@ typedef struct tEntity
     uint8_t prevState;      //previous entity state
     uint8_t entType;        //entity type
     uint8_t entInstance;    //entity instance of type
+    uint16_t properties;    //entity properties
     bool dead;              //dead flag
     bool visible;           //visible flag
     bool ground;            //ground flag
@@ -39,10 +45,12 @@ typedef struct tEntity
 
 //inits entity system
 void entity_system_init();
+//destroys entity system
+void entity_system_destroy();
 //adds entity object to entity list
 void entity_add(tEntity entity);
 //creates a new entity. Returns entity number
-int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity));
+int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity));
 //returns entity based on entity number
 tEntity* get_entity(uint16_t numEntity);
 //calls the init function on all entitites

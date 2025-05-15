@@ -6,6 +6,7 @@
 ********************************************************************/
 #include <stdlib.h>
 #include "entity.h"
+#include "collisions.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -23,10 +24,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 //inits entity system
 void entity_system_init()
 {
-    //free entity memory allocation
-    free(entityList);
-    //clear num entities
-    numEntities = 0;
+    entity_system_destroy();
 }
 
 //destroys entity system
@@ -39,7 +37,7 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
+int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
     numEntities++;
@@ -70,10 +68,15 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, void (*enti
         entityList[newEntity].entInstance     = 0;
         entityList[newEntity].dead            = false;
         entityList[newEntity].visible         = true;
+        entityList[newEntity].properties      = properties;
         entityList[newEntity].entity_create   = entity_create;
         entityList[newEntity].entity_init     = entity_init;
         entityList[newEntity].entity_update   = entity_update;
 
+        //check entity properties
+        if (entityList[newEntity].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
+            collision_create_entity_points(&entityList[newEntity]);
+            
         //call create function pointer of entity
         if (entityList[newEntity].entity_create) 
             entityList[newEntity].entity_create(&entityList[newEntity]);

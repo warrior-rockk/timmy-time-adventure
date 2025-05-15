@@ -8,6 +8,24 @@
 #include <stdint.h>
 #include "collisions.h"
 
+static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
+static uint16_t numEntitiesColPoints;       //number of entities collision points
+
+//inits collision system
+void collision_system_init()
+{
+    collision_system_destroy();
+}
+
+//destroys collision system
+void collision_system_destroy()
+{
+    //free collision memory allocation
+    free(entColPointsList);
+    //clear num entities collision points
+    numEntitiesColPoints = 0;
+}
+
 int16_t collision_check_tile(tEntity *idEntity,int i)
 { 
 
@@ -144,56 +162,75 @@ int16_t collision_check_tile(tEntity *idEntity,int i)
 }
 
 //Funcion que crea puntos de colision del jugador
-void collision_init_entity_points(tEntity *entity, tColPoint *entColPoint)
+void collision_create_entity_points(tEntity *entity)
 {	
-    entColPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
-	entColPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
-	entColPoint[RIGHT_UP_POINT].colCode 	        = COLDER;
-	entColPoint[RIGHT_UP_POINT].enabled 	        = true;
-	
-	entColPoint[RIGHT_DOWN_POINT].offset.x 		    = (entity->size.x >> 1) - 1;
-	entColPoint[RIGHT_DOWN_POINT].offset.y 	        = (entity->size.y / 4);
-	entColPoint[RIGHT_DOWN_POINT].colCode           = COLDER;
-	entColPoint[RIGHT_DOWN_POINT].enabled           = true;
-	
-	entColPoint[LEFT_UP_POINT].offset.x 		    = -(entity->size.x >> 1);
-	entColPoint[LEFT_UP_POINT].offset.y 		    = -(entity->size.y / 4);
-    entColPoint[LEFT_UP_POINT].colCode              = COLIZQ;
-	entColPoint[LEFT_UP_POINT].enabled              = true;
-	
-	entColPoint[LEFT_DOWN_POINT].offset.x 		    = -(entity->size.x >> 1);
-	entColPoint[LEFT_DOWN_POINT].offset.y 		    = (entity->size.y / 4);
-	entColPoint[LEFT_DOWN_POINT].colCode            = COLIZQ;
-	entColPoint[LEFT_DOWN_POINT].enabled            = true;
-	
-	entColPoint[DOWN_R_POINT].offset.x 		        = (entity->size.x / 4);
-	entColPoint[DOWN_R_POINT].offset.y 		        = (entity->size.y >> 1);
-	entColPoint[DOWN_R_POINT].colCode               = COLDOWN;
-	entColPoint[DOWN_R_POINT].enabled               = true;
-	
-	entColPoint[DOWN_L_POINT].offset.x 		        = -(entity->size.x / 4);
-	entColPoint[DOWN_L_POINT].offset.y 		        = (entity->size.y >> 1);
-	entColPoint[DOWN_L_POINT].colCode               = COLDOWN;
-	entColPoint[DOWN_L_POINT].enabled               = true;
-	
-	entColPoint[UP_R_POINT].offset.x 		        = (entity->size.x / 4);
-	entColPoint[UP_R_POINT].offset.y 		        = -(entity->size.y >> 1);
-	entColPoint[UP_R_POINT].colCode                 = COLUP;
-	entColPoint[UP_R_POINT].enabled                 = true;
-	
-	entColPoint[UP_L_POINT].offset.x 		        = -(entity->size.x / 4);
-	entColPoint[UP_L_POINT].offset.y 		        = -(entity->size.y >> 1);
-	entColPoint[UP_L_POINT].colCode                 = COLUP;
-	entColPoint[UP_L_POINT].enabled                 = true;
-	
-	entColPoint[CENTER_POINT].offset.x 		        = 0;
-	entColPoint[CENTER_POINT].offset.y 		        = 0;
-	entColPoint[CENTER_POINT].colCode               = COLCENTER;
-	entColPoint[CENTER_POINT].enabled               = false;
-	
-	entColPoint[CENTER_DOWN_POINT].offset.x 		= 0;
-	entColPoint[CENTER_DOWN_POINT].offset.y 		= (entity->size.y >> 1);
-	entColPoint[CENTER_DOWN_POINT].colCode          = COLCENTER;
-	entColPoint[CENTER_DOWN_POINT].enabled          = false;
-	
+    //inc number on entities with collision points
+    numEntitiesColPoints++;
+    
+    if (numEntitiesColPoints <= ENTITY_MAX_NUM_COLLISION_POINTS)
+    {
+        //allocate memory for entity collision points
+        entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));
+        
+        //test memory allocation
+        ASSERT(entColPointsList);
+
+        //initialize new entity collision point data
+        uint16_t newEntityColPoints = numEntitiesColPoints - 1;
+
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = COLDER;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].enabled 	        = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= (entity->size.x >> 1) - 1;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = (entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].colCode         = COLDER;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].enabled         = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.x 		    = -(entity->size.x >> 1);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.y 		    = -(entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].colCode            = COLIZQ;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].enabled            = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.x 		= -(entity->size.x >> 1);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.y 		= (entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].colCode          = COLIZQ;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].enabled          = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.x 		    = (entity->size.x / 4);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.y 		    = (entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].colCode             = COLDOWN;
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].enabled             = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.x 		    = -(entity->size.x / 4);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.y 		    = (entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].colCode             = COLDOWN;
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].enabled             = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.x 		        = (entity->size.x / 4);
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.y 		        = -(entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].colCode               = COLUP;
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].enabled               = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.x 		        = -(entity->size.x / 4);
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.y 		        = -(entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].colCode               = COLUP;
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].enabled               = true;
+        
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.x 		    = 0;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.y 		    = 0;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].colCode             = COLCENTER;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].enabled             = false;
+        
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.x 		= 0;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.y 		= (entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].colCode        = COLCENTER;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].enabled        = false;
+
+        MY_TRACE("[COLLISION SYSTEM]: Created entity collision points on position: %d\n", newEntityColPoints);
+        MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
+    }
+    else
+        abort_on_error("ERROR: Reached max. number of entities collision points\n");        
 }
