@@ -22,6 +22,7 @@ enum E_ENTITY_PROPERTIES
 //entity object
 typedef struct tEntity
 {
+    uint16_t id;            //entity id number
     tVector pos;            //entity position
     tVector size;           //entity size
     tFixVector fixPos;      //entity fixed position

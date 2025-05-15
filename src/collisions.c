@@ -161,7 +161,6 @@ int16_t collision_check_tile(tEntity *idEntity,int i)
    return 1;
 }
 
-//Funcion que crea puntos de colision del jugador
 void collision_create_entity_points(tEntity *entity)
 {	
     //inc number on entities with collision points
@@ -177,7 +176,8 @@ void collision_create_entity_points(tEntity *entity)
 
         //initialize new entity collision point data
         uint16_t newEntityColPoints = numEntitiesColPoints - 1;
-
+        
+        entColPointsList[newEntityColPoints].entId = entity->id;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = COLDER;
@@ -233,4 +233,33 @@ void collision_create_entity_points(tEntity *entity)
     }
     else
         abort_on_error("ERROR: Reached max. number of entities collision points\n");        
+}
+
+void collision_destroy_entity_points(uint16_t entityId)
+{
+    uint16_t listPosition;
+
+    //find entity id on collision points list
+    for (int i = 0; i < numEntitiesColPoints; i++)
+    {
+        if (entColPointsList[i].entId == entityId)
+        {
+            listPosition = i;
+            break;
+        }
+    }
+
+    //copies last entity col points to deleted entity position
+    entColPointsList[listPosition] = entColPointsList[numEntitiesColPoints - 1];
+    //decrement entity col points number
+    numEntitiesColPoints--;
+    if (numEntitiesColPoints == 0)
+        //free entity list
+        free(entColPointsList);
+    else
+        //reallocates the array with decremented entity number    
+        entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
+
+    MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points on position: %d\n", listPosition);
+    MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
 }

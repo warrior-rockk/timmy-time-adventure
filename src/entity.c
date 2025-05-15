@@ -53,6 +53,7 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t pr
         //assign entity data
         uint16_t newEntity = numEntities - 1;
 
+        entityList[newEntity].id              = newEntity;
         entityList[newEntity].initPos         = initPos;
         entityList[newEntity].pos             = initPos;
         entityList[newEntity].fixPos.x        = itofix(initPos.x);
@@ -76,7 +77,7 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t pr
         //check entity properties
         if (entityList[newEntity].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
             collision_create_entity_points(&entityList[newEntity]);
-            
+
         //call create function pointer of entity
         if (entityList[newEntity].entity_create) 
             entityList[newEntity].entity_create(&entityList[newEntity]);
@@ -147,6 +148,10 @@ void entities_update(tScroll *scroll)
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
             entityList[i].visible = false;
+            //test
+            if (entityList[i].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
+                //MY_TRACE("¿Me salgo?: %d\n", i);
+                collision_destroy_entity_points(i);
         }
         else
         {

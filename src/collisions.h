@@ -53,7 +53,8 @@ typedef struct tColPoint
 //entity collision points
 typedef struct tEntColPoints
 {
-    tColPoint colPoint[NUM_COL_POINTS];
+    uint16_t entId;                         //id of entity
+    tColPoint colPoint[NUM_COL_POINTS];     //array of collision points
 } tEntColPoints;
 
 
@@ -63,7 +64,8 @@ void collision_system_init();
 void collision_system_destroy();
 //function to create entity collision points for an entity
 void collision_create_entity_points(tEntity *entity);
-
+//function to destroy entity collision points by id
+void collision_destroy_entity_points(uint16_t entityId);
 
 
 //Funcion de colision con tile segun mapa de durezas segun su punto de colision
