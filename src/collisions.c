@@ -260,6 +260,6 @@ void collision_destroy_entity_points(uint16_t entityId)
         //reallocates the array with decremented entity number    
         entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
 
-    MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points on position: %d\n", listPosition);
+    MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
     MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
 }

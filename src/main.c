@@ -146,10 +146,10 @@ void create_level()
     //test objects
     entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
     entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
-    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
-    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
-    entity_create((tVector){392,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
-    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
+    entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
+    entity_create((tVector){392,100}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
+    entity_create((tVector){90,150}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
 }
 
 void destroy_level()

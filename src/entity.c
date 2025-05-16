@@ -101,6 +101,10 @@ tEntity* get_entity(uint16_t numEntity)
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {
+    //test
+    if (entityList[entityIndex].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
+        collision_destroy_entity_points(entityList[entityIndex].id);
+
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
@@ -147,11 +151,7 @@ void entities_update(tScroll *scroll)
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            entityList[i].visible = false;
-            //test
-            if (entityList[i].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
-                //MY_TRACE("¿Me salgo?: %d\n", i);
-                collision_destroy_entity_points(i);
+            entityList[i].visible = false;            
         }
         else
         {

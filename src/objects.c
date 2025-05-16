@@ -102,6 +102,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
                 local->timer+= (1 * deltaTime);
         break;
         case E_GEM_MOVE_RIGHT_STATE:
+            this->dead = true;
             if (this->pos.x > 130)
                 this->state = E_GEM_MOVE_LEFT_STATE;
             else   
@@ -125,16 +126,12 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
     this->pos.x = fixtoi(this->fixPos.x);
     this->pos.y = fixtoi(this->fixPos.y);
 
-    local->health = this->pos.x;
-    object_trace(this);
-    TRACE("\tHealth:%d\n", local->health);
+    local->health = this->pos.x;    
 }
 
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
-    object_trace(this);
     local->solid = true;
-    TRACE("\tSolid:%d\n", local->solid);
 }
 
 void object_trace(tEntity *this)
