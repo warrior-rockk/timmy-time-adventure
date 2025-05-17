@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include "collisions.h"
+#include "map.h"
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
@@ -39,47 +40,51 @@ uint16_t get_collision_point_index_by_entId(uint16_t entityId)
 
 //Funcion que devuelve,dado un vector, el numero de pixeles en x hasta la colision, o -1 si no hay
 //dado una entidad, un vector de comprobacion y el punto de colision a chequear
-int16_t colCheckVectorX(tEntity idEntity, tLinePath *colVector, uint16_t colCode)
+int16_t colCheckVectorX(tEntity idEntity, tLinePath *linePath, uint16_t colCode)
 {
     int16_t dist = 0;   //distance to collision
     int16_t inc;        //increment
 
-	//seteamos el sentido del incremento
-    inc = colVector->end.x >= colVector->start.x ? 1 :-1;
+	//sets increment direction
+    inc = linePath->end.x >= linePath->start.x ? 1 : -1;
 	
-    //Recorremos el vector buscando colision con pixel 
-	do
-			
-		//si el tile en esta posicion existe
-		if (tileExists(colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
-			//si el tile es solido
-			if (tileMap[colVector.vStart.y/cTileSize][colVector.vStart.x/cTileSize].tileCode <> NO_SOLID)
-				//comprobar el codigo del tile para contarlo como colision o no
-				if (checkTileCode(idEntity,colCode,colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
-					if(map_get_pixel(0,mapBox,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize)) <> 0)
+    //run path line searching pixel collision
+    do
+    {		
+		//if tile exists on path point position
+        if (map_tile_exists(&linePath->start))
+        {
+			//check if tile is solid
+            if (map_get_tile_code(&linePath->start) == E_SOLID_TILE_CODE)
+            {
+				//TODO: comprobar el codigo del tile para contarlo como colision o no
+				//if (checkTileCode(idEntity,colCode,linePath.vStart.y/cTileSize,linePath.vStart.x/cTileSize))
+				//{
+                    //if(map_get_pixel(0,mapBox,(linePath.vStart.x%cTileSize),(linePath.vStart.y%cTileSize)) <> 0)
 						return dist;
-					end;
-				end;
-			end;
-		else
+                //}
+            }
+        }
+        else
+        {
 			//si no existe, se considera solido si es limite del mapeado
-			if (colVector.vStart.x <= 0 || colVector.vStart.x >= level.numTilesX*cTileSize)
+			if (linePath->start.x <= 0 || linePath->start.x >= level.numTilesX*cTileSize)
 				return dist;
 			end;
-		end;
+		}
 				
 		//Incrementamos distancia
 		dist++;
 		//Incrementamos vector
-		colVector.vStart.x+=inc;
+		linePath->start.x += inc;
 	
-	//hasta recorrer todo el vector	
-	Until(colVector.vStart.x==(colVector.vEnd.x+inc))
+	
+    //until reach the line path end
+	while (linePath->start.x != (linePath.end.x + inc))
     
-	//No ha habido colision
-	Return -1; 
-	
-End
+	//no collision
+	return -1; 	
+}
 
 int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 

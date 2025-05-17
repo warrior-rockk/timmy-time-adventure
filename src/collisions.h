@@ -70,7 +70,7 @@ void collision_destroy_entity_points(uint16_t entityId);
 
 //Funcion de colision con tile segun mapa de durezas segun su punto de colision
 //Posiciona el objeto en el borde del tile y devuelve un int con el sentido de la colision o 0 si no lo hay
-int16_t collision_check_tile(tEntity *idEntity,int i);
+int16_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 
 
 #endif

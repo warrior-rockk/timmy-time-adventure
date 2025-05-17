@@ -60,3 +60,21 @@ void map_draw(BITMAP *buffer, tScroll *scroll)
         }    
     }
 }
+
+//checks if position exists on tile maps
+uint16_t map_tile_exists(tVector *checkPosition)
+{
+	return (checkPosition->x / TILE_W) < level.numTilesX && (checkPosition->y / TILE_H) < level.numTilesY && checkPosition->x >= 0 && checkPosition->y >= 0;
+}
+
+//gets map tile code
+uint16_t map_get_tile_code(tVector *checkPosition)
+{
+    return map[checkPosition->y / TILE_H][checkPosition->x / TILE_W];
+}
+
+//TODO: get pixel color of position's map
+/*uint8_t map_get_pixel(tVector *checkPosition)
+{
+    getpixel(hud.hsImage, mouse_x, mouse_y - HUD_Y);    
+}*/
