@@ -1,0 +1,53 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "testTileset.tsx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "testMap..tmj": {
+            "scale": 1.19677734375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.10444716442265,
+                "y": 103.61158710730314
+            }
+        },
+        "testMap.tmx": {
+            "scale": 1.447265625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 243.56275303643721,
+                "y": 207.9784075573549
+            }
+        },
+        "testTileset.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 3.3278,
+            "scaleInEditor": 3.69
+        }
+    },
+    "last.exportedFilePath": "/Users/warrior",
+    "last.imagePath": "/Users/warrior/code/dos/projects/dos-platform-game/res/tiles",
+    "map.height": 32,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 13,
+    "openFiles": [
+        "testMap.tmx",
+        "testTileset.tsx"
+    ],
+    "project": "test.tiled-project",
+    "recentFiles": [
+        "testMap.tmx",
+        "testTileset.tsx",
+        "testMap..tmj"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.type": 1
+}
