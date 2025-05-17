@@ -11,10 +11,17 @@
 #include "allegro.h"
 
 //macros for bit masking
-#define SET_BIT(byte, bit)       ((byte) |=  (1<<(bit)))
-#define CLEAR_BIT(byte, bit)     ((byte) &= ~(1<<(bit)))
-#define TOOGLE_BIT(byte, bit)    ((byte) ^=  (1<<(bit)))
-#define CHECK_BIT(byte, bit)     ((byte) &   (1<<(bit)))
+#define SET_BIT(data, bit)       ((data) |=  (1<<(bit)))
+#define CLEAR_BIT(data, bit)     ((data) &= ~(1<<(bit)))
+#define TOOGLE_BIT(data, bit)    ((data) ^=  (1<<(bit)))
+#define CHECK_BIT(data, bit)     ((data) &   (1<<(bit)))
+
+//macros for bit flag masking
+#define SET_FLAG(data, bit)       ((data) |=  ((bit)))
+#define CLEAR_FLAG(data, bit)     ((data) &= ~((bit)))
+#define TOOGLE_FLAG(data, bit)    ((data) ^=  ((bit)))
+#define CHECK_FLAG(data, bit)     ((data) &   ((bit)))
+
 
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)    ASSERT(condition)

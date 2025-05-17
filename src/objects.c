@@ -102,7 +102,6 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
                 local->timer+= (1 * deltaTime);
         break;
         case E_GEM_MOVE_RIGHT_STATE:
-            this->dead = true;
             if (this->pos.x > 130)
                 this->state = E_GEM_MOVE_LEFT_STATE;
             else   

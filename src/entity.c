@@ -101,8 +101,8 @@ tEntity* get_entity(uint16_t numEntity)
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {
-    //test
-    if (entityList[entityIndex].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
+    //free entity collision point memory if used
+    if (CHECK_FLAG(entityList[entityIndex].properties, E_COLLISIONS_ON_PROPERTY))
         collision_destroy_entity_points(entityList[entityIndex].id);
 
     //copies last entity to deleted entity position
