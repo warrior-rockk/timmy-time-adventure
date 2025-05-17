@@ -26,128 +26,189 @@ void collision_system_destroy()
     numEntitiesColPoints = 0;
 }
 
-int16_t collision_check_tile(tEntity *idEntity,int i)
+//gets collision point list index by entity id
+uint16_t get_collision_point_index_by_entId(uint16_t entityId)
+{
+    //find entity id on collision points list
+    for (int i = 0; i < numEntitiesColPoints; i++)
+    {
+        if (entColPointsList[i].entId == entityId)
+            return i;
+    }
+}
+
+//Funcion que devuelve,dado un vector, el numero de pixeles en x hasta la colision, o -1 si no hay
+//dado una entidad, un vector de comprobacion y el punto de colision a chequear
+int16_t colCheckVectorX(tEntity idEntity, tLinePath *colVector, uint16_t colCode)
+{
+    int16_t dist = 0;   //distance to collision
+    int16_t inc;        //increment
+
+	//seteamos el sentido del incremento
+    inc = colVector->end.x >= colVector->start.x ? 1 :-1;
+	
+    //Recorremos el vector buscando colision con pixel 
+	do
+			
+		//si el tile en esta posicion existe
+		if (tileExists(colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
+			//si el tile es solido
+			if (tileMap[colVector.vStart.y/cTileSize][colVector.vStart.x/cTileSize].tileCode <> NO_SOLID)
+				//comprobar el codigo del tile para contarlo como colision o no
+				if (checkTileCode(idEntity,colCode,colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
+					if(map_get_pixel(0,mapBox,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize)) <> 0)
+						return dist;
+					end;
+				end;
+			end;
+		else
+			//si no existe, se considera solido si es limite del mapeado
+			if (colVector.vStart.x <= 0 || colVector.vStart.x >= level.numTilesX*cTileSize)
+				return dist;
+			end;
+		end;
+				
+		//Incrementamos distancia
+		dist++;
+		//Incrementamos vector
+		colVector.vStart.x+=inc;
+	
+	//hasta recorrer todo el vector	
+	Until(colVector.vStart.x==(colVector.vEnd.x+inc))
+    
+	//No ha habido colision
+	Return -1; 
+	
+End
+
+int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 
+    tLinePath colLinePath;	//Collision path line to check
+    int16_t distColX;		//X collision distance
+    int16_t distColY;		//Y collision distance
+    int16_t colDir;			//Direction of collision
 
-    /*
-    tVector colVector;	//Vector de comprobacion colision
-    int distColX;		//Distancia con la colision en X
-    int distColY;		//Distancia con la colision en Y
-    int colDir;			//Sentido de la colision
-
-    
     colDir = 0;
-            
-    //comprobamos si el punto de control esta activo
-    if (!identity->this.colPoint[i].enabled) return colDir; end;
     
-    //===============
-    //COLISIONES EN X
-    //===============
+    //gets collision point index
+    uint16_t entIndex = get_collision_point_index_by_entId(entity->id);
+
+    //check if collision point is active
+    if (!entColPointsList[entIndex].colPoint[pointNum].enabled) 
+        return colDir;
     
-    //desactivamos puntos de control inferiores si estamos en rampa
+    //=====================
+    //HORIZONTAL COLLISIONS
+    //=====================
+    
+    // TODO: desactivamos puntos de control inferiores si estamos en rampa
+    /*
     if (cSlopesEnabled)
-        identity->this.colPoint[LEFT_DOWN_POINT].enabled  = getTileCode(idEntity,CENTER_DOWN_POINT) <> SLOPE_135;
-        identity->this.colPoint[RIGHT_DOWN_POINT].enabled = getTileCode(idEntity,CENTER_DOWN_POINT) <> SLOPE_45;
+        entity->this.colPoint[LEFT_DOWN_POINT].enabled  = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_135;
+        entity->this.colPoint[RIGHT_DOWN_POINT].enabled = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_45;
     end;
-    
-    //si el punto de deteccion es lateral (X)
-    if (identity->this.colPoint[i].colCode == COLDER || identity->this.colPoint[i].colCode == COLIZQ )
-        
-        //Establecemos el vector a chequear
-        colVector.vStart.x = identity->this.fX+identity->this.colPoint[i].x;
-        colVector.vEnd.x   = colVector.vStart.x+identity->this.vX;
-        colVector.vStart.y = identity->this.fY+identity->this.colPoint[i].y;
-        colVector.vEnd.y   = colVector.vStart.y;
+    */
+
+    //check if collision point is horizontal
+    if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_RIGHT_COLLISION || entColPointsList[entIndex].colPoint[pointNum].colCode == E_LEFT_COLLISION )
+    {    
+        //Set the path collision line to check
+        colLinePath.start.x = entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x;
+        colLinePath.end.x   = colLinePath.start.x + fixtoi(entity->fixVel.x);
+        colLinePath.start.y = entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y;
+        colLinePath.end.y   = colLinePath.start.y + fixtoi(entity->fixVel.y);;
             
-        //lanzamos la comprobacion de colision en X
-        distColX = colCheckVectorX(idEntity,&colVector,identity->this.colPoint[i].colCode);
+        //calls the collision check line path
+        distColX = colCheckVectorX(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
         
-        //Si hay colision
-        If (distColX>=0)
-            //Colision Derecha
-            if (identity->this.colPoint[i].colCode == COLDER) 
-                //situamos el objeto al borde de la colision	
-                identity->this.fX+= distColX-1;
-                colDir = COLDER;
+        //if collision
+        if (distColX >= 0)
+        {
+            //Right collision
+            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_RIGHT_COLLISION) 
+            {
+                //position entity to edge of collision
+                entity->fixPos.x += distColX - 1;           	
+                colDir = E_RIGHT_COLLISION;
                 
-            end;
-            //Colision Izquierda
-            if (identity->this.colPoint[i].colCode == COLIZQ) 			
-                //situamos el objeto al borde de la colision
-                identity->this.fX-= distColX-1;
-                colDir = COLIZQ;
-            end;
-        end;  
-    end;
+            }
+            //Left collision
+            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_LEFT_COLLISION) 			
+            {
+                //position entity to edge of collision
+                entity->fixPos.x -= distColX - 1;           	
+                colDir = E_LEFT_COLLISION;
+            }
+        }  
+    }
     
     //===============
     //COLISIONES EN Y
     //===============
     
     //Si el punto de deteccion es uno de los superiores/inferiores
-    if (identity->this.colPoint[i].colCode == COLUP || identity->this.colPoint[i].colCode == COLDOWN)
+    if (entity->this.colPoint[i].colCode == E_UP_COLLISION || entity->this.colPoint[i].colCode == E_DOWN_COLLISION)
         
         //Establecemos el vector a comparar
-        colVector.vStart.x = identity->this.fX+identity->this.colPoint[i].x;
-        colVector.vEnd.x   = colVector.vStart.x;
-        colVector.vStart.y = identity->this.fY+identity->this.colPoint[i].y;
-        colVector.vEnd.y   = colVector.vStart.y+identity->this.vY;
+        colLinePath.vStart.x = entity->this.fX+entity->this.colPoint[i].x;
+        colLinePath.vEnd.x   = colLinePath.vStart.x;
+        colLinePath.vStart.y = entity->this.fY+entity->this.colPoint[i].y;
+        colLinePath.vEnd.y   = colLinePath.vStart.y+entity->this.vY;
         
         //Lanzamos la comprobacion de colision en Y
-        distColY = colCheckVectorY(idEntity,&colVector,identity->this.colPoint[i].colCode,TOCOLLISION);
+        distColY = colCheckVectorY(entity,&colLinePath,entity->this.colPoint[i].colCode,TOCOLLISION);
         
         //Si hay colision
         If (distColY>=0) 
             //Colision inferior
-            if (identity->this.colPoint[i].colCode == COLDOWN && identity->this.vY>=0)
+            if (entity->this.colPoint[i].colCode == COLDOWN && entity->this.vY>=0)
                 //Situamos al objeto en el borde de la colision
-                identity->this.fY += distColY;
-                colDir = COLDOWN;
+                entity->this.fY += distColY;
+                colDir = E_DOWN_COLLISION;
                 
                 //Deteccion de pendiente,comprobamos si estamos enterrados
                 if (cSlopesEnabled)
                                             
                     //Establecemos el vector a comparar (centro/inferior del objeto)
-                    colVector.vStart.x = identity->this.fX+identity->this.colPoint[CENTER_DOWN_POINT].x;
-                    colVector.vEnd.x   = colVector.vStart.x;
-                    colVector.vStart.y = identity->this.fY+identity->this.colPoint[CENTER_DOWN_POINT].y;
-                    colVector.vEnd.y   = colVector.vStart.y-cHillHeight; //altura maxima para considerar pendiente
+                    colLinePath.vStart.x = entity->this.fX+entity->this.colPoint[CENTER_DOWN_POINT].x;
+                    colLinePath.vEnd.x   = colLinePath.vStart.x;
+                    colLinePath.vStart.y = entity->this.fY+entity->this.colPoint[CENTER_DOWN_POINT].y;
+                    colLinePath.vEnd.y   = colLinePath.vStart.y-cHillHeight; //altura maxima para considerar pendiente
                     
                     //Lanzamos la comprobacion de colision en Y
-                    distColY = colCheckVectorY(idEntity,&colVector,COLCENTER,FROMCOLLISION);
+                    distColY = colCheckVectorY(entity,&colLinePath,E_CENTER_COLLISION,FROMCOLLISION);
                     
                     //Subimos al objeto a la pendiente
                     if (distColY >0)
-                        identity->this.fY -= distColY-1;
+                        entity->this.fY -= distColY-1;
                     end;
                 end;
             End;                                 
             
             //Colision superior
-            if (identity->this.colPoint[i].colCode == COLUP && identity->this.vY<0)
+            if (entity->this.colPoint[i].colCode == E_UP_COLLISION && entity->this.vY<0)
                 //Situamos al objeto en el borde de la colision
-                identity->this.fY -= distColY;
-                colDir = COLUP;
+                entity->this.fY -= distColY;
+                colDir = E_UP_COLLISION;
             End;
         
         else 
             //si no hay colision, comprobamos si pendiente hacia abajo
             if (cSlopesEnabled)
                 //lo comprobamos si no estamos en escalera para despegarnos del suelo
-                if (identity->this.vY > 0)
+                if (entity->this.vY > 0)
                     //Establecemos el vector a comparar (centro/inferior del objeto)
-                    colVector.vStart.x = identity->this.fX+identity->this.colPoint[CENTER_DOWN_POINT].x;
-                    colVector.vEnd.x   = colVector.vStart.x;
-                    colVector.vStart.y = identity->this.fY+identity->this.colPoint[CENTER_DOWN_POINT].y-1;
-                    colVector.vEnd.y   = colVector.vStart.y+identity->this.vY+cHillHeight; //altura maxima para considerar pendiente
+                    colVector.vStart.x = entity->this.fX+entity->this.colPoint[CENTER_DOWN_POINT].x;
+                    colLinePath.vEnd.x   = colLinePath.vStart.x;
+                    colLinePath.vStart.y = entity->this.fY+entity->this.colPoint[CENTER_DOWN_POINT].y-1;
+                    colLinePath.vEnd.y   = colLinePath.vStart.y+entity->this.vY+cHillHeight; //altura maxima para considerar pendiente
                     
                     //Lanzamos la comprobacion de colision en Y
-                    distColY = colCheckVectorY(idEntity,&colVector,COLCENTER,TOCOLLISION);
+                    distColY = colCheckVectorY(entity,&colLinePath,E_CENTER_COLLISION,TOCOLLISION);
                     
                     //Bajamos al objeto a la pendiente
                     if (distColY >0)
-                        identity->this.fY += distColY;
+                        entity->this.fY += distColY;
                     end;	
                 end;
             end;
@@ -157,8 +218,8 @@ int16_t collision_check_tile(tEntity *idEntity,int i)
     
     //Devolvemos el sentido de la colision
     return colDir;
-    */
-   return 1;
+
+   
 }
 
 void collision_create_entity_points(tEntity *entity)
@@ -180,52 +241,52 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].entId = entity->id;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = COLDER;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].enabled 	        = true;
         
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= (entity->size.x >> 1) - 1;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = (entity->size.y / 4);
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].colCode         = COLDER;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].colCode         = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].enabled         = true;
         
         entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.x 		    = -(entity->size.x >> 1);
         entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.y 		    = -(entity->size.y / 4);
-        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].colCode            = COLIZQ;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].colCode            = E_LEFT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].enabled            = true;
         
         entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.x 		= -(entity->size.x >> 1);
         entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.y 		= (entity->size.y / 4);
-        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].colCode          = COLIZQ;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].colCode          = E_LEFT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].enabled          = true;
         
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.x 		    = (entity->size.x / 4);
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.y 		    = (entity->size.y >> 1);
-        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].colCode             = COLDOWN;
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].colCode             = E_DOWN_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].enabled             = true;
         
         entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.x 		    = -(entity->size.x / 4);
         entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.y 		    = (entity->size.y >> 1);
-        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].colCode             = COLDOWN;
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].colCode             = E_DOWN_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].enabled             = true;
         
         entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.x 		        = (entity->size.x / 4);
         entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.y 		        = -(entity->size.y >> 1);
-        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].colCode               = COLUP;
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].colCode               = E_UP_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].enabled               = true;
         
         entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.x 		        = -(entity->size.x / 4);
         entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.y 		        = -(entity->size.y >> 1);
-        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].colCode               = COLUP;
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].colCode               = E_UP_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].enabled               = true;
         
         entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.x 		    = 0;
         entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.y 		    = 0;
-        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].colCode             = COLCENTER;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].colCode             = E_CENTER_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].enabled             = false;
         
         entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.x 		= 0;
         entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.y 		= (entity->size.y >> 1);
-        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].colCode        = COLCENTER;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].colCode        = E_CENTER_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].enabled        = false;
 
         MY_TRACE("[COLLISION SYSTEM]: Created entity collision points on position: %d\n", newEntityColPoints);
@@ -237,17 +298,7 @@ void collision_create_entity_points(tEntity *entity)
 
 void collision_destroy_entity_points(uint16_t entityId)
 {
-    uint16_t listPosition;
-
-    //find entity id on collision points list
-    for (int i = 0; i < numEntitiesColPoints; i++)
-    {
-        if (entColPointsList[i].entId == entityId)
-        {
-            listPosition = i;
-            break;
-        }
-    }
+    uint16_t listPosition = get_collision_point_index_by_entId(entityId);
 
     //copies last entity col points to deleted entity position
     entColPointsList[listPosition] = entColPointsList[numEntitiesColPoints - 1];

@@ -17,8 +17,8 @@
 enum E_ENTITY_PROPERTIES
 {
     E_COLLISIONS_ON_PROPERTY    = 0x01,
-    E_SOLID_PROPERTY            = 0x02,
-    E_PERSISTENT                = 0x04,
+//    E_SOLID_PROPERTY            = 0x02,
+//    E_PERSISTENT                = 0x04,
 };
 
 //entity object

@@ -34,12 +34,12 @@ enum colPoints {
 
 //collision direction codes
 enum colCodes{
-    NOCOL,
-    COLUP,
-    COLDOWN,
-    COLIZQ,
-    COLDER,  
-    COLCENTER, 
+    E_NO_COLLISION,
+    E_UP_COLLISION,
+    E_DOWN_COLLISION,
+    E_LEFT_COLLISION,
+    E_RIGHT_COLLISION,  
+    E_CENTER_COLLISION, 
 };
 
 //collision point

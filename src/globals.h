@@ -36,21 +36,28 @@
 #define DEBUG_FONT_COLOR        0
 #define DEBUG_FONT_BACK_COLOR   3
 
-//vector int16 object
+//vector int16 type
 typedef struct tVector
 {
     int16_t x;
     int16_t y;
 } tVector;
 
-//vector fixed object
+//line path vector type
+typedef struct tLinePath
+{
+    tVector start;
+    tVector end;
+} tLinePath;
+
+//vector fixed type
 typedef struct tFixVector
 {
     fixed x;
     fixed y;
 } tFixVector;
 
-//rectangle object
+//rectangle type
 typedef struct tRectangle
 {
     tVector pos;

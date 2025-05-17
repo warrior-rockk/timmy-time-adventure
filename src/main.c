@@ -144,7 +144,7 @@ void create_level()
     entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, NULL, NULL, &player_update);
     
     //test objects
-    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY | E_SOLID_PROPERTY, &object_init, &object_create, &object_update);
+    entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
     entity_create((tVector){50,120}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, 0x00, &object_init, &object_create, &object_update);
     entity_create((tVector){100,160}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
     entity_create((tVector){30,120}, load_bmp("res/object.bmp",NULL), E_GEM_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
