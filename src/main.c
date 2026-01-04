@@ -40,7 +40,7 @@ int main()
     
     set_color_depth(8);
 
-    if (set_gfx_mode(GFX_AUTODETECT, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
+    if (set_gfx_mode(GFX_VGA, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
     {
         if (set_gfx_mode(GFX_SAFE, SCREEN_X, SCREEN_Y, 0, 0) != 0) 
         {
