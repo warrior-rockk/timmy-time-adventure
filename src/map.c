@@ -64,7 +64,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll)
 //checks if position exists on tile maps
 uint16_t map_tile_exists(tVector *checkPosition)
 {
-	return (checkPosition->x / TILE_W) < level.numTilesX && (checkPosition->y / TILE_H) < level.numTilesY && checkPosition->x >= 0 && checkPosition->y >= 0;
+	return false;
+    //return (checkPosition->x / TILE_W) < level.numTilesX && (checkPosition->y / TILE_H) < level.numTilesY && checkPosition->x >= 0 && checkPosition->y >= 0;
 }
 
 //gets map tile code

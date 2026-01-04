@@ -37,7 +37,7 @@ uint16_t get_collision_point_index_by_entId(uint16_t entityId)
             return i;
     }
 }
-
+/*
 //Funcion que devuelve,dado un vector, el numero de pixeles en x hasta la colision, o -1 si no hay
 //dado una entidad, un vector de comprobacion y el punto de colision a chequear
 int16_t colCheckVectorX(tEntity idEntity, tLinePath *linePath, uint16_t colCode)
@@ -85,7 +85,9 @@ int16_t colCheckVectorX(tEntity idEntity, tLinePath *linePath, uint16_t colCode)
 	//no collision
 	return -1; 	
 }
+*/
 
+/*
 int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 
     tLinePath colLinePath;	//Collision path line to check
@@ -107,12 +109,12 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     //=====================
     
     // TODO: desactivamos puntos de control inferiores si estamos en rampa
-    /*
+    
     if (cSlopesEnabled)
         entity->this.colPoint[LEFT_DOWN_POINT].enabled  = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_135;
         entity->this.colPoint[RIGHT_DOWN_POINT].enabled = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_45;
     end;
-    */
+    
 
     //check if collision point is horizontal
     if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_RIGHT_COLLISION || entColPointsList[entIndex].colPoint[pointNum].colCode == E_LEFT_COLLISION )
@@ -226,7 +228,7 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 
    
 }
-
+*/
 void collision_create_entity_points(tEntity *entity)
 {	
     //inc number on entities with collision points
