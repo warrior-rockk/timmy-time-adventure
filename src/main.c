@@ -141,7 +141,7 @@ END_OF_MAIN()
 void create_level()
 {
     //player    
-    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, NULL, NULL, &player_update);
+    entity_create((tVector){16,10}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, &player_init, NULL, &player_update);
     
     //test objects
     entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);

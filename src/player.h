@@ -7,5 +7,6 @@
 #ifndef _H_PLAYER_
 #define _H_PLAYER_
 
+void player_init();
 void player_update();
 #endif

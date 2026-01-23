@@ -11,6 +11,23 @@
 #include "globals.h"
 #include "entity.h"
 
+#define PLAYER_MAX_FRAMES   50
+#define PLAYER_W            28
+#define PLAYER_H            43
+
+BITMAP *playerSpriteSheet;
+BITMAP *playerFrames[PLAYER_MAX_FRAMES];
+
+void player_init()
+{
+    //load player spriteSheet
+    playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
+    for (uint8_t i = 0; i < PLAYER_MAX_FRAMES; i++)
+    {
+        playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_W, 0, PLAYER_W, PLAYER_H);
+    }
+}
+
 void player_update(tEntity *player)
 {
     fixed accel_x = ftofix(0.06);
@@ -66,4 +83,7 @@ void player_update(tEntity *player)
     player->pos.y = fixtoi(player->fixPos.y);
 
     //check collisions
+
+    //update frame
+    player->img = playerFrames[0];
 }
