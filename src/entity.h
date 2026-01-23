@@ -21,6 +21,13 @@ enum E_ENTITY_PROPERTIES
 //    E_PERSISTENT                = 0x04,
 };
 
+//entities direction (for drawing)
+enum E_ENTITY_DIR
+{
+    E_ENT_DIR_RIGHT,
+    E_ENT_DIR_LEFT,
+};
+
 //entity object
 typedef struct tEntity
 {
@@ -36,6 +43,7 @@ typedef struct tEntity
     uint8_t entType;        //entity type
     uint8_t entInstance;    //entity instance of type
     uint16_t properties;    //entity properties
+    enum E_ENTITY_DIR dir;  //entity direction
     bool dead;              //dead flag
     bool visible;           //visible flag
     bool ground;            //ground flag

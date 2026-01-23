@@ -17,8 +17,9 @@
 
 BITMAP *playerSpriteSheet;
 BITMAP *playerFrames[PLAYER_MAX_FRAMES];
+tAnimation playerAnim;
 
-void player_init()
+void player_init(tEntity *player)
 {
     //load player spriteSheet
     playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
@@ -26,6 +27,11 @@ void player_init()
     {
         playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_W, 0, PLAYER_W, PLAYER_H);
     }
+
+    player->state = ST_PLAYER_IDLE;
+    player->size.x = PLAYER_W;
+    player->size.y = PLAYER_H;
+    player->dir = E_ENT_DIR_RIGHT;
 }
 
 void player_update(tEntity *player)
@@ -37,6 +43,10 @@ void player_update(tEntity *player)
     fixed accel_y = ftofix(4.0);        //jump acceleration
     fixed max_vel_x = ftofix(1.0);
     fixed max_vel_y = ftofix(6);
+    
+    const fixed cMinVelToIdle = ftofix(0.1);
+    
+
 
     int16_t floor = 160;
     
@@ -44,11 +54,17 @@ void player_update(tEntity *player)
 
     //update controls
     if (key[KEY_RIGHT] && player->fixVel.x < max_vel_x)
+    {
         //player->vX+= fixmul(accel_x, (itofix(1) - friction));
         player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
+        player->dir = E_ENT_DIR_RIGHT;
+    }
 
     if (key[KEY_LEFT] && player->fixVel.x > -max_vel_x)
+    {
         player->fixVel.x-= fixmul(accel_x, ftofix(deltaTime));
+        player->dir = E_ENT_DIR_LEFT;
+    }
 
     if (key[KEY_Z] && player->ground)
     {
@@ -84,6 +100,42 @@ void player_update(tEntity *player)
 
     //check collisions
 
+    //update state
+    player->prevState = player->state;    
+    if (!player->ground == true)
+    {
+        player->state = ST_PLAYER_JUMP;
+    }
+    else if (abs(player->fixVel.x) > cMinVelToIdle)
+    {
+        player->state = ST_PLAYER_RUN;
+    }
+    else
+    {
+        player->state = ST_PLAYER_IDLE;
+    }
+
     //update frame
-    player->img = playerFrames[0];
+    switch (player->state)
+    {
+        case ST_PLAYER_IDLE:
+            play_animation(&playerAnim, ANIM_PLY_BREATH);            
+        break;
+        case ST_PLAYER_RUN:
+            play_animation(&playerAnim, ANIM_PLY_RUN);
+        break;
+        case ST_PLAYER_JUMP:
+            if (player->fixVel.y < 0)
+                if (abs(player->fixVel.x) > cMinVelToIdle)
+                    play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_UP);
+                else
+                    play_animation(&playerAnim, ANIM_PLY_JUMP_UP);
+            else
+                if (abs(player->fixVel.x) > cMinVelToIdle)
+                    play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_DOWN);
+                else
+                    play_animation(&playerAnim, ANIM_PLY_JUMP_DOWN);
+        break;
+    }
+    player->img = playerFrames[playerAnim.frame];    
 }
