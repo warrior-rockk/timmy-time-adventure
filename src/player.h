@@ -11,12 +11,12 @@
 
 //player animations
 #define ANIM_PLY_IDLE                0,   0,     10, ANIM_ONCE
-#define ANIM_PLY_BREATH             24,  27,     10, ANIM_LOOP
+#define ANIM_PLY_BREATH             24,  27,     30, ANIM_PING_PONG
 #define ANIM_PLY_RUN                 1,   6,     10, ANIM_LOOP
 #define ANIM_PLY_JUMP_UP            10,  11,     10, ANIM_ONCE
 #define ANIM_PLY_JUMP_DOWN          12,  13,     10, ANIM_ONCE
 #define ANIM_PLY_JUMP_RUN_UP        17,  18,     10, ANIM_ONCE
-#define ANIM_PLY_JUMP_RUN_DOWN      19,  20,     20, ANIM_ONCE
+#define ANIM_PLY_JUMP_RUN_DOWN      19,  21,     30, ANIM_ONCE
 #define ANIM_PLY_CROUCH              8,   9,     5, ANIM_ONCE
 
 enum ePlayerState
