@@ -45,7 +45,7 @@ void player_update(tEntity *player)
     fixed max_vel_y = ftofix(6);
     
     const fixed cMinVelToIdle = ftofix(0.1);
-    
+    uint8_t playerCrouched = false;
 
 
     int16_t floor = 160;
@@ -71,6 +71,11 @@ void player_update(tEntity *player)
         player->fixVel.y = -accel_y;
         player->jump = true;
         player->ground = false;
+    }
+
+    if (key[KEY_DOWN])
+    {
+        playerCrouched = true;
     }
 
     //update vels
@@ -110,6 +115,8 @@ void player_update(tEntity *player)
     {
         player->state = ST_PLAYER_RUN;
     }
+    else if (playerCrouched)
+        player->state = ST_PLAYER_CROUCHED;
     else
     {
         player->state = ST_PLAYER_IDLE;
@@ -135,6 +142,9 @@ void player_update(tEntity *player)
                     play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_DOWN);
                 else
                     play_animation(&playerAnim, ANIM_PLY_JUMP_DOWN);
+        break;
+        case ST_PLAYER_CROUCHED:
+            play_animation(&playerAnim, ANIM_PLY_CROUCH);
         break;
     }
     player->img = playerFrames[playerAnim.frame];    
