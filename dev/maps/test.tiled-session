@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "testTileset.tsx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "."
     ],
@@ -12,16 +12,16 @@
             "scale": 1.19677734375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 256.10444716442265,
-                "y": 103.61158710730314
+                "x": 256.1044471644227,
+                "y": 103.19379844961242
             }
         },
         "testMap.tmx": {
             "scale": 1.447265625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 243.56275303643721,
-                "y": 207.9784075573549
+                "x": 210.39676113360323,
+                "y": 143.71929824561403
             }
         },
         "testTileset.tsx": {
@@ -32,17 +32,17 @@
     },
     "last.exportedFilePath": "/Users/warrior",
     "last.imagePath": "/Users/warrior/code/dos/projects/dos-platform-game/res/tiles",
+    "map.fixedSize": false,
     "map.height": 32,
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedExportFilter": "Tiled map files (*.tmx *.xml)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 13,
     "openFiles": [
-        "testMap.tmx",
-        "testTileset.tsx"
     ],
     "project": "test.tiled-project",
+    "property.type": "object",
     "recentFiles": [
         "testMap.tmx",
         "testTileset.tsx",
