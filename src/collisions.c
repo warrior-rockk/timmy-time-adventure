@@ -251,7 +251,7 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         colLinePath.start.x = entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x;
         colLinePath.end.x   = colLinePath.start.x;
         colLinePath.start.y = entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y;
-        colLinePath.end.y   = colLinePath.start.y + fixtoi(entity->fixVel.y);
+        colLinePath.end.y   = fixtoi(fixadd(entity->fixPos.y, entity->fixVel.y)) + entColPointsList[entIndex].colPoint[pointNum].offset.y; //colLinePath.start.y + fixtoi(entity->fixVel.y);
         
         //TRACE("sx: %i ex: %i sy: %i ey: %i \n", colLinePath.start.x, colLinePath.end.x, colLinePath.start.y, colLinePath.end.y);
 
