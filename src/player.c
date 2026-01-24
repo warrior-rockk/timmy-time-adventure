@@ -97,19 +97,15 @@ void player_update(tEntity *player)
     
     //check collisions
     player->ground = false;
-    //Recorremos la lista de puntos a comprobar
-    //for (i=0;i<cNumColPoints;i++)
-        
-        //lanzamos comprobacion de terreno con los puntos de colision
-        int16_t colDir = collision_check_tile(player, DOWN_R_POINT);        
-        //aplicamos la direccion de la colision
+    
+    //run the entity collision points
+    for (uint8_t i; i < NUM_COL_POINTS; i++)
+    {        
+        //check collision tile for collision point
+        int16_t colDir = collision_check_tile(player, i);        
+        //apply collision direction
         applyDirCollision(player, colDir);
-        
-        colDir = collision_check_tile(player, RIGHT_DOWN_POINT);        
-        //aplicamos la direccion de la colision
-        applyDirCollision(player, colDir);
-    //end;
-
+    }
 
     //apply velocity
     player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));

@@ -345,53 +345,53 @@ void collision_create_entity_points(tEntity *entity)
         uint16_t newEntityColPoints = numEntitiesColPoints - 1;
         
         entColPointsList[newEntityColPoints].entId = entity->id;
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= (entity->size.x >> 1) - 1;
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y 			= -(entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= (entity->img->w>>1) + (entity->size.x>>1) - 1;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y 			= entity->size.y / 4;  
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].enabled 	        = true;
         
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= entity->size.x - 1;  //(entity->size.x >> 1) - 1;
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = entity->size.y - (entity->size.y / 4);  //(entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = entity->size.y - (entity->size.y / 4);  
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].colCode         = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].enabled         = true;
         
-        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.x 		    = -(entity->size.x >> 1);
-        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.y 		    = -(entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.x 		    = (entity->img->w>>1) - (entity->size.x>>1) + 1;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.y;
         entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].colCode            = E_LEFT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].enabled            = true;
         
-        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.x 		= -(entity->size.x >> 1);
-        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.y 		= (entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.x 		= entColPointsList[newEntityColPoints].colPoint[LEFT_UP_POINT].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].offset.y 		= entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y;
         entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].colCode          = E_LEFT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[LEFT_DOWN_POINT].enabled          = true;
         
-        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.x 		    = entity->size.x - (entity->size.x / 4); //(entity->size.x / 4);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.x 		    = (entity->img->w>>1) + (entity->size.x / 4); 
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.y 		    = entity->size.y;
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].colCode             = E_DOWN_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].enabled             = true;
         
-        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.x 		    = -(entity->size.x / 4);
-        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.y 		    = (entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.x 		    = (entity->img->w>>1) - (entity->size.x / 4);  
+        entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.y;
         entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].colCode             = E_DOWN_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].enabled             = true;
         
-        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.x 		        = (entity->size.x / 4);
-        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.y 		        = -(entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[DOWN_R_POINT].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.y 		        = 0;
         entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].colCode               = E_UP_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].enabled               = true;
         
-        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.x 		        = -(entity->size.x / 4);
-        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.y 		        = -(entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[DOWN_L_POINT].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].offset.y 		        = entColPointsList[newEntityColPoints].colPoint[UP_R_POINT].offset.y;
         entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].colCode               = E_UP_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[UP_L_POINT].enabled               = true;
         
-        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.x 		    = 0;
-        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.y 		    = 0;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.x 		    = (entity->img->w>>1);
+        entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.y 		    = (entity->size.y>>1);
         entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].colCode             = E_CENTER_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].enabled             = false;
         
-        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.x 		= 0;
-        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.y 		= (entity->size.y >> 1);
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.x 		= entColPointsList[newEntityColPoints].colPoint[CENTER_POINT].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].offset.y 		= entity->size.y;
         entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].colCode        = E_CENTER_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[CENTER_DOWN_POINT].enabled        = false;
 
