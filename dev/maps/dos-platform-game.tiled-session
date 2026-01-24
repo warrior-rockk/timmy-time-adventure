@@ -20,8 +20,8 @@
             "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 245.66666666666666,
-                "y": -184.16666666666666
+                "x": 243.33333333333331,
+                "y": -187.49999999999997
             }
         },
         "testLevel.tmx#Sprite": {
@@ -30,6 +30,11 @@
         },
         "testLevel.tmx#testLevel": {
             "scaleInDock": 1
+        },
+        "testRocks.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "testTileset.tsx": {
             "dynamicWrapping": true,
@@ -40,8 +45,8 @@
     "last.imagePath": "/Users/warrior/Downloads",
     "map.fixedSize": false,
     "map.height": 13,
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
-    "map.lastUsedFormat": "tmx",
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 16,
@@ -51,9 +56,11 @@
     "project": "dos-platform-game.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "testRocks.tsx",
         "testLevel.tmx"
     ],
     "tileset.embedInMap": true,
+    "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 16,
         "width": 16
