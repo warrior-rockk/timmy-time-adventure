@@ -105,7 +105,7 @@ void player_update(tEntity *player)
         //aplicamos la direccion de la colision
         applyDirCollision(player, colDir);
         
-        colDir = collision_check_tile(player, DOWN_R_POINT);        
+        colDir = collision_check_tile(player, RIGHT_DOWN_POINT);        
         //aplicamos la direccion de la colision
         applyDirCollision(player, colDir);
     //end;
