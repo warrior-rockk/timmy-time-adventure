@@ -212,9 +212,9 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     {    
         //Set the path collision line to check
         colLinePath.start.x = entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x;
-        colLinePath.end.x   = colLinePath.start.x + fixtoi(entity->fixVel.x);
+        colLinePath.end.x   = fixtoi(fixadd(entity->fixPos.x, entity->fixVel.x)) + entColPointsList[entIndex].colPoint[pointNum].offset.x; //colLinePath.start.x + fixtoi(entity->fixVel.x);
         colLinePath.start.y = entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y;
-        colLinePath.end.y   = colLinePath.start.y + fixtoi(entity->fixVel.y);
+        colLinePath.end.y   = fixtoi(fixadd(entity->fixPos.y, entity->fixVel.y)) + entColPointsList[entIndex].colPoint[pointNum].offset.y; //colLinePath.start.y + fixtoi(entity->fixVel.y);
         
         //calls the collision check line path
         distColX = colCheckVectorX(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
