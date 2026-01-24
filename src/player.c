@@ -96,15 +96,18 @@ void player_update(tEntity *player)
     }*/
     
     //check collisions
+    player->ground = false;
     //Recorremos la lista de puntos a comprobar
     //for (i=0;i<cNumColPoints;i++)
         
         //lanzamos comprobacion de terreno con los puntos de colision
-        int16_t colDir = collision_check_tile(player, DOWN_R_POINT);
-        TRACE("COLDIR %i VELY %i\n", colDir, fixtoi(player->fixVel.y));
+        int16_t colDir = collision_check_tile(player, DOWN_R_POINT);        
         //aplicamos la direccion de la colision
         applyDirCollision(player, colDir);
         
+        colDir = collision_check_tile(player, DOWN_R_POINT);        
+        //aplicamos la direccion de la colision
+        applyDirCollision(player, colDir);
     //end;
 
 
