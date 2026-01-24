@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "collisions.h"
 #include "map.h"
+#include "globals.h"
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
@@ -68,7 +69,11 @@ int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
 				//if (checkTileCode(idEntity,colCode,linePath.vStart.y/cTileSize,linePath.vStart.x/cTileSize))
 				//{
                     //if(map_get_pixel(0,mapBox,(linePath.vStart.x%cTileSize),(linePath.vStart.y%cTileSize)) <> 0)
-						return dist;
+				
+                show_debug("tilecode: %i, dist: %i", map_get_tile_code(&linePath->start), dist);		
+                return dist;
+                        
+                        
                 //}
             }
         }
@@ -221,7 +226,7 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_RIGHT_COLLISION) 
             {
                 //position entity to edge of collision
-                entity->fixPos.x += distColX - 1;           	
+                entity->fixPos.x += itofix(distColX - 1);                
                 colDir = E_RIGHT_COLLISION;
                 
             }
@@ -229,7 +234,7 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_LEFT_COLLISION) 			
             {
                 //position entity to edge of collision
-                entity->fixPos.x -= distColX - 1;           	
+                entity->fixPos.x -= itofix(distColX - 1);           	
                 colDir = E_LEFT_COLLISION;
             }
         }  
@@ -260,7 +265,7 @@ int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_DOWN_COLLISION && fixtoi(entity->fixVel.y) >=0)
             { 
                 //adjust the entity to border of collision
-                entity->fixPos.x += itofix(distColY);                
+                entity->fixPos.y += itofix(distColY);                
                 colDir = E_DOWN_COLLISION;
                 
                 //TODO: slopes

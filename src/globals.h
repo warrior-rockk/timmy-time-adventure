@@ -29,7 +29,7 @@
 #endif
 
 //Debug
-#define DEBUG_MAX_MSGS          10
+#define DEBUG_MAX_MSGS          16
 #define DEBUG_MSG_MAX_CHARS     50
 #define DEBUG_Y                 0
 #define DEBUG_FONT_HEIGHT       8

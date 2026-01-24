@@ -114,8 +114,9 @@ void player_update(tEntity *player)
     //apply velocity
     player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));
     if (player->ground)
-        player->fixVel.y = 0;    
-    player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
+        player->fixVel.y = 0;  
+    else  
+        player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
 
     //update position
     player->pos.x = fixtoi(player->fixPos.x);
