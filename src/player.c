@@ -121,7 +121,6 @@ void player_update(tEntity *player)
     player->pos.x = fixtoi(player->fixPos.x);
     player->pos.y = fixtoi(player->fixPos.y);
     
-
     //update state
     player->prevState = player->state;    
     if (!player->ground == true)
@@ -164,5 +163,6 @@ void player_update(tEntity *player)
             play_animation(&playerAnim, ANIM_PLY_CROUCH);
         break;
     }
-    player->img = playerFrames[playerAnim.frame];    
+    
+    player->img = playerFrames[playerAnim.frame];       
 }

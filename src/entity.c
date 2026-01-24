@@ -19,6 +19,21 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
         else
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
+    
+    
+    tColPoint *entPoint;
+    for (uint8_t i; i < NUM_COL_POINTS; i++)
+    {
+        entPoint = collision_get_ent_collision_point(entity, i);
+        if (entPoint->enabled)  
+        {
+            putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
+        }
+        else
+        {
+            putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
+        }  
+    }
 }
 
 //public functions

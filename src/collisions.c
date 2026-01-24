@@ -38,6 +38,13 @@ uint16_t get_collision_point_index_by_entId(uint16_t entityId)
     }
 }
 
+tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
+{
+    uint16_t entIndex = get_collision_point_index_by_entId(entity->id);
+
+    return &entColPointsList[entIndex].colPoint[numPoint];
+}
+
 //Funcion que devuelve,dado un vector, el numero de pixeles en x hasta la colision, o -1 si no hay
 //dado una entidad, un vector de comprobacion y el punto de colision a chequear
 int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
@@ -338,8 +345,8 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].colCode 	        = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].enabled 	        = true;
         
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= (entity->size.x >> 1) - 1;
-        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = (entity->size.y / 4);
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.x 		= entity->size.x - 1;  //(entity->size.x >> 1) - 1;
+        entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].offset.y 	    = entity->size.y - (entity->size.y / 4);  //(entity->size.y / 4);
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].colCode         = E_RIGHT_COLLISION;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_DOWN_POINT].enabled         = true;
         
