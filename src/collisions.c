@@ -349,7 +349,7 @@ void collision_create_entity_points(tEntity *entity)
         uint8_t halfSizeX       = entity->size.x>>1;
         uint8_t halfSizeY       = entity->size.y>>1;
         uint8_t dividedSizeX    = entity->size.x / 4; 
-        uint8_t dividedSizeY    = entity->size.y / 4;
+        uint8_t dividedSizeY    = entity->size.y / 6;
         
         entColPointsList[newEntityColPoints].entId = entity->id;
         entColPointsList[newEntityColPoints].colPoint[RIGHT_UP_POINT].offset.x 			= halfImgWidth + halfSizeX - 1;
