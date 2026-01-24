@@ -18,28 +18,28 @@
 //Puntos de colision
 //los puntos laterales deben estar primero de los inferiores/superiores
 //para el buen funcionamiento de la deteccion de obstaculos
-enum colPoints {
-    RIGHT_UP_POINT,
-    RIGHT_DOWN_POINT,
-    LEFT_UP_POINT,
-    LEFT_DOWN_POINT,
-    DOWN_L_POINT,
-    DOWN_R_POINT,
-    UP_L_POINT,
-    UP_R_POINT,
-    CENTER_POINT,
-    CENTER_DOWN_POINT,
+enum eColPoints {
+    COLPOINT_RIGHT_UP,
+    COLPOINT_RIGHT_DOWN,
+    COLPOINT_LEFT_UP,
+    COLPOINT_LEFT_DOWN,
+    COLPOINT_DOWN_L,
+    COLPOINT_DOWN_R,
+    COLPINT_UP_L,
+    COLPOINT_UP_R,
+    COLPOINT_CENTER,
+    COLPOINT_CENTER_DOWN,
     NUM_COL_POINTS  //counter
 };
 
 //collision direction codes
-enum colCodes{
-    E_NO_COLLISION,
-    E_UP_COLLISION,
-    E_DOWN_COLLISION,
-    E_LEFT_COLLISION,
-    E_RIGHT_COLLISION,  
-    E_CENTER_COLLISION, 
+enum eColCodes{
+    E_COLLISION_NONE,
+    E_COLLISION_UP,
+    E_COLLISION_DOWN,
+    E_COLLISION_LEFT,
+    E_COLLISION_RIGHT,  
+    E_COLLISION_CENTER, 
 };
 
 //checkVectorY modes
@@ -52,7 +52,7 @@ enum eCheckVectorYModes{
 typedef struct tColPoint
 {
     tVector offset;                 //Vector de offset a sumar a la posicion del objeto
-    enum colCodes colCode;			//Codigo del punto de colision
+    enum eColCodes colCode;			//Codigo del punto de colision
 	bool enabled;			        //Habilitacion del punto de colision
 } tColPoint;
 
@@ -63,7 +63,6 @@ typedef struct tEntColPoints
     tColPoint colPoint[NUM_COL_POINTS];     //array of collision points
 } tEntColPoints;
 
-
 //inits collision system
 void collision_system_init();
 //destroys collision system
@@ -72,14 +71,11 @@ void collision_system_destroy();
 void collision_create_entity_points(tEntity *entity);
 //function to destroy entity collision points by id
 void collision_destroy_entity_points(uint16_t entityId);
-
-
+//function to get a collision point
 tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
-
-//Funcion de colision con tile segun mapa de durezas segun su punto de colision
-//Posiciona el objeto en el borde del tile y devuelve un int con el sentido de la colision o 0 si no lo hay
+//function to check entity collision with tilemap
 int16_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
-//funcion que aplica la direccion de la colision en el objeto
+//function to apply the direction of the collision to an entity
 void applyDirCollision(tEntity *entity, int16_t colDir);
-void debugColPoint(BITMAP *bmp, tEntity *entity, uint8_t numPoint);
+
 #endif
