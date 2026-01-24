@@ -42,6 +42,12 @@ enum colCodes{
     E_CENTER_COLLISION, 
 };
 
+//checkVectorY modes
+enum eCheckVectorYModes{
+    E_CHECK_VECTOR_Y_FROM_COLLISION,        //check pixels to exit collision
+    E_CHECK_VECTOR_Y_TO_COLLISION,          //check pixel to reach collision
+};
+
 //collision point
 typedef struct tColPoint
 {
@@ -71,6 +77,7 @@ void collision_destroy_entity_points(uint16_t entityId);
 //Funcion de colision con tile segun mapa de durezas segun su punto de colision
 //Posiciona el objeto en el borde del tile y devuelve un int con el sentido de la colision o 0 si no lo hay
 int16_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
-
+//funcion que aplica la direccion de la colision en el objeto
+void applyDirCollision(tEntity *entity, int16_t colDir);
 
 #endif

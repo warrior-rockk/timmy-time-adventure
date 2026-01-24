@@ -40,7 +40,7 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
+int16_t entity_create(tVector initPos, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
     numEntities++;
@@ -64,8 +64,7 @@ int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t pr
         entityList[newEntity].fixVel.x        = 0;
         entityList[newEntity].fixVel.y        = 0;
         entityList[newEntity].img             = img;
-        entityList[newEntity].size.x          = img->w;
-        entityList[newEntity].size.y          = img->h;
+        entityList[newEntity].size            = size;        
         entityList[newEntity].state           = 0;
         entityList[newEntity].prevState       = 0;
         entityList[newEntity].entType         = entType;

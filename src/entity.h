@@ -61,7 +61,7 @@ void entity_system_destroy();
 //adds entity object to entity list
 void entity_add(tEntity entity);
 //creates a new entity. Returns entity number
-int16_t entity_create(tVector initPos, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity));
+int16_t entity_create(tVector initPos, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity));
 //returns entity based on entity number
 tEntity* get_entity(uint16_t numEntity);
 //calls the init function on all entitites
