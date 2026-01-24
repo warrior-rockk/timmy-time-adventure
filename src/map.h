@@ -11,7 +11,8 @@
 #include "globals.h"
 #include "scroll.h"
 
-#define NUM_TILES       3
+#define NUM_TILES       30
+#define TILES_ROW       6
 #define TILE_W          16
 #define TILE_H          16
 

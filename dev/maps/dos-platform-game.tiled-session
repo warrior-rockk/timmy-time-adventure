@@ -17,22 +17,27 @@
             "scaleInDock": 1
         },
         "testLevel.tmx": {
-            "scale": 1.5355,
+            "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 77.82481276457182,
-                "y": 44.28524910452623
+                "x": 245.66666666666666,
+                "y": -184.16666666666666
             }
+        },
+        "testLevel.tmx#Sprite": {
+            "dynamicWrapping": false,
+            "scaleInDock": 3
         },
         "testLevel.tmx#testLevel": {
             "scaleInDock": 1
         },
         "testTileset.tsx": {
-            "scaleInDock": 1
+            "dynamicWrapping": true,
+            "scaleInDock": 3
         }
     },
     "last.exportedFilePath": "/Users/warrior/code/dos/projects/dos-platform-game/dev/maps",
-    "last.imagePath": "/Users/warrior/code/dos/projects/dos-platform-game/res/tiles",
+    "last.imagePath": "/Users/warrior/Downloads",
     "map.fixedSize": false,
     "map.height": 13,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -49,5 +54,9 @@
         "testLevel.tmx"
     ],
     "tileset.embedInMap": true,
-    "tileset.type": 1
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 0
 }

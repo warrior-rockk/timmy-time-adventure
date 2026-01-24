@@ -54,7 +54,7 @@ int main()
 
     /* set the color palette */
     //temporaly
-    free(load_bmp("res/tiles/001.bmp", desktop_palette));
+    free(load_bmp("res/tiles/tsheet.bmp", desktop_palette));
     set_palette(desktop_palette);
     
     //initialize buffer screen
