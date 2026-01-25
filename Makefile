@@ -42,7 +42,7 @@ RELEASE_RES_DIR		:= ${RELEASE_BIN_DIR}/res/
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
 #$(call rwildcard,${RESOURCES_DIR},*.png) $(call rwildcard,${RESOURCES_DIR},*.ttf)
-RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp)
+RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) $(call rwildcard,${RESOURCES_DIR},*.bin)
 DEBUG_OBJS 			:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${DEBUG_OBJS_DIR}%.o, ${SRCS})
 DEBUG_RESOURCES		:= ${patsubst ${RESOURCES_DIR}%, ${DEBUG_RES_DIR}%,${RESOURCES}}
 RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${SRCS})
@@ -106,7 +106,7 @@ ${RELEASE_RES_DIR}%: ${RESOURCES_DIR}%
 
 #run targets
 run_debug: debug
-	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
+	cd ${DEBUG_BIN_DIR} && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -noconsole
 run_release: release
 	cd ${RELEASE_BIN_DIR} && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 

@@ -4,10 +4,21 @@
 * 11/05/2025
 * Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "map.h"
 
 static tVector mapLimit;
+
+// Definimos una estructura para el encabezado del mapa
+typedef struct {
+    uint16_t tile_width;
+    uint16_t tile_height;
+    uint16_t map_width;
+    uint16_t map_height;
+} MapHeader;
+
+uint8_t *tile_array;
 
 static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
 {
@@ -42,6 +53,42 @@ void map_load(tVector mapLimits)
     }
 
     mapLimit = mapLimits;
+
+    //load map file
+    FILE *file = fopen("res/maps/level.bin", "rb");
+    if (!file) {
+        abort_on_error("Error al abrir el archivo");
+    }
+
+    //read map file header
+    MapHeader header;
+    if (fread(&header, sizeof(MapHeader), 1, file) != 1) {
+        fclose(file);
+        abort_on_error("Error al leer el encabezado.\n");
+    }
+
+    //test
+    TRACE("Tile dimensions: %u x %u px\n", header.tile_width, header.tile_height);
+    TRACE("Map dimensions: %u x %u tiles\n", header.map_width, header.map_height);
+
+    //Calculate number of tiles and reservate memory
+    uint16_t total_tiles = header.map_width * header.map_height;
+    tile_array = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
+
+    if (tile_array == NULL) {
+        fclose(file);
+        abort_on_error("Error: No se pudo asignar memoria para %u tiles.\n", total_tiles);
+    }
+
+    //read the full tile array 
+    size_t read_count = fread(tile_array, sizeof(uint8_t), total_tiles, file);
+    if (read_count != total_tiles) {
+        abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
+    }
+
+    //TODO: clean
+    //free(tile_array);
+    fclose(file);
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll)
