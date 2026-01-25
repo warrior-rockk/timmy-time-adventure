@@ -18,8 +18,10 @@ typedef struct {
     uint16_t map_height;
 } MapHeader;
 
-uint8_t *tile_array;
+uint8_t *map;
+uint16_t mapWidth;
 
+/*
 static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
 {
     {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22},
@@ -35,7 +37,7 @@ static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
     {22,0,0,0,0,0,0,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,22},
     {22,0,0,0,0,0,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,22},
     {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22}
-};
+};*/
 
 void map_load(tVector mapLimits)
 {
@@ -71,17 +73,19 @@ void map_load(tVector mapLimits)
     TRACE("Tile dimensions: %u x %u px\n", header.tile_width, header.tile_height);
     TRACE("Map dimensions: %u x %u tiles\n", header.map_width, header.map_height);
 
+    mapWidth = header.map_width;
+
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = header.map_width * header.map_height;
-    tile_array = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
+    map = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
 
-    if (tile_array == NULL) {
+    if (map == NULL) {
         fclose(file);
         abort_on_error("Error: No se pudo asignar memoria para %u tiles.\n", total_tiles);
     }
 
     //read the full tile array 
-    size_t read_count = fread(tile_array, sizeof(uint8_t), total_tiles, file);
+    size_t read_count = fread(map, sizeof(uint8_t), total_tiles, file);
     if (read_count != total_tiles) {
         abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
     }
@@ -107,7 +111,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll)
     {
         for (int x = 0; x < mapLimit.x; x++)        
         {
-            tileNum = map[y + ty][x + tx];
+            //tileNum = map[y + ty][x + tx];
+            tileNum = map[((y + ty) * mapWidth) + x + tx];
 
             /* blit tile*/
             if (tileNum != 0)            
@@ -126,7 +131,8 @@ uint16_t map_tile_exists(tVector *checkPosition)
 //gets map tile code
 uint16_t map_get_tile_code(tVector *checkPosition)
 {
-    return map[checkPosition->y / TILE_H][checkPosition->x / TILE_W];
+    //return map[checkPosition->y / TILE_H][checkPosition->x / TILE_W];
+    return  map[((checkPosition->y / TILE_H) * mapWidth) + (checkPosition->x / TILE_W)];
 }
 
 //TODO: get pixel color of position's map
