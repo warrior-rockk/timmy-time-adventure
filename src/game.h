@@ -7,6 +7,16 @@
 #ifndef _H_GAME_
 #define _H_GAME_
 
+//game title and versioning
+#define GAME_TITLE              "Dos platform game"
+#define MAJOR_VERSION           0
+#define MINOR_VERSION           1
+
+//allegro engine
+#define ALLEGRO_USES_KEYBOARD   1
+#define ALLEGRO_USES_MOUSE      0
+#define ALLEGRO_USE_SOUND       0
+
 //SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
 #define SCREEN_X        320
 #define SCREEN_Y        200
