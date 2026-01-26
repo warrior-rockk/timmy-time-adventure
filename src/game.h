@@ -17,18 +17,21 @@
 #define ALLEGRO_USES_MOUSE      0
 #define ALLEGRO_USE_SOUND       0
 
-//SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen)
+//screen video dimensions
 #define SCREEN_X        320
 #define SCREEN_Y        200
 
+//game screen size (SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen))
 #define GAME_W          256
 #define GAME_H          208
 #define GAME_X          (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y          (SCREEN_H>>1) - (GAME_H>>1)
 
-#define PLAYER_ENTITY_ID    0
-
+//clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
+
+//position of player on entities array
+#define PLAYER_ENTITY_ID    0
 
 //game entity types
 enum E_ENTITY_TYPE
@@ -56,6 +59,13 @@ struct game
     uint8_t state;
     uint8_t prevState;
 } game;
+
+//level structure
+typedef struct tLevel
+{
+    uint16_t numTilesX;
+    uint16_t numTilesY;
+} tLevel;
 
 void game_init();
 void game_draw();

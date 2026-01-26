@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include "map.h"
 
-static tVector mapLimit;
-
 // Definimos una estructura para el encabezado del mapa
 typedef struct {
     uint16_t tile_width;
@@ -40,7 +38,7 @@ static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
     {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22}
 };*/
 
-void map_load(tVector mapLimits)
+void map_load()
 {
     //load tiles
     /*tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
@@ -54,8 +52,6 @@ void map_load(tVector mapLimits)
     {
         tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * TILE_H, (int)(i / TILES_ROW) * TILE_W, TILE_W, TILE_H);
     }
-
-    mapLimit = mapLimits;
 
     //load map file
     FILE *file = fopen("res/maps/level.bin", "rb");
@@ -96,7 +92,7 @@ void map_load(tVector mapLimits)
     fclose(file);
 }
 
-void map_draw(BITMAP *buffer, tScroll *scroll)
+void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
 {
     uint8_t tileNum;
     //int16_t lx = (GAME_W / TILE_W) + 1; //limit scroll x
@@ -105,12 +101,13 @@ void map_draw(BITMAP *buffer, tScroll *scroll)
     int16_t sy = scroll->pos.y % TILE_H; //tile pos y on scroll
     int16_t tx = scroll->pos.x / TILE_W; //tile num x on scroll
     int16_t ty = scroll->pos.y / TILE_H; //tile num y on scroll   
-
+    tVector screenLimit = {(screenSize.x / TILE_W) + 1, (screenSize.y / TILE_H)};
+    
     clear_to_color(buffer, 1);
 
-    for (int y = 0; y < mapLimit.y; y++)
+    for (int y = 0; y < screenLimit.y; y++)
     {
-        for (int x = 0; x < mapLimit.x; x++)        
+        for (int x = 0; x < screenLimit.x; x++)        
         {
             //tileNum = map[y + ty][x + tx];
             tileNum = map[((y + ty) * mapWidth) + x + tx];

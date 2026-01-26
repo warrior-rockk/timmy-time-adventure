@@ -26,6 +26,7 @@ RGB* gamePal;
 double deltaTime;
 bool gameExit = false;
 tScroll scroll;
+tLevel level;
 
 static void main_init();
 void create_level();
@@ -70,7 +71,7 @@ int main()
         {
             case E_LOAD_LEVEL_GAME_STATE:
                 create_level();
-                map_load((tVector){(GAME_W / TILE_W) + 1, (GAME_H / TILE_H)});
+                map_load();
                 game.state = E_INIT_LEVEL_GAME_STATE;
             break;
             case E_INIT_LEVEL_GAME_STATE:
@@ -82,7 +83,7 @@ int main()
                 entities_update(&scroll);
                 scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
-                map_draw(mapScreen, &scroll);
+                map_draw(mapScreen, &scroll, (tVector){GAME_W, GAME_H});
                 entities_draw(mapScreen, &scroll);
 
                 if (key[KEY_R])
