@@ -35,8 +35,6 @@ enum E_TILE_CODE
     E_SOLID_TILE_CODE =  0x01,
 };
 
-BITMAP *tiles[NUM_TILES];
-
 void map_load(tVector mapLimits);
 void map_draw(BITMAP *buffer, tScroll *scroll);
 

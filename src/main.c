@@ -23,7 +23,7 @@
 BITMAP *mapScreen;
 BITMAP *buffer;
 RGB* gamePal;
-
+double deltaTime;
 bool gameExit = false;
 tScroll scroll;
 

@@ -7,6 +7,16 @@
 #include <stdio.h>
 #include "globals.h"
 
+//debug structure
+#ifdef DEBUGMODE
+struct debug
+{
+    int16_t numMsgs;
+    char lineMsg[DEBUG_MAX_MSGS][DEBUG_MSG_MAX_CHARS];
+    bool showDebugInfo;
+} debug;
+#endif
+
 //clamp value between min and max
 int clamp(int value, int min, int max)
 {

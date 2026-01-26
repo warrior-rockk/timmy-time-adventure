@@ -6,9 +6,9 @@
 ********************************************************************/
 
 #include <stdint.h>
+#include "globals.h"
 #include "collisions.h"
 #include "map.h"
-#include "globals.h"
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points

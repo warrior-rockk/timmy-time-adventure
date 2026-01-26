@@ -5,6 +5,7 @@
 * Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #include <stdlib.h>
+#include "globals.h"
 #include "entity.h"
 #include "collisions.h"
 
@@ -102,8 +103,10 @@ int16_t entity_create(tVector initPos, tVector size, BITMAP *img, uint8_t entTyp
         return newEntity;
     }
     else
+    {
         abort_on_error("ERROR: Reached max. number of entities\n");
         return -1;
+    }
 }
 
 //function to return a entity

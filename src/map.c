@@ -20,6 +20,7 @@ typedef struct {
 
 uint8_t *map;
 uint16_t mapWidth;
+BITMAP *tiles[NUM_TILES];
 
 /*
 static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
