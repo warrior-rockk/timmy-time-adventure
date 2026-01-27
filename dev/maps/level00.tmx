@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
  <editorsettings>
   <export format="csv"/>
  </editorsettings>
  <tileset firstgid="1" source="testRocks.tsx"/>
- <layer id="1" name="Tile Layer 1" width="36" height="13">
+ <layer id="1" name="Tiles" width="36" height="13">
   <data encoding="csv">
 22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
 22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,22,
@@ -21,4 +21,11 @@
 22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
 </data>
  </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="1" name="player" x="48" y="176">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
