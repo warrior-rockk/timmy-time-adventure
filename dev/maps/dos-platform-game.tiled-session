@@ -54,7 +54,7 @@
     "map.fixedSize": false,
     "map.height": 13,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
-    "map.lastUsedFormat": "json",
+    "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 16,

@@ -54,7 +54,7 @@ void map_load()
     }
 
     //load map file
-    FILE *file = fopen("res/maps/level.bin", "rb");
+    FILE *file = fopen("res/maps/level00.bin", "rb");
     if (!file) {
         abort_on_error("Error al abrir el archivo");
     }
