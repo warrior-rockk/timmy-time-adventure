@@ -42,7 +42,7 @@ RELEASE_RES_DIR		:= ${RELEASE_BIN_DIR}/res/
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
 #$(call rwildcard,${RESOURCES_DIR},*.png) $(call rwildcard,${RESOURCES_DIR},*.ttf)
-RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) $(call rwildcard,${RESOURCES_DIR},*.bin)
+RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) #$(call rwildcard,${RESOURCES_DIR},*.bin)
 DEBUG_OBJS 			:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${DEBUG_OBJS_DIR}%.o, ${SRCS})
 DEBUG_RESOURCES		:= ${patsubst ${RESOURCES_DIR}%, ${DEBUG_RES_DIR}%,${RESOURCES}}
 RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${SRCS})
@@ -53,12 +53,23 @@ DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
+#test map generation
+MAPS_SRC_DIR = ./dev/maps
+MAPS_OUT_DIR = ${DEBUG_RES_DIR}maps
+# Buscamos todos los .tmx y definimos sus equivalentes .bin
+TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
+BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES))
+
 #all targets
 all: debug release
 
 #main targets
-debug: ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES}
+debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES)
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
+
+# Regla explícita para crear directorios
+directories:
+	@mkdir -p $(MAPS_OUT_DIR)	
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
@@ -74,6 +85,11 @@ ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS}
 ${DEBUG_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
 	mkdir -p ${DEBUG_OBJS_DIR}	
 	${CC} -x c -c -MD $< -o $@ ${DEBUG_CFLAGS}
+
+# REGLA CLAVE: Convertir .tmx a .bin
+$(MAPS_OUT_DIR)/%.bin: $(MAPS_SRC_DIR)/%.tmx | $(MAPS_OUT_DIR)
+	@echo "Convirtiendo mapa: $< -> $@"
+	python3 ./tools/tmx2bin.py $< $@
 
 #copy resources (debug)
 ${DEBUG_RES_DIR}%: ${RESOURCES_DIR}%
