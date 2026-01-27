@@ -9,12 +9,12 @@
 #include "map.h"
 
 // Definimos una estructura para el encabezado del mapa
-typedef struct {
+struct mapHeader{
     uint16_t tile_width;
     uint16_t tile_height;
     uint16_t map_width;
     uint16_t map_height;
-} MapHeader;
+} mapHeader;
 
 uint8_t *map;
 uint16_t mapWidth;
@@ -38,7 +38,7 @@ static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
     {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22}
 };*/
 
-void map_load()
+tVector map_load()
 {
     //load tiles
     /*tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
@@ -60,20 +60,20 @@ void map_load()
     }
 
     //read map file header
-    MapHeader header;
-    if (fread(&header, sizeof(MapHeader), 1, file) != 1) {
+    //MapHeader header;
+    if (fread(&mapHeader, sizeof(mapHeader), 1, file) != 1) {
         fclose(file);
         abort_on_error("Error al leer el encabezado.\n");
     }
 
     //test
-    TRACE("Tile dimensions: %u x %u px\n", header.tile_width, header.tile_height);
-    TRACE("Map dimensions: %u x %u tiles\n", header.map_width, header.map_height);
+    TRACE("Tile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
+    TRACE("Map dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
 
-    mapWidth = header.map_width;
+    mapWidth = mapHeader.map_width;
 
     //Calculate number of tiles and reservate memory
-    uint16_t total_tiles = header.map_width * header.map_height;
+    uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
     map = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
 
     if (map == NULL) {
@@ -90,6 +90,8 @@ void map_load()
     //TODO: clean
     //free(tile_array);
     fclose(file);
+
+    return (tVector){mapHeader.map_width, mapHeader.map_width};
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
@@ -123,7 +125,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
 uint16_t map_tile_exists(tVector *checkPosition)
 {
     //return (checkPosition->x / TILE_W) < level.numTilesX && (checkPosition->y / TILE_H) < level.numTilesY && checkPosition->x >= 0 && checkPosition->y >= 0;     
-    return (checkPosition->x / TILE_W) < MAP_TILE_W && (checkPosition->y / TILE_H) < MAP_TILE_H && checkPosition->x >= 0 && checkPosition->y >= 0;
+    return (checkPosition->x / TILE_W) < mapHeader.map_width && (checkPosition->y / TILE_H) < mapHeader.map_height && checkPosition->x >= 0 && checkPosition->y >= 0;
 }
 
 //gets map tile code

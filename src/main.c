@@ -55,9 +55,7 @@ int main()
 
     //initialize map bitmap
     mapScreen = create_bitmap(GAME_W, GAME_H);
-    //create scroll
-    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((MAP_TILE_W * TILE_W) - GAME_W) - 1,((MAP_TILE_H * TILE_H) - GAME_H) - 1});
-    scroll_init(&scroll);
+    
     
     //main loop
     while (!gameExit)
@@ -70,8 +68,11 @@ int main()
         switch(game.state)
         {
             case E_LOAD_LEVEL_GAME_STATE:
+                tVector mapLimits = map_load();
+                //create scroll
+                scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((mapLimits.x * TILE_W) - GAME_W) - 1,((mapLimits.y * TILE_H) - GAME_H) - 1});
+                scroll_init(&scroll);
                 create_level();
-                map_load();
                 game.state = E_INIT_LEVEL_GAME_STATE;
             break;
             case E_INIT_LEVEL_GAME_STATE:

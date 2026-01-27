@@ -16,8 +16,8 @@
 #define TILE_W          16
 #define TILE_H          16
 
-#define MAP_TILE_W      (256 / TILE_W) * 2
-#define MAP_TILE_H      (208 / TILE_H) * 1
+//#define MAP_TILE_W      (256 / TILE_W) * 2
+//#define MAP_TILE_H      (208 / TILE_H) * 1
 
 typedef struct tTile
 {
@@ -35,7 +35,7 @@ enum E_TILE_CODE
     E_SOLID_TILE_CODE =  0x01,
 };
 
-void map_load();
+tVector map_load();
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize);
 
 uint16_t map_tile_exists(tVector *checkPosition);
