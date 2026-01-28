@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 #include "allegro.h"
-#include "globals.h"
+#include "utils.h"
 #include "scroll.h"
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities

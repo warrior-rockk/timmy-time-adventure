@@ -8,7 +8,7 @@
 #define _H_MAP_
 
 #include "allegro.h"
-#include "globals.h"
+#include "utils.h"
 #include "scroll.h"
 
 #define NUM_TILES       30

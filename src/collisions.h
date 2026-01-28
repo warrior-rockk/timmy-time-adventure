@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include "allegro.h"
 
-#include "globals.h"
+#include "utils.h"
 #include "entity.h"
 
 #define ENTITY_MAX_NUM_COLLISION_POINTS     256

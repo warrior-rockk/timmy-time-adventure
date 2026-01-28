@@ -5,7 +5,8 @@
 * Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #include "allegro.h"
-#include "globals.h"
+#include "utils.h"
+#include "game.h"
 #include "objects.h"
 
 uint16_t numObjectInstances;        //num of object instances

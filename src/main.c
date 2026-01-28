@@ -10,7 +10,7 @@
 
 #include "allegro.h"
 
-#include "globals.h"
+#include "utils.h"
 #include "game.h"
 #include "timer.h"
 #include "entity.h"
@@ -19,6 +19,13 @@
 #include "collisions.h"
 #include "player.h"
 #include "objects.h"
+
+//game structure
+struct game
+{
+    uint8_t state;
+    uint8_t prevState;
+} game;
 
 BITMAP *mapScreen;
 BITMAP *buffer;

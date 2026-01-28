@@ -1,11 +1,11 @@
 /********************************************************************
-* Game Globals
+* Utils definitions
 *
-* 07/05/2025
-* Warcom Soft. - warrior.rockk@gmail.com 
+* 28/01/2026
+* Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
-#ifndef _H_GLOBALS_
-#define _H_GLOBALS_
+#ifndef _H_UTILS_
+#define _H_UTILS_
 
 #include <stdbool.h>
 #include "allegro.h"
@@ -21,7 +21,6 @@
 #define CLEAR_FLAG(data, bit)     ((data) &= ~((bit)))
 #define TOOGLE_FLAG(data, bit)    ((data) ^=  ((bit)))
 #define CHECK_FLAG(data, bit)     ((data) &   ((bit)))
-
 
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)    ASSERT(condition)
@@ -63,8 +62,6 @@ typedef struct tRectangle
     tVector pos;
     tVector size;
 } tRectangle;
-
-extern double deltaTime;
 
 //clamp value between min and max
 int clamp(int value, int min, int max);

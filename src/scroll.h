@@ -7,7 +7,7 @@
 #ifndef _H_SCROLL_
 #define _H_SCROLL_
 
-#include "globals.h"
+#include "utils.h"
 
 //scroll object
 typedef struct tScroll

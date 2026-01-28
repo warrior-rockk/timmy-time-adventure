@@ -8,7 +8,8 @@
 #include <math.h>
 #include "allegro.h"
 #include "player.h"
-#include "globals.h"
+#include "utils.h"
+#include "game.h"
 #include "entity.h"
 #include "collisions.h"
 

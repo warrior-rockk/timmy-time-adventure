@@ -6,7 +6,7 @@
 ********************************************************************/
 
 #include <stdint.h>
-#include "globals.h"
+#include "utils.h"
 #include "collisions.h"
 #include "map.h"
 

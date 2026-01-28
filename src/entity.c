@@ -5,7 +5,7 @@
 * Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
 #include <stdlib.h>
-#include "globals.h"
+#include "utils.h"
 #include "entity.h"
 #include "collisions.h"
 

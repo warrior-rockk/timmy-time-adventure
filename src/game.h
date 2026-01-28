@@ -53,19 +53,14 @@ enum E_GAME_STATE
     E_EXIT_GAME_STATE,
 };
 
-//game structure
-struct game
-{
-    uint8_t state;
-    uint8_t prevState;
-} game;
-
 //level structure
 typedef struct tLevel
 {
     uint16_t numTilesX;
     uint16_t numTilesY;
 } tLevel;
+
+extern double deltaTime;
 
 void game_init();
 void game_draw();

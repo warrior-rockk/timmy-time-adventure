@@ -1,11 +1,11 @@
 /********************************************************************
-* Game Globals
+* Utilities code
 *
-* 07/05/2025
-* Warcom Soft. - warrior.rockk@gmail.com 
+* 28/01/2026
+* Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
 #include <stdio.h>
-#include "globals.h"
+#include "utils.h"
 
 //debug structure
 #ifdef DEBUGMODE
