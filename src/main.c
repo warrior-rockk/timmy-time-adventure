@@ -36,8 +36,14 @@ tScroll scroll;
 tLevel level;
 
 static void main_init();
-void create_level();
-void destroy_level();
+
+static void game_init();
+static void game_load_level();
+static void game_draw();
+static void game_debug_info();
+
+static void create_level();
+static void destroy_level();
 
 int main()
 {    
@@ -75,11 +81,7 @@ int main()
         switch(game.state)
         {
             case E_LOAD_LEVEL_GAME_STATE:
-                tVector mapLimits = map_load();
-                //create scroll
-                scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((mapLimits.x * TILE_W) - GAME_W) - 1,((mapLimits.y * TILE_H) - GAME_H) - 1});
-                scroll_init(&scroll);
-                create_level();
+                game_load_level();
                 game.state = E_INIT_LEVEL_GAME_STATE;
             break;
             case E_INIT_LEVEL_GAME_STATE:
@@ -132,7 +134,7 @@ int main()
 }
 END_OF_MAIN()
 
-void create_level()
+static void create_level()
 {
     //player    
     entity_create((tVector){40,20},(tVector){20,41}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, &player_init, NULL, &player_update);
@@ -148,18 +150,18 @@ void create_level()
     */
 }
 
-void destroy_level()
+static void destroy_level()
 {
     entity_destroy_all();
 }
 
-void game_init()
+static void game_init()
 {
     game.state      = E_LOAD_LEVEL_GAME_STATE;
     game.prevState  = E_LOAD_LEVEL_GAME_STATE;
 }
 
-void game_draw()
+static void game_draw()
 {
     blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
         
@@ -169,7 +171,7 @@ void game_draw()
     blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 }
 
-void game_debug_info()
+static void game_debug_info()
 {
     //debug info
     show_debug("FPS: %d", get_fps());
@@ -248,4 +250,14 @@ static void main_init()
     if (set_gfx_mode(GFX_VGA, SCREEN_X, SCREEN_Y, 0, 0) != 0)
         abort_on_error("Error seteando modo grafico");
     set_color_depth(8);
+}
+
+//testing
+static void game_load_level()
+{
+    tVector mapLimits = map_load();
+    //create scroll
+    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((mapLimits.x * TILE_W) - GAME_W) - 1,((mapLimits.y * TILE_H) - GAME_H) - 1});
+    scroll_init(&scroll);
+    create_level();
 }

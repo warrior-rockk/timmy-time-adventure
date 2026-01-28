@@ -33,7 +33,7 @@ void player_init(tEntity *player)
     player->state = ST_PLAYER_IDLE;
     player->size.x = PLAYER_W;
     player->size.y = PLAYER_H;
-    player->dir = E_ENT_DIR_RIGHT;    
+    player->dir = E_ENT_DIR_RIGHT;   
 }
 
 void player_update(tEntity *player)

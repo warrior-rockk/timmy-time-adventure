@@ -58,11 +58,13 @@ typedef struct tLevel
 {
     uint16_t numTilesX;
     uint16_t numTilesY;
+    uint8_t backgroundColor;
+    uint16_t playerX0;
+    uint16_t playerY0;
+    uint16_t playerDir0;
+    uint8_t numEntities;
 } tLevel;
 
 extern double deltaTime;
 
-void game_init();
-void game_draw();
-void game_debug_info();
 #endif
