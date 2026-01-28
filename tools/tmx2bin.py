@@ -94,8 +94,9 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                 for obj in objs:
                     ox = int(float(obj.attrib.get('x', 0)))
                     oy = int(float(obj.attrib.get('y', 0)))
+                    oDir = int(obj.attrib.get('dir', 0))
                     # Guardamos X e Y como uint16
-                    f.write(struct.pack('<HH', ox, oy))
+                    f.write(struct.pack('<HHH', ox, oy, oDir))
 
         print(f"--- Done ---")
         print(f"File saved in: {bin_file}")

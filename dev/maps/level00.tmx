@@ -22,9 +22,9 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player" x="48" y="176">
+  <object id="1" name="player" x="64" y="176">
    <properties>
-    <property name="dir" type="int" value="0"/>
+    <property name="dir" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>
