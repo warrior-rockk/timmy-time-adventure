@@ -32,6 +32,8 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         print(f"Processing map: {map_width}x{map_height} tiles")
         print(f"Tile size: {tile_width}x{tile_height} px")
         
+        object_groups = root.findall('objectgroup')
+
         # 3. Find data layer (layer). NOTE: the script takes the first layer founded
         layer = root.find('layer')
         if layer is None:
@@ -83,6 +85,17 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
+
+            # 4. (EXTRA) Exportar Objetos simples si existen
+            # Esto escribe: num_objetos (H) + lista de (x, y, tipo)
+            for obj_group in object_groups:
+                objs = obj_group.findall('object')
+                f.write(struct.pack('<H', len(objs))) # Escribir cuántos objetos hay
+                for obj in objs:
+                    ox = int(float(obj.attrib.get('x', 0)))
+                    oy = int(float(obj.attrib.get('y', 0)))
+                    # Guardamos X e Y como uint16
+                    f.write(struct.pack('<HH', ox, oy))
 
         print(f"--- Done ---")
         print(f"File saved in: {bin_file}")
