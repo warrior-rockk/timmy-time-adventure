@@ -28,8 +28,8 @@ struct game
     uint8_t prevState;
 } game;
 
-BITMAP *mapScreen;
 BITMAP *buffer;
+BITMAP *worldScreen;
 RGB* gamePal;
 double deltaTime;
 uint8_t gameExit = false;
@@ -63,8 +63,8 @@ void game_update()
             entities_update(&scroll);
             scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
-            map_draw(mapScreen, &scroll, (tVector){GAME_W, GAME_H});
-            entities_draw(mapScreen, &scroll);
+            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
+            entities_draw(worldScreen, &scroll);
 
             if (key[KEY_R])
                 game.state = E_INIT_LEVEL_GAME_STATE;
@@ -85,19 +85,9 @@ void game_update()
     }
     
     game_debug_info();
+    
     game_draw();
-
-    vsync();
-    
-    timer_end_frame(&deltaTime);
-    
-    /*
-    -850-780fps: draw mapScreen to screen directly
-    -850-719fps: draw mapScreen to buffer and blit to screen <-
-
-    -600-570: draw_sprite mapScreen to buffer
-    -700-680: blit mapScreen to buffer <--
-    */    
+ 
 }
 
 
@@ -140,18 +130,30 @@ void game_init()
     timer_init(GAME_CLOCK_TICK);
 
     //initialize map bitmap
-    mapScreen = create_bitmap(GAME_W, GAME_H);
+    worldScreen = create_bitmap(GAME_W, GAME_H);
     
     game.state      = E_LOAD_LEVEL_GAME_STATE;
     game.prevState  = E_LOAD_LEVEL_GAME_STATE;
 }
 
 void game_draw()
-{
-    blit(mapScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);
-        
-    debug_draw(buffer);
+{   
+     /*
+    -850-780fps: draw mapScreen to screen directly
+    -850-719fps: draw mapScreen to buffer and blit to screen <-
 
+    -600-570: draw_sprite mapScreen to buffer
+    -700-680: blit mapScreen to buffer <--
+    */
+
+    //blit worldScreen on buffer (centered on screen)
+    blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
+    //draw debug info
+    debug_draw(buffer);
+    //wait for vsync
+    vsync();    
+    timer_end_frame(&deltaTime);
+    
     //blit to screen
     blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 }
