@@ -18,14 +18,16 @@
 #define ALLEGRO_USE_SOUND       0
 
 //screen video dimensions
-#define SCREEN_X        320
-#define SCREEN_Y        200
+#define GAME_GFX_MODE           GFX_VGA
+#define GAME_COLOR_DEPTH        8
+#define SCREEN_X                320
+#define SCREEN_Y                200
 
 //game screen size (SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen))
-#define GAME_W          256
-#define GAME_H          208
-#define GAME_X          (SCREEN_W>>1) - (GAME_W>>1)
-#define GAME_Y          (SCREEN_H>>1) - (GAME_H>>1)
+#define GAME_W                  256
+#define GAME_H                  208
+#define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
+#define GAME_Y                  (SCREEN_H>>1) - (GAME_H>>1)
 
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
@@ -66,5 +68,9 @@ typedef struct tLevel
 } tLevel;
 
 extern double deltaTime;
+extern uint8_t gameExit;
 
+void game_init();
+void game_update();
+void game_draw();
 #endif
