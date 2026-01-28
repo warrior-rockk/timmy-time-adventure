@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "allegro.h"
 
+#include "utils.h"
 #include "game.h"
 
 static void main_init();
@@ -19,8 +20,9 @@ int main()
     //main loop
     do
     {
+        game_draw();
         game_update();
-        //game_draw();
+        
     } while (!gameExit);
     
     return EXIT_SUCCESS;

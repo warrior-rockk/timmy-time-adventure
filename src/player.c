@@ -99,13 +99,13 @@ void player_update(tEntity *player)
     //check collisions
     player->ground = false;
     
-    //run the entity collision points
-    for (uint8_t i; i < NUM_COL_POINTS; i++)
-    {        
+    //run the entity collision points    
+    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+    {                
         //check collision tile for collision point
         int16_t colDir = collision_check_tile(player, i);        
         //apply collision direction
-        applyDirCollision(player, colDir);
+        applyDirCollision(player, colDir);        
     }
 
     //apply velocity

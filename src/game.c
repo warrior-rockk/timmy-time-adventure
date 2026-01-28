@@ -86,7 +86,7 @@ void game_update()
     
     game_debug_info();
     
-    game_draw();
+    //game_draw();
  
 }
 
