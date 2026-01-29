@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="3">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="4">
  <editorsettings>
   <export format="csv"/>
  </editorsettings>
@@ -21,15 +21,20 @@
 22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
 </data>
  </layer>
- <objectgroup id="2" name="Objects">
+ <objectgroup draworder="index" id="2" name="Objects">
   <object id="1" name="player1" type="player" x="64" y="176">
    <properties>
-    <property name="dir" type="int" value="1"/>
+    <property name="dir" type="int" value="10"/>
    </properties>
   </object>
-  <object id="2" name="gem" type="object" x="90.3377" y="118.603">
+  <object id="2" name="gem" type="object" x="90" y="118">
    <properties>
-    <property name="dir" type="int" value="0"/>
+    <property name="dir" type="int" value="20"/>
+   </properties>
+  </object>
+  <object id="3" name="gem" type="object" x="56.1926" y="86.4095">
+   <properties>
+    <property name="dir" type="int" value="30"/>
    </properties>
   </object>
  </objectgroup>

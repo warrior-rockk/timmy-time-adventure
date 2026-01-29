@@ -16,27 +16,18 @@ struct mapHeader{
     uint16_t map_height;
 } mapHeader;
 
+typedef struct {
+    uint8_t class;
+    uint8_t type;
+    uint16_t x;
+    uint16_t y;
+    uint8_t dir;
+} tMapObject;
+
 uint8_t *map;
+tMapObject *mapObjects;
 uint16_t mapWidth;
 BITMAP *tiles[NUM_TILES];
-
-/*
-static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
-{
-    {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22},
-    {22,0,0,0,0,0,0,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,22},
-    {22,0,0,0,0,0,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,22},
-    {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22}
-};*/
 
 void map_load(tLevel *level)
 {
@@ -87,6 +78,31 @@ void map_load(tLevel *level)
         abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
     }
     
+
+    //read map objects
+    uint16_t numMapObjects;
+    fread(&numMapObjects, sizeof(uint16_t), 1, file);
+    TRACE("Num objects: %i\n", numMapObjects);
+    
+    //allocate memory for objects
+    mapObjects = (tMapObject *)malloc(numMapObjects * sizeof(tMapObject));
+    if (mapObjects == NULL) {
+        fclose(file);
+        abort_on_error("Error: No se pudo asignar memoria para %u objetos de mapa.\n", numMapObjects);
+    }
+
+    //read data by field to avoid padding problems
+    for (uint16_t i = 0; i < numMapObjects; i++)
+    {
+        fread(&mapObjects[i].class,   sizeof(uint8_t),    1, file);
+        fread(&mapObjects[i].type,    sizeof(uint8_t),    1, file);
+        fread(&mapObjects[i].x,       sizeof(uint16_t),   1, file);
+        fread(&mapObjects[i].y,       sizeof(uint16_t),   1, file);
+        fread(&mapObjects[i].dir,     sizeof(uint8_t),    1, file);
+
+        TRACE("Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
+    }
+
     //TODO: clean
     //free(tile_array);
     fclose(file);
