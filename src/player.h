@@ -9,6 +9,9 @@
 
 #include "anim.h"
 
+#define PLAYER_W            28
+#define PLAYER_H            43
+
 //player animations
 #define ANIM_PLY_IDLE                0,   0,     10, ANIM_ONCE
 #define ANIM_PLY_BREATH             24,  27,     30, ANIM_PING_PONG

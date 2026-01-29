@@ -14,8 +14,6 @@
 #include "collisions.h"
 
 #define PLAYER_MAX_FRAMES   50
-#define PLAYER_W            28
-#define PLAYER_H            43
 
 BITMAP *playerSpriteSheet;
 BITMAP *playerFrames[PLAYER_MAX_FRAMES];
@@ -30,10 +28,7 @@ void player_init(tEntity *player)
         playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_W, 0, PLAYER_W, PLAYER_H);
     }
 
-    player->state = ST_PLAYER_IDLE;
-    player->size.x = PLAYER_W;
-    player->size.y = PLAYER_H;
-    player->dir = E_ENT_DIR_RIGHT;   
+    player->state = ST_PLAYER_IDLE;    
 }
 
 void player_update(tEntity *player)

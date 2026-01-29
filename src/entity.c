@@ -97,7 +97,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         {
             case E_ENT_CLASS_PLAYER:
                 entityList[newEntity].img             = load_bmp("res/004.bmp",NULL);
-                entityList[newEntity].size            = (tVector){20,41};        
+                entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
                 entityList[newEntity].properties      = E_COLLISIONS_ON_PROPERTY;
                 entityList[newEntity].entity_create   = NULL;
                 entityList[newEntity].entity_init     = &player_init;
@@ -159,6 +159,7 @@ void entities_init()
         entityList[i].pos       = entityList[i].initPos;
         entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
         entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
+        entityList[i].dir       = entityList[i].initDir;
         entityList[i].fixVel    = (tFixVector){0, 0};
         entityList[i].state     = 0;
         entityList[i].visible   = true;
