@@ -33,7 +33,8 @@ enum E_TILE_CODE
     E_SOLID_TILE_CODE =  0x01,
 };
 
-void map_load(tLevel *level);
+void map_load();
+tVector map_get_dimensions();
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize);
 
 uint16_t map_tile_exists(tVector *checkPosition);

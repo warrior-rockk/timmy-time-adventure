@@ -48,18 +48,6 @@ enum E_GAME_STATE
     E_EXIT_GAME_STATE,
 };
 
-//level structure
-typedef struct tLevel
-{
-    uint16_t numTilesX;
-    uint16_t numTilesY;
-    uint8_t backgroundColor;
-    uint16_t playerX0;
-    uint16_t playerY0;
-    uint16_t playerDir0;
-    uint8_t numEntities;    
-} tLevel;
-
 extern double deltaTime;
 extern uint8_t gameExit;
 

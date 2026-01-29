@@ -29,7 +29,7 @@ tMapObject *mapObjects;
 uint16_t mapWidth;
 BITMAP *tiles[NUM_TILES];
 
-void map_load(tLevel *level)
+void map_load()
 {
     //load tiles
     /*tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
@@ -108,10 +108,7 @@ void map_load(tLevel *level)
 
     //TODO: clean
     //free(tile_array);
-    fclose(file);
-
-    level->numTilesX = mapHeader.map_width;
-    level->numTilesY = mapHeader.map_height;
+    fclose(file);    
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
@@ -153,6 +150,11 @@ uint16_t map_get_tile_code(tVector *checkPosition)
 {
     //return map[checkPosition->y / TILE_H][checkPosition->x / TILE_W];
     return  map[((checkPosition->y / TILE_H) * mapWidth) + (checkPosition->x / TILE_W)];
+}
+
+tVector map_get_dimensions()
+{
+    return (tVector){mapHeader.map_width * TILE_W, mapHeader.map_height * TILE_H};
 }
 
 //TODO: get pixel color of position's map

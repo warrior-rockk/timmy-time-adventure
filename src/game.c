@@ -34,11 +34,9 @@ RGB* gamePal;
 double deltaTime;
 uint8_t gameExit = false;
 tScroll scroll;
-tLevel actualLevel;
 
 static void game_load_level();
 static void game_debug_info();
-static void create_level();
 static void destroy_level();
 
 void game_update()
@@ -153,13 +151,10 @@ static void game_debug_info()
 //testing
 static void game_load_level()
 {
-    map_load(&actualLevel);
+    map_load();
     
     //create scroll
-    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((actualLevel.numTilesX * TILE_W) - GAME_W) - 1,((actualLevel.numTilesY * TILE_H) - GAME_H) - 1});
-    scroll_init(&scroll);
-
-    //test player initial pos
-    actualLevel.playerX0 = 40;
-    actualLevel.playerY0 = 20;
+    tVector mapDimension = map_get_dimensions();
+    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){(mapDimension.x - GAME_W) - 1,(mapDimension.y - GAME_H) - 1});
+    scroll_init(&scroll);    
 }
