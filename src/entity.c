@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "entity.h"
 #include "collisions.h"
+#include "player.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -56,7 +57,8 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t entity_create(tVector initPos, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
+int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
+//, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
     numEntities++;
@@ -72,26 +74,37 @@ int16_t entity_create(tVector initPos, tVector size, BITMAP *img, uint8_t entTyp
         //assign entity data
         uint16_t newEntity = numEntities - 1;
 
+        //identification data
         entityList[newEntity].id              = newEntity;
-        entityList[newEntity].initPos         = initPos;
+        entityList[newEntity].entInstance     = 0;
+        //parameters data
+        entityList[newEntity].entClass        = entityClass;
+        entityList[newEntity].entType         = entityType;
+        entityList[newEntity].initPos         = initPos;        
+        entityList[newEntity].initDir         = initDir;
+        //initialize data
         entityList[newEntity].pos             = initPos;
         entityList[newEntity].fixPos.x        = itofix(initPos.x);
         entityList[newEntity].fixPos.y        = itofix(initPos.y);
         entityList[newEntity].fixVel.x        = 0;
         entityList[newEntity].fixVel.y        = 0;
-        entityList[newEntity].img             = img;
-        entityList[newEntity].size            = size;        
         entityList[newEntity].state           = 0;
         entityList[newEntity].prevState       = 0;
-        entityList[newEntity].entType         = entType;
-        entityList[newEntity].entInstance     = 0;
         entityList[newEntity].dead            = false;
         entityList[newEntity].visible         = true;
-        entityList[newEntity].properties      = properties;
-        entityList[newEntity].entity_create   = entity_create;
-        entityList[newEntity].entity_init     = entity_init;
-        entityList[newEntity].entity_update   = entity_update;
-
+        //data based on entity class
+        switch (entityList[newEntity].entClass)
+        {
+            case E_ENT_CLASS_PLAYER:
+                entityList[newEntity].img             = load_bmp("res/004.bmp",NULL);
+                entityList[newEntity].size            = (tVector){20,41};        
+                entityList[newEntity].properties      = E_COLLISIONS_ON_PROPERTY;
+                entityList[newEntity].entity_create   = NULL;
+                entityList[newEntity].entity_init     = &player_init;
+                entityList[newEntity].entity_update   = &player_update;
+            break;
+        }
+        
         //check entity properties
         if (entityList[newEntity].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
             collision_create_entity_points(&entityList[newEntity]);
