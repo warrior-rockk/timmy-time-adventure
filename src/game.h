@@ -35,13 +35,6 @@
 //position of player on entities array
 #define PLAYER_ENTITY_ID    0
 
-//game entity types
-enum E_ENTITY_TYPE
-{
-    E_PLAYER_ENTITY_TYPE,
-    E_OBJECT_ENTITY_TYPE,
-};
-
 //game states
 enum E_GAME_STATE
 {

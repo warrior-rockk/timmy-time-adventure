@@ -12,6 +12,25 @@ import zlib
 import sys
 import os
 
+entity_classes = {
+     "player"   : 0,
+     "object"   : 1,
+     "enemy"    : 2,
+     "platform" : 3,     
+}
+
+player_ent_types = {
+    "player1"   : 0,
+    "player2"   : 1,
+}
+
+object_ent_types = {
+    "gem"   : 0,
+    "stone" : 1,
+}
+
+ent_types = [player_ent_types, object_ent_types]
+
 def get_custom_properties(element):
     """Get custom properties and returns on dictionary."""
     props = {}
@@ -126,13 +145,23 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             for obj_group in object_groups:
                 objs = obj_group.findall('object')
                 f.write(struct.pack('<H', len(objs))) # Write num objects
-                for obj in objs:
+                print(f"Processing objets: {len(objs)} objects")
+                for obj in objs:                                        
+                    # Get class and type (Tiled uses class or type for class by version)
+                    raw_class = obj.attrib.get('class') or obj.attrib.get('type') or ""
+                    raw_type = obj.attrib.get('name')                    
+                    # Get from our arrays of entities class and types                    
+                    entClass = entity_classes.get(raw_class, 0)
+                    entType = ent_types[entClass].get(raw_type, 0)
+                    # Get general entity data
                     ox = int(float(obj.attrib.get('x', 0)))
                     oy = int(float(obj.attrib.get('y', 0)))
                     oDir = get_property_value(obj, "dir", default=0)
                     
-                    # write x and y as int and dir as byte
-                    f.write(struct.pack('<HHB', ox, oy, oDir))                    
+                    # write object data
+                    f.write(struct.pack('<BBHHB', entClass, entType, ox, oy, oDir))                    
+                    # print info
+                    print(f"\tClass:{raw_class} - Type:{raw_type}")
 
         print(f"--- Done ---")
         print(f"File saved in: {bin_file}")

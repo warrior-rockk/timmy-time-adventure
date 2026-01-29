@@ -86,7 +86,7 @@ void map_load(tLevel *level)
     if (read_count != total_tiles) {
         abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
     }
-
+    
     //TODO: clean
     //free(tile_array);
     fclose(file);

@@ -14,6 +14,15 @@
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities
 
+//game entity classes
+enum E_ENTITY_CLASS
+{
+    E_ENT_CLASS_PLAYER,
+    E_ENT_CLASS_OBJECT,
+    E_ENT_CLASS_ENEMY,
+    E_ENT_CLASS_PLATFORM,
+};
+
 enum E_ENTITY_PROPERTIES
 {
     E_COLLISIONS_ON_PROPERTY    = 0x01,
