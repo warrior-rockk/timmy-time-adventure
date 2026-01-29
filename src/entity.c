@@ -23,19 +23,21 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         else
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
     
-    
-    tColPoint *entPoint;
-    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+    if (CHECK_FLAG(entity->properties, E_COLLISIONS_ON_PROPERTY))
     {
-        entPoint = collision_get_ent_collision_point(entity, i);
-        if (entPoint->enabled)  
+        tColPoint *entPoint;
+        for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
         {
-            putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
+            entPoint = collision_get_ent_collision_point(entity, i);
+            if (entPoint->enabled)  
+            {
+                putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
+            }
+            else
+            {
+                putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
+            }  
         }
-        else
-        {
-            putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
-        }  
     }
 }
 
@@ -115,7 +117,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         }
         
         //check entity properties
-        if (entityList[newEntity].properties & E_COLLISIONS_ON_PROPERTY == E_COLLISIONS_ON_PROPERTY)
+        if (CHECK_FLAG(entityList[newEntity].properties, E_COLLISIONS_ON_PROPERTY))        
             collision_create_entity_points(&entityList[newEntity]);
 
         //call create function pointer of entity
