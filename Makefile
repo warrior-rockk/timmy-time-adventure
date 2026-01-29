@@ -66,6 +66,7 @@ all: debug release
 #main targets
 debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES)
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
+maps: directories $(BIN_FILES)
 
 # Regla explícita para crear directorios
 directories:

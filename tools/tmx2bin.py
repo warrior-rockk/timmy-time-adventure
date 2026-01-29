@@ -12,6 +12,42 @@ import zlib
 import sys
 import os
 
+def get_custom_properties(element):
+    """Get custom properties and returns on dictionary."""
+    props = {}
+    properties_node = element.find('properties')
+    if properties_node is not None:
+        for prop in properties_node.findall('property'):
+            name = prop.attrib.get('name')
+            value = prop.attrib.get('value')
+            # Try to convert to int or float or string
+            try:
+                if '.' in value:
+                    props[name] = float(value)
+                else:
+                    props[name] = int(value)
+            except (ValueError, TypeError):
+                props[name] = value
+    return props
+
+def get_property_value(element, property_name, default=None):
+    """
+    Gets a specific property by name on object
+    Returns converted value o defect value if not exists    
+    """
+    properties_node = element.find('properties')
+    if properties_node is not None:
+        for prop in properties_node.findall('property'):
+            if prop.attrib.get('name') == property_name:
+                value = prop.attrib.get('value')
+                # Try to convert the type 
+                try:
+                    if '.' in value: return float(value)
+                    return int(value)
+                except (ValueError, TypeError):
+                    return value # return as string if not numeric
+    return default
+
 def parse_tmx_and_write_binary(tmx_file, bin_file):
     if not os.path.exists(tmx_file):
         print(f"Error: file {tmx_file} doesn't exists")
@@ -61,9 +97,8 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         else:
             print(f"Error: Codificacion format '{encoding}' don't support by this script")
             return
-        
-        # --- VALIDACIÓN Y CONVERSIÓN ---
-        # Verificamos si algún ID supera 255
+                
+        # Check if any tile ID > 255
         if any(t > 255 for t in tiles):
             print("¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
         
@@ -86,17 +121,18 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
 
-            # 4. (EXTRA) Exportar Objetos simples si existen
-            # Esto escribe: num_objetos (H) + lista de (x, y, tipo)
+            # Get object data
+            # Write: numObjects (H) + list of (x0, y0, dir0)
             for obj_group in object_groups:
                 objs = obj_group.findall('object')
-                f.write(struct.pack('<H', len(objs))) # Escribir cuántos objetos hay
+                f.write(struct.pack('<H', len(objs))) # Write num objects
                 for obj in objs:
                     ox = int(float(obj.attrib.get('x', 0)))
                     oy = int(float(obj.attrib.get('y', 0)))
-                    oDir = int(obj.attrib.get('dir', 0))
-                    # Guardamos X e Y como uint16
-                    f.write(struct.pack('<HHH', ox, oy, oDir))
+                    oDir = get_property_value(obj, "dir", default=0)
+                    
+                    # write x and y as int and dir as byte
+                    f.write(struct.pack('<HHB', ox, oy, oDir))                    
 
         print(f"--- Done ---")
         print(f"File saved in: {bin_file}")
