@@ -107,7 +107,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             default:
                 entityList[newEntity].img             = load_bmp("res/stone.bmp",NULL);
                 entityList[newEntity].size            = (tVector){entityList[newEntity].img->w,entityList[newEntity].img->h};        
-                entityList[newEntity].properties      = E_COLLISIONS_ON_PROPERTY;
+                entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;

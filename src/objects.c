@@ -40,10 +40,12 @@ void object_create(tEntity *entity)
         case E_GEM_OBJECT_TYPE:
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
+            entity->img = load_bmp("res/object.bmp",NULL);
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
+            entity->img = load_bmp("res/stone.bmp",NULL);
         break;
         default:
         break;
