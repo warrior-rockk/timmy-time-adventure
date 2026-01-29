@@ -9,6 +9,7 @@
 
 #include "allegro.h"
 #include "utils.h"
+#include "game.h"
 #include "scroll.h"
 
 #define NUM_TILES       30
@@ -35,7 +36,7 @@ enum E_TILE_CODE
     E_SOLID_TILE_CODE =  0x01,
 };
 
-tVector map_load();
+void map_load(tLevel *level);
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize);
 
 uint16_t map_tile_exists(tVector *checkPosition);

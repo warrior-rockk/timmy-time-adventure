@@ -34,7 +34,7 @@ RGB* gamePal;
 double deltaTime;
 uint8_t gameExit = false;
 tScroll scroll;
-tLevel level;
+tLevel actualLevel;
 
 static void game_load_level();
 static void game_debug_info();
@@ -91,7 +91,7 @@ void game_update()
 static void create_level()
 {
     //player    
-    entity_create((tVector){level.playerX0, level.playerY0},(tVector){20,41}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, &player_init, NULL, &player_update);
+    entity_create((tVector){actualLevel.playerX0, actualLevel.playerY0},(tVector){20,41}, load_bmp("res/004.bmp",NULL), E_PLAYER_ENTITY_TYPE, E_COLLISIONS_ON_PROPERTY, &player_init, NULL, &player_update);
     
     //test objects
     /*
@@ -169,14 +169,14 @@ static void game_debug_info()
 //testing
 static void game_load_level()
 {
-    tVector mapLimits = map_load();
+    map_load(&actualLevel);
     //create scroll
-    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((mapLimits.x * TILE_W) - GAME_W) - 1,((mapLimits.y * TILE_H) - GAME_H) - 1});
+    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((actualLevel.numTilesX * TILE_W) - GAME_W) - 1,((actualLevel.numTilesY * TILE_H) - GAME_H) - 1});
     scroll_init(&scroll);
 
     //test player initial pos
-    level.playerX0 = 40;
-    level.playerY0 = 20;
+    actualLevel.playerX0 = 40;
+    actualLevel.playerY0 = 20;
 
     create_level();
 }

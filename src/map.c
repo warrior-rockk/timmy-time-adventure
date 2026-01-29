@@ -38,7 +38,7 @@ static uint8_t map[MAP_TILE_H][MAP_TILE_W] =
     {22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22}
 };*/
 
-tVector map_load()
+void map_load(tLevel *level)
 {
     //load tiles
     /*tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
@@ -91,7 +91,8 @@ tVector map_load()
     //free(tile_array);
     fclose(file);
 
-    return (tVector){mapHeader.map_width, mapHeader.map_width};
+    level->numTilesX = mapHeader.map_width;
+    level->numTilesY = mapHeader.map_height;
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
