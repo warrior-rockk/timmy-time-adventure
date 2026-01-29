@@ -17,9 +17,6 @@
 #define TILE_W          16
 #define TILE_H          16
 
-//#define MAP_TILE_W      (256 / TILE_W) * 2
-//#define MAP_TILE_H      (208 / TILE_H) * 1
-
 typedef struct tTile
 {
     uint8_t tileCode;

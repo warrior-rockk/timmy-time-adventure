@@ -9,6 +9,7 @@
 #include "entity.h"
 #include "collisions.h"
 #include "player.h"
+#include "objects.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -102,6 +103,14 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_create   = NULL;
                 entityList[newEntity].entity_init     = &player_init;
                 entityList[newEntity].entity_update   = &player_update;
+            break;
+            default:
+                entityList[newEntity].img             = load_bmp("res/stone.bmp",NULL);
+                entityList[newEntity].size            = (tVector){entityList[newEntity].img->w,entityList[newEntity].img->h};        
+                entityList[newEntity].properties      = E_COLLISIONS_ON_PROPERTY;
+                entityList[newEntity].entity_create   = &object_create;
+                entityList[newEntity].entity_init     = &object_init;
+                entityList[newEntity].entity_update   = &object_update;
             break;
         }
         

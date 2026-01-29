@@ -91,8 +91,8 @@ void game_update()
 static void create_level()
 {
     //player    
-    //entity_create((tVector){actualLevel.playerX0, actualLevel.playerY0},(tVector){20,41}, load_bmp("res/004.bmp",NULL), E_ENT_CLASS_PLAYER, E_COLLISIONS_ON_PROPERTY, &player_init, NULL, &player_update);
     entity_create(E_ENT_CLASS_PLAYER, 0, (tVector){actualLevel.playerX0, actualLevel.playerY0}, E_ENT_DIR_LEFT);
+    
     //test objects
     /*
     entity_create((tVector){60,110}, load_bmp("res/stone.bmp",NULL), E_STONE_OBJECT_TYPE, E_COLLISIONS_ON_PROPERTY, &object_init, &object_create, &object_update);
@@ -170,6 +170,7 @@ static void game_debug_info()
 static void game_load_level()
 {
     map_load(&actualLevel);
+    
     //create scroll
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){((actualLevel.numTilesX * TILE_W) - GAME_W) - 1,((actualLevel.numTilesY * TILE_H) - GAME_H) - 1});
     scroll_init(&scroll);
@@ -178,5 +179,5 @@ static void game_load_level()
     actualLevel.playerX0 = 40;
     actualLevel.playerY0 = 20;
 
-    create_level();
+    //create_level();
 }

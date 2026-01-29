@@ -101,6 +101,9 @@ void map_load(tLevel *level)
         fread(&mapObjects[i].dir,     sizeof(uint8_t),    1, file);
 
         TRACE("Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
+
+        //create entity
+        entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir);
     }
 
     //TODO: clean
