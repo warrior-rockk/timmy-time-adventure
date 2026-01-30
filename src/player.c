@@ -35,7 +35,7 @@ void player_update(tEntity *player)
 {
     fixed accel_x = ftofix(0.06);
     fixed friction = ftofix(0.92);       //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
-    fixed air_friction = ftofix(0.6);   //less than floor friction
+    //fixed air_friction = ftofix(0.6);   //less than floor friction
     fixed gravity = ftofix(0.2);
     fixed accel_y = ftofix(4.0);        //jump acceleration
     fixed max_vel_x = ftofix(1.0);
@@ -44,9 +44,8 @@ void player_update(tEntity *player)
     const fixed cMinVelToIdle = ftofix(0.1);
     uint8_t playerCrouched = false;
 
-    int16_t floor = 160;
-    
-    fixed localFriction = player->ground ? friction: air_friction;
+    //TODO: local friction
+    //fixed localFriction = player->ground ? friction: air_friction;
 
     //update controls
     if (key[KEY_RIGHT] && player->fixVel.x < max_vel_x)

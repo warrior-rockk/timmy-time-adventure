@@ -28,7 +28,7 @@ void collision_system_destroy()
     numEntitiesColPoints = 0;
 }
 
-//gets collision point list index by entity id
+//gets collision point list index by entity id (-1 if not found)
 uint16_t get_collision_point_index_by_entId(uint16_t entityId)
 {
     //find entity id on collision points list
@@ -37,6 +37,8 @@ uint16_t get_collision_point_index_by_entId(uint16_t entityId)
         if (entColPointsList[i].entId == entityId)
             return i;
     }
+
+    return -1;
 }
 
 //gets a collision point for an entity

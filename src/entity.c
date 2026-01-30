@@ -18,10 +18,12 @@ static uint16_t numEntities;    //number of entities
 static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 {
     if (entity->img)
+    {
         if (entity->dir == E_ENT_DIR_RIGHT)   
             draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
         else
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
+    }
     
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
