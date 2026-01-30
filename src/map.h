@@ -31,11 +31,17 @@ enum E_TILE_CODE
     E_SOLID_TILE_CODE =  0x01,
 };*/
 
+//loads a map level and creates level entities
 void map_load();
+//unload the map and free resources
+void map_unload();
+//get the dimensions of the map (on tiles)
 tVector map_get_dimensions();
+//draw the current map
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize);
-
+//check if tile position exists on map
 uint16_t map_tile_exists(tVector *checkPosition);
+//check the code of tile in map position
 uint16_t map_get_tile_code(tVector *checkPosition);
 
 #endif

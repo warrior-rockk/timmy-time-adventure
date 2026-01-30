@@ -89,6 +89,7 @@ void game_update()
 static void destroy_level()
 {
     entity_destroy_all();
+    map_unload();
 }
 
 void game_init()
