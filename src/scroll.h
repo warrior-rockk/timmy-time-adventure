@@ -17,8 +17,10 @@ typedef struct tScroll
     tVector limit;      //scroll limit position
 } tScroll;
 
-//Offset target position to follow by scroll. If the target is in the offset zone, the scroll doesn't move allowing a tiny zone with not scroll movement
-static const uint16_t scrollOffset = 8;
+//Offset target position to follow by scroll. 
+//If the target is in the offset zone, the scroll doesn't move allowing a tiny zone with not scroll movement
+static const uint16_t scrollOffsetX = 8;
+static const uint16_t scrollOffsetY = 14;
 
 //creates scroll with the window dimensions and limits. Returns a scroll object
 tScroll scroll_create(tVector window, tVector limit);

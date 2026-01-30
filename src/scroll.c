@@ -32,19 +32,19 @@ void scroll_update(tScroll *scroll, tVector *targetPos)
     MY_ASSERT(targetPos);
 
     //updates scroll position following target position
-    if (targetPos->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffset)
-        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) - scrollOffset;
-    else if (targetPos->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffset)
-        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) + scrollOffset;
+    if (targetPos->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
+        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) - scrollOffsetX;
+    else if (targetPos->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
+        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) + scrollOffsetX;
     
     //limit scroll position
     scroll->pos.x = (int16_t)clamp(scroll->pos.x, 0, scroll->limit.x);      
 
     //updates scroll position following target position
-    if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffset)
-        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffset;
-    else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffset)
-        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffset;
+    if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
+        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffsetY;
+    else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
+        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffsetY;
     
     //limit scroll position
     scroll->pos.y = (int16_t)clamp(scroll->pos.y, 0, scroll->limit.y);
