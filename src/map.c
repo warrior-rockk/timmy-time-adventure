@@ -28,7 +28,7 @@ typedef struct {
 
 uint8_t *map;
 tMapObject *mapObjects;
-BITMAP *tiles[NUM_TILES];
+BITMAP **tiles;
 BITMAP *mapTileSheet;
 
 void map_load()
@@ -93,9 +93,12 @@ void map_load()
     //clean resources    
     fclose(file);    
     free(mapObjects);
-
+    
+    //allocate tiles bitmaps    
+    tiles = (BITMAP **)malloc(NUM_TILES * sizeof(BITMAP));
     //load map tileSheet    
     mapTileSheet = load_bmp("res/tiles/tsheet.bmp", desktop_palette);
+    //create tiles from tilesheet image
     for (uint8_t i = 0; i < NUM_TILES; i++)
     {
         tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * mapHeader.tile_height, (int)(i / TILES_ROW) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
@@ -105,7 +108,7 @@ void map_load()
 void map_unload()
 {
     free(map);    
-    //free(tiles);
+    free(tiles);
     destroy_bitmap(mapTileSheet);
     mapHeader.map_height    = 0;
     mapHeader.map_width     = 0;
