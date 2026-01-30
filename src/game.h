@@ -25,7 +25,7 @@
 
 //game screen size (SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen))
 #define GAME_W                  256
-#define GAME_H                  208
+#define GAME_H                  192
 #define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y                  (SCREEN_H>>1) - (GAME_H>>1)
 
