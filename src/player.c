@@ -25,7 +25,7 @@ void player_init(tEntity *player)
     playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
     for (uint8_t i = 0; i < PLAYER_MAX_FRAMES; i++)
     {
-        playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_W, 0, PLAYER_W, PLAYER_H);
+        playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_IMG_W, 0, PLAYER_IMG_W, PLAYER_IMG_H);
     }
 
     player->state = ST_PLAYER_IDLE;    

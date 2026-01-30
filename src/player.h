@@ -9,8 +9,10 @@
 
 #include "anim.h"
 
-#define PLAYER_W            28
-#define PLAYER_H            43
+#define PLAYER_W            12
+#define PLAYER_H            40
+#define PLAYER_IMG_W        28
+#define PLAYER_IMG_H        41
 
 //player animations
 #define ANIM_PLY_IDLE                0,   0,     10, ANIM_ONCE
