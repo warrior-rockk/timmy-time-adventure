@@ -39,6 +39,15 @@ void scroll_update(tScroll *scroll, tVector *targetPos)
     
     //limit scroll position
     scroll->pos.x = (int16_t)clamp(scroll->pos.x, 0, scroll->limit.x);      
+
+    //updates scroll position following target position
+    if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffset)
+        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffset;
+    else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffset)
+        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffset;
+    
+    //limit scroll position
+    scroll->pos.y = (int16_t)clamp(scroll->pos.y, 0, scroll->limit.y);
 }
 
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll)

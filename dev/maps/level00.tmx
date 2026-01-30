@@ -22,7 +22,7 @@
 </data>
  </layer>
  <objectgroup draworder="index" id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="48" y="80">
+  <object id="1" name="player1" type="player" x="48" y="112">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>
