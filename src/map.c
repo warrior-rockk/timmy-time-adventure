@@ -15,6 +15,7 @@ struct mapHeader{
     uint16_t tile_height;
     uint16_t map_width;
     uint16_t map_height;
+    uint16_t backgroundColor;
 } mapHeader;
 
 //type of map object entity data
@@ -125,7 +126,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
     tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height) + 1};
     
-    clear_to_color(buffer, 1);
+    clear_to_color(buffer, mapHeader.backgroundColor);
 
     for (int y = 0; y < screenLimit.y; y++)
     {

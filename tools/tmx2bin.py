@@ -82,6 +82,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         map_height = int(root.attrib.get('height'))
         tile_width = int(root.attrib.get('tilewidth'))
         tile_height = int(root.attrib.get('tileheight'))
+        
 
         # echo info
         print(f"Processing map: {map_width}x{map_height} tiles")
@@ -95,6 +96,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             print("Error: Can't find any layer named ('layer') in the file map")
             return
 
+        backColor = get_property_value(layer, "backColor", default=0)
         data_node = layer.find('data')
         encoding = data_node.attrib.get('encoding')
         compression = data_node.attrib.get('compression')
@@ -134,7 +136,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHH', tile_width, tile_height, map_width, map_height)
+            header = struct.pack('<HHHHH', tile_width, tile_height, map_width, map_height, backColor)
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)

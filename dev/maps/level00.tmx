@@ -5,6 +5,9 @@
  </editorsettings>
  <tileset firstgid="1" source="testRocks.tsx"/>
  <layer id="1" name="Tiles" width="36" height="13">
+  <properties>
+   <property name="backColor" type="int" value="1"/>
+  </properties>
   <data encoding="csv">
 22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
 22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,22,
