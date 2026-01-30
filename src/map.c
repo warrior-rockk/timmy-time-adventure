@@ -7,8 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
+#include "entity.h"
 
-// Definimos una estructura para el encabezado del mapa
+//map header info
 struct mapHeader{
     uint16_t tile_width;
     uint16_t tile_height;
@@ -16,6 +17,7 @@ struct mapHeader{
     uint16_t map_height;
 } mapHeader;
 
+//type of map object entity data
 typedef struct {
     uint8_t class;
     uint8_t type;
@@ -26,42 +28,24 @@ typedef struct {
 
 uint8_t *map;
 tMapObject *mapObjects;
-uint16_t mapWidth;
 BITMAP *tiles[NUM_TILES];
 
 void map_load()
 {
-    //load tiles
-    /*tiles[0] = load_bmp("res/tiles/001.bmp", desktop_palette);
-    tiles[1] = load_bmp("res/tiles/002.bmp", NULL);
-    tiles[2] = load_bmp("res/tiles/003.bmp", NULL);*/
-    
-    //load map tileSheet
-    BITMAP *mapTileSheet;
-    mapTileSheet = load_bmp("res/tiles/tsheet.bmp", desktop_palette);
-    for (uint8_t i = 0; i < NUM_TILES; i++)
-    {
-        tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * TILE_H, (int)(i / TILES_ROW) * TILE_W, TILE_W, TILE_H);
-    }
-
     //load map file
     FILE *file = fopen("res/maps/level00.bin", "rb");
     if (!file) {
         abort_on_error("Error al abrir el archivo");
     }
 
-    //read map file header
-    //MapHeader header;
+    //read map file header    
     if (fread(&mapHeader, sizeof(mapHeader), 1, file) != 1) {
         fclose(file);
         abort_on_error("Error al leer el encabezado.\n");
     }
-
-    //test
+    
     TRACE("Tile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     TRACE("Map dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
-
-    mapWidth = mapHeader.map_width;
 
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
@@ -78,11 +62,10 @@ void map_load()
         abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
     }
     
-
     //read map objects
     uint16_t numMapObjects;
     fread(&numMapObjects, sizeof(uint16_t), 1, file);
-    TRACE("Num objects: %i\n", numMapObjects);
+    TRACE("Num objects on map: %i\n", numMapObjects);
     
     //allocate memory for objects
     mapObjects = (tMapObject *)malloc(numMapObjects * sizeof(tMapObject));
@@ -106,9 +89,17 @@ void map_load()
         entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir);
     }
 
-    //TODO: clean
-    //free(tile_array);
+    //clean resources    
     fclose(file);    
+    free(mapObjects);
+
+    //load map tileSheet
+    BITMAP *mapTileSheet;
+    mapTileSheet = load_bmp("res/tiles/tsheet.bmp", desktop_palette);
+    for (uint8_t i = 0; i < NUM_TILES; i++)
+    {
+        tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * mapHeader.tile_height, (int)(i / TILES_ROW) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
+    }
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
@@ -116,11 +107,11 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     uint8_t tileNum;
     //int16_t lx = (GAME_W / TILE_W) + 1; //limit scroll x
     //int16_t ly = (GAME_H / TILE_H);     //limit scroll y
-    int16_t sx = scroll->pos.x % TILE_W; //tile pos x on scroll
-    int16_t sy = scroll->pos.y % TILE_H; //tile pos y on scroll
-    int16_t tx = scroll->pos.x / TILE_W; //tile num x on scroll
-    int16_t ty = scroll->pos.y / TILE_H; //tile num y on scroll   
-    tVector screenLimit = {(screenSize.x / TILE_W) + 1, (screenSize.y / TILE_H)};
+    int16_t sx = scroll->pos.x % mapHeader.tile_width; //tile pos x on scroll
+    int16_t sy = scroll->pos.y % mapHeader.tile_height; //tile pos y on scroll
+    int16_t tx = scroll->pos.x / mapHeader.tile_width; //tile num x on scroll
+    int16_t ty = scroll->pos.y / mapHeader.tile_height; //tile num y on scroll   
+    tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height)};
     
     clear_to_color(buffer, 1);
 
@@ -129,7 +120,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
         for (int x = 0; x < screenLimit.x; x++)        
         {
             //tileNum = map[y + ty][x + tx];
-            tileNum = map[((y + ty) * mapWidth) + x + tx];
+            tileNum = map[((y + ty) * mapHeader.map_width) + x + tx];
 
             /* blit tile*/
             if (tileNum != 0)            
@@ -142,19 +133,19 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
 uint16_t map_tile_exists(tVector *checkPosition)
 {
     //return (checkPosition->x / TILE_W) < level.numTilesX && (checkPosition->y / TILE_H) < level.numTilesY && checkPosition->x >= 0 && checkPosition->y >= 0;     
-    return (checkPosition->x / TILE_W) < mapHeader.map_width && (checkPosition->y / TILE_H) < mapHeader.map_height && checkPosition->x >= 0 && checkPosition->y >= 0;
+    return (checkPosition->x / mapHeader.tile_width) < mapHeader.map_width && (checkPosition->y / mapHeader.tile_height) < mapHeader.map_height && checkPosition->x >= 0 && checkPosition->y >= 0;
 }
 
 //gets map tile code
 uint16_t map_get_tile_code(tVector *checkPosition)
 {
     //return map[checkPosition->y / TILE_H][checkPosition->x / TILE_W];
-    return  map[((checkPosition->y / TILE_H) * mapWidth) + (checkPosition->x / TILE_W)];
+    return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)];
 }
 
 tVector map_get_dimensions()
 {
-    return (tVector){mapHeader.map_width * TILE_W, mapHeader.map_height * TILE_H};
+    return (tVector){mapHeader.map_width * mapHeader.tile_width, mapHeader.map_height * mapHeader.tile_height};
 }
 
 //TODO: get pixel color of position's map

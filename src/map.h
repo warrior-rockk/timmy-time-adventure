@@ -14,10 +14,8 @@
 
 #define NUM_TILES       30
 #define TILES_ROW       6
-#define TILE_W          16
-#define TILE_H          16
 
-typedef struct tTile
+/*typedef struct tTile
 {
     uint8_t tileCode;
     uint16_t tileFrame;    
@@ -31,7 +29,7 @@ typedef struct tMap
 enum E_TILE_CODE
 {
     E_SOLID_TILE_CODE =  0x01,
-};
+};*/
 
 void map_load();
 tVector map_get_dimensions();
