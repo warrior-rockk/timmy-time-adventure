@@ -101,7 +101,7 @@ void game_init()
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
-    clear_to_color(buffer, 3);
+    clear_to_color(buffer, BORDER_COLOR);
 
     entity_system_init();
     collision_system_init();

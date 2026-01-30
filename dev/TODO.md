@@ -1,5 +1,6 @@
 # Engine
-- [ ] Implement Y Scroll following player
+- [ ] Fix deltaTime collisions?
+- [X] Implement Y Scroll following player
 - [ ] Controls
 - [ ] Redefine controls
 - [ ] Playback system

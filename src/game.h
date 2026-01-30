@@ -28,6 +28,7 @@
 #define GAME_H                  192
 #define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y                  (SCREEN_H>>1) - (GAME_H>>1)
+#define BORDER_COLOR            3
 
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
