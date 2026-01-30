@@ -123,7 +123,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
     int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
-    tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height)};
+    tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height) + 1};
     
     clear_to_color(buffer, 1);
 
