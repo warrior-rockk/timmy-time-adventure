@@ -131,7 +131,6 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     {
         for (int x = 0; x < screenLimit.x; x++)        
         {
-            //tileNum = map[y + ty][x + tx];
             tileNum = map[((y + ty) * mapHeader.map_width) + x + tx];
 
             /* blit tile*/

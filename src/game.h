@@ -38,20 +38,23 @@
 //game states
 enum E_GAME_STATE
 {
-    E_LOGO_GAME_STATE,
-    E_INTRO_GAME_STATE,
-    E_TITLE_GAME_STATE,
-    E_LOAD_LEVEL_GAME_STATE,
-    E_INIT_LEVEL_GAME_STATE,
-    E_PLAY_LEVEL_GAME_STATE,
-    E_DESTROY_LEVEL_GAME_STATE,
-    E_EXIT_GAME_STATE,
+    E_GAME_ST_LOGO,
+    E_GAME_ST_INTRO,
+    E_GAME_ST_TITLE,
+    E_GAME_ST_LOAD_LEVEL,
+    E_GAME_ST_INIT,
+    E_GAME_ST_PLAY_LEVEL,
+    E_GAME_ST_DESTROY_LEVEL,
+    E_GAME_ST_EXIT,
 };
 
 extern double deltaTime;
 extern uint8_t gameExit;
 
+//function to init game
 void game_init();
+//function to updated game
 void game_update();
+//function to draw game
 void game_draw();
 #endif

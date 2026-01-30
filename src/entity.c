@@ -23,7 +23,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         else
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
     
-    if (CHECK_FLAG(entity->properties, E_COLLISIONS_ON_PROPERTY))
+    if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
         tColPoint *entPoint;
         for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
@@ -101,7 +101,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             case E_ENT_CLASS_PLAYER:
                 entityList[newEntity].img             = load_bmp("res/004.bmp",NULL);
                 entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
-                entityList[newEntity].properties      = E_COLLISIONS_ON_PROPERTY;
+                entityList[newEntity].properties      = E_ENT_PROP_PHYSICS_ON;
                 entityList[newEntity].entity_create   = NULL;
                 entityList[newEntity].entity_init     = &player_init;
                 entityList[newEntity].entity_update   = &player_update;
@@ -117,7 +117,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         }
         
         //check entity properties
-        if (CHECK_FLAG(entityList[newEntity].properties, E_COLLISIONS_ON_PROPERTY))        
+        if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))        
             collision_create_entity_points(&entityList[newEntity]);
 
         //call create function pointer of entity
@@ -146,7 +146,7 @@ tEntity* get_entity(uint16_t numEntity)
 void entity_destroy(uint16_t entityIndex)
 {
     //free entity collision point memory if used
-    if (CHECK_FLAG(entityList[entityIndex].properties, E_COLLISIONS_ON_PROPERTY))
+    if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
         collision_destroy_entity_points(entityList[entityIndex].id);
 
     //copies last entity to deleted entity position

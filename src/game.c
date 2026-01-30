@@ -48,16 +48,16 @@ void game_update()
 
     switch(game.state)
     {
-        case E_LOAD_LEVEL_GAME_STATE:
+        case E_GAME_ST_LOAD_LEVEL:
             game_load_level();
-            game.state = E_INIT_LEVEL_GAME_STATE;
+            game.state = E_GAME_ST_INIT;
         break;
-        case E_INIT_LEVEL_GAME_STATE:
+        case E_GAME_ST_INIT:
             entities_init();
             scroll_init(&scroll);
-            game.state = E_PLAY_LEVEL_GAME_STATE;
+            game.state = E_GAME_ST_PLAY_LEVEL;
         break;
-        case E_PLAY_LEVEL_GAME_STATE:
+        case E_GAME_ST_PLAY_LEVEL:
             entities_update(&scroll);
             scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
 
@@ -65,16 +65,16 @@ void game_update()
             entities_draw(worldScreen, &scroll);
 
             if (key[KEY_R])
-                game.state = E_INIT_LEVEL_GAME_STATE;
+                game.state = E_GAME_ST_INIT;
             
             if (key[KEY_E])
-                game.state = E_DESTROY_LEVEL_GAME_STATE;
+                game.state = E_GAME_ST_DESTROY_LEVEL;
         break;
-        case E_DESTROY_LEVEL_GAME_STATE:
+        case E_GAME_ST_DESTROY_LEVEL:
             destroy_level();
-            game.state = E_EXIT_GAME_STATE;
+            game.state = E_GAME_ST_EXIT;
         break;
-        case E_EXIT_GAME_STATE:
+        case E_GAME_ST_EXIT:
             gameExit = true;
         break;
         default:
@@ -112,8 +112,8 @@ void game_init()
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
     
-    game.state      = E_LOAD_LEVEL_GAME_STATE;
-    game.prevState  = E_LOAD_LEVEL_GAME_STATE;
+    game.state      = E_GAME_ST_LOAD_LEVEL;
+    game.prevState  = E_GAME_ST_LOAD_LEVEL;
 }
 
 void game_draw()

@@ -12,8 +12,8 @@
 #include "game.h"
 #include "scroll.h"
 
-#define NUM_TILES       30
-#define TILES_ROW       6
+#define NUM_TILES       30  //TODO: load from tilesheet file
+#define TILES_ROW       6   //TODO: fixed??
 
 /*typedef struct tTile
 {
