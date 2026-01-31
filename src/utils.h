@@ -73,4 +73,6 @@ void debug_init();
 void debug_draw(BITMAP *buffer);
 //function to show debug info on screen
 void show_debug(const char *format, ...);
+//toogles debug info
+void debug_toggle();
 #endif

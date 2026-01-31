@@ -84,7 +84,12 @@ void game_update()
         break;
     }
     
-    game_debug_info();
+    #ifdef DEBUGMODE
+        game_debug_info();
+
+        if (input_key_pressed(G_KEY_D))
+            debug_toggle();
+    #endif
 }
 
 

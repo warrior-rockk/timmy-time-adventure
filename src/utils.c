@@ -61,12 +61,15 @@ void debug_init()
 void debug_draw(BITMAP *buffer)
 {
 #ifdef DEBUGMODE
-    //writes all the debug vars
-    for (int i = 0; i < debug.numMsgs; i++)
+    if (debug.showDebugInfo)
     {
-        textprintf_ex(buffer, font, 0, DEBUG_Y + (DEBUG_FONT_HEIGHT*i), DEBUG_FONT_COLOR, DEBUG_FONT_BACK_COLOR, "%s", debug.lineMsg[i]);
+        //writes all the debug vars
+        for (int i = 0; i < debug.numMsgs; i++)
+        {
+            textprintf_ex(buffer, font, 0, DEBUG_Y + (DEBUG_FONT_HEIGHT*i), DEBUG_FONT_COLOR, DEBUG_FONT_BACK_COLOR, "%s", debug.lineMsg[i]);
+        }
     }
-    
+
     //reset debug msgs
     debug.numMsgs = 0;
     
@@ -94,4 +97,9 @@ void show_debug(const char *format, ...)
         }
     }
 #endif
+}
+
+void debug_toggle()
+{
+    debug.showDebugInfo = !debug.showDebugInfo;
 }
