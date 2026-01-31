@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "testLevel.tmx",
+    "activeFile": "level00.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,11 +17,14 @@
             "scaleInDock": 1
         },
         "level00.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 2.0238,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 203.82448858582862,
-                "y": 165.5301907303093
+                "x": 311.29558256744735,
+                "y": 195.42444905623086
             }
         },
         "rockLevel.tmj": {
@@ -49,7 +52,7 @@
         },
         "testRocks.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 4,
             "scaleInEditor": 1
         },
         "testTileset.tsx": {
@@ -67,11 +70,12 @@
     "map.tileWidth": 16,
     "map.width": 16,
     "openFiles": [
-        "testLevel.tmx"
+        "level00.tmx"
     ],
     "project": "dos-platform-game.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "level00.tmx",
         "rockLevel.tmj",
         "testRocks.tsx",
         "testLevel.tmx"

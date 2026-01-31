@@ -20,6 +20,7 @@
 #include "collisions.h"
 #include "player.h"
 #include "objects.h"
+#include "input.h"
 
 //game structure
 struct game
@@ -42,8 +43,9 @@ static void destroy_level();
 void game_update()
 {   
     timer_start_frame();
+    input_keys_update();
 
-    if (key[KEY_ESC])
+    if (input_key_press(G_KEY_EXIT))
         gameExit = true;
 
     switch(game.state)

@@ -1,7 +1,7 @@
 # Engine
 - [ ] Fix deltaTime collisions?
 - [X] Implement Y Scroll following player
-- [ ] Controls
+- [X] Controls
 - [ ] Redefine controls
 - [ ] Playback system
 - [ ] DeltaTime ¿double?

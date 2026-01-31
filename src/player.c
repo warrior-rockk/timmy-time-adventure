@@ -8,6 +8,7 @@
 #include <math.h>
 #include "allegro.h"
 #include "player.h"
+#include "input.h"
 #include "utils.h"
 #include "game.h"
 #include "entity.h"
@@ -47,33 +48,33 @@ void player_update(tEntity *player)
     fixed localFriction = player->ground ? friction: air_friction;
 
     //update controls
-    if (key[KEY_RIGHT] && player->fixVel.x < max_vel_x)
+    if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x)
     {
         //player->vX+= fixmul(accel_x, (itofix(1) - friction));
         player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_RIGHT;
     }
 
-    if (key[KEY_LEFT] && player->fixVel.x > -max_vel_x)
+    if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x)
     {
         player->fixVel.x-= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_LEFT;
     }
 
-    if (key[KEY_Z] && player->ground)
+    if (input_key_pressed(G_KEY_JUMP) && player->ground)
     {
         player->fixVel.y = -accel_y;
         player->jump = true;
         player->ground = false;
     }
 
-    if (key[KEY_DOWN])
+    if (input_key_press(G_KEY_DOWN))
     {
         playerCrouched = true;
     }
 
     //update vels
-    if (!key[KEY_RIGHT] && !key[KEY_LEFT])
+    if (!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT))
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); //this the equivalent formula for vX *= friction with deltaTime
     
     //gravity vel
