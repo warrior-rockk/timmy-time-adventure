@@ -25,6 +25,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
     }
     
+    #ifdef DEBUGMODE
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
         tColPoint *entPoint;
@@ -41,6 +42,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             }  
         }
     }
+    #endif
 }
 
 //public functions

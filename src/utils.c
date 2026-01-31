@@ -13,7 +13,6 @@ struct debug
 {
     int16_t numMsgs;
     char lineMsg[DEBUG_MAX_MSGS][DEBUG_MSG_MAX_CHARS];
-    bool showDebugInfo;
 } debug;
 #endif
 
@@ -53,7 +52,6 @@ void debug_init()
 {
 #ifdef DEBUGMODE
     debug.numMsgs = 0;
-    debug.showDebugInfo = true;
 #endif
 }
 
@@ -61,15 +59,13 @@ void debug_init()
 void debug_draw(BITMAP *buffer)
 {
 #ifdef DEBUGMODE
-    if (debug.showDebugInfo)
+    
+    //writes all the debug vars
+    for (int i = 0; i < debug.numMsgs; i++)
     {
-        //writes all the debug vars
-        for (int i = 0; i < debug.numMsgs; i++)
-        {
-            textprintf_ex(buffer, font, 0, DEBUG_Y + (DEBUG_FONT_HEIGHT*i), DEBUG_FONT_COLOR, DEBUG_FONT_BACK_COLOR, "%s", debug.lineMsg[i]);
-        }
+        textprintf_ex(buffer, font, 0, DEBUG_Y + (DEBUG_FONT_HEIGHT*i), DEBUG_FONT_COLOR, DEBUG_FONT_BACK_COLOR, "%s", debug.lineMsg[i]);
     }
-
+    
     //reset debug msgs
     debug.numMsgs = 0;
     
@@ -88,18 +84,10 @@ void show_debug(const char *format, ...)
     vsprintf(buf, format, arglist);
     va_end(arglist);
 
-    if (debug.showDebugInfo)
+    if (debug.numMsgs < DEBUG_MAX_MSGS)
     {
-        if (debug.numMsgs < DEBUG_MAX_MSGS)
-        {
-            strcpy(debug.lineMsg[debug.numMsgs], buf);    
-            debug.numMsgs++;            
-        }
-    }
+        strcpy(debug.lineMsg[debug.numMsgs], buf);    
+        debug.numMsgs++;            
+    }    
 #endif
-}
-
-void debug_toggle()
-{
-    debug.showDebugInfo = !debug.showDebugInfo;
 }

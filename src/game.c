@@ -29,6 +29,14 @@ struct game
     uint8_t prevState;
 } game;
 
+//debug option structure
+#ifdef DEBUGMODE
+struct debugOptions
+{
+    uint8_t showDebugInfo; 
+} debugOptions;
+#endif
+
 BITMAP *buffer;
 BITMAP *worldScreen;
 RGB* gamePal;
@@ -85,10 +93,11 @@ void game_update()
     }
     
     #ifdef DEBUGMODE
-        game_debug_info();
+        if (debugOptions.showDebugInfo)
+            game_debug_info();
 
         if (input_key_pressed(G_KEY_D))
-            debug_toggle();
+            debugOptions.showDebugInfo = !debugOptions.showDebugInfo;
     #endif
 }
 
@@ -114,6 +123,9 @@ void game_init()
     collision_system_init();
     object_system_init();
     debug_init();
+    #ifdef DEBUGMODE
+        debugOptions.showDebugInfo = true;
+    #endif
     timer_init(GAME_CLOCK_TICK);
 
     //initialize map bitmap
@@ -135,8 +147,11 @@ void game_draw()
 
     //blit worldScreen on buffer (centered on screen)
     blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
-    //draw debug info
-    debug_draw(buffer);
+    #ifdef DEBUGMODE
+        //draw debug info
+        if (debugOptions.showDebugInfo)
+            debug_draw(buffer);
+    #endif
     //wait for vsync
     vsync();    
     timer_end_frame(&deltaTime);
