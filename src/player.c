@@ -46,7 +46,7 @@ void player_init(tEntity *player)
     playerCrouched = false;
     player->ground = false;
 
-    accel_x       = ftofix(0.06);
+    accel_x       = ftofix(0.20); //0.06 without friction on move
     friction      = ftofix(0.92); //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
     air_friction  = ftofix(0.6);  //less than floor friction
     gravity       = ftofix(0.2);
@@ -64,14 +64,15 @@ void player_update(tEntity *player)
     //update controls
     if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x)
     {
-        //player->vX+= fixmul(accel_x, (itofix(1) - friction));
-        player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
+        player->fixVel.x += fixmul(fixmul(accel_x, (itofix(1) - friction)), ftofix(deltaTime));
+        //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_RIGHT;
     }
 
     if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x)
     {
-        player->fixVel.x-= fixmul(accel_x, ftofix(deltaTime));
+        player->fixVel.x -= fixmul(fixmul(accel_x, (itofix(1) - friction)), ftofix(deltaTime));
+        //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_LEFT;
     }
 
