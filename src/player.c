@@ -159,12 +159,12 @@ void player_update(tEntity *player)
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
-                if (abs(player->fixVel.x) > cMinVelToIdle)
+                if (playerMoving)
                     play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_UP);
                 else
                     play_animation(&playerAnim, ANIM_PLY_JUMP_UP);
             else
-                if (abs(player->fixVel.x) > cMinVelToIdle)
+                if (playerMoving)
                     play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_DOWN);
                 else
                     play_animation(&playerAnim, ANIM_PLY_JUMP_DOWN);
