@@ -10,6 +10,7 @@
 #include "collisions.h"
 #include "player.h"
 #include "objects.h"
+#include "game.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -26,22 +27,25 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
     }
     
     #ifdef DEBUGMODE
-    if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
-    {
-        tColPoint *entPoint;
-        for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+        if (debugOptions.showDebugInfo)
         {
-            entPoint = collision_get_ent_collision_point(entity, i);
-            if (entPoint->enabled)  
+            if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
             {
-                putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
+                tColPoint *entPoint;
+                for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+                {
+                    entPoint = collision_get_ent_collision_point(entity, i);
+                    if (entPoint->enabled)  
+                    {
+                        putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
+                    }
+                    else
+                    {
+                        putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
+                    }  
+                }
             }
-            else
-            {
-                putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
-            }  
         }
-    }
     #endif
 }
 

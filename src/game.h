@@ -49,8 +49,15 @@ enum E_GAME_STATE
     E_GAME_ST_EXIT,
 };
 
+//options for debug mode
+typedef struct
+{
+    uint8_t showDebugInfo; 
+} tDebugOptions;
+
 extern double deltaTime;
 extern uint8_t gameExit;
+extern tDebugOptions debugOptions;
 
 //function to init game
 void game_init();

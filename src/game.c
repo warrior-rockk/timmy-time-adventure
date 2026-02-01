@@ -31,10 +31,7 @@ struct game
 
 //debug option structure
 #ifdef DEBUGMODE
-struct debugOptions
-{
-    uint8_t showDebugInfo; 
-} debugOptions;
+tDebugOptions debugOptions;
 #endif
 
 BITMAP *buffer;
