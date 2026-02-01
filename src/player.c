@@ -67,11 +67,11 @@ void player_update(tEntity *player)
     //update friction
     localFriction = player->ground ? friction: air_friction;
     localAccelX = player->ground ? accel_x : accel_x_air;
-    
+
     //update controls
     if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerCrouched)
     {
-        player->fixVel.x += fixmul(fixmul(accel_x, (itofix(1) - friction)), ftofix(deltaTime));
+        player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
         //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_RIGHT;
         playerMoving = true;
@@ -79,7 +79,7 @@ void player_update(tEntity *player)
 
     if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerCrouched)
     {
-        player->fixVel.x -= fixmul(fixmul(accel_x, (itofix(1) - friction)), ftofix(deltaTime));
+        player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
         //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
         player->dir = E_ENT_DIR_LEFT;
         playerMoving = true;
