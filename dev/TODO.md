@@ -5,6 +5,7 @@
 - [ ] Redefine controls
 - [ ] Playback system
 - [ ] DeltaTime ¿double?
+- [ ] Reset ground flag on entity init?
 
 # Player
 - [ ] Idle special animation when no control

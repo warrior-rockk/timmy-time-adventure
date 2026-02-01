@@ -16,9 +16,21 @@
 
 #define PLAYER_MAX_FRAMES   50
 
-BITMAP *playerSpriteSheet;
-BITMAP *playerFrames[PLAYER_MAX_FRAMES];
-tAnimation playerAnim;
+static BITMAP *playerSpriteSheet;
+static BITMAP *playerFrames[PLAYER_MAX_FRAMES];
+static tAnimation playerAnim;
+
+static fixed accel_x;
+static fixed friction;
+static fixed air_friction;
+static fixed gravity;
+static fixed accel_y;
+static fixed max_vel_x;
+static fixed max_vel_y;
+static fixed cMinVelToIdle;
+static fixed localFriction;
+
+static uint8_t playerCrouched = false;
 
 void player_init(tEntity *player)
 {
@@ -29,23 +41,25 @@ void player_init(tEntity *player)
         playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_IMG_W, 0, PLAYER_IMG_W, PLAYER_IMG_H);
     }
 
-    player->state = ST_PLAYER_IDLE;    
+    //initialize player vars
+    player->state = ST_PLAYER_IDLE;
+    playerCrouched = false;
+    player->ground = false;
+
+    accel_x       = ftofix(0.06);
+    friction      = ftofix(0.92); //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
+    air_friction  = ftofix(0.6);  //less than floor friction
+    gravity       = ftofix(0.2);
+    accel_y       = ftofix(4.0);  //jump acceleration
+    max_vel_x     = ftofix(1.0);
+    max_vel_y     = ftofix(6);
+    cMinVelToIdle = ftofix(0.1);
 }
 
 void player_update(tEntity *player)
 {
-    fixed accel_x = ftofix(0.06);
-    fixed friction = ftofix(0.92);      //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
-    fixed air_friction = ftofix(0.6);   //less than floor friction
-    fixed gravity = ftofix(0.2);
-    fixed accel_y = ftofix(4.0);        //jump acceleration
-    fixed max_vel_x = ftofix(1.0);
-    fixed max_vel_y = ftofix(6);
-    
-    const fixed cMinVelToIdle = ftofix(0.1);
-    uint8_t playerCrouched = false;
-
-    fixed localFriction = player->ground ? friction: air_friction;
+    //update friction
+    localFriction = player->ground ? friction: air_friction;
 
     //update controls
     if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x)
@@ -75,25 +89,16 @@ void player_update(tEntity *player)
 
     //update vels
     if (!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT))
-        player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); //this the equivalent formula for vX *= friction with deltaTime
+        //this the equivalent formula for vX *= friction with deltaTime
+        player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
     
     //gravity vel
 	player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-    //player->fixVel.y = 0;
-
-    //player->vY += fixmul(gravity, ftofix(deltaTime));
-    
-    /*if (player->pos.y >= floor && !player->jump)
-    { 
-        player->fixVel.y = 0;
-        player->fixPos.y = itofix(floor);
-        player->ground = true;
-    }*/
     
     //check collisions
     player->ground = false;
     
-    //run the entity collision points    
+    //check all the entity collision points    
     for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
     {                
         //check collision tile for collision point
@@ -130,7 +135,7 @@ void player_update(tEntity *player)
         player->state = ST_PLAYER_IDLE;
     }
 
-    //update frame
+    //update animation
     switch (player->state)
     {
         case ST_PLAYER_IDLE:
@@ -155,6 +160,7 @@ void player_update(tEntity *player)
             play_animation(&playerAnim, ANIM_PLY_CROUCH);
         break;
     }
-    
+ 
+    //assign frame animation to entity img
     player->img = playerFrames[playerAnim.frame];       
 }
