@@ -88,7 +88,6 @@ void player_update(tEntity *player)
     if (input_key_pressed(G_KEY_JUMP) && player->ground)
     {
         player->fixVel.y = -accel_y;
-        player->jump = true;
         player->ground = false;
     }
 

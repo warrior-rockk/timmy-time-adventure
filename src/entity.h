@@ -58,7 +58,6 @@ typedef struct tEntity
     bool dead;                  //dead flag
     bool visible;               //visible flag
     bool ground;                //ground flag
-    bool jump;                  //jump flag
     //function pointers
     void (*entity_init)(struct tEntity *entity);
     void (*entity_create)(struct tEntity *entity);
