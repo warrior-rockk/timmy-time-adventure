@@ -9,7 +9,8 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "DEBUGMODE"
             ],
             "compilerPath": "D:/Instalables/Proyectos/Programacion DOS/cross-compile/djgpp/bin/i586-pc-msdosdjgpp-gcc.exe",
             "cStandard": "c99",
@@ -23,7 +24,9 @@
                 "${workspaceFolder}/**",
                 "/Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/include/**"
             ],
-            "defines": [],
+            "defines": [
+                "DEBUGMODE"
+            ],
             "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-gcc-x86",
