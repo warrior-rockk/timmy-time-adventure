@@ -10,4 +10,4 @@
 # Player
 - [ ] Idle special animation when no control
 - [ ] Animation on edge
-- [ ] Slide crouched
+- [X] Slide crouched
