@@ -69,6 +69,35 @@ void player_update(tEntity *player)
     localAccelX = player->ground ? accel_x : accel_x_air;
 
     //update controls
+    player_update_controls(player);
+    
+    //update collisions    
+    player_update_collisions(player);       
+
+    //apply velocities
+    player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));
+    //gravity velocity
+	player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+    
+    if (player->ground)
+        player->fixVel.y = 0;  
+    else  
+        player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
+
+    //update position
+    player->pos.x = fixtoi(player->fixPos.x);
+    player->pos.y = fixtoi(player->fixPos.y);
+    
+    //update state
+    player_update_state(player);
+
+    //update animations
+    player_update_animations(player);
+}
+
+static void player_update_controls(tEntity *player)
+{
+    //update controls
     if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerCrouched)
     {
         player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
@@ -103,33 +132,10 @@ void player_update(tEntity *player)
         else    
             playerMoving = false;
     }
-    
-    //gravity vel
-	player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-    
-    //check collisions
-    player->ground = false;
-    
-    //check all the entity collision points    
-    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
-    {                
-        //check collision tile for collision point
-        int16_t colDir = collision_check_tile(player, i);        
-        //apply collision direction
-        applyDirCollision(player, colDir);        
-    }
+}
 
-    //apply velocity
-    player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));
-    if (player->ground)
-        player->fixVel.y = 0;  
-    else  
-        player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
-
-    //update position
-    player->pos.x = fixtoi(player->fixPos.x);
-    player->pos.y = fixtoi(player->fixPos.y);
-    
+static void player_update_state(tEntity *player)
+{
     //update state
     player->prevState = player->state;    
     if (!player->ground == true)
@@ -146,8 +152,11 @@ void player_update(tEntity *player)
     {
         player->state = ST_PLAYER_IDLE;
     }
+}
 
-    //update animation
+static void player_update_animations(tEntity *player)
+{
+    //update animations
     switch (player->state)
     {
         case ST_PLAYER_IDLE:
@@ -174,5 +183,20 @@ void player_update(tEntity *player)
     }
  
     //assign frame animation to entity img
-    player->img = playerFrames[playerAnim.frame];       
+    player->img = playerFrames[playerAnim.frame];
+}
+
+static void player_update_collisions(tEntity *player)
+{
+    //check collisions
+    player->ground = false;
+    
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        int16_t colDir = collision_check_tile(player, i);        
+        //apply collision direction
+        applyDirCollision(player, colDir);        
+    }
 }
