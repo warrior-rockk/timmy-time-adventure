@@ -66,7 +66,7 @@ void game_update()
         break;
         case E_GAME_ST_PLAY_LEVEL:
             entities_update(&scroll);
-            scroll_update(&scroll, &get_entity(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
 
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
             entities_draw(worldScreen, &scroll);
@@ -162,10 +162,10 @@ static void game_debug_info()
     //debug info
     show_debug("FPS: %d", get_fps());
     show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
-    show_debug( "p.vX: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.x));
-    show_debug( "p.vY: %f", fixtof(get_entity(PLAYER_ENTITY_ID)->fixVel.y));
-    show_debug( "p.x: %d", get_entity(PLAYER_ENTITY_ID)->pos.x);
-    show_debug( "p.y: %d", get_entity(PLAYER_ENTITY_ID)->pos.y);
+    show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
+    show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
+    show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
+    show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
 }
 
 //testing

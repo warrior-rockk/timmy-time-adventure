@@ -142,7 +142,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
 }
 
 //function to return a entity
-tEntity* get_entity(uint16_t numEntity)
+tEntity* entity_get(uint16_t numEntity)
 {
     if (entityList)
         return &entityList[numEntity];
@@ -241,4 +241,9 @@ void entity_destroy_all()
     {
         entityList[i].dead = true;
     }    
+}
+
+uint8_t entities_get_num()
+{
+    return numEntities;
 }

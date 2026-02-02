@@ -470,75 +470,79 @@ void applyDirCollision(tEntity *entity, int16_t colDir)
 	}
 }
 
-//Funcion de chequeo de colision entre procesos elegiendo el eje
-//Posiciona el objeto al borde del tile y devuelve un int con el sentido de la colision o 0 si no hay
-int16_t collision_check_entity(tEntity *entity, tEntity *entityB, enum eCheckProcessModes mode)
+//Function to check collision between processes. Mode selects horizontal, vertical or both collisions
+//Position the entityA to edge of collision (if not mode INFOONLY) and returns collision direction or 0 if not collided
+uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode)
 {
     fixed vcX,vcY,hW,hH,oX,oY;
-    int16_t colDir;
+    uint8_t colDir = 0;
 
-	//check if entity is no collable
+	//check if entity is no collidable
     if (CHECK_FLAG(entityB->properties, E_ENT_PROP_NO_COLLISION))
         return 0;
-		
-	//Obtiene los vectores de los centros para comparar
-	//teniendo en cuenta la velocidad del objeto principal
-	//y el eje seleccionado en parametro axis
-	if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
-		vcX = (entity->fixPos.x + entity->fixVel.x) - (entityB->fixPos.x);
-	else
-		vcX = (entity->fixPos.x) - (entityB->fixPos.x);
 	
+	//Obtains the center horizontal position vectors with the velocities
+    if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
+		vcX = (entityA->fixPos.x + entityA->fixVel.x) - (entityB->fixPos.x);
+	else
+		vcX = (entityA->fixPos.x) - (entityB->fixPos.x);
+    //Obtains the center vertical position vectors with the velocities
 	if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_VERTICALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
-		vcY = (entity->fixPos.y + entity->fixVel.y) - (entityB->fixPos.y);
+		vcY = (entityA->fixPos.y + entityA->fixVel.y) - (entityB->fixPos.y);
 	else
-		vcY = (entity->fixPos.y) - (entityB->fixPos.y);
+		vcY = (entityA->fixPos.y) - (entityB->fixPos.y);
 	
-	//VOY POR AQUI
-	// suma las mitades de los this.anchos y los this.altos
-	hW =  (idEntity.this.ancho>>1) + (idEntityB.this.ancho>>1);
-	hH = (idEntity.this.alto>>1) + (idEntityB.this.alto>>1);
+	//add half of size of entities
+	hW = (entityA->size.x >> 1) + (entityB->size.x >> 1);
+	hH = (entityA->size.y >> 1) + (entityB->size.y >> 1);
 	
-	colDir = 0;
-
-    //si los vectores e x y son menores que las mitades de this.anchos y this.altos, ESTAN colisionando
-	if (abs(vcX) < hW && abs(vcY) < hH) 
-        
-		//calculamos el sentido de la colision (top, bottom, left, or right)
+    //if the x and y vectors are minus than half of sizes, there's collision
+    if (abs(vcX) < hW && abs(vcY) < hH) 
+    {    
+		//calculate the collision direction
         oX = hW - abs(vcX);
         oY = hH - abs(vcY);
         
-		if (oX >= oY) 
+		if (oX >= oY)
+        { 
             if (mode==E_CHECK_PROCESS_BOTHAXIS || mode==E_CHECK_PROCESS_VERTICALAXIS || mode==E_CHECK_PROCESS_INFOONLY )
-				if (vcY > 0) 			//Arriba
-					colDir = COLUP;
+            {
+                if (vcY > 0) 			
+                {
+					colDir =  E_COLLISION_UP;
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-						idEntity.this.fY += oY+idEntity.this.vY;
-					end;
-				else 
-					colDir = COLDOWN;	//Abajo
+                        entityA->fixPos.y += oY + entityA->fixVel.y;
+                }    
+				else
+                { 
+					colDir = E_COLLISION_DOWN;	
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-					idEntity.this.fY -= oY-idEntity.this.vY;
-					end;
-				end;
-			end;
+					    entityA->fixPos.y -= oY - entityA->fixVel.y;
+					
+				}
+            }
+        }
         else
-			if (axis==E_CHECK_PROCESS_BOTHAXIS || axis==E_CHECK_PROCESS_HORIZONTALAXIS || axis==E_CHECK_PROCESS_INFOONLY)
-				if (vcX > 0) 
-					colDir = COLIZQ;	//Izquierda
+        {
+			if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY)
+			{	
+                if (vcX > 0) 
+                {
+					colDir = E_COLLISION_LEFT;
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-					idEntity.this.fX += oX+idEntity.this.vX;
-					end;
-				else 
-					colDir = COLDER;	//Derecha
+					    entityA->fixPos.x += oX + entityA->fixVel.x;
+					
+                }
+                else
+                { 
+					colDir = E_COLLISION_RIGHT;
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-						idEntity.this.fX -= oX-idEntity.this.vX;
-					end;
-				end;
-			end;
-	     end;
-	end;
+						entityA->fixPos.x -= oX - entityA->fixVel.x;
+				}
+            }
+        }
+	}
         
-    //Devolvemos el sentido de la colision o 0 si no hay
+    //returns the collision dir
     return colDir;
 }

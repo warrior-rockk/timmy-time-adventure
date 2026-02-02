@@ -83,6 +83,8 @@ void collision_destroy_entity_points(uint16_t entityId);
 tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 //function to check entity collision with tilemap
 int16_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
+//function to check collision between entities
+uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode);
 //function to apply the direction of the collision to an entity
 void applyDirCollision(tEntity *entity, int16_t colDir);
 

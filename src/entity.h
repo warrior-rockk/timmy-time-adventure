@@ -78,7 +78,9 @@ void entities_update(tScroll *scroll);
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
 //returns entity based on entity number
-tEntity* get_entity(uint16_t numEntity);
+tEntity* entity_get(uint16_t numEntity);
+//returns number of entities
+uint8_t entities_get_num();
 //destroy all entities
 void entity_destroy_all();
 

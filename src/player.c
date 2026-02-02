@@ -200,4 +200,20 @@ static void player_update_collisions(tEntity *player)
         //apply collision direction
         applyDirCollision(player, colDir);        
     }
+
+    //check entities collisions
+    uint8_t numEntities = entities_get_num();
+    tEntity *checkEntity;
+    for (uint8_t i = 0; i < numEntities; i++)
+    {
+        checkEntity = entity_get(i);
+        if (checkEntity->id != player->id)
+        {
+            uint8_t colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
+            applyDirCollision(player, colDir);
+
+            colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
+            applyDirCollision(player, colDir);
+        }
+    }
 }
