@@ -27,6 +27,8 @@
     #define MY_TRACE                TRACE
 #endif
 
+#define HALT    exit(-1);
+
 //Debug
 #define DEBUG_MAX_MSGS          16
 #define DEBUG_MSG_MAX_CHARS     50

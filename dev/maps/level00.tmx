@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="6">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="7">
  <editorsettings>
   <export format="csv"/>
  </editorsettings>
@@ -36,6 +36,11 @@
    </properties>
   </object>
   <object id="5" name="stone" type="object" x="210.603" y="87.0124">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="6" name="stone" type="object" x="96" y="176">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>

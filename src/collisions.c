@@ -178,8 +178,8 @@ int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, 
 	return -1;
 }
 
-//function to check entity collision with tilemap
-int16_t collision_check_tile(tEntity *entity, uint16_t pointNum)
+//function to check entity collision with tilemap. Returns: direction of collision
+uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 
     tLinePath colLinePath;	//Collision path line to check
     int16_t distColX;		//X collision distance
@@ -493,8 +493,8 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
 		vcY = (entityA->fixPos.y) - (entityB->fixPos.y);
 	
 	//add half of size of entities
-	hW = (entityA->size.x >> 1) + (entityB->size.x >> 1);
-	hH = (entityA->size.y >> 1) + (entityB->size.y >> 1);
+	hW = (itofix(entityA->size.x) >> 1) + (itofix(entityB->size.x) >> 1);
+	hH = (itofix(entityA->size.y) >> 1) + (itofix(entityB->size.y) >> 1);
 	
     //if the x and y vectors are minus than half of sizes, there's collision
     if (abs(vcX) < hW && abs(vcY) < hH) 

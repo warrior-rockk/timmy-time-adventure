@@ -189,14 +189,14 @@ static void player_update_animations(tEntity *player)
 
 static void player_update_collisions(tEntity *player)
 {
-    //check collisions
+    uint8_t colDir = 0;
     player->ground = false;
     
     //check all the entity collision points    
     for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
     {                
         //check collision tile for collision point
-        int16_t colDir = collision_check_tile(player, i);        
+        colDir = collision_check_tile(player, i);        
         //apply collision direction
         applyDirCollision(player, colDir);        
     }
@@ -209,11 +209,12 @@ static void player_update_collisions(tEntity *player)
         checkEntity = entity_get(i);
         if (checkEntity->id != player->id)
         {
-            uint8_t colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
+            colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
             applyDirCollision(player, colDir);
-
+            
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
             applyDirCollision(player, colDir);
+            show_debug("Coldir: %i, %i", colDir, checkEntity->id);
         }
     }
 }
