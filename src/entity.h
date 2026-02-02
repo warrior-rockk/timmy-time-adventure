@@ -26,7 +26,7 @@ enum E_ENTITY_CLASS
 enum E_ENTITY_PROPERTIES
 {
     E_ENT_PROP_PHYSICS_ON    = 0x01,
-//    E_SOLID_PROPERTY            = 0x02,
+    E_ENT_PROP_NO_COLLISION  = 0x02,
 //    E_PERSISTENT                = 0x04,
 };
 

@@ -48,6 +48,14 @@ enum eCheckVectorYModes{
     E_CHECK_VECTOR_Y_TO_COLLISION,          //check pixel to reach collision
 };
 
+//checkProcess modes
+enum eCheckProcessModes{
+    E_CHECK_PROCESS_BOTHAXIS,			
+    E_CHECK_PROCESS_HORIZONTALAXIS,		
+    E_CHECK_PROCESS_VERTICALAXIS,		
+    E_CHECK_PROCESS_INFOONLY,			
+};
+
 //collision point
 typedef struct tColPoint
 {
