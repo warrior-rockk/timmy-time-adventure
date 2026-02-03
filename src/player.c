@@ -211,10 +211,10 @@ static void player_update_collisions(tEntity *player)
         {
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
             applyDirCollision(player, colDir);
-            
+            show_debug("ColdirV: %i, %i", colDir, checkEntity->id);
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
             applyDirCollision(player, colDir);
-            show_debug("Coldir: %i, %i", colDir, checkEntity->id);
+            show_debug("ColdirH: %i, %i", colDir, checkEntity->id);
         }
     }
 }
