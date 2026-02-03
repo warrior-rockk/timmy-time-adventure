@@ -42,6 +42,14 @@ enum E_ENTITY_DIR
     E_ENT_DIR_LEFT,
 };
 
+//entities alignment size axis (for drawing)
+enum E_ENTITY_AXIS
+{
+    E_ENT_AXIS_CENTER,
+    E_ENT_AXIS_UP,
+    E_ENT_AXIS_DOWN,
+};
+
 //entity object
 typedef struct tEntity
 {
@@ -51,6 +59,7 @@ typedef struct tEntity
     tFixVector fixPos;          //entity fixed position
     tFixVector fixVel;          //entity fixed velocities
     tVector initPos;            //entity initial position
+    uint8_t axis;               //entity drawing axis
     BITMAP *img;                //actual entity frame image
     uint8_t state;              //actual entity state
     uint8_t prevState;          //previous entity state

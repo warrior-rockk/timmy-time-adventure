@@ -20,12 +20,31 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 {
     if (entity->img)
     {
+        int16_t drawX, drawY;
+
+        switch (entity->axis)
+        {
+            case E_ENT_AXIS_DOWN:
+                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
+                drawY = entity->pos.y - ((entity->img->h - entity->size.y) );
+            break;
+            case E_ENT_AXIS_UP:
+                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
+                drawY = entity->pos.y;
+            break;
+            case E_ENT_AXIS_CENTER:
+            default:
+                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
+                drawY = entity->pos.y - ((entity->img->h - entity->size.y) >>1);
+            break;
+        }
+
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
             if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >>1), entity->pos.y - scroll->pos.y - ((entity->img->h - entity->size.y) >>1));
+                draw_sprite(buffer, entity->img, drawX - scroll->pos.x, drawY - scroll->pos.y);
             else
-                draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >> 1), entity->pos.y - scroll->pos.y - ((entity->img->h - entity->size.y) >>1));        
+                draw_sprite_h_flip(buffer, entity->img, drawX - scroll->pos.x, drawY - scroll->pos.y);        
         }
     }
     
@@ -114,6 +133,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             case E_ENT_CLASS_PLAYER:
                 entityList[newEntity].img             = load_bmp("res/004.bmp",NULL);
                 entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
+                entityList[newEntity].axis            = E_ENT_AXIS_DOWN;
                 entityList[newEntity].properties      = E_ENT_PROP_PHYSICS_ON;
                 entityList[newEntity].entity_create   = NULL;
                 entityList[newEntity].entity_init     = &player_init;
@@ -124,6 +144,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;
+                entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
         }
         
