@@ -26,25 +26,26 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
     }
     
-    #ifdef DEBUGMODE
+    #ifdef DEBUGMODE        
         if (debugOptions.showDebugInfo)
         {
+            //draw collision points on entity
             if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
             {
                 tColPoint *entPoint;
+                uint8_t entPointColor;
                 for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
                 {
                     entPoint = collision_get_ent_collision_point(entity, i);
-                    if (entPoint->enabled)  
-                    {
-                        putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 53);
-                    }
+                    if (entPoint->enabled)
+                        entPointColor = DEBUG_POINT_ENABLED_COLOR;
                     else
-                    {
-                        putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, 66);
-                    }  
+                        entPointColor = DEBUG_POINT_DISABLED_COLOR;                    
+                    putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, entPointColor);
                 }
             }
+            //draw collision box
+            rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, entity->pos.x - scroll->pos.x + entity->size.x, entity->pos.y - scroll->pos.y + entity->size.y, 40);
         }
     #endif
 }
@@ -115,8 +116,6 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_update   = &player_update;
             break;
             default:
-                entityList[newEntity].img             = load_bmp("res/stone.bmp",NULL);
-                entityList[newEntity].size            = (tVector){entityList[newEntity].img->w,entityList[newEntity].img->h};        
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;

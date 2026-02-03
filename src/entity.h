@@ -14,6 +14,9 @@
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities
 
+#define DEBUG_POINT_ENABLED_COLOR       53
+#define DEBUG_POINT_DISABLED_COLOR      66
+
 //game entity classes
 enum E_ENTITY_CLASS
 {
