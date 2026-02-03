@@ -23,9 +23,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
             if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >>1), entity->pos.y - scroll->pos.y);
+                draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >>1), entity->pos.y - scroll->pos.y - ((entity->img->h - entity->size.y) >>1));
             else
-                draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >> 1), entity->pos.y - scroll->pos.y);        
+                draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >> 1), entity->pos.y - scroll->pos.y - ((entity->img->h - entity->size.y) >>1));        
         }
     }
     
