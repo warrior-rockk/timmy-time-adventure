@@ -523,7 +523,7 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
                 { 
 					colDir = E_COLLISION_DOWN;	
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-					    entityA->fixPos.y -= oY - entityA->fixVel.y;
+					    entityA->fixPos.y -= oY - entityA->fixVel.y - 1;
 					
 				}
             }
