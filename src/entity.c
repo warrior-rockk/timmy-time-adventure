@@ -21,14 +21,17 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
     if (entity->img)
     {
         if (entity->dir == E_ENT_DIR_RIGHT)   
-            draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
+            draw_sprite(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >>1), entity->pos.y - scroll->pos.y);
         else
-            draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y);
+            draw_sprite_h_flip(buffer, entity->img, entity->pos.x - scroll->pos.x - ((entity->img->w - entity->size.x) >> 1), entity->pos.y - scroll->pos.y);
     }
     
     #ifdef DEBUGMODE        
         if (debugOptions.showDebugInfo)
         {
+            //draw collision box
+            rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, (entity->pos.x + entity->size.x) - scroll->pos.x , (entity->pos.y + entity->size.y) - scroll->pos.y , 40);            
+
             //draw collision points on entity
             if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
             {
@@ -43,9 +46,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
                         entPointColor = DEBUG_POINT_DISABLED_COLOR;                    
                     putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, entPointColor);
                 }
-            }
-            //draw collision box
-            rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, entity->pos.x - scroll->pos.x + entity->size.x, entity->pos.y - scroll->pos.y + entity->size.y, 40);
+            }            
         }
     #endif
 }
