@@ -124,7 +124,7 @@ static void player_update_controls(tEntity *player)
     playerCrouched = input_key_press(G_KEY_DOWN);
 
     //update vels
-    if (!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT))
+    if (!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT) || playerCrouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
@@ -212,7 +212,7 @@ static void player_update_collisions(tEntity *player)
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
             applyDirCollision(player, colDir);
             show_debug("ColdirV: %i, %i", colDir, checkEntity->id);
-            
+
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
             applyDirCollision(player, colDir);
             show_debug("ColdirH: %i, %i", colDir, checkEntity->id);
