@@ -474,34 +474,40 @@ void applyDirCollision(tEntity *entity, int16_t colDir)
 //Position the entityA to edge of collision (if not mode INFOONLY) and returns collision direction or 0 if not collided
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode)
 {
-    fixed vcX,vcY,hW,hH,oX,oY;
+    fixed vcX, vcY, addHW, addHH, oX, oY, hWA, hHA, hWB, hHB;
     uint8_t colDir = 0;
 
 	//check if entity is no collidable
     if (CHECK_FLAG(entityB->properties, E_ENT_PROP_NO_COLLISION))
         return 0;
 	
+    //get half of size of entities
+    hWA = itofix(entityA->size.x>>1);
+    hHA = itofix(entityA->size.y>>1);
+    hWB = itofix(entityB->size.x>>1);
+    hHB = itofix(entityB->size.y>>1);
+
 	//Obtains the center horizontal position vectors with the velocities
     if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
-		vcX = (entityA->fixPos.x + entityA->fixVel.x) - (entityB->fixPos.x);
+		vcX = (entityA->fixPos.x + hWA + entityA->fixVel.x) - (entityB->fixPos.x + hWB);
 	else
-		vcX = (entityA->fixPos.x) - (entityB->fixPos.x);
+		vcX = (entityA->fixPos.x + hWA) - (entityB->fixPos.x + hWB);
     //Obtains the center vertical position vectors with the velocities
 	if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_VERTICALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
-		vcY = (entityA->fixPos.y + entityA->fixVel.y) - (entityB->fixPos.y);
+		vcY = (entityA->fixPos.y + hHA + entityA->fixVel.y) - (entityB->fixPos.y + hHB);
 	else
-		vcY = (entityA->fixPos.y) - (entityB->fixPos.y);
+		vcY = (entityA->fixPos.y + hHA) - (entityB->fixPos.y + hHB);
 	
 	//add half of size of entities
-	hW = (itofix(entityA->size.x) >> 1) + (itofix(entityB->size.x) >> 1);
-	hH = (itofix(entityA->size.y) >> 1) + (itofix(entityB->size.y) >> 1);
+	addHW = hWA + hWB;
+	addHH = hHA + hHB;
 	
     //if the x and y vectors are minus than half of sizes, there's collision
-    if (abs(vcX) < hW && abs(vcY) < hH) 
+    if (abs(vcX) < addHW && abs(vcY) < addHH) 
     {    
 		//calculate the collision direction
-        oX = hW - abs(vcX);
-        oY = hH - abs(vcY);
+        oX = addHW - abs(vcX);
+        oY = addHH - abs(vcY);
         
 		if (oX >= oY)
         { 
