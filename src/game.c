@@ -94,7 +94,7 @@ void game_update()
             game_debug_info();
 
         if (input_key_pressed(G_KEY_D))
-            debugOptions.showDebugInfo = !debugOptions.showDebugInfo;
+            debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
     #endif
 }
 

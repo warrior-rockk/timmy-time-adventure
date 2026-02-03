@@ -347,7 +347,7 @@ void collision_create_entity_points(tEntity *entity)
         uint16_t newEntityColPoints = numEntitiesColPoints - 1;
 
         //precalculate positions offsets for collision points
-        uint8_t halfImgWidth    = entity->img->w>>1;
+        //uint8_t halfImgWidth    = entity->img->w>>1;
         uint8_t halfSizeX       = entity->size.x>>1;
         uint8_t halfSizeY       = entity->size.y>>1;
         uint8_t dividedSizeX    = entity->size.x / 4; 
@@ -397,12 +397,12 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x 		    = halfSizeX; //halfImgWidth;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.y 		    = halfSizeY;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].colCode              = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].enabled              = true; //<-
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].enabled              = false; //<- false by default
         
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].colCode         = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = true; //<-
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = false; //<- false by default
 
         MY_TRACE("[COLLISION SYSTEM]: Created entity collision points on position: %d\n", newEntityColPoints);
         MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);

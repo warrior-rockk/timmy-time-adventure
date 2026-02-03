@@ -6,6 +6,7 @@
 - [ ] Playback system
 - [ ] DeltaTime ¿double?
 - [ ] Reset ground flag on entity init?
+- [ ] Save half entity sizes on structure?
 
 # Player
 - [ ] Idle special animation when no control
