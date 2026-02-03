@@ -11,7 +11,7 @@
 #include "entity.h"
 
 #define PLAYER_W            12
-#define PLAYER_H            40
+#define PLAYER_H            30 //40
 #define PLAYER_IMG_W        28
 #define PLAYER_IMG_H        41
 

@@ -354,7 +354,7 @@ void collision_create_entity_points(tEntity *entity)
         uint8_t dividedSizeY    = entity->size.y / 6;
         
         entColPointsList[newEntityColPoints].entId = entity->id;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.x 			= halfImgWidth + halfSizeX - 1;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.x 			= entity->size.x; //halfImgWidth + halfSizeX - 1;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.y 			= dividedSizeY;  
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].colCode 	        = E_COLLISION_RIGHT;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].enabled 	        = true;
@@ -364,7 +364,7 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].colCode          = E_COLLISION_RIGHT;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].enabled          = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.x 		    = halfImgWidth - halfSizeX + 1;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.x 		    = 0; //halfImgWidth - halfSizeX + 1;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.y;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].colCode             = E_COLLISION_LEFT;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].enabled             = true;
@@ -374,12 +374,12 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].colCode           = E_COLLISION_LEFT;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].enabled           = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.x 		    = halfImgWidth + dividedSizeX; 
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.x 		    = entity->size.x - dividedSizeX; //halfImgWidth + dividedSizeX; 
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.y 		    = entity->size.y;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].colCode              = E_COLLISION_DOWN;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].enabled              = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x 		    = halfImgWidth - dividedSizeX;  
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x 		    = dividedSizeX; //halfImgWidth - dividedSizeX;  
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.y;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].colCode              = E_COLLISION_DOWN;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].enabled              = true;
@@ -389,20 +389,20 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].colCode                = E_COLLISION_UP;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].enabled                = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPINT_UP_L].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPINT_UP_L].offset.y 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].offset.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPINT_UP_L].colCode                 = E_COLLISION_UP;
-        entColPointsList[newEntityColPoints].colPoint[COLPINT_UP_L].enabled                 = true;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].offset.y 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].offset.y;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].colCode                = E_COLLISION_UP;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].enabled                = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x 		    = halfImgWidth;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x 		    = halfSizeX; //halfImgWidth;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.y 		    = halfSizeY;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].colCode              = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].enabled              = false;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].enabled              = true; //<-
         
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].colCode         = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = false;
+        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = true; //<-
 
         MY_TRACE("[COLLISION SYSTEM]: Created entity collision points on position: %d\n", newEntityColPoints);
         MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
