@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "game.h"
 #include "enemies.h"
+#include "timer.h"
 
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
@@ -101,30 +102,27 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
 {
     switch (this->state)
     {
-        case E_PTERO_ENEMY_TYPE:
-            if (local->timer >= this->pos.y)
-            {
+        case E_PTERO_IDLE_STATE:
                 this->state = E_PTERO_MOVE_RIGHT_STATE;
                 local->timer = 0;
-            }
-            else
-                local->timer+= (1 * deltaTime);            
         break;
         case E_PTERO_MOVE_RIGHT_STATE:
-            if (this->pos.x > 130)
+            if (this->pos.x > this->initPos.x + 20)
                 this->state = E_PTERO_MOVE_LEFT_STATE;
             else   
                 this->fixVel.x = ftofix(0.4);
             
-            play_animation(&pteroAnim, ANIM_PTERO_IDLE);
+            play_animation(&pteroAnim, ANIM_PTERO_FLY);
+            this->dir = E_ENT_DIR_RIGHT;
         break;
         case E_PTERO_MOVE_LEFT_STATE:
-            if (this->pos.x < 70)
+            if (this->pos.x < this->initPos.x - 20)
                 this->state = E_PTERO_MOVE_RIGHT_STATE;
             else   
-                this->fixVel.x = ftofix(-0.4);
-
-            play_animation(&pteroAnim, ANIM_PTERO_IDLE);
+                this->fixVel.x = -ftofix(0.4);
+            
+            play_animation(&pteroAnim, ANIM_PTERO_FLY);
+            this->dir = E_ENT_DIR_LEFT;
         break;
         default:
             this->state = E_PTERO_IDLE_STATE;

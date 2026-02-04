@@ -11,7 +11,7 @@
 #include "anim.h"
 
 //enemy animations
-#define ANIM_PTERO_IDLE               0,   1,     10, ANIM_LOOP
+#define ANIM_PTERO_FLY     0,   1,     20, ANIM_LOOP
 
 enum E_ENEMY_TYPE
 {
