@@ -126,7 +126,7 @@ static void player_update_controls(tEntity *player)
         player->ground = false;
     }
 
-    playerCrouched = input_key_press(G_KEY_DOWN);
+    playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
 
     //update vels
     if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerCrouched)
