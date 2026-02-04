@@ -95,6 +95,8 @@ void game_update()
 
         if (input_key_pressed(G_KEY_D))
             debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
+        if (input_key_pressed(G_KEY_M))
+            debugOptions.stepToStep = !debugOptions.stepToStep;
     #endif
 }
 

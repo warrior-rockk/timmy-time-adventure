@@ -9,6 +9,7 @@
 
 #include "utils.h"
 #include "game.h"
+#include "input.h"
 
 static void main_init();
 
@@ -17,11 +18,36 @@ int main()
     main_init();
     game_init();
 
+game_update();
+            game_draw();
     //main loop
     do
     {
-        game_draw();
-        game_update();
+        #ifdef DEBUGMODE
+            if (debugOptions.stepToStep)
+            {
+                input_keys_update();
+                if (input_key_pressed(G_KEY_M))
+                    debugOptions.stepToStep = !debugOptions.stepToStep;
+                if (input_key_pressed(G_KEY_EXIT))
+                    gameExit = true;
+                if (input_key_pressed(G_KEY_D))
+                {
+                    game_update();
+                    game_draw();         
+                }        
+            }
+            else
+            {
+                game_update();
+                game_draw();    
+            }
+        #else
+            game_update();
+            game_draw();
+        #endif
+        
+        
         
     } while (!gameExit);
     
