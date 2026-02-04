@@ -12,6 +12,8 @@
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
 
+static tAnimation pteroAnim;
+
 void enemy_system_init()
 {
     //empty enemy list
@@ -106,19 +108,23 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
                 local->timer = 0;
             }
             else
-                local->timer+= (1 * deltaTime);
+                local->timer+= (1 * deltaTime);            
         break;
         case E_PTERO_MOVE_RIGHT_STATE:
             if (this->pos.x > 130)
                 this->state = E_PTERO_MOVE_LEFT_STATE;
             else   
                 this->fixVel.x = ftofix(0.4);
+            
+            play_animation(&pteroAnim, ANIM_PTERO_IDLE);
         break;
         case E_PTERO_MOVE_LEFT_STATE:
             if (this->pos.x < 70)
                 this->state = E_PTERO_MOVE_RIGHT_STATE;
             else   
                 this->fixVel.x = ftofix(-0.4);
+
+            play_animation(&pteroAnim, ANIM_PTERO_IDLE);
         break;
         default:
             this->state = E_PTERO_IDLE_STATE;
@@ -135,7 +141,8 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
     local->health = this->pos.x;    
 
     //assign frame animation to entity img
-    this->img = local->frames[0];
+    this->img = local->frames[pteroAnim.frame];
+
 }
 
 void enemy_trace(tEntity *this)

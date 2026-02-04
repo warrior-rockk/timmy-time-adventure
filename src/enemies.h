@@ -8,6 +8,10 @@
 #define _H_ENEMIES_
 
 #include "entity.h"
+#include "anim.h"
+
+//enemy animations
+#define ANIM_PTERO_IDLE               0,   1,     10, ANIM_LOOP
 
 enum E_ENEMY_TYPE
 {
