@@ -53,7 +53,7 @@ enum E_GAME_STATE
 typedef struct
 {
     uint8_t showDebugInfo; 
-    uint8_t stepToStep;
+    uint8_t stepByStep;
 } tDebugOptions;
 
 extern double deltaTime;

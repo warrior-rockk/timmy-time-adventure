@@ -12,30 +12,20 @@
 #include "input.h"
 
 static void main_init();
+static void main_stepByStep();
 
 int main()
 {    
     main_init();
     game_init();
 
-game_update();
-            game_draw();
     //main loop
     do
     {
         #ifdef DEBUGMODE
-            if (debugOptions.stepToStep)
+            if (debugOptions.stepByStep)
             {
-                input_keys_update();
-                if (input_key_pressed(G_KEY_S))
-                    debugOptions.stepToStep = !debugOptions.stepToStep;
-                if (input_key_pressed(G_KEY_EXIT))
-                    gameExit = true;
-                if (input_key_pressed(G_KEY_D))
-                {
-                    game_update();
-                    game_draw();         
-                }        
+                main_stepByStep();
             }
             else
             {
@@ -123,4 +113,21 @@ static void main_init()
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
         abort_on_error("Error seteando modo grafico");
     set_color_depth(GAME_COLOR_DEPTH);
+}
+
+static void main_stepByStep()
+{
+    input_keys_update();
+ 
+    if (input_key_pressed(G_KEY_S))
+        debugOptions.stepByStep = !debugOptions.stepByStep;
+ 
+    if (input_key_pressed(G_KEY_EXIT))
+        gameExit = true;
+ 
+    if (input_key_pressed(G_KEY_D))
+    {
+        game_update();
+        game_draw();         
+    }           
 }

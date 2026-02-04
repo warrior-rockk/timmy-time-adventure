@@ -21,7 +21,7 @@ static tKey gameKeys[GAME_KEYS_NUM] =
     {KEY_Z, 0x00},
     {KEY_X, 0x00},
     {KEY_D, 0x00},
-    {KEY_M, 0x00},
+    {KEY_S, 0x00},
 };
 
 //general keys update
