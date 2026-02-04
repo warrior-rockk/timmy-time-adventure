@@ -12,24 +12,29 @@ import zlib
 import sys
 import os
 
+#define entity classes
 entity_classes = {
      "player"   : 0,
      "object"   : 1,
      "enemy"    : 2,
      "platform" : 3,     
 }
-
+#define entity player types
 player_ent_types = {
     "player1"   : 0,
     "player2"   : 1,
 }
-
+#define entity object types
 object_ent_types = {
     "gem"   : 0,
     "stone" : 1,
 }
-
-ent_types = [player_ent_types, object_ent_types]
+#define entity enemies types
+enemy_ent_types = {
+    "ptero"   : 0,
+}
+#define array of lists of entity types
+ent_types = [player_ent_types, object_ent_types, enemy_ent_types]
 
 def get_custom_properties(element):
     """Get custom properties and returns on dictionary."""
@@ -83,13 +88,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         tile_width = int(root.attrib.get('tilewidth'))
         tile_height = int(root.attrib.get('tileheight'))
         
-
         # echo info
         print(f"Processing map: {map_width}x{map_height} tiles")
         print(f"Tile size: {tile_width}x{tile_height} px")
         
-        object_groups = root.findall('objectgroup')
-
         # 3. Find data layer (layer). NOTE: the script takes the first layer founded
         layer = root.find('layer')
         if layer is None:
@@ -141,13 +143,21 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
-
-            # Get object data
-            # Write: numObjects (H) + list of (x0, y0, dir0)
-            for obj_group in object_groups:
+            
+            # Search object layer            
+            for obj_group in root.findall('objectgroup'):
+                layerName = obj_group.get('name')
+                if layerName != 'Objects':
+                    # Si la capa no está en nuestra lista, saltamos a la siguiente
+                    continue
+                
+                # Get object data
+                # Write: numObjects (H) + list of (x0, y0, dir0)
+                print(f"✅ Procesando Capa: '{layerName}'")                
+                
                 objs = obj_group.findall('object')
                 f.write(struct.pack('<H', len(objs))) # Write num objects
-                print(f"Processing objets: {len(objs)} objects")
+                print(f"📍 Processing objets: {len(objs)} objects")
                 for obj in objs:                                        
                     # Get class and type (Tiled uses class or type for class by version)
                     raw_class = obj.attrib.get('class') or obj.attrib.get('type') or ""
@@ -165,7 +175,38 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 
-        print(f"--- Done ---")
+            # Search enemies layer            
+            for obj_group in root.findall('objectgroup'):
+                layerName = obj_group.get('name')
+                if layerName != 'Enemies':
+                    # Si la capa no está en nuestra lista, saltamos a la siguiente
+                    continue
+                
+                # Get object data
+                # Write: numObjects (H) + list of (x0, y0, dir0)
+                print(f"✅ Procesando Capa: '{layerName}'")                
+                
+                objs = obj_group.findall('object')
+                f.write(struct.pack('<H', len(objs))) # Write num objects
+                print(f"📍 Processing objets: {len(objs)} objects")
+                for obj in objs:                                        
+                    # Get class and type (Tiled uses class or type for class by version)
+                    raw_class = obj.attrib.get('class') or obj.attrib.get('type') or ""
+                    raw_type = obj.attrib.get('name')                    
+                    # Get from our arrays of entities class and types                    
+                    entClass = entity_classes.get(raw_class, 0)
+                    entType = ent_types[entClass].get(raw_type, 0)
+                    # Get general entity data
+                    ox = int(float(obj.attrib.get('x', 0)))
+                    oy = int(float(obj.attrib.get('y', 0)))
+                    oDir = get_property_value(obj, "dir", default=0)
+                    
+                    # write object data
+                    f.write(struct.pack('<BBHHB', entClass, entType, ox, oy, oDir))                    
+                    # print info
+                    print(f"\tClass:{raw_class} - Type:{raw_type}")
+
+        print(f"✅--- Done ---")
         print(f"File saved in: {bin_file}")
         print(f"Bytes written: {os.path.getsize(bin_file)}")
 
