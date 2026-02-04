@@ -33,11 +33,6 @@ enum ePlayerState
     ST_PLAYER_CROUCHED,
 };
 
-static void player_update_controls(tEntity *player);
-static void player_update_collisions(tEntity *player);
-static void player_update_state(tEntity *player);
-static void player_update_animations(tEntity *player);
-
 void player_init();
 void player_update();
 #endif

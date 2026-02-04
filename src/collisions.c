@@ -432,7 +432,7 @@ void collision_destroy_entity_points(uint16_t entityId)
 }
 
 //function to apply the direction of the collision to an entity
-void applyDirCollision(tEntity *entity, int16_t colDir)
+void collision_apply_dir(tEntity *entity, int16_t colDir)
 {
 	//actions by collision
 	if (colDir == E_COLLISION_LEFT || colDir == E_COLLISION_RIGHT) 

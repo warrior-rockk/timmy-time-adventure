@@ -36,6 +36,11 @@ static fixed localAccelX;
 static uint8_t playerCrouched = false;
 static uint8_t playerMoving = false;
 
+static void player_update_controls(tEntity *player);
+static void player_update_collisions(tEntity *player);
+static void player_update_state(tEntity *player);
+static void player_update_animations(tEntity *player);
+
 void player_init(tEntity *player)
 {
     //load player spriteSheet
@@ -124,7 +129,7 @@ static void player_update_controls(tEntity *player)
     playerCrouched = input_key_press(G_KEY_DOWN);
 
     //update vels
-    if (!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT) || playerCrouched)
+    if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerCrouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
@@ -198,7 +203,7 @@ static void player_update_collisions(tEntity *player)
         //check collision tile for collision point
         colDir = collision_check_tile(player, i);        
         //apply collision direction
-        applyDirCollision(player, colDir);        
+        collision_apply_dir(player, colDir);        
     }
 
     //check entities collisions
@@ -210,11 +215,11 @@ static void player_update_collisions(tEntity *player)
         if (checkEntity->id != player->id)
         {
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
-            applyDirCollision(player, colDir);
+            collision_apply_dir(player, colDir);
             show_debug("ColdirV: %i, %i", colDir, checkEntity->id);
 
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
-            applyDirCollision(player, colDir);
+            collision_apply_dir(player, colDir);
             show_debug("ColdirH: %i, %i", colDir, checkEntity->id);
         }
     }
