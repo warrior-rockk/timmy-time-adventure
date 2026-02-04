@@ -27,7 +27,7 @@ game_update();
             if (debugOptions.stepToStep)
             {
                 input_keys_update();
-                if (input_key_pressed(G_KEY_M))
+                if (input_key_pressed(G_KEY_S))
                     debugOptions.stepToStep = !debugOptions.stepToStep;
                 if (input_key_pressed(G_KEY_EXIT))
                     gameExit = true;

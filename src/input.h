@@ -25,7 +25,7 @@
 #define G_KEY_JUMP      6
 #define G_KEY_ACTION    7
 #define G_KEY_D         8
-#define G_KEY_M         9
+#define G_KEY_S         9
 #define GAME_KEYS_NUM   10
 
 //key struct
