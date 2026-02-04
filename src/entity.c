@@ -11,6 +11,7 @@
 #include "player.h"
 #include "objects.h"
 #include "game.h"
+#include "enemies.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -139,12 +140,22 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_init     = &player_init;
                 entityList[newEntity].entity_update   = &player_update;
             break;
-            default:
+            case E_ENT_CLASS_OBJECT:
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
+            break;
+            case E_ENT_CLASS_ENEMY:
+                entityList[newEntity].properties      = 0x00;
+                entityList[newEntity].entity_create   = &enemy_create;
+                entityList[newEntity].entity_init     = &enemy_init;
+                entityList[newEntity].entity_update   = &enemy_update;
+                entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
+            break;
+            default:
+                abort_on_error("Tipo de entidad desconocida %i", entityList[newEntity].entClass);
             break;
         }
         

@@ -25,6 +25,7 @@ typedef struct tPteroLocalData
 {
     uint16_t health;
     uint16_t timer;
+    BITMAP *frames[2];
 } tPteroLocalData;
 
 

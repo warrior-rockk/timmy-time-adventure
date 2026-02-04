@@ -25,10 +25,11 @@ typedef struct {
     uint16_t x;
     uint16_t y;
     uint8_t dir;
-} tMapObject;
+} tMapEntity;
 
 uint8_t *map;
-tMapObject *mapObjects;
+tMapEntity *mapObjects;
+tMapEntity *mapEnemies;
 BITMAP **tiles;
 BITMAP *mapTileSheet;
 
@@ -70,7 +71,7 @@ void map_load()
     TRACE("Num objects on map: %i\n", numMapObjects);
     
     //allocate memory for objects
-    mapObjects = (tMapObject *)malloc(numMapObjects * sizeof(tMapObject));
+    mapObjects = (tMapEntity *)malloc(numMapObjects * sizeof(tMapEntity));
     if (mapObjects == NULL) {
         fclose(file);
         abort_on_error("Error: No se pudo asignar memoria para %u objetos de mapa.\n", numMapObjects);
@@ -85,16 +86,44 @@ void map_load()
         fread(&mapObjects[i].y,       sizeof(uint16_t),   1, file);
         fread(&mapObjects[i].dir,     sizeof(uint8_t),    1, file);
 
-        TRACE("Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
+        TRACE("Object Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
 
         //create entity
         entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir);
     }
 
+    //read map enemies
+    uint16_t numMapEnemies;
+    fread(&numMapEnemies, sizeof(uint16_t), 1, file);
+    TRACE("Num enemies on map: %i\n", numMapEnemies);
+    
+    //allocate memory for enemies
+    mapEnemies = (tMapEntity *)malloc(numMapEnemies * sizeof(tMapEntity));
+    if (mapEnemies == NULL) {
+        fclose(file);
+        abort_on_error("Error: No se pudo asignar memoria para %u objetos de mapa.\n", numMapEnemies);
+    }
+
+    //read data by field to avoid padding problems
+    for (uint16_t i = 0; i < numMapEnemies; i++)
+    {
+        fread(&mapEnemies[i].class,   sizeof(uint8_t),    1, file);
+        fread(&mapEnemies[i].type,    sizeof(uint8_t),    1, file);
+        fread(&mapEnemies[i].x,       sizeof(uint16_t),   1, file);
+        fread(&mapEnemies[i].y,       sizeof(uint16_t),   1, file);
+        fread(&mapEnemies[i].dir,     sizeof(uint8_t),    1, file);
+
+        TRACE("Enemy Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapEnemies[i].class, mapEnemies[i].type, mapEnemies[i].x, mapEnemies[i].y, mapEnemies[i].dir);
+
+        //create entity
+        entity_create(mapEnemies[i].class, mapEnemies[i].type, (tVector){mapEnemies[i].x, mapEnemies[i].y}, mapEnemies[i].dir);
+    }
+
     //clean resources    
     fclose(file);    
     free(mapObjects);
-    
+    free(mapEnemies);
+
     //allocate tiles bitmaps    
     tiles = (BITMAP **)malloc(NUM_TILES * sizeof(BITMAP));
     //load map tileSheet    
