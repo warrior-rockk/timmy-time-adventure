@@ -7,6 +7,9 @@
 - [ ] DeltaTime ¿double?
 - [ ] Reset ground flag on entity init?
 - [ ] Save half entity sizes on structure?
+- [ ] Platform objects
+- [ ] Ladder tiles
+- [ ] Enemies
 
 # Player
 - [ ] Idle special animation when no control
