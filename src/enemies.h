@@ -15,7 +15,7 @@
 
 enum E_ENEMY_TYPE
 {
-    E_PTERO_ENEMY_TYPE,    
+    E_PTERO_ENEMY_TYPE,   zz 
 };
 
 enum E_PTERO_ENEMY_STATE
@@ -28,8 +28,7 @@ enum E_PTERO_ENEMY_STATE
 typedef struct tPteroLocalData
 {
     uint16_t health;
-    uint16_t timer;
-    BITMAP *frames[2];
+    uint16_t timer;    
 } tPteroLocalData;
 
 

@@ -14,12 +14,6 @@
 #include "entity.h"
 #include "collisions.h"
 
-#define PLAYER_MAX_FRAMES   50
-
-static BITMAP *playerSpriteSheet;
-static BITMAP *playerFrames[PLAYER_MAX_FRAMES];
-static tAnimation playerAnim;
-
 static fixed accel_x;
 static fixed accel_x_air;
 static fixed friction;
@@ -43,13 +37,6 @@ static void player_update_animations(tEntity *player);
 
 void player_init(tEntity *player)
 {
-    //load player spriteSheet
-    /*playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
-    for (uint8_t i = 0; i < PLAYER_MAX_FRAMES; i++)
-    {
-        playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_IMG_W, 0, PLAYER_IMG_W, PLAYER_IMG_H);
-    }*/
-
     //initialize player vars
     player->state = ST_PLAYER_IDLE;
     playerCrouched = false;
@@ -187,9 +174,6 @@ static void player_update_animations(tEntity *player)
             play_animation(&player->anim, ANIM_PLY_CROUCH);
         break;
     }
- 
-    //assign frame animation to entity img
-    //player->img = playerFrames[playerAnim.frame];
 }
 
 static void player_update_collisions(tEntity *player)

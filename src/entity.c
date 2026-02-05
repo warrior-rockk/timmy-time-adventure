@@ -15,6 +15,7 @@
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
+static BITMAP *entitySprite;    //pointer to sub-bitmap of entity frame
 
 //private function to draw one entity
 static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
@@ -23,9 +24,10 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
     {
         int16_t drawX, drawY;
         
-        BITMAP *entityImg;
-        entityImg = create_sub_bitmap(entity->img, entity->anim.frame * PLAYER_IMG_W, 0, entity->spriteSize.x, entity->spriteSize.y);
+        //assign current frame sub-bitmap of entity
+        entitySprite = create_sub_bitmap(entity->img, entity->anim.frame * entity->spriteSize.x, 0, entity->spriteSize.x, entity->spriteSize.y);
 
+        //check alignment axis
         switch (entity->axis)
         {
             case E_ENT_AXIS_DOWN:
@@ -43,24 +45,23 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             break;
         }
 
+        //draw entity sprite
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
             if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entityImg, drawX - scroll->pos.x, drawY - scroll->pos.y);                
-                //masked_blit(entity->img, buffer,entity->anim.frame * PLAYER_IMG_W, 0, drawX - scroll->pos.x, drawY - scroll->pos.y, entity->spriteSize.x, entity->spriteSize.y);
+                draw_sprite(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                                
             else
-                draw_sprite_h_flip(buffer, entityImg, drawX - scroll->pos.x, drawY - scroll->pos.y);        
-                //masked_blit(entity->img, buffer,entity->anim.frame * PLAYER_IMG_W, 0, drawX - scroll->pos.x, drawY - scroll->pos.y, entity->spriteSize.x, entity->spriteSize.y);
+                draw_sprite_h_flip(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                        
         }
     }
     
     #ifdef DEBUGMODE        
         if (debugOptions.showDebugInfo >= DEBUG_SHOW_ALL_LAYER)
         {
-            //draw collision box
+            //draw debug entity collision box
             rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, (entity->pos.x + entity->size.x) - scroll->pos.x , (entity->pos.y + entity->size.y) - scroll->pos.y , 40);            
 
-            //draw collision points on entity
+            //draw debug entity collision points
             if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
             {
                 tColPoint *entPoint;

@@ -13,8 +13,6 @@
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
 
-static tAnimation pteroAnim;
-
 void enemy_system_init()
 {
     //empty enemy list
@@ -43,16 +41,13 @@ void enemy_create(tEntity *entity)
         case E_PTERO_ENEMY_TYPE:
             //allocate memory for enemy
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));
-            entity->img = load_bmp("res/enemies/ptero.bmp",NULL);   
-            entity->size.x = 52;
-            entity->size.y = 48;       
+            entity->img = load_bmp("res/enemies/ptero.bmp",NULL); 
+            entity->spriteSize = (tVector){52, 48};                          
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
         break;
     }
-    //set entity size
-    entity->size = (tVector){entity->img->w, entity->img->h};
 
     //test memory allocation
     MY_ASSERT(enemyDataList);
@@ -81,15 +76,7 @@ void enemy_init(tEntity *entity)
     {
         case E_PTERO_ENEMY_TYPE:            
             ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].health = 0;
-            ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;
-
-            //load enemy spriteSheet
-            BITMAP *enemySpriteSheet = load_bmp("res/enemies/ptero.bmp", NULL);
-            for (uint8_t i = 0; i < 2; i++)
-            {
-                ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].frames[i] = create_sub_bitmap(enemySpriteSheet, i * 52, 0, 52, 48);
-            }
-
+            ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
             entity->size.x = 50;
             entity->size.y = 20;
         break;        
@@ -112,7 +99,7 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
             else   
                 this->fixVel.x = ftofix(0.4);
             
-            play_animation(&pteroAnim, ANIM_PTERO_FLY);
+            play_animation(&this->anim, ANIM_PTERO_FLY);
             this->dir = E_ENT_DIR_RIGHT;
         break;
         case E_PTERO_MOVE_LEFT_STATE:
@@ -121,7 +108,7 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
             else   
                 this->fixVel.x = -ftofix(0.4);
             
-            play_animation(&pteroAnim, ANIM_PTERO_FLY);
+            play_animation(&this->anim, ANIM_PTERO_FLY);
             this->dir = E_ENT_DIR_LEFT;
         break;
         default:
@@ -136,11 +123,7 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
     this->pos.x = fixtoi(this->fixPos.x);
     this->pos.y = fixtoi(this->fixPos.y);
 
-    local->health = this->pos.x;    
-
-    //assign frame animation to entity img
-    this->img = local->frames[pteroAnim.frame];
-
+    local->health = this->pos.x;      
 }
 
 void enemy_trace(tEntity *this)
