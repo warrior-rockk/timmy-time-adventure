@@ -22,30 +22,35 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
     if (entity->img)
     {
         int16_t drawX, drawY;
+        
+        BITMAP *entityImg;
+        entityImg = create_sub_bitmap(entity->img, entity->anim.frame * PLAYER_IMG_W, 0, entity->spriteSize.x, entity->spriteSize.y);
 
         switch (entity->axis)
         {
             case E_ENT_AXIS_DOWN:
-                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
-                drawY = entity->pos.y - ((entity->img->h - entity->size.y) );
+                drawX = entity->pos.x - ((entity->spriteSize.x - entity->size.x) >>1);
+                drawY = entity->pos.y - ((entity->spriteSize.y - entity->size.y) );
             break;
             case E_ENT_AXIS_UP:
-                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
+                drawX = entity->pos.x - ((entity->spriteSize.x - entity->size.x) >>1);
                 drawY = entity->pos.y;
             break;
             case E_ENT_AXIS_CENTER:
             default:
-                drawX = entity->pos.x - ((entity->img->w - entity->size.x) >>1);
-                drawY = entity->pos.y - ((entity->img->h - entity->size.y) >>1);
+                drawX = entity->pos.x - ((entity->spriteSize.x - entity->size.x) >>1);
+                drawY = entity->pos.y - ((entity->spriteSize.y - entity->size.y) >>1);
             break;
         }
 
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
             if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entity->img, drawX - scroll->pos.x, drawY - scroll->pos.y);
+                draw_sprite(buffer, entityImg, drawX - scroll->pos.x, drawY - scroll->pos.y);                
+                //masked_blit(entity->img, buffer,entity->anim.frame * PLAYER_IMG_W, 0, drawX - scroll->pos.x, drawY - scroll->pos.y, entity->spriteSize.x, entity->spriteSize.y);
             else
-                draw_sprite_h_flip(buffer, entity->img, drawX - scroll->pos.x, drawY - scroll->pos.y);        
+                draw_sprite_h_flip(buffer, entityImg, drawX - scroll->pos.x, drawY - scroll->pos.y);        
+                //masked_blit(entity->img, buffer,entity->anim.frame * PLAYER_IMG_W, 0, drawX - scroll->pos.x, drawY - scroll->pos.y, entity->spriteSize.x, entity->spriteSize.y);
         }
     }
     
@@ -132,7 +137,8 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         switch (entityList[newEntity].entClass)
         {
             case E_ENT_CLASS_PLAYER:
-                entityList[newEntity].img             = load_bmp("res/004.bmp",NULL);
+                entityList[newEntity].img             = load_bmp("res/player/player.bmp",NULL);
+                entityList[newEntity].spriteSize      = (tVector){PLAYER_IMG_W,PLAYER_IMG_H};  
                 entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
                 entityList[newEntity].axis            = E_ENT_AXIS_DOWN;
                 entityList[newEntity].properties      = E_ENT_PROP_PHYSICS_ON;

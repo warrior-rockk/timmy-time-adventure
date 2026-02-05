@@ -44,11 +44,11 @@ static void player_update_animations(tEntity *player);
 void player_init(tEntity *player)
 {
     //load player spriteSheet
-    playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
+    /*playerSpriteSheet = load_bmp("res/player/player.bmp", NULL);
     for (uint8_t i = 0; i < PLAYER_MAX_FRAMES; i++)
     {
         playerFrames[i] = create_sub_bitmap(playerSpriteSheet, i * PLAYER_IMG_W, 0, PLAYER_IMG_W, PLAYER_IMG_H);
-    }
+    }*/
 
     //initialize player vars
     player->state = ST_PLAYER_IDLE;
@@ -166,30 +166,30 @@ static void player_update_animations(tEntity *player)
     switch (player->state)
     {
         case ST_PLAYER_IDLE:
-            play_animation(&playerAnim, ANIM_PLY_BREATH);            
+            play_animation(&player->anim, ANIM_PLY_BREATH);            
         break;
         case ST_PLAYER_RUN:
-            play_animation(&playerAnim, ANIM_PLY_RUN);
+            play_animation(&player->anim, ANIM_PLY_RUN);
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
                 if (playerMoving)
-                    play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_UP);
+                    play_animation(&player->anim, ANIM_PLY_JUMP_RUN_UP);
                 else
-                    play_animation(&playerAnim, ANIM_PLY_JUMP_UP);
+                    play_animation(&player->anim, ANIM_PLY_JUMP_UP);
             else
                 if (playerMoving)
-                    play_animation(&playerAnim, ANIM_PLY_JUMP_RUN_DOWN);
+                    play_animation(&player->anim, ANIM_PLY_JUMP_RUN_DOWN);
                 else
-                    play_animation(&playerAnim, ANIM_PLY_JUMP_DOWN);
+                    play_animation(&player->anim, ANIM_PLY_JUMP_DOWN);
         break;
         case ST_PLAYER_CROUCHED:
-            play_animation(&playerAnim, ANIM_PLY_CROUCH);
+            play_animation(&player->anim, ANIM_PLY_CROUCH);
         break;
     }
  
     //assign frame animation to entity img
-    player->img = playerFrames[playerAnim.frame];
+    //player->img = playerFrames[playerAnim.frame];
 }
 
 static void player_update_collisions(tEntity *player)
@@ -216,11 +216,9 @@ static void player_update_collisions(tEntity *player)
         {
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
             collision_apply_dir(player, colDir);
-            show_debug("ColdirV: %i, %i", colDir, checkEntity->id);
-
+            
             colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
-            collision_apply_dir(player, colDir);
-            show_debug("ColdirH: %i, %i", colDir, checkEntity->id);
+            collision_apply_dir(player, colDir);            
         }
     }
 }

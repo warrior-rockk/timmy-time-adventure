@@ -41,12 +41,13 @@ void object_create(tEntity *entity)
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
             entity->img = load_bmp("res/object.bmp",NULL);
-            
+            entity->spriteSize = (tVector){entity->img->w, entity->img->h};            
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
             entity->img = load_bmp("res/stone.bmp",NULL);            
+            entity->spriteSize = (tVector){entity->img->w, entity->img->h};
         break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
@@ -86,9 +87,11 @@ void object_init(tEntity *entity)
         case E_GEM_OBJECT_TYPE:            
             ((tGemLocalData*)objectDataList)[numObjectInstances - 1].health = 0;
             ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
+            entity->anim.frame = 0;
         break;
         case E_STONE_OBJECT_TYPE:
             ((tStoneLocalData*)objectDataList)[numObjectInstances - 1].solid = false;
+            entity->anim.frame = 0;
         break;
         default:
         break;

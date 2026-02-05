@@ -11,6 +11,7 @@
 #include "allegro.h"
 #include "utils.h"
 #include "scroll.h"
+#include "anim.h"
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities
 
@@ -56,12 +57,14 @@ typedef struct tEntity
     uint16_t id;                //entity id number
     tVector pos;                //entity position
     tVector size;               //entity size
+    tVector spriteSize;         //entity sprite size
     tFixVector fixPos;          //entity fixed position
     tFixVector fixVel;          //entity fixed velocities
     tVector initPos;            //entity initial position
     uint8_t axis;               //entity drawing axis
-    BITMAP *img;                //actual entity frame image
-    uint8_t state;              //actual entity state
+    BITMAP *img;                //entity spriteSheet
+    tAnimation anim;            //entity animation structure
+    uint8_t state;              //entity state
     uint8_t prevState;          //previous entity state
     uint8_t entType;            //entity type
     uint8_t entClass;           //entity class

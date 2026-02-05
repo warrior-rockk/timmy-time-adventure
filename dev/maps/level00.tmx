@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="8">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="79">
  <editorsettings>
   <export format="csv"/>
  </editorsettings>
@@ -30,27 +30,361 @@
     <property name="dir" type="int" value="1"/>
    </properties>
   </object>
-  <object id="4" name="gem" type="object" x="88.1209" y="87.0124">
+  <object id="8" name="stone" type="object" x="384" y="80">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="5" name="stone" type="object" x="210.603" y="87.0124">
+  <object id="9" name="stone" type="object" x="233.88" y="90.8919">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="6" name="stone" type="object" x="96" y="176">
+  <object id="10" name="stone" type="object" x="133.013" y="79.8076">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="11" name="stone" type="object" x="200.073" y="110.844">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="12" name="stone" type="object" x="78.1449" y="136.892">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="13" name="stone" type="object" x="57.6388" y="69.2774">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="14" name="stone" type="object" x="128.025" y="134.121">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="15" name="stone" type="object" x="192.868" y="58.7472">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="16" name="stone" type="object" x="298.17" y="106.41">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="17" name="stone" type="object" x="376.869" y="42.6749">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="18" name="stone" type="object" x="448.363" y="49.8797">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="19" name="stone" type="object" x="467.761" y="96.4341">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="20" name="stone" type="object" x="429.52" y="126.916">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="21" name="stone" type="object" x="445.038" y="174.025">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="stone" type="object" x="488.821" y="150.193">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="23" name="stone" type="object" x="336.965" y="110.844">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="24" name="stone" type="object" x="340.291" y="70.3858">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="25" name="stone" type="object" x="426.749" y="87.5666">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="26" name="stone" type="object" x="413.448" y="49.8797">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="27" name="stone" type="object" x="483.279" y="38.7953">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="28" name="stone" type="object" x="387.953" y="106.964">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="29" name="stone" type="object" x="464.436" y="130.796">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="30" name="stone" type="object" x="410.122" y="177.35">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="31" name="stone" type="object" x="468.869" y="179.013">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="32" name="stone" type="object" x="347.495" y="37.1327">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="33" name="stone" type="object" x="301.495" y="81.4702">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="34" name="stone" type="object" x="483.279" y="72.0485">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="35" name="stone" type="object" x="501.568" y="106.964">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="36" name="stone" type="object" x="297.061" y="50.4339">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="37" name="stone" type="object" x="508.773" y="78.6991">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="38" name="stone" type="object" x="506.002" y="52.0966">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="39" name="stone" type="object" x="435.616" y="28.2652">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="40" name="stone" type="object" x="395.158" y="18.8435">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="41" name="stone" type="object" x="338.074" y="135.784">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="42" name="stone" type="object" x="313.134" y="150.193">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="43" name="stone" type="object" x="279.881" y="130.242">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="44" name="stone" type="object" x="271.013" y="95.8799">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="45" name="stone" type="object" x="272.122" y="45.446">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="46" name="stone" type="object" x="357.471" y="81.4702">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="47" name="stone" type="object" x="318.676" y="26.0483">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="48" name="stone" type="object" x="283.76" y="17.1808">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="49" name="stone" type="object" x="468.315" y="17.735">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="50" name="stone" type="object" x="503.231" y="19.3977">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="51" name="stone" type="object" x="362.459" y="13.3013">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="52" name="stone" type="object" x="360.797" y="109.181">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="53" name="stone" type="object" x="414.556" y="113.615">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="54" name="stone" type="object" x="398.484" y="81.4702">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="55" name="stone" type="object" x="445.592" y="73.7112">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="56" name="stone" type="object" x="449.472" y="99.2052">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="57" name="stone" type="object" x="486.05" y="113.061">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="58" name="stone" type="object" x="501.568" y="140.217">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="59" name="stone" type="object" x="508.773" y="167.374">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="60" name="stone" type="object" x="389.616" y="64.8436">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="61" name="stone" type="object" x="358.026" y="62.6268">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="62" name="stone" type="object" x="321.447" y="93.1088">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="63" name="stone" type="object" x="324.772" y="62.0725">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="64" name="stone" type="object" x="302.604" y="171.808">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="65" name="stone" type="object" x="326.435" y="182.892">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="66" name="stone" type="object" x="340.845" y="165.157">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="67" name="stone" type="object" x="422.869" y="72.6027">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="68" name="stone" type="object" x="428.411" y="52.0966">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="69" name="stone" type="object" x="473.857" y="62.6268">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="70" name="stone" type="object" x="385.737" y="34.3616">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="71" name="stone" type="object" x="411.785" y="36.5785">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="72" name="stone" type="object" x="420.098" y="22.723">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="73" name="stone" type="object" x="451.134" y="29.9278">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="74" name="stone" type="object" x="478.845" y="50.9882">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="75" name="stone" type="object" x="455.014" y="80.3618">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="76" name="stone" type="object" x="456.122" y="120.266">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="77" name="stone" type="object" x="420.652" y="96.4341">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="78" name="stone" type="object" x="453.906" y="137.446">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Enemies">
-  <object id="7" name="ptero" type="enemy" x="432" y="144">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="3" name="Enemies"/>
 </map>
