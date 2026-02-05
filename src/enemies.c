@@ -42,13 +42,16 @@ void enemy_create(tEntity *entity)
             //allocate memory for enemy
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));
             entity->img = load_bmp("res/enemies/ptero.bmp",NULL); 
-            entity->spriteSize = (tVector){52, 48};                          
+            entity->spriteSize = (tVector){52, 48};
+            entity->size.x = 50;
+            entity->size.y = 20;                          
         break;
         case E_RAPTOR_ENEMY_TYPE:
             //allocate memory for enemy
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));
             entity->img = load_bmp("res/enemies/raptor.bmp",NULL); 
             entity->spriteSize = (tVector){47, 31};                          
+            entity->size = entity->spriteSize;
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -86,12 +89,10 @@ void enemy_init(tEntity *entity)
         case E_PTERO_ENEMY_TYPE:            
             ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].health = 0;
             ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
-            entity->size.x = 50;
-            entity->size.y = 20;
+            
         break;        
         case E_RAPTOR_ENEMY_TYPE:            
-            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
-            entity->size = entity->spriteSize;            
+            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;                              
         break;        
         default:
         break;
@@ -100,6 +101,18 @@ void enemy_init(tEntity *entity)
 
 void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
 {
+    //enemy animations
+    #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
+
+    //enemy states
+    enum E_PTERO_ENEMY_STATE
+    {
+        E_PTERO_IDLE_STATE,
+        E_PTERO_MOVE_RIGHT_STATE,
+        E_PTERO_MOVE_LEFT_STATE
+    };
+
+    //check state
     switch (this->state)
     {
         case E_PTERO_IDLE_STATE:
@@ -141,6 +154,9 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
 
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 {              
+    //enemy animations
+    #define ANIM_RAPTOR_WALK   0,   1,  20, ANIM_LOOP
+
     play_animation(&this->anim, ANIM_RAPTOR_WALK);
 }
 

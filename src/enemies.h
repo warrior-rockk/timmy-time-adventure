@@ -10,28 +10,20 @@
 #include "entity.h"
 #include "anim.h"
 
-//enemy animations
-#define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
-#define ANIM_RAPTOR_WALK   0,   1,  20, ANIM_LOOP
-
+//types of enemies
 enum E_ENEMY_TYPE
 {
     E_PTERO_ENEMY_TYPE,
     E_RAPTOR_ENEMY_TYPE, 
 };
 
-enum E_PTERO_ENEMY_STATE
-{
-    E_PTERO_IDLE_STATE,
-    E_PTERO_MOVE_RIGHT_STATE,
-    E_PTERO_MOVE_LEFT_STATE
-};
-
+//global enemy local data struct
 typedef struct 
 {
     uint16_t timer;
 } tEnemyLocalData;
 
+//particular enemy local data struct
 typedef struct
 {
     uint16_t health;
@@ -53,6 +45,6 @@ void enemy_create(tEntity *entity);
 void enemy_update(tEntity *entity);
 
 //custom update function for particular entity
-void enemy_ptero_update(tEntity *this, tPteroLocalData *objData);
-void enemy_raptor_update(tEntity *this, tEnemyLocalData *objData);
+void enemy_ptero_update(tEntity *this, tPteroLocalData *local);
+void enemy_raptor_update(tEntity *this, tEnemyLocalData *local);
 #endif
