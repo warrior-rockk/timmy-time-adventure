@@ -97,7 +97,7 @@
     <property name="dir" type="int" value="1"/>
    </properties>
   </object>
-  <object id="92" name="raptor" type="enemy" x="64" y="160" width="47" height="31">
+  <object id="92" name="raptor" type="enemy" x="48" y="161.818" width="50" height="30">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>
