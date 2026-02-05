@@ -11,11 +11,13 @@
 #include "anim.h"
 
 //enemy animations
-#define ANIM_PTERO_FLY     0,   1,     20, ANIM_LOOP
+#define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
+#define ANIM_RAPTOR_WALK   0,   1,  20, ANIM_LOOP
 
 enum E_ENEMY_TYPE
 {
-    E_PTERO_ENEMY_TYPE,   zz 
+    E_PTERO_ENEMY_TYPE,
+    E_RAPTOR_ENEMY_TYPE, 
 };
 
 enum E_PTERO_ENEMY_STATE
@@ -25,12 +27,16 @@ enum E_PTERO_ENEMY_STATE
     E_PTERO_MOVE_LEFT_STATE
 };
 
-typedef struct tPteroLocalData
+typedef struct 
+{
+    uint16_t timer;
+} tEnemyLocalData;
+
+typedef struct
 {
     uint16_t health;
     uint16_t timer;    
 } tPteroLocalData;
-
 
 //debug trace entity enemy info
 void enemy_trace(tEntity *this);
@@ -46,7 +52,7 @@ void enemy_create(tEntity *entity);
 //updates an entity passing his entity structure
 void enemy_update(tEntity *entity);
 
-//custom update function for each enemy
+//custom update function for particular entity
 void enemy_ptero_update(tEntity *this, tPteroLocalData *objData);
-
+void enemy_raptor_update(tEntity *this, tEnemyLocalData *objData);
 #endif

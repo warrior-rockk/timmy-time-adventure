@@ -43,6 +43,12 @@ void enemy_create(tEntity *entity)
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));
             entity->img = load_bmp("res/enemies/ptero.bmp",NULL); 
             entity->spriteSize = (tVector){52, 48};                          
+        break;
+        case E_RAPTOR_ENEMY_TYPE:
+            //allocate memory for enemy
+            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));
+            entity->img = load_bmp("res/enemies/raptor.bmp",NULL); 
+            entity->spriteSize = (tVector){47, 31};                          
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -64,6 +70,9 @@ void enemy_update(tEntity *entity)
         case E_PTERO_ENEMY_TYPE:            
             enemy_ptero_update(entity, &((tPteroLocalData*)enemyDataList)[entity->entInstance]);
         break;        
+        case E_RAPTOR_ENEMY_TYPE:            
+            enemy_raptor_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;        
         default:
         break;
     }
@@ -79,6 +88,10 @@ void enemy_init(tEntity *entity)
             ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
             entity->size.x = 50;
             entity->size.y = 20;
+        break;        
+        case E_RAPTOR_ENEMY_TYPE:            
+            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
+            entity->size = entity->spriteSize;            
         break;        
         default:
         break;
@@ -124,6 +137,11 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
     this->pos.y = fixtoi(this->fixPos.y);
 
     local->health = this->pos.x;      
+}
+
+void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
+{              
+    play_animation(&this->anim, ANIM_RAPTOR_WALK);
 }
 
 void enemy_trace(tEntity *this)
