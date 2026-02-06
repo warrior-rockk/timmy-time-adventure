@@ -99,7 +99,7 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
+int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
 //, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
@@ -201,7 +201,7 @@ void entity_destroy(uint16_t entityIndex)
 
     //unload entity spriteSheet
     destroy_bitmap(entityList[entityIndex].img);
-    
+
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
@@ -226,6 +226,9 @@ void entities_init()
         entityList[i].dir       = entityList[i].initDir;
         entityList[i].fixVel    = (tFixVector){0, 0};
         entityList[i].state     = 0;
+        entityList[i].prevState = 0;
+        entityList[i].anim.frame= 0;
+        entityList[i].dead      = 0;
         entityList[i].visible   = true;
 
         //call custom entity entity

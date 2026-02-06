@@ -87,12 +87,10 @@ void object_init(tEntity *entity)
     {
         case E_GEM_OBJECT_TYPE:            
             ((tGemLocalData*)objectDataList)[numObjectInstances - 1].health = 0;
-            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
-            entity->anim.frame = 0;
+            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;            
         break;
         case E_STONE_OBJECT_TYPE:
-            ((tStoneLocalData*)objectDataList)[numObjectInstances - 1].solid = false;
-            entity->anim.frame = 0;
+            ((tStoneLocalData*)objectDataList)[numObjectInstances - 1].solid = false;            
         break;
         default:
         break;
