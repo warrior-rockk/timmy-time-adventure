@@ -198,11 +198,19 @@ static void player_update_collisions(tEntity *player)
         checkEntity = entity_get(i);
         if (checkEntity->id != player->id)
         {
-            colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
-            collision_apply_dir(player, colDir);
+            switch (checkEntity->entClass)
+            {
+                case E_ENT_CLASS_OBJECT:
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
+                    collision_apply_dir(player, colDir);
             
-            colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
-            collision_apply_dir(player, colDir);            
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
+                    collision_apply_dir(player, colDir);            
+                break;
+                case E_ENT_CLASS_ENEMY:
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);                    
+                break;
+            }            
         }
     }
 }
