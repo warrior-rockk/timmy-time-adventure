@@ -219,22 +219,26 @@ void entities_init()
 {
     for (int i=0; i < numEntities; i++)
     {
-        //init entity data
-        entityList[i].pos       = entityList[i].initPos;
-        entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
-        entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
-        entityList[i].dir       = entityList[i].initDir;
-        entityList[i].fixVel    = (tFixVector){0, 0};
-        entityList[i].state     = 0;
-        entityList[i].prevState = 0;
-        entityList[i].anim.frame= 0;
-        entityList[i].dead      = 0;
-        entityList[i].visible   = true;
-
-        //call custom entity entity
-        if (entityList[i].entity_init)
+        //if the entity doesn't have PERSISTENT flag (PERSISTENT entities don't initialize again)
+        if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
         {
-            entityList[i].entity_init(&entityList[i]);          
+            //init entity data
+            entityList[i].pos       = entityList[i].initPos;
+            entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
+            entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
+            entityList[i].dir       = entityList[i].initDir;
+            entityList[i].fixVel    = (tFixVector){0, 0};
+            entityList[i].state     = 0;
+            entityList[i].prevState = 0;
+            entityList[i].anim.frame= 0;
+            entityList[i].dead      = 0;
+            entityList[i].visible   = true;
+
+            //call custom entity entity
+            if (entityList[i].entity_init)
+            {
+                entityList[i].entity_init(&entityList[i]);          
+            }
         }
     }   
 }

@@ -208,7 +208,11 @@ static void player_update_collisions(tEntity *player)
                     collision_apply_dir(player, colDir);            
                 break;
                 case E_ENT_CLASS_ENEMY:
-                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);                    
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
+
+                    //testing kill a enemy
+                    if (colDir)
+                        checkEntity->dead = true;               
                 break;
             }            
         }

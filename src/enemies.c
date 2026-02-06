@@ -46,6 +46,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){52, 48};
             entity->size.x = 50;
             entity->size.y = 20;                          
+            entity->properties = E_ENT_PROP_PERSISTENT;
         break;
         case E_RAPTOR_ENEMY_TYPE:
             //allocate memory for enemy
