@@ -72,7 +72,7 @@ typedef struct tEntity
     uint16_t properties;        //entity properties
     enum E_ENTITY_DIR initDir;  //entity initial direction
     enum E_ENTITY_DIR dir;      //entity direction
-    bool dead;                  //dead flag
+    bool dead;                  //dead flag: no entity update and no entity draw
     bool visible;               //visible flag
     bool ground;                //ground flag
     //function pointers

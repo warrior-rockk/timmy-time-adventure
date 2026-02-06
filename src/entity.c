@@ -246,9 +246,9 @@ void entities_update(tScroll *scroll)
 
     for (int i=0; i < numEntities; i++)
     {
-        //destroy the entity if dead
+        //check dead flag
         if (entityList[i].dead)
-            entity_destroy(i);
+            entityList[i].visible = false;
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
@@ -259,16 +259,15 @@ void entities_update(tScroll *scroll)
             //only update entity if visible
             entityList[i].visible = true;        
             visibleEntities++;
+            //call entity pointer update function
             if (entityList[i].entity_update)
             {
-                entityList[i].entity_update(&entityList[i]);
-                          
+                entityList[i].entity_update(&entityList[i]);                          
             }
         }
     }   
 
-    show_debug("Num entities: %d, Visibles: %d", numEntities, visibleEntities);
-    
+    show_debug("Num entities: %d, Visibles: %d", numEntities, visibleEntities);    
 }
 
 //funtion to draws entities
