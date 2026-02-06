@@ -52,7 +52,7 @@ void enemy_create(tEntity *entity)
             //allocate memory for enemy
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));
             entity->img = load_bmp("res/enemies/raptor2.bmp",NULL); 
-            entity->spriteSize = (tVector){65, 44};                          
+            entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){50, 30};
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_PHYSICS_ON;
@@ -162,9 +162,10 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
     #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
+    #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
 
     //enemy states
-    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING};   
+    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_HURT};   
 
     switch (this->state)
     {
@@ -192,8 +193,16 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             
             this->dir = this->fixVel.x > 0 ? E_ENT_DIR_RIGHT : E_ENT_DIR_LEFT;            
             play_animation(&this->anim, ANIM_RAPTOR_WALK); 
-            show_debug("rVx %f", fixtof(this->fixVel.x));           
+            
+            if (this->hurt)
+                this->state = E_RAPTOR_HURT;
         break;        
+        case E_RAPTOR_HURT:
+            this->fixVel.x = 0;
+            this->hurt = false;
+            if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
+                this->dead = true;    
+        break;
     }       
 }
 

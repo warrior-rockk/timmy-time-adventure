@@ -217,7 +217,7 @@ static void player_update_collisions(tEntity *player)
 
                     //testing kill a enemy
                     if (colDir)
-                        checkEntity->dead = true;               
+                        checkEntity->hurt = true;               
                 break;
             }            
         }
