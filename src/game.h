@@ -49,12 +49,26 @@ enum E_GAME_STATE
     E_GAME_ST_EXIT,
 };
 
+//game levels
+enum E_GAME_LEVELS
+{
+    E_GAME_LEVEL_TEST,
+    E_GAME_NUM_LEVELS,
+};
+
 //options for debug mode
 typedef struct
 {
     uint8_t showDebugInfo; 
     uint8_t stepByStep;
 } tDebugOptions;
+
+typedef struct
+{ 
+    char *mapFile;			//binary file of map and entities
+    char *tileFile;		    //bitmap file for map tiles
+    //char *musicFile;		//music file of level
+} tLevelDataFile;
 
 extern double deltaTime;
 extern uint8_t gameExit;

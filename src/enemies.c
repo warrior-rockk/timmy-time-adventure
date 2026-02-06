@@ -9,6 +9,7 @@
 #include "game.h"
 #include "enemies.h"
 #include "timer.h"
+#include "collisions.h"
 
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
@@ -53,6 +54,8 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){65, 44};                          
             entity->size = (tVector){50, 30};
             entity->axis = E_ENT_AXIS_DOWN;
+            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            collision_create_entity_points(entity);
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");

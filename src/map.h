@@ -32,7 +32,7 @@ enum E_TILE_CODE
 };*/
 
 //loads a map level and creates level entities
-void map_load();
+void map_load(char *mapFile, char *tileFile);
 //unload the map and free resources
 void map_unload();
 //get the dimensions of the map (on tiles)

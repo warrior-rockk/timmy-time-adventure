@@ -21,6 +21,7 @@
 #include "player.h"
 #include "objects.h"
 #include "input.h"
+#include "enemies.h"
 
 //game structure
 struct game
@@ -41,7 +42,9 @@ double deltaTime;
 uint8_t gameExit = false;
 tScroll scroll;
 
-static void game_load_level();
+tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
+
+static void game_load_level(uint8_t numLevel);
 static void game_debug_info();
 static void destroy_level();
 
@@ -56,7 +59,7 @@ void game_update()
     switch(game.state)
     {
         case E_GAME_ST_LOAD_LEVEL:
-            game_load_level();
+            game_load_level(E_GAME_LEVEL_TEST);
             game.state = E_GAME_ST_INIT;
         break;
         case E_GAME_ST_INIT:
@@ -121,6 +124,8 @@ void game_init()
     entity_system_init();
     collision_system_init();
     object_system_init();
+    enemy_system_init();
+
     debug_init();
     #ifdef DEBUGMODE
         debugOptions.showDebugInfo = true;
@@ -129,6 +134,10 @@ void game_init()
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
+
+    //initialize levels data
+    levelDataFile[E_GAME_LEVEL_TEST].mapFile    = "res/maps/level00.bin";
+    levelDataFile[E_GAME_LEVEL_TEST].tileFile   = "res/tiles/tsheet.bmp";
     
     game.state      = E_GAME_ST_LOAD_LEVEL;
     game.prevState  = E_GAME_ST_LOAD_LEVEL;
@@ -171,9 +180,9 @@ static void game_debug_info()
 }
 
 //testing
-static void game_load_level()
+static void game_load_level(uint8_t numLevel)
 {
-    map_load();
+    map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile);
     
     //create scroll
     tVector mapDimension = map_get_dimensions();

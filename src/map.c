@@ -33,10 +33,10 @@ tMapEntity *mapEnemies;
 BITMAP **tiles;
 BITMAP *mapTileSheet;
 
-void map_load()
+void map_load(char *mapFile, char *tileFile)
 {
     //load map file
-    FILE *file = fopen("res/maps/level00.bin", "rb");
+    FILE *file = fopen(mapFile, "rb");
     if (!file) {
         abort_on_error("Error al abrir el archivo");
     }
@@ -127,7 +127,7 @@ void map_load()
     //allocate tiles bitmaps    
     tiles = (BITMAP **)malloc(NUM_TILES * sizeof(BITMAP));
     //load map tileSheet    
-    mapTileSheet = load_bmp("res/tiles/tsheet.bmp", desktop_palette);
+    mapTileSheet = load_bmp(tileFile, desktop_palette);
     //create tiles from tilesheet image
     for (uint8_t i = 0; i < NUM_TILES; i++)
     {
