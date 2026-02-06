@@ -94,6 +94,8 @@ void entities_init();
 void entities_update(tScroll *scroll);
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
+//function to update actual vel and position of an entity
+void entity_update_vel_pos(tEntity *entity);
 //returns entity based on entity number
 tEntity* entity_get(uint16_t numEntity);
 //returns number of entities

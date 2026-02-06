@@ -163,7 +163,38 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
     #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
 
-    play_animation(&this->anim, ANIM_RAPTOR_WALK);
+    //enemy states
+    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING};   
+
+    switch (this->state)
+    {
+        case E_RAPTOR_ST_IDLE:
+            this->fixVel.x = itofix(1);
+            this->state++;
+        break;
+        case E_RAPTOR_ST_MOVING:
+            uint8_t colDir = 0;
+            this->ground = false;
+            
+            //check all the entity collision points    
+            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            {                
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);        
+                //apply collision direction
+                collision_apply_dir(this, colDir);        
+
+                if (colDir == E_COLLISION_LEFT)
+                    this->fixVel.x = itofix(1);
+                if (colDir == E_COLLISION_RIGHT)
+                    this->fixVel.x = itofix(-1);
+            }
+            
+            this->dir = this->fixVel.x > 0 ? E_ENT_DIR_RIGHT : E_ENT_DIR_LEFT;            
+            play_animation(&this->anim, ANIM_RAPTOR_WALK); 
+            show_debug("rVx %f", fixtof(this->fixVel.x));           
+        break;        
+    }       
 }
 
 void enemy_trace(tEntity *this)

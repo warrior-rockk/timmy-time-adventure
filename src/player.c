@@ -66,6 +66,9 @@ void player_update(tEntity *player)
     //update collisions    
     player_update_collisions(player);       
 
+    
+    //update velocities and position on main entity_update?
+    /*
     //apply velocities
     player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));        
     if (player->ground)
@@ -76,11 +79,13 @@ void player_update(tEntity *player)
 	    player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
         player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
     }
-
+    
+    
     //update position
     player->pos.x = fixtoi(player->fixPos.x);
     player->pos.y = fixtoi(player->fixPos.y);
-    
+    */
+   
     //update state
     player_update_state(player);
 
