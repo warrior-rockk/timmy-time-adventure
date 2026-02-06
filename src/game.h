@@ -80,4 +80,6 @@ void game_init();
 void game_update();
 //function to draw game
 void game_draw();
+//funtion to destroy game (unload resources)
+void game_destroy();
 #endif

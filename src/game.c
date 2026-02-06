@@ -52,10 +52,7 @@ void game_update()
 {   
     timer_start_frame();
     input_keys_update();
-
-    if (input_key_press(G_KEY_EXIT))
-        gameExit = true;
-
+  
     switch(game.state)
     {
         case E_GAME_ST_LOAD_LEVEL:
@@ -77,7 +74,7 @@ void game_update()
             if (key[KEY_R])
                 game.state = E_GAME_ST_INIT;
             
-            if (key[KEY_E])
+            if (input_key_press(G_KEY_EXIT))
                 game.state = E_GAME_ST_DESTROY_LEVEL;
         break;
         case E_GAME_ST_DESTROY_LEVEL:
@@ -85,9 +82,8 @@ void game_update()
             game.state = E_GAME_ST_EXIT;
         break;
         case E_GAME_ST_EXIT:
-            gameExit = true;
-        break;
         default:
+            game_destroy();
             gameExit = true;
         break;
     }
@@ -106,7 +102,11 @@ void game_update()
 
 static void destroy_level()
 {
+    //destroy entities
     entity_destroy_all();
+    object_system_destroy();
+    enemy_system_destroy();
+    //unload map and map resources
     map_unload();
 }
 
@@ -188,4 +188,9 @@ static void game_load_level(uint8_t numLevel)
     tVector mapDimension = map_get_dimensions();
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){(mapDimension.x - GAME_W) - 1,(mapDimension.y - GAME_H) - 1});
     scroll_init(&scroll);    
+}
+
+void game_destroy()
+{
+    //TODO: NOTHING FOR THE MOMENT. UNLOAD GENERAL RESOURCES NO RELATIVE TO LEVEL
 }

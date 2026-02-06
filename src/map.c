@@ -136,10 +136,19 @@ void map_load(char *mapFile, char *tileFile)
 }
 
 void map_unload()
-{
+{    
+    //destroy all tile sub-bitmaps
+    for (uint8_t i = 0; i < NUM_TILES; i++)
+    {
+        destroy_bitmap(tiles[i]);    
+    }
+    destroy_bitmap(mapTileSheet);
+    
+    //free map data
     free(map);    
     free(tiles);
-    destroy_bitmap(mapTileSheet);
+
+    //initialize map data
     mapHeader.map_height    = 0;
     mapHeader.map_width     = 0;
     mapHeader.tile_height   = 0;

@@ -199,6 +199,9 @@ void entity_destroy(uint16_t entityIndex)
     if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
         collision_destroy_entity_points(entityList[entityIndex].id);
 
+    //unload entity spriteSheet
+    destroy_bitmap(entityList[entityIndex].img);
+    
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
@@ -279,10 +282,14 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
 //funtion to destroy all entities
 void entity_destroy_all()
 {
+    //destroy each entity
     for (int i=numEntities - 1; i >= 0; i--)
     {
-        entityList[i].dead = true;
+        //entityList[i].dead = true;
+        entity_destroy(i);
     }    
+    //free current draw entity sprite
+    free(entitySprite);
 }
 
 uint8_t entities_get_num()

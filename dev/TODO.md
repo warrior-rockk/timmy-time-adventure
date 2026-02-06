@@ -10,6 +10,9 @@
 - [ ] Platform objects
 - [ ] Ladder tiles
 - [ ] Enemies
+- [ ] All entities on one layer and map_load creates all
+- [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
+- [ ] Collision points on entity structure?
 
 # Player
 - [ ] Idle special animation when no control

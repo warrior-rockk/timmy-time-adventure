@@ -13,6 +13,7 @@
 
 static void main_init();
 static void main_stepByStep();
+static void main_exit();
 
 int main()
 {    
@@ -41,6 +42,7 @@ int main()
         
     } while (!gameExit);
     
+    main_exit();
     return EXIT_SUCCESS;
 }
 END_OF_MAIN()
@@ -130,4 +132,19 @@ static void main_stepByStep()
         game_update();
         game_draw();         
     }           
+}
+
+//function that handles game exit
+void main_exit()
+{
+    TRACE("Exiting game\n");
+    
+    TRACE("Quit allegro modules\n");
+    //TODO: TRACE("Game played for: %02dh %02dm\n", playTime.hours, playTime.minutes);
+
+    //quit allegro modules
+    allegro_exit();
+
+    printf("Thanks for playing %s!\n", GAME_TITLE);
+    //TODO: printf("Game played for: %02dhours and %02dminutes\n", playTime.hours, playTime.minutes);
 }
