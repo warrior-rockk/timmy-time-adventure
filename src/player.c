@@ -217,7 +217,7 @@ static void player_update_collisions(tEntity *player)
 
                     //testing kill a enemy
                     if (colDir)
-                        checkEntity->hurt = true;               
+                        checkEntity->signal = E_ENT_SIGNAL_HURT;               
                 break;
             }            
         }

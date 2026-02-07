@@ -51,6 +51,14 @@ enum E_ENTITY_AXIS
     E_ENT_AXIS_DOWN,
 };
 
+//entities signals
+enum E_ENTITY_SIGNAL
+{
+    E_ENT_SIGNAL_NONE,
+    E_ENT_SIGNAL_HURT,
+    E_ENT_SIGNAL_KILL,
+};
+
 //entity object
 typedef struct tEntity
 {
@@ -72,8 +80,8 @@ typedef struct tEntity
     uint16_t properties;        //entity properties
     enum E_ENTITY_DIR initDir;  //entity initial direction
     enum E_ENTITY_DIR dir;      //entity direction
+    uint8_t signal;             //entity signal to comunicate between entities
     bool dead;                  //dead flag: no entity update and no entity draw
-    bool hurt;                  //hurt flag
     bool visible;               //visible flag
     bool ground;                //ground flag
     //function pointers

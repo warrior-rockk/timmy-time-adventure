@@ -194,12 +194,12 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             this->dir = this->fixVel.x > 0 ? E_ENT_DIR_RIGHT : E_ENT_DIR_LEFT;            
             play_animation(&this->anim, ANIM_RAPTOR_WALK); 
             
-            if (this->hurt)
+            if (this->signal == E_ENT_SIGNAL_HURT)
                 this->state = E_RAPTOR_HURT;
         break;        
         case E_RAPTOR_HURT:
             this->fixVel.x = 0;
-            this->hurt = false;
+            this->signal = E_ENT_SIGNAL_NONE;
             if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
                 this->dead = true;    
         break;
