@@ -233,6 +233,7 @@ void entities_init()
             entityList[i].anim.frame= 0;
             entityList[i].dead      = 0;
             entityList[i].visible   = true;
+            entityList[i].signal    = E_ENT_SIGNAL_NONE;
 
             //call custom entity entity
             if (entityList[i].entity_init)
