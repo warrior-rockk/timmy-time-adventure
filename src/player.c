@@ -221,7 +221,7 @@ static void player_update_collisions(tEntity *player)
     for (uint8_t i = 0; i < numEntities; i++)
     {
         checkEntity = entity_get(i);
-        if (checkEntity->id != player->id)
+        if (checkEntity->id != player->id && !checkEntity->dead)
         {
             switch (checkEntity->entClass)
             {
@@ -236,8 +236,11 @@ static void player_update_collisions(tEntity *player)
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
 
                     //testing kill a enemy
-                    if (colDir)
+                    if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                    {
                         checkEntity->signal = E_ENT_SIGNAL_HURT;               
+                        player->fixVel.y = itofix(-4);
+                    }
                 break;
             }            
         }

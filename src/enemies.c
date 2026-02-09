@@ -199,9 +199,12 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         break;        
         case E_RAPTOR_HURT:
             this->fixVel.x = 0;
-            this->signal = E_ENT_SIGNAL_NONE;
+            
             if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
+            {
                 this->dead = true;    
+                this->signal = E_ENT_SIGNAL_NONE;
+            }
         break;
     }       
 }
