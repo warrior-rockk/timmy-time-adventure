@@ -29,6 +29,7 @@ static fixed localAccelX;
 
 static uint8_t playerCrouched = false;
 static uint8_t playerMoving = false;
+static uint8_t playerAttack = false;
 
 static void player_update_controls(tEntity *player);
 static void player_update_collisions(tEntity *player);
@@ -118,6 +119,11 @@ static void player_update_controls(tEntity *player)
         player->ground = false;
     }
 
+    if (input_key_pressed(G_KEY_ACTION) && !player->ground)
+    {
+        playerAttack = true;
+    }
+
     playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
 
     //update vels
@@ -138,8 +144,15 @@ static void player_update_state(tEntity *player)
     player->prevState = player->state;    
     if (!player->ground == true)
     {
-        player->state = ST_PLAYER_JUMP;
+        if (playerAttack)
+            player->state = ST_PLAYER_ATTACK;
+        else
+            player->state = ST_PLAYER_JUMP;
     }
+    else if (playerAttack)
+    {
+        player->state = ST_PLAYER_LAND;
+    }    
     else if (playerCrouched)
         player->state = ST_PLAYER_CROUCHED;
     else if (abs(player->fixVel.x) > cMinVelToIdle || playerMoving)
@@ -177,6 +190,13 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_CROUCHED:
             play_animation(&player->anim, ANIM_PLY_CROUCH);
+        break;
+        case ST_PLAYER_ATTACK:
+            play_animation(&player->anim, ANIM_PLY_ATTACK);
+        break;
+        case ST_PLAYER_LAND:
+            if (play_animation(&player->anim, ANIM_PLY_LAND))
+                playerAttack = false;
         break;
     }
 }
