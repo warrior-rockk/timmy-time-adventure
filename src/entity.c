@@ -319,7 +319,6 @@ void entity_update_vel_pos(tEntity *entity)
     //entity->pos.x = fixtoi(entity->fixPos.x);
     //entity->pos.y = fixtoi(entity->fixPos.y);
     fixed gravity       = ftofix(0.2);
-    fixed accel_y       = ftofix(4.0);  //jump acceleration
     fixed max_vel_y     = ftofix(6);
 
     //apply velocities

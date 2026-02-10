@@ -56,6 +56,17 @@ enum E_GAME_LEVELS
     E_GAME_NUM_LEVELS,
 };
 
+//game data
+typedef struct game
+{
+    uint8_t state;
+    uint8_t prevState;
+    uint8_t actualLevel;
+    uint8_t lives;
+    uint8_t life;
+    uint8_t score;    
+} tGame;
+
 //options for debug mode
 typedef struct
 {
@@ -70,6 +81,7 @@ typedef struct
     //char *musicFile;		//music file of level
 } tLevelDataFile;
 
+extern tGame game;
 extern double deltaTime;
 extern uint8_t gameExit;
 extern tDebugOptions debugOptions;

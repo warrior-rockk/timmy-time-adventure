@@ -13,6 +13,7 @@
 #include "game.h"
 #include "entity.h"
 #include "collisions.h"
+#include "timer.h"
 
 static fixed accel_x;
 static fixed accel_x_air;
@@ -27,10 +28,14 @@ static fixed cMinVelToIdle;
 static fixed localFriction;
 static fixed localAccelX;
 
+//local player variables
 static uint8_t playerCrouched = false;
 static uint8_t playerMoving = false;
 static uint8_t playerAttack = false;
+static uint8_t playerHurt = false;
+static int16_t playerInvincible = 0;
 
+//local functions declarations
 static void player_update_controls(tEntity *player);
 static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
@@ -42,6 +47,7 @@ void player_init(tEntity *player)
     player->state = ST_PLAYER_IDLE;
     playerCrouched = false;
     playerMoving = false;
+    playerHurt = false;
     player->ground = false;
 
     accel_x       = ftofix(0.20); //0.06 without friction on move
@@ -142,7 +148,13 @@ static void player_update_state(tEntity *player)
 {
     //update state
     player->prevState = player->state;    
-    if (!player->ground == true)
+
+    if (playerHurt)
+    {
+        player->state = ST_PLAYER_HURT;   
+        playerInvincible = 200;     
+    }
+    else if (!player->ground == true)
     {
         if (playerAttack)
             player->state = ST_PLAYER_ATTACK;
@@ -163,6 +175,9 @@ static void player_update_state(tEntity *player)
     {
         player->state = ST_PLAYER_IDLE;
     }
+
+    playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
+    show_debug("Invin: %i", playerInvincible);
 }
 
 static void player_update_animations(tEntity *player)
@@ -197,6 +212,10 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_LAND:
             if (play_animation(&player->anim, ANIM_PLY_LAND))
                 playerAttack = false;
+        break;
+        case ST_PLAYER_HURT:
+            if (play_animation(&player->anim, ANIM_PLY_HURT))
+                playerHurt = false;
         break;
     }
 }
@@ -235,12 +254,22 @@ static void player_update_collisions(tEntity *player)
                 case E_ENT_CLASS_ENEMY:
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
 
-                    //testing kill a enemy
-                    if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                    if (colDir)
                     {
-                        checkEntity->signal = E_ENT_SIGNAL_HURT;               
-                        player->fixVel.y = itofix(-4);
+                        if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                        {
+                            checkEntity->signal = E_ENT_SIGNAL_HURT;               
+                            player->fixVel.y = itofix(-4);
+                        } 
+                        else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerHurt && !playerInvincible)
+                        {
+                            playerHurt = true;                                           
+                            player->ground = false;
+                            player->fixVel.y = itofix(-4);
+                            player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-3) : itofix(3);
+                        }
                     }
+                    
                 break;
             }            
         }

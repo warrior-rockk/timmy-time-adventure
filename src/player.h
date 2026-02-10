@@ -12,7 +12,7 @@
 
 #define PLAYER_W            12
 #define PLAYER_H            30 //40
-#define PLAYER_IMG_W        28
+#define PLAYER_IMG_W        30
 #define PLAYER_IMG_H        41
 
 //player animations
@@ -26,6 +26,7 @@
 #define ANIM_PLY_CROUCH              28,   32,     2, ANIM_ONCE
 #define ANIM_PLY_ATTACK              37,   37,    10, ANIM_ONCE
 #define ANIM_PLY_LAND                 33, 33, 15, ANIM_ONCE  
+#define ANIM_PLY_HURT               39, 41, 10, ANIM_ONCE
 
 enum ePlayerState
 {
@@ -35,6 +36,7 @@ enum ePlayerState
     ST_PLAYER_CROUCHED,
     ST_PLAYER_ATTACK,
     ST_PLAYER_LAND,
+    ST_PLAYER_HURT,
 };
 
 void player_init();

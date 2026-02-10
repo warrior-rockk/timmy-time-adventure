@@ -24,11 +24,7 @@
 #include "enemies.h"
 
 //game structure
-struct game
-{
-    uint8_t state;
-    uint8_t prevState;
-} game;
+tGame game;
 
 //debug option structure
 #ifdef DEBUGMODE
