@@ -152,7 +152,7 @@ static void player_update_state(tEntity *player)
     if (playerHurt)
     {
         player->state = ST_PLAYER_HURT;   
-        playerInvincible = 200;     
+        playerInvincible = PLAYER_INVINCIBLE_TIME;     
     }
     else if (!player->ground == true)
     {
@@ -264,15 +264,19 @@ static void player_update_collisions(tEntity *player)
                     {
                         if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                         {
+                            //send signal to entity
                             checkEntity->signal = E_ENT_SIGNAL_HURT;               
-                            player->fixVel.y = itofix(-4);
+                            //set bounce velocity
+                            player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
                         } 
                         else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerHurt && !playerInvincible)
                         {
+                            //set flags
                             playerHurt = true;                                           
                             player->ground = false;
-                            player->fixVel.y = itofix(-4);
-                            player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-3) : itofix(3);
+                            //set hurt velocities
+                            player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
+                            player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
                         }
                     }
                     

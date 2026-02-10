@@ -15,6 +15,12 @@
 #define PLAYER_IMG_W        30
 #define PLAYER_IMG_H        41
 
+#define PLAYER_ENEMY_BOUNCE_VEL     -4
+#define PLAYER_HURT_VEL_Y           -4
+#define PLAYER_HURT_VEL_X           2
+
+#define PLAYER_INVINCIBLE_TIME      200
+
 //player animations
 #define ANIM_PLY_IDLE                0,   0,     10, ANIM_ONCE
 #define ANIM_PLY_BREATH             24,  27,     30, ANIM_PING_PONG
