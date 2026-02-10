@@ -1,4 +1,5 @@
 # Engine
+- [ ] Load resources function to check errors
 - [ ] Fix deltaTime collisions?
 - [X] Implement Y Scroll following player
 - [X] Controls
