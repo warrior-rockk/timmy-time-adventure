@@ -30,6 +30,9 @@
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
 #define BORDER_COLOR            3
 
+#define GAME_INI_LIVES          3
+#define GAME_INI_LIFE           3
+
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
 

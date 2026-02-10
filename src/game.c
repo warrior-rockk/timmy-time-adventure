@@ -72,6 +72,9 @@ void game_update()
             
             if (input_key_press(G_KEY_EXIT))
                 game.state = E_GAME_ST_DESTROY_LEVEL;
+
+            if (game.life == 0)
+                game.state = E_GAME_ST_DESTROY_LEVEL;
         break;
         case E_GAME_ST_DESTROY_LEVEL:
             destroy_level();
@@ -135,8 +138,12 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_TEST].mapFile    = "res/maps/level00.bin";
     levelDataFile[E_GAME_LEVEL_TEST].tileFile   = "res/tiles/tsheet.bmp";
     
-    game.state      = E_GAME_ST_LOAD_LEVEL;
-    game.prevState  = E_GAME_ST_LOAD_LEVEL;
+    game.state          = E_GAME_ST_LOAD_LEVEL;
+    game.prevState      = E_GAME_ST_LOAD_LEVEL;
+    game.actualLevel    = E_GAME_LEVEL_TEST;
+    game.life           = 3;
+    game.lives          = 3;
+    game.score          = 0;
 }
 
 void game_draw()
