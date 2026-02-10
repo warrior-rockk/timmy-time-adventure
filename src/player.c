@@ -50,15 +50,15 @@ void player_init(tEntity *player)
     playerHurt = false;
     player->ground = false;
 
-    accel_x       = ftofix(0.20); //0.06 without friction on move
-    accel_x_air   = ftofix(0.40); 
-    friction      = ftofix(0.92); //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
-    air_friction  = ftofix(0.6);  //less than floor friction
-    gravity       = ftofix(0.2);
-    accel_y       = ftofix(4.0);  //jump acceleration
-    max_vel_x     = ftofix(1.0);
-    max_vel_y     = ftofix(6);
-    cMinVelToIdle = ftofix(0.1);
+    accel_x       = ftofix(PLAYER_ACCEL_X); 
+    accel_x_air   = ftofix(PLAYER_ACCEL_X_AIR); 
+    friction      = ftofix(PLAYER_FRICTION);
+    air_friction  = ftofix(PLAYER_AIR_FRICTION);
+    gravity       = ftofix(PLAYER_GRAVITY);
+    accel_y       = ftofix(PLAYER_ACCEL_Y);
+    max_vel_x     = ftofix(PLAYER_MAX_VEL_X);
+    max_vel_y     = ftofix(PLAYER_MAX_VEL_Y);
+    cMinVelToIdle = ftofix(PLAYER_MIN_VEL_TO_IDLE);
 }
 
 void player_update(tEntity *player)
