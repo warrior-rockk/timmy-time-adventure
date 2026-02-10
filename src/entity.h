@@ -82,7 +82,8 @@ typedef struct tEntity
     enum E_ENTITY_DIR dir;      //entity direction
     uint8_t signal;             //entity signal to comunicate between entities
     bool dead;                  //dead flag: no entity update and no entity draw
-    bool visible;               //visible flag
+    bool sleep;                 //sleep flag: no entity update and no entity draw
+    bool visible;               //visible flag: no entity draw
     bool ground;                //ground flag
     //function pointers
     void (*entity_init)(struct tEntity *entity);

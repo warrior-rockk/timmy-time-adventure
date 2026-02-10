@@ -253,16 +253,16 @@ void entities_update(tScroll *scroll)
     {
         //check dead flag
         if (entityList[i].dead)
-            entityList[i].visible = false;
+            entityList[i].sleep = true;
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            entityList[i].visible = false;            
+            entityList[i].sleep = true;            
         }
         else
         {
             //only update entity if visible
-            entityList[i].visible = true;        
+            entityList[i].sleep = false;        
             visibleEntities++;
             //call entity pointer update function
             if (entityList[i].entity_update)
@@ -285,8 +285,8 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
 {
     for (int i=numEntities - 1; i >= 0; i--)
     {
-        //only draws if visible
-        if (entityList[i].visible)
+        //only draws if visible and not sleep
+        if (entityList[i].visible && !entityList[i].sleep)
             entity_draw(buffer, &entityList[i], scroll);
     }    
 }
