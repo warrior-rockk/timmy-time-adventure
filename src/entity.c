@@ -12,6 +12,7 @@
 #include "objects.h"
 #include "game.h"
 #include "enemies.h"
+#include "timer.h"
 
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
@@ -337,4 +338,8 @@ void entity_update_vel_pos(tEntity *entity)
     entity->pos.y = fixtoi(entity->fixPos.y);
 }
 
-    
+void entity_blink(tEntity *entity)
+{
+    if (get_clock_count(ENTITY_BLINK_SPEED))
+        entity->visible = !entity->visible;
+}

@@ -20,4 +20,6 @@ void timer_end_frame(double *deltaTime);
 uint16_t get_fps();
 //gets the current clock tick. Returns numbers of ticks for configured game tick duration base
 uint16_t get_clock_tick();
+//return 1 each time frame counter
+uint8_t get_clock_count(uint8_t time);
 #endif

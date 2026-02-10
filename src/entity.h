@@ -14,6 +14,7 @@
 #include "anim.h"
 
 #define ENTITY_MAX_NUM      255     //Max. number of entities
+#define ENTITY_BLINK_SPEED  2
 
 #define DEBUG_POINT_ENABLED_COLOR       53
 #define DEBUG_POINT_DISABLED_COLOR      66
@@ -112,5 +113,6 @@ tEntity* entity_get(uint16_t numEntity);
 uint8_t entities_get_num();
 //destroy all entities
 void entity_destroy_all();
-
+//blink entity
+void entity_blink(tEntity *entity);
 #endif

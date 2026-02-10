@@ -176,8 +176,8 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_IDLE;
     }
 
+    //invincible flag
     playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
-    show_debug("Invin: %i", playerInvincible);
 }
 
 static void player_update_animations(tEntity *player)
@@ -218,6 +218,12 @@ static void player_update_animations(tEntity *player)
                 playerHurt = false;
         break;
     }
+
+    //blink
+    if (playerInvincible)
+        entity_blink(player);
+    else
+        player->visible = true;
 }
 
 static void player_update_collisions(tEntity *player)

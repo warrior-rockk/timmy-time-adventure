@@ -87,3 +87,8 @@ uint16_t get_clock_tick()
     else   
         return 0;
 }
+
+uint8_t get_clock_count(uint8_t time)
+{
+    return ((frameCount % time) == 0 && tick);
+}
