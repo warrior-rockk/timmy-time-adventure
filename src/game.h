@@ -70,7 +70,9 @@ typedef struct game
     uint8_t lives;
     uint8_t life;
     uint8_t score;  
-    uint8_t loseLive;  
+    uint8_t loseLive;
+    uint8_t fadeIn;
+    uint8_t fadeOut;  
 } tGame;
 
 //options for debug mode

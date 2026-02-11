@@ -44,6 +44,7 @@ tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
 static void game_load_level(uint8_t numLevel);
 static void game_debug_info();
 static void destroy_level();
+static void game_do_fade();
 
 void game_update()
 {   
@@ -63,6 +64,7 @@ void game_update()
             entities_init();
             scroll_init(&scroll);
             game.state = E_GAME_ST_PLAY_LEVEL;
+            game.fadeIn = true;
         break;
         case E_GAME_ST_PLAY_LEVEL:
             entities_update(&scroll);
@@ -91,7 +93,8 @@ void game_update()
             if (gameSeq.timeCounter >= 300)
             {
                 game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;
-                gameSeq.timeCounter = 0;               
+                gameSeq.timeCounter = 0;
+                game.fadeOut = true;               
             }
             else
                 gameSeq.timeCounter += get_clock_tick();            
@@ -110,6 +113,8 @@ void game_update()
         break;
     }
     
+    game_do_fade();
+
     #ifdef DEBUGMODE
         if (debugOptions.showDebugInfo)
             game_debug_info();
@@ -171,6 +176,7 @@ void game_init()
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
+    
 }
 
 void game_draw()
@@ -208,6 +214,7 @@ static void game_debug_info()
     //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
     //show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
     show_debug("Lives:%i Life:%i", game.lives, game.life);
+    show_debug("State: %i", game.state);
 }
 
 //testing
@@ -224,4 +231,18 @@ static void game_load_level(uint8_t numLevel)
 void game_destroy()
 {
     //TODO: NOTHING FOR THE MOMENT. UNLOAD GENERAL RESOURCES NO RELATIVE TO LEVEL
+}
+
+static void game_do_fade()
+{
+    if (game.fadeOut)
+    {
+        fade_out(5);
+        game.fadeOut = false;
+    }
+    if (game.fadeIn)
+    {
+        fade_in(desktop_palette, 5);
+        game.fadeIn = false;
+    }
 }
