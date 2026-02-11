@@ -87,6 +87,13 @@ typedef struct
     //char *musicFile;		//music file of level
 } tLevelDataFile;
 
+//sequence struct
+typedef struct
+{
+    uint8_t step;               //step of sequence
+    uint16_t timeCounter;       //time of sequence    
+} tSequence;
+
 extern tGame game;
 extern double deltaTime;
 extern uint8_t gameExit;

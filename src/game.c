@@ -25,6 +25,7 @@
 
 //game structure
 tGame game;
+tSequence gameSeq;
 
 //debug option structure
 #ifdef DEBUGMODE
@@ -87,10 +88,13 @@ void game_update()
             
             entities_draw(worldScreen, &scroll);
 
-            if (get_clock_count(60))
-            {                
-                game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;                
+            if (gameSeq.timeCounter >= 300)
+            {
+                game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;
+                gameSeq.timeCounter = 0;               
             }
+            else
+                gameSeq.timeCounter += get_clock_tick();            
         break;
         case E_GAME_ST_GAME_OVER:
             game.state = E_GAME_ST_DESTROY_LEVEL;
