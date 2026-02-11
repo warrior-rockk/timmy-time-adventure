@@ -48,6 +48,8 @@ enum E_GAME_STATE
     E_GAME_ST_LOAD_LEVEL,
     E_GAME_ST_INIT,
     E_GAME_ST_PLAY_LEVEL,
+    E_GAME_ST_LOSE_LIVE,
+    E_GAME_ST_GAME_OVER,
     E_GAME_ST_DESTROY_LEVEL,
     E_GAME_ST_EXIT,
 };
@@ -67,7 +69,8 @@ typedef struct game
     uint8_t actualLevel;
     uint8_t lives;
     uint8_t life;
-    uint8_t score;    
+    uint8_t score;  
+    uint8_t loseLive;  
 } tGame;
 
 //options for debug mode

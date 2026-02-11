@@ -33,6 +33,7 @@ static uint8_t playerCrouched = false;
 static uint8_t playerMoving = false;
 static uint8_t playerAttack = false;
 static uint8_t playerHurt = false;
+static uint8_t playerDead = false;
 static int16_t playerInvincible = 0;
 
 //local functions declarations
@@ -48,6 +49,8 @@ void player_init(tEntity *player)
     playerCrouched = false;
     playerMoving = false;
     playerHurt = false;
+    playerDead = false;
+    playerInvincible = 0;
     player->ground = false;
 
     accel_x       = ftofix(PLAYER_ACCEL_X); 
@@ -149,7 +152,9 @@ static void player_update_state(tEntity *player)
     //update state
     player->prevState = player->state;    
 
-    if (playerHurt)
+    if (playerDead)
+        player->state = ST_PLAYER_DEAD;
+    else if (playerHurt)
     {
         player->state = ST_PLAYER_HURT;   
         playerInvincible = PLAYER_INVINCIBLE_TIME;     
@@ -215,12 +220,23 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_HURT:
             if (play_animation(&player->anim, ANIM_PLY_HURT))
-                playerHurt = false;
+            {
+                playerHurt = false;                
+                if (game.life == 0)
+                {
+                    playerDead = true;
+                    playerInvincible = false;
+                }
+            }
+        break;
+        case ST_PLAYER_DEAD:
+            if (play_animation(&player->anim, ANIM_PLY_FALL_DEAD))
+                game.loseLive = true;    
         break;
     }
 
     //blink
-    if (playerInvincible)
+    if (playerInvincible) 
         entity_blink(player);
     else
         player->visible = true;
@@ -258,30 +274,32 @@ static void player_update_collisions(tEntity *player)
                     collision_apply_dir(player, colDir);            
                 break;
                 case E_ENT_CLASS_ENEMY:
-                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
-
-                    if (colDir)
+                    if (!playerHurt && !playerInvincible && !playerDead)
                     {
-                        if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                        colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
+
+                        if (colDir)
                         {
-                            //send signal to entity
-                            checkEntity->signal = E_ENT_SIGNAL_HURT;               
-                            //set bounce velocity
-                            player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
-                        } 
-                        else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerHurt && !playerInvincible)
-                        {
-                            //set flags
-                            playerHurt = true;                                           
-                            player->ground = false;
-                            //lose 1 life
-                            game.life -= 1;
-                            //set hurt velocities
-                            player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
-                            player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
+                            if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            {
+                                //send signal to entity
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;               
+                                //set bounce velocity
+                                player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
+                            } 
+                            else if (checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            {
+                                //set flags
+                                playerHurt = true;                                           
+                                player->ground = false;
+                                //lose 1 life
+                                game.life -= 1;
+                                //set hurt velocities
+                                player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
+                                player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
+                            }
                         }
                     }
-                    
                 break;
             }            
         }

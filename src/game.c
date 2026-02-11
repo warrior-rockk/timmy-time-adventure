@@ -56,6 +56,9 @@ void game_update()
             game.state = E_GAME_ST_INIT;
         break;
         case E_GAME_ST_INIT:
+            game.loseLive = false;
+            game.life = GAME_INI_LIFE;
+            
             entities_init();
             scroll_init(&scroll);
             game.state = E_GAME_ST_PLAY_LEVEL;
@@ -71,10 +74,26 @@ void game_update()
                 game.state = E_GAME_ST_INIT;
             
             if (input_key_press(G_KEY_EXIT))
-                game.state = E_GAME_ST_DESTROY_LEVEL;
+                game.state = E_GAME_ST_DESTROY_LEVEL;            
 
-            if (game.life == 0)
-                game.state = E_GAME_ST_DESTROY_LEVEL;
+            if (game.loseLive)
+            {
+                game.lives--;
+                game.state = E_GAME_ST_LOSE_LIVE;
+            }
+        break;
+        case E_GAME_ST_LOSE_LIVE:
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            
+            entities_draw(worldScreen, &scroll);
+
+            if (get_clock_count(60))
+            {                
+                game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;                
+            }
+        break;
+        case E_GAME_ST_GAME_OVER:
+            game.state = E_GAME_ST_DESTROY_LEVEL;
         break;
         case E_GAME_ST_DESTROY_LEVEL:
             destroy_level();
@@ -90,7 +109,11 @@ void game_update()
     #ifdef DEBUGMODE
         if (debugOptions.showDebugInfo)
             game_debug_info();
-
+        
+        //force game exit
+        if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
+            game.state = E_GAME_ST_EXIT;
+        
         if (input_key_pressed(G_KEY_D))
             debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
         if (input_key_pressed(G_KEY_S))
@@ -140,9 +163,9 @@ void game_init()
     
     game.state          = E_GAME_ST_LOAD_LEVEL;
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
-    game.actualLevel    = E_GAME_LEVEL_TEST;
-    game.life           = 3;
-    game.lives          = 3;
+    game.actualLevel    = E_GAME_LEVEL_TEST;    
+    game.lives          = GAME_INI_LIVES;
+    game.life           = GAME_INI_LIFE;
     game.score          = 0;
 }
 
@@ -175,11 +198,12 @@ static void game_debug_info()
 {
     //debug info
     show_debug("FPS: %d", get_fps());
-    show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
+    //show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
     show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
     show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
-    show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
-    show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
+    //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
+    //show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
+    show_debug("Lives:%i Life:%i", game.lives, game.life);
 }
 
 //testing
