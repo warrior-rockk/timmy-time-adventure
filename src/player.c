@@ -118,7 +118,7 @@ static void player_update_controls(tEntity *player)
         }
 
         //Down control (crouch)
-        playerFlags.crouched = input_key_press(G_KEY_DOWN) && player->ground;
+        playerFlags.crouched = input_key_press(G_KEY_DOWN) && player->ground && !playerFlags.picked;
 
         //Jump control
         if (input_key_pressed(G_KEY_JUMP) && player->ground)
@@ -414,6 +414,14 @@ static void player_update_collisions(tEntity *player)
                                 //set hurt velocities
                                 player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
                                 player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
+                                //if object picked, we lose it
+                                if (playerFlags.picked)
+                                {                                    
+                                    objectPicked->signal = E_ENT_SIGNAL_THROW;
+                                    objectPicked = NULL;
+                                    //reset flags
+                                    playerFlags.picked = false;                                    
+                                }
                             }
                         }
                     }
