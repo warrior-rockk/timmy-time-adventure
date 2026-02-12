@@ -25,9 +25,9 @@
 </data>
  </layer>
  <objectgroup draworder="index" id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="128" y="128" width="12" height="30">
+  <object id="1" name="player1" type="player" x="544" y="96" width="12" height="30">
    <properties>
-    <property name="dir" type="int" value="1"/>
+    <property name="dir" type="int" value="0"/>
    </properties>
   </object>
   <object id="79" name="gem" type="object" x="368" y="80">

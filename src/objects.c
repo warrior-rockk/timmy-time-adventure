@@ -139,7 +139,44 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
 
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
+    //object states
+    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_THROWING_STATE};
     local->solid = true;
+
+    switch (this->state)
+    {
+        case E_STONE_ST_IDLE:
+            if (this->signal == E_ENT_SIGNAL_PICKING)
+                this->state = E_STONE_ST_PICKED;
+        break;
+        case E_STONE_ST_PICKED:
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+
+            //TODO: comprobamos si el jugador no muere cuando nos lleva
+            //if (exists(idPlayer))
+                tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
+                this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x - itofix(0) : playerEnt->fixPos.x + itofix(0);
+                //isBitSet(idPlayer.flags,B_HMIRROR) ? this.fX = idPlayer.x-cObjectPickedPosX : this.fX = idPlayer.x+cObjectPickedPosX;
+                this->fixPos.y  = playerEnt->fixPos.y - itofix(20);
+                //correccion de altura por grafico player
+                /*if (idPlayer.graph == 28)
+                    this.fY ++;
+                end;
+                if (idPlayer.graph == 29)
+                    this.fY += 2;
+                end;*/
+                //el objeto se vuelve persistente
+                //setBit(this.props,PERSISTENT);
+                //reseteamos flag boton si lo hubiera seteado el proceso
+                //if (idButton == father) 
+                //	idButton = 0;
+                //end;
+            /*else
+                this.state = THROWING_STATE;
+            end;*/
+        break;
+    }
 }
 
 void object_trace(tEntity *this)

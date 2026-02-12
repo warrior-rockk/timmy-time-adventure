@@ -28,8 +28,10 @@
 #define PLAYER_ENEMY_BOUNCE_VEL     -4
 #define PLAYER_HURT_VEL_Y           -4
 #define PLAYER_HURT_VEL_X           2
+
 //player times
 #define PLAYER_INVINCIBLE_TIME      200
+#define PLAYER_PICKING_TIME         30
 
 //player animations
 #define ANIM_PLY_IDLE                0,  0, 10, ANIM_ONCE
@@ -44,7 +46,8 @@
 #define ANIM_PLY_LAND               33, 33, 15, ANIM_ONCE  
 #define ANIM_PLY_HURT               39, 41, 10, ANIM_ONCE
 #define ANIM_PLY_FALL_DEAD          42, 48, 10, ANIM_ONCE
-//#define ANIM_PLY_DEAD               48, 48, 10, ANIM_LOOP
+#define ANIM_PLY_PICKING            49, 49, 10, ANIM_LOOP
+#define ANIM_PLY_PICKED             50, 50, 10, ANIM_LOOP
 
 enum ePlayerState
 {
@@ -56,6 +59,8 @@ enum ePlayerState
     ST_PLAYER_LAND,
     ST_PLAYER_HURT,
     ST_PLAYER_DEAD,
+    ST_PLAYER_PICKING,
+    ST_PLAYER_PICKED,
 };
 
 void player_init();

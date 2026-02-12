@@ -270,11 +270,9 @@ void entities_update(tScroll *scroll)
             {
                 entityList[i].entity_update(&entityList[i]);                          
             }
-
-            //if entity has physics flag
-            if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PHYSICS_ON))
-                //update vel and pos
-                entity_update_vel_pos(&entityList[i]);
+            
+            //update vel and pos
+            entity_update_vel_pos(&entityList[i]);
         }
     }   
 
@@ -319,18 +317,24 @@ void entity_update_vel_pos(tEntity *entity)
     //update position
     //entity->pos.x = fixtoi(entity->fixPos.x);
     //entity->pos.y = fixtoi(entity->fixPos.y);
-    fixed gravity       = ftofix(0.2);
-    fixed max_vel_y     = ftofix(6);
-
-    //apply velocities
-    entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));        
-    if (entity->ground)
-        entity->fixVel.y = 0;  
-    else  
+    
+    
+    //if entity has physics flag
+    if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
-        //gravity 
-	    entity->fixVel.y += entity->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-        entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
+        fixed gravity       = ftofix(0.2);
+        fixed max_vel_y     = ftofix(6);
+
+        //apply velocities
+        entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));        
+        if (entity->ground)
+            entity->fixVel.y = 0;  
+        else  
+        {
+            //gravity 
+            entity->fixVel.y += entity->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+            entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
+        }
     }
 
     //update position

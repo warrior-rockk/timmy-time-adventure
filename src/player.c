@@ -36,6 +36,14 @@ static uint8_t playerHurt = false;
 static uint8_t playerDead = false;
 static int16_t playerInvincible = 0;
 
+//test picking
+static uint8_t objectForPickID = 0;
+static uint8_t memObjectforPickID = 0;
+tEntity *idObjectPicked;
+static uint8_t picked = false;
+static uint8_t picking = false;
+static uint16_t pickingCounter = 0;
+
 //local functions declarations
 static void player_update_controls(tEntity *player);
 static void player_update_collisions(tEntity *player);
@@ -128,9 +136,28 @@ static void player_update_controls(tEntity *player)
         player->ground = false;
     }
 
-    if (input_key_pressed(G_KEY_ACTION) && !player->ground)
+    if (input_key_pressed(G_KEY_ACTION))
     {
-        playerAttack = true;
+        //recojer objeto
+			if (picking && !picked)
+            {
+				//comprobamos si podemos cojer el objeto
+				//TODO: if (checkObjectPicking(memObjectforPickID))
+				//{
+                	picked = true;
+					//cambiamos el estado del objeto a recogiendo
+					idObjectPicked = entity_get(memObjectforPickID);
+					idObjectPicked->signal = E_ENT_SIGNAL_PICKING;
+					memObjectforPickID = 0;
+                /*}
+                else
+                {
+					picked = false;
+					failPick = true;
+				}*/
+            }
+            else if(!player->ground)
+                playerAttack = true;
     }
 
     playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
@@ -152,6 +179,35 @@ static void player_update_state(tEntity *player)
     //update state
     player->prevState = player->state;    
 
+    //recogiendo objetos
+    //activacion picking
+    if (objectForPickID != 0)
+    {
+        //si se cumple el tiempo definido
+        if (pickingCounter >= PLAYER_PICKING_TIME)
+        {
+            //activamos el picking
+            picking = true;
+            memObjectforPickID = objectForPickID;
+        }
+        else
+        {
+            //cronometro				
+            pickingCounter += get_clock_tick();
+        }
+    }
+    else
+        pickingCounter = 0;  
+    
+    //desactivacion picking
+    if (picking && (player->fixVel.x != 0 || player->fixVel.y != 0 || playerCrouched) && !picked)
+    {
+        //si me muevo o sthis.alto o me agacho,salgo del picking
+        picking = false;
+        memObjectforPickID = 0;
+    }
+
+
     if (playerDead)
         player->state = ST_PLAYER_DEAD;
     else if (playerHurt)
@@ -159,6 +215,10 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_HURT;   
         playerInvincible = PLAYER_INVINCIBLE_TIME;     
     }
+    else if (picking && !picked)
+    	player->state = ST_PLAYER_PICKING;	
+    else if (picked && picking)
+        player->state = ST_PLAYER_PICKED;
     else if (!player->ground == true)
     {
         if (playerAttack)
@@ -233,6 +293,12 @@ static void player_update_animations(tEntity *player)
             if (play_animation(&player->anim, ANIM_PLY_FALL_DEAD))
                 game.loseLive = true;    
         break;
+        case ST_PLAYER_PICKING:
+            play_animation(&player->anim, ANIM_PLY_PICKING);
+        break;
+        case ST_PLAYER_PICKED:
+            play_animation(&player->anim, ANIM_PLY_PICKED);
+        break;
     }
 
     //blink
@@ -246,7 +312,8 @@ static void player_update_collisions(tEntity *player)
 {
     uint8_t colDir = 0;
     player->ground = false;
-    
+    objectForPickID = 0;
+
     //check all the entity collision points    
     for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
     {                
@@ -271,6 +338,12 @@ static void player_update_collisions(tEntity *player)
                     collision_apply_dir(player, colDir);
             
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
+
+                    //comprobamos si colisionamos con un objeto recogible y esta en la mitad inferior
+                    if (!picked && (colDir == E_COLLISION_RIGHT || colDir == E_COLLISION_LEFT)) 
+                        //if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
+                            objectForPickID = checkEntity->id;                                             
+
                     collision_apply_dir(player, colDir);            
                 break;
                 case E_ENT_CLASS_ENEMY:

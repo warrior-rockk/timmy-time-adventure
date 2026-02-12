@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level00.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "."
     ],
@@ -11,6 +11,9 @@
     "fileStates": {
         "": {
             "scaleInEditor": 2.04
+        },
+        "#test32": {
+            "scaleInDock": 2
         },
         "#testLevel": {
             "dynamicWrapping": false,
@@ -24,7 +27,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 311.29558256744735,
-                "y": 195.42444905623086
+                "y": 195.6715090423955
             }
         },
         "rockLevel.tmj": {
@@ -61,13 +64,13 @@
         }
     },
     "last.exportedFilePath": "/Users/warrior/code/dos/projects/dos-platform-game/dev/maps",
-    "last.imagePath": "/Users/warrior/Downloads",
-    "map.fixedSize": false,
+    "last.imagePath": "D:/Instalables/Proyectos/Programacion DOS/proyectos/dos-platform-game/dev/gfx/maps",
+    "map.fixedSize": true,
     "map.height": 13,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
     "map.width": 16,
     "openFiles": [
         "level00.tmx"
@@ -83,8 +86,8 @@
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
+        "height": 32,
+        "width": 32
     },
     "tileset.type": 0
 }
