@@ -30,11 +30,14 @@
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
 #define BORDER_COLOR            3
 
-#define GAME_INI_LIVES          3
-#define GAME_INI_LIFE           3
-
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
+
+//general game definitions
+#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIFE           3       //initial game life
+#define GAME_FADE_SPEED         2       //general game fade speed
+#define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
 
 //position of player on entities array
 #define PLAYER_ENTITY_ID    0
@@ -45,8 +48,9 @@ enum E_GAME_STATE
     E_GAME_ST_LOGO,
     E_GAME_ST_INTRO,
     E_GAME_ST_TITLE,
-    E_GAME_ST_LOAD_LEVEL,
     E_GAME_ST_INIT,
+    E_GAME_ST_LOAD_LEVEL,
+    E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
     E_GAME_ST_LOSE_LIVE,
     E_GAME_ST_GAME_OVER,

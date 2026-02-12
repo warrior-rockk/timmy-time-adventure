@@ -63,6 +63,15 @@ void game_update()
             
             entities_init();
             scroll_init(&scroll);
+            game.state = E_GAME_ST_INIT_LEVEL;            
+        break;
+        case E_GAME_ST_INIT_LEVEL:
+            entities_update(&scroll);
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+
+            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
+            entities_draw(worldScreen, &scroll);
+
             game.state = E_GAME_ST_PLAY_LEVEL;
             game.fadeIn = true;
         break;
@@ -90,7 +99,7 @@ void game_update()
             
             entities_draw(worldScreen, &scroll);
 
-            if (gameSeq.timeCounter >= 300)
+            if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {
                 game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;
                 gameSeq.timeCounter = 0;
@@ -112,9 +121,7 @@ void game_update()
             gameExit = true;
         break;
     }
-    
-    game_do_fade();
-
+       
     #ifdef DEBUGMODE
         if (debugOptions.showDebugInfo)
             game_debug_info();
@@ -202,6 +209,9 @@ void game_draw()
     
     //blit to screen
     blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
+    
+    //do pending fades
+    game_do_fade();
 }
 
 static void game_debug_info()
@@ -237,12 +247,12 @@ static void game_do_fade()
 {
     if (game.fadeOut)
     {
-        fade_out(5);
+        fade_out(GAME_FADE_SPEED);
         game.fadeOut = false;
     }
     if (game.fadeIn)
     {
-        fade_in(desktop_palette, 5);
+        fade_in(desktop_palette, GAME_FADE_SPEED);
         game.fadeIn = false;
     }
 }
