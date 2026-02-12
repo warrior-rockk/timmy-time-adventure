@@ -29,14 +29,18 @@ static fixed localFriction;
 static fixed localAccelX;
 
 //local player variables
-static uint8_t playerCrouched = false;
-static uint8_t playerMoving = false;
-static uint8_t playerAttack = false;
-static uint8_t playerHurt = false;
-static uint8_t playerDead = false;
+static struct playerFlags
+{
+    uint16_t crouched       : 1;
+    uint16_t moving         : 1;
+    uint16_t attack         : 1;
+    uint16_t hurt           : 1;
+    uint16_t dead           : 1;
+    uint16_t throwing       : 1;
+    uint16_t disableMove    : 1;
+} playerFlags;
+
 static int16_t playerInvincible = 0;
-static uint8_t playerThrowing = false;
-static uint8_t playerDisableMove = false;
 
 //test picking
 static uint8_t objectForPickID = 0;
@@ -54,15 +58,15 @@ static void player_update_animations(tEntity *player);
 
 void player_init(tEntity *player)
 {
-    //initialize player vars
-    player->state = ST_PLAYER_IDLE;
-    playerCrouched = false;
-    playerMoving = false;
-    playerHurt = false;
-    playerDead = false;
-    playerInvincible = 0;
+    //initialize player vars    
     player->ground = false;
-
+    playerInvincible = 0;
+    memset(&playerFlags, 0, sizeof(playerFlags));
+    
+    //initialize state
+    player->state = ST_PLAYER_IDLE;
+    
+    //set fixed constants
     accel_x       = ftofix(PLAYER_ACCEL_X); 
     accel_x_air   = ftofix(PLAYER_ACCEL_X_AIR); 
     friction      = ftofix(PLAYER_FRICTION);
@@ -117,28 +121,28 @@ static void player_update_controls(tEntity *player)
 {
     //update controls
 
-    if (!playerDisableMove)
+    if (!playerFlags.disableMove)
     {
         //Right direction control
-        if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerCrouched)
+        if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerFlags.crouched)
         {
             player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
             player->dir = E_ENT_DIR_RIGHT;
-            playerMoving = true;
+            playerFlags.moving = true;
         }
         
         //Left direction control
-        if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerCrouched)
+        if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerFlags.crouched)
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
             player->dir = E_ENT_DIR_LEFT;
-            playerMoving = true;
+            playerFlags.moving = true;
         }
 
         //Down control (crouch)
-        playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
+        playerFlags.crouched = input_key_press(G_KEY_DOWN) && player->ground;
 
         //Jump control
         if (input_key_pressed(G_KEY_JUMP) && player->ground)
@@ -178,21 +182,21 @@ static void player_update_controls(tEntity *player)
             idObjectPicked = NULL;
             //reseteamos flags
             picked = false;            
-            playerThrowing = true;
+            playerFlags.throwing = true;
         }
         else if(!player->ground && !picked)
-            playerAttack = true;
+            playerFlags.attack = true;
     }
 
     //update vels
-    if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerCrouched)
+    if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerFlags.crouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
         if (abs(player->fixVel.x) > cMinVelToIdle)
-            playerMoving = true;
+            playerFlags.moving = true;
         else    
-            playerMoving = false;
+            playerFlags.moving = false;
     }
 }
 
@@ -201,8 +205,8 @@ static void player_update_state(tEntity *player)
     //update state
     player->prevState = player->state;    
 
-    playerDisableMove = false;
-    
+    playerFlags.disableMove = false;
+
     //recogiendo objetos
     //activacion picking
     if (objectForPickID != 0)
@@ -224,7 +228,7 @@ static void player_update_state(tEntity *player)
         pickingCounter = 0;  
     
     //desactivacion picking
-    if (picking && (player->fixVel.x != 0 || player->fixVel.y != 0 || playerCrouched) && !picked)
+    if (picking && (player->fixVel.x != 0 || player->fixVel.y != 0 || playerFlags.crouched) && !picked)
     {
         //si me muevo o sthis.alto o me agacho,salgo del picking
         picking = false;
@@ -232,16 +236,16 @@ static void player_update_state(tEntity *player)
     }
 
     //Mientras recoje o lanza, no puede mover
-    if (playerThrowing)
+    if (playerFlags.throwing)
     {
-        playerDisableMove = true;
+        playerFlags.disableMove = true;
         player->fixVel.x = 0;        
     }
     
 
-    if (playerDead)
+    if (playerFlags.dead)
         player->state = ST_PLAYER_DEAD;
-    else if (playerHurt)
+    else if (playerFlags.hurt)
     {
         player->state = ST_PLAYER_HURT;   
         playerInvincible = PLAYER_INVINCIBLE_TIME;     
@@ -250,22 +254,22 @@ static void player_update_state(tEntity *player)
     	player->state = ST_PLAYER_PICKING;	
     else if (picked && picking)
         player->state = ST_PLAYER_PICKED;
-    else if (playerThrowing)
+    else if (playerFlags.throwing)
         player->state = ST_PLAYER_THROWING;
     else if (!player->ground == true)
     {
-        if (playerAttack)
+        if (playerFlags.attack)
             player->state = ST_PLAYER_ATTACK;
         else
             player->state = ST_PLAYER_JUMP;
     }
-    else if (playerAttack)
+    else if (playerFlags.attack)
     {
         player->state = ST_PLAYER_LAND;
     }    
-    else if (playerCrouched)
+    else if (playerFlags.crouched)
         player->state = ST_PLAYER_CROUCHED;
-    else if (abs(player->fixVel.x) > cMinVelToIdle || playerMoving)
+    else if (abs(player->fixVel.x) > cMinVelToIdle || playerFlags.moving)
     {
         player->state = ST_PLAYER_RUN;
     }
@@ -291,12 +295,12 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
-                if (playerMoving)
+                if (playerFlags.moving)
                     play_animation(&player->anim, ANIM_PLY_JUMP_RUN_UP);
                 else
                     play_animation(&player->anim, ANIM_PLY_JUMP_UP);
             else
-                if (playerMoving)
+                if (playerFlags.moving)
                     play_animation(&player->anim, ANIM_PLY_JUMP_RUN_DOWN);
                 else
                     play_animation(&player->anim, ANIM_PLY_JUMP_DOWN);
@@ -309,15 +313,15 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_LAND:
             if (play_animation(&player->anim, ANIM_PLY_LAND))
-                playerAttack = false;
+                playerFlags.attack = false;
         break;
         case ST_PLAYER_HURT:
             if (play_animation(&player->anim, ANIM_PLY_HURT))
             {
-                playerHurt = false;                
+                playerFlags.hurt = false;                
                 if (game.life == 0)
                 {
-                    playerDead = true;
+                    playerFlags.dead = true;
                     playerInvincible = false;
                 }
             }
@@ -335,7 +339,7 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_THROWING:
             if (play_animation(&player->anim, ANIM_PLY_THROW))
             {
-                playerThrowing = false;
+                playerFlags.throwing = false;
                 player->state = ST_PLAYER_IDLE;
             }    
         break;
@@ -387,13 +391,13 @@ static void player_update_collisions(tEntity *player)
                     collision_apply_dir(player, colDir);            
                 break;
                 case E_ENT_CLASS_ENEMY:
-                    if (!playerHurt && !playerInvincible && !playerDead)
+                    if (!playerFlags.hurt && !playerInvincible && !playerFlags.dead)
                     {
                         colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
 
                         if (colDir)
                         {
-                            if (colDir == E_COLLISION_DOWN && playerAttack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            if (colDir == E_COLLISION_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                             {
                                 //send signal to entity
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;               
@@ -403,7 +407,7 @@ static void player_update_collisions(tEntity *player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT)
                             {
                                 //set flags
-                                playerHurt = true;                                           
+                                playerFlags.hurt = true;                                           
                                 player->ground = false;
                                 //lose 1 life
                                 game.life -= 1;
