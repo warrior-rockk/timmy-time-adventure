@@ -272,15 +272,23 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
-                if (playerFlags.moving)
+            {
+                if (playerFlags.picked)
+                    play_animation(&player->anim, ANIM_PLY_JUMP_UP_PICKED);
+                else if (playerFlags.moving)
                     play_animation(&player->anim, ANIM_PLY_JUMP_RUN_UP);
                 else
                     play_animation(&player->anim, ANIM_PLY_JUMP_UP);
+            }
             else
-                if (playerFlags.moving)
+            {
+                if (playerFlags.picked)
+                    play_animation(&player->anim, ANIM_PLY_JUMP_DOWN_PICKED);
+                else if (playerFlags.moving)
                     play_animation(&player->anim, ANIM_PLY_JUMP_RUN_DOWN);
                 else
                     play_animation(&player->anim, ANIM_PLY_JUMP_DOWN);
+            }
         break;
         case ST_PLAYER_CROUCHED:
             play_animation(&player->anim, ANIM_PLY_CROUCH);
@@ -318,11 +326,22 @@ static void player_update_animations(tEntity *player)
             }
         break;
         case ST_PLAYER_THROWING:
-            if (play_animation(&player->anim, ANIM_PLY_THROW))
+            if (player->ground)
             {
-                playerFlags.throwing = false;
-                player->state = ST_PLAYER_IDLE;
-            }    
+                if (play_animation(&player->anim, ANIM_PLY_THROW))
+                {
+                    playerFlags.throwing = false;
+                    player->state = ST_PLAYER_IDLE;
+                }    
+            }
+            else
+            {
+                if (play_animation(&player->anim, ANIM_PLY_THROW_AIR))
+                {
+                    playerFlags.throwing = false;
+                    player->state = ST_PLAYER_IDLE;
+                }    
+            }
         break;
     }
 

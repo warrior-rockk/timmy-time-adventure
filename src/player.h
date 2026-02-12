@@ -41,7 +41,7 @@
 #define ANIM_PLY_JUMP_DOWN          12, 13, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_RUN_UP        17, 18, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_RUN_DOWN      19, 21, 30, ANIM_ONCE
-#define ANIM_PLY_CROUCH             28, 32, 2,  ANIM_ONCE
+#define ANIM_PLY_CROUCH             28, 31, 2,  ANIM_ONCE
 #define ANIM_PLY_ATTACK             37, 37, 10, ANIM_ONCE
 #define ANIM_PLY_LAND               33, 33, 15, ANIM_ONCE  
 #define ANIM_PLY_HURT               39, 41, 10, ANIM_ONCE
@@ -50,6 +50,9 @@
 #define ANIM_PLY_PICKED             50, 50, 10, ANIM_ONCE
 #define ANIM_PLY_THROW              51, 53, 10, ANIM_ONCE
 #define ANIM_PLY_RUN_PICKED         54, 59, 10, ANIM_LOOP
+#define ANIM_PLY_JUMP_UP_PICKED     60, 61, 10, ANIM_ONCE
+#define ANIM_PLY_JUMP_DOWN_PICKED   62, 63, 10, ANIM_ONCE
+#define ANIM_PLY_THROW_AIR          64, 64, 10, ANIM_ONCE
 
 enum ePlayerState
 {
