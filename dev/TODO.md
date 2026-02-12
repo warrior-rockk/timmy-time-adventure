@@ -1,3 +1,8 @@
+# Bugs
+- [ ] Raptor physics fails?
+- [ ] Add stone to map and player no image!?
+- [ ] We are loading the same bmp for all same entities!!!
+
 # Engine
 - [ ] Load resources function to check errors
 - [ ] Fix deltaTime collisions?

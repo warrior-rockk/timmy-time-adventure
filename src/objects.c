@@ -221,6 +221,12 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                             collision_apply_dir(this, colDir);
                         break;
                         case E_ENT_CLASS_ENEMY:
+                            colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                            if (colDir)
+                            {
+                                //send signal to entity
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;                                
+                            }
                         break;
                     }            
                 }
