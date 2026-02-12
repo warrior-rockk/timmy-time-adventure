@@ -36,6 +36,7 @@ static uint8_t playerHurt = false;
 static uint8_t playerDead = false;
 static int16_t playerInvincible = 0;
 static uint8_t playerThrowing = false;
+static uint8_t playerDisableMove = false;
 
 //test picking
 static uint8_t objectForPickID = 0;
@@ -115,28 +116,39 @@ void player_update(tEntity *player)
 static void player_update_controls(tEntity *player)
 {
     //update controls
-    if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerCrouched)
+
+    if (!playerDisableMove)
     {
-        player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-        //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
-        player->dir = E_ENT_DIR_RIGHT;
-        playerMoving = true;
+        //Right direction control
+        if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerCrouched)
+        {
+            player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
+            //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
+            player->dir = E_ENT_DIR_RIGHT;
+            playerMoving = true;
+        }
+        
+        //Left direction control
+        if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerCrouched)
+        {
+            player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
+            //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
+            player->dir = E_ENT_DIR_LEFT;
+            playerMoving = true;
+        }
+
+        //Down control (crouch)
+        playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
+
+        //Jump control
+        if (input_key_pressed(G_KEY_JUMP) && player->ground)
+        {
+            player->fixVel.y = -accel_y;
+            player->ground = false;
+        }
     }
 
-    if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerCrouched)
-    {
-        player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-        //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
-        player->dir = E_ENT_DIR_LEFT;
-        playerMoving = true;
-    }
-
-    if (input_key_pressed(G_KEY_JUMP) && player->ground)
-    {
-        player->fixVel.y = -accel_y;
-        player->ground = false;
-    }
-
+    //Action control (atack, pick)
     if (input_key_pressed(G_KEY_ACTION))
     {
         //recojer objeto
@@ -172,8 +184,6 @@ static void player_update_controls(tEntity *player)
             playerAttack = true;
     }
 
-    playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;
-
     //update vels
     if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerCrouched)
     {
@@ -191,6 +201,8 @@ static void player_update_state(tEntity *player)
     //update state
     player->prevState = player->state;    
 
+    playerDisableMove = false;
+    
     //recogiendo objetos
     //activacion picking
     if (objectForPickID != 0)
@@ -219,6 +231,13 @@ static void player_update_state(tEntity *player)
         memObjectforPickID = 0;
     }
 
+    //Mientras recoje o lanza, no puede mover
+    if (playerThrowing)
+    {
+        playerDisableMove = true;
+        player->fixVel.x = 0;        
+    }
+    
 
     if (playerDead)
         player->state = ST_PLAYER_DEAD;
@@ -231,6 +250,8 @@ static void player_update_state(tEntity *player)
     	player->state = ST_PLAYER_PICKING;	
     else if (picked && picking)
         player->state = ST_PLAYER_PICKED;
+    else if (playerThrowing)
+        player->state = ST_PLAYER_THROWING;
     else if (!player->ground == true)
     {
         if (playerAttack)
@@ -310,6 +331,13 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_PICKED:
             play_animation(&player->anim, ANIM_PLY_PICKED);
+        break;
+        case ST_PLAYER_THROWING:
+            if (play_animation(&player->anim, ANIM_PLY_THROW))
+            {
+                playerThrowing = false;
+                player->state = ST_PLAYER_IDLE;
+            }    
         break;
     }
 

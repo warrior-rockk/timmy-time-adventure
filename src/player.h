@@ -48,6 +48,7 @@
 #define ANIM_PLY_FALL_DEAD          42, 48, 10, ANIM_ONCE
 #define ANIM_PLY_PICKING            49, 49, 10, ANIM_LOOP
 #define ANIM_PLY_PICKED             50, 50, 10, ANIM_LOOP
+#define ANIM_PLY_THROW              51, 53, 10, ANIM_ONCE
 
 enum ePlayerState
 {
@@ -61,6 +62,7 @@ enum ePlayerState
     ST_PLAYER_DEAD,
     ST_PLAYER_PICKING,
     ST_PLAYER_PICKED,
+    ST_PLAYER_THROWING,
 };
 
 void player_init();
