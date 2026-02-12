@@ -218,9 +218,14 @@ static void player_update_state(tEntity *player)
 
     //set the state (priority order)
     if (playerFlags.dead)
+    {
         player->state = ST_PLAYER_DEAD;
+        playerFlags.disableMove = true;
+        player->fixVel.x = 0;
+    }
     else if (playerFlags.hurt)
     {
+        playerFlags.disableMove = true;
         player->state = ST_PLAYER_HURT;   
         playerInvincible = PLAYER_INVINCIBLE_TIME;     
     }
