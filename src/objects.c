@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "game.h"
 #include "objects.h"
+#include "collisions.h"
 
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
@@ -46,7 +47,9 @@ void object_create(tEntity *entity)
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
-            entity->img = load_bmp("res/objects/rock.bmp",NULL);                        
+            entity->img = load_bmp("res/objects/rock.bmp",NULL);  
+            entity->size = (tVector){entity->img->w, entity->img->h};  
+            collision_create_entity_points(entity);                    
         break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
@@ -140,19 +143,24 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
     //object states
-    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_THROWING_STATE};
+    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING};
     local->solid = true;
 
     switch (this->state)
     {
         case E_STONE_ST_IDLE:
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;
+
             if (this->signal == E_ENT_SIGNAL_PICKING)
                 this->state = E_STONE_ST_PICKED;
         break;
         case E_STONE_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
-            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
-
+            
             //TODO: comprobamos si el jugador no muere cuando nos lleva
             //if (exists(idPlayer))
                 tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
@@ -175,6 +183,51 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
             /*else
                 this.state = THROWING_STATE;
             end;*/
+            if (this->signal == E_ENT_SIGNAL_THROW)
+            {
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+                SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                
+                this->fixVel.x = playerEnt->dir ? itofix(-2) : itofix(2);
+                this->fixVel.y = itofix(-2);
+                
+                this->state = E_STONE_ST_THROWING;
+            }
+        break;
+        case E_STONE_ST_THROWING:
+            uint8_t colDir;
+            this->ground = false;
+            //check all the entity collision points    
+            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            {                
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);        
+                //apply collision direction
+                collision_apply_dir(this, colDir);                        
+            }
+
+            //check entities collisions            
+            uint8_t numEntities = entities_get_num();
+            tEntity *checkEntity;
+            for (uint8_t i = 0; i < numEntities; i++)
+            {
+                checkEntity = entity_get(i);
+                if (checkEntity->id != this->id && checkEntity->id != PLAYER_ENTITY_ID && !checkEntity->dead)
+                {
+                    switch (checkEntity->entClass)
+                    {
+                        case E_ENT_CLASS_OBJECT:
+                            colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
+                            collision_apply_dir(this, colDir);
+                        break;
+                        case E_ENT_CLASS_ENEMY:
+                        break;
+                    }            
+                }
+            }
+
+            if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
+                this->state = E_STONE_ST_IDLE;
         break;
     }
 }

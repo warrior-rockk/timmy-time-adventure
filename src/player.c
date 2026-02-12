@@ -35,6 +35,7 @@ static uint8_t playerAttack = false;
 static uint8_t playerHurt = false;
 static uint8_t playerDead = false;
 static int16_t playerInvincible = 0;
+static uint8_t playerThrowing = false;
 
 //test picking
 static uint8_t objectForPickID = 0;
@@ -139,25 +140,36 @@ static void player_update_controls(tEntity *player)
     if (input_key_pressed(G_KEY_ACTION))
     {
         //recojer objeto
-			if (picking && !picked)
+        if (picking && !picked)
+        {
+            //comprobamos si podemos cojer el objeto
+            //TODO: if (checkObjectPicking(memObjectforPickID))
+            //{
+                picked = true;                
+                //cambiamos el estado del objeto a recogiendo
+                idObjectPicked = entity_get(memObjectforPickID);
+                idObjectPicked->signal = E_ENT_SIGNAL_PICKING;
+                memObjectforPickID = 0;
+            /*}
+            else
             {
-				//comprobamos si podemos cojer el objeto
-				//TODO: if (checkObjectPicking(memObjectforPickID))
-				//{
-                	picked = true;
-					//cambiamos el estado del objeto a recogiendo
-					idObjectPicked = entity_get(memObjectforPickID);
-					idObjectPicked->signal = E_ENT_SIGNAL_PICKING;
-					memObjectforPickID = 0;
-                /*}
-                else
-                {
-					picked = false;
-					failPick = true;
-				}*/
-            }
-            else if(!player->ground)
-                playerAttack = true;
+                picked = false;
+                failPick = true;
+            }*/
+        }
+        //lanzar objeto
+        else if (picked && idObjectPicked)
+        {
+            //lanzamos el objeto
+            //throwObject(ID,idObjectPicked);
+            idObjectPicked->signal = E_ENT_SIGNAL_THROW;
+            idObjectPicked = NULL;
+            //reseteamos flags
+            picked = false;            
+            playerThrowing = true;
+        }
+        else if(!player->ground && !picked)
+            playerAttack = true;
     }
 
     playerCrouched = input_key_press(G_KEY_DOWN) && player->ground;

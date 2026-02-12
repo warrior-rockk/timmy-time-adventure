@@ -553,3 +553,47 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
     //returns the collision dir
     return colDir;
 }
+
+//funcion que engloba la gestion de las fisicas de un proceso
+//devuelve si hubo alguna colision hortizontal con el terreno, ya que las verticales
+//las devuelve en el flag grounded
+/*
+uint8_t collision_simple_tile_physics(tEntity *entity, fixed friction)
+{
+
+	int i;					//Var auxiliar
+	int collided = false; 	//flag de colision
+	int colDir;				//Direccion colision
+	
+				
+	if (!isBitSet(idEntity.this.props,NO_PHYSICS))
+    {
+		if (entity->ground)
+            entity->fixVel.x *= friction;			
+				
+		entity->fixVel.y += gravity;
+        idEntity.this.vY += gravity;
+		
+		entity->ground = false;
+		collided = false;		
+		
+		//COLISION TERRENO
+		//Recorremos la lista de puntos a comprobar
+		for (i=0;i<cNumColPoints;i++)					
+			//obtenemos la direccion de la colision
+			colDir = colCheckTileTerrain(idEntity,i);
+			//aplicamos la direccion de la colision
+			applyDirCollision(idEntity,colDir,&grounded);
+			//seteamos flag de colisionado
+			if (colDir == COLDER || colDir == COLIZQ || colDir == COLUP)
+				collided = true;
+			end;
+		end;
+    }
+    else
+		entity->ground = true;
+		
+	
+	return collided;	//devolvemos flag colision	
+}
+*/

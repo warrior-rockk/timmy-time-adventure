@@ -328,7 +328,12 @@ void entity_update_vel_pos(tEntity *entity)
         //apply velocities
         entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));        
         if (entity->ground)
+        {
             entity->fixVel.y = 0;  
+            //apply friction all entities except player
+            if (entity->id != PLAYER_ENTITY_ID)
+                entity->fixVel.x = fixmul(entity->fixVel.x, ftofix(0.92));
+        }
         else  
         {
             //gravity 
