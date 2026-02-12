@@ -38,17 +38,15 @@ static struct playerFlags
     uint16_t dead           : 1;
     uint16_t throwing       : 1;
     uint16_t disableMove    : 1;
+    uint16_t picking        : 1;
+    uint16_t picked         : 1;
 } playerFlags;
 
-static int16_t playerInvincible = 0;
-
-//test picking
-static uint8_t objectForPickID = 0;
-static uint8_t memObjectforPickID = 0;
-tEntity *idObjectPicked;
-static uint8_t picked = false;
-static uint8_t picking = false;
-static uint16_t pickingCounter = 0;
+static int16_t playerInvincible = 0;        //counter for player invincibility
+static uint8_t objectForPickID = 0;         //actual frame object collision id
+static uint8_t memObjectforPickID = 0;      //save actual object collision id
+tEntity *objectPicked;                      //pointer to entity object picked
+static uint16_t pickingCounter = 0;         //counter delay to pick object when collided
 
 //local functions declarations
 static void player_update_controls(tEntity *player);
@@ -89,27 +87,7 @@ void player_update(tEntity *player)
     
     //update collisions    
     player_update_collisions(player);       
-
-    
-    //update velocities and position on main entity_update?
-    /*
-    //apply velocities
-    player->fixPos.x += fixmul(player->fixVel.x, ftofix(deltaTime));        
-    if (player->ground)
-        player->fixVel.y = 0;  
-    else  
-    {
-        //gravity 
-	    player->fixVel.y += player->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
-        player->fixPos.y += fixmul(player->fixVel.y, ftofix(deltaTime));
-    }
-    
-    
-    //update position
-    player->pos.x = fixtoi(player->fixPos.x);
-    player->pos.y = fixtoi(player->fixPos.y);
-    */
-   
+           
     //update state
     player_update_state(player);
 
@@ -119,8 +97,6 @@ void player_update(tEntity *player)
 
 static void player_update_controls(tEntity *player)
 {
-    //update controls
-
     if (!playerFlags.disableMove)
     {
         //Right direction control
@@ -155,16 +131,16 @@ static void player_update_controls(tEntity *player)
     //Action control (atack, pick)
     if (input_key_pressed(G_KEY_ACTION))
     {
-        //recojer objeto
-        if (picking && !picked)
+        //pick object if it's not picked
+        if (playerFlags.picking && !playerFlags.picked)
         {
-            //comprobamos si podemos cojer el objeto
+            //check if can pick object
             //TODO: if (checkObjectPicking(memObjectforPickID))
             //{
-                picked = true;                
-                //cambiamos el estado del objeto a recogiendo
-                idObjectPicked = entity_get(memObjectforPickID);
-                idObjectPicked->signal = E_ENT_SIGNAL_PICKING;
+                playerFlags.picked = true;                
+                //send picking signal to entity object
+                objectPicked = entity_get(memObjectforPickID);
+                objectPicked->signal = E_ENT_SIGNAL_PICKING;
                 memObjectforPickID = 0;
             /*}
             else
@@ -173,22 +149,21 @@ static void player_update_controls(tEntity *player)
                 failPick = true;
             }*/
         }
-        //lanzar objeto
-        else if (picked && idObjectPicked)
-        {
-            //lanzamos el objeto
-            //throwObject(ID,idObjectPicked);
-            idObjectPicked->signal = E_ENT_SIGNAL_THROW;
-            idObjectPicked = NULL;
-            //reseteamos flags
-            picked = false;            
+        //throw object if picked
+        else if (playerFlags.picked && objectPicked)
+        {            
             playerFlags.throwing = true;
+            objectPicked->signal = E_ENT_SIGNAL_THROW;
+            objectPicked = NULL;
+            //reset flags
+            playerFlags.picked = false;          
+            
         }
-        else if(!player->ground && !picked)
+        else if(!player->ground && !playerFlags.picked)
             playerFlags.attack = true;
     }
 
-    //update vels
+    //apply friction
     if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerFlags.crouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
@@ -206,43 +181,42 @@ static void player_update_state(tEntity *player)
     player->prevState = player->state;    
 
     playerFlags.disableMove = false;
-
-    //recogiendo objetos
-    //activacion picking
+    
+    //picking objects
     if (objectForPickID != 0)
     {
-        //si se cumple el tiempo definido
+        //check picking counter
         if (pickingCounter >= PLAYER_PICKING_TIME)
         {
-            //activamos el picking
-            picking = true;
+            playerFlags.picking = true;
             memObjectforPickID = objectForPickID;
         }
         else
         {
-            //cronometro				
             pickingCounter += get_clock_tick();
         }
     }
     else
         pickingCounter = 0;  
     
-    //desactivacion picking
-    if (picking && (player->fixVel.x != 0 || player->fixVel.y != 0 || playerFlags.crouched) && !picked)
+    //disable picking when move, crouch or not picked
+    if (playerFlags.picking && (player->fixVel.x != 0 || player->fixVel.y != 0 || playerFlags.crouched) && !playerFlags.picked)
     {
-        //si me muevo o sthis.alto o me agacho,salgo del picking
-        picking = false;
+        playerFlags.picking = false;
         memObjectforPickID = 0;
     }
 
-    //Mientras recoje o lanza, no puede mover
+    //when throwing disable move
     if (playerFlags.throwing)
     {
         playerFlags.disableMove = true;
         player->fixVel.x = 0;        
-    }
-    
+    }    
 
+    //invincible flag
+    playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
+
+    //set the state (priority order)
     if (playerFlags.dead)
         player->state = ST_PLAYER_DEAD;
     else if (playerFlags.hurt)
@@ -250,9 +224,9 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_HURT;   
         playerInvincible = PLAYER_INVINCIBLE_TIME;     
     }
-    else if (picking && !picked)
+    else if (playerFlags.picking && !playerFlags.picked)
     	player->state = ST_PLAYER_PICKING;	
-    else if (picked && picking)
+    else if (playerFlags.picked && playerFlags.picking)
         player->state = ST_PLAYER_PICKED;
     else if (playerFlags.throwing)
         player->state = ST_PLAYER_THROWING;
@@ -277,9 +251,6 @@ static void player_update_state(tEntity *player)
     {
         player->state = ST_PLAYER_IDLE;
     }
-
-    //invincible flag
-    playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
 }
 
 static void player_update_animations(tEntity *player)
@@ -334,7 +305,11 @@ static void player_update_animations(tEntity *player)
             play_animation(&player->anim, ANIM_PLY_PICKING);
         break;
         case ST_PLAYER_PICKED:
-            play_animation(&player->anim, ANIM_PLY_PICKED);
+            if (play_animation(&player->anim, ANIM_PLY_PICKED))
+            {
+                playerFlags.picking = false;
+                player->state = ST_PLAYER_IDLE;
+            }
         break;
         case ST_PLAYER_THROWING:
             if (play_animation(&player->anim, ANIM_PLY_THROW))
@@ -384,8 +359,8 @@ static void player_update_collisions(tEntity *player)
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
 
                     //comprobamos si colisionamos con un objeto recogible y esta en la mitad inferior
-                    if (!picked && (colDir == E_COLLISION_RIGHT || colDir == E_COLLISION_LEFT)) 
-                        //if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
+                    if (!playerFlags.picked && (colDir == E_COLLISION_RIGHT || colDir == E_COLLISION_LEFT)) 
+                        //TODO: if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
                             objectForPickID = checkEntity->id;                                             
 
                     collision_apply_dir(player, colDir);            

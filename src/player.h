@@ -47,7 +47,7 @@
 #define ANIM_PLY_HURT               39, 41, 10, ANIM_ONCE
 #define ANIM_PLY_FALL_DEAD          42, 48, 10, ANIM_ONCE
 #define ANIM_PLY_PICKING            49, 49, 10, ANIM_LOOP
-#define ANIM_PLY_PICKED             50, 50, 10, ANIM_LOOP
+#define ANIM_PLY_PICKED             50, 50, 10, ANIM_ONCE
 #define ANIM_PLY_THROW              51, 53, 10, ANIM_ONCE
 
 enum ePlayerState

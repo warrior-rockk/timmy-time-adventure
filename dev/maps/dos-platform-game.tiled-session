@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "level00.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -24,9 +24,9 @@
                 2
             ],
             "scale": 2.0238,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 311.29558256744735,
+                "x": 597.8851665184307,
                 "y": 195.6715090423955
             }
         },
