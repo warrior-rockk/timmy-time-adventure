@@ -49,6 +49,7 @@
 #define ANIM_PLY_PICKING            49, 49, 10, ANIM_LOOP
 #define ANIM_PLY_PICKED             50, 50, 10, ANIM_ONCE
 #define ANIM_PLY_THROW              51, 53, 10, ANIM_ONCE
+#define ANIM_PLY_RUN_PICKED         54, 59, 10, ANIM_LOOP
 
 enum ePlayerState
 {

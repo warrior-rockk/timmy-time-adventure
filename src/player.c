@@ -259,10 +259,16 @@ static void player_update_animations(tEntity *player)
     switch (player->state)
     {
         case ST_PLAYER_IDLE:
-            play_animation(&player->anim, ANIM_PLY_BREATH);            
+            if (playerFlags.picked)
+                play_animation(&player->anim, ANIM_PLY_PICKED);
+            else
+                play_animation(&player->anim, ANIM_PLY_BREATH);            
         break;
         case ST_PLAYER_RUN:
-            play_animation(&player->anim, ANIM_PLY_RUN);
+            if (playerFlags.picked)
+                play_animation(&player->anim, ANIM_PLY_RUN_PICKED);
+            else
+                play_animation(&player->anim, ANIM_PLY_RUN);
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
