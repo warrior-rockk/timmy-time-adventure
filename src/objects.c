@@ -150,7 +150,7 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                 this->state = E_STONE_ST_PICKED;
         break;
         case E_STONE_ST_PICKED:
-            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
 
             //TODO: comprobamos si el jugador no muere cuando nos lleva

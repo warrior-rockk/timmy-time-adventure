@@ -479,8 +479,9 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
 
 	//check if entity is no collidable
     if (CHECK_FLAG(entityB->properties, E_ENT_PROP_NO_COLLISION))
+    {    
         return 0;
-	
+    }
     //get half of size of entities
     hWA = itofix(entityA->size.x>>1);
     hHA = itofix(entityA->size.y>>1);
