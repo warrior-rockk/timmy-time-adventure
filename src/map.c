@@ -16,6 +16,7 @@ struct mapHeader{
     uint16_t map_width;
     uint16_t map_height;
     uint16_t backgroundColor;
+    uint16_t tileCount;
 } mapHeader;
 
 //type of map object entity data
@@ -49,6 +50,8 @@ void map_load(char *mapFile, char *tileFile)
     
     TRACE("Tile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     TRACE("Map dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
+    TRACE("Background color: %u\n", mapHeader.backgroundColor);
+    TRACE("Tile count: %u\n", mapHeader.tileCount);
 
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
@@ -129,11 +132,11 @@ void map_load(char *mapFile, char *tileFile)
     free(mapObjects);    
 
     //allocate tiles bitmaps    
-    tiles = (BITMAP **)malloc(NUM_TILES * sizeof(BITMAP));
+    tiles = (BITMAP **)malloc(mapHeader.tileCount * sizeof(BITMAP));
     //load map tileSheet    
     mapTileSheet = load_bmp(tileFile, desktop_palette);
     //create tiles from tilesheet image
-    for (uint8_t i = 0; i < NUM_TILES; i++)
+    for (uint8_t i = 0; i < mapHeader.tileCount; i++)
     {
         tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * mapHeader.tile_height, (int)(i / TILES_ROW) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
     }        
@@ -142,7 +145,7 @@ void map_load(char *mapFile, char *tileFile)
 void map_unload()
 {    
     //destroy all tile sub-bitmaps
-    for (uint8_t i = 0; i < NUM_TILES; i++)
+    for (uint8_t i = 0; i < mapHeader.tileCount; i++)
     {
         destroy_bitmap(tiles[i]);    
     }

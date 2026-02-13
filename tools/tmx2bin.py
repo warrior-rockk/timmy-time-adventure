@@ -89,11 +89,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         tile_width = int(root.attrib.get('tilewidth'))
         tile_height = int(root.attrib.get('tileheight'))
         
-        # echo info
-        print(f"Processing map: {map_width}x{map_height} tiles")
-        print(f"Tile size: {tile_width}x{tile_height} px")
-        
-        # 3. Find data layer (layer). NOTE: the script takes the first layer founded
+        # Find data layer (layer). NOTE: the script takes the first layer founded
         layer = root.find('layer')
         if layer is None:
             print("Error: Can't find any layer named ('layer') in the file map")
@@ -105,7 +101,21 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         compression = data_node.attrib.get('compression')
 
         tiles = []
+
+        # Find tileset
+        tileSet = root.find('tileset')
+        if tileSet is None:
+            print("Error: Can't find any tileSet in the file map")
+            return
+
+        tileCount = int(tileSet.attrib.get('tilecount'))
         
+        # echo info
+        print(f"Processing map: {map_width}x{map_height} tiles")
+        print(f"Tile size: {tile_width}x{tile_height} px")
+        print(f"BackColor: {backColor}")
+        print(f"Tile count: {tileCount}")
+
         # Decoding the data from Tiled format
         if encoding == 'csv':
             # CSV format map
@@ -139,7 +149,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHHH', tile_width, tile_height, map_width, map_height, backColor)
+            header = struct.pack('<HHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount)
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
