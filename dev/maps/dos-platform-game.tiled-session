@@ -31,7 +31,8 @@
             }
         },
         "jurassic.tmx#jurassic": {
-            "scaleInDock": 3
+            "scaleInDock": 3,
+            "scaleInEditor": 4
         },
         "level00.tmx": {
             "expandedObjectLayers": [

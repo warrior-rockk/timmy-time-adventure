@@ -101,11 +101,12 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         compression = data_node.attrib.get('compression')
 
         tiles = []
+        tile_data = []
 
         # Find tileset
         tileSet = root.find('tileset')
         if tileSet is None:
-            print("Error: Can't find any tileSet in the file map")
+            print("Error: Can't find any tileSet embedded in the file map")
             return
 
         tileCount = int(tileSet.attrib.get('tilecount'))
@@ -131,11 +132,24 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         else:
             print(f"Error: Codificacion format '{encoding}' don't support by this script")
             return
-                
+        
         # Check if any tile ID > 255
         if any(t > 255 for t in tiles):
             print("¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
-        
+
+        # Iterate each tile that has properties defined
+        for tile in tileSet.findall('tile'):
+            tile_id = int(tile.get('id'))
+            properties = tile.find('properties')
+            
+            if properties is not None:
+                for prop in properties.findall('property'):
+                    # Search the custom property called "property"
+                    if prop.get('name') == 'property':
+                        value = int(prop.get('value'))                        
+                        tile_data.append((tile_id, value))
+                        print(f"Tile ID {tile_id}: found 'property' = {value}")
+               
         # Write binary file
         # Struct file:
         # [Header]
@@ -144,7 +158,9 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         #   - Map Width   (uint32) 
         #   - Map Height  (uint32)
         # [Body]
-        #   - Tile array (uint32 * num_tiles)
+        #   - Tile array        (uint8 * num_tiles)
+        #   - Num tiles with data (uint8)
+        #   - Tile properties   (uint8 * Num tiles with data)
 
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
@@ -154,6 +170,13 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
+
+            # Write num of tiles with data/properties
+            f.write(struct.pack('B', len(tile_data)))
+            
+            # Write tiles properties 'B' = u8_t
+            for tile_id, value in tile_data:
+                f.write(struct.pack('BB', tile_id, value))
             
             # Search object layer            
             for obj_group in root.findall('objectgroup'):
