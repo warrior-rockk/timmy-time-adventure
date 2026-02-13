@@ -265,6 +265,9 @@ void entities_update(tScroll *scroll)
             //only update entity if visible
             entityList[i].sleep = false;        
             visibleEntities++;
+
+            entityList[i].prevState = entityList[i].state;
+            
             //call entity pointer update function
             if (entityList[i].entity_update)
             {
@@ -273,6 +276,14 @@ void entities_update(tScroll *scroll)
             
             //update vel and pos
             entity_update_vel_pos(&entityList[i]);
+            
+            //trace debug
+            #ifdef DEBUGMODE
+                #ifdef DEBUG_TRACE_ENTITIES
+                    if (entityList[i].state != entityList[i].prevState)
+                        TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
+                #endif
+            #endif
         }
     }   
 

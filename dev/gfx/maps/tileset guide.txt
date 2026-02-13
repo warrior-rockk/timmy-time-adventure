@@ -1,0 +1,22 @@
+Create first tileset:
+
+From pixelorama:
+	-Create tileset (sidescroller)
+	-Top: grass
+	-Center: rocks
+	-Shading: basic shading
+	-Details: highly detailed
+	-Transition size: ROughly 0.25 tiles
+	-Tile size: 32x32
+	-Tile adherence: 173
+	-Freedom: 500
+	
+Extend map:
+	-Create canvas  160x160 or selection limited to this size
+	-Copy part of tileset created that want extend
+	-Aseprite->Map->Extend Map v2
+	-Descrition: if only want to extend, empty, otherwise, "palm tree", "down hill", etc..
+	-Shading: basic shading
+	-Details: highly detailed
+	-32x32
+	-Use selection tool to select painting area (select area to extend)

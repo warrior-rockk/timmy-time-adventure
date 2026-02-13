@@ -93,6 +93,13 @@ void player_update(tEntity *player)
 
     //update animations
     player_update_animations(player);
+
+    #ifdef DEBUGMODE
+        #ifdef DEBUG_TRACE_ENTITIES
+            if (player->state != player->prevState)
+                TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
+        #endif
+    #endif
 }
 
 static void player_update_controls(tEntity *player)

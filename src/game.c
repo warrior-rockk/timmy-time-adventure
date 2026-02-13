@@ -51,10 +51,13 @@ void game_update()
     timer_start_frame();
     input_keys_update();
   
+    //update state
+    game.prevState = game.state; 
+
     switch(game.state)
     {
         case E_GAME_ST_LOAD_LEVEL:
-            game_load_level(E_GAME_LEVEL_TEST);
+            game_load_level(game.actualLevel);
             game.state = E_GAME_ST_INIT;
         break;
         case E_GAME_ST_INIT:
@@ -75,7 +78,7 @@ void game_update()
             game.state = E_GAME_ST_PLAY_LEVEL;
             game.fadeIn = true;
         break;
-        case E_GAME_ST_PLAY_LEVEL:
+        case E_GAME_ST_PLAY_LEVEL:            
             entities_update(&scroll);
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
 
@@ -134,6 +137,11 @@ void game_update()
             debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
         if (input_key_pressed(G_KEY_S))
             debugOptions.stepByStep = !debugOptions.stepByStep;
+
+        //trace state          
+        if (game.state != game.prevState)
+            TRACE("Game changes from state %i to state %i\n", game.prevState, game.state);
+    
     #endif
 }
 
@@ -175,11 +183,13 @@ void game_init()
 
     //initialize levels data
     levelDataFile[E_GAME_LEVEL_TEST].mapFile    = "res/maps/level00.bin";
-    levelDataFile[E_GAME_LEVEL_TEST].tileFile   = "res/tiles/tsheet.bmp";
+    levelDataFile[E_GAME_LEVEL_TEST].tileFile   = "res/tiles/tsheet.bmp";    
+    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     
     game.state          = E_GAME_ST_LOAD_LEVEL;
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
-    game.actualLevel    = E_GAME_LEVEL_TEST;    
+    game.actualLevel    = E_GAME_LEVEL_JURASSIC;    
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;

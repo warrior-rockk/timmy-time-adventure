@@ -60,7 +60,8 @@ enum E_GAME_STATE
 
 //game levels
 enum E_GAME_LEVELS
-{
+{    
+    E_GAME_LEVEL_JURASSIC,
     E_GAME_LEVEL_TEST,
     E_GAME_NUM_LEVELS,
 };
@@ -80,6 +81,7 @@ typedef struct game
 } tGame;
 
 //options for debug mode
+#define DEBUG_TRACE_ENTITIES    1
 typedef struct
 {
     uint8_t showDebugInfo; 

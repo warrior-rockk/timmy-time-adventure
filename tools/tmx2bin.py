@@ -176,7 +176,8 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 
-            # Search enemies layer            
+            # Search enemies layer
+            foundEnemyLayer = 0            
             for obj_group in root.findall('objectgroup'):
                 layerName = obj_group.get('name')
                 if layerName != 'Enemies':
@@ -190,6 +191,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                 objs = obj_group.findall('object')
                 f.write(struct.pack('<H', len(objs))) # Write num objects
                 print(f"📍 Processing objets: {len(objs)} objects")
+                foundEnemyLayer = 1
                 for obj in objs:                                        
                     # Get class and type (Tiled uses class or type for class by version)
                     raw_class = obj.attrib.get('class') or obj.attrib.get('type') or ""
@@ -207,6 +209,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 
+            # if not found enemy layer, write 0 enemy count
+            if not foundEnemyLayer:
+                f.write(struct.pack('<H', 0))
+        
         print(f"✅--- Done ---")
         print(f"File saved in: {bin_file}")
         print(f"Bytes written: {os.path.getsize(bin_file)}")

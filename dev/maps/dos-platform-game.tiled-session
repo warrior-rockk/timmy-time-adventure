@@ -19,15 +19,29 @@
             "dynamicWrapping": false,
             "scaleInDock": 1
         },
+        "jurassic.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 130,
+                "y": 83.33333333333334
+            }
+        },
+        "jurassic.tmx#jurassic": {
+            "scaleInDock": 3
+        },
         "level00.tmx": {
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 2.0238,
-            "selectedLayer": 1,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 597.8851665184307,
-                "y": 195.6715090423955
+                "x": 43,
+                "y": 125
             }
         },
         "rockLevel.tmj": {
@@ -64,14 +78,14 @@
         }
     },
     "last.exportedFilePath": "/Users/warrior/code/dos/projects/dos-platform-game/dev/maps",
-    "last.imagePath": "D:/Instalables/Proyectos/Programacion DOS/proyectos/dos-platform-game/dev/gfx/maps",
+    "last.imagePath": "D:/Instalables/Proyectos/Programacion DOS/proyectos/dos-platform-game/dev/gfx/maps/jurassic",
     "map.fixedSize": true,
     "map.height": 13,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 32,
-    "map.tileWidth": 32,
-    "map.width": 16,
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
     "openFiles": [
         "level00.tmx"
     ],
@@ -86,8 +100,8 @@
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
+        "height": 16,
+        "width": 16
     },
     "tileset.type": 0
 }
