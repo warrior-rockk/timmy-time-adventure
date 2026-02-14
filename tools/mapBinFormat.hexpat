@@ -1,12 +1,13 @@
 #pragma little endian
 
 struct mapHeader {
-	u16 tile_width;
-	u16 tile_height;
-	u16 tiles_X;
-	u16 tiles_Y;
-	u16 backgroundColor;
-	u16 tileCount;
+    u16 tile_width;
+    u16 tile_height;
+    u16 tiles_X;
+    u16 tiles_Y;
+    u16 backgroundColor;
+    u16 tileCount;
+    u16 numTilesData;
 };
 
 struct entity {
@@ -26,8 +27,7 @@ struct level {
     mapHeader header;
     u16 numTiles = header.tiles_X * header.tiles_Y;
     u8 tiles[numTiles];
-    u8 numTilesData;
-    tileData tilesProperties[numTilesData];
+    tileData tilesProperties[header.numTilesData];
     u16 numObjects;
     entity objects[numObjects];
     u16 numEnemies;

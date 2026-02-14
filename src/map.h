@@ -12,19 +12,15 @@
 #include "game.h"
 #include "scroll.h"
 
-#define TILES_ROW       10 //fixed 10 rows of tiles on all levels?
+#define TILES_ROW       10  //fixed 10 rows of tiles on all levels?
 
-/*typedef struct tTile
+typedef struct
 {
-    uint8_t tileCode;
-    uint16_t tileFrame;    
+    uint8_t tileId;         //id of tile on tileset
+    uint8_t tileProperty;   //property of tile    
 } tTile;
 
-typedef struct tMap
-{
-    tTile **tile;
-} tMap;
-
+/*
 enum E_TILE_CODE
 {
     E_SOLID_TILE_CODE =  0x01,

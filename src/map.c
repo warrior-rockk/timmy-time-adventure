@@ -17,6 +17,7 @@ struct mapHeader{
     uint16_t map_height;
     uint16_t backgroundColor;
     uint16_t tileCount;
+    uint16_t numTilesWithProperty;
 } mapHeader;
 
 //type of map object entity data
@@ -28,11 +29,14 @@ typedef struct {
     uint8_t dir;
 } tMapEntity;
 
-uint8_t *map;
+tTile *map;
 tMapEntity *mapObjects;
 tMapEntity *mapEnemies;
 BITMAP **tiles;
 BITMAP *mapTileSheet;
+//temporal
+uint8_t *mapIds;
+tTile *tilesWithProperty;
 
 void map_load(char *mapFile, char *tileFile)
 {
@@ -52,20 +56,59 @@ void map_load(char *mapFile, char *tileFile)
     TRACE("Map dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
     TRACE("Background color: %u\n", mapHeader.backgroundColor);
     TRACE("Tile count: %u\n", mapHeader.tileCount);
+    TRACE("Tiles with property: %u\n", mapHeader.numTilesWithProperty);
 
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
-    map = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
+    TRACE("Total tiles on map: %i\n", total_tiles);
 
-    if (map == NULL) {
+    mapIds  = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
+    map     = (tTile *)malloc(total_tiles * sizeof(tTile));
+    
+    if (mapIds == NULL || map == NULL) {
         fclose(file);
         abort_on_error("Error: No se pudo asignar memoria para %u tiles.\n", total_tiles);
     }
 
-    //read the full tile array 
-    size_t read_count = fread(map, sizeof(uint8_t), total_tiles, file);
+    //read the full tile array id
+    size_t read_count = fread(mapIds, sizeof(uint8_t), total_tiles, file);
     if (read_count != total_tiles) {
         abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
+    }
+    
+    //allocate memory for temporal array of tile with property
+    tilesWithProperty = (tTile *)malloc(mapHeader.numTilesWithProperty * sizeof(tTile)); 
+    if (tilesWithProperty == NULL) {
+        fclose(file);
+        abort_on_error("Error: No se pudo asignar memoria para %u tiles con property.\n", mapHeader.numTilesWithProperty);
+    }
+    
+    //read temporal array of tiles with property
+    for (uint8_t i = 0; i < mapHeader.numTilesWithProperty; i++)
+    {
+        fread(&tilesWithProperty[i].tileId,         sizeof(uint8_t),    1, file);
+        fread(&tilesWithProperty[i].tileProperty,   sizeof(uint8_t),    1, file);
+    }
+    
+    //fill the tile properties of full map
+    for (uint16_t i = 0; i < total_tiles; i++)
+    {
+        //assign id tile
+        map[i].tileId = mapIds[i];
+        
+        //iterate the tiles with properties
+        for (uint16_t j = 0; j < mapHeader.numTilesWithProperty; j++)
+        {
+            //search tile id 
+            if (tilesWithProperty[j].tileId == map[i].tileId)
+            {
+                //if exists, asign property
+                map[i].tileProperty = tilesWithProperty[j].tileProperty;
+                continue;    
+            }
+        }
+        //not found
+        map[i].tileProperty = 0;
     }
     
     //read map objects
@@ -129,7 +172,9 @@ void map_load(char *mapFile, char *tileFile)
 
     //clean resources    
     fclose(file);    
+    free(mapIds);
     free(mapObjects);    
+    free(tilesWithProperty);
 
     //allocate tiles bitmaps    
     tiles = (BITMAP **)malloc(mapHeader.tileCount * sizeof(BITMAP));
@@ -173,12 +218,13 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     
     clear_to_color(buffer, mapHeader.backgroundColor);
 
+    TRACE("Screen limit x: %i y:%i\n", screenLimit.x, screenLimit.y);
     for (int y = 0; y < screenLimit.y; y++)
     {
         for (int x = 0; x < screenLimit.x; x++)        
         {
-            tileNum = map[((y + ty) * mapHeader.map_width) + x + tx];
-
+            tileNum = map[((y + ty) * mapHeader.map_width) + x + tx].tileId;
+            TRACE("Tile id on map: %u on position y:%i x:%i\n", tileNum, y, x);
             /* blit tile*/
             if (tileNum != 0)            
                 draw_sprite(buffer, tiles[tileNum - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
@@ -195,7 +241,7 @@ uint16_t map_tile_exists(tVector *checkPosition)
 //gets map tile code
 uint16_t map_get_tile_code(tVector *checkPosition)
 {
-    return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)];
+    return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileId;
 }
 
 tVector map_get_dimensions()

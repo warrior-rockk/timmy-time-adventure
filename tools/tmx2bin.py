@@ -153,26 +153,25 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         # Write binary file
         # Struct file:
         # [Header]
-        #   - Tile Width  (uint32)
-        #   - Tile Height (uint32)
-        #   - Map Width   (uint32) 
-        #   - Map Height  (uint32)
+        #   - Tile Width            (uint16)
+        #   - Tile Height           (uint16)
+        #   - Map Width             (uint16) 
+        #   - Map Height            (uint16)
+        #   - Map Backcolor         (uint16)
+        #   - Tileset tile count    (uint16)
+        #   - Num tiles with data   (uint16)
         # [Body]
-        #   - Tile array        (uint8 * num_tiles)
-        #   - Num tiles with data (uint8)
-        #   - Tile properties   (uint8 * Num tiles with data)
+        #   - Tile array            (uint8 * num_tiles)
+        #   - Tile properties       (uint8 * Num tiles with data)
 
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount)
+            header = struct.pack('<HHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, len(tile_data))
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
-
-            # Write num of tiles with data/properties
-            f.write(struct.pack('B', len(tile_data)))
             
             # Write tiles properties 'B' = u8_t
             for tile_id, value in tile_data:
