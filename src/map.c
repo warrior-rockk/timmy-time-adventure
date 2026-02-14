@@ -216,15 +216,15 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
     tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height) + 1};
     
+    //TODO: replace clear all buffer with color only positions with no tiles?
     clear_to_color(buffer, mapHeader.backgroundColor);
 
-    TRACE("Screen limit x: %i y:%i\n", screenLimit.x, screenLimit.y);
     for (int y = 0; y < screenLimit.y; y++)
     {
         for (int x = 0; x < screenLimit.x; x++)        
         {
             tileNum = map[((y + ty) * mapHeader.map_width) + x + tx].tileId;
-            TRACE("Tile id on map: %u on position y:%i x:%i\n", tileNum, y, x);
+    
             /* blit tile*/
             if (tileNum != 0)            
                 draw_sprite(buffer, tiles[tileNum - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);

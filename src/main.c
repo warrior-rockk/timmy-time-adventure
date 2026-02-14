@@ -96,15 +96,15 @@ static void main_init()
         abort_on_error("Error iniciando libreria Allegro");
     if (install_timer() != 0)
         abort_on_error("Error iniciando el modulo timer");
-    #ifdef ALLEGRO_USES_KEYBOARD
+    #if ALLEGRO_USES_KEYBOARD
         if (install_keyboard() != 0)
             abort_on_error("Error iniciando el teclado");
     #endif
-    #ifdef ALLEGRO_USES_MOUSE
+    #if ALLEGRO_USES_MOUSE
         if (install_mouse() < 0)
             abort_on_error("Error iniciando el mouse");
     #endif
-    #ifdef ALLEGRO_USES_SOUND
+    #if ALLEGRO_USES_SOUND
         if (sound_init() != 0)
             abort_on_error("Error iniciando el sonido");
     #endif

@@ -279,7 +279,7 @@ void entities_update(tScroll *scroll)
             
             //trace debug
             #ifdef DEBUGMODE
-                #ifdef DEBUG_TRACE_ENTITIES
+                #if DEBUG_TRACE_ENTITIES
                     if (entityList[i].state != entityList[i].prevState)
                         TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
                 #endif
