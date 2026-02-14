@@ -139,7 +139,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
         # Iterate each tile that has properties defined
         for tile in tileSet.findall('tile'):
-            tile_id = int(tile.get('id'))
+            tile_id = int(tile.get('id')) + 1 # need to add 1 because the tileset starts with 0 but the map with 1
             properties = tile.find('properties')
             
             if properties is not None:

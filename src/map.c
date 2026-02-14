@@ -95,7 +95,8 @@ void map_load(char *mapFile, char *tileFile)
     {
         //assign id tile
         map[i].tileId = mapIds[i];
-        
+        map[i].tileProperty = 0;    //default property value
+
         //iterate the tiles with properties
         for (uint16_t j = 0; j < mapHeader.numTilesWithProperty; j++)
         {
@@ -104,11 +105,9 @@ void map_load(char *mapFile, char *tileFile)
             {
                 //if exists, asign property
                 map[i].tileProperty = tilesWithProperty[j].tileProperty;
-                continue;    
+                break;    
             }
         }
-        //not found
-        map[i].tileProperty = 0;
     }
     
     //read map objects
@@ -241,7 +240,12 @@ uint16_t map_tile_exists(tVector *checkPosition)
 //gets map tile code
 uint16_t map_get_tile_code(tVector *checkPosition)
 {
-    return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileId;
+    if (map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileId == 0)
+        return E_TILE_PROP_NO_SOLID;
+    else
+    {
+        return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileProperty;
+    }
 }
 
 tVector map_get_dimensions()

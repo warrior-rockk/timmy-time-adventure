@@ -14,17 +14,18 @@
 
 #define TILES_ROW       10  //fixed 10 rows of tiles on all levels?
 
+//struc of tile
 typedef struct
 {
     uint8_t tileId;         //id of tile on tileset
     uint8_t tileProperty;   //property of tile    
 } tTile;
 
-/*
-enum E_TILE_CODE
+//tile properties
+enum E_TILE_PROPERTY
 {
-    E_SOLID_TILE_CODE =  0x01,
-};*/
+    E_TILE_PROP_NO_SOLID =  0x01,
+};
 
 //loads a map level and creates level entities
 void map_load(char *mapFile, char *tileFile);

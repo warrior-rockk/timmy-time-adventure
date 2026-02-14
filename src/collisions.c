@@ -65,7 +65,7 @@ int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
         if (map_tile_exists(&linePath->start))
         {
 			//check if tile is solid
-            if (map_get_tile_code(&linePath->start) != 0 ) //TODO: == E_SOLID_TILE_CODE)
+            if (!CHECK_FLAG(map_get_tile_code(&linePath->start), E_TILE_PROP_NO_SOLID))
             {
 				//TODO: comprobar el codigo del tile para contarlo como colision o no
 				//if (checkTileCode(idEntity,colCode,linePath.vStart.y/cTileSize,linePath.vStart.x/cTileSize))
@@ -125,7 +125,7 @@ int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, 
         if (map_tile_exists(&linePath->start))
         {            
             //check if tile is solid
-            if (map_get_tile_code(&linePath->start) != 0) //TODO: == E_SOLID_TILE_CODE)
+            if (!CHECK_FLAG(map_get_tile_code(&linePath->start), E_TILE_PROP_NO_SOLID))
             {
                 colPixel = 100;                
             }
