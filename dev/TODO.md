@@ -1,5 +1,5 @@
 # Bugs
-- [ ] Raptor physics fails?
+- [X] Raptor physics fails: when add friction. The entity must update the velocities each frame
 - [ ] Add stone to map and player no image!?
 - [ ] We are loading the same bmp for all same entities!!!
 

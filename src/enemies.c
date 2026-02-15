@@ -176,6 +176,8 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         case E_RAPTOR_ST_MOVING:
             uint8_t colDir = 0;
             this->ground = false;
+            //fixed movement
+            this->fixVel.x = this->dir ? itofix(-1) : itofix(1);
             
             //check all the entity collision points    
             for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
@@ -184,14 +186,13 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
                 colDir = collision_check_tile(this, i);        
                 //apply collision direction
                 collision_apply_dir(this, colDir);        
-
+                //change direction on collision
                 if (colDir == E_COLLISION_LEFT)
-                    this->fixVel.x = itofix(1);
+                    this->dir = E_ENT_DIR_RIGHT;
                 if (colDir == E_COLLISION_RIGHT)
-                    this->fixVel.x = itofix(-1);
+                    this->dir = E_ENT_DIR_LEFT;
             }
             
-            this->dir = this->fixVel.x > 0 ? E_ENT_DIR_RIGHT : E_ENT_DIR_LEFT;            
             play_animation(&this->anim, ANIM_RAPTOR_WALK); 
             
             if (this->signal == E_ENT_SIGNAL_HURT)
