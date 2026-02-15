@@ -55,6 +55,36 @@
     <property name="property" type="int" value="1"/>
    </properties>
   </tile>
+  <tile id="43">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="property" type="int" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer id="1" name="Tiles" width="50" height="13">
   <properties>
