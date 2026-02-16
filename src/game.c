@@ -35,6 +35,7 @@ tDebugOptions debugOptions;
 BITMAP *buffer;
 BITMAP *worldScreen;
 RGB* gamePal;
+FONT *gameFont;
 double deltaTime;
 uint8_t gameExit = false;
 tScroll scroll;
@@ -162,6 +163,8 @@ void game_init()
     //temporaly
     free(load_bmp("res/tiles/tsheet.bmp", desktop_palette));
     set_palette(desktop_palette);
+
+    gameFont = load_font("res/gamefont.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -193,7 +196,7 @@ void game_init()
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
-    
+
 }
 
 void game_draw()
@@ -220,6 +223,8 @@ void game_draw()
     //blit to screen
     blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
     
+    textout_ex(screen, gameFont, "Había una vez un niño que creó una máquina", 40, 170, 12, -1);
+    textout_ex(screen, gameFont, "SCORE   LIVES    TIME", 40, 180, 12, -1);
     //do pending fades
     game_do_fade();
 }
