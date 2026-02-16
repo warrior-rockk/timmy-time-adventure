@@ -4,6 +4,7 @@
 - [ ] We are loading the same bmp for all same entities!!!
 
 # Engine
+- [ ] Tile animations
 - [ ] Type of tiles: solid, hurt...
 - [ ] Load resources function to check errors
 - [ ] Fix deltaTime collisions?
