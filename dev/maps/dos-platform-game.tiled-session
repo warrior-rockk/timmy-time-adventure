@@ -10,7 +10,8 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInEditor": 2.04
+            "scaleInDock": 3,
+            "scaleInEditor": 4
         },
         "#test32": {
             "scaleInDock": 2
@@ -41,7 +42,7 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 42.5,
+                "x": 42.75,
                 "y": 125
             }
         },

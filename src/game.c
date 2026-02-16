@@ -34,6 +34,7 @@ tDebugOptions debugOptions;
 
 BITMAP *buffer;
 BITMAP *worldScreen;
+BITMAP *hudImg;
 RGB* gamePal;
 FONT *gameFont;
 double deltaTime;
@@ -44,6 +45,9 @@ tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
 
 static void game_load_level(uint8_t numLevel);
 static void game_debug_info();
+static void game_hud_init();
+static void game_hud_update();
+static void game_hud_draw();
 static void destroy_level();
 static void game_do_fade();
 
@@ -82,9 +86,11 @@ void game_update()
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update(&scroll);
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            game_hud_update();
 
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
             entities_draw(worldScreen, &scroll);
+            game_hud_draw();
 
             if (key[KEY_R])
                 game.state = E_GAME_ST_INIT;
@@ -164,16 +170,21 @@ void game_init()
     free(load_bmp("res/tiles/tsheet.bmp", desktop_palette));
     set_palette(desktop_palette);
 
+    //loads game font
     gameFont = load_font("res/gamefont.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear_to_color(buffer, BORDER_COLOR);
 
+    //load hud image
+    hudImg = load_bmp("res/hud.bmp", NULL);
+
     entity_system_init();
     collision_system_init();
     object_system_init();
     enemy_system_init();
+    game_hud_init();
 
     debug_init();
     #ifdef DEBUGMODE
@@ -196,7 +207,7 @@ void game_init()
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
-
+    game.refreshHUD     = E_REFRESH_HUD_ALL;
 }
 
 void game_draw()
@@ -221,10 +232,8 @@ void game_draw()
     timer_end_frame(&deltaTime);
     
     //blit to screen
-    blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
+    blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);  
     
-    textout_ex(screen, gameFont, "Había una vez un niño que creó una máquina", 40, 170, 12, -1);
-    textout_ex(screen, gameFont, "SCORE   LIVES    TIME", 40, 180, 12, -1);
     //do pending fades
     game_do_fade();
 }
@@ -255,7 +264,7 @@ static void game_load_level(uint8_t numLevel)
 
 void game_destroy()
 {
-    //TODO: NOTHING FOR THE MOMENT. UNLOAD GENERAL RESOURCES NO RELATIVE TO LEVEL
+    destroy_font(gameFont);
 }
 
 static void game_do_fade()
@@ -270,4 +279,32 @@ static void game_do_fade()
         fade_in(desktop_palette, GAME_FADE_SPEED);
         game.fadeIn = false;
     }
+}
+
+void game_hud_init()
+{
+    draw_sprite(buffer, hudImg, HUD_POSITION_X, HUD_POSITION_Y);
+    textout_centre_ex(buffer, gameFont, "LIVES",   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, 12, -1);
+    textout_centre_ex(buffer, gameFont, "LIFE",    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, 12, -1);
+    textout_centre_ex(buffer, gameFont, "SCORE",   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, 12, -1);
+    textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, 12, -1);
+
+    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 7, 12, -1);
+}
+
+void game_hud_update()
+{
+
+}
+
+void game_hud_draw()
+{
+    switch (game.refreshHUD)
+    {
+        case E_REFRESH_HUD_ALL:                        
+            textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 31, HUD_POSITION_Y + 7, 12, -1, "%u", game.lives);
+        break;
+    }
+    //reset refresh flags
+    game.refreshHUD = 0x00;
 }

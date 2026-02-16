@@ -42,6 +42,10 @@
 //position of player on entities array
 #define PLAYER_ENTITY_ID    0
 
+//HUD defines
+#define HUD_POSITION_Y          166
+#define HUD_POSITION_X          40
+
 //game states
 enum E_GAME_STATE
 {
@@ -66,6 +70,16 @@ enum E_GAME_LEVELS
     E_GAME_NUM_LEVELS,
 };
 
+//refresh HUD
+enum E_REFRESH_HUD
+{
+    E_REFRESH_HUD_LIVES,
+    E_REFRESH_HUD_LIFE,
+    E_REFRESH_HUD_SCORE,
+    E_REFRESH_HUD_TIME,
+    E_REFRESH_HUD_ALL,
+};
+
 //game data
 typedef struct game
 {
@@ -74,10 +88,12 @@ typedef struct game
     uint8_t actualLevel;
     uint8_t lives;
     uint8_t life;
-    uint8_t score;  
     uint8_t loseLive;
+    uint8_t score;
+    uint16_t time;    
     uint8_t fadeIn;
-    uint8_t fadeOut;  
+    uint8_t fadeOut;
+    uint8_t refreshHUD;  
 } tGame;
 
 //options for debug mode
