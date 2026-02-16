@@ -12,9 +12,7 @@
 #include "game.h"
 #include "scroll.h"
 
-#define TILES_ROW       10  //fixed 10 rows of tiles on all levels?
-
-//struc of tile
+//struct of tile
 typedef struct
 {
     uint8_t tileId;         //id of tile on tileset

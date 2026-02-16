@@ -110,12 +110,14 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             return
 
         tileCount = int(tileSet.attrib.get('tilecount'))
+        tileColumns = int(tileSet.attrib.get('columns'))
         
         # echo info
         print(f"Processing map: {map_width}x{map_height} tiles")
         print(f"Tile size: {tile_width}x{tile_height} px")
         print(f"BackColor: {backColor}")
         print(f"Tile count: {tileCount}")
+        print(f"Tile columns: {tileColumns}")
 
         # Decoding the data from Tiled format
         if encoding == 'csv':
@@ -147,8 +149,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     # Search the custom property called "property"
                     if prop.get('name') == 'property':
                         value = int(prop.get('value'))                        
-                        tile_data.append((tile_id, value))
-                        print(f"Tile ID {tile_id}: found 'property' = {value}")
+                        tile_data.append((tile_id, value))                        
                
         # Write binary file
         # Struct file:
@@ -159,6 +160,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         #   - Map Height            (uint16)
         #   - Map Backcolor         (uint16)
         #   - Tileset tile count    (uint16)
+        #   - TIleset tile columns  (uint16)
         #   - Num tiles with data   (uint16)
         # [Body]
         #   - Tile array            (uint8 * num_tiles)
@@ -167,7 +169,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, len(tile_data))
+            header = struct.pack('<HHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data))
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)

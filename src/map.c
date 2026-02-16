@@ -17,6 +17,7 @@ struct mapHeader{
     uint16_t map_height;
     uint16_t backgroundColor;
     uint16_t tileCount;
+    uint16_t tileColumns;
     uint16_t numTilesWithProperty;
 } mapHeader;
 
@@ -182,7 +183,7 @@ void map_load(char *mapFile, char *tileFile)
     //create tiles from tilesheet image
     for (uint8_t i = 0; i < mapHeader.tileCount; i++)
     {
-        tiles[i] = create_sub_bitmap(mapTileSheet, (i % TILES_ROW) * mapHeader.tile_height, (int)(i / TILES_ROW) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
+        tiles[i] = create_sub_bitmap(mapTileSheet, (i % mapHeader.tileColumns) * mapHeader.tile_height, (int)(i / mapHeader.tileColumns) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
     }        
 }
 
