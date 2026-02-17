@@ -238,9 +238,7 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;
                                 if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                                     //change state
-                                    this->state = E_STONE_ST_BREAK; 
-                                else
-                                    this->state = E_STONE_ST_IDLE;                               
+                                    this->state = E_STONE_ST_BREAK;                                 
                             }
                         break;
                     }            
