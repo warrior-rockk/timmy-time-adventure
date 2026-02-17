@@ -101,6 +101,7 @@
         "testRocks.tsx",
         "testLevel.tmx"
     ],
+    "resizeMap.removeObjects": false,
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
