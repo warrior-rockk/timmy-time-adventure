@@ -42,13 +42,15 @@ void object_create(tEntity *entity)
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
             entity->img = load_bmp("res/objects/object.bmp",NULL);
-                        
+            entity->size = (tVector){14, 16};    
+            entity->spriteSize = (tVector){entity->img->w, entity->img->h};          
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
             entity->img = load_bmp("res/objects/rock.bmp",NULL);  
-            entity->size = (tVector){entity->img->w, entity->img->h};  
+            entity->size = (tVector){16, 16};  
+            entity->spriteSize = (tVector){16, 16};
             collision_create_entity_points(entity);                    
         break;
         default:
@@ -56,10 +58,6 @@ void object_create(tEntity *entity)
         break;
     }
     
-    //set entity size and sprite size
-    entity->size = (tVector){entity->img->w, entity->img->h};
-    entity->spriteSize = (tVector){entity->img->w, entity->img->h};
-
     //test memory allocation
     MY_ASSERT(objectDataList);
 
@@ -143,7 +141,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
 void object_stone_update(tEntity *this, tStoneLocalData *local)
 {
     //object states
-    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING};
+    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING, E_STONE_ST_BREAK};
     local->solid = true;
 
     switch (this->state)
@@ -156,7 +154,7 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
             this->fixVel.y = 0;
 
             if (this->signal == E_ENT_SIGNAL_PICKING)
-                this->state = E_STONE_ST_PICKED;
+                this->state = E_STONE_ST_PICKED;           
         break;
         case E_STONE_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
@@ -225,7 +223,9 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                             if (colDir)
                             {
                                 //send signal to entity
-                                checkEntity->signal = E_ENT_SIGNAL_HURT;                                
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;
+                                //change state
+                                this->state = E_STONE_ST_BREAK;                                
                             }
                         break;
                     }            
@@ -234,6 +234,19 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
                 this->state = E_STONE_ST_IDLE;
+        break;
+        case E_STONE_ST_BREAK:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                            
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            //play break animation
+            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            {
+                //put object to sleep
+                this->sleep = true;                
+            }
         break;
     }
 }

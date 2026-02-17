@@ -215,33 +215,40 @@ void entity_destroy(uint16_t entityIndex)
         entityList = realloc(entityList, numEntities * sizeof(tEntity));
 }
 
+
+//function to init a entity
+void entity_init(uint8_t entityIndex)
+{
+    //if the entity doesn't have PERSISTENT flag (PERSISTENT entities don't initialize again)
+    if (!CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PERSISTENT))
+    {
+        //init entity data
+        entityList[entityIndex].pos       = entityList[entityIndex].initPos;
+        entityList[entityIndex].fixPos.x  = itofix(entityList[entityIndex].pos.x);
+        entityList[entityIndex].fixPos.y  = itofix(entityList[entityIndex].pos.y);
+        entityList[entityIndex].dir       = entityList[entityIndex].initDir;
+        entityList[entityIndex].fixVel    = (tFixVector){0, 0};
+        entityList[entityIndex].state     = 0;
+        entityList[entityIndex].prevState = 0;
+        entityList[entityIndex].anim.frame= 0;
+        entityList[entityIndex].dead      = 0;
+        entityList[entityIndex].visible   = true;
+        entityList[entityIndex].signal    = E_ENT_SIGNAL_NONE;
+
+        //call custom entity entity
+        if (entityList[entityIndex].entity_init)
+        {
+            entityList[entityIndex].entity_init(&entityList[entityIndex]);          
+        }
+    }
+}
+
 //function to init the entities 
 void entities_init()
 {
     for (int i=0; i < numEntities; i++)
     {
-        //if the entity doesn't have PERSISTENT flag (PERSISTENT entities don't initialize again)
-        if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
-        {
-            //init entity data
-            entityList[i].pos       = entityList[i].initPos;
-            entityList[i].fixPos.x  = itofix(entityList[i].pos.x);
-            entityList[i].fixPos.y  = itofix(entityList[i].pos.y);
-            entityList[i].dir       = entityList[i].initDir;
-            entityList[i].fixVel    = (tFixVector){0, 0};
-            entityList[i].state     = 0;
-            entityList[i].prevState = 0;
-            entityList[i].anim.frame= 0;
-            entityList[i].dead      = 0;
-            entityList[i].visible   = true;
-            entityList[i].signal    = E_ENT_SIGNAL_NONE;
-
-            //call custom entity entity
-            if (entityList[i].entity_init)
-            {
-                entityList[i].entity_init(&entityList[i]);          
-            }
-        }
+        entity_init(i);
     }   
 }
 
@@ -258,7 +265,8 @@ void entities_update(tScroll *scroll)
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            entityList[i].sleep = true;            
+            entityList[i].sleep = true;
+            entity_init(i);           
         }
         else
         {

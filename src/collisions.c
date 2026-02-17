@@ -478,7 +478,7 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
     uint8_t colDir = 0;
 
 	//check if entity is no collidable
-    if (CHECK_FLAG(entityB->properties, E_ENT_PROP_NO_COLLISION))
+    if (CHECK_FLAG(entityB->properties, E_ENT_PROP_NO_COLLISION) || entityB->dead || entityB->sleep)
     {    
         return 0;
     }

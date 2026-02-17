@@ -9,6 +9,8 @@
 
 #include "entity.h"
 
+#define ANIM_OBJECT_BREAK                1,  2, 10, ANIM_ONCE
+
 enum E_OBJECT_TYPE
 {
     E_GEM_OBJECT_TYPE,

@@ -282,7 +282,11 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     
-    game.state          = E_GAME_ST_LOGO;
+    #ifdef DEBUGMODE
+        game.state      = E_GAME_ST_LOAD_LEVEL;
+    #else
+        game.state      = E_GAME_ST_LOGO;
+    #endif
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
     game.actualLevel    = E_GAME_LEVEL_JURASSIC;    
     game.lives          = GAME_INI_LIVES;

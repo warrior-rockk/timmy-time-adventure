@@ -234,10 +234,5 @@
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="6" name="stone" type="object" x="96" y="112" width="16" height="16">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
