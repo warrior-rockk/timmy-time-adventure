@@ -155,7 +155,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (gameSeq.timeCounter >= 500)
+                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
                         game.state = E_GAME_ST_DESTROY_LEVEL;
                         gameSeq.timeCounter = 0;
@@ -195,6 +195,9 @@ void game_update()
             TRACE("Game changes from state %i to state %i\n", game.prevState, game.state);
     
     #endif
+
+    //clear keyboard buffer to use keypressed()
+    clear_keybuf();
 }
 
 

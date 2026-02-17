@@ -57,3 +57,8 @@ bool input_key_pressed(uint8_t keyId)
 {
     return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESSED);
 }
+
+bool input_any_key_pressed()
+{
+    return keypressed();
+}

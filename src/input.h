@@ -40,5 +40,6 @@ void input_keys_update();
 bool input_key_press(uint8_t keyId);
 //return true if key pressed on raising edge
 bool input_key_pressed(uint8_t keyId);
-
+//return true if any key pressed
+bool input_any_key_pressed();
 #endif
