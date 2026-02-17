@@ -50,6 +50,11 @@
 #define HUD_POSITION_Y          166
 #define HUD_POSITION_X          40
 
+//score points
+#define SCORE_POINT_HURT_ENEMY  10
+#define SCORE_POINT_EXTRA_LIFE  500
+#define SCORE_OVERFLOW          65000
+
 //game states
 enum E_GAME_STATE
 {

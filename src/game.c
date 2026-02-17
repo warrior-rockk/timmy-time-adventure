@@ -101,19 +101,22 @@ void game_update()
 
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
             entities_draw(worldScreen, &scroll);
-            game_hud_draw();
+            game_hud_draw();           
 
-            if (key[KEY_R])
-                game.state = E_GAME_ST_INIT;
-            
-            if (input_key_press(G_KEY_EXIT))
-                game.state = E_GAME_ST_DESTROY_LEVEL;            
-
+            //check game lose life
             if (game.loseLive)
             {
                 game.lives--;
                 game.state = E_GAME_ST_LOSE_LIVE;
-            }
+            }            
+
+            #ifdef DEBUGMODE
+                if (key[KEY_R])
+                    game.state = E_GAME_ST_INIT;
+                
+                if (input_key_press(G_KEY_EXIT))
+                    game.state = E_GAME_ST_DESTROY_LEVEL;            
+            #endif
         break;
         case E_GAME_ST_LOSE_LIVE:
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
@@ -324,6 +327,18 @@ void game_hud_update()
     }
     if (game.score != hud.last_score)
     {
+        //check extra life by score
+        if (!(game.score % SCORE_POINT_EXTRA_LIFE) && game.score > 0)
+        {
+            game.lives++;
+        }
+        //check overflow  (gain 3 lives)       
+        if (game.score >= SCORE_OVERFLOW)
+        {
+            game.score = 0;
+            game.lives += 3;
+        }
+
         hud.refresh |= E_REFRESH_HUD_SCORE;
         hud.last_score = game.score;
     }

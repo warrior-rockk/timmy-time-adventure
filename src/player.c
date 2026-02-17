@@ -412,7 +412,9 @@ static void player_update_collisions(tEntity *player)
                             if (colDir == E_COLLISION_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                             {
                                 //send signal to entity
-                                checkEntity->signal = E_ENT_SIGNAL_HURT;               
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;  
+                                //add score
+                                game.score += SCORE_POINT_HURT_ENEMY;             
                                 //set bounce velocity
                                 player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
                             } 
