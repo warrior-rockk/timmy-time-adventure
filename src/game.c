@@ -72,7 +72,36 @@ void game_update()
 
     switch(game.state)
     {
+        case E_GAME_ST_LOGO:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game.fadeOut = true;
+                    gameSeq.step++;
+                break;
+                case 1:
+                    game.fadeIn = true;
+                    BITMAP *logo = load_bmp("res/game/warcom.bmp", NULL);
+                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
+                    destroy_bitmap(logo);                    
+                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 59, BLACK_COLOR);
+                    gameSeq.step++;
+                break;
+                case 2:
+                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    {
+                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                    }
+                    else
+                        gameSeq.timeCounter += get_clock_tick();
+                break;
+            }
+        break;
         case E_GAME_ST_LOAD_LEVEL:
+            clear_to_color(buffer, BLACK_COLOR);
             game_load_level(game.actualLevel);
             game.state = E_GAME_ST_INIT;
         break;
@@ -82,7 +111,9 @@ void game_update()
             
             entities_init();
             scroll_init(&scroll);
-            game.state = E_GAME_ST_INIT_LEVEL;            
+            game_hud_init();
+            game.state = E_GAME_ST_INIT_LEVEL;
+            game.viewMap = true;            
         break;
         case E_GAME_ST_INIT_LEVEL:
             entities_update(&scroll);
@@ -135,6 +166,7 @@ void game_update()
                 else
                 {
                     game.fadeOut = true; 
+                    game.viewMap = false;
                     game.state = E_GAME_ST_GAME_OVER;
                 } 
                 gameSeq.timeCounter = 0;                
@@ -149,7 +181,7 @@ void game_update()
                     destroy_level();
                     clear_to_color(worldScreen, BLACK_COLOR);
                     clear_to_color(buffer, BORDER_COLOR);
-                    textout_centre_ex(worldScreen, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
                     gameSeq.step++;
@@ -157,9 +189,10 @@ void game_update()
                 case 1:
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_DESTROY_LEVEL;
+                        game.state = E_GAME_ST_EXIT;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
+                        game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += get_clock_tick();
@@ -224,7 +257,7 @@ void game_init()
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
-    clear_to_color(buffer, BORDER_COLOR);
+    clear_to_color(buffer, BLACK_COLOR);
 
     //load hud image
     hud.hudImg = load_bmp("res/hud.bmp", NULL);
@@ -237,8 +270,6 @@ void game_init()
     collision_system_init();
     object_system_init();
     enemy_system_init();
-    game_hud_init();
-
     debug_init();
     timer_init(GAME_CLOCK_TICK);
 
@@ -251,37 +282,31 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     
-    game.state          = E_GAME_ST_LOAD_LEVEL;
+    game.state          = E_GAME_ST_LOGO;
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
     game.actualLevel    = E_GAME_LEVEL_JURASSIC;    
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
     hud.refresh         = E_REFRESH_HUD_ALL;
+    game.viewMap        = false;
 
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
-
-    game.fadeOut = true;
 }
 
 void game_draw()
 {   
-     /*
-    -850-780fps: draw mapScreen to screen directly
-    -850-719fps: draw mapScreen to buffer and blit to screen <-
-
-    -600-570: draw_sprite mapScreen to buffer
-    -700-680: blit mapScreen to buffer <--
-    */
-
     //blit worldScreen on buffer (centered on screen)
-    blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
+    if (game.viewMap)
+        blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
+    
     #ifdef DEBUGMODE
         //draw debug info
         if (debugOptions.showDebugInfo)
             debug_draw(buffer);
     #endif
+    
     //wait for vsync
     vsync();    
     timer_end_frame(&deltaTime);
