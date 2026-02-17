@@ -132,6 +132,7 @@ static void player_update_controls(tEntity *player)
         {
             player->fixVel.y = -accel_y;
             player->ground = false;
+            playerFlags.attack = false;
         }
     }
 
