@@ -26,25 +26,31 @@ void scroll_init(tScroll *scroll)
     scroll->pos.y = 0;    
 }
 
-void scroll_update(tScroll *scroll, tVector *targetPos)
+void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode)
 {
     MY_ASSERT(scroll);
     MY_ASSERT(targetPos);
 
     //updates scroll position following target position
-    if (targetPos->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
-        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) - scrollOffsetX;
-    else if (targetPos->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
-        scroll->pos.x = targetPos->x - (scroll->window.x >> 1) + scrollOffsetX;
-    
+    if (mode == E_SCROLL_X || mode == E_SCROLL_X_Y)
+    {
+        if (targetPos->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
+            scroll->pos.x = targetPos->x - (scroll->window.x >> 1) - scrollOffsetX;
+        else if (targetPos->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
+            scroll->pos.x = targetPos->x - (scroll->window.x >> 1) + scrollOffsetX;
+    }
+
     //limit scroll position
     scroll->pos.x = (int16_t)clamp(scroll->pos.x, 0, scroll->limit.x);      
 
     //updates scroll position following target position
-    if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
-        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffsetY;
-    else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
-        scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffsetY;
+    if (mode == E_SCROLL_Y || mode == E_SCROLL_X_Y)
+    {
+        if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
+            scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffsetY;
+        else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
+            scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffsetY;
+    }
     
     //limit scroll position
     scroll->pos.y = (int16_t)clamp(scroll->pos.y, 0, scroll->limit.y);

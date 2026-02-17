@@ -117,7 +117,7 @@ void game_update()
         break;
         case E_GAME_ST_INIT_LEVEL:
             entities_update(&scroll);
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
             game_hud_update();
             
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
@@ -129,7 +129,7 @@ void game_update()
         break;
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update(&scroll);
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
             game_hud_update();
 
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
@@ -152,7 +152,7 @@ void game_update()
             #endif
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
             
             entities_draw(worldScreen, &scroll);
 
@@ -340,6 +340,9 @@ static void game_load_level(uint8_t numLevel)
 {
     map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile);
     
+    //TODO: read scroll mode from map
+    game.scrollMode = E_SCROLL_X;
+
     //create scroll
     tVector mapDimension = map_get_dimensions();
     scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){(mapDimension.x - GAME_W) - 1,(mapDimension.y - GAME_H) - 1});

@@ -111,6 +111,7 @@ typedef struct game
     uint8_t fadeOut;    
     uint8_t fadeState;
     uint8_t viewMap;
+    uint8_t scrollMode;
 } tGame;
 
 //options for debug mode

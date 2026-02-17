@@ -13,6 +13,15 @@
 #define SCROLL_IN_REGION_OFFSET_X   32
 #define SCROLL_IN_REGION_OFFSET_Y   32
 
+//scroll modes
+enum E_SCROLL_MODE
+{
+    E_SCROLL_X_Y,
+    E_SCROLL_X,
+    E_SCROLL_Y,
+    E_SCROLL_NONE,
+};
+
 //scroll object
 typedef struct tScroll
 {
@@ -31,7 +40,7 @@ tScroll scroll_create(tVector window, tVector limit);
 //inits scroll object
 void scroll_init(tScroll *scroll);
 //updates scroll object. Receives the target follow position or NULL
-void scroll_update(tScroll *scroll, tVector *targetPos);
+void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode);
 
 //check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll);
