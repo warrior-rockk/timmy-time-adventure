@@ -29,7 +29,7 @@ tSequence gameSeq;
 
 //debug option structure
 #ifdef DEBUGMODE
-tDebugOptions debugOptions;
+tDebugOptions debugOptions = {0, 0};
 #endif
 
 BITMAP *buffer;
@@ -202,9 +202,6 @@ void game_init()
     game_hud_init();
 
     debug_init();
-    #ifdef DEBUGMODE
-        debugOptions.showDebugInfo = true;
-    #endif
     timer_init(GAME_CLOCK_TICK);
 
     //initialize map bitmap
