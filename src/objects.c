@@ -199,9 +199,15 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
             for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
             {                
                 //check collision tile for collision point
-                colDir = collision_check_tile(this, i);        
-                //apply collision direction
-                collision_apply_dir(this, colDir);                        
+                colDir = collision_check_tile(this, i);
+                if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    //apply collision direction
+                    collision_apply_dir(this, colDir);                        
+                else
+                {
+                    if (colDir)
+                        this->state = E_STONE_ST_BREAK;
+                }
             }
 
             //check entities collisions            
@@ -216,7 +222,13 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                     {
                         case E_ENT_CLASS_OBJECT:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
-                            collision_apply_dir(this, colDir);
+                            if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                                collision_apply_dir(this, colDir);
+                            else
+                            {
+                                if (colDir)
+                                    this->state = E_STONE_ST_BREAK;       
+                            }
                         break;
                         case E_ENT_CLASS_ENEMY:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
@@ -224,8 +236,11 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
                             {
                                 //send signal to entity
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;
-                                //change state
-                                this->state = E_STONE_ST_BREAK;                                
+                                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                                    //change state
+                                    this->state = E_STONE_ST_BREAK; 
+                                else
+                                    this->state = E_STONE_ST_IDLE;                               
                             }
                         break;
                     }            

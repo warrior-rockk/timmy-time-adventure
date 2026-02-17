@@ -35,6 +35,7 @@ enum E_ENTITY_PROPERTIES
     E_ENT_PROP_PHYSICS_ON    = 0x01,
     E_ENT_PROP_NO_COLLISION  = 0x02,
     E_ENT_PROP_PERSISTENT    = 0x04,
+    E_ENT_PROP_NO_BREAKABLE  = 0x08,
 };
 
 //entities direction (for drawing)
