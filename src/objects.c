@@ -144,6 +144,12 @@ void object_stone_update(tEntity *this, tStoneLocalData *local)
     enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING, E_STONE_ST_BREAK};
     local->solid = true;
 
+    if (this->signal == E_ENT_SIGNAL_HURT)
+    {
+        this->state = E_STONE_ST_BREAK;
+        this->signal = 0;
+    }
+
     switch (this->state)
     {
         case E_STONE_ST_IDLE:

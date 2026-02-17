@@ -149,7 +149,7 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
                 entityList[newEntity].entity_update   = &player_update;
             break;
             case E_ENT_CLASS_OBJECT:
-                entityList[newEntity].properties      = E_ENT_PROP_NO_BREAKABLE;//0x00;
+                entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;

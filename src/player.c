@@ -391,8 +391,18 @@ static void player_update_collisions(tEntity *player)
             {
                 case E_ENT_CLASS_OBJECT:
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
-                    collision_apply_dir(player, colDir);
-                
+                    if (colDir)
+                    {
+                        if (colDir == E_COLLISION_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                        {
+                            checkEntity->signal = E_ENT_SIGNAL_HURT;
+                            //set bounce velocity
+                            player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
+                        }
+                        else
+                            collision_apply_dir(player, colDir);
+                    }
+
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
 
                     //comprobamos si colisionamos con un objeto recogible y esta en la mitad inferior
