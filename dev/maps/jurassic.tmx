@@ -233,7 +233,7 @@
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="7" name="stone" type="object" x="176" y="112" width="16" height="16">
+  <object id="7" name="rock" type="object" x="176" y="112" width="16" height="16">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>

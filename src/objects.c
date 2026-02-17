@@ -48,6 +48,14 @@ void object_create(tEntity *entity)
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
+            entity->img = load_bmp("res/objects/stone.bmp",NULL);  
+            entity->size = (tVector){16, 16};  
+            entity->spriteSize = (tVector){16, 16};
+            collision_create_entity_points(entity);                    
+        break;
+        case E_ROCK_OBJECT_TYPE:
+            //allocate memory for next stone Object
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
             entity->img = load_bmp("res/objects/rock.bmp",NULL);  
             entity->size = (tVector){16, 16};  
             entity->spriteSize = (tVector){16, 16};
@@ -74,6 +82,7 @@ void object_update(tEntity *entity)
             object_gem_update(entity, &((tGemLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_STONE_OBJECT_TYPE:
+        case E_ROCK_OBJECT_TYPE:
             object_stone_update(entity, &((tStoneLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
