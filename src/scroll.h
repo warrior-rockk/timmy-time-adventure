@@ -9,6 +9,10 @@
 
 #include "utils.h"
 
+//scroll definitions
+#define SCROLL_IN_REGION_OFFSET_X   32
+#define SCROLL_IN_REGION_OFFSET_Y   32
+
 //scroll object
 typedef struct tScroll
 {
