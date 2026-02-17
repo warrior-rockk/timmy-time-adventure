@@ -30,6 +30,10 @@
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
 #define BORDER_COLOR            3
 
+//colors
+#define BLACK_COLOR             79
+#define WHITE_COLOR             12
+
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
 
@@ -73,11 +77,11 @@ enum E_GAME_LEVELS
 //refresh HUD
 enum E_REFRESH_HUD
 {
-    E_REFRESH_HUD_LIVES,
-    E_REFRESH_HUD_LIFE,
-    E_REFRESH_HUD_SCORE,
-    E_REFRESH_HUD_TIME,
-    E_REFRESH_HUD_ALL,
+    E_REFRESH_HUD_LIVES     = 0x01,
+    E_REFRESH_HUD_LIFE      = 0x02,
+    E_REFRESH_HUD_SCORE     = 0x04,   
+    E_REFRESH_HUD_TIME      = 0x08,
+    E_REFRESH_HUD_ALL       = 0xFF,
 };
 
 //game data
@@ -92,8 +96,7 @@ typedef struct game
     uint8_t score;
     uint16_t time;    
     uint8_t fadeIn;
-    uint8_t fadeOut;
-    uint8_t refreshHUD;  
+    uint8_t fadeOut;    
 } tGame;
 
 //options for debug mode

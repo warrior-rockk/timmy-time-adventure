@@ -34,7 +34,6 @@ tDebugOptions debugOptions;
 
 BITMAP *buffer;
 BITMAP *worldScreen;
-BITMAP *hudImg;
 RGB* gamePal;
 FONT *gameFont;
 double deltaTime;
@@ -42,6 +41,18 @@ uint8_t gameExit = false;
 tScroll scroll;
 
 tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
+
+struct hud
+{
+    BITMAP *hudImg;
+    BITMAP *hudLifeOff;
+    BITMAP *hudLifeOn;
+    uint8_t last_lives;
+    uint8_t last_life;
+    uint8_t last_score;
+    uint16_t last_time;
+    uint8_t refresh;     
+} hud;
 
 static void game_load_level(uint8_t numLevel);
 static void game_debug_info();
@@ -178,7 +189,11 @@ void game_init()
     clear_to_color(buffer, BORDER_COLOR);
 
     //load hud image
-    hudImg = load_bmp("res/hud.bmp", NULL);
+    hud.hudImg = load_bmp("res/hud.bmp", NULL);
+    hud.hudLifeOff = create_bitmap(15, 14);
+    hud.hudLifeOn  = create_bitmap(15, 14);
+    blit(hud.hudImg, hud.hudLifeOn, 65, 5, 0, 0, 15, 14);
+    blit(hud.hudImg, hud.hudLifeOff, 99, 5, 0, 0, 15, 14);
 
     entity_system_init();
     collision_system_init();
@@ -207,7 +222,7 @@ void game_init()
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
-    game.refreshHUD     = E_REFRESH_HUD_ALL;
+    hud.refresh         = E_REFRESH_HUD_ALL;
 }
 
 void game_draw()
@@ -281,30 +296,96 @@ static void game_do_fade()
     }
 }
 
+//inits the hud
 void game_hud_init()
 {
-    draw_sprite(buffer, hudImg, HUD_POSITION_X, HUD_POSITION_Y);
+    draw_sprite(buffer, hud.hudImg, HUD_POSITION_X, HUD_POSITION_Y);
+    draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
+    draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
+    draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
+
     textout_centre_ex(buffer, gameFont, "LIVES",   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, 12, -1);
     textout_centre_ex(buffer, gameFont, "LIFE",    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, 12, -1);
     textout_centre_ex(buffer, gameFont, "SCORE",   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, 12, -1);
     textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, 12, -1);
 
-    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 7, 12, -1);
+    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, 12, -1);
 }
 
+//updated the hud
 void game_hud_update()
 {
-
+    if (game.life != hud.last_life)    
+    {
+        hud.refresh |= E_REFRESH_HUD_LIFE;    
+        hud.last_life = game.life;
+    }
+    if (game.lives != hud.last_lives)
+    {
+        hud.refresh |= E_REFRESH_HUD_LIVES;
+        hud.last_lives = game.lives;
+    }
+    if (game.score != hud.last_score)
+    {
+        hud.refresh |= E_REFRESH_HUD_SCORE;
+        hud.last_score = game.score;
+    }
+    if (game.time != hud.last_time)
+    {
+        hud.refresh |= E_REFRESH_HUD_TIME;
+        hud.last_time = game.time;
+    }
 }
 
+//draws the hud
 void game_hud_draw()
-{
-    switch (game.refreshHUD)
+{   
+    //update lives
+    if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_LIVES))
     {
-        case E_REFRESH_HUD_ALL:                        
-            textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 31, HUD_POSITION_Y + 7, 12, -1, "%u", game.lives);
-        break;
+        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
     }
+
+    //update life
+    if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_LIFE))
+    {
+        switch (game.life)
+        {
+            case 3:
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
+            break;
+            case 2:                                
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
+            break;
+            case 1:
+                draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
+            break;
+            default:
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
+                draw_sprite(buffer, hud.hudLifeOff, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
+            break;
+        }
+    }
+
+    //update score
+    if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_SCORE))
+    {
+        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04u", game.score);
+    }
+
+    //update time
+    if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_TIME))
+    {
+        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+    }
+
     //reset refresh flags
-    game.refreshHUD = 0x00;
+    hud.refresh = 0x00;
 }
