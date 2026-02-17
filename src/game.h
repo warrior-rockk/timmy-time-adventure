@@ -38,7 +38,7 @@
 #define GAME_CLOCK_TICK     10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIVES          1       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #define GAME_FADE_SPEED         2       //general game fade speed
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
@@ -89,6 +89,13 @@ enum E_REFRESH_HUD
     E_REFRESH_HUD_ALL       = 0xFF,
 };
 
+//fade states
+enum E_FADE_STATE
+{
+    E_FADED_IN,
+    E_FADED_OFF,
+};
+
 //game data
 typedef struct game
 {
@@ -102,6 +109,7 @@ typedef struct game
     uint16_t time;    
     uint8_t fadeIn;
     uint8_t fadeOut;    
+    uint8_t fadeState;
 } tGame;
 
 //options for debug mode

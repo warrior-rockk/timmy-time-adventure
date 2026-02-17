@@ -87,9 +87,11 @@ void game_update()
         case E_GAME_ST_INIT_LEVEL:
             entities_update(&scroll);
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
-
+            game_hud_update();
+            
             map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
             entities_draw(worldScreen, &scroll);
+            game_hud_draw();
 
             game.state = E_GAME_ST_PLAY_LEVEL;
             game.fadeIn = true;
@@ -125,15 +127,44 @@ void game_update()
 
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {
-                game.state = game.lives > 0 ? E_GAME_ST_INIT : E_GAME_ST_GAME_OVER;
-                gameSeq.timeCounter = 0;
-                game.fadeOut = true;               
+                if (game.lives > 0) 
+                {
+                    game.fadeOut = true; 
+                    game.state = E_GAME_ST_INIT;
+                }
+                else
+                {
+                    game.fadeOut = true; 
+                    game.state = E_GAME_ST_GAME_OVER;
+                } 
+                gameSeq.timeCounter = 0;                
             }
             else
                 gameSeq.timeCounter += get_clock_tick();            
         break;
-        case E_GAME_ST_GAME_OVER:
-            game.state = E_GAME_ST_DESTROY_LEVEL;
+        case E_GAME_ST_GAME_OVER:            
+            switch (gameSeq.step)
+            {
+                case 0:
+                    destroy_level();
+                    clear_to_color(worldScreen, BLACK_COLOR);
+                    clear_to_color(buffer, BORDER_COLOR);
+                    textout_centre_ex(worldScreen, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    game.fadeIn = true;
+
+                    gameSeq.step++;
+                break;
+                case 1:
+                    if (gameSeq.timeCounter >= 500)
+                    {
+                        game.state = E_GAME_ST_DESTROY_LEVEL;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                    }
+                    else
+                        gameSeq.timeCounter += get_clock_tick();
+                break;
+            }
         break;
         case E_GAME_ST_DESTROY_LEVEL:
             destroy_level();
@@ -175,6 +206,7 @@ static void destroy_level()
     enemy_system_destroy();
     //unload map and map resources
     map_unload();
+    clear_to_color(worldScreen, BLACK_COLOR);    
 }
 
 void game_init()
@@ -223,6 +255,11 @@ void game_init()
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
     hud.refresh         = E_REFRESH_HUD_ALL;
+
+    gameSeq.step = 0;
+    gameSeq.timeCounter = 0;
+
+    game.fadeOut = true;
 }
 
 void game_draw()
@@ -286,12 +323,22 @@ static void game_do_fade()
 {
     if (game.fadeOut)
     {
-        fade_out(GAME_FADE_SPEED);
-        game.fadeOut = false;
+        if (game.fadeState == E_FADED_IN)
+        {
+            fade_out(GAME_FADE_SPEED);
+            game.fadeState = E_FADED_OFF;
+        }
+        
+        game.fadeOut = false;        
     }
     if (game.fadeIn)
     {
-        fade_in(desktop_palette, GAME_FADE_SPEED);
+        if (game.fadeState == E_FADED_OFF)
+        {
+            fade_in(desktop_palette, GAME_FADE_SPEED);
+            game.fadeState = E_FADED_IN;
+        }
+        
         game.fadeIn = false;
     }
 }
