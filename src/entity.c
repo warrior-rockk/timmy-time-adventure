@@ -87,7 +87,11 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
 //inits entity system
 void entity_system_init()
 {
-    entity_system_destroy();
+    //free entity memory allocation
+    free(entityList);
+    //clear num entities
+    numEntities = 0;
+    MY_TRACE("[ENTITY SYSTEM]: Initialized entity system\n");
 }
 
 //destroys entity system
@@ -97,6 +101,7 @@ void entity_system_destroy()
     free(entityList);
     //clear num entities
     numEntities = 0;
+    MY_TRACE("[ENTITY SYSTEM]: Destroyed entity system\n");
 }
 
 //creates new entity based on passed values
@@ -195,13 +200,16 @@ tEntity* entity_get(uint16_t numEntity)
 
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
-{
+{    
     //free entity collision point memory if used
     if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
         collision_destroy_entity_points(entityList[entityIndex].id);
 
-    //unload entity spriteSheet
-    destroy_bitmap(entityList[entityIndex].img);
+    //unload player entity spriteSheet
+    if (entityIndex == PLAYER_ENTITY_ID && entityList[entityIndex].img)
+    {        
+        destroy_bitmap(entityList[entityIndex].img);
+    }
 
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];

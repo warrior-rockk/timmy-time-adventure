@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="8">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="9">
  <properties>
   <property name="backColor" type="int" value="238"/>
  </properties>
@@ -212,6 +212,11 @@
  </layer>
  <objectgroup id="3" name="Enemies">
   <object id="3" name="raptor" type="enemy" x="256" y="96" width="64" height="32">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="8" name="raptor" type="enemy" x="624" y="96" width="64" height="32">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>

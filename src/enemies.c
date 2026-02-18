@@ -13,13 +13,16 @@
 
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
+BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
 
 void enemy_system_init()
 {
     //empty enemy list
     free(enemyDataList);
     //set number of entities
-    numEnemyInstances = 0;    
+    numEnemyInstances = 0;     
+
+    MY_TRACE("[ENEMY SYSTEM]: Initialized enemy system\n");
 }
 
 void enemy_system_destroy()
@@ -28,6 +31,14 @@ void enemy_system_destroy()
     free(enemyDataList);
     //set number of entities
     numEnemyInstances = 0;    
+    //free resources
+    for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
+    {
+        if (enemyResources[i])
+            destroy_bitmap(enemyResources[i]);
+    }
+
+    MY_TRACE("[ENEMY SYSTEM]: Destroyed enemy system\n");
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
@@ -41,8 +52,12 @@ void enemy_create(tEntity *entity)
     {
         case E_PTERO_ENEMY_TYPE:
             //allocate memory for enemy
-            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));
-            entity->img = load_bmp("res/enemies/ptero.bmp",NULL); 
+            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));            
+            //load enemy resources
+            if (!enemyResources[E_PTERO_ENEMY_TYPE])
+                enemyResources[E_PTERO_ENEMY_TYPE] = load_bmp("res/enemies/ptero.bmp", NULL);
+            
+            entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){52, 48};
             entity->size.x = 50;
             entity->size.y = 20;                          
@@ -51,7 +66,10 @@ void enemy_create(tEntity *entity)
         case E_RAPTOR_ENEMY_TYPE:
             //allocate memory for enemy
             enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));
-            entity->img = load_bmp("res/enemies/raptor2.bmp",NULL); 
+            if (!enemyResources[E_RAPTOR_ENEMY_TYPE])
+                enemyResources[E_RAPTOR_ENEMY_TYPE] = load_bmp("res/enemies/raptor2.bmp", NULL);
+            
+            entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){50, 30};
             entity->axis = E_ENT_AXIS_DOWN;

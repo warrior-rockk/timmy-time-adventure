@@ -12,6 +12,7 @@
 
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
+BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
 
 void object_system_init()
 {
@@ -19,6 +20,8 @@ void object_system_init()
     free(objectDataList);
     //set number of entities
     numObjectInstances = 0;    
+
+    MY_TRACE("[OBJECT SYSTEM]: Initialized object system\n");
 }
 
 void object_system_destroy()
@@ -26,7 +29,15 @@ void object_system_destroy()
     //empty object list
     free(objectDataList);
     //set number of entities
-    numObjectInstances = 0;    
+    numObjectInstances = 0;
+
+    //free resources
+    for (uint8_t i = 0; i < E_OBJECTS_TYPE_NUM; i++)
+    {
+        if (objectResources[i])
+            destroy_bitmap(objectResources[i]);
+    }
+    MY_TRACE("[OBJECT SYSTEM]: Destroyed object system\n");
 }
 
 //check object entity type to add the local data structure to local data list and increases instances number
@@ -41,14 +52,20 @@ void object_create(tEntity *entity)
         case E_GEM_OBJECT_TYPE:
             //allocate memory for gem Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
-            entity->img = load_bmp("res/objects/object.bmp",NULL);
+            if (!objectResources[E_GEM_OBJECT_TYPE])
+                objectResources[E_GEM_OBJECT_TYPE] = load_bmp("res/objects/object.bmp", NULL);
+
+            entity->img = objectResources[E_GEM_OBJECT_TYPE]; //load_bmp("res/objects/object.bmp",NULL);
             entity->size = (tVector){14, 16};    
             entity->spriteSize = (tVector){entity->img->w, entity->img->h};          
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
-            entity->img = load_bmp("res/objects/stone.bmp",NULL);  
+            if (!objectResources[E_STONE_OBJECT_TYPE])
+                objectResources[E_STONE_OBJECT_TYPE] = load_bmp("res/objects/stone.bmp", NULL);
+
+            entity->img = objectResources[E_STONE_OBJECT_TYPE]; //load_bmp("res/objects/stone.bmp",NULL);  
             entity->size = (tVector){16, 16};  
             entity->spriteSize = (tVector){16, 16};
             collision_create_entity_points(entity);                    
@@ -56,7 +73,10 @@ void object_create(tEntity *entity)
         case E_ROCK_OBJECT_TYPE:
             //allocate memory for next stone Object
             objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
-            entity->img = load_bmp("res/objects/rock.bmp",NULL);  
+            if (!objectResources[E_ROCK_OBJECT_TYPE])
+                objectResources[E_ROCK_OBJECT_TYPE] = load_bmp("res/objects/rock.bmp", NULL);
+
+            entity->img = objectResources[E_ROCK_OBJECT_TYPE]; //load_bmp("res/objects/rock.bmp",NULL);  
             entity->size = (tVector){16, 16};  
             entity->spriteSize = (tVector){16, 16};
             collision_create_entity_points(entity);                    

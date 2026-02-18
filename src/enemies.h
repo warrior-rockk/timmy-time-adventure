@@ -14,7 +14,8 @@
 enum E_ENEMY_TYPE
 {
     E_PTERO_ENEMY_TYPE,
-    E_RAPTOR_ENEMY_TYPE, 
+    E_RAPTOR_ENEMY_TYPE,
+    E_ENEMIES_TYPE_NUM,
 };
 
 //global enemy local data struct
