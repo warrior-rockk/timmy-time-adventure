@@ -47,7 +47,7 @@ void object_create(tEntity *entity)
         break;
         case E_STONE_OBJECT_TYPE:
             //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
             entity->img = load_bmp("res/objects/stone.bmp",NULL);  
             entity->size = (tVector){16, 16};  
             entity->spriteSize = (tVector){16, 16};
@@ -55,7 +55,7 @@ void object_create(tEntity *entity)
         break;
         case E_ROCK_OBJECT_TYPE:
             //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tStoneLocalData));
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
             entity->img = load_bmp("res/objects/rock.bmp",NULL);  
             entity->size = (tVector){16, 16};  
             entity->spriteSize = (tVector){16, 16};
@@ -83,7 +83,7 @@ void object_update(tEntity *entity)
         break;
         case E_STONE_OBJECT_TYPE:
         case E_ROCK_OBJECT_TYPE:
-            object_stone_update(entity, &((tStoneLocalData*)objectDataList)[entity->entInstance]);
+            object_solid_update(entity, &((tSolidLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -100,7 +100,7 @@ void object_init(tEntity *entity)
             ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;            
         break;
         case E_STONE_OBJECT_TYPE:
-            ((tStoneLocalData*)objectDataList)[numObjectInstances - 1].solid = false;            
+            ((tSolidLocalData*)objectDataList)[numObjectInstances - 1].solid = false;            
         break;
         default:
         break;
@@ -147,7 +147,7 @@ void object_gem_update(tEntity *this, tGemLocalData *local)
     local->health = this->pos.x;    
 }
 
-void object_stone_update(tEntity *this, tStoneLocalData *local)
+void object_solid_update(tEntity *this, tSolidLocalData *local)
 {
     //object states
     enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING, E_STONE_ST_BREAK};

@@ -31,11 +31,11 @@ typedef struct tGemLocalData
     uint16_t timer;
 } tGemLocalData;
 
-typedef struct tStoneLocalData
+typedef struct tSolidLocalData
 {
     uint8_t flags;
     bool solid;
-} tStoneLocalData;
+} tSolidLocalData;
 
 //debug trace entity object info
 void object_trace(tEntity *this);
@@ -54,6 +54,6 @@ void object_update(tEntity *entity);
 //custom update function for gems objects
 void object_gem_update(tEntity *this, tGemLocalData *objData);
 //custom update function for stone objects
-void object_stone_update(tEntity *this, tStoneLocalData *objData);
+void object_solid_update(tEntity *this, tSolidLocalData *objData);
 
 #endif
