@@ -90,13 +90,33 @@ void game_update()
                 case 2:
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += get_clock_tick();
+                break;
+            }
+        break;
+        case E_GAME_ST_TITLE:
+        switch (gameSeq.step)
+            {
+                case 0:
+                    clear_to_color(buffer, BLACK_COLOR);
+                    game.fadeIn = true;
+                    gameSeq.step++;
+                case 1:
+                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 59, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 59, BLACK_COLOR);
+                    if (input_any_key_pressed())
+                    {
+                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                    }
                 break;
             }
         break;
@@ -184,7 +204,7 @@ void game_update()
                 case 0:
                     destroy_level();
                     clear_to_color(worldScreen, BLACK_COLOR);
-                    clear_to_color(buffer, BORDER_COLOR);
+                    clear_to_color(buffer, BLACK_COLOR);
                     textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
@@ -287,7 +307,7 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     
     #ifdef DEBUGMODE
-        game.state      = E_GAME_ST_LOAD_LEVEL;
+        game.state      = E_GAME_ST_LOGO; //E_GAME_ST_LOAD_LEVEL;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif

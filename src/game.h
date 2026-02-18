@@ -28,7 +28,6 @@
 #define GAME_H                  160 // 192
 #define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
-#define BORDER_COLOR            3
 
 //colors
 #define BLACK_COLOR             79
