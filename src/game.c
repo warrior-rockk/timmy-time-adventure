@@ -143,6 +143,10 @@ void game_update()
                 game.state = E_GAME_ST_LOSE_LIVE;
             }            
 
+            //game time
+            if (get_clock_tick_1sec())
+                game.time--;
+                
             #ifdef DEBUGMODE
                 if (key[KEY_R])
                     game.state = E_GAME_ST_INIT;
@@ -342,6 +346,8 @@ static void game_load_level(uint8_t numLevel)
     
     //TODO: read scroll mode from map
     game.scrollMode = E_SCROLL_X;
+    //TODO: read level time from map
+    game.time = 300;
 
     //create scroll
     tVector mapDimension = map_get_dimensions();

@@ -22,4 +22,6 @@ uint16_t get_fps();
 uint16_t get_clock_tick();
 //return 1 each time frame counter
 uint8_t get_clock_count(uint8_t time);
+//get 1 second clock tick
+bool get_clock_tick_1sec();
 #endif
