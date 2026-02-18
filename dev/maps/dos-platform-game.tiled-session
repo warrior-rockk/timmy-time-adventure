@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "jurassic.tmx",
+    "activeFile": "level00.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -24,11 +24,11 @@
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 1.5,
+            "scale": 3.04,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 129.66666666666666,
-                "y": 9.333333333333343
+                "x": 150.49342105263162,
+                "y": 74.34210526315792
             }
         },
         "jurassic.tmx#jurassic": {
@@ -42,9 +42,15 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 400.25,
-                "y": 103.5
+                "x": 468.25,
+                "y": 118
             }
+        },
+        "level00.tmx#testRocks": {
+            "scaleInDock": 1
+        },
+        "level00.tmx#testRocls": {
+            "scaleInDock": 1
         },
         "rockLevel.tmj": {
             "scale": 0.8529,
@@ -80,7 +86,7 @@
         }
     },
     "last.exportedFilePath": "/Users/warrior/code/dos/projects/dos-platform-game/dev/maps",
-    "last.imagePath": "D:/Instalables/Proyectos/Programacion DOS/proyectos/dos-platform-game/dev/gfx/maps/jurassic",
+    "last.imagePath": "/Users/warrior/code/dos/projects/dos-platform-game/res/tiles",
     "map.fixedSize": true,
     "map.height": 13,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
@@ -89,16 +95,15 @@
     "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
-        "level00.tmx",
-        "jurassic.tmx"
+        "level00.tmx"
     ],
     "project": "dos-platform-game.tiled-project",
     "property.type": "int",
     "recentFiles": [
         "level00.tmx",
+        "testRocks.tsx",
         "jurassic.tmx",
         "rockLevel.tmj",
-        "testRocks.tsx",
         "testLevel.tmx"
     ],
     "resizeMap.removeObjects": false,

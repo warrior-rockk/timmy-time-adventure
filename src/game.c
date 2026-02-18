@@ -292,7 +292,7 @@ void game_init()
         game.state      = E_GAME_ST_LOGO;
     #endif
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
-    game.actualLevel    = E_GAME_LEVEL_JURASSIC;    
+    game.actualLevel    = E_GAME_LEVEL_TEST; //E_GAME_LEVEL_JURASSIC;    
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
@@ -345,7 +345,7 @@ static void game_load_level(uint8_t numLevel)
     map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile);
     
     //TODO: read scroll mode from map
-    game.scrollMode = E_SCROLL_X;
+    //game.scrollMode = E_SCROLL_X;
     //TODO: read level time from map
     game.time = 300;
 
