@@ -53,3 +53,4 @@ dkms.conf
 
 build/
 !static/CWSDPMI.EXE
+*.tiled-session
