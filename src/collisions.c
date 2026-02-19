@@ -10,6 +10,8 @@
 #include "collisions.h"
 #include "map.h"
 
+#define TRACE_FLAG  "[COLLISION]"
+
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
 
@@ -30,7 +32,7 @@ void collision_system_destroy()
 }
 
 //gets collision point list index by entity id (-1 if not found)
-uint16_t get_collision_point_index_by_entId(uint16_t entityId)
+int16_t get_collision_point_index_by_entId(uint16_t entityId)
 {
     //find entity id on collision points list
     for (int i = 0; i < numEntitiesColPoints; i++)
@@ -405,8 +407,10 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].colCode         = E_COLLISION_CENTER;
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = false; //<- false by default
 
-        //MY_TRACE("[COLLISION SYSTEM]: Created entity collision points on position: %d\n", newEntityColPoints);
-        //MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
+        #if DEBUG_TRACE_COLL_POINTS_ARRAY
+            MY_TRACE_FLAG(TRACE_FLAG, "Created entity id: %i collision points on position: %d\n", entity->id, newEntityColPoints);
+            MY_TRACE_FLAG(TRACE_FLAG, "Total of entity collision points: %d\n", numEntitiesColPoints);
+        #endif
     }
     else
         abort_on_error("ERROR: Reached max. number of entities collision points\n");        
@@ -415,24 +419,34 @@ void collision_create_entity_points(tEntity *entity)
 //funcion to destroy collision point on a entity
 void collision_destroy_entity_points(uint16_t entityId)
 {
-    uint16_t listPosition = get_collision_point_index_by_entId(entityId);
+    int16_t listPosition = get_collision_point_index_by_entId(entityId);
 
-    //copies last entity col points to deleted entity position
-    entColPointsList[listPosition] = entColPointsList[numEntitiesColPoints - 1];
-    //decrement entity col points number
-    numEntitiesColPoints--;
-    if (numEntitiesColPoints == 0)
+    //if entity has collision points
+    if (listPosition >= 0)
     {
-        //free entity list
-        free(entColPointsList);
-        entColPointsList = NULL;
-    }
-    else
-        //reallocates the array with decremented entity number    
-        entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
+        //copies last entity col points to deleted entity position
+        entColPointsList[listPosition] = entColPointsList[numEntitiesColPoints - 1];
+        //decrement entity col points number
+        numEntitiesColPoints--;
+        if (numEntitiesColPoints == 0)
+        {
+            //free entity list
+            free(entColPointsList);
+            entColPointsList = NULL;
+        }
+        else
+            //reallocates the array with decremented entity number    
+            entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
 
-    //MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
-    //MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
+        #if DEBUG_TRACE_COLL_POINTS_ARRAY
+            MY_TRACE_FLAG(TRACE_FLAG, "Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
+            MY_TRACE_FLAG(TRACE_FLAG, "Total of entity collision points: %d\n", numEntitiesColPoints);
+        #endif
+    }    
+    #if DEBUG_TRACE_COLL_POINTS_ARRAY
+        else
+            MY_TRACE_FLAG(TRACE_FLAG, "Entity id:%i has no collision points to free\n", entityId);       
+    #endif
 }
 
 //function to apply the direction of the collision to an entity

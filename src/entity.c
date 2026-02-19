@@ -205,9 +205,9 @@ tEntity* entity_get(uint16_t numEntity)
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {    
-    //free entity collision point memory if used
-    if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
-        collision_destroy_entity_points(entityList[entityIndex].id);
+    //free entity collision point memory
+    //if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
+    collision_destroy_entity_points(entityList[entityIndex].id);
 
     //unload player entity spriteSheet
     if (entityIndex == PLAYER_ENTITY_ID && entityList[entityIndex].img)

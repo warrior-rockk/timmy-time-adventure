@@ -211,6 +211,7 @@ void game_update()
             //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {
+                MY_TRACE_FLAG(TRACE_FLAG, "Lose live\n");
                 if (game.lives > 0) 
                 {
                     game.fadeOut = true; 
@@ -244,6 +245,7 @@ void game_update()
                         gameSeq.timeCounter += get_clock_tick();
                 break;
                 case 1:
+                    MY_TRACE_FLAG(TRACE_FLAG, "Completed level\n");
                     game_destroy_level();
                     game.actualLevel++;
                     gameSeq.step = 0;                    
@@ -261,7 +263,7 @@ void game_update()
                     game_destroy_level();                            
                     textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
-
+                    MY_TRACE_FLAG(TRACE_FLAG, "Game Over\n");
                     gameSeq.step++;
                 break;
                 case 1:
