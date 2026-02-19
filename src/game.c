@@ -23,15 +23,16 @@
 #include "input.h"
 #include "enemies.h"
 
-//game structure
-tGame game;
-tSequence gameSeq;
+#define TRACE_FLAG  "[GAME]"
 
 //debug option structure
 #ifdef DEBUGMODE
-tDebugOptions debugOptions = {0, 0};
+    tDebugOptions debugOptions = {0, 0};   
 #endif
 
+//game structure
+tGame game;
+tSequence gameSeq;
 BITMAP *buffer;
 BITMAP *worldScreen;
 RGB* gamePal;
@@ -280,7 +281,8 @@ static void game_destroy_level()
 
 void game_init()
 {
-    MY_TRACE("[GAME]: Init game\n");
+    //MY_TRACE("[GAME]: Init game\n");
+    MY_TRACE_FLAG(TRACE_FLAG, "Init game");
 
     /* set the color palette */
     //temporaly

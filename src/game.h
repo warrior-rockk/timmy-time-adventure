@@ -114,7 +114,7 @@ typedef struct game
 } tGame;
 
 //options for debug mode
-#define DEBUG_TRACE_ENTITIES    0
+#define DEBUG_TRACE_ENTITIES    1
 typedef struct
 {
     uint8_t showDebugInfo; 

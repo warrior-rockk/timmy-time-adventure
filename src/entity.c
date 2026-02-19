@@ -14,6 +14,8 @@
 #include "enemies.h"
 #include "timer.h"
 
+#define TRACE_FLAG  "[ENTITY]"
+
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
 static BITMAP *entitySprite;    //pointer to sub-bitmap of entity frame
@@ -302,7 +304,8 @@ void entities_update(tScroll *scroll)
             #ifdef DEBUGMODE
                 #if DEBUG_TRACE_ENTITIES
                     if (entityList[i].state != entityList[i].prevState)
-                        TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
+                        //TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
+                        MY_TRACE_FLAG(TRACE_FLAG, "Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
                 #endif
             #endif
         }

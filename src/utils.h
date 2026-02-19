@@ -23,8 +23,9 @@
 #define CHECK_FLAG(data, bit)     ((data) &   ((bit)))
 
 #ifdef ALLEGRO_H
-    #define MY_ASSERT(condition)    ASSERT(condition)
-    #define MY_TRACE                TRACE
+    #define MY_ASSERT(condition)                ASSERT(condition)
+    #define MY_TRACE                            TRACE
+    #define MY_TRACE_FLAG(flag, data, ...)      TRACE(flag": " data, ##__VA_ARGS__)
 #endif
 
 #define HALT    exit(-1);
