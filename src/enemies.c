@@ -19,6 +19,7 @@ void enemy_system_init()
 {
     //empty enemy list
     free(enemyDataList);
+    enemyDataList = NULL;
     //set number of entities
     numEnemyInstances = 0;     
 
@@ -29,13 +30,17 @@ void enemy_system_destroy()
 {
     //empty enemy list
     free(enemyDataList);
+    enemyDataList = NULL;
     //set number of entities
     numEnemyInstances = 0;    
     //free resources
     for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
     {
         if (enemyResources[i])
+        {
             destroy_bitmap(enemyResources[i]);
+            enemyResources[i] = NULL;
+        }
     }
 
     MY_TRACE("[ENEMY SYSTEM]: Destroyed enemy system\n");

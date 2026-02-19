@@ -18,6 +18,7 @@ void object_system_init()
 {
     //empty object list
     free(objectDataList);
+    objectDataList = NULL;
     //set number of entities
     numObjectInstances = 0;    
 
@@ -28,6 +29,7 @@ void object_system_destroy()
 {
     //empty object list
     free(objectDataList);
+    objectDataList = NULL;
     //set number of entities
     numObjectInstances = 0;
 
@@ -35,7 +37,10 @@ void object_system_destroy()
     for (uint8_t i = 0; i < E_OBJECTS_TYPE_NUM; i++)
     {
         if (objectResources[i])
+        {
             destroy_bitmap(objectResources[i]);
+            objectResources[i] = NULL;
+        }
     }
     MY_TRACE("[OBJECT SYSTEM]: Destroyed object system\n");
 }

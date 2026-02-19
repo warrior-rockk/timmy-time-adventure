@@ -89,6 +89,7 @@ void entity_system_init()
 {
     //free entity memory allocation
     free(entityList);
+    entityList = NULL;
     //clear num entities
     numEntities = 0;
     MY_TRACE("[ENTITY SYSTEM]: Initialized entity system\n");
@@ -99,6 +100,7 @@ void entity_system_destroy()
 {
     //free entity memory allocation
     free(entityList);
+    entityList = NULL;
     //clear num entities
     numEntities = 0;
     MY_TRACE("[ENTITY SYSTEM]: Destroyed entity system\n");
@@ -114,7 +116,6 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
     if (numEntities <= ENTITY_MAX_NUM)
     {
         //allocate memory for entity
-        TRACE("NUm entities:%i", numEntities);
         entityList = realloc(entityList, numEntities * sizeof(tEntity));
         
         //test memory allocation
@@ -212,20 +213,21 @@ void entity_destroy(uint16_t entityIndex)
         destroy_bitmap(entityList[entityIndex].img);
     }
 
-    /*
+    
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
     numEntities--;
     if (numEntities == 0)
+    {
         //free entity list
         free(entityList);
+        entityList = NULL;
+    }
     else
         //reallocates the array with decremented entity number    
-        entityList = realloc(entityList, numEntities * sizeof(tEntity));
-    */
+        entityList = realloc(entityList, numEntities * sizeof(tEntity)); 
 }
-
 
 //function to init a entity
 void entity_init(uint8_t entityIndex)
@@ -331,10 +333,7 @@ void entity_destroy_all()
     }    
     //free current draw entity sprite
     free(entitySprite);
-    //free entity memory allocation
-    free(entityList);
-    //clear num entities
-    numEntities = 0;
+    entitySprite = NULL;
 }
 
 uint8_t entities_get_num()

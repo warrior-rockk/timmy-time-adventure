@@ -24,6 +24,7 @@ void collision_system_destroy()
 {
     //free collision memory allocation
     free(entColPointsList);
+    entColPointsList = NULL;
     //clear num entities collision points
     numEntitiesColPoints = 0;
 }
@@ -421,14 +422,17 @@ void collision_destroy_entity_points(uint16_t entityId)
     //decrement entity col points number
     numEntitiesColPoints--;
     if (numEntitiesColPoints == 0)
+    {
         //free entity list
         free(entColPointsList);
+        entColPointsList = NULL;
+    }
     else
         //reallocates the array with decremented entity number    
         entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
 
-    MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
-    MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
+    //MY_TRACE("[COLLISION SYSTEM]: Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
+    //MY_TRACE("[COLLISION SYSTEM]: Total of entity collision points: %d\n", numEntitiesColPoints);
 }
 
 //function to apply the direction of the collision to an entity

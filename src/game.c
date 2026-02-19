@@ -59,7 +59,7 @@ static void game_debug_info();
 static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
-static void destroy_level();
+static void game_destroy_level();
 static void game_do_fade();
 
 void game_update()
@@ -210,7 +210,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    destroy_level();
+                    game_destroy_level();
                     clear_to_color(worldScreen, BLACK_COLOR);
                     clear_to_color(buffer, BLACK_COLOR);
                     textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
@@ -232,7 +232,7 @@ void game_update()
             }
         break;
         case E_GAME_ST_DESTROY_LEVEL:
-            destroy_level();
+            game_destroy_level();
             game.state = E_GAME_ST_EXIT;
         break;
         case E_GAME_ST_EXIT:
@@ -257,7 +257,7 @@ void game_update()
 
         //trace state          
         if (game.state != game.prevState)
-            TRACE("Game changes from state %i to state %i\n", game.prevState, game.state);
+            MY_TRACE("[GAME]: Game changes from state %i to state %i\n", game.prevState, game.state);
     
     #endif
 
@@ -266,8 +266,9 @@ void game_update()
 }
 
 
-static void destroy_level()
+static void game_destroy_level()
 {
+    MY_TRACE("[GAME]: Destroying level\n");
     //destroy entities
     entity_destroy_all();
     object_system_destroy();
@@ -279,6 +280,8 @@ static void destroy_level()
 
 void game_init()
 {
+    MY_TRACE("[GAME]: Init game\n");
+
     /* set the color palette */
     //temporaly
     free(load_bmp("res/tiles/tsheet.bmp", desktop_palette));
@@ -385,6 +388,7 @@ static void game_load_level(uint8_t numLevel)
 
 void game_destroy()
 {
+    MY_TRACE("[GAME]: Destroying game\n");
     destroy_font(gameFont);
 }
 

@@ -53,15 +53,16 @@ void map_load(char *mapFile, char *tileFile)
         abort_on_error("Error al leer el encabezado.\n");
     }
     
-    TRACE("Tile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
-    TRACE("Map dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
-    TRACE("Background color: %u\n", mapHeader.backgroundColor);
-    TRACE("Tile count: %u\n", mapHeader.tileCount);
-    TRACE("Tiles with property: %u\n", mapHeader.numTilesWithProperty);
+    MY_TRACE("[MAP]: Loading map: %s with tileFile: %s\n", mapFile, tileFile);
+    MY_TRACE("\tTile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
+    MY_TRACE("\tMap dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
+    MY_TRACE("\tBackground color: %u\n", mapHeader.backgroundColor);
+    MY_TRACE("\tTile count: %u\n", mapHeader.tileCount);
+    MY_TRACE("\tTiles with property: %u\n", mapHeader.numTilesWithProperty);
 
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
-    TRACE("Total tiles on map: %i\n", total_tiles);
+    MY_TRACE("\tTotal tiles on map: %i\n", total_tiles);
 
     mapIds  = (uint8_t *)malloc(total_tiles * sizeof(uint8_t));
     map     = (tTile *)malloc(total_tiles * sizeof(tTile));
@@ -114,7 +115,7 @@ void map_load(char *mapFile, char *tileFile)
     //read map objects
     uint16_t numMapObjects;
     fread(&numMapObjects, sizeof(uint16_t), 1, file);
-    TRACE("Num objects on map: %i\n", numMapObjects);
+    MY_TRACE("\tNum objects on map: %i\n", numMapObjects);
     
     //allocate memory for objects
     mapObjects = (tMapEntity *)malloc(numMapObjects * sizeof(tMapEntity));
@@ -132,7 +133,7 @@ void map_load(char *mapFile, char *tileFile)
         fread(&mapObjects[i].y,       sizeof(uint16_t),   1, file);
         fread(&mapObjects[i].dir,     sizeof(uint8_t),    1, file);
 
-        TRACE("Object Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
+        MY_TRACE("\t\tObject Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
 
         //create entity
         entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir);
@@ -141,7 +142,7 @@ void map_load(char *mapFile, char *tileFile)
     //read map enemies
     uint16_t numMapEnemies;
     fread(&numMapEnemies, sizeof(uint16_t), 1, file);    
-    TRACE("Num enemies on map: %i\n", numMapEnemies);
+    MY_TRACE("\tNum enemies on map: %i\n", numMapEnemies);
     
     if (numMapEnemies > 0)
     {
@@ -161,20 +162,24 @@ void map_load(char *mapFile, char *tileFile)
             fread(&mapEnemies[i].y,       sizeof(uint16_t),   1, file);
             fread(&mapEnemies[i].dir,     sizeof(uint8_t),    1, file);
 
-            TRACE("Enemy Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapEnemies[i].class, mapEnemies[i].type, mapEnemies[i].x, mapEnemies[i].y, mapEnemies[i].dir);
+            MY_TRACE("\t\tEnemy Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapEnemies[i].class, mapEnemies[i].type, mapEnemies[i].x, mapEnemies[i].y, mapEnemies[i].dir);
 
             //create entity
             entity_create(mapEnemies[i].class, mapEnemies[i].type, (tVector){mapEnemies[i].x, mapEnemies[i].y}, mapEnemies[i].dir);
         }
     
         free(mapEnemies);
+        mapEnemies = NULL;
     }
 
     //clean resources    
     fclose(file);    
-    free(mapIds);
+    free(mapIds);    
     free(mapObjects);    
     free(tilesWithProperty);
+    mapIds = NULL;
+    mapObjects = NULL;
+    tilesWithProperty = NULL;
 
     //allocate tiles bitmaps    
     tiles = (BITMAP **)malloc(mapHeader.tileCount * sizeof(BITMAP));
@@ -199,6 +204,8 @@ void map_unload()
     //free map data
     free(map);    
     free(tiles);
+    map = NULL;
+    tiles = NULL;
 
     //initialize map data
     memset(&mapHeader, 0, sizeof(mapHeader));
