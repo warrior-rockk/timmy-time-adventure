@@ -1,7 +1,5 @@
 # Bugs
-- [X] Raptor physics fails: when add friction. The entity must update the velocities each frame
 - [ ] Add stone to map and player no image!?
-- [ ] We are loading the same bmp for all same entities!!!
 
 # Engine
 - [ ] No pick object with object above
@@ -9,8 +7,6 @@
 - [ ] Type of tiles: solid, hurt...
 - [ ] Load resources function to check errors
 - [ ] Fix deltaTime collisions?
-- [X] Implement Y Scroll following player
-- [X] Controls
 - [ ] Redefine controls
 - [ ] Playback system
 - [ ] DeltaTime ¿double?
@@ -18,10 +14,12 @@
 - [ ] Save half entity sizes on structure?
 - [ ] Platform objects
 - [ ] Ladder tiles
-- [ ] Enemies
 - [ ] All entities on one layer and map_load creates all
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
+- [X] Implement Y Scroll following player
+- [X] Controls
+- [X] Enemies
 
 # Player
 - [ ] Idle special animation when no control
