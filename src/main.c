@@ -50,11 +50,11 @@ END_OF_MAIN()
 //main initialization
 static void main_init()
 {
-    //set env var trace log file
+    //set env var MY_TRACE log file
     setenv("ALLEGRO_TRACE", "GAME.LOG", 1);
 
-    TRACE("%s %i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
-    TRACE("Initializing systems and modules\n");
+    MY_TRACE("%s %i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    MY_TRACE("Initializing systems and modules\n");
     
     //set unicode format
     //this is no longer necessary with vscode UTF-8 codification
@@ -73,15 +73,15 @@ static void main_init()
         switch (getkey())
     {
         case 0x31:
-            TRACE("Sound option selected: Sound Blaster\n");
+            MY_TRACE("Sound option selected: Sound Blaster\n");
             sound_set_mode(SB_SND_MODE);
             break;
         case 0x32:
-            TRACE("Sound option selected: Speaker\n");
+            MY_TRACE("Sound option selected: Speaker\n");
             sound_set_mode(PC_SPEAKER_SND_MODE);    
             break;
         case 0x33:
-            TRACE("Sound option selected: None\n");
+            MY_TRACE("Sound option selected: None\n");
             sound_set_mode(NO_SOUND_SND_MODE);
             break;
         default:
@@ -109,7 +109,7 @@ static void main_init()
             abort_on_error("Error iniciando el sonido");
     #endif
 
-    TRACE("All system and modules initialized\n");
+    MY_TRACE("All system and modules initialized\n");
     
     //set video mode
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
@@ -137,10 +137,10 @@ static void main_stepByStep()
 //function that handles game exit
 void main_exit()
 {
-    TRACE("Exiting game\n");
+    MY_TRACE("Exiting game\n");
     
-    TRACE("Quit allegro modules\n");
-    //TODO: TRACE("Game played for: %02dh %02dm\n", playTime.hours, playTime.minutes);
+    MY_TRACE("Quit allegro modules\n");
+    //TODO: MY_TRACE("Game played for: %02dh %02dm\n", playTime.hours, playTime.minutes);
 
     //quit allegro modules
     allegro_exit();

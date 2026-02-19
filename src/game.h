@@ -37,7 +37,7 @@
 #define GAME_CLOCK_TICK     10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          1       //initial game lives
+#define GAME_INI_LIVES          2       //initial game lives
 #define GAME_INI_LIFE           1       //initial game life
 #define GAME_FADE_SPEED         2       //general game fade speed
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
@@ -65,7 +65,9 @@ enum E_GAME_STATE
     E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
     E_GAME_ST_LOSE_LIVE,
+    E_GAME_ST_COMPLETE_LEVEL,
     E_GAME_ST_GAME_OVER,
+    E_GAME_ST_ENDING,
     E_GAME_ST_DESTROY_LEVEL,
     E_GAME_ST_EXIT,
 };
@@ -114,7 +116,7 @@ typedef struct game
 } tGame;
 
 //options for debug mode
-#define DEBUG_TRACE_ENTITIES    1
+#define DEBUG_TRACE_ENTITIES    0
 typedef struct
 {
     uint8_t showDebugInfo; 

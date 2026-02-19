@@ -108,6 +108,7 @@ void game_update()
                     clear_to_color(buffer, BLACK_COLOR);
                     game.fadeIn = true;
                     gameSeq.step++;
+                    game.actualLevel = 0;            
                 case 1:
                     textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 59, BLACK_COLOR);
                     textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 59, BLACK_COLOR);
@@ -135,14 +136,16 @@ void game_update()
             game.state = E_GAME_ST_INIT;
         break;
         case E_GAME_ST_INIT:
-            game.loseLive = false;
+            game.lives = GAME_INI_LIVES;;
             game.life = GAME_INI_LIFE;
+            game.score      = 0;
+            game.loseLive   = false;
+            game.viewMap    = true;
             
             entities_init();
             scroll_init(&scroll);
             game_hud_init();
-            game.state = E_GAME_ST_INIT_LEVEL;
-            game.viewMap = true;            
+            game.state = E_GAME_ST_INIT_LEVEL;            
         break;
         case E_GAME_ST_INIT_LEVEL:
             entities_update(&scroll);
@@ -180,6 +183,9 @@ void game_update()
                 if (key[KEY_R])
                     game.state = E_GAME_ST_INIT;
                 
+                if (key[KEY_C])
+                    game.state = E_GAME_ST_COMPLETE_LEVEL;
+
                 if (input_key_press(G_KEY_EXIT))
                     game.state = E_GAME_ST_DESTROY_LEVEL;            
             #endif
@@ -189,6 +195,7 @@ void game_update()
             
             entities_draw(worldScreen, &scroll);
 
+            //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {
                 if (game.lives > 0) 
@@ -199,7 +206,6 @@ void game_update()
                 else
                 {
                     game.fadeOut = true; 
-                    game.viewMap = false;
                     game.state = E_GAME_ST_GAME_OVER;
                 } 
                 gameSeq.timeCounter = 0;                
@@ -207,14 +213,64 @@ void game_update()
             else
                 gameSeq.timeCounter += get_clock_tick();            
         break;
+        case E_GAME_ST_COMPLETE_LEVEL:
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
+            
+            entities_draw(worldScreen, &scroll);
+
+            switch (gameSeq.step)
+            {
+                case 0:
+                    //TODO: replace with the duration of complete music
+                    if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
+                    {                
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;
+                        game.fadeOut = true;                         
+                    }
+                    else
+                        gameSeq.timeCounter += get_clock_tick();
+                break;
+                case 1:
+                    game_destroy_level();
+                    game.actualLevel++;
+                    gameSeq.step = 0;
+                    MY_TRACE("Game level: %i\n", game.actualLevel);
+                    if (game.actualLevel == E_GAME_NUM_LEVELS)
+                        game.state = E_GAME_ST_ENDING;
+                    else    
+                        game.state = E_GAME_ST_LOAD_LEVEL;
+                break;
+            }
+        break;
         case E_GAME_ST_GAME_OVER:            
             switch (gameSeq.step)
             {
                 case 0:
-                    game_destroy_level();
-                    clear_to_color(worldScreen, BLACK_COLOR);
-                    clear_to_color(buffer, BLACK_COLOR);
+                    game_destroy_level();                            
                     textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    game.fadeIn = true;
+
+                    gameSeq.step++;
+                break;
+                case 1:
+                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    {
+                        game.state = E_GAME_ST_TITLE;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                    }
+                    else
+                        gameSeq.timeCounter += get_clock_tick();
+                break;
+            }
+        break;
+        case E_GAME_ST_ENDING:            
+            switch (gameSeq.step)
+            {
+                case 0:
+                    textout_centre_ex(buffer, gameFont, "CONGRATULATIONS!", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
                     gameSeq.step++;
@@ -273,10 +329,13 @@ static void game_destroy_level()
     //destroy entities
     entity_destroy_all();
     object_system_destroy();
-    enemy_system_destroy();
+    enemy_system_destroy();    
     //unload map and map resources
-    map_unload();
-    clear_to_color(worldScreen, BLACK_COLOR);    
+    map_unload();    
+
+    clear_to_color(worldScreen, BLACK_COLOR);
+    clear_to_color(buffer, BLACK_COLOR);   
+    game.viewMap = false;
 }
 
 void game_init()
@@ -314,8 +373,8 @@ void game_init()
     worldScreen = create_bitmap(GAME_W, GAME_H);
 
     //initialize levels data
-    levelDataFile[E_GAME_LEVEL_TEST].mapFile    = "res/maps/level00.bin";
-    levelDataFile[E_GAME_LEVEL_TEST].tileFile   = "res/tiles/tsheet.bmp";    
+    levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
+    levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";    
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     
@@ -325,7 +384,7 @@ void game_init()
         game.state      = E_GAME_ST_LOGO;
     #endif
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
-    game.actualLevel    = E_GAME_LEVEL_TEST; //E_GAME_LEVEL_JURASSIC;    
+    game.actualLevel    = 0;
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
@@ -432,6 +491,8 @@ void game_hud_init()
     textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, 12, -1);
 
     textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, 12, -1);
+
+    hud.refresh = E_REFRESH_HUD_ALL;
 }
 
 //updated the hud
