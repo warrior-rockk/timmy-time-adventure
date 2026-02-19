@@ -222,8 +222,13 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
     int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
-    tVector screenLimit = {(screenSize.x / mapHeader.tile_width) + 1, (screenSize.y / mapHeader.tile_height) + 1};
-    
+
+    //screen limit
+    //TODO: precalculate on map_init not calculate each map_draw
+    tVector screenLimit;
+    screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1 : screenSize.x / mapHeader.tile_width;
+    screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
+        
     //TODO: replace clear all buffer with color only positions with no tiles?
     clear_to_color(buffer, mapHeader.backgroundColor);
 

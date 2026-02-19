@@ -393,7 +393,7 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
     
     #ifdef DEBUGMODE
-        game.state      = E_GAME_ST_LOGO; //E_GAME_ST_LOAD_LEVEL;
+        game.state      = E_GAME_ST_INIT;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif
@@ -455,9 +455,14 @@ static void game_load_level(uint8_t numLevel)
     //TODO: read level time from map
     game.time = 300;
 
-    //create scroll
+    //calculate scroll dimensions based on map dimensions
     tVector mapDimension = map_get_dimensions();
-    scroll = scroll_create((tVector){GAME_W,GAME_H},(tVector){(mapDimension.x - GAME_W) - 1,(mapDimension.y - GAME_H) - 1});
+    mapDimension.x = mapDimension.x > GAME_W ? (mapDimension.x - GAME_W) - 1 : mapDimension.x - GAME_W;
+    mapDimension.y = mapDimension.y > GAME_H ? (mapDimension.y - GAME_H) - 1 : mapDimension.y - GAME_H;
+    
+    //create scroll    
+    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension);
+    //init scroll
     scroll_init(&scroll);    
 }
 
