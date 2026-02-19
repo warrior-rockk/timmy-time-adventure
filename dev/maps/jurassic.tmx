@@ -216,9 +216,9 @@
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="8" name="raptor" type="enemy" x="624" y="96" width="64" height="32">
+  <object id="8" name="raptor" type="enemy" x="688" y="96" width="64" height="32">
    <properties>
-    <property name="dir" type="int" value="0"/>
+    <property name="dir" type="int" value="1"/>
    </properties>
   </object>
   <object id="5" name="ptero" type="enemy" x="944" y="32">
