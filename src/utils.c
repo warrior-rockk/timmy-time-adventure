@@ -39,10 +39,12 @@ void abort_on_error(const char *format, ...)
     va_end(arglist);
 
     #ifndef DEBUGMODE
-    allegro_message(buf);
+        allegro_message(buf);
     #else
-    allegro_message(buf);
-    allegro_message(allegro_error);
+        MY_TRACE("[ERROR]: %s\n", buf);
+        MY_TRACE("[ERROR]: %s\n", allegro_error);
+        allegro_message(buf);
+        allegro_message(allegro_error);
     #endif
     exit(EXIT_FAILURE);
 }

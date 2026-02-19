@@ -99,6 +99,9 @@ void player_update(tEntity *player)
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
         #endif
+        show_debug( "p.vX: %f", fixtof(player->fixVel.x));
+        show_debug( "p.vY: %f", fixtof(player->fixVel.y));
+        show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);        
     #endif
 }
 

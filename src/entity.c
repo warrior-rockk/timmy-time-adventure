@@ -311,7 +311,7 @@ void entities_update(tScroll *scroll)
         }
     }   
 
-    show_debug("Num entities: %d, Visibles: %d", numEntities, visibleEntities);    
+    show_debug("NumEnt: %d, Visib: %d", numEntities, visibleEntities);    
 }
 
 //funtion to draws entities

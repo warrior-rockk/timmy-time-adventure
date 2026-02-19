@@ -102,13 +102,12 @@ void game_update()
             }
         break;
         case E_GAME_ST_TITLE:
-        switch (gameSeq.step)
+            switch (gameSeq.step)
             {
                 case 0:
                     clear_to_color(buffer, BLACK_COLOR);
                     game.fadeIn = true;
-                    gameSeq.step++;
-                    game.actualLevel = 0;            
+                    gameSeq.step++;                    
                 case 1:
                     textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 59, BLACK_COLOR);
                     textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 59, BLACK_COLOR);
@@ -121,7 +120,7 @@ void game_update()
                         }
                         else
                         {
-                            game.state = E_GAME_ST_LOAD_LEVEL;
+                            game.state = E_GAME_ST_INIT;
                             game.fadeOut = true;
                         }
                         gameSeq.timeCounter = 0;
@@ -130,34 +129,48 @@ void game_update()
                 break;
             }
         break;
+        case E_GAME_ST_INIT:
+            game.lives          = GAME_INI_LIVES;
+            game.life           = GAME_INI_LIFE;
+            game.score          = 0;
+            game.loseLive       = false;
+            game.actualLevel    = 0;            
+                        
+            game.state = E_GAME_ST_LOAD_LEVEL;            
+        break;
         case E_GAME_ST_LOAD_LEVEL:
             clear_to_color(buffer, BLACK_COLOR);
             game_load_level(game.actualLevel);
-            game.state = E_GAME_ST_INIT;
-        break;
-        case E_GAME_ST_INIT:
-            game.lives = GAME_INI_LIVES;;
-            game.life = GAME_INI_LIFE;
-            game.score      = 0;
-            game.loseLive   = false;
-            game.viewMap    = true;
-            
-            entities_init();
-            scroll_init(&scroll);
-            game_hud_init();
-            game.state = E_GAME_ST_INIT_LEVEL;            
-        break;
+            game.state = E_GAME_ST_INIT_LEVEL;
+        break;        
         case E_GAME_ST_INIT_LEVEL:
-            entities_update(&scroll);
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
-            game_hud_update();
-            
-            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
-            entities_draw(worldScreen, &scroll);
-            game_hud_draw();
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game.life       = GAME_INI_LIFE;            
+                    game.loseLive   = false;            
+                    game.viewMap    = true;
 
-            game.state = E_GAME_ST_PLAY_LEVEL;
-            game.fadeIn = true;
+                    entities_init();
+                    scroll_init(&scroll);
+                    game_hud_init();
+
+                    gameSeq.step++;
+                break;
+                case 1:
+                    entities_update(&scroll);
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
+                    game_hud_update();
+                    
+                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
+                    entities_draw(worldScreen, &scroll);
+                    game_hud_draw();
+
+                    game.state = E_GAME_ST_PLAY_LEVEL;
+                    game.fadeIn = true;
+                    gameSeq.step = 0;
+                break;
+            }
         break;
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update(&scroll);
@@ -181,7 +194,7 @@ void game_update()
                 
             #ifdef DEBUGMODE
                 if (key[KEY_R])
-                    game.state = E_GAME_ST_INIT;
+                    game.state = E_GAME_ST_INIT_LEVEL;
                 
                 if (key[KEY_C])
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
@@ -201,7 +214,7 @@ void game_update()
                 if (game.lives > 0) 
                 {
                     game.fadeOut = true; 
-                    game.state = E_GAME_ST_INIT;
+                    game.state = E_GAME_ST_INIT_LEVEL;
                 }
                 else
                 {
@@ -214,13 +227,12 @@ void game_update()
                 gameSeq.timeCounter += get_clock_tick();            
         break;
         case E_GAME_ST_COMPLETE_LEVEL:
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
-            
-            entities_draw(worldScreen, &scroll);
-
             switch (gameSeq.step)
             {
                 case 0:
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                    
+                    entities_draw(worldScreen, &scroll);
+
                     //TODO: replace with the duration of complete music
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
                     {                
@@ -234,8 +246,7 @@ void game_update()
                 case 1:
                     game_destroy_level();
                     game.actualLevel++;
-                    gameSeq.step = 0;
-                    MY_TRACE("Game level: %i\n", game.actualLevel);
+                    gameSeq.step = 0;                    
                     if (game.actualLevel == E_GAME_NUM_LEVELS)
                         game.state = E_GAME_ST_ENDING;
                     else    
@@ -325,7 +336,7 @@ void game_update()
 
 static void game_destroy_level()
 {
-    MY_TRACE("[GAME]: Destroying level\n");
+    MY_TRACE_FLAG(TRACE_FLAG, "Destroying level\n");
     //destroy entities
     entity_destroy_all();
     object_system_destroy();
@@ -423,12 +434,12 @@ static void game_debug_info()
     //debug info
     show_debug("FPS: %d", get_fps());
     //show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
-    show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
-    show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
+    //show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
+    //show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
     //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
     //show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
-    show_debug("Lives:%i Life:%i", game.lives, game.life);
-    show_debug("State: %i", game.state);
+    //show_debug("Lives:%i Life:%i", game.lives, game.life);
+    //show_debug("State: %i", game.state);
 }
 
 //testing
