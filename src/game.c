@@ -110,12 +110,20 @@ void game_update()
                 case 1:
                     textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 59, BLACK_COLOR);
                     textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 59, BLACK_COLOR);
+                    
                     if (input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        if (input_key_press(G_KEY_EXIT))
+                        {
+                            game.state = E_GAME_ST_EXIT;
+                        }
+                        else
+                        {
+                            game.state = E_GAME_ST_LOAD_LEVEL;
+                            game.fadeOut = true;
+                        }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
-                        game.fadeOut = true;
                     }
                 break;
             }
@@ -213,7 +221,7 @@ void game_update()
                 case 1:
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_EXIT;
+                        game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = true;

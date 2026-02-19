@@ -201,10 +201,11 @@ void map_unload()
     free(tiles);
 
     //initialize map data
-    mapHeader.map_height    = 0;
-    mapHeader.map_width     = 0;
-    mapHeader.tile_height   = 0;
-    mapHeader.tile_width    = 0;
+    memset(&mapHeader, 0, sizeof(mapHeader));
+    //mapHeader.map_height    = 0;
+    //mapHeader.map_width     = 0;
+    //mapHeader.tile_height   = 0;
+    //mapHeader.tile_width    = 0;
 }
 
 void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)

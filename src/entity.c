@@ -110,10 +110,11 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
 {
     //inc num of entities
     numEntities++;
-
+    
     if (numEntities <= ENTITY_MAX_NUM)
     {
         //allocate memory for entity
+        TRACE("NUm entities:%i", numEntities);
         entityList = realloc(entityList, numEntities * sizeof(tEntity));
         
         //test memory allocation
@@ -173,7 +174,7 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
         }
         
         //check entity properties
-        if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))        
+        if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))     
             collision_create_entity_points(&entityList[newEntity]);
 
         //call create function pointer of entity
@@ -211,6 +212,7 @@ void entity_destroy(uint16_t entityIndex)
         destroy_bitmap(entityList[entityIndex].img);
     }
 
+    /*
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number
@@ -221,6 +223,7 @@ void entity_destroy(uint16_t entityIndex)
     else
         //reallocates the array with decremented entity number    
         entityList = realloc(entityList, numEntities * sizeof(tEntity));
+    */
 }
 
 
@@ -328,6 +331,10 @@ void entity_destroy_all()
     }    
     //free current draw entity sprite
     free(entitySprite);
+    //free entity memory allocation
+    free(entityList);
+    //clear num entities
+    numEntities = 0;
 }
 
 uint8_t entities_get_num()
