@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level00.tmx",
+    "activeFile": "west.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -25,10 +25,10 @@
                 2
             ],
             "scale": 3.04,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 150.49342105263162,
-                "y": 74.34210526315792
+                "x": 150.4934210526316,
+                "y": 74.3421052631579
             }
         },
         "jurassic.tmx#jurassic": {
@@ -37,12 +37,13 @@
         },
         "level00.tmx": {
             "expandedObjectLayers": [
+                3,
                 2
             ],
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 468.25,
+                "x": 474.75,
                 "y": 118
             }
         },
@@ -83,10 +84,25 @@
         "testTileset.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 3
+        },
+        "west.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 182.33333333333331,
+                "y": 15.333333333333343
+            }
+        },
+        "west.tmx#west": {
+            "scaleInDock": 2,
+            "scaleInEditor": 4
         }
     },
     "last.exportedFilePath": "/Users/warrior/code/dos/projects/dos-platform-game/dev/maps",
-    "last.imagePath": "/Users/warrior/code/dos/projects/dos-platform-game/res/tiles",
+    "last.imagePath": "D:/Instalables/Proyectos/Programacion DOS/proyectos/dos-platform-game/dev/gfx/maps/wild-west",
     "map.fixedSize": true,
     "map.height": 13,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
@@ -95,14 +111,17 @@
     "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
-        "level00.tmx"
+        "level00.tmx",
+        "west.tmx",
+        "jurassic.tmx"
     ],
     "project": "dos-platform-game.tiled-project",
     "property.type": "int",
     "recentFiles": [
         "level00.tmx",
-        "testRocks.tsx",
         "jurassic.tmx",
+        "west.tmx",
+        "testRocks.tsx",
         "rockLevel.tmj",
         "testLevel.tmx"
     ],

@@ -75,8 +75,9 @@ enum E_GAME_STATE
 //game levels
 enum E_GAME_LEVELS
 {    
-    E_GAME_LEVEL_JURASSIC,
-    E_GAME_LEVEL_TEST,
+    E_GAME_LEVEL_WEST,
+    E_GAME_LEVEL_JURASSIC,    
+    E_GAME_LEVEL_TEST,    
     E_GAME_NUM_LEVELS,
 };
 

@@ -157,15 +157,15 @@ void game_update()
 
                     gameSeq.step++;
                 break;
-                case 1:
+                case 1:                
                     entities_update(&scroll);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
-                    game_hud_update();
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                            
+                    game_hud_update();                    
                     
-                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
-                    entities_draw(worldScreen, &scroll);
+                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});                    
+                    entities_draw(worldScreen, &scroll);                    
                     game_hud_draw();
-
+                    
                     game.state = E_GAME_ST_PLAY_LEVEL;
                     game.fadeIn = true;
                     gameSeq.step = 0;
@@ -389,6 +389,8 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";    
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
+    levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
+    levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
     
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_LOGO; //E_GAME_ST_LOAD_LEVEL;
