@@ -11,6 +11,8 @@
 #include "game.h"
 #include "input.h"
 
+#define TRACE_FLAG "[MAIN]"
+
 static void main_init();
 static void main_stepByStep();
 static void main_exit();
@@ -53,8 +55,8 @@ static void main_init()
     //set env var MY_TRACE log file
     setenv("ALLEGRO_TRACE", "GAME.LOG", 1);
 
-    MY_TRACE("%s %i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
-    MY_TRACE("Initializing systems and modules\n");
+    MY_TRACE_FLAG("%s %i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    MY_TRACE_FLAG("Initializing systems and modules\n");
     
     //set unicode format
     //this is no longer necessary with vscode UTF-8 codification
@@ -109,7 +111,7 @@ static void main_init()
             abort_on_error("Error iniciando el sonido");
     #endif
 
-    MY_TRACE("All system and modules initialized\n");
+    MY_TRACE_FLAG("All system and modules initialized\n");
     
     //set video mode
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
@@ -137,9 +139,9 @@ static void main_stepByStep()
 //function that handles game exit
 void main_exit()
 {
-    MY_TRACE("Exiting game\n");
+    MY_TRACE_FLAG("Exiting game\n");
     
-    MY_TRACE("Quit allegro modules\n");
+    MY_TRACE_FLAG("Quit allegro modules\n");
     //TODO: MY_TRACE("Game played for: %02dh %02dm\n", playTime.hours, playTime.minutes);
 
     //quit allegro modules

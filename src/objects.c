@@ -10,6 +10,8 @@
 #include "objects.h"
 #include "collisions.h"
 
+#define TRACE_FLAG  "[OBJECT]"
+
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
@@ -22,7 +24,7 @@ void object_system_init()
     //set number of entities
     numObjectInstances = 0;    
 
-    MY_TRACE("[OBJECT SYSTEM]: Initialized object system\n");
+    MY_TRACE_FLAG("Initialized object system\n");
 }
 
 void object_system_destroy()
@@ -42,7 +44,7 @@ void object_system_destroy()
             objectResources[i] = NULL;
         }
     }
-    MY_TRACE("[OBJECT SYSTEM]: Destroyed object system\n");
+    MY_TRACE_FLAG("Destroyed object system\n");
 }
 
 //check object entity type to add the local data structure to local data list and increases instances number
@@ -306,5 +308,5 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
 
 void object_trace(tEntity *this)
 {
-    MY_TRACE("Object Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
+    MY_TRACE_FLAG("Object Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
 }

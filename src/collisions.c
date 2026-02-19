@@ -408,8 +408,8 @@ void collision_create_entity_points(tEntity *entity)
         entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = false; //<- false by default
 
         #if DEBUG_TRACE_COLL_POINTS_ARRAY
-            MY_TRACE_FLAG(TRACE_FLAG, "Created entity id: %i collision points on position: %d\n", entity->id, newEntityColPoints);
-            MY_TRACE_FLAG(TRACE_FLAG, "Total of entity collision points: %d\n", numEntitiesColPoints);
+            MY_TRACE_FLAG("Created entity id: %i collision points on position: %d\n", entity->id, newEntityColPoints);
+            MY_TRACE_FLAG("Total of entity collision points: %d\n", numEntitiesColPoints);
         #endif
     }
     else
@@ -439,13 +439,13 @@ void collision_destroy_entity_points(uint16_t entityId)
             entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));    
 
         #if DEBUG_TRACE_COLL_POINTS_ARRAY
-            MY_TRACE_FLAG(TRACE_FLAG, "Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
-            MY_TRACE_FLAG(TRACE_FLAG, "Total of entity collision points: %d\n", numEntitiesColPoints);
+            MY_TRACE_FLAG("Deleted entity collision points entId:%d on position: %d\n", entityId, listPosition);
+            MY_TRACE_FLAG("Total of entity collision points: %d\n", numEntitiesColPoints);
         #endif
     }    
     #if DEBUG_TRACE_COLL_POINTS_ARRAY
         else
-            MY_TRACE_FLAG(TRACE_FLAG, "Entity id:%i has no collision points to free\n", entityId);       
+            MY_TRACE_FLAG("Entity id:%i has no collision points to free\n", entityId);       
     #endif
 }
 

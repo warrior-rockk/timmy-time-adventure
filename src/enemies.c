@@ -11,6 +11,8 @@
 #include "timer.h"
 #include "collisions.h"
 
+#define TRACE_FLAG  "[ENEMY]"
+
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
 BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
@@ -23,7 +25,7 @@ void enemy_system_init()
     //set number of entities
     numEnemyInstances = 0;     
 
-    MY_TRACE("[ENEMY SYSTEM]: Initialized enemy system\n");
+    MY_TRACE_FLAG("Initialized enemy system\n");
 }
 
 void enemy_system_destroy()
@@ -43,7 +45,7 @@ void enemy_system_destroy()
         }
     }
 
-    MY_TRACE("[ENEMY SYSTEM]: Destroyed enemy system\n");
+    MY_TRACE_FLAG("Destroyed enemy system\n");
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
@@ -235,5 +237,5 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 
 void enemy_trace(tEntity *this)
 {
-    MY_TRACE("enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
+    MY_TRACE_FLAG("Enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
 }

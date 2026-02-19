@@ -93,8 +93,8 @@ void entity_system_init()
     free(entityList);
     entityList = NULL;
     //clear num entities
-    numEntities = 0;
-    MY_TRACE("[ENTITY SYSTEM]: Initialized entity system\n");
+    numEntities = 0;    
+    MY_TRACE_FLAG("Initialized entity system\n");
 }
 
 //destroys entity system
@@ -105,7 +105,7 @@ void entity_system_destroy()
     entityList = NULL;
     //clear num entities
     numEntities = 0;
-    MY_TRACE("[ENTITY SYSTEM]: Destroyed entity system\n");
+    MY_TRACE_FLAG("[ENTITY SYSTEM]: Destroyed entity system\n");
 }
 
 //creates new entity based on passed values
@@ -305,7 +305,7 @@ void entities_update(tScroll *scroll)
                 #if DEBUG_TRACE_ENTITIES
                     if (entityList[i].state != entityList[i].prevState)
                         //TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
-                        MY_TRACE_FLAG(TRACE_FLAG, "Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
+                        MY_TRACE_FLAG("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
                 #endif
             #endif
         }

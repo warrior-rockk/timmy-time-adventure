@@ -211,7 +211,7 @@ void game_update()
             //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {
-                MY_TRACE_FLAG(TRACE_FLAG, "Lose live\n");
+                MY_TRACE_FLAG( "Lose live\n");
                 if (game.lives > 0) 
                 {
                     game.fadeOut = true; 
@@ -245,7 +245,7 @@ void game_update()
                         gameSeq.timeCounter += get_clock_tick();
                 break;
                 case 1:
-                    MY_TRACE_FLAG(TRACE_FLAG, "Completed level\n");
+                    MY_TRACE_FLAG( "Completed level\n");
                     game_destroy_level();
                     game.actualLevel++;
                     gameSeq.step = 0;                    
@@ -263,7 +263,7 @@ void game_update()
                     game_destroy_level();                            
                     textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
-                    MY_TRACE_FLAG(TRACE_FLAG, "Game Over\n");
+                    MY_TRACE_FLAG( "Game Over\n");
                     gameSeq.step++;
                 break;
                 case 1:
@@ -327,7 +327,7 @@ void game_update()
 
         //trace state          
         if (game.state != game.prevState)
-            MY_TRACE("[GAME]: Game changes from state %i to state %i\n", game.prevState, game.state);
+            MY_TRACE_FLAG("Game changes from state %i to state %i\n", game.prevState, game.state);
     
     #endif
 
@@ -338,7 +338,7 @@ void game_update()
 
 static void game_destroy_level()
 {
-    MY_TRACE_FLAG(TRACE_FLAG, "Destroying level\n");
+    MY_TRACE_FLAG( "Destroying level\n");
     //destroy entities
     entity_destroy_all();
     object_system_destroy();
@@ -353,8 +353,7 @@ static void game_destroy_level()
 
 void game_init()
 {
-    //MY_TRACE("[GAME]: Init game\n");
-    MY_TRACE_FLAG(TRACE_FLAG, "Init game");
+    MY_TRACE_FLAG( "Init game\n");
 
     /* set the color palette */
     //temporaly
@@ -462,7 +461,7 @@ static void game_load_level(uint8_t numLevel)
 
 void game_destroy()
 {
-    MY_TRACE("[GAME]: Destroying game\n");
+    MY_TRACE_FLAG("Destroying game\n");
     destroy_font(gameFont);
 }
 
