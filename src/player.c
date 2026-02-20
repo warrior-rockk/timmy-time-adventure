@@ -14,6 +14,7 @@
 #include "entity.h"
 #include "collisions.h"
 #include "timer.h"
+#include "sound.h"
 
 static fixed accel_x;
 static fixed accel_x_air;
@@ -54,16 +55,12 @@ static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
 static void player_update_animations(tEntity *player);
 
-void player_init(tEntity *player)
+SAMPLE *jumpSfx;
+SAMPLE *hurtSfx;
+SAMPLE *throwSfx;
+
+void player_create(tEntity *player)
 {
-    //initialize player vars    
-    player->ground = false;
-    playerInvincible = 0;
-    memset(&playerFlags, 0, sizeof(playerFlags));
-    
-    //initialize state
-    player->state = ST_PLAYER_IDLE;
-    
     //set fixed constants
     accel_x       = ftofix(PLAYER_ACCEL_X); 
     accel_x_air   = ftofix(PLAYER_ACCEL_X_AIR); 
@@ -74,6 +71,22 @@ void player_init(tEntity *player)
     max_vel_x     = ftofix(PLAYER_MAX_VEL_X);
     max_vel_y     = ftofix(PLAYER_MAX_VEL_Y);
     cMinVelToIdle = ftofix(PLAYER_MIN_VEL_TO_IDLE);
+
+    jumpSfx = load_wav("res/player/jump.wav");
+    hurtSfx = load_wav("res/player/hurt.wav");
+    throwSfx = load_wav("res/player/throw.wav");
+    MY_TRACE("Cargamos WAAAVVV\n");
+}
+
+void player_init(tEntity *player)
+{
+    //initialize player vars    
+    player->ground = false;
+    playerInvincible = 0;
+    memset(&playerFlags, 0, sizeof(playerFlags));
+    
+    //initialize state
+    player->state = ST_PLAYER_IDLE;
 }
 
 void player_update(tEntity *player)
@@ -136,6 +149,8 @@ static void player_update_controls(tEntity *player)
             player->fixVel.y = -accel_y;
             player->ground = false;
             playerFlags.attack = false;
+            
+            sfx_play(jumpSfx, 1, false);
         }
     }
 
@@ -167,7 +182,8 @@ static void player_update_controls(tEntity *player)
             objectPicked->signal = E_ENT_SIGNAL_THROW;
             objectPicked = NULL;
             //reset flags
-            playerFlags.picked = false;          
+            playerFlags.picked = false;  
+            sfx_play(throwSfx, 1, false);        
             
         }
         else if(!player->ground && !playerFlags.picked)
@@ -435,7 +451,8 @@ static void player_update_collisions(tEntity *player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT)
                             {
                                 //set flags
-                                playerFlags.hurt = true;                                           
+                                playerFlags.hurt = true; 
+                                sfx_play(hurtSfx, 1, false);                                          
                                 player->ground = false;
                                 //lose 1 life
                                 game.life -= 1;

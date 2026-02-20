@@ -2,6 +2,7 @@
 - [ ] Add stone to map and player no image!?
 
 # Engine
+- [ ] Entity destroy function pointer to unload entity resources
 - [ ] No pick object with object above
 - [ ] Tile animations
 - [ ] Type of tiles: solid, hurt...

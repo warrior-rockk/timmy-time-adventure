@@ -69,6 +69,7 @@ enum ePlayerState
     ST_PLAYER_THROWING,
 };
 
+void player_create();
 void player_init();
 void player_update();
 #endif

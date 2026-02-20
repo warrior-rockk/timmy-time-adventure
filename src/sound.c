@@ -135,18 +135,21 @@ void music_seek(int position)
 //function to init sfx sound system
 void sfx_init()
 {
+    //SAMPLE *testSfx = load_wav("res/player/jump.wav");
+
     //init all sfx voices
     for (int i = 0; i < E_SFX_NUM_VOICES; i++)
     {
-        //TODO: it's necessary??
+        //TODO: it's necessary?? Yes. If you want always use a specific voice on sfx_play, you need to pre allocate all voices
+        /*
         //get soundcard voice (reallocate if exists)
-        /*if (!voice_check(i))
+        if (!voice_check(i))
         {
-            int voice = allocate_voice((SAMPLE*)soundDataFile[sd_take].dat);
+            int voice = allocate_voice(testSfx);
             MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, voice);
         }
         else
-            reallocate_voice(i, (SAMPLE*)soundDataFile[sd_take].dat);
+            reallocate_voice(i, testSfx);
         */
 
         //sfx[i].sampleId = sd_take;
@@ -255,9 +258,16 @@ void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
     
     switch (soundMode)
     {
-        case E_SOUND_SB_MODE:
+        case E_SOUND_SB_MODE:            
             //reallocate the sample on select voice of selected channel
-            reallocate_voice(voice, sampleFile);
+            if (!voice_check(voice))
+            {                
+                voice = allocate_voice(sampleFile);             
+            }
+            else
+            {                
+                reallocate_voice(voice, sampleFile);                
+            }
 
             //TODO: other function to randomize frequency?
             //randomize frequency

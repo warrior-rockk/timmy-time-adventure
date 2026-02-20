@@ -153,7 +153,7 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
                 entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
                 entityList[newEntity].axis            = E_ENT_AXIS_DOWN;
                 entityList[newEntity].properties      = E_ENT_PROP_PHYSICS_ON;
-                entityList[newEntity].entity_create   = NULL;
+                entityList[newEntity].entity_create   = &player_create;
                 entityList[newEntity].entity_init     = &player_init;
                 entityList[newEntity].entity_update   = &player_update;
             break;

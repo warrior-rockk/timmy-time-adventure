@@ -42,7 +42,7 @@ RELEASE_RES_DIR		:= ${RELEASE_BIN_DIR}/res/
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
 #$(call rwildcard,${RESOURCES_DIR},*.png) $(call rwildcard,${RESOURCES_DIR},*.ttf)
-RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) $(call rwildcard,${RESOURCES_DIR},*.pcx)
+RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) $(call rwildcard,${RESOURCES_DIR},*.pcx) $(call rwildcard,${RESOURCES_DIR},*.wav)
 DEBUG_OBJS 			:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${DEBUG_OBJS_DIR}%.o, ${SRCS})
 DEBUG_RESOURCES		:= ${patsubst ${RESOURCES_DIR}%, ${DEBUG_RES_DIR}%,${RESOURCES}}
 RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${SRCS})
