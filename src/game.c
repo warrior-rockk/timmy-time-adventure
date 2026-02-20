@@ -381,7 +381,7 @@ void game_init()
     enemy_system_init();
     debug_init();
     timer_init(GAME_CLOCK_TICK);
-    sfx_init(E_SFX_NUM_VOICES);
+    sfx_init(load_wav("res/player/jump.wav"), E_SFX_NUM_VOICES);
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);

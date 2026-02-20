@@ -21,6 +21,8 @@ static uint8_t soundMode;
 static uint8_t sfxVoices;
 //voice sfx dynamic array
 static tSfx *sfx;
+//init sample to allocate voices
+SAMPLE *initSfx;
 
 //inits sound system
 int sound_init()
@@ -135,28 +137,27 @@ void music_seek(int position)
 }
 
 //function to init sfx sound system
-void sfx_init(uint8_t numVoices)
+void sfx_init(SAMPLE *initSample, uint8_t numVoices)
 {
     //allocate sfx array
     sfx  = (tSfx *)malloc(numVoices * sizeof(tSfx));
     sfxVoices = numVoices;
 
-    //SAMPLE *testSfx = load_wav("res/player/jump.wav");
+    //assign the init sample for destroy later
+    initSfx = initSample;
 
-    //init all sfx voices
+    //init all sfx voices with sample sfx (If you want always use a specific voice on sfx_play, you need to pre allocate all voices)
     for (int i = 0; i < sfxVoices; i++)
     {
-        //TODO: it's necessary?? Yes. If you want always use a specific voice on sfx_play, you need to pre allocate all voices
-        /*
         //get soundcard voice (reallocate if exists)
         if (!voice_check(i))
         {
-            int voice = allocate_voice(testSfx);
+            int voice = allocate_voice(initSfx);
             MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, voice);
         }
         else
-            reallocate_voice(i, testSfx);
-        */
+            reallocate_voice(i, initSfx);
+        
 
         //sfx[i].sampleId = sd_take;
 
@@ -168,7 +169,7 @@ void sfx_init(uint8_t numVoices)
         sfx[i].finished    = false;
         sfx[i].position    = -1;
     }
-
+    
     MY_TRACE_FLAG("SFX system initialized\n");
 }
 
@@ -188,6 +189,9 @@ void sfx_destroy()
     //free sfx array
     free(sfx);
     sfx = NULL;
+    
+    //free init sample
+    destroy_sample(initSfx);
 
     MY_TRACE_FLAG("SFX system destroyed\n");
 }
@@ -315,6 +319,7 @@ void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
             
             //start sample allocated on voice channel
             voice_start(voice);
+            MY_TRACE_FLAG("SFX voice %i played\n", voice);
         break;
         case E_SOUND_SPEAKER_MODE:
             //pc_speaker_play_sfx(_sfx_notes, _sfx_durations);

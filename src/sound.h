@@ -50,7 +50,7 @@ long music_get_pos();
 //seeks music to position
 void music_seek(int position);
 
-void sfx_init(uint8_t numVoices);
+void sfx_init(SAMPLE *initSample, uint8_t numVoices);
 void sfx_destroy();
 void sfx_update();
 void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq);
