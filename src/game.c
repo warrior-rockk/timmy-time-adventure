@@ -22,6 +22,7 @@
 #include "objects.h"
 #include "input.h"
 #include "enemies.h"
+#include "sound.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -380,6 +381,7 @@ void game_init()
     enemy_system_init();
     debug_init();
     timer_init(GAME_CLOCK_TICK);
+    sfx_init();
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);

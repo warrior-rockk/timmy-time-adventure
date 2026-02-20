@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "game.h"
 #include "input.h"
+#include "sound.h"
 
 #define TRACE_FLAG "[MAIN]"
 
@@ -63,6 +64,7 @@ static void main_init()
     //set_uformat(U_ASCII);
 
     //TODO: option for pc speaker?
+    sound_set_mode(E_SOUND_SB_MODE);
     /*
     //prompt for sound driver
     printf("Starting %s v%i.%i\n\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);      
