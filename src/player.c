@@ -48,16 +48,13 @@ static uint8_t objectForPickID = 0;         //actual frame object collision id
 static uint8_t memObjectforPickID = 0;      //save actual object collision id
 tEntity *objectPicked;                      //pointer to entity object picked
 static uint16_t pickingCounter = 0;         //counter delay to pick object when collided
+SAMPLE *playerSfx[SFX_PLAYER_NUM];          //player sfx array
 
 //local functions declarations
 static void player_update_controls(tEntity *player);
 static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
 static void player_update_animations(tEntity *player);
-
-SAMPLE *jumpSfx;
-SAMPLE *hurtSfx;
-SAMPLE *throwSfx;
 
 void player_create(tEntity *player)
 {
@@ -72,9 +69,10 @@ void player_create(tEntity *player)
     max_vel_y     = ftofix(PLAYER_MAX_VEL_Y);
     cMinVelToIdle = ftofix(PLAYER_MIN_VEL_TO_IDLE);
 
-    jumpSfx = load_wav("res/player/jump.wav");
-    hurtSfx = load_wav("res/player/hurt.wav");
-    throwSfx = load_wav("res/player/throw.wav");
+    //load player sfx
+    playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
+    playerSfx[SFX_PLAYER_HURT]  = load_wav("res/player/hurt.wav");
+    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
     MY_TRACE("Cargamos WAAAVVV\n");
 }
 
@@ -150,7 +148,7 @@ static void player_update_controls(tEntity *player)
             player->ground = false;
             playerFlags.attack = false;
             
-            sfx_play(jumpSfx, 1, false);
+            sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE, false);
         }
     }
 
@@ -183,7 +181,7 @@ static void player_update_controls(tEntity *player)
             objectPicked = NULL;
             //reset flags
             playerFlags.picked = false;  
-            sfx_play(throwSfx, 1, false);        
+            sfx_play(playerSfx[SFX_PLAYER_THROW], E_SFX_PLAYER_VOICE, false);        
             
         }
         else if(!player->ground && !playerFlags.picked)
@@ -452,7 +450,7 @@ static void player_update_collisions(tEntity *player)
                             {
                                 //set flags
                                 playerFlags.hurt = true; 
-                                sfx_play(hurtSfx, 1, false);                                          
+                                sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE, false);                                          
                                 player->ground = false;
                                 //lose 1 life
                                 game.life -= 1;

@@ -17,8 +17,10 @@
 
 //sound mode configured
 static uint8_t soundMode;
-//voice sfx array
-static tSfx sfx[E_SFX_NUM_VOICES];
+//num sfx voices reserved
+static uint8_t sfxVoices;
+//voice sfx dynamic array
+static tSfx *sfx;
 
 //inits sound system
 int sound_init()
@@ -133,12 +135,16 @@ void music_seek(int position)
 }
 
 //function to init sfx sound system
-void sfx_init()
+void sfx_init(uint8_t numVoices)
 {
+    //allocate sfx array
+    sfx  = (tSfx *)malloc(numVoices * sizeof(tSfx));
+    sfxVoices = numVoices;
+
     //SAMPLE *testSfx = load_wav("res/player/jump.wav");
 
     //init all sfx voices
-    for (int i = 0; i < E_SFX_NUM_VOICES; i++)
+    for (int i = 0; i < sfxVoices; i++)
     {
         //TODO: it's necessary?? Yes. If you want always use a specific voice on sfx_play, you need to pre allocate all voices
         /*
@@ -172,12 +178,16 @@ void sfx_destroy()
     MY_TRACE_FLAG("Destroy SFX system\n");
     
     //free all sfx voices
-    for (int i = 0; i < E_SFX_NUM_VOICES; i++)
+    for (int i = 0; i < sfxVoices; i++)
     {
         //get soundcard voice (reallocate if exists)
         if (!voice_check(i))
             deallocate_voice(i);
     }
+
+    //free sfx array
+    free(sfx);
+    sfx = NULL;
 
     MY_TRACE_FLAG("SFX system destroyed\n");
 }
@@ -185,7 +195,7 @@ void sfx_destroy()
 //function to update sfx sound system
 void sfx_update()
 {
-    for (int i = 0; i < E_SFX_NUM_VOICES; i++)
+    for (int i = 0; i < sfxVoices; i++)
     {
         //handles sound pause
         if (sfx[i].pause)
@@ -251,7 +261,7 @@ void sfx_update()
 //function to play a sound
 void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
 {
-    ASSERT(voice < E_SFX_NUM_VOICES);
+    ASSERT(voice < sfxVoices);
     
     //TODO: for what??
     //sfx[voice].sampleId = soundId;

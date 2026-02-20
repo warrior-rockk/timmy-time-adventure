@@ -18,14 +18,6 @@ enum E_SOUND_MODES{
     E_SOUND_OFF_MODE,
 };
 
-//sfx num voices
-enum E_SFX_VOICES
-{
-    E_SFX_GAME_VOICE,
-    E_SFX_PLAYER_VOICE,
-    E_SFX_NUM_VOICES,
-};
-
 //sfx samples structure
 typedef struct 
 {
@@ -58,7 +50,7 @@ long music_get_pos();
 //seeks music to position
 void music_seek(int position);
 
-void sfx_init();
+void sfx_init(uint8_t numVoices);
 void sfx_destroy();
 void sfx_update();
 void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq);

@@ -99,6 +99,14 @@ enum E_FADE_STATE
     E_FADED_OFF,
 };
 
+//game sfx voices
+enum E_GAME_SFX_VOICES
+{
+    E_SFX_GAME_VOICE,
+    E_SFX_PLAYER_VOICE,
+    E_SFX_NUM_VOICES,
+};
+
 //game data
 typedef struct game
 {

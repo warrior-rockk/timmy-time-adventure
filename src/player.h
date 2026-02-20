@@ -69,6 +69,14 @@ enum ePlayerState
     ST_PLAYER_THROWING,
 };
 
+enum E_PLAYER_SFX
+{
+    SFX_PLAYER_JUMP,
+    SFX_PLAYER_HURT,
+    SFX_PLAYER_THROW,
+    SFX_PLAYER_NUM,
+};
+
 void player_create();
 void player_init();
 void player_update();
