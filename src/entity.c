@@ -156,12 +156,14 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
                 entityList[newEntity].entity_create   = &player_create;
                 entityList[newEntity].entity_init     = &player_init;
                 entityList[newEntity].entity_update   = &player_update;
+                entityList[newEntity].entity_destroy  = &player_destroy;
             break;
             case E_ENT_CLASS_OBJECT:
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;
+                entityList[newEntity].entity_destroy  = NULL;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             case E_ENT_CLASS_ENEMY:
@@ -169,6 +171,7 @@ int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos,
                 entityList[newEntity].entity_create   = &enemy_create;
                 entityList[newEntity].entity_init     = &enemy_init;
                 entityList[newEntity].entity_update   = &enemy_update;
+                entityList[newEntity].entity_destroy  = NULL;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             default:
@@ -215,7 +218,12 @@ void entity_destroy(uint16_t entityIndex)
         destroy_bitmap(entityList[entityIndex].img);
     }
 
-    
+    //call custom destroy entity
+    if (entityList[entityIndex].entity_destroy)
+    {
+        entityList[entityIndex].entity_destroy(&entityList[entityIndex]);          
+    }
+
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
     //decrement entity number

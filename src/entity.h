@@ -94,6 +94,7 @@ typedef struct tEntity
     void (*entity_init)(struct tEntity *entity);
     void (*entity_create)(struct tEntity *entity);
     void (*entity_update)(struct tEntity *entity);
+    void (*entity_destroy)(struct tEntity *entity);
 } tEntity;
 
 //inits entity system

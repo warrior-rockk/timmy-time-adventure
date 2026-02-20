@@ -473,3 +473,12 @@ static void player_update_collisions(tEntity *player)
         }
     }
 }
+
+void player_destroy(tEntity *player)
+{
+    //free player samples
+    destroy_sample(playerSfx[SFX_PLAYER_JUMP]);
+    destroy_sample(playerSfx[SFX_PLAYER_HURT]);
+    destroy_sample(playerSfx[SFX_PLAYER_THROW]);
+    MY_TRACE("Descargamos WAAAVVV\n");
+}
