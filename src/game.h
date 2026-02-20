@@ -13,6 +13,7 @@
 #define MINOR_VERSION           1
 
 //allegro engine
+#define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
 #define ALLEGRO_USE_SOUND       0

@@ -93,20 +93,26 @@ static void main_init()
 
     printf("Starting %s v%i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
     
-    //initialize and install modules
+    //initialize and install modules    
     if (allegro_init() != 0)
         abort_on_error("Error iniciando libreria Allegro");
-    if (install_timer() != 0)
-        abort_on_error("Error iniciando el modulo timer");
+    #if ALLEGRO_USES_TIMER
+        MY_TRACE_FLAG("Initializing timer\n");
+        if (install_timer() != 0)
+            abort_on_error("Error iniciando el modulo timer");
+    #endif
     #if ALLEGRO_USES_KEYBOARD
+        MY_TRACE_FLAG("Initializing keyboard\n");
         if (install_keyboard() != 0)
             abort_on_error("Error iniciando el teclado");
     #endif
     #if ALLEGRO_USES_MOUSE
+        MY_TRACE_FLAG("Initializing mouse\n");
         if (install_mouse() < 0)
             abort_on_error("Error iniciando el mouse");
     #endif
     #if ALLEGRO_USES_SOUND
+        MY_TRACE_FLAG("Initializing sound\n");
         if (sound_init() != 0)
             abort_on_error("Error iniciando el sonido");
     #endif
