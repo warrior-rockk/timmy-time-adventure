@@ -130,57 +130,40 @@ void enemy_init(tEntity *entity)
 
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 {
+    //enemy defines
+    #define PTERO_VELOCITY          0.4
+    #define PTERO_RANGE_PATROL      20
+
     //enemy animations
     #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
 
     //enemy states
-    enum E_PTERO_ENEMY_STATE
-    {
-        E_PTERO_IDLE_STATE,
-        E_PTERO_MOVE_RIGHT_STATE,
-        E_PTERO_MOVE_LEFT_STATE
-    };
+    enum E_PTERO_ENEMY_STATE{E_PTERO_ST_IDLE, E_PTERO_ST_MOVE};
 
     //check state
     switch (this->state)
     {
-        case E_PTERO_IDLE_STATE:
-                this->state = E_PTERO_MOVE_RIGHT_STATE;
-                local->timer = 0;
+        case E_PTERO_ST_IDLE:
+            this->state = E_PTERO_ST_MOVE;                
         break;
-        case E_PTERO_MOVE_RIGHT_STATE:
-            if (this->pos.x > this->initPos.x + 20)
-                this->state = E_PTERO_MOVE_LEFT_STATE;
-            else   
-                this->fixVel.x = ftofix(0.4);
+        case E_PTERO_ST_MOVE:
+            //linear movement
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-PTERO_VELOCITY) : ftofix(PTERO_VELOCITY);            
             
-            play_animation(&this->anim, ANIM_PTERO_FLY);
-            this->dir = E_ENT_DIR_RIGHT;
-        break;
-        case E_PTERO_MOVE_LEFT_STATE:
-            if (this->pos.x < this->initPos.x - 20)
-                this->state = E_PTERO_MOVE_RIGHT_STATE;
-            else   
-                this->fixVel.x = -ftofix(0.4);
-            
-            play_animation(&this->anim, ANIM_PTERO_FLY);
-            this->dir = E_ENT_DIR_LEFT;
-        break;
+            //change direction on range patrol
+            if ((this->dir && this->pos.x > (this->initPos.x + PTERO_RANGE_PATROL)) || (!this->dir && this->pos.x < (this->initPos.x - PTERO_RANGE_PATROL)))
+                this->dir = !this->dir;
+                        
+            play_animation(&this->anim, ANIM_PTERO_FLY);            
+        break;        
         default:
-            this->state = E_PTERO_IDLE_STATE;
+            this->state = E_PTERO_ST_IDLE;
     }
-
-    //apply velocity
-    this->fixPos.x += fixmul(this->fixVel.x, ftofix(deltaTime));
-    this->fixPos.y += fixmul(this->fixVel.y, ftofix(deltaTime));
-
-    //update position
-    this->pos.x = fixtoi(this->fixPos.x);
-    this->pos.y = fixtoi(this->fixPos.y);
 }
 
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 {              
+    #define RAPTOR_VELOCITY         0.8
     #define RAPTOR_RANGE_PATROL     50
     #define RAPTOR_PLAYER_RANGE     20
     
@@ -197,42 +180,21 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_RAPTOR_HURT;
-
+    
     switch (this->state)
     {
-        case E_RAPTOR_ST_IDLE:
-            this->fixVel.x = itofix(1);
+        case E_RAPTOR_ST_IDLE:            
             this->state++;
         break;
-        case E_RAPTOR_ST_MOVING:
-            //uint8_t colDir = 0;
-            //this->ground = false;
-            //fixed movement
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);
+        case E_RAPTOR_ST_MOVING:            
+            //linear movement
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-RAPTOR_VELOCITY) : ftofix(RAPTOR_VELOCITY);            
             
-            //check all the entity collision points    
-            /*for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
-            {                
-                //check collision tile for collision point
-                colDir = collision_check_tile(this, i);        
-                //apply collision direction
-                collision_apply_dir(this, colDir);        
-                //change direction on collision
-                if (colDir == E_COLLISION_LEFT)
-                    this->dir = E_ENT_DIR_RIGHT;
-                if (colDir == E_COLLISION_RIGHT)
-                    this->dir = E_ENT_DIR_LEFT;
-
-                if (!colDir)
-                {
-                    if (this->pos.x > this->initPos.x + RAPTOR_RANGE_PATROL || this->pos.x < this->initPos.x - RAPTOR_RANGE_PATROL)
-                        colDir = colDir ? 0 : 1;
-                }
-            }*/
-            
+            //change direction on range patrol
             if ((this->dir && this->pos.x > (this->initPos.x + RAPTOR_RANGE_PATROL)) || (!this->dir && this->pos.x < (this->initPos.x - RAPTOR_RANGE_PATROL)))
-                this->dir = this->dir ? 0 : 1;
-
+                this->dir = !this->dir;
+            
+            //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE)) //this->pos.x < player->pos.x + 5 && this->pos.x < player->pos.x - 5)
                 this->state = E_RAPTOR_ATTACK;
@@ -240,7 +202,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_RAPTOR_WALK);
         break;     
         case E_RAPTOR_ATTACK:
-            //this->fixVel.x = 0;
+            //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
             if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
                 this->state = E_RAPTOR_ST_MOVING;
@@ -263,3 +225,69 @@ void enemy_trace(tEntity *this)
 {
     MY_TRACE_FLAG("Enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
 }
+
+//TEMPLATE FOR ENEMY
+/*
+void enemy_template_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy defines
+    #define RAPTOR_RANGE_PATROL     50
+    #define RAPTOR_PLAYER_RANGE     20
+    
+    //enemy animations
+    #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
+    #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
+    #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
+
+    //enemy states
+    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ATTACK, E_RAPTOR_HURT};   
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_RAPTOR_HURT;
+
+    switch (this->state)
+    {
+        case E_RAPTOR_ST_IDLE:
+            this->fixVel.x = itofix(1);
+            this->state++;
+        break;
+        case E_RAPTOR_ST_MOVING:    //basic terrain collision
+            uint8_t colDir = 0;
+            this->ground = false;
+            //fixed movement
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);
+            
+            //check all the entity collision points    
+            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            {                
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);        
+                //apply collision direction
+                collision_apply_dir(this, colDir);        
+                //change direction on collision
+                if (colDir == E_COLLISION_LEFT)
+                    this->dir = E_ENT_DIR_RIGHT;
+                if (colDir == E_COLLISION_RIGHT)
+                    this->dir = E_ENT_DIR_LEFT;
+
+                if (!colDir)
+                {
+                    if (this->pos.x > this->initPos.x + RAPTOR_RANGE_PATROL || this->pos.x < this->initPos.x - RAPTOR_RANGE_PATROL)
+                        colDir = colDir ? 0 : 1;
+                }
+            }            
+            
+            play_animation(&this->anim, ANIM_RAPTOR_WALK);
+        break;      
+        case E_RAPTOR_HURT:
+            this->fixVel.x = 0;
+            
+            if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
+            {
+                this->dead = true;    
+                this->signal = E_ENT_SIGNAL_NONE;
+            }
+        break;
+    }       
+}*/
