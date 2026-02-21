@@ -54,12 +54,13 @@ void enemy_create(tEntity *entity)
     //inc num instances
     numEnemyInstances++;
 
+    //allocate memory for enemy
+    enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));            
+
     //alloc memory for specified enemy type local data
     switch (entity->entType)
     {
-        case E_PTERO_ENEMY_TYPE:
-            //allocate memory for enemy
-            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));            
+        case E_PTERO_ENEMY_TYPE:            
             //load enemy resources
             if (!enemyResources[E_PTERO_ENEMY_TYPE])
                 enemyResources[E_PTERO_ENEMY_TYPE] = load_bmp("res/enemies/ptero.bmp", NULL);
@@ -67,21 +68,16 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){52, 48};
             entity->size.x = 50;
-            entity->size.y = 20;                          
-            entity->properties = E_ENT_PROP_PERSISTENT;
+            entity->size.y = 20;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
-            //allocate memory for enemy
-            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));
             if (!enemyResources[E_RAPTOR_ENEMY_TYPE])
                 enemyResources[E_RAPTOR_ENEMY_TYPE] = load_bmp("res/enemies/raptor2.bmp", NULL);
             
             entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){50, 30};
-            entity->axis = E_ENT_AXIS_DOWN;
-            entity->properties = 0x00; //E_ENT_PROP_PHYSICS_ON;
-            collision_create_entity_points(entity);
+            entity->axis = E_ENT_AXIS_DOWN;            
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -97,7 +93,7 @@ void enemy_create(tEntity *entity)
 
 //calls specified enemy type update function
 void enemy_update(tEntity *entity)
-{   
+{       
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            
@@ -115,15 +111,9 @@ void enemy_update(tEntity *entity)
 void enemy_init(tEntity *entity)
 {   
     switch (entity->entType)
-    {
-        case E_PTERO_ENEMY_TYPE:                        
-            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
-            
-        break;        
-        case E_RAPTOR_ENEMY_TYPE:            
-            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;                              
-        break;        
+    {        
         default:
+            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
         break;
     }
 }
