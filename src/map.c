@@ -215,7 +215,7 @@ void map_unload()
     MY_TRACE_FLAG("Map unloaded\n");
 }
 
-void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
+void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize, bool frontLayer)
 {
     uint8_t tileNum;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
@@ -230,7 +230,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
     screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
         
     //TODO: replace clear all buffer with color only positions with no tiles?
-    clear_to_color(buffer, mapHeader.backgroundColor);
+    if (!frontLayer)
+        clear_to_color(buffer, mapHeader.backgroundColor);
 
     for (int y = 0; y < screenLimit.y; y++)
     {
@@ -239,7 +240,10 @@ void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize)
             tileNum = map[((y + ty) * mapHeader.map_width) + x + tx].tileId;
     
             /* blit tile*/
-            if (tileNum != 0)            
+            if (tileNum != 0 && 
+                ((!CHECK_FLAG(map[((y + ty) * mapHeader.map_width) + x + tx].tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer) ||
+                (CHECK_FLAG(map[((y + ty) * mapHeader.map_width) + x + tx].tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
+            ))            
                 draw_sprite(buffer, tiles[tileNum - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
         }    
     }

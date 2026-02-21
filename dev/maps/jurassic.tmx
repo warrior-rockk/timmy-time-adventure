@@ -7,187 +7,187 @@
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="160"/>
   <tile id="33">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="34">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="35">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="36">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="37">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="38">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="39">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="40">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="41">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="42">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="43">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="44">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="45">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="46">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="47">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="48">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="50">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="51">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="52">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="53">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="73">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="74">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="75">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="76">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="77">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="78">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="79">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="80">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="81">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="82">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="83">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="84">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="85">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="86">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="87">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="93">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
   <tile id="94">
    <properties>
-    <property name="property" type="int" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
  </tileset>

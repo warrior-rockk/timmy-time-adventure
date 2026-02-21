@@ -10,5 +10,37 @@
     "properties": [
     ],
     "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 1,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "tile",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "tileProperties",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "NO_SOLID",
+                "FRONT_LAYER"
+            ],
+            "valuesAsFlags": true
+        }
     ]
 }

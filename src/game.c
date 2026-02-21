@@ -163,8 +163,9 @@ void game_update()
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                            
                     game_hud_update();                    
                     
-                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});                    
+                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, false);                    
                     entities_draw(worldScreen, &scroll);                    
+                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, true);                    
                     game_hud_draw();
                     
                     game.state = E_GAME_ST_PLAY_LEVEL;
@@ -178,8 +179,9 @@ void game_update()
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
             game_hud_update();
 
-            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H});
+            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, false);
             entities_draw(worldScreen, &scroll);
+            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, true);                    
             game_hud_draw();           
 
             //check game lose life
