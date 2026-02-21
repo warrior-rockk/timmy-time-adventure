@@ -228,7 +228,7 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 
-                this->fixVel.x = playerEnt->dir ? itofix(-2) : itofix(2);
+                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-2) : itofix(2);
                 this->fixVel.y = itofix(-2);
                 
                 this->state = E_STONE_ST_THROWING;

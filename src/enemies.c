@@ -59,7 +59,7 @@ void enemy_create(tEntity *entity)
     {
         case E_PTERO_ENEMY_TYPE:
             //allocate memory for enemy
-            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tPteroLocalData));            
+            enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));            
             //load enemy resources
             if (!enemyResources[E_PTERO_ENEMY_TYPE])
                 enemyResources[E_PTERO_ENEMY_TYPE] = load_bmp("res/enemies/ptero.bmp", NULL);
@@ -80,7 +80,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){50, 30};
             entity->axis = E_ENT_AXIS_DOWN;
-            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            entity->properties = 0x00; //E_ENT_PROP_PHYSICS_ON;
             collision_create_entity_points(entity);
         break;        
         default:
@@ -101,7 +101,7 @@ void enemy_update(tEntity *entity)
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            
-            enemy_ptero_update(entity, &((tPteroLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_ptero_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;        
         case E_RAPTOR_ENEMY_TYPE:            
             enemy_raptor_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
@@ -116,9 +116,8 @@ void enemy_init(tEntity *entity)
 {   
     switch (entity->entType)
     {
-        case E_PTERO_ENEMY_TYPE:            
-            ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].health = 0;
-            ((tPteroLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
+        case E_PTERO_ENEMY_TYPE:                        
+            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
             
         break;        
         case E_RAPTOR_ENEMY_TYPE:            
@@ -129,7 +128,7 @@ void enemy_init(tEntity *entity)
     }
 }
 
-void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
+void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 {
     //enemy animations
     #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
@@ -178,19 +177,25 @@ void enemy_ptero_update(tEntity *this, tPteroLocalData *local)
     //update position
     this->pos.x = fixtoi(this->fixPos.x);
     this->pos.y = fixtoi(this->fixPos.y);
-
-    local->health = this->pos.x;      
 }
 
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 {              
+    #define RAPTOR_RANGE_PATROL    50
+    
     //enemy animations
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
     #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
     #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
 
     //enemy states
-    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_HURT};   
+    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ATTACK, E_RAPTOR_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_RAPTOR_HURT;
 
     switch (this->state)
     {
@@ -199,13 +204,13 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             this->state++;
         break;
         case E_RAPTOR_ST_MOVING:
-            uint8_t colDir = 0;
-            this->ground = false;
+            //uint8_t colDir = 0;
+            //this->ground = false;
             //fixed movement
-            this->fixVel.x = this->dir ? itofix(-1) : itofix(1);
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);
             
             //check all the entity collision points    
-            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            /*for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
             {                
                 //check collision tile for collision point
                 colDir = collision_check_tile(this, i);        
@@ -216,13 +221,31 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
                     this->dir = E_ENT_DIR_RIGHT;
                 if (colDir == E_COLLISION_RIGHT)
                     this->dir = E_ENT_DIR_LEFT;
-            }
+
+                if (!colDir)
+                {
+                    if (this->pos.x > this->initPos.x + RAPTOR_RANGE_PATROL || this->pos.x < this->initPos.x - RAPTOR_RANGE_PATROL)
+                        colDir = colDir ? 0 : 1;
+                }
+            }*/
             
-            play_animation(&this->anim, ANIM_RAPTOR_WALK); 
-            
-            if (this->signal == E_ENT_SIGNAL_HURT)
-                this->state = E_RAPTOR_HURT;
-        break;        
+            if ((this->dir && this->pos.x > (this->initPos.x + RAPTOR_RANGE_PATROL)) || (!this->dir && this->pos.x < (this->initPos.x - RAPTOR_RANGE_PATROL)))
+                this->dir = this->dir ? 0 : 1;
+
+            player = entity_get(PLAYER_ENTITY_ID);
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, 10)) //this->pos.x < player->pos.x + 5 && this->pos.x < player->pos.x - 5)
+                this->state = E_RAPTOR_ATTACK;
+
+            play_animation(&this->anim, ANIM_RAPTOR_WALK);
+        break;     
+        case E_RAPTOR_ATTACK:
+            //this->fixVel.x = 0;
+            player = entity_get(PLAYER_ENTITY_ID);
+            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, 10))
+                this->state = E_RAPTOR_ST_MOVING;
+
+            play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
+        break;   
         case E_RAPTOR_HURT:
             this->fixVel.x = 0;
             

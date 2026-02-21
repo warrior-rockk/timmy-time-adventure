@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "west.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "."
     ],
@@ -27,8 +27,8 @@
             "scale": 3.04,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 800.1644736842106,
-                "y": 96.0526315789474
+                "x": 772.203947368421,
+                "y": 79.60526315789474
             }
         },
         "jurassic.tmx#jurassic": {
@@ -37,14 +37,14 @@
         },
         "level00.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 400.25,
-                "y": 101
+                "x": 357.75,
+                "y": 78.5
             }
         },
         "level00.tmx#testRocks": {
@@ -93,7 +93,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 312.3333333333333,
-                "y": 72.66666666666669
+                "y": 72.66666666666666
             }
         },
         "west.tmx#west": {
@@ -111,9 +111,6 @@
     "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
-        "level00.tmx",
-        "west.tmx",
-        "jurassic.tmx"
     ],
     "project": "dos-platform-game.tiled-project",
     "property.type": "int",

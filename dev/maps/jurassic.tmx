@@ -211,12 +211,12 @@
 </data>
  </layer>
  <objectgroup id="3" name="Enemies">
-  <object id="3" name="raptor" type="enemy" x="256" y="96" width="64" height="32">
+  <object id="3" name="raptor" type="enemy" x="256.333" y="98.3333" width="50" height="30">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="8" name="raptor" type="enemy" x="688" y="96" width="64" height="32">
+  <object id="8" name="raptor" type="enemy" x="688" y="98" width="50" height="30">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>

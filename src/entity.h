@@ -41,8 +41,9 @@ enum E_ENTITY_PROPERTIES
 //entities direction (for drawing)
 enum E_ENTITY_DIR
 {
-    E_ENT_DIR_RIGHT,
     E_ENT_DIR_LEFT,
+    E_ENT_DIR_RIGHT,
+    
 };
 
 //entities alignment size axis (for drawing)

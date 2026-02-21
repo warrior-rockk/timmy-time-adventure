@@ -27,6 +27,12 @@ int clamp(int value, int min, int max)
         return value;
 }
 
+//retuns true if the value is on target +/- the offset
+bool in_range(int value, int target, int offset)
+{
+    return ( value <= (target + offset) && value >= (target - offset) );
+}
+
 //function to abort program with critical error
 void abort_on_error(const char *format, ...)
 {

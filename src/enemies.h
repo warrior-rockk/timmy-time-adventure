@@ -24,13 +24,6 @@ typedef struct
     uint16_t timer;
 } tEnemyLocalData;
 
-//particular enemy local data struct
-typedef struct
-{
-    uint16_t health;
-    uint16_t timer;    
-} tPteroLocalData;
-
 //debug trace entity enemy info
 void enemy_trace(tEntity *this);
 
@@ -46,6 +39,6 @@ void enemy_create(tEntity *entity);
 void enemy_update(tEntity *entity);
 
 //custom update function for particular entity
-void enemy_ptero_update(tEntity *this, tPteroLocalData *local);
+void enemy_ptero_update(tEntity *this, tEnemyLocalData *local);
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local);
 #endif

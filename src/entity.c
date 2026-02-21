@@ -385,6 +385,12 @@ void entity_update_vel_pos(tEntity *entity)
             entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
         }
     }
+    else
+    {
+        //apply velocity without gravity and friction
+        entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));
+        entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
+    }
 
     //update position
     entity->pos.x = fixtoi(entity->fixPos.x);

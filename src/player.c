@@ -453,7 +453,7 @@ static void player_update_collisions(tEntity *player)
                                 sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE, false);                                          
                                 player->ground = false;
                                 //lose 1 life
-                                game.life -= 1;
+                                //TODO: restore: game.life -= 1;
                                 //set hurt velocities
                                 player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
                                 player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
