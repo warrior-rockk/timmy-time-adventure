@@ -128,6 +128,23 @@ void enemy_init(tEntity *entity)
     }
 }
 
+
+//ENEMY IA FUNCTIONS
+//=========================================================================
+
+//Enemy patrol: moves around a X range
+void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
+{
+    //linear movement
+    entity->fixVel.x = entity->dir == E_ENT_DIR_LEFT ? -velocity : velocity;            
+    
+    //change direction on range patrol
+    if ((entity->dir && entity->pos.x > (entity->initPos.x + patrol_range)) || (!entity->dir && entity->pos.x < (entity->initPos.x - patrol_range)))
+        entity->dir = !entity->dir;
+}
+
+//=========================================================================
+
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 {
     //enemy defines
@@ -147,13 +164,8 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
             this->state = E_PTERO_ST_MOVE;                
         break;
         case E_PTERO_ST_MOVE:
-            //linear movement
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-PTERO_VELOCITY) : ftofix(PTERO_VELOCITY);            
-            
-            //change direction on range patrol
-            if ((this->dir && this->pos.x > (this->initPos.x + PTERO_RANGE_PATROL)) || (!this->dir && this->pos.x < (this->initPos.x - PTERO_RANGE_PATROL)))
-                this->dir = !this->dir;
-                        
+            enemy_patrol_ia(this, ftofix(PTERO_VELOCITY), PTERO_RANGE_PATROL);
+                                    
             play_animation(&this->anim, ANIM_PTERO_FLY);            
         break;        
         default:
@@ -187,16 +199,11 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             this->state++;
         break;
         case E_RAPTOR_ST_MOVING:            
-            //linear movement
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-RAPTOR_VELOCITY) : ftofix(RAPTOR_VELOCITY);            
-            
-            //change direction on range patrol
-            if ((this->dir && this->pos.x > (this->initPos.x + RAPTOR_RANGE_PATROL)) || (!this->dir && this->pos.x < (this->initPos.x - RAPTOR_RANGE_PATROL)))
-                this->dir = !this->dir;
+            enemy_patrol_ia(this, ftofix(RAPTOR_VELOCITY), RAPTOR_PLAYER_RANGE);
             
             //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE)) //this->pos.x < player->pos.x + 5 && this->pos.x < player->pos.x - 5)
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
                 this->state = E_RAPTOR_ATTACK;
 
             play_animation(&this->anim, ANIM_RAPTOR_WALK);
