@@ -72,8 +72,7 @@ void player_create(tEntity *player)
     //load player sfx
     playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
     playerSfx[SFX_PLAYER_HURT]  = load_wav("res/player/hurt.wav");
-    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
-    MY_TRACE("Cargamos WAAAVVV\n");
+    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");    
 }
 
 void player_init(tEntity *player)
@@ -480,5 +479,4 @@ void player_destroy(tEntity *player)
     destroy_sample(playerSfx[SFX_PLAYER_JUMP]);
     destroy_sample(playerSfx[SFX_PLAYER_HURT]);
     destroy_sample(playerSfx[SFX_PLAYER_THROW]);
-    MY_TRACE("Descargamos WAAAVVV\n");
 }

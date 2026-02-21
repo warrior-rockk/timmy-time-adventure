@@ -19,6 +19,12 @@ enum E_ENEMY_TYPE
     E_ENEMIES_TYPE_NUM,
 };
 
+enum E_ENEMY_SFX
+{
+    E_SFX_ENEMY_DEAD,    
+    E_SFX_ENEMY_NUM,
+};
+
 //global enemy local data struct
 typedef struct 
 {

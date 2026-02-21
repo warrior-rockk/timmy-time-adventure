@@ -10,12 +10,14 @@
 #include "enemies.h"
 #include "timer.h"
 #include "collisions.h"
+#include "sound.h"
 
 #define TRACE_FLAG  "[ENEMY]"
 
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
 BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
+SAMPLE *enemySfx[E_SFX_ENEMY_NUM];
 
 void enemy_system_init()
 {
@@ -24,6 +26,9 @@ void enemy_system_init()
     enemyDataList = NULL;
     //set number of entities
     numEnemyInstances = 0;     
+
+    //load enemy sfx
+    enemySfx[E_SFX_ENEMY_DEAD]  = load_wav("res/enemies/dead.wav");
 
     MY_TRACE_FLAG("Initialized enemy system\n");
 }
@@ -34,7 +39,10 @@ void enemy_system_destroy()
     free(enemyDataList);
     enemyDataList = NULL;
     //set number of entities
-    numEnemyInstances = 0;    
+    numEnemyInstances = 0;   
+    //free samples
+    destroy_sample(enemySfx[E_SFX_ENEMY_DEAD]);
+
     //free resources
     for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
     {
@@ -151,6 +159,8 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
     entity->fixVel.y = 0;
 
     entity_blink(entity);
+
+    //sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);
     
     if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
     {
@@ -176,8 +186,8 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
     enum E_PTERO_ENEMY_STATE{E_PTERO_ST_IDLE, E_PTERO_ST_MOVE, E_PTERO_ST_HURT};
 
     //hurt signal
-    if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_PTERO_ST_HURT;
+    if (this->signal == E_ENT_SIGNAL_HURT)       
+        this->state = E_PTERO_ST_HURT;                
 
     //check state
     switch (this->state)
@@ -262,8 +272,11 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
     uint8_t colDir = 0;
 
     //hurt signal
-    if (this->signal == E_ENT_SIGNAL_HURT)
+    if (this->signal == E_ENT_SIGNAL_HURT){
         this->state = E_SPIDER_HURT;
+        if (this->prevState != E_SPIDER_HURT)
+            sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);    
+    }
     
     switch (this->state)
     {
