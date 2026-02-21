@@ -431,7 +431,7 @@ static void player_update_collisions(tEntity *player)
                     collision_apply_dir(player, colDir);            
                 break;
                 case E_ENT_CLASS_ENEMY:
-                    if (!playerFlags.hurt && !playerInvincible && !playerFlags.dead)
+                    if (!playerFlags.dead)
                     {
                         colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
 
@@ -446,7 +446,7 @@ static void player_update_collisions(tEntity *player)
                                 //set bounce velocity
                                 player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
                             } 
-                            else if (checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
                             {
                                 //set flags
                                 playerFlags.hurt = true; 

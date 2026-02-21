@@ -181,7 +181,8 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 {              
-    #define RAPTOR_RANGE_PATROL    50
+    #define RAPTOR_RANGE_PATROL     50
+    #define RAPTOR_PLAYER_RANGE     20
     
     //enemy animations
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
@@ -233,7 +234,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
                 this->dir = this->dir ? 0 : 1;
 
             player = entity_get(PLAYER_ENTITY_ID);
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, 10)) //this->pos.x < player->pos.x + 5 && this->pos.x < player->pos.x - 5)
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE)) //this->pos.x < player->pos.x + 5 && this->pos.x < player->pos.x - 5)
                 this->state = E_RAPTOR_ATTACK;
 
             play_animation(&this->anim, ANIM_RAPTOR_WALK);
@@ -241,7 +242,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         case E_RAPTOR_ATTACK:
             //this->fixVel.x = 0;
             player = entity_get(PLAYER_ENTITY_ID);
-            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, 10))
+            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
                 this->state = E_RAPTOR_ST_MOVING;
 
             play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
