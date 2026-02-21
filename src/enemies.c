@@ -96,6 +96,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};        
             collision_create_entity_points(entity);              
         break;        
+        case E_PIRANHA_ENEMY_TYPE:
+            if (!enemyResources[E_PIRANHA_ENEMY_TYPE])
+                enemyResources[E_PIRANHA_ENEMY_TYPE] = load_bmp("res/enemies/piranha.bmp", NULL);
+            
+            entity->img = enemyResources[E_PIRANHA_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){42, 33};                          
+            entity->size = (tVector){32, 32};                    
+        break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
         break;
@@ -121,7 +129,10 @@ void enemy_update(tEntity *entity)
         break;        
         case E_SPIDER_ENEMY_TYPE:            
             enemy_spider_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
-        break;        
+        break;
+        case E_PIRANHA_ENEMY_TYPE:            
+            enemy_piranha_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
         default:
         break;
     }
@@ -133,7 +144,8 @@ void enemy_init(tEntity *entity)
     switch (entity->entType)
     {        
         default:
-            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].flag = 0;            
+            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].flag = 0;
+            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].timer = 0;
         break;
     }
 }
@@ -258,6 +270,50 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         break;
     }       
 }
+void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy animations
+    #define ANIM_PIRANHA_JUMP   1,   9,  5, ANIM_ONCE
+    
+    //enemy states
+    enum E_PIRANHA_ENEMY_STATES{E_PIRANHA_ST_IDLE, E_PIRANHA_ST_JUMP, E_PIRANHA_ST_HURT};   
+    
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_PIRANHA_ST_HURT;
+    
+    switch (this->state)
+    {
+        case E_PIRANHA_ST_IDLE:            
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            this->anim.frame = 0;
+            this->visible = false;
+            this->fixPos.x = itofix(this->initPos.x);
+            this->fixPos.y = itofix(this->initPos.y);
+
+            if (local->timer >= 2)
+            {
+                this->state++;
+                SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                this->fixVel.y = ftofix(-4);
+                this->fixVel.x = ftofix(0.8);
+                this->ground = false;
+            }
+            else
+                local->timer += get_clock_tick_1sec();
+        break;
+        case E_PIRANHA_ST_JUMP:            
+            local->timer = 0;
+            this->visible = true;            
+            if (play_animation(&this->anim, ANIM_PIRANHA_JUMP))
+                this->state--;
+        break;             
+        case E_PIRANHA_ST_HURT:
+            enemy_dead(this, E_PIRANHA_ST_HURT, ANIM_RAPTOR_DEAD);            
+        break;
+    }       
+}
+
 
 void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
 {              
