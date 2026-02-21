@@ -221,7 +221,7 @@
     <property name="dir" type="int" value="1"/>
    </properties>
   </object>
-  <object id="5" name="ptero" type="enemy" x="944" y="32">
+  <object id="5" name="ptero" type="enemy" x="912" y="48" width="50" height="20">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>

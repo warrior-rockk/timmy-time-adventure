@@ -66,7 +66,7 @@ void enemy_create(tEntity *entity)
                 enemyResources[E_PTERO_ENEMY_TYPE] = load_bmp("res/enemies/ptero.bmp", NULL);
             
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
-            entity->spriteSize = (tVector){52, 48};
+            entity->spriteSize = (tVector){71, 64};
             entity->size.x = 50;
             entity->size.y = 20;                                      
         break;
@@ -113,7 +113,7 @@ void enemy_init(tEntity *entity)
     switch (entity->entType)
     {        
         default:
-            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].timer = 0;            
+            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].health = 1;            
         break;
     }
 }
@@ -133,6 +133,20 @@ void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
         entity->dir = !entity->dir;
 }
 
+void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_t mode)
+{
+    entity->fixVel.x = 0;
+    entity->fixVel.y = 0;
+
+    entity_blink(entity);
+    
+    if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
+    {
+        entity->dead = true;
+        entity->signal = E_ENT_SIGNAL_NONE;
+    }
+}
+
 //=========================================================================
 
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
@@ -143,9 +157,15 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
+    #define ANIM_PTERO_DEAD    2,   5,  20, ANIM_ONCE
+    #define ANIM_PTERO_HURT    6,   8,  20, ANIM_ONCE
 
     //enemy states
-    enum E_PTERO_ENEMY_STATE{E_PTERO_ST_IDLE, E_PTERO_ST_MOVE};
+    enum E_PTERO_ENEMY_STATE{E_PTERO_ST_IDLE, E_PTERO_ST_MOVE, E_PTERO_ST_HURT};
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_PTERO_ST_HURT;
 
     //check state
     switch (this->state)
@@ -157,7 +177,10 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
             enemy_patrol_ia(this, ftofix(PTERO_VELOCITY), PTERO_RANGE_PATROL);
                                     
             play_animation(&this->anim, ANIM_PTERO_FLY);            
-        break;        
+        break;
+        case E_PTERO_ST_HURT:
+            enemy_dead(this, ANIM_PTERO_HURT);            
+        break;
         default:
             this->state = E_PTERO_ST_IDLE;
     }
@@ -207,13 +230,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
         break;   
         case E_RAPTOR_HURT:
-            this->fixVel.x = 0;
-            
-            if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
-            {
-                this->dead = true;    
-                this->signal = E_ENT_SIGNAL_NONE;
-            }
+            enemy_dead(this, ANIM_RAPTOR_DEAD);            
         break;
     }       
 }

@@ -21,7 +21,7 @@ enum E_ENEMY_TYPE
 //global enemy local data struct
 typedef struct 
 {
-    uint16_t timer;
+    uint16_t health;
 } tEnemyLocalData;
 
 //debug trace entity enemy info
