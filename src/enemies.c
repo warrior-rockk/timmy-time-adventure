@@ -153,15 +153,17 @@ void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
         entity->dir = !entity->dir;
 }
 
-void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_t mode)
+void enemy_dead(tEntity *entity, uint8_t deadStateNum, int startFrame, int endFrame, int speed, uint8_t mode)
 {
+    //stop enemy
     entity->fixVel.x = 0;
     entity->fixVel.y = 0;
-
+    //blink
     entity_blink(entity);
-
-    //sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);
-    
+    //play dead sfx
+    if (entity->state != entity->prevState)
+        sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);
+    //play dead animation
     if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
     {
         entity->dead = true;
@@ -187,7 +189,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)       
-        this->state = E_PTERO_ST_HURT;                
+        this->state = E_PTERO_ST_HURT;              
 
     //check state
     switch (this->state)
@@ -201,7 +203,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_PTERO_FLY);            
         break;
         case E_PTERO_ST_HURT:
-            enemy_dead(this, ANIM_PTERO_HURT);            
+            enemy_dead(this, E_PTERO_ST_HURT, ANIM_PTERO_HURT);            
         break;
         default:
             this->state = E_PTERO_ST_IDLE;
@@ -220,13 +222,13 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
 
     //enemy states
-    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ATTACK, E_RAPTOR_HURT};   
+    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ST_ATTACK, E_RAPTOR_ST_HURT};   
 
     tEntity *player;
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_RAPTOR_HURT;
+        this->state = E_RAPTOR_ST_HURT;
     
     switch (this->state)
     {
@@ -239,11 +241,11 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
-                this->state = E_RAPTOR_ATTACK;
+                this->state = E_RAPTOR_ST_ATTACK;
 
             play_animation(&this->anim, ANIM_RAPTOR_WALK);
         break;     
-        case E_RAPTOR_ATTACK:
+        case E_RAPTOR_ST_ATTACK:
             //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
             if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
@@ -251,8 +253,8 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 
             play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
         break;   
-        case E_RAPTOR_HURT:
-            enemy_dead(this, ANIM_RAPTOR_DEAD);            
+        case E_RAPTOR_ST_HURT:
+            enemy_dead(this, E_RAPTOR_ST_HURT, ANIM_RAPTOR_DEAD);            
         break;
     }       
 }
@@ -272,11 +274,8 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
     uint8_t colDir = 0;
 
     //hurt signal
-    if (this->signal == E_ENT_SIGNAL_HURT){
+    if (this->signal == E_ENT_SIGNAL_HURT)    
         this->state = E_SPIDER_HURT;
-        if (this->prevState != E_SPIDER_HURT)
-            sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);    
-    }
     
     switch (this->state)
     {
@@ -331,7 +330,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
                 this->state = E_SPIDER_ST_IDLE;
         break;
         case E_SPIDER_HURT:
-           enemy_dead(this, ANIM_SPIDER_IDLE);
+           enemy_dead(this, E_SPIDER_HURT, ANIM_PTERO_HURT);
         break;
     }       
 }
