@@ -11,6 +11,17 @@
     ],
     "propertyTypes": [
         {
+            "id": 3,
+            "name": "dir",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "LEFT",
+                "RIGHT"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 1,

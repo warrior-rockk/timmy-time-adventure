@@ -237,7 +237,7 @@
  <objectgroup id="2" name="Objects">
   <object id="1" name="player1" type="player" x="624" y="96" width="16" height="32">
    <properties>
-    <property name="dir" type="int" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
   <object id="2" name="stone" type="object" x="96" y="112" width="16" height="16">

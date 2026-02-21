@@ -116,7 +116,7 @@
         "jurassic.tmx"
     ],
     "project": "dos-platform-game.tiled-project",
-    "property.type": "tileProperties",
+    "property.type": "direction",
     "recentFiles": [
         "level00.tmx",
         "west.tmx",
