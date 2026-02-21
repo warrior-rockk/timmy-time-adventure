@@ -57,7 +57,7 @@ void enemy_create(tEntity *entity)
     //allocate memory for enemy
     enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));            
 
-    //alloc memory for specified enemy type local data
+    //set enemy type properties
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            

@@ -19,24 +19,10 @@ enum E_OBJECT_TYPE
     E_OBJECTS_TYPE_NUM,
 };
 
-enum E_GEM_STATE
+typedef struct 
 {
-    E_GEM_IDLE_STATE,
-    E_GEM_MOVE_RIGHT_STATE,
-    E_GEM_MOVE_LEFT_STATE
-};
-
-typedef struct tGemLocalData
-{
-    uint16_t health;
-    uint16_t timer;
-} tGemLocalData;
-
-typedef struct tSolidLocalData
-{
-    uint8_t flags;
-    bool solid;
-} tSolidLocalData;
+    uint16_t timer;    
+} tSolidObjectLocalData;
 
 //debug trace entity object info
 void object_trace(tEntity *this);
@@ -53,8 +39,8 @@ void object_create(tEntity *entity);
 void object_update(tEntity *entity);
 
 //custom update function for gems objects
-void object_gem_update(tEntity *this, tGemLocalData *objData);
+void object_gem_update(tEntity *this, tSolidObjectLocalData *objData);
 //custom update function for stone objects
-void object_solid_update(tEntity *this, tSolidLocalData *objData);
+void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
 
 #endif

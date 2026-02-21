@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="9">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="10">
  <properties>
   <property name="backColor" type="int" value="238"/>
  </properties>
@@ -243,5 +243,6 @@
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
+  <object id="9" name="gem" type="object" x="832" y="32" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -53,39 +53,36 @@ void object_create(tEntity *entity)
     //inc num instances
     numObjectInstances++;
 
-    //alloc memory for specified object type local data
+    //allocate memory for general solid object
+    objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));
+
+    //set object properties    
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_TYPE:
-            //allocate memory for gem Object
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tGemLocalData));
+        case E_GEM_OBJECT_TYPE:            
             if (!objectResources[E_GEM_OBJECT_TYPE])
                 objectResources[E_GEM_OBJECT_TYPE] = load_bmp("res/objects/object.bmp", NULL);
 
-            entity->img = objectResources[E_GEM_OBJECT_TYPE]; //load_bmp("res/objects/object.bmp",NULL);
-            entity->size = (tVector){14, 16};    
-            entity->spriteSize = (tVector){entity->img->w, entity->img->h};          
+            entity->img = objectResources[E_GEM_OBJECT_TYPE];
+            entity->spriteSize = (tVector){entity->img->w, entity->img->h};
+            entity->size = (tVector){14, 16};                
         break;
-        case E_STONE_OBJECT_TYPE:
-            //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
+        case E_STONE_OBJECT_TYPE:            
             if (!objectResources[E_STONE_OBJECT_TYPE])
                 objectResources[E_STONE_OBJECT_TYPE] = load_bmp("res/objects/stone.bmp", NULL);
 
-            entity->img = objectResources[E_STONE_OBJECT_TYPE]; //load_bmp("res/objects/stone.bmp",NULL);  
-            entity->size = (tVector){16, 16};  
+            entity->img = objectResources[E_STONE_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};              
             collision_create_entity_points(entity);                    
         break;
-        case E_ROCK_OBJECT_TYPE:
-            //allocate memory for next stone Object
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidLocalData));
+        case E_ROCK_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_OBJECT_TYPE])
                 objectResources[E_ROCK_OBJECT_TYPE] = load_bmp("res/objects/rock.bmp", NULL);
 
-            entity->img = objectResources[E_ROCK_OBJECT_TYPE]; //load_bmp("res/objects/rock.bmp",NULL);  
-            entity->size = (tVector){16, 16};  
+            entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};             
             collision_create_entity_points(entity);                    
         break;
         default:
@@ -106,11 +103,11 @@ void object_update(tEntity *entity)
     switch (entity->entType)
     {
         case E_GEM_OBJECT_TYPE:            
-            object_gem_update(entity, &((tGemLocalData*)objectDataList)[entity->entInstance]);
+            object_gem_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_STONE_OBJECT_TYPE:
         case E_ROCK_OBJECT_TYPE:
-            object_solid_update(entity, &((tSolidLocalData*)objectDataList)[entity->entInstance]);
+            object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -120,75 +117,49 @@ void object_update(tEntity *entity)
 //calls specified object type init function
 void object_init(tEntity *entity)
 {   
+    
+
     switch (entity->entType)
-    {
-        case E_GEM_OBJECT_TYPE:            
-            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].health = 0;
-            ((tGemLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;            
-        break;
-        case E_STONE_OBJECT_TYPE:
-            ((tSolidLocalData*)objectDataList)[numObjectInstances - 1].solid = false;            
-        break;
+    {        
         default:
+            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
         break;
     }
 }
 
-void object_gem_update(tEntity *this, tGemLocalData *local)
-{
-    switch (this->state)
-    {
-        case E_GEM_IDLE_STATE:
-            if (local->timer >= this->pos.y)
-            {
-                this->state = E_GEM_MOVE_RIGHT_STATE;
-                local->timer = 0;
-            }
-            else
-                local->timer+= (1 * deltaTime);
-        break;
-        case E_GEM_MOVE_RIGHT_STATE:
-            if (this->pos.x > 130)
-                this->state = E_GEM_MOVE_LEFT_STATE;
-            else   
-                this->fixVel.x = ftofix(0.4);
-        break;
-        case E_GEM_MOVE_LEFT_STATE:
-            if (this->pos.x < 70)
-                this->state = E_GEM_MOVE_RIGHT_STATE;
-            else   
-                this->fixVel.x = ftofix(-0.4);
-        break;
-        default:
-            this->state = E_GEM_IDLE_STATE;
-    }
-
-    //apply velocity
-    this->fixPos.x += fixmul(this->fixVel.x, ftofix(deltaTime));
-    this->fixPos.y += fixmul(this->fixVel.y, ftofix(deltaTime));
-
-    //update position
-    this->pos.x = fixtoi(this->fixPos.x);
-    this->pos.y = fixtoi(this->fixPos.y);
-
-    local->health = this->pos.x;    
-}
-
-void object_solid_update(tEntity *this, tSolidLocalData *local)
+void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object states
-    enum E_STONE_OBJECT_STATES{E_STONE_ST_IDLE, E_STONE_ST_PICKED, E_STONE_ST_THROWING, E_STONE_ST_BREAK};
-    local->solid = true;
+    enum E_GEM_STATE {E_GEM_ST_IDLE};
 
+    switch (this->state)
+    {
+        case E_GEM_ST_IDLE:
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);            
+            
+            //change direction on range patrol
+            if ((this->dir && this->pos.x > (this->initPos.x + 20)) || (!this->dir && this->pos.x < (this->initPos.x - 20)))
+                this->dir = !this->dir;
+        break;        
+        default:
+            this->state = E_GEM_ST_IDLE;
+    }
+}
+
+void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object states
+    enum E_SOLID_OBJECT_STATES{E_SOLID_ST_IDLE, E_SOLID_ST_PICKED, E_SOLID_ST_THROWING, E_SOLID_ST_BREAK};
+    
     if (this->signal == E_ENT_SIGNAL_HURT)
     {
-        this->state = E_STONE_ST_BREAK;
+        this->state = E_SOLID_ST_BREAK;
         this->signal = 0;
     }
 
     switch (this->state)
     {
-        case E_STONE_ST_IDLE:
+        case E_SOLID_ST_IDLE:
             CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
 
@@ -196,9 +167,9 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
             this->fixVel.y = 0;
 
             if (this->signal == E_ENT_SIGNAL_PICKING)
-                this->state = E_STONE_ST_PICKED;           
+                this->state = E_SOLID_ST_PICKED;           
         break;
-        case E_STONE_ST_PICKED:
+        case E_SOLID_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             
             //TODO: comprobamos si el jugador no muere cuando nos lleva
@@ -231,10 +202,10 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
                 this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-2) : itofix(2);
                 this->fixVel.y = itofix(-2);
                 
-                this->state = E_STONE_ST_THROWING;
+                this->state = E_SOLID_ST_THROWING;
             }
         break;
-        case E_STONE_ST_THROWING:
+        case E_SOLID_ST_THROWING:
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    
@@ -248,7 +219,7 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
                 else
                 {
                     if (colDir)
-                        this->state = E_STONE_ST_BREAK;
+                        this->state = E_SOLID_ST_BREAK;
                 }
             }
 
@@ -269,7 +240,7 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
                             else
                             {
                                 if (colDir)
-                                    this->state = E_STONE_ST_BREAK;       
+                                    this->state = E_SOLID_ST_BREAK;       
                             }
                         break;
                         case E_ENT_CLASS_ENEMY:
@@ -280,7 +251,7 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;
                                 if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                                     //change state
-                                    this->state = E_STONE_ST_BREAK;                                 
+                                    this->state = E_SOLID_ST_BREAK;                                 
                             }
                         break;
                     }            
@@ -288,9 +259,9 @@ void object_solid_update(tEntity *this, tSolidLocalData *local)
             }
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
-                this->state = E_STONE_ST_IDLE;
+                this->state = E_SOLID_ST_IDLE;
         break;
-        case E_STONE_ST_BREAK:
+        case E_SOLID_ST_BREAK:
             //stop object
             this->fixVel.x = 0;
             this->fixVel.y = 0;                                            
