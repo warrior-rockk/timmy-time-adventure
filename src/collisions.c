@@ -416,6 +416,19 @@ void collision_create_entity_points(tEntity *entity)
         abort_on_error("ERROR: Reached max. number of entities collision points\n");        
 }
 
+void collision_disable_points_except(uint16_t entityId, uint8_t numPoint)
+{
+    //get collisions id by entity id
+    uint16_t entIndex = get_collision_point_index_by_entId(entityId);   
+
+    //disable all collision points
+    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+        entColPointsList[entIndex].colPoint[numPoint].enabled = false;
+    
+    //enables the exception
+    entColPointsList[entIndex].colPoint[numPoint].enabled = true;
+}
+
 //funcion to destroy collision point on a entity
 void collision_destroy_entity_points(uint16_t entityId)
 {

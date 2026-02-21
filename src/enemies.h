@@ -15,13 +15,15 @@ enum E_ENEMY_TYPE
 {
     E_PTERO_ENEMY_TYPE,
     E_RAPTOR_ENEMY_TYPE,
+    E_SPIDER_ENEMY_TYPE,
     E_ENEMIES_TYPE_NUM,
 };
 
 //global enemy local data struct
 typedef struct 
 {
-    uint16_t health;
+    uint16_t flag;
+    uint16_t timer;
 } tEnemyLocalData;
 
 //debug trace entity enemy info
@@ -41,4 +43,5 @@ void enemy_update(tEntity *entity);
 //custom update function for particular entity
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local);
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local);
+void enemy_spider_update(tEntity *this, tEnemyLocalData *local);
 #endif

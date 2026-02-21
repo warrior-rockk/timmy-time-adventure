@@ -78,6 +78,15 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){50, 30};
             entity->axis = E_ENT_AXIS_DOWN;            
+        break;
+        case E_SPIDER_ENEMY_TYPE:
+            if (!enemyResources[E_SPIDER_ENEMY_TYPE])
+                enemyResources[E_SPIDER_ENEMY_TYPE] = load_bmp("res/enemies/spider.bmp", NULL);
+            
+            entity->img = enemyResources[E_SPIDER_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){20, 29};                          
+            entity->size = (tVector){16, 16};        
+            collision_create_entity_points(entity);              
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -88,7 +97,7 @@ void enemy_create(tEntity *entity)
     MY_ASSERT(enemyDataList);
 
     //set actual instance num
-    entity->entInstance = numEnemyInstances - 1;                
+    entity->entInstance = numEnemyInstances - 1;
 };
 
 //calls specified enemy type update function
@@ -102,6 +111,9 @@ void enemy_update(tEntity *entity)
         case E_RAPTOR_ENEMY_TYPE:            
             enemy_raptor_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;        
+        case E_SPIDER_ENEMY_TYPE:            
+            enemy_spider_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;        
         default:
         break;
     }
@@ -113,7 +125,7 @@ void enemy_init(tEntity *entity)
     switch (entity->entType)
     {        
         default:
-            ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1].health = 1;            
+            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].flag = 0;            
         break;
     }
 }
@@ -231,6 +243,82 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         break;   
         case E_RAPTOR_HURT:
             enemy_dead(this, ANIM_RAPTOR_DEAD);            
+        break;
+    }       
+}
+
+void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy defines
+    #define SPIDER_VELOCITY     0.6
+
+    //enemy animations
+    #define ANIM_SPIDER_IDLE   0,   0,  20, ANIM_LOOP
+    #define ANIM_SPIDER_TURN   0,   7,  20, ANIM_LOOP
+
+    //enemy states
+    enum E_SPIDER_ENEMY_STATES{E_SPIDER_ST_IDLE, E_SPIDER_ST_MOVING_1, E_SPIDER_ST_MOVING_2, E_SPIDER_ST_MOVING_3, E_SPIDER_ST_MOVING_4, E_SPIDER_HURT};   
+
+    uint8_t colDir = 0;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_SPIDER_HURT;
+    
+    switch (this->state)
+    {
+        case E_SPIDER_ST_IDLE:
+            this->fixVel.y = 0;
+            play_animation(&this->anim, ANIM_SPIDER_IDLE);
+            this->state++;
+        break;
+        case E_SPIDER_ST_MOVING_1:
+            this->fixVel.y = ftofix(SPIDER_VELOCITY);            
+            
+            play_animation(&this->anim, ANIM_SPIDER_TURN);
+            
+            //check collision tile for collision point
+            colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
+            //apply collision direction
+            collision_apply_dir(this, colDir);        
+            //change direction on collision
+            if (colDir == E_COLLISION_DOWN)
+            {
+                this->state++;
+                local->flag = this->pos.y;
+            }
+        break;      
+        case E_SPIDER_ST_MOVING_2:
+            this->fixVel.y = ftofix(-SPIDER_VELOCITY);            
+            play_animation(&this->anim, ANIM_SPIDER_TURN);
+
+            if (this->pos.y < (local->flag - (local->flag >> 1)))
+                this->state++;
+        break;
+        case E_SPIDER_ST_MOVING_3:
+            this->fixVel.y = ftofix(SPIDER_VELOCITY);            
+            play_animation(&this->anim, ANIM_SPIDER_TURN);
+
+            //check collision tile for collision point
+            colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
+            //apply collision direction
+            collision_apply_dir(this, colDir);        
+            //change direction on collision
+            if (colDir == E_COLLISION_DOWN)
+            {
+                this->state++;
+                local->flag = this->pos.y;
+            }
+        break;
+        case E_SPIDER_ST_MOVING_4:
+            this->fixVel.y = ftofix(-SPIDER_VELOCITY);            
+            play_animation(&this->anim, ANIM_SPIDER_TURN);
+            
+            if (this->pos.y < this->initPos.y)
+                this->state = E_SPIDER_ST_IDLE;
+        break;
+        case E_SPIDER_HURT:
+           enemy_dead(this, ANIM_SPIDER_IDLE);
         break;
     }       
 }
