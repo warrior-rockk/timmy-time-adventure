@@ -465,8 +465,8 @@ void collision_destroy_entity_points(uint16_t entityId)
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode)
 {
-	#define VEL_BOUNCE_SOFT 0.4
-    #define VEL_BOUNCE_HARD 0.8
+	#define VEL_BOUNCE_SOFT     0.4
+    #define VEL_BOUNCE_HARD     0.8
 
     //actions by collision
 	if (colDir == E_COLLISION_LEFT || colDir == E_COLLISION_RIGHT) 
@@ -476,53 +476,35 @@ void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode)
     else if (colDir == E_COLLISION_DOWN) 
     {
 		fixed bounceVel;
+        //sets bounce velocity or set ground if no bounce
         switch (bounceMode)
         {            
             case E_COLLISION_BOUNCE_SOFT:
-                bounceVel = VEL_BOUNCE_SOFT;
+                bounceVel = ftofix(VEL_BOUNCE_SOFT);
             break;
             case E_COLLISION_BOUNCE_HARD:
-                bounceVel = VEL_BOUNCE_HARD;
+                bounceVel = ftofix(VEL_BOUNCE_HARD);
             break;
             case E_COLLISION_NO_BOUNCE:
             default:
                 entity->ground = true;
             break;
         }
-        
+        //if bounce mode
         if (bounceMode == E_COLLISION_BOUNCE_SOFT || bounceMode == E_COLLISION_BOUNCE_HARD)
         {
-            entity->fixVel.y = fixmul(entity->fixVel.y, ftofix(-bounceVel));            
-            //cantidad de rebote
-            if ( abs(entity->fixVel.y) < ftofix(bounceVel) )
+            //bounces the entity
+            entity->fixVel.y = fixmul(entity->fixVel.y, -bounceVel);            
+            //until reaches the bounce velocity
+            if ( abs(entity->fixVel.y) < bounceVel)
                 entity->ground = true;
         }
-        //TODO: types
-        /*
-        //si es un solidItem
-		if (isType(idEntity,TYPE solidItem))
-			idEntity.this.vY *= -cBouncyObjectVel;
-			//cantidad de rebote
-			if ( abs(idEntity.this.vY) < cBouncyObjectVel )
-				*objGrounded = true;		
-			end;
-		//si es un item
-		elseif (isType(idEntity,TYPE Item))
-			idEntity.this.vY *= -cBouncyItemVel;
-			//cantidad de rebote
-			if ( abs(idEntity.this.vY) < cBouncyItemVel )
-				*objGrounded = true;		
-			end;			
-		else
-        */
-			//entity->ground = true;            
-        //}
     }
     else if (colDir == E_COLLISION_UP) 
     {
-		entity->fixVel.y = 0;           //floats for ceiling        
-		//idEntity.this.vY *= -1;		//Rebota hacia abajo con la velocida que subia
-		//idEntity.this.vY = 2;		//Rebota hacia abajo con valor fijo
+		entity->fixVel.y = 0;                                       //floats on ceiling        
+		//entity->fixVel.y = fixmul(entity->fixVel.y, itofix(-1));  //bounces down with same velocity
+        //entity->fixVel.y = itofix(2);                             //bounces down with fixed value
 	}
 }
 
