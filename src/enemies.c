@@ -286,6 +286,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
     {
         case E_PIRANHA_ST_IDLE:            
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             this->anim.frame = 0;
             this->visible = false;
             this->fixPos.x = itofix(this->initPos.x);
@@ -295,6 +296,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
             {
                 this->state++;
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->fixVel.y = ftofix(-4);
                 this->fixVel.x = ftofix(0.8);
                 this->ground = false;
