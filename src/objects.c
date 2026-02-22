@@ -83,7 +83,8 @@ void object_create(tEntity *entity)
             entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
-            collision_create_entity_points(entity);                    
+            collision_create_entity_points(entity);      
+            entity->properties = E_ENT_PROP_NO_BREAKABLE;              
         break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
@@ -148,6 +149,10 @@ void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
 
 void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
 {
+    //object defines
+    #define SOLID_THROW_VEL_X   2
+    #define SOLID_THROW_VEL_Y   -2
+
     //object states
     enum E_SOLID_OBJECT_STATES{E_SOLID_ST_IDLE, E_SOLID_ST_PICKED, E_SOLID_ST_THROWING, E_SOLID_ST_BREAK};
     
@@ -199,8 +204,9 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 
-                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-2) : itofix(2);
-                this->fixVel.y = itofix(-2);
+                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-SOLID_THROW_VEL_X) : itofix(SOLID_THROW_VEL_X);
+                this->fixVel.y = itofix(SOLID_THROW_VEL_Y);
+                this->ground = false;
                 
                 this->state = E_SOLID_ST_THROWING;
             }

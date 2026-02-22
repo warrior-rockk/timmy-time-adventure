@@ -472,7 +472,17 @@ void collision_apply_dir(tEntity *entity, int16_t colDir)
     }
     else if (colDir == E_COLLISION_DOWN) 
     {
-		//TODO: types
+		if (entity->id != PLAYER_ENTITY_ID)
+        {
+            entity->fixVel.y = fixmul(entity->fixVel.y, ftofix(-0.4));            
+			//cantidad de rebote
+			if ( abs(entity->fixVel.y) < ftofix(0.4) )
+				entity->ground = true;
+        }
+        else
+            entity->ground = true;
+        
+        //TODO: types
         /*
         //si es un solidItem
 		if (isType(idEntity,TYPE solidItem))
@@ -490,7 +500,7 @@ void collision_apply_dir(tEntity *entity, int16_t colDir)
 			end;			
 		else
         */
-			entity->ground = true;            
+			//entity->ground = true;            
         //}
     }
     else if (colDir == E_COLLISION_UP) 
