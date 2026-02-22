@@ -592,6 +592,18 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_
     return colDir;
 }
 
+bool collision_check_entity_col_points(uint16_t entityId)
+{
+    //find entity id on collision points list
+    for (int i = 0; i < numEntitiesColPoints; i++)
+    {
+        if (entColPointsList[i].entId == entityId)
+            return true;
+    }
+
+    return false;
+}
+
 //funcion que engloba la gestion de las fisicas de un proceso
 //devuelve si hubo alguna colision hortizontal con el terreno, ya que las verticales
 //las devuelve en el flag grounded

@@ -65,7 +65,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, (entity->pos.x + entity->size.x) - scroll->pos.x , (entity->pos.y + entity->size.y) - scroll->pos.y , 40);            
 
             //draw debug entity collision points
-            if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
+            if (collision_check_entity_col_points(entity->id))
             {
                 tColPoint *entPoint;
                 uint8_t entPointColor;

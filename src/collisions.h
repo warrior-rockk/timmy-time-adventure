@@ -91,6 +91,8 @@ void collision_destroy_entity_points(uint16_t entityId);
 tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 //function to disable all collision points except one
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint);
+//checks if an entity id has collision points created
+bool collision_check_entity_col_points(uint16_t entityId);
 //function to check entity collision with tilemap
 uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
