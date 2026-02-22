@@ -388,7 +388,7 @@ static void player_update_collisions(tEntity *player)
     objectForPickID = 0;
 
     //check all the entity collision points    
-    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
     {                
         //check collision tile for collision point
         colDir = collision_check_tile(player, i);        

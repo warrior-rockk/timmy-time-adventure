@@ -215,7 +215,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    
-            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
             {                
                 //check collision tile for collision point
                 colDir = collision_check_tile(this, i);

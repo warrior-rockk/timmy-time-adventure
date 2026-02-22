@@ -69,7 +69,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
             {
                 tColPoint *entPoint;
                 uint8_t entPointColor;
-                for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+                for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
                 {
                     entPoint = collision_get_ent_collision_point(entity, i);
                     if (entPoint->enabled)

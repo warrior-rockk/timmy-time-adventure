@@ -23,7 +23,7 @@ enum E_SCROLL_MODE
 };
 
 //scroll object
-typedef struct tScroll
+typedef struct
 {
     tVector pos;        //scroll actual position
     tVector window;     //scroll window size
