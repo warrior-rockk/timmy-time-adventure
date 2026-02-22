@@ -236,25 +236,29 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         clear_to_color(buffer, mapHeader.backgroundColor);
         tilesOnFrontLayer = false;
     }
-
-    for (int y = 0; y < screenLimit.y; y++)
+    
+    //draw map if not front layer or tiles on front layer
+    if (!frontLayer || tilesOnFrontLayer)
     {
-        for (int x = 0; x < screenLimit.x; x++)        
+        for (int y = 0; y < screenLimit.y; y++)
         {
-            //get map tile on current position
-            tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
-            
-            /* blit tile*/
-            if (tile->tileId != 0)
-            {  
-                if (!CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
-                    ;
-                else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer)
-                    tilesOnFrontLayer = true;
-                else  
-                    draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
-            }
-        }    
+            for (int x = 0; x < screenLimit.x; x++)        
+            {
+                //get map tile on current position
+                tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
+                
+                /* blit tile*/
+                if (tile->tileId != 0)
+                {  
+                    if (!CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
+                        ;
+                    else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer)
+                        tilesOnFrontLayer = true;
+                    else  
+                        draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+                }
+            }    
+        }
     }
 }
 
