@@ -40,6 +40,7 @@ BITMAP *mapTileSheet;
 uint8_t *mapIds;
 tTile *tilesWithProperty;
 tVector screenLimit;
+bool tilesOnFrontLayer;
 
 void map_load(char *mapFile, char *tileFile, tVector screenSize)
 {
@@ -221,7 +222,9 @@ void map_unload()
 
 void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
 {
-    uint8_t tileNum;
+    //uint8_t tileNum;
+    //uint8_t tileProperty;
+    tTile *tile;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
@@ -229,20 +232,28 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
     
     //TODO: replace clear all buffer with color only positions with no tiles?
     if (!frontLayer)
+    {
         clear_to_color(buffer, mapHeader.backgroundColor);
+        tilesOnFrontLayer = false;
+    }
 
     for (int y = 0; y < screenLimit.y; y++)
     {
         for (int x = 0; x < screenLimit.x; x++)        
         {
-            tileNum = map[((y + ty) * mapHeader.map_width) + x + tx].tileId;
-    
+            //get map tile on current position
+            tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
+            
             /* blit tile*/
-            if (tileNum != 0 && 
-                ((!CHECK_FLAG(map[((y + ty) * mapHeader.map_width) + x + tx].tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer) ||
-                (CHECK_FLAG(map[((y + ty) * mapHeader.map_width) + x + tx].tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
-            ))            
-                draw_sprite(buffer, tiles[tileNum - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+            if (tile->tileId != 0)
+            {  
+                if (!CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
+                    ;
+                else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer)
+                    tilesOnFrontLayer = true;
+                else  
+                    draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+            }
         }    
     }
 }
