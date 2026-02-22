@@ -221,7 +221,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 colDir = collision_check_tile(this, i);
                 if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                     //apply collision direction
-                    collision_apply_dir(this, colDir);                        
+                    collision_apply_dir(this, colDir, E_COLLISION_BOUNCE_SOFT);                        
                 else
                 {
                     if (colDir)
@@ -242,7 +242,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                         case E_ENT_CLASS_OBJECT:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
                             if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
-                                collision_apply_dir(this, colDir);
+                                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
                             else
                             {
                                 if (colDir)

@@ -348,7 +348,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             //check collision tile for collision point
             colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
             //apply collision direction
-            collision_apply_dir(this, colDir);        
+            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
             if (colDir == E_COLLISION_DOWN)
             {
@@ -370,7 +370,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             //check collision tile for collision point
             colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
             //apply collision direction
-            collision_apply_dir(this, colDir);        
+            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
             if (colDir == E_COLLISION_DOWN)
             {

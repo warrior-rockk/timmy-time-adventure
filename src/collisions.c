@@ -463,25 +463,40 @@ void collision_destroy_entity_points(uint16_t entityId)
 }
 
 //function to apply the direction of the collision to an entity
-void collision_apply_dir(tEntity *entity, int16_t colDir)
+void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode)
 {
-	//actions by collision
+	#define VEL_BOUNCE_SOFT 0.4
+    #define VEL_BOUNCE_HARD 0.8
+
+    //actions by collision
 	if (colDir == E_COLLISION_LEFT || colDir == E_COLLISION_RIGHT) 
     {
 		entity->fixVel.x = 0;        
     }
     else if (colDir == E_COLLISION_DOWN) 
     {
-		if (entity->id != PLAYER_ENTITY_ID)
-        {
-            entity->fixVel.y = fixmul(entity->fixVel.y, ftofix(-0.4));            
-			//cantidad de rebote
-			if ( abs(entity->fixVel.y) < ftofix(0.4) )
-				entity->ground = true;
+		fixed bounceVel;
+        switch (bounceMode)
+        {            
+            case E_COLLISION_BOUNCE_SOFT:
+                bounceVel = VEL_BOUNCE_SOFT;
+            break;
+            case E_COLLISION_BOUNCE_HARD:
+                bounceVel = VEL_BOUNCE_HARD;
+            break;
+            case E_COLLISION_NO_BOUNCE:
+            default:
+                entity->ground = true;
+            break;
         }
-        else
-            entity->ground = true;
         
+        if (bounceMode == E_COLLISION_BOUNCE_SOFT || bounceMode == E_COLLISION_BOUNCE_HARD)
+        {
+            entity->fixVel.y = fixmul(entity->fixVel.y, ftofix(-bounceVel));            
+            //cantidad de rebote
+            if ( abs(entity->fixVel.y) < ftofix(bounceVel) )
+                entity->ground = true;
+        }
         //TODO: types
         /*
         //si es un solidItem

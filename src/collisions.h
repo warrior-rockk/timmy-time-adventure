@@ -42,6 +42,14 @@ enum eColCodes{
     E_COLLISION_CENTER, 
 };
 
+//collision bounce modes
+enum E_COLLISION_BOUNCE_MODE
+{
+    E_COLLISION_NO_BOUNCE,
+    E_COLLISION_BOUNCE_SOFT,
+    E_COLLISION_BOUNCE_HARD,
+};
+
 //checkVectorY modes
 enum eCheckVectorYModes{
     E_CHECK_VECTOR_Y_FROM_COLLISION,        //check pixels to exit collision
@@ -88,6 +96,6 @@ uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode);
 //function to apply the direction of the collision to an entity
-void collision_apply_dir(tEntity *entity, int16_t colDir);
+void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 
 #endif

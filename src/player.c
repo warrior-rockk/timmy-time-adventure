@@ -393,7 +393,7 @@ static void player_update_collisions(tEntity *player)
         //check collision tile for collision point
         colDir = collision_check_tile(player, i);        
         //apply collision direction
-        collision_apply_dir(player, colDir);        
+        collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);        
     }
 
     //check entities collisions
@@ -417,7 +417,7 @@ static void player_update_collisions(tEntity *player)
                             player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
                         }
                         else
-                            collision_apply_dir(player, colDir);
+                            collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
                     }
 
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
@@ -427,7 +427,7 @@ static void player_update_collisions(tEntity *player)
                         //TODO: if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
                             objectForPickID = checkEntity->id;                                             
 
-                    collision_apply_dir(player, colDir);            
+                    collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
                 break;
                 case E_ENT_CLASS_ENEMY:
                     if (!playerFlags.dead)
