@@ -37,11 +37,11 @@ tMapEntity *mapObjects;
 tMapEntity *mapEnemies;
 BITMAP **tiles;
 BITMAP *mapTileSheet;
-//temporal
 uint8_t *mapIds;
 tTile *tilesWithProperty;
+tVector screenLimit;
 
-void map_load(char *mapFile, char *tileFile)
+void map_load(char *mapFile, char *tileFile, tVector screenSize)
 {
     //load map file
     FILE *file = fopen(mapFile, "rb");
@@ -55,6 +55,10 @@ void map_load(char *mapFile, char *tileFile)
         abort_on_error("Error al leer el encabezado.\n");
     }
     
+    //set screen limit for draw map
+    screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1 : screenSize.x / mapHeader.tile_width;
+    screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
+
     MY_TRACE_FLAG("Loading map: %s with tileFile: %s\n", mapFile, tileFile);
     MY_TRACE_FLAG("\tTile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     MY_TRACE_FLAG("\tMap dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
@@ -215,20 +219,14 @@ void map_unload()
     MY_TRACE_FLAG("Map unloaded\n");
 }
 
-void map_draw(BITMAP *buffer, tScroll *scroll, tVector screenSize, bool frontLayer)
+void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
 {
     uint8_t tileNum;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
     int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
-
-    //screen limit
-    //TODO: precalculate on map_init not calculate each map_draw
-    tVector screenLimit;
-    screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1 : screenSize.x / mapHeader.tile_width;
-    screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
-        
+    
     //TODO: replace clear all buffer with color only positions with no tiles?
     if (!frontLayer)
         clear_to_color(buffer, mapHeader.backgroundColor);

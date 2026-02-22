@@ -163,9 +163,9 @@ void game_update()
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                            
                     game_hud_update();                    
                     
-                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, false);                    
+                    map_draw(worldScreen, &scroll, false);                    
                     entities_draw(worldScreen, &scroll);                    
-                    map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, true);                    
+                    map_draw(worldScreen, &scroll, true);                    
                     game_hud_draw();
                     
                     game.state = E_GAME_ST_PLAY_LEVEL;
@@ -179,9 +179,9 @@ void game_update()
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
             game_hud_update();
 
-            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, false);
+            map_draw(worldScreen, &scroll, false);
             entities_draw(worldScreen, &scroll);
-            map_draw(worldScreen, &scroll, (tVector){GAME_W, GAME_H}, true);                    
+            map_draw(worldScreen, &scroll, true);                    
             game_hud_draw();           
 
             //check game lose life
@@ -452,7 +452,7 @@ static void game_debug_info()
 //testing
 static void game_load_level(uint8_t numLevel)
 {
-    map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile);
+    map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
     //game.scrollMode = E_SCROLL_X;
