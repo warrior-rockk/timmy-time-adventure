@@ -78,4 +78,12 @@ void debug_init();
 void debug_draw(BITMAP *buffer);
 //function to show debug info on screen
 void show_debug(const char *format, ...);
+//function to init playTime
+void playTime_init();
+//function to update playtine
+void playTime_update(bool clock1sec);
+//function to get playtime hours
+uint16_t playTime_get_hours();
+//function to get playtime minutes
+uint8_t playTime_get_minutes();
 #endif

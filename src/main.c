@@ -11,6 +11,7 @@
 #include "game.h"
 #include "input.h"
 #include "sound.h"
+#include "timer.h"
 
 #define TRACE_FLAG "[MAIN]"
 
@@ -26,6 +27,8 @@ int main()
     //main loop
     do
     {
+        playTime_update(get_clock_tick_1sec());
+
         #ifdef DEBUGMODE
             if (debugOptions.stepByStep)
             {
@@ -34,15 +37,12 @@ int main()
             else
             {
                 game_update();
-                game_draw();    
+                game_draw();                   
             }
         #else
             game_update();
             game_draw();
         #endif
-        
-        
-        
     } while (!gameExit);
     
     main_exit();
@@ -125,6 +125,8 @@ static void main_init()
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
         abort_on_error("Error seteando modo grafico");
     set_color_depth(GAME_COLOR_DEPTH);
+
+    playTime_init();
 }
 
 static void main_stepByStep()
@@ -150,11 +152,11 @@ void main_exit()
     MY_TRACE_FLAG("Exiting game\n");
     
     MY_TRACE_FLAG("Quit allegro modules\n");
-    //TODO: MY_TRACE("Game played for: %02dh %02dm\n", playTime.hours, playTime.minutes);
+    MY_TRACE("Game played for: %02dh %02dm\n", playTime_get_hours(), playTime_get_minutes());
 
     //quit allegro modules
     allegro_exit();
 
     printf("Thanks for playing %s!\n", GAME_TITLE);
-    //TODO: printf("Game played for: %02dhours and %02dminutes\n", playTime.hours, playTime.minutes);
+    printf("Game played for: %02dhours and %02dminutes\n", playTime_get_hours(), playTime_get_minutes());
 }

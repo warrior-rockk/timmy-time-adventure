@@ -16,6 +16,14 @@ struct debug
 } debug;
 #endif
 
+//playtime counter struct
+struct
+{
+    uint8_t seconds;
+    uint8_t minutes;
+    uint16_t hours;
+} playTime;
+
 //clamp value between min and max
 int clamp(int value, int min, int max)
 {
@@ -98,4 +106,44 @@ void show_debug(const char *format, ...)
         debug.numMsgs++;            
     }    
 #endif
+}
+
+//function to init playTime
+void playTime_init()
+{
+    playTime.seconds        = 0;
+    playTime.minutes        = 0;
+    playTime.hours          = 0;
+}
+
+//function to update playTime
+void playTime_update(bool clock1sec)
+{
+    if (clock1sec)
+    {
+        if (playTime.seconds >= 60)
+        {
+            if (playTime.minutes >= 59)
+            {
+                playTime.hours++;
+                playTime.minutes = 0;
+            }
+            else
+                playTime.minutes++;
+
+            playTime.seconds = 0;
+        }
+        else
+            playTime.seconds++;
+    }
+}
+
+uint16_t playTime_get_hours()
+{
+    return playTime.hours;
+}
+
+uint8_t playTime_get_minutes()
+{
+    return playTime.minutes;
 }
