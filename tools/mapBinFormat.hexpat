@@ -25,9 +25,15 @@ struct tileData {
     u8 tileData;
 };
 
+struct tileFrame {
+    u8 tileId;
+    u16 duration;
+};
+
 struct tileAnimation {
     u8 tileId;
-    u8 duration;
+    u8 numFrames;
+    tileFrame frames[numFrames];
 };
 
 struct level {

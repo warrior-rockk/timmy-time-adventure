@@ -104,8 +104,8 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         compression = data_node.attrib.get('compression')
 
         tiles = []
-        tile_data = []
-        tile_animation = []
+        tile_data = []   
+        tile_animations = {}
 
         # Find tileset
         tileSet = root.find('tileset')
@@ -157,10 +157,13 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                         tile_data.append((tile_id, value)) 
 
             if animation is not None:
-                for frame in animation:
-                    anim_tile_id = int(frame.get('tileid'))
-                    anim_tile_duration = int(frame.get('duration'))
-                    tile_animation.append((anim_tile_id, anim_tile_duration))
+                tile_frames = []
+                for frame in animation.findall('frame'):
+                    tile_frames.append({
+                        'tileid': frame.get('tileid'),
+                        'duration': frame.get('duration')
+                    })
+                tile_animations[tile_id] = tile_frames
    
         # Write binary file
         # Struct file:
@@ -181,7 +184,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data), len(tile_animation))
+            header = struct.pack('<HHHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data), len(tile_animations))
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
@@ -191,9 +194,19 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             for tile_id, value in tile_data:
                 f.write(struct.pack('BB', tile_id, value))
 
-            # Write tile animations (tile Id u8 + duration u16)
-            for tile_id, duration in tile_animation:
-                f.write(struct.pack('BB', tile_id, duration))
+            for tid, frames in tile_animations.items():
+                print(f"Tile ID {tid} tiene {len(frames)} frames:")
+                for frame in frames:
+                    print(f"  - Frame TileID: {frame['tileid']} (Duración: {frame['duration']}ms)")
+
+            # Write tile animations
+            for tile_id, frames in tile_animations.items():
+                # 2. Escribimos el ID del tile y cuántos frames tiene
+                f.write(struct.pack('<BB', int(tile_id), len(frames)))
+            
+                # 3. Escribimos cada frame (tileid y duracion)
+                for frame in frames:
+                    f.write(struct.pack('<BH', int(frame['tileid']), int(frame['duration'])))
             
             # Search object layer            
             for obj_group in root.findall('objectgroup'):
