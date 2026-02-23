@@ -9,6 +9,12 @@
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
+   <animation>
+    <frame tileid="25" duration="100"/>
+    <frame tileid="26" duration="100"/>
+    <frame tileid="27" duration="100"/>
+    <frame tileid="28" duration="100"/>
+   </animation>
   </tile>
   <tile id="26">
    <properties>
