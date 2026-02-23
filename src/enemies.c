@@ -286,6 +286,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
     {
         case E_PIRANHA_ST_IDLE:            
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             this->anim.frame = 0;
             this->visible = false;
             this->fixPos.x = itofix(this->initPos.x);
@@ -295,6 +296,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
             {
                 this->state++;
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->fixVel.y = ftofix(-4);
                 this->fixVel.x = ftofix(0.8);
                 this->ground = false;
@@ -346,7 +348,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_SPIDER_TURN);
             
             //check collision tile for collision point
-            colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
+            colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
@@ -368,7 +370,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_SPIDER_TURN);
 
             //check collision tile for collision point
-            colDir = collision_check_tile(this, COLPOINT_DOWN_L);        
+            colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
@@ -429,7 +431,7 @@ void enemy_template_update(tEntity *this, tEnemyLocalData *local)
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);
             
             //check all the entity collision points    
-            for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+            for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
             {                
                 //check collision tile for collision point
                 colDir = collision_check_tile(this, i);        

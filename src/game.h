@@ -109,7 +109,7 @@ enum E_GAME_SFX_VOICES
 };
 
 //game data
-typedef struct game
+typedef struct
 {
     uint8_t state;
     uint8_t prevState;

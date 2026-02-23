@@ -18,22 +18,22 @@
 //Puntos de colision
 //los puntos laterales deben estar primero de los inferiores/superiores
 //para el buen funcionamiento de la deteccion de obstaculos
-enum eColPoints {
-    COLPOINT_RIGHT_UP,
-    COLPOINT_RIGHT_DOWN,
-    COLPOINT_LEFT_UP,
-    COLPOINT_LEFT_DOWN,
-    COLPOINT_DOWN_L,
-    COLPOINT_DOWN_R,
-    COLPOINT_UP_L,
-    COLPOINT_UP_R,
-    COLPOINT_CENTER,
-    COLPOINT_CENTER_DOWN,
-    NUM_COL_POINTS  //counter
+enum E_COL_POINTS {
+    E_COLPOINT_RIGHT_UP,
+    E_COLPOINT_RIGHT_DOWN,
+    E_COLPOINT_LEFT_UP,
+    E_COLPOINT_LEFT_DOWN,
+    E_COLPOINT_DOWN_L,
+    E_COLPOINT_DOWN_R,
+    E_COLPOINT_UP_L,
+    E_COLPOINT_UP_R,
+    E_COLPOINT_CENTER,
+    E_COLPOINT_CENTER_DOWN,
+    E_NUM_COL_POINTS  //counter
 };
 
 //collision direction codes
-enum eColCodes{
+enum E_COL_CODES{
     E_COLLISION_NONE,
     E_COLLISION_UP,
     E_COLLISION_DOWN,
@@ -51,13 +51,13 @@ enum E_COLLISION_BOUNCE_MODE
 };
 
 //checkVectorY modes
-enum eCheckVectorYModes{
+enum E_CHECKVECTORMODES{
     E_CHECK_VECTOR_Y_FROM_COLLISION,        //check pixels to exit collision
     E_CHECK_VECTOR_Y_TO_COLLISION,          //check pixel to reach collision
 };
 
 //checkProcess modes
-enum eCheckProcessModes{
+enum E_CHECK_PROCESS_MODE{
     E_CHECK_PROCESS_BOTHAXIS,			
     E_CHECK_PROCESS_HORIZONTALAXIS,		
     E_CHECK_PROCESS_VERTICALAXIS,		
@@ -65,18 +65,18 @@ enum eCheckProcessModes{
 };
 
 //collision point
-typedef struct tColPoint
+typedef struct
 {
     tVector offset;                 //Vector de offset a sumar a la posicion del objeto
-    enum eColCodes colCode;			//Codigo del punto de colision
+    enum E_COL_CODES colCode;			//Codigo del punto de colision
 	bool enabled;			        //Habilitacion del punto de colision
 } tColPoint;
 
 //entity collision points
-typedef struct tEntColPoints
+typedef struct
 {
     uint16_t entId;                         //id of entity
-    tColPoint colPoint[NUM_COL_POINTS];     //array of collision points
+    tColPoint colPoint[E_NUM_COL_POINTS];     //array of collision points
 } tEntColPoints;
 
 //inits collision system
@@ -91,10 +91,12 @@ void collision_destroy_entity_points(uint16_t entityId);
 tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 //function to disable all collision points except one
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint);
+//checks if an entity id has collision points created
+bool collision_check_entity_col_points(uint16_t entityId);
 //function to check entity collision with tilemap
 uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
-uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode);
+uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 

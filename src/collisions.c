@@ -108,7 +108,7 @@ int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
 
 //check distance to vertical collision (or -1 if no collision) on a check vector
 //mode TO_COLLISION returns distance to collision and FROM_COLLISION distante to get out the collision
-int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, enum eCheckVectorYModes mode)
+int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, enum E_CHECKVECTORMODES mode)
 {
 
     int16_t dist = 0;		//distance to collision
@@ -357,55 +357,55 @@ void collision_create_entity_points(tEntity *entity)
         uint8_t dividedSizeY    = entity->size.y / 6;
         
         entColPointsList[newEntityColPoints].entId = entity->id;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.x 			= entity->size.x; //halfImgWidth + halfSizeX - 1;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.y 			= dividedSizeY;  
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].colCode 	        = E_COLLISION_RIGHT;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].enabled 	        = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].offset.x 			= entity->size.x; //halfImgWidth + halfSizeX - 1;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].offset.y 			= dividedSizeY;  
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].colCode 	        = E_COLLISION_RIGHT;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].enabled 	        = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].offset.y 	    = entity->size.y - dividedSizeY;  
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].colCode          = E_COLLISION_RIGHT;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].enabled          = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_DOWN].offset.y 	    = entity->size.y - dividedSizeY;  
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_DOWN].colCode          = E_COLLISION_RIGHT;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_DOWN].enabled          = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.x 		    = 0; //halfImgWidth - halfSizeX + 1;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_UP].offset.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].colCode             = E_COLLISION_LEFT;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].enabled             = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_UP].offset.x 		    = 0; //halfImgWidth - halfSizeX + 1;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_UP].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].offset.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_UP].colCode             = E_COLLISION_LEFT;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_UP].enabled             = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].offset.x 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_UP].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_RIGHT_DOWN].offset.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].colCode           = E_COLLISION_LEFT;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_LEFT_DOWN].enabled           = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_DOWN].offset.x 		    = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_UP].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_DOWN].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_DOWN].offset.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_DOWN].colCode           = E_COLLISION_LEFT;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_LEFT_DOWN].enabled           = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.x 		    = entity->size.x - dividedSizeX; //halfImgWidth + dividedSizeX; 
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.y 		    = entity->size.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].colCode              = E_COLLISION_DOWN;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].enabled              = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].offset.x 		    = entity->size.x - dividedSizeX; //halfImgWidth + dividedSizeX; 
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].offset.y 		    = entity->size.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].colCode              = E_COLLISION_DOWN;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].enabled              = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x 		    = dividedSizeX; //halfImgWidth - dividedSizeX;  
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].colCode              = E_COLLISION_DOWN;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].enabled              = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_L].offset.x 		    = dividedSizeX; //halfImgWidth - dividedSizeX;  
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_L].offset.y 		    = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].offset.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_L].colCode              = E_COLLISION_DOWN;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_L].enabled              = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_R].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].offset.y 		        = 0;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].colCode                = E_COLLISION_UP;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].enabled                = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_R].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_R].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_R].offset.y 		        = 0;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_R].colCode                = E_COLLISION_UP;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_R].enabled                = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_DOWN_L].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].offset.y 		        = entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_R].offset.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].colCode                = E_COLLISION_UP;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_UP_L].enabled                = true;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_L].offset.x 		        = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_DOWN_L].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_L].offset.y 		        = entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_R].offset.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_L].colCode                = E_COLLISION_UP;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_UP_L].enabled                = true;
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x 		    = halfSizeX; //halfImgWidth;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.y 		    = halfSizeY;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].colCode              = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].enabled              = false; //<- false by default
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER].offset.x 		    = halfSizeX; //halfImgWidth;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER].offset.y 		    = halfSizeY;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER].colCode              = E_COLLISION_CENTER;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER].enabled              = false; //<- false by default
         
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER].offset.x;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].colCode         = E_COLLISION_CENTER;
-        entColPointsList[newEntityColPoints].colPoint[COLPOINT_CENTER_DOWN].enabled         = false; //<- false by default
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER_DOWN].offset.x 		= entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER].offset.x;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER_DOWN].colCode         = E_COLLISION_CENTER;
+        entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_CENTER_DOWN].enabled         = false; //<- false by default
 
         #if DEBUG_TRACE_COLL_POINTS_ARRAY
             MY_TRACE_FLAG("Created entity id: %i collision points on position: %d\n", entity->id, newEntityColPoints);
@@ -422,7 +422,7 @@ void collision_disable_points_except(uint16_t entityId, uint8_t numPoint)
     uint16_t entIndex = get_collision_point_index_by_entId(entityId);   
 
     //disable all collision points
-    for (uint8_t i = 0; i < NUM_COL_POINTS; i++)
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
         entColPointsList[entIndex].colPoint[numPoint].enabled = false;
     
     //enables the exception
@@ -465,8 +465,8 @@ void collision_destroy_entity_points(uint16_t entityId)
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode)
 {
-	#define VEL_BOUNCE_SOFT 0.4
-    #define VEL_BOUNCE_HARD 0.8
+	#define VEL_BOUNCE_SOFT     0.4
+    #define VEL_BOUNCE_HARD     0.8
 
     //actions by collision
 	if (colDir == E_COLLISION_LEFT || colDir == E_COLLISION_RIGHT) 
@@ -476,59 +476,41 @@ void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode)
     else if (colDir == E_COLLISION_DOWN) 
     {
 		fixed bounceVel;
+        //sets bounce velocity or set ground if no bounce
         switch (bounceMode)
         {            
             case E_COLLISION_BOUNCE_SOFT:
-                bounceVel = VEL_BOUNCE_SOFT;
+                bounceVel = ftofix(VEL_BOUNCE_SOFT);
             break;
             case E_COLLISION_BOUNCE_HARD:
-                bounceVel = VEL_BOUNCE_HARD;
+                bounceVel = ftofix(VEL_BOUNCE_HARD);
             break;
             case E_COLLISION_NO_BOUNCE:
             default:
                 entity->ground = true;
             break;
         }
-        
+        //if bounce mode
         if (bounceMode == E_COLLISION_BOUNCE_SOFT || bounceMode == E_COLLISION_BOUNCE_HARD)
         {
-            entity->fixVel.y = fixmul(entity->fixVel.y, ftofix(-bounceVel));            
-            //cantidad de rebote
-            if ( abs(entity->fixVel.y) < ftofix(bounceVel) )
+            //bounces the entity
+            entity->fixVel.y = fixmul(entity->fixVel.y, -bounceVel);            
+            //until reaches the bounce velocity
+            if ( abs(entity->fixVel.y) < bounceVel)
                 entity->ground = true;
         }
-        //TODO: types
-        /*
-        //si es un solidItem
-		if (isType(idEntity,TYPE solidItem))
-			idEntity.this.vY *= -cBouncyObjectVel;
-			//cantidad de rebote
-			if ( abs(idEntity.this.vY) < cBouncyObjectVel )
-				*objGrounded = true;		
-			end;
-		//si es un item
-		elseif (isType(idEntity,TYPE Item))
-			idEntity.this.vY *= -cBouncyItemVel;
-			//cantidad de rebote
-			if ( abs(idEntity.this.vY) < cBouncyItemVel )
-				*objGrounded = true;		
-			end;			
-		else
-        */
-			//entity->ground = true;            
-        //}
     }
     else if (colDir == E_COLLISION_UP) 
     {
-		entity->fixVel.y = 0;           //floats for ceiling        
-		//idEntity.this.vY *= -1;		//Rebota hacia abajo con la velocida que subia
-		//idEntity.this.vY = 2;		//Rebota hacia abajo con valor fijo
+		entity->fixVel.y = 0;                                       //floats on ceiling        
+		//entity->fixVel.y = fixmul(entity->fixVel.y, itofix(-1));  //bounces down with same velocity
+        //entity->fixVel.y = itofix(2);                             //bounces down with fixed value
 	}
 }
 
 //Function to check collision between processes. Mode selects horizontal, vertical or both collisions
 //Position the entityA to edge of collision (if not mode INFOONLY) and returns collision direction or 0 if not collided
-uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckProcessModes mode)
+uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode)
 {
     fixed vcX, vcY, addHW, addHH, oX, oY, hWA, hHA, hWB, hHB;
     uint8_t colDir = 0;
@@ -608,6 +590,18 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum eCheckPr
         
     //returns the collision dir
     return colDir;
+}
+
+bool collision_check_entity_col_points(uint16_t entityId)
+{
+    //find entity id on collision points list
+    for (int i = 0; i < numEntitiesColPoints; i++)
+    {
+        if (entColPointsList[i].entId == entityId)
+            return true;
+    }
+
+    return false;
 }
 
 //funcion que engloba la gestion de las fisicas de un proceso
