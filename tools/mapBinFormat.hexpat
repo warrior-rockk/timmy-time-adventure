@@ -7,8 +7,9 @@ struct mapHeader {
     u16 tiles_Y;
     u16 backgroundColor;
     u16 tileCount;
-    u16 tileColumns;
+    u16 tileColumns;  
     u16 numTilesData;
+    u16 numTilesAnimation;
 };
 
 struct entity {
@@ -24,11 +25,17 @@ struct tileData {
     u8 tileData;
 };
 
+struct tileAnimation {
+    u8 tileId;
+    u8 duration;
+};
+
 struct level {
     mapHeader header;
     u16 numTiles = header.tiles_X * header.tiles_Y;
     u8 tiles[numTiles];
     tileData tilesProperties[header.numTilesData];
+    tileAnimation tilesAnimation[header.numTilesAnimation];
     u16 numObjects;
     entity objects[numObjects];
     u16 numEnemies;

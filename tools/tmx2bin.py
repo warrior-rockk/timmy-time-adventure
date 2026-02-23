@@ -105,6 +105,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
         tiles = []
         tile_data = []
+        tile_animation = []
 
         # Find tileset
         tileSet = root.find('tileset')
@@ -146,25 +147,33 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         for tile in tileSet.findall('tile'):
             tile_id = int(tile.get('id')) + 1 # need to add 1 because the tileset starts with 0 but the map with 1
             properties = tile.find('properties')
-            
+            animation = tile.find('animation')
+
             if properties is not None:
                 for prop in properties.findall('property'):
                     # Search the custom property called "property"
                     if prop.get('name') == 'property':
                         value = int(prop.get('value'))                        
-                        tile_data.append((tile_id, value))                        
-               
+                        tile_data.append((tile_id, value)) 
+
+            if animation is not None:
+                for frame in animation:
+                    anim_tile_id = int(frame.get('tileid'))
+                    anim_tile_duration = int(frame.get('duration'))
+                    tile_animation.append((anim_tile_id, anim_tile_duration))
+   
         # Write binary file
         # Struct file:
         # [Header]
-        #   - Tile Width            (uint16)
-        #   - Tile Height           (uint16)
-        #   - Map Width             (uint16) 
-        #   - Map Height            (uint16)
-        #   - Map Backcolor         (uint16)
-        #   - Tileset tile count    (uint16)
-        #   - TIleset tile columns  (uint16)
-        #   - Num tiles with data   (uint16)
+        #   - Tile Width                    (uint16)
+        #   - Tile Height                   (uint16)
+        #   - Map Width                     (uint16) 
+        #   - Map Height                    (uint16)
+        #   - Map Backcolor                 (uint16)
+        #   - Tileset tile count            (uint16)
+        #   - TIleset tile columns          (uint16)
+        #   - Num tiles with data           (uint16)
+        #   - Num tiles with animation      (uint16)
         # [Body]
         #   - Tile array            (uint8 * num_tiles)
         #   - Tile properties       (uint8 * Num tiles with data)
@@ -172,7 +181,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
             # 8 bytes total header
-            header = struct.pack('<HHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data))
+            header = struct.pack('<HHHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data), len(tile_animation))
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
@@ -181,6 +190,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             # Write tiles properties 'B' = u8_t
             for tile_id, value in tile_data:
                 f.write(struct.pack('BB', tile_id, value))
+
+            # Write tile animations (tile Id u8 + duration u16)
+            for tile_id, duration in tile_animation:
+                f.write(struct.pack('BB', tile_id, duration))
             
             # Search object layer            
             for obj_group in root.findall('objectgroup'):
