@@ -5,6 +5,26 @@
  </properties>
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="100" columns="10">
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="160"/>
+  <tile id="25">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
   <tile id="33">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
@@ -228,7 +248,7 @@
   </object>
   <object id="10" name="spider" type="enemy" x="1184" y="0" width="16" height="16"/>
   <object id="11" name="spider" type="enemy" x="1248" y="48" width="16" height="16"/>
-  <object id="12" name="piranha" type="enemy" x="544" y="96" width="32" height="32">
+  <object id="12" name="piranha" type="enemy" x="544" y="112" width="32" height="32">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>
