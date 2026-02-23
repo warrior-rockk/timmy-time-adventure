@@ -152,7 +152,7 @@ void main_exit()
     MY_TRACE_FLAG("Exiting game\n");
     
     MY_TRACE_FLAG("Quit allegro modules\n");
-    MY_TRACE("Game played for: %02dh %02dm\n", playTime_get_hours(), playTime_get_minutes());
+    MY_TRACE_FLAG("Game played for: %02dh %02dm\n", playTime_get_hours(), playTime_get_minutes());
 
     //quit allegro modules
     allegro_exit();
