@@ -227,12 +227,20 @@
    </properties>
   </tile>
   <tile id="97">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
    <animation>
     <frame tileid="97" duration="300"/>
     <frame tileid="98" duration="300"/>
     <frame tileid="95" duration="300"/>
     <frame tileid="96" duration="300"/>
    </animation>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
   </tile>
  </tileset>
  <layer id="1" name="Tiles" width="100" height="12">
