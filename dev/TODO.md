@@ -8,7 +8,7 @@
 - [ ] Fps drop down (486@66) when all screen full of tiles (with the second layer feature)
 - [ ] Entity destroy function pointer to unload entity resources
 - [ ] No pick object with object above
-- [ ] Tile animations
+- [X] Tile animations
 - [ ] Type of tiles: solid, hurt...
 - [ ] Load resources function to check errors
 - [ ] Fix deltaTime collisions?

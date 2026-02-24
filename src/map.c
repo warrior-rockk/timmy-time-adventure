@@ -135,7 +135,8 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         //read tile animation data
         fread(&tileAnimation[i].tileId,      sizeof(uint8_t),    1, file);
         fread(&tileAnimation[i].numFrames,   sizeof(uint8_t),    1, file);
-        
+        MY_TRACE_FLAG("Tile animation id: %i has tileId: %i with %i frames\n", i, tileAnimation[i].tileId, tileAnimation[i].numFrames);
+
         //if tile has animation, save animation property to tile to check later
         for (uint16_t j = 0; j < total_tiles; j++)
         {            
@@ -145,7 +146,8 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
                 //if exists, assign animation property
                 SET_FLAG(map[j].tileProperty, E_TILE_PROP_ANIMATION);
                 //assign animation id
-                map[j].tileAnimationId = i;                
+                map[j].tileAnimationId = i;      
+                MY_TRACE_FLAG("\tTile id: %i has tileAnimationId: %i\n", j, i);          
             }            
         }
 
@@ -164,6 +166,8 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
             
             //adjust time to game clock
             tileAnimation[i].frames[frame].duration /= GAME_CLOCK_TICK;
+
+            MY_TRACE_FLAG("\t\tTile animation id: %i and frame %i has tileId: %i with duration: %i\n", i, frame, tileAnimation[i].frames[frame].tileId, tileAnimation[i].frames[frame].duration);
         }
     }
 
@@ -259,6 +263,7 @@ void map_unload()
     //free map data
     free(map);    
     free(tiles);
+    free(tileAnimation);
     map = NULL;
     tiles = NULL;
 
@@ -285,7 +290,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         //update tile animations (animation range: first frame id to last frame id (consecutive mandatory) and duration of first frame for all frames)
         for (uint16_t i = 0; i < mapHeader.numTilesWithAnimation; i++)
         {
-            play_animation(&tileAnimation[i].anim, tileAnimation[i].frames[0].tileId, tileAnimation[i].frames[tileAnimation->numFrames-1].tileId, tileAnimation[i].frames[0].duration, ANIM_LOOP);
+            play_animation(&tileAnimation[i].anim, tileAnimation[i].frames[0].tileId, tileAnimation[i].frames[tileAnimation[i].numFrames-1].tileId, tileAnimation[i].frames[0].duration, ANIM_LOOP);            
         }
     }
     
