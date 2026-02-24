@@ -1,5 +1,5 @@
 # Bugs
-- [ ] Add stone to map and player no image!?
+- [ ] If define 0 sound, game freezes
 
 # Engine
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
@@ -27,6 +27,7 @@
 - [X] Enemies
 
 # Player
+- [ ] Crouch change size
 - [ ] Idle special animation when no control
 - [ ] Animation on edge
 - [X] Slide crouched

@@ -111,6 +111,7 @@ void player_update(tEntity *player)
         #endif
         show_debug( "p.vX: %f", fixtof(player->fixVel.x));
         show_debug( "p.vY: %f", fixtof(player->fixVel.y));
+        show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
         show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);        
     #endif
 }

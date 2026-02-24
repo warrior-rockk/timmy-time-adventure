@@ -59,6 +59,13 @@ typedef struct tFixVector
     fixed y;
 } tFixVector;
 
+//fix line path vector type
+typedef struct
+{
+    tFixVector start;
+    tFixVector end;
+} tFixLinePath;
+
 //rectangle type
 typedef struct tRectangle
 {

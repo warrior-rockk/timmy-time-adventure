@@ -394,7 +394,7 @@ void entity_update_vel_pos(tEntity *entity)
 
     //update position
     entity->pos.x = fixtoi(entity->fixPos.x);
-    entity->pos.y = fixtoi(entity->fixPos.y);
+    entity->pos.y = fixtoi(entity->fixPos.y);    
 }
 
 void entity_blink(tEntity *entity)

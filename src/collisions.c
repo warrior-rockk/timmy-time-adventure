@@ -108,27 +108,32 @@ int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
 
 //check distance to vertical collision (or -1 if no collision) on a check vector
 //mode TO_COLLISION returns distance to collision and FROM_COLLISION distante to get out the collision
-int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, enum E_CHECKVECTORMODES mode)
+//fixed point for precision
+fixed colCheckVectorY(tEntity *entity, tFixLinePath *linePath, uint16_t colCode, enum E_CHECKVECTORMODES mode)
 {
 
-    int16_t dist = 0;		//distance to collision
-    int16_t inc;			//increment
+    fixed dist = 0;		    //distance to collision
+    fixed inc;			    //increment
     uint8_t colPixel = 0;	//color pixel of collision
-	
-	//sets increment direction
-    inc = linePath->end.y >= linePath->start.y ? 1 : -1;
+	tVector checkPosition;  //convert to tVector for map_tile_exits
 
-	//number of pixel of entity above of upper collision
-    linePath->start.y += 1;
-    
+	//sets increment direction
+    inc = linePath->end.y >= linePath->start.y ? ftofix(1) : ftofix(-1);
+
+	//x component of vector doesn't change
+    checkPosition.x = fixtoi(linePath->start.x);
+
 	//run vector searching pixel collision
 	do
-	{		
+	{		        
+        //y component of vector change. Refresh
+        checkPosition.y = fixtoi(linePath->start.y);
+
         //check if tile exists on path position
-        if (map_tile_exists(&linePath->start))
-        {            
+        if (map_tile_exists(&checkPosition))
+        {   
             //check if tile is solid
-            if (!CHECK_FLAG(map_get_tile_code(&linePath->start), E_TILE_PROP_NO_SOLID))
+            if (!CHECK_FLAG(map_get_tile_code(&checkPosition), E_TILE_PROP_NO_SOLID))
             {
                 colPixel = 100;                
             }
@@ -161,8 +166,8 @@ int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, 
         if (mode == E_CHECK_VECTOR_Y_TO_COLLISION)	
         {
             //if detects collision, return distance
-            if (colPixel != 0 )
-                return dist;            
+            if (colPixel != 0)            
+                return dist;                        
         }
         else
             //Mode FROM_COLLISION: if out of collision, return distance
@@ -170,24 +175,25 @@ int16_t colCheckVectorY(tEntity *entity, tLinePath *linePath, uint16_t colCode, 
                 return dist;            
                 
         //increments distance
-        dist++;
+        dist = dist + itofix(1);
         //increments vector
-        linePath->start.y += inc;	
+        linePath->start.y = linePath->start.y + inc;	
     }
 	//check all the vector
-	while ((linePath->start.y < linePath->end.y && inc==1) || (linePath->start.y > linePath->end.y && inc == -1));
+	while ((linePath->start.y < linePath->end.y && inc==itofix(1)) || (linePath->start.y > linePath->end.y && inc == itofix(-1)));
 	
 	//no collision
-	return -1;
+	return itofix(-1);
 }
 
 //function to check entity collision with tilemap. Returns: direction of collision
 uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 
-    tLinePath colLinePath;	//Collision path line to check
-    int16_t distColX;		//X collision distance
-    int16_t distColY;		//Y collision distance
-    int16_t colDir;			//Direction of collision
+    tLinePath colLinePath;	    //Collision path line to check
+    tFixLinePath fColLinePath;  //Collision path line to check Y (fixed)
+    int16_t distColX;		    //X collision distance
+    fixed distColY;		        //Y collision distance
+    int16_t colDir;			    //Direction of collision
 
     colDir = 0;
     
@@ -245,31 +251,32 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     }
     
     //===============
-    //VERTICAL COLLISIONS
+    //VERTICAL COLLISIONS (with fixed point for precision)
     //===============
     
     //check if collision point is vertical
     if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_UP || entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DOWN)
     {           
         //set the compare vector
-        colLinePath.start.x = entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x;
-        colLinePath.end.x   = colLinePath.start.x;
-        colLinePath.start.y = entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y;
-        colLinePath.end.y   = fixtoi(fixadd(entity->fixPos.y, entity->fixVel.y)) + entColPointsList[entIndex].colPoint[pointNum].offset.y; //colLinePath.start.y + fixtoi(entity->fixVel.y);
+        fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.x);
+        fColLinePath.end.x   = fColLinePath.start.x;
+        fColLinePath.start.y = entity->fixPos.y + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.y);
+        fColLinePath.end.y   = fixadd(entity->fixPos.y, entity->fixVel.y) + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.y);
         
-        //TRACE("sx: %i ex: %i sy: %i ey: %i \n", colLinePath.start.x, colLinePath.end.x, colLinePath.start.y, colLinePath.end.y);
+        //TRACE("sx: %f ex: %f sy: %f ey: %f \n", fixtof(fColLinePath.start.x), fixtof(fColLinePath.end.x), fixtof(fColLinePath.start.y), fixtof(fColLinePath.end.y));
+        //show_debug("sx: %f ex: %f sy: %f ey: %f \n", fixtof(fColLinePath.start.x), fixtof(fColLinePath.end.x), fixtof(fColLinePath.start.y), fixtof(fColLinePath.end.y));
 
         //call check vector collision on Y
-        distColY = colCheckVectorY(entity, &colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
-                        
+        distColY = colCheckVectorY(entity, &fColLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
+        
         //check if has collided
         if (distColY >= 0) 
         {               
             //down collision
-            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DOWN && fixtoi(entity->fixVel.y) >=0)
+            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DOWN && entity->fixVel.y >= 0)
             { 
                 //adjust the entity to border of collision
-                entity->fixPos.y += itofix(distColY);                
+                entity->fixPos.y += distColY;                
                 colDir = E_COLLISION_DOWN;
                 
                 //TODO: slopes
@@ -294,10 +301,10 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
             }                                 
             
             //up collision
-            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_UP && fixtoi(entity->fixVel.y) < 0)
+            if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_UP && entity->fixVel.y < 0)
             {
                 //adjust the entity to border of collision
-                entity->fixPos.y -= itofix(distColY);                
+                entity->fixPos.y -= distColY;                
                 colDir = E_COLLISION_UP;
             }
         }
