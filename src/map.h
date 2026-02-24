@@ -21,20 +21,13 @@ typedef struct
     uint8_t tileAnimationId;    //id of array of tile animation 
 } tTile;
 
-//tile frame animation
-typedef struct
-{
-    uint8_t tileId;
-    uint16_t duration;
-} tTileFrame;
-
 //tile animation
 typedef struct
 {
     uint8_t tileId;
     uint8_t numFrames;
     tAnimation anim;
-    tTileFrame *frames;
+    tAnimFrame *frames;
 } tTileAnimation;
 
 //tile properties
