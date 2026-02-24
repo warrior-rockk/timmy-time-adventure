@@ -19,6 +19,21 @@ typedef struct
     uint8_t tileProperty;   //property of tile    
 } tTile;
 
+//tile frame animation
+typedef struct
+{
+    uint8_t tileId;
+    uint16_t duration;
+} tTileFrame;
+
+//tile animation
+typedef struct
+{
+    uint8_t tileId;
+    uint8_t numFrames;
+    tTileFrame *frames;
+} tTileAnimation;
+
 //tile properties
 enum E_TILE_PROPERTY
 {

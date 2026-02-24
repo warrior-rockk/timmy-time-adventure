@@ -21,6 +21,7 @@ struct mapHeader{
     uint16_t tileCount;
     uint16_t tileColumns;
     uint16_t numTilesWithProperty;
+    uint16_t numTilesWithAnimation;
 } mapHeader;
 
 //type of map object entity data
@@ -33,12 +34,13 @@ typedef struct {
 } tMapEntity;
 
 tTile *map;
+tTile *tilesWithProperty;
+tTileAnimation *tilesWithAnimation;
 tMapEntity *mapObjects;
 tMapEntity *mapEnemies;
 BITMAP **tiles;
 BITMAP *mapTileSheet;
 uint8_t *mapIds;
-tTile *tilesWithProperty;
 tVector screenLimit;
 bool tilesOnFrontLayer;
 
@@ -47,13 +49,13 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     //load map file
     FILE *file = fopen(mapFile, "rb");
     if (!file) {
-        abort_on_error("Error al abrir el archivo");
+        abort_on_error("Error opening map file %s\n", mapFile);
     }
 
     //read map file header    
     if (fread(&mapHeader, sizeof(mapHeader), 1, file) != 1) {
         fclose(file);
-        abort_on_error("Error al leer el encabezado.\n");
+        abort_on_error("Error reading map header\n");
     }
     
     //set screen limit for draw map
@@ -66,6 +68,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     MY_TRACE_FLAG("\tBackground color: %u\n", mapHeader.backgroundColor);
     MY_TRACE_FLAG("\tTile count: %u\n", mapHeader.tileCount);
     MY_TRACE_FLAG("\tTiles with property: %u\n", mapHeader.numTilesWithProperty);
+    MY_TRACE_FLAG("\tTiles with animations: %u\n", mapHeader.numTilesWithAnimation);
 
     //Calculate number of tiles and reservate memory
     uint16_t total_tiles = mapHeader.map_width * mapHeader.map_height;
@@ -76,20 +79,20 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     
     if (mapIds == NULL || map == NULL) {
         fclose(file);
-        abort_on_error("Error: No se pudo asignar memoria para %u tiles.\n", total_tiles);
+        abort_on_error("Can't allocate memory for %u tiles\n", total_tiles);
     }
 
     //read the full tile array id
     size_t read_count = fread(mapIds, sizeof(uint8_t), total_tiles, file);
     if (read_count != total_tiles) {
-        abort_on_error("Error: Se esperaba leer %u tiles, pero se leyeron %zu.\n", total_tiles, read_count);
+        abort_on_error("Expected read %u tiles, but readed %zu\n", total_tiles, read_count);
     }
     
     //allocate memory for temporal array of tile with property
     tilesWithProperty = (tTile *)malloc(mapHeader.numTilesWithProperty * sizeof(tTile)); 
     if (tilesWithProperty == NULL) {
         fclose(file);
-        abort_on_error("Error: No se pudo asignar memoria para %u tiles con property.\n", mapHeader.numTilesWithProperty);
+        abort_on_error("Can't allocate memory for %u tiles with property\n", mapHeader.numTilesWithProperty);
     }
     
     //read temporal array of tiles with property
@@ -119,6 +122,35 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         }
     }
     
+    //allocate memory for array of tile with animation
+    tilesWithAnimation = (tTileAnimation *)malloc(mapHeader.numTilesWithAnimation * sizeof(tTileAnimation)); 
+    if (tilesWithAnimation == NULL) {
+        fclose(file);
+        abort_on_error("Can't allocate memory for %u tiles with animation\n", mapHeader.numTilesWithAnimation);
+    }
+    
+    //read array of tiles with animationi
+    for (uint8_t i = 0; i < mapHeader.numTilesWithAnimation; i++)
+    {
+        //read tile animation data
+        fread(&tilesWithAnimation[i].tileId,      sizeof(uint8_t),    1, file);
+        fread(&tilesWithAnimation[i].numFrames,   sizeof(uint8_t),    1, file);
+
+        //allocate memory for tile frames of animation
+        tilesWithAnimation[i].frames = (tTileFrame *)malloc(tilesWithAnimation[i].numFrames * sizeof(tTileFrame)); 
+        if (tilesWithAnimation[i].frames == NULL) {
+            fclose(file);
+            abort_on_error("Can't allocate memory for %u frames of animation\n", tilesWithAnimation[i].numFrames);
+        }
+
+        //read tile animation frames
+        for (uint8_t frame = 0; frame < tilesWithAnimation[i].numFrames; frame++)
+        {
+            fread(&tilesWithAnimation[i].frames[frame].tileId,      sizeof(uint8_t),     1, file);
+            fread(&tilesWithAnimation[i].frames[frame].duration,    sizeof(uint16_t),    1, file);
+        }
+    }
+
     //read map objects
     uint16_t numMapObjects;
     fread(&numMapObjects, sizeof(uint16_t), 1, file);
@@ -128,7 +160,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     mapObjects = (tMapEntity *)malloc(numMapObjects * sizeof(tMapEntity));
     if (mapObjects == NULL) {
         fclose(file);
-        abort_on_error("Error: No se pudo asignar memoria para %u objetos de mapa.\n", numMapObjects);
+        abort_on_error("Can allocate memory for %u objects on map\n", numMapObjects);
     }
 
     //read data by field to avoid padding problems
@@ -157,7 +189,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         mapEnemies = (tMapEntity *)malloc(numMapEnemies * sizeof(tMapEntity));
         if (mapEnemies == NULL) {
             fclose(file);
-            abort_on_error("Error: No se pudo asignar memoria para %u objetos de mapa.\n", numMapEnemies);
+            abort_on_error("Can allocate memory for %u enemies on map\n", numMapEnemies);
         }
 
         //read data by field to avoid padding problems
