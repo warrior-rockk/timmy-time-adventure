@@ -2,6 +2,7 @@
 - [ ] Add stone to map and player no image!?
 
 # Engine
+- [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water
 - [X] Improve front layer marking flag on no front layer if are tiles with front property
 - [ ] Fps drop down (486@66) when all screen full of tiles (with the second layer feature)

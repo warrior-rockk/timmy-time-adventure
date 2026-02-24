@@ -11,12 +11,14 @@
 #include "utils.h"
 #include "game.h"
 #include "scroll.h"
+#include "anim.h"
 
 //struct of tile
 typedef struct
 {
-    uint8_t tileId;         //id of tile on tileset
-    uint8_t tileProperty;   //property of tile    
+    uint8_t tileId;             //id of tile on tileset
+    uint8_t tileProperty;       //property of tile   
+    uint8_t tileAnimationId;    //id of array of tile animation 
 } tTile;
 
 //tile frame animation
@@ -31,6 +33,7 @@ typedef struct
 {
     uint8_t tileId;
     uint8_t numFrames;
+    tAnimation anim;
     tTileFrame *frames;
 } tTileAnimation;
 
@@ -39,6 +42,7 @@ enum E_TILE_PROPERTY
 {
     E_TILE_PROP_NO_SOLID    = 0x01,
     E_TILE_PROP_FRONT_LAYER = 0x02,
+    E_TILE_PROP_ANIMATION   = 0x04,
 };
 
 //loads a map level and creates level entities

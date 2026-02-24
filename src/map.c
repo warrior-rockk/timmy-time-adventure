@@ -35,7 +35,7 @@ typedef struct {
 
 tTile *map;
 tTile *tilesWithProperty;
-tTileAnimation *tilesWithAnimation;
+tTileAnimation *tileAnimation;
 tMapEntity *mapObjects;
 tMapEntity *mapEnemies;
 BITMAP **tiles;
@@ -123,31 +123,47 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     }
     
     //allocate memory for array of tile with animation
-    tilesWithAnimation = (tTileAnimation *)malloc(mapHeader.numTilesWithAnimation * sizeof(tTileAnimation)); 
-    if (tilesWithAnimation == NULL) {
+    tileAnimation = (tTileAnimation *)malloc(mapHeader.numTilesWithAnimation * sizeof(tTileAnimation)); 
+    if (tileAnimation == NULL) {
         fclose(file);
         abort_on_error("Can't allocate memory for %u tiles with animation\n", mapHeader.numTilesWithAnimation);
     }
     
-    //read array of tiles with animationi
+    //read array of tiles with animation
     for (uint8_t i = 0; i < mapHeader.numTilesWithAnimation; i++)
     {
         //read tile animation data
-        fread(&tilesWithAnimation[i].tileId,      sizeof(uint8_t),    1, file);
-        fread(&tilesWithAnimation[i].numFrames,   sizeof(uint8_t),    1, file);
+        fread(&tileAnimation[i].tileId,      sizeof(uint8_t),    1, file);
+        fread(&tileAnimation[i].numFrames,   sizeof(uint8_t),    1, file);
+        
+        //if tile has animation, save animation property to tile to check later
+        for (uint16_t j = 0; j < total_tiles; j++)
+        {            
+            //search tile id 
+            if (map[j].tileId == tileAnimation[i].tileId)
+            {
+                //if exists, assign animation property
+                SET_FLAG(map[j].tileProperty, E_TILE_PROP_ANIMATION);
+                //assign animation id
+                map[j].tileAnimationId = i;                
+            }            
+        }
 
         //allocate memory for tile frames of animation
-        tilesWithAnimation[i].frames = (tTileFrame *)malloc(tilesWithAnimation[i].numFrames * sizeof(tTileFrame)); 
-        if (tilesWithAnimation[i].frames == NULL) {
+        tileAnimation[i].frames = (tTileFrame *)malloc(tileAnimation[i].numFrames * sizeof(tTileFrame)); 
+        if (tileAnimation[i].frames == NULL) {
             fclose(file);
-            abort_on_error("Can't allocate memory for %u frames of animation\n", tilesWithAnimation[i].numFrames);
+            abort_on_error("Can't allocate memory for %u frames of animation\n", tileAnimation[i].numFrames);
         }
 
         //read tile animation frames
-        for (uint8_t frame = 0; frame < tilesWithAnimation[i].numFrames; frame++)
+        for (uint8_t frame = 0; frame < tileAnimation[i].numFrames; frame++)
         {
-            fread(&tilesWithAnimation[i].frames[frame].tileId,      sizeof(uint8_t),     1, file);
-            fread(&tilesWithAnimation[i].frames[frame].duration,    sizeof(uint16_t),    1, file);
+            fread(&tileAnimation[i].frames[frame].tileId,      sizeof(uint8_t),     1, file);
+            fread(&tileAnimation[i].frames[frame].duration,    sizeof(uint16_t),    1, file);
+            
+            //adjust time to game clock
+            tileAnimation[i].frames[frame].duration /= GAME_CLOCK_TICK;
         }
     }
 
@@ -254,8 +270,6 @@ void map_unload()
 
 void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
 {
-    //uint8_t tileNum;
-    //uint8_t tileProperty;
     tTile *tile;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
@@ -267,6 +281,12 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
     {
         clear_to_color(buffer, mapHeader.backgroundColor);
         tilesOnFrontLayer = false;
+
+        //update tile animations (animation range: first frame id to last frame id (consecutive mandatory) and duration of first frame for all frames)
+        for (uint16_t i = 0; i < mapHeader.numTilesWithAnimation; i++)
+        {
+            play_animation(&tileAnimation[i].anim, tileAnimation[i].frames[0].tileId, tileAnimation[i].frames[tileAnimation->numFrames-1].tileId, tileAnimation[i].frames[0].duration, ANIM_LOOP);
+        }
     }
     
     //draw map if not front layer or tiles on front layer
@@ -279,15 +299,25 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
                 //get map tile on current position
                 tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
                 
-                /* blit tile*/
+                //if has tile id
                 if (tile->tileId != 0)
                 {  
+                    //no front layer tile not draw on front layer
                     if (!CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && frontLayer)
                         ;
+                    //if tile is front layer, but are in back layer, set flag one front layer tile at least
                     else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_FRONT_LAYER) && !frontLayer)
                         tilesOnFrontLayer = true;
-                    else  
-                        draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+                    else 
+                    {
+                        //check if tile animation 
+                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
+                            //draw tile animation frame
+                            draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].anim.frame], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                        else
+                            //draw frame id
+                            draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+                    }
                 }
             }    
         }
