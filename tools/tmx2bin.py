@@ -95,7 +95,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         # Find data layer (layer). NOTE: the script takes the first layer founded
         layer = root.find('layer')
         if layer is None:
-            print("Error: Can't find any layer named ('layer') in the file map")
+            print("❌Error: Can't find any layer named ('layer') in the file map")
             return
 
         backColor = get_property_value(layer, "backColor", default=0)
@@ -110,7 +110,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         # Find tileset
         tileSet = root.find('tileset')
         if tileSet is None:
-            print("Error: Can't find any tileSet embedded in the file map")
+            print("❌Error: Can't find any tileSet embedded in the file map")
             return
 
         tileCount = int(tileSet.attrib.get('tilecount'))
@@ -132,16 +132,16 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             raw_data = base64.b64decode(data_node.text.strip())
             if compression == 'zlib':
                 raw_data = zlib.decompress(raw_data)
-            # Tiled base64 siempre es uint32 interno, lo leemos y luego convertimos
+            # Tiled base64 always uint32. Read and convert
             total_tiles = len(raw_data) // 4
             tiles = list(struct.unpack(f'<{total_tiles}I', raw_data))
         else:
-            print(f"Error: Codificacion format '{encoding}' don't support by this script")
+            print(f"❌Error: Codificacion format '{encoding}' don't support by this script")
             return
         
         # Check if any tile ID > 255
         if any(t > 255 for t in tiles):
-            print("¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
+            print("⚠️¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
 
         # Iterate each tile that has properties defined
         for tile in tileSet.findall('tile'):
@@ -180,6 +180,12 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         # [Body]
         #   - Tile array            (uint8 * num_tiles)
         #   - Tile properties       (uint8 * Num tiles with data)
+        #   - Tile animations:
+        #       -Tile id     (u8)
+        #       -Num frames  (u8)
+        #       -Frames:  
+        #           -Frame tile id     (u8)
+        #           -Frame duration    (u16)
 
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
@@ -194,30 +200,27 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             for tile_id, value in tile_data:
                 f.write(struct.pack('BB', tile_id, value))
 
-            for tid, frames in tile_animations.items():
-                print(f"Tile ID {tid} tiene {len(frames)} frames:")
-                for frame in frames:
-                    print(f"  - Frame TileID: {frame['tileid']} (Duración: {frame['duration']}ms)")
-
             # Write tile animations
-            for tile_id, frames in tile_animations.items():
-                # 2. Escribimos el ID del tile y cuántos frames tiene
+            for tile_id, frames in tile_animations.items():                
+                # Write ID tile and how many frames
+                print(f"🖼️ Tile ID {tile_id} has {len(frames)} frames:")
                 f.write(struct.pack('<BB', int(tile_id), len(frames)))
             
-                # 3. Escribimos cada frame (tileid y duracion)
+                # Write each frame (tile id and duration)
                 for frame in frames:
+                    print(f"  - 🖼️ Frame TileID: {frame['tileid']} (Duration: {frame['duration']}ms)")
                     f.write(struct.pack('<BH', int(frame['tileid']), int(frame['duration'])))
             
             # Search object layer            
             for obj_group in root.findall('objectgroup'):
                 layerName = obj_group.get('name')
                 if layerName != 'Objects':
-                    # Si la capa no está en nuestra lista, saltamos a la siguiente
+                    # If not found layer, jump to next
                     continue
                 
                 # Get object data
                 # Write: numObjects (H) + list of (x0, y0, dir0)
-                print(f"✅ Procesando Capa: '{layerName}'")                
+                print(f"✅ Processing layer: '{layerName}'")                
                 
                 objs = obj_group.findall('object')
                 f.write(struct.pack('<H', len(objs))) # Write num objects
@@ -249,7 +252,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                 
                 # Get object data
                 # Write: numObjects (H) + list of (x0, y0, dir0)
-                print(f"✅ Procesando Capa: '{layerName}'")                
+                print(f"✅ Processing layer: '{layerName}'")                
                 
                 objs = obj_group.findall('object')
                 f.write(struct.pack('<H', len(objs))) # Write num objects
@@ -276,7 +279,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             if not foundEnemyLayer:
                 f.write(struct.pack('<H', 0))
         
-        print(f"✅--- Done ---")
+        print(f"✅--- Done ---✅")
         print(f"File saved in: {bin_file}")
         print(f"Bytes written: {os.path.getsize(bin_file)}")
 
