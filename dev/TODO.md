@@ -1,5 +1,4 @@
 # Bugs
-- [ ] If define 0 sound, game freezes
 
 # Engine
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM

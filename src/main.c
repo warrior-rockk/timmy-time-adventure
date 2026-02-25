@@ -114,9 +114,12 @@ static void main_init()
             abort_on_error("Error iniciando el mouse");
     #endif
     #if ALLEGRO_USES_SOUND
-        MY_TRACE_FLAG("Initializing sound\n");
+        MY_TRACE_FLAG("Initializing sound\n");        
         if (sound_init() != 0)
             abort_on_error("Error iniciando el sonido");
+    #else
+        sound_set_mode(E_SOUND_OFF_MODE);
+        sound_init();
     #endif
 
     MY_TRACE_FLAG("All system and modules initialized\n");
