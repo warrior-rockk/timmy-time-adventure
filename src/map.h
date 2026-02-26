@@ -36,6 +36,8 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_NO_SOLID    = 0x01,
     E_TILE_PROP_FRONT_LAYER = 0x02,
     E_TILE_PROP_ANIMATION   = 0x04,
+    E_TILE_PROP_SLOPE_45    = 0x08,
+    E_TILE_PROP_SLOPE_135   = 0x10,
 };
 
 //loads a map level and creates level entities
@@ -49,6 +51,6 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer);
 //check if tile position exists on map
 uint16_t map_tile_exists(tVector *checkPosition);
 //check the code of tile in map position
-uint16_t map_get_tile_code(tVector *checkPosition);
+uint8_t map_get_tile_property(tVector checkPosition);
 
 #endif

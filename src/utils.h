@@ -20,7 +20,7 @@
 #define SET_FLAG(data, bit)       ((data) |=  ((bit)))
 #define CLEAR_FLAG(data, bit)     ((data) &= ~((bit)))
 #define TOOGLE_FLAG(data, bit)    ((data) ^=  ((bit)))
-#define CHECK_FLAG(data, bit)     ((data) &   ((bit)))
+#define CHECK_FLAG(data, bit)     (((data) & ((bit))) == bit)
 
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)                ASSERT(condition)

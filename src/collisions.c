@@ -14,11 +14,20 @@
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
+BITMAP *collisionMapSlope45;
+BITMAP *collisionMapSlope135;
 
 //inits collision system
 void collision_system_init()
 {
-    collision_system_destroy();
+    //free collision memory allocation
+    free(entColPointsList);
+    entColPointsList = NULL;
+    //clear num entities collision points
+    numEntitiesColPoints = 0;
+
+    collisionMapSlope135    = load_bmp("res/tiles/slope135.bmp", NULL);
+    collisionMapSlope45     = load_bmp("res/tiles/slope45.bmp", NULL);
 }
 
 //destroys collision system
@@ -52,6 +61,44 @@ tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
     return &entColPointsList[entIndex].colPoint[numPoint];
 }
 
+bool checkTileCode(tEntity *entity, uint8_t colDir, uint8_t tileProperty)
+{
+	//TODO://comprobamos si el tile es visible en la pantalla, asi, los tiles fuera de region no ser�n solidos
+    //if (checkTileVisible(idEntity,posX,posY))
+		switch(colDir)
+        {
+			//Colisiones superiores
+			case E_COLLISION_UP: 
+            case E_COLLISION_LEFT:
+            case E_COLLISION_RIGHT:
+				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID);
+                        //TODO: no scroll collision?
+                       /*  ||
+					   tileProperty == NO_SCROLL_L ||
+					   tileProperty == NO_SCROLL_R;*/
+			break;
+			//Colisiones inferiores
+		    case E_COLLISION_DOWN: 
+            case E_COLLISION_CENTER:
+				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)      ||
+					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
+					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45);
+					   //TODO: rest of collisions
+                       /*||
+                       tileProperty == NO_SCROLL_L ||
+					   tileProperty == NO_SCROLL_R ||
+					  (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
+					  (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
+			break;
+            default:
+                return 0;
+            break;			
+		}
+	/*else
+		return 0; 
+	*/
+}
+
 //check distance to horizontal collision (or -1 if no collision) on a check vector
 int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
 {
@@ -68,17 +115,34 @@ int16_t colCheckVectorX(tEntity *entity, tLinePath *linePath, uint16_t colCode)
         if (map_tile_exists(&linePath->start))
         {
 			//check if tile is solid
-            if (!CHECK_FLAG(map_get_tile_code(&linePath->start), E_TILE_PROP_NO_SOLID))
+            if (!CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_NO_SOLID))
             {
-				//TODO: comprobar el codigo del tile para contarlo como colision o no
-				//if (checkTileCode(idEntity,colCode,linePath.vStart.y/cTileSize,linePath.vStart.x/cTileSize))
+				//check tile propertyu to count as collision or not
+				if (checkTileCode(entity, colCode, map_get_tile_property(linePath->start)))
+                {
+                    if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_45))
+                    {
+                        if (getpixel(collisionMapSlope45, (linePath->start.x % 16), (linePath->start.y % 16)) == 255)
+                        {
+                            return dist;
+                        }
+                    }
+                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_135))
+                    {
+                        if (getpixel(collisionMapSlope135, (linePath->start.x % 16), (linePath->start.y % 16)) == 255)
+                        {
+                            return dist;
+                        }
+                    }
+                    else
+                    {                        
+                        show_debug("tilecode: %i, dist: %i", map_get_tile_property(linePath->start), dist);		
+                        return dist;
+                    }                    
+                }
+                //if (checkTileCode(idEntity,colCode,linePath.vStart.y/cTileSize,linePath.vStart.x/cTileSize))
 				//{
                     //if(map_get_pixel(0,mapBox,(linePath.vStart.x%cTileSize),(linePath.vStart.y%cTileSize)) <> 0)
-				
-                show_debug("tilecode: %i, dist: %i", map_get_tile_code(&linePath->start), dist);		
-                return dist;
-                        
-                        
                 //}
             }
         }
@@ -122,6 +186,9 @@ fixed colCheckVectorY(tEntity *entity, tFixLinePath *linePath, uint16_t colCode,
 
 	//x component of vector doesn't change
     checkPosition.x = fixtoi(linePath->start.x);
+        
+    //line to set how many pxs the entity will be above florr (with 1, will be just 1 px above ground line)
+	//linePath->start.y = linePath->start.y + itofix(1);
 
 	//run vector searching pixel collision
 	do
@@ -132,14 +199,29 @@ fixed colCheckVectorY(tEntity *entity, tFixLinePath *linePath, uint16_t colCode,
         //check if tile exists on path position
         if (map_tile_exists(&checkPosition))
         {   
-            //check if tile is solid
-            if (!CHECK_FLAG(map_get_tile_code(&checkPosition), E_TILE_PROP_NO_SOLID))
+            //check if tile is not solid
+            if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_NO_SOLID))
             {
-                colPixel = 100;                
+                colPixel = 0;                
             }
             else
             {                
-                //TODO: comprobar el codigo del tile para contarlo como colision o no
+                //check tile property to count as collision or not
+                if (checkTileCode(entity, colCode, map_get_tile_property(checkPosition)))
+                {
+                    if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_45))
+                    {
+                        colPixel = getpixel(collisionMapSlope45, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                    }
+                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_135))
+                    {
+                        colPixel = getpixel(collisionMapSlope135, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                    }
+                    else
+                    {                        
+                        colPixel = 100;
+                    }
+                }
                 /*if (checkTileCode(idEntity,colCode,colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
                 {
                     //Obtenemos el pixel de colision segun el tipo de tile
@@ -158,7 +240,7 @@ fixed colCheckVectorY(tEntity *entity, tFixLinePath *linePath, uint16_t colCode,
                         end;
                     end;
                 }*/
-               colPixel = 0; 
+               //colPixel = 0; 
             }	
         }
         
@@ -208,15 +290,12 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     //HORIZONTAL COLLISIONS
     //=====================
     
-    // TODO: Slopes
-    //desactivamos puntos de control inferiores si estamos en rampa
-    /*
-    if (cSlopesEnabled)
-        entity->this.colPoint[LEFT_DOWN_POINT].enabled  = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_135;
-        entity->this.colPoint[RIGHT_DOWN_POINT].enabled = getTileCode(entity,CENTER_DOWN_POINT) <> SLOPE_45;
-    end;*/
+    #if USE_SLOPE_COLLISION 
+        //deactivate down collision points if entity on slope        
+        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
+        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45);
+    #endif
     
-
     //check if collision point is horizontal
     if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_RIGHT || entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_LEFT)
     {    
@@ -279,25 +358,22 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 entity->fixPos.y += distColY;                
                 colDir = E_COLLISION_DOWN;
                 
-                //TODO: slopes
-                /*
-                //Deteccion de pendiente,comprobamos si estamos enterrados
-                if (cSlopesEnabled)
-                                            
-                    //Establecemos el vector a comparar (centro/inferior del objeto)
-                    colLinePath.vStart.x = entity->this.fX+entity->this.colPoint[CENTER_DOWN_POINT].x;
-                    colLinePath.vEnd.x   = colLinePath.vStart.x;
-                    colLinePath.vStart.y = entity->this.fY+entity->this.colPoint[CENTER_DOWN_POINT].y;
-                    colLinePath.vEnd.y   = colLinePath.vStart.y-cHillHeight; //altura maxima para considerar pendiente
+                #if USE_SLOPE_COLLISION
+                    //Slope detection: check if buried
+                                        
+                    //define line path to check (center_down of entity)
+                    fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x);       
+                    fColLinePath.end.x   = fColLinePath.start.x;
+                    fColLinePath.start.y = entity->fixPos.y + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y);
+                    fColLinePath.end.y   = fColLinePath.start.y - itofix(SLOPE_MAX_HEIGHT);
                     
-                    //Lanzamos la comprobacion de colision en Y
-                    distColY = colCheckVectorY(entity,&colLinePath,E_CENTER_COLLISION,FROMCOLLISION);
+                    //check collision path Y
+                    distColY = colCheckVectorY(entity, &fColLinePath, E_COLLISION_CENTER, E_CHECK_VECTOR_Y_FROM_COLLISION);                    
                     
-                    //Subimos al objeto a la pendiente
-                    if (distColY >0)
-                        entity->this.fY -= distColY-1;
-                    end;
-                end;*/
+                    //get up entity to slope
+                    if (distColY > 0)
+                        entity->fixPos.y = entity->fixPos.y - (distColY - itofix(1));
+                #endif
             }                                 
             
             //up collision
@@ -308,31 +384,28 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 colDir = E_COLLISION_UP;
             }
         }
-        //TODO: Slopes
-        /*
         else 
-        {
-            
-            //si no hay colision, comprobamos si pendiente hacia abajo
-            if (cSlopesEnabled)
-                //lo comprobamos si no estamos en escalera para despegarnos del suelo
-                if (entity->this.vY > 0)
-                    //Establecemos el vector a comparar (centro/inferior del objeto)
-                    colVector.vStart.x = entity->this.fX+entity->this.colPoint[CENTER_DOWN_POINT].x;
-                    colLinePath.vEnd.x   = colLinePath.vStart.x;
-                    colLinePath.vStart.y = entity->this.fY+entity->this.colPoint[CENTER_DOWN_POINT].y-1;
-                    colLinePath.vEnd.y   = colLinePath.vStart.y+entity->this.vY+cHillHeight; //altura maxima para considerar pendiente
-                    
-                    //Lanzamos la comprobacion de colision en Y
-                    distColY = colCheckVectorY(entity,&colLinePath,E_CENTER_COLLISION,TOCOLLISION);
-                    
-                    //Bajamos al objeto a la pendiente
-                    if (distColY >0)
-                        entity->this.fY += distColY;
-                    end;	
-                end;
-            end;
-        }*/         
+        {            
+            #if USE_SLOPE_COLLISION
+                //If not collision (point on air), check if has slope down (< SLOPE_MAX_HEIGHT)
+                                
+                if (entity->fixVel.y >= 0)
+                {
+                    //define line path to check (center_down of entity)
+                    fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x);       
+                    fColLinePath.end.x   = fColLinePath.start.x;
+                    fColLinePath.start.y = entity->fixPos.y + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y) - itofix(1);
+                    fColLinePath.end.y   = fColLinePath.start.y + entity->fixVel.y + itofix(SLOPE_MAX_HEIGHT);
+
+                    //check collision path Y                    
+                    distColY = colCheckVectorY(entity, &fColLinePath, E_COLLISION_CENTER, E_CHECK_VECTOR_Y_TO_COLLISION);
+                                        
+                    //Down entity to hill
+                    if (distColY > 0)
+                        entity->fixPos.y = entity->fixPos.y + distColY;                    
+                }                
+            #endif
+        }        
     }
     
     //returns collision direction
@@ -361,7 +434,7 @@ void collision_create_entity_points(tEntity *entity)
         uint8_t halfSizeX       = entity->size.x>>1;
         uint8_t halfSizeY       = entity->size.y>>1;
         uint8_t dividedSizeX    = entity->size.x / 4; 
-        uint8_t dividedSizeY    = entity->size.y / 6;
+        uint8_t dividedSizeY    = entity->size.y / 3; //6; //TODO: adjust this point to climb slopes. The point can't be higher than 1 tile (16px)
         
         entColPointsList[newEntityColPoints].entId = entity->id;
         entColPointsList[newEntityColPoints].colPoint[E_COLPOINT_RIGHT_UP].offset.x 			= entity->size.x; //halfImgWidth + halfSizeX - 1;

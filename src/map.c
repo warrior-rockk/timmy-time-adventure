@@ -320,8 +320,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
                             //draw tile animation frame                            
                             draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
                         else
-                            //draw frame id
-                            draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);
+                            //draw tile id
+                            draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
                     }
                 }
             }    
@@ -336,13 +336,13 @@ uint16_t map_tile_exists(tVector *checkPosition)
 }
 
 //gets map tile code
-uint16_t map_get_tile_code(tVector *checkPosition)
+uint8_t map_get_tile_property(tVector checkPosition)
 {
-    if (map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileId == 0)
+    if (map[((checkPosition.y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition.x / mapHeader.tile_width)].tileId == 0)
         return E_TILE_PROP_NO_SOLID;
     else
     {
-        return  map[((checkPosition->y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition->x / mapHeader.tile_width)].tileProperty;
+        return  map[((checkPosition.y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition.x / mapHeader.tile_width)].tileProperty;
     }
 }
 

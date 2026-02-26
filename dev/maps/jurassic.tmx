@@ -5,6 +5,26 @@
  </properties>
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="100" columns="10">
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="160"/>
+  <tile id="16">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="0"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="8"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="16"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="0"/>
+   </properties>
+  </tile>
   <tile id="25">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
@@ -272,7 +292,7 @@
   </object>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="448" y="96" width="16" height="32">
+  <object id="1" name="player1" type="player" x="784" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>

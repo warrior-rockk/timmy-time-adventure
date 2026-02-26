@@ -1,4 +1,5 @@
 # Bugs
+- [ ] set fixVel.x to zero below tolerance
 
 # Engine
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
@@ -26,6 +27,7 @@
 - [X] Enemies
 
 # Player
+- [ ] Better jump velocities/gravity
 - [ ] Crouch change size
 - [ ] Idle special animation when no control
 - [ ] Animation on edge

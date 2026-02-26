@@ -13,6 +13,9 @@
 #include "utils.h"
 #include "entity.h"
 
+#define USE_SLOPE_COLLISION                 1
+#define SLOPE_MAX_HEIGHT                    8   //max height to consider slope and adjust position to it
+
 #define ENTITY_MAX_NUM_COLLISION_POINTS     256
 
 //Puntos de colision
@@ -100,4 +103,8 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 
+
+//Funcion que comprueba, segun el codigo del tile, el comportamiento de la colision segun la direccion
+//Devuelve 1 si colisiona en esa direccion o 0 si no colisiona.
+bool checkTileCode(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
 #endif

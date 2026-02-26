@@ -49,7 +49,10 @@
             "type": "enum",
             "values": [
                 "NO_SOLID",
-                "FRONT_LAYER"
+                "FRONT_LAYER",
+                "ANIMATION",
+                "SLOPE_45",
+                "SLOPE_135"
             ],
             "valuesAsFlags": true
         }
