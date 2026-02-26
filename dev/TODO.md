@@ -1,5 +1,4 @@
 # Bugs
-- [ ] set fixVel.x to zero below tolerance
 
 # Engine
 - [ ] Less collision points to entities than player?

@@ -24,7 +24,7 @@
 #define PLAYER_ACCEL_Y              4.0     //jump acceleration
 #define PLAYER_MAX_VEL_X            1.0
 #define PLAYER_MAX_VEL_Y            6
-#define PLAYER_MIN_VEL_TO_IDLE      0.1     
+#define PLAYER_MIN_VEL_TO_IDLE      0.01     
 #define PLAYER_ENEMY_BOUNCE_VEL     -4
 #define PLAYER_HURT_VEL_Y           -3.6
 #define PLAYER_HURT_VEL_X           1.4

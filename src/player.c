@@ -193,10 +193,13 @@ static void player_update_controls(tEntity *player)
     {
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
+        //limit min x velocity
         if (abs(player->fixVel.x) > cMinVelToIdle)
             playerFlags.moving = true;
-        else    
+        else{    
             playerFlags.moving = false;
+            player->fixVel.x = 0;
+        }
     }
 }
 
