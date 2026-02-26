@@ -366,7 +366,7 @@ void entity_update_vel_pos(tEntity *entity)
     //if entity has physics flag
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
-        fixed gravity       = ftofix(0.2);
+        fixed gravity       = ftofix(0.18);
         fixed max_vel_y     = ftofix(6);
 
         //apply velocities

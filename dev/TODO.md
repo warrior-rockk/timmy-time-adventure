@@ -1,6 +1,9 @@
 # Bugs
+- [ ] With slopes, object bounce don't work fine!
 
 # Engine
+- [ ] Gravity/friction constantes unused on player.c
+- [ ] Pause
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water

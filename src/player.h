@@ -16,13 +16,13 @@
 #define PLAYER_IMG_H        41
 
 //player velocities    
-#define PLAYER_ACCEL_X              0.40    //0.06 without friction on move
-#define PLAYER_ACCEL_X_AIR          0.50    //more acceleration on air
+#define PLAYER_ACCEL_X              0.30    //0.06 without friction on move
+#define PLAYER_ACCEL_X_AIR          0.36    //more acceleration on air
 #define PLAYER_FRICTION             0.92    //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
 #define PLAYER_AIR_FRICTION         0.6     //less than floor friction
 #define PLAYER_GRAVITY              0.2     
 #define PLAYER_ACCEL_Y              4.4     //jump acceleration
-#define PLAYER_MAX_VEL_X            1.4
+#define PLAYER_MAX_VEL_X            1.3 //1.4
 #define PLAYER_MAX_VEL_Y            6
 #define PLAYER_MIN_VEL_TO_IDLE      0.01     
 #define PLAYER_ENEMY_BOUNCE_VEL     -4
