@@ -85,6 +85,7 @@ typedef struct
 void collision_system_init();
 //destroys collision system
 void collision_system_destroy();
+
 //function to create entity collision points for an entity
 void collision_create_entity_points(tEntity *entity);
 //function to destroy entity collision points by id
@@ -95,12 +96,15 @@ tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint);
 //checks if an entity id has collision points created
 bool collision_check_entity_col_points(uint16_t entityId);
+
 //function to check entity collision with tilemap. Returns: direction of collision
 uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
-//function to apply the direction of the collision to an entity
-void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 //check the tile property to determine the collision behaviour based on colDir (return 1 if collided or 0 no collided)
 bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
+
+//function to apply the direction of the collision to an entity
+void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
+
 #endif

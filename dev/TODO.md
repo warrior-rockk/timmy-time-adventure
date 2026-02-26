@@ -3,6 +3,7 @@
 - [ ] with slopes, bad behaviour of spiders
 
 # Engine
+- [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water
 - [X] Improve front layer marking flag on no front layer if are tiles with front property

@@ -14,8 +14,8 @@
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
-BITMAP *collisionMapSlope45;
-BITMAP *collisionMapSlope135;
+BITMAP *collisionMapSlope45;                //collision map of a 45º slope
+BITMAP *collisionMapSlope135;               //collision map of a 135º slope
 
 //inits collision system
 void collision_system_init()
@@ -47,68 +47,8 @@ void collision_system_destroy()
     MY_TRACE_FLAG("Destroyed collision system\n");
 }
 
-//gets collision point list index by entity id (-1 if not found)
-int16_t get_collision_point_index_by_entId(uint16_t entityId)
-{
-    //find entity id on collision points list
-    for (int i = 0; i < numEntitiesColPoints; i++)
-    {
-        if (entColPointsList[i].entId == entityId)
-            return i;
-    }
-
-    return -1;
-}
-
-//gets a collision point for an entity
-tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
-{
-    uint16_t entIndex = get_collision_point_index_by_entId(entity->id);
-
-    return &entColPointsList[entIndex].colPoint[numPoint];
-}
-
-//check if collision enabled based on collision direction and tile property
-bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint8_t tileProperty)
-{
-	//TODO:comprobamos si el tile es visible en la pantalla, asi, los tiles fuera de region no ser�n solidos
-    //if (checkTileVisible(idEntity,posX,posY))
-		switch(colDirCode)
-        {
-			//Colisiones superiores
-			case E_COLLISION_DIR_UP: 
-            case E_COLLISION_DIR_LEFT:
-            case E_COLLISION_DIR_RIGHT:
-				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID);
-                        //TODO: no scroll collision?
-                       /*  ||
-					   tileProperty == NO_SCROLL_L ||
-					   tileProperty == NO_SCROLL_R;*/
-			break;
-			//Colisiones inferiores
-		    case E_COLLISION_DIR_DOWN: 
-            case E_COLLISION_DIR_CENTER:
-				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)      ||
-					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
-					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45);
-					   //TODO: rest of collisions
-                       /*||
-                       tileProperty == NO_SCROLL_L ||
-					   tileProperty == NO_SCROLL_R ||
-					  (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
-					  (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
-			break;
-            default:
-                return 0;
-            break;			
-		}
-	/*else
-		return 0; 
-	*/
-}
-
 //check distance to horizontal collision (or -1 if no collision) on a check path line
-int16_t colCheckPathX(tEntity *entity, tLinePath *linePath, uint8_t colDirCode)
+static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint8_t colDirCode)
 {
     int16_t dist = 0;   //distance to collision
     int16_t inc;        //increment
@@ -175,7 +115,7 @@ int16_t colCheckPathX(tEntity *entity, tLinePath *linePath, uint8_t colDirCode)
 
 //check distance to vertical collision (or -1 if no collision) on a check path line (fixed point for precision)
 //mode TO_COLLISION returns distance to collision and FROM_COLLISION distante to get out the collision
-fixed colCheckPathY(tEntity *entity, tFixLinePath *linePath, uint8_t colCode, enum E_CHECKVECTORMODES mode)
+static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uint8_t colCode, enum E_CHECKVECTORMODES mode)
 {
     fixed dist = 0;		    //distance to collision
     fixed inc;			    //increment
@@ -269,6 +209,65 @@ fixed colCheckPathY(tEntity *entity, tFixLinePath *linePath, uint8_t colCode, en
 	return itofix(-1);
 }
 
+//gets collision point list index by entity id (-1 if not found)
+static int16_t collision_get_point_index_by_entId(uint16_t entityId)
+{
+    //find entity id on collision points list
+    for (int i = 0; i < numEntitiesColPoints; i++)
+    {
+        if (entColPointsList[i].entId == entityId)
+            return i;
+    }
+
+    return -1;
+}
+
+//gets a collision point for an entity
+tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
+{
+    uint16_t entIndex = collision_get_point_index_by_entId(entity->id);
+
+    return &entColPointsList[entIndex].colPoint[numPoint];
+}
+
+//check if collision enabled based on collision direction and tile property
+bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint8_t tileProperty)
+{
+	//TODO:comprobamos si el tile es visible en la pantalla, asi, los tiles fuera de region no ser�n solidos
+    //if (checkTileVisible(idEntity,posX,posY))
+		switch(colDirCode)
+        {
+			//Colisiones superiores
+			case E_COLLISION_DIR_UP: 
+            case E_COLLISION_DIR_LEFT:
+            case E_COLLISION_DIR_RIGHT:
+				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID);
+                        //TODO: no scroll collision?
+                       /*  ||
+					   tileProperty == NO_SCROLL_L ||
+					   tileProperty == NO_SCROLL_R;*/
+			break;
+			//Colisiones inferiores
+		    case E_COLLISION_DIR_DOWN: 
+            case E_COLLISION_DIR_CENTER:
+				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)      ||
+					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
+					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45);
+					   //TODO: rest of collisions
+                       /*||
+                       tileProperty == NO_SCROLL_L ||
+					   tileProperty == NO_SCROLL_R ||
+					  (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
+					  (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
+			break;
+            default:
+                return 0;
+            break;			
+		}
+	/*else
+		return 0; 
+	*/
+}
 
 uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 { 
@@ -281,7 +280,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     colDir = 0;
     
     //gets collision point index
-    uint16_t entIndex = get_collision_point_index_by_entId(entity->id);
+    uint16_t entIndex = collision_get_point_index_by_entId(entity->id);
 
     //check if collision point is active
     if (!entColPointsList[entIndex].colPoint[pointNum].enabled) 
@@ -307,7 +306,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         colLinePath.end.y   = fixtoi(fixadd(entity->fixPos.y, entity->fixVel.y)) + entColPointsList[entIndex].colPoint[pointNum].offset.y; //colLinePath.start.y + fixtoi(entity->fixVel.y);
         
         //calls the collision check line path
-        distColX = colCheckPathX(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
+        distColX = collision_check_path_x(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
         
         //if collision
         if (distColX >= 0)
@@ -347,7 +346,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         //show_debug("sx: %f ex: %f sy: %f ey: %f \n", fixtof(fColLinePath.start.x), fixtof(fColLinePath.end.x), fixtof(fColLinePath.start.y), fixtof(fColLinePath.end.y));
 
         //call check vector collision on Y
-        distColY = colCheckPathY(entity, &fColLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
+        distColY = collision_check_path_y(entity, &fColLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
         
         //check if has collided
         if (distColY >= 0) 
@@ -369,7 +368,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                     fColLinePath.end.y   = fColLinePath.start.y - itofix(SLOPE_MAX_HEIGHT);
                     
                     //check collision path Y
-                    distColY = colCheckPathY(entity, &fColLinePath, E_COLLISION_DIR_CENTER, E_CHECK_VECTOR_Y_FROM_COLLISION);                    
+                    distColY = collision_check_path_y(entity, &fColLinePath, E_COLLISION_DIR_CENTER, E_CHECK_VECTOR_Y_FROM_COLLISION);                    
                     
                     //get up entity to slope
                     if (distColY > 0)
@@ -399,7 +398,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                     fColLinePath.end.y   = fColLinePath.start.y + entity->fixVel.y + itofix(SLOPE_MAX_HEIGHT);
 
                     //check collision path Y                    
-                    distColY = colCheckPathY(entity, &fColLinePath, E_COLLISION_DIR_CENTER, E_CHECK_VECTOR_Y_TO_COLLISION);
+                    distColY = collision_check_path_y(entity, &fColLinePath, E_COLLISION_DIR_CENTER, E_CHECK_VECTOR_Y_TO_COLLISION);
                                         
                     //Down entity to hill
                     if (distColY > 0)
@@ -500,7 +499,7 @@ void collision_create_entity_points(tEntity *entity)
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint)
 {
     //get collisions id by entity id
-    uint16_t entIndex = get_collision_point_index_by_entId(entityId);   
+    uint16_t entIndex = collision_get_point_index_by_entId(entityId);   
 
     //disable all collision points
     for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
@@ -513,7 +512,7 @@ void collision_disable_points_except(uint16_t entityId, uint8_t numPoint)
 //funcion to destroy collision point on a entity
 void collision_destroy_entity_points(uint16_t entityId)
 {
-    int16_t listPosition = get_collision_point_index_by_entId(entityId);
+    int16_t listPosition = collision_get_point_index_by_entId(entityId);
 
     //if entity has collision points
     if (listPosition >= 0)
