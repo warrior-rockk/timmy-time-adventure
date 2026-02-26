@@ -292,8 +292,14 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     
     #if USE_SLOPE_COLLISION 
         //deactivate down collision points if entity on slope        
-        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
-        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45);
+        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = 
+                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135)
+                &&
+                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
+        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = 
+                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45)
+                &&
+                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.y}), E_TILE_PROP_SLOPE_45);
     #endif
     
     //check if collision point is horizontal
