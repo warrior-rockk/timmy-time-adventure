@@ -18,9 +18,8 @@
 
 #define ENTITY_MAX_NUM_COLLISION_POINTS     256
 
-//Puntos de colision
-//los puntos laterales deben estar primero de los inferiores/superiores
-//para el buen funcionamiento de la deteccion de obstaculos
+
+//collision points (horizontal point must be first than uppers/lowers for good detection)
 enum E_COL_POINTS {
     E_COLPOINT_RIGHT_UP,
     E_COLPOINT_RIGHT_DOWN,
@@ -36,13 +35,13 @@ enum E_COL_POINTS {
 };
 
 //collision direction codes
-enum E_COL_CODES{
-    E_COLLISION_NONE,
-    E_COLLISION_UP,
-    E_COLLISION_DOWN,
-    E_COLLISION_LEFT,
-    E_COLLISION_RIGHT,  
-    E_COLLISION_CENTER, 
+enum E_COL_DIR_CODES{
+    E_COLLISION_DIR_NONE,
+    E_COLLISION_DIR_UP,
+    E_COLLISION_DIR_DOWN,
+    E_COLLISION_DIR_LEFT,
+    E_COLLISION_DIR_RIGHT,  
+    E_COLLISION_DIR_CENTER, 
 };
 
 //collision bounce modes
@@ -70,16 +69,16 @@ enum E_CHECK_PROCESS_MODE{
 //collision point
 typedef struct
 {
-    tVector offset;                 //Vector de offset a sumar a la posicion del objeto
-    enum E_COL_CODES colCode;			//Codigo del punto de colision
-	bool enabled;			        //Habilitacion del punto de colision
+    tVector offset;                 //offsect vector to add entity position
+    enum E_COL_DIR_CODES colCode;	//collision point dir code
+	bool enabled;			        //enable/disable collision point
 } tColPoint;
 
 //entity collision points
 typedef struct
 {
     uint16_t entId;                         //id of entity
-    tColPoint colPoint[E_NUM_COL_POINTS];     //array of collision points
+    tColPoint colPoint[E_NUM_COL_POINTS];   //array of collision points
 } tEntColPoints;
 
 //inits collision system
@@ -96,15 +95,12 @@ tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint);
 //checks if an entity id has collision points created
 bool collision_check_entity_col_points(uint16_t entityId);
-//function to check entity collision with tilemap
+//function to check entity collision with tilemap. Returns: direction of collision
 uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
-
-
-//Funcion que comprueba, segun el codigo del tile, el comportamiento de la colision segun la direccion
-//Devuelve 1 si colisiona en esa direccion o 0 si no colisiona.
-bool checkTileCode(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
+//check the tile property to determine the collision behaviour based on colDir (return 1 if collided or 0 no collided)
+bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
 #endif

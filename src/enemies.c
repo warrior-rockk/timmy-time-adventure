@@ -352,7 +352,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
-            if (colDir == E_COLLISION_DOWN)
+            if (colDir == E_COLLISION_DIR_DOWN)
             {
                 this->state++;
                 local->flag = this->pos.y;
@@ -374,7 +374,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
-            if (colDir == E_COLLISION_DOWN)
+            if (colDir == E_COLLISION_DIR_DOWN)
             {
                 this->state++;
                 local->flag = this->pos.y;
@@ -438,9 +438,9 @@ void enemy_template_update(tEntity *this, tEnemyLocalData *local)
                 //apply collision direction
                 collision_apply_dir(this, colDir);        
                 //change direction on collision
-                if (colDir == E_COLLISION_LEFT)
+                if (colDir == E_COLLISION_DIR_LEFT)
                     this->dir = E_ENT_DIR_RIGHT;
-                if (colDir == E_COLLISION_RIGHT)
+                if (colDir == E_COLLISION_DIR_RIGHT)
                     this->dir = E_ENT_DIR_LEFT;
 
                 if (!colDir)

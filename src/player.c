@@ -411,7 +411,7 @@ static void player_update_collisions(tEntity *player)
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
                     if (colDir)
                     {
-                        if (colDir == E_COLLISION_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                        if (colDir == E_COLLISION_DIR_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                         {
                             checkEntity->signal = E_ENT_SIGNAL_HURT;
                             //set bounce velocity
@@ -424,7 +424,7 @@ static void player_update_collisions(tEntity *player)
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
 
                     //comprobamos si colisionamos con un objeto recogible y esta en la mitad inferior
-                    if (!playerFlags.picked && (colDir == E_COLLISION_RIGHT || colDir == E_COLLISION_LEFT)) 
+                    if (!playerFlags.picked && (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)) 
                         //TODO: if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
                             objectForPickID = checkEntity->id;                                             
 
@@ -437,7 +437,7 @@ static void player_update_collisions(tEntity *player)
 
                         if (colDir)
                         {
-                            if (colDir == E_COLLISION_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            if (colDir == E_COLLISION_DIR_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                             {
                                 //send signal to entity
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;  

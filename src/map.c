@@ -329,13 +329,12 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
     }
 }
 
-//checks if position exists on tile maps
-uint16_t map_tile_exists(tVector *checkPosition)
+
+uint16_t map_tile_exists(tVector checkPosition)
 {
-    return (checkPosition->x / mapHeader.tile_width) < mapHeader.map_width && (checkPosition->y / mapHeader.tile_height) < mapHeader.map_height && checkPosition->x >= 0 && checkPosition->y >= 0;
+    return (checkPosition.x / mapHeader.tile_width) < mapHeader.map_width && (checkPosition.y / mapHeader.tile_height) < mapHeader.map_height && checkPosition.x >= 0 && checkPosition.y >= 0;
 }
 
-//gets map tile code
 uint8_t map_get_tile_property(tVector checkPosition)
 {
     if (map[((checkPosition.y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition.x / mapHeader.tile_width)].tileId == 0)

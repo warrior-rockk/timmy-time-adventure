@@ -1,5 +1,6 @@
 # Bugs
 - [ ] set fixVel.x to zero below tolerance
+- [ ] with slopes, bad behaviour of spiders
 
 # Engine
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM

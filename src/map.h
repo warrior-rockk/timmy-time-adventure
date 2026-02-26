@@ -48,9 +48,9 @@ void map_unload();
 tVector map_get_dimensions();
 //draw the current map
 void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer);
-//check if tile position exists on map
-uint16_t map_tile_exists(tVector *checkPosition);
-//check the code of tile in map position
+//checks if position exists on tile maps
+uint16_t map_tile_exists(tVector checkPosition);
+//gets map tile property
 uint8_t map_get_tile_property(tVector checkPosition);
 
 #endif
