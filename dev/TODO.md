@@ -1,6 +1,5 @@
 # Bugs
 - [ ] set fixVel.x to zero below tolerance
-- [ ] with slopes, bad behaviour of spiders
 
 # Engine
 - [ ] Less collision points to entities than player?

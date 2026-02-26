@@ -388,8 +388,9 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         {            
             #if USE_SLOPE_COLLISION
                 //If not collision (point on air), check if has slope down (< SLOPE_MAX_HEIGHT)
-                                
-                if (entity->fixVel.y >= 0)
+
+                //check if entity it's not going up and has physics activated                                
+                if (entity->fixVel.y >= 0 && CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
                 {
                     //define line path to check (center_down of entity)
                     fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x);       
