@@ -276,7 +276,9 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     int16_t distColX;		    //X collision distance
     fixed distColY;		        //Y collision distance (fixed point)
     uint8_t colDir;			    //Direction of collision
-
+    bool onSlope45;             //flag to check if entity on slope 45
+    bool onSlope135;            //flag to check if entity on slope 135
+    
     colDir = 0;
     
     //gets collision point index
@@ -291,15 +293,18 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     //=====================
     
     #if USE_SLOPE_COLLISION 
-        //deactivate down collision points if entity on slope        
-        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = 
-                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135)
-                &&
-                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
-        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = 
-                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45)
-                &&
-                !CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.y}), E_TILE_PROP_SLOPE_45);
+        //check if entity on slope
+        onSlope45 = CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].offset.y}), E_TILE_PROP_SLOPE_45);
+
+        onSlope135 = CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
+
+        //deactivate down collision points if entity on slope               
+        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = !onSlope135;
+        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = !onSlope45;
     #endif
     
     //check if collision point is horizontal
@@ -395,8 +400,8 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
             #if USE_SLOPE_COLLISION
                 //If not collision (point on air), check if has slope down (< SLOPE_MAX_HEIGHT)
 
-                //check if entity it's not going up and has physics activated                                
-                if (entity->fixVel.y >= 0 && CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
+                //check if entity it's on slope and it's not going up and has physics activated                                
+                if ((onSlope45 || onSlope135) && entity->fixVel.y >= 0 && CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
                 {
                     //define line path to check (center_down of entity)
                     fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x);       
