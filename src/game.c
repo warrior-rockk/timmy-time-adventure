@@ -159,13 +159,14 @@ void game_update()
 
                     entities_init();
                     scroll_init(&scroll);
-                    game_hud_init();
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);
+                    game_hud_init();                    
 
                     gameSeq.step++;
                 break;
                 case 1:                
                     entities_update(&scroll);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                            
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);
                     game_hud_update();                    
                     
                     map_draw(worldScreen, &scroll, false);                    
@@ -489,9 +490,7 @@ static void game_load_level(uint8_t numLevel)
     mapDimension.y = mapDimension.y > GAME_H ? (mapDimension.y - GAME_H) - 1 : mapDimension.y - GAME_H;
     
     //create scroll    
-    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension);
-    //init scroll
-    scroll_init(&scroll);    
+    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension);    
 }
 
 void game_destroy()

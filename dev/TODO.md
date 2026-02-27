@@ -1,5 +1,4 @@
 # Bugs
-- [ ] Start player out of initial screen region activates out region and lose life
 - [ ] Esc on title don't exits
 
 # Engine
