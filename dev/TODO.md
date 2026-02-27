@@ -28,6 +28,7 @@
 - [X] Pause system
 
 # Player
+- [ ] Jump dynamic force when pressed
 - [ ] Crouch change size
 - [ ] Idle special animation when no control
 - [ ] Animation on edge
