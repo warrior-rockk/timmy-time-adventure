@@ -21,12 +21,11 @@
 #define PLAYER_MIN_VEL_X_TO_RESET   0.01    //min x velocity for reset to 0 
 #define PLAYER_ACCEL_X              0.30    //0.06 without friction on move
 #define PLAYER_ACCEL_X_AIR          0.36    //more acceleration on air
-#define PLAYER_HURT_VEL_X           1.4     //velocity x when gets hurt
-
-    //vertical
-#define PLAYER_ACCEL_Y              4.4     //jump acceleration
 #define PLAYER_FRICTION             0.92    //more friction, more sloppy (0.94-0.96 is like ice) 0.86 testing
 #define PLAYER_AIR_FRICTION         0.98    //more than floor friction
+#define PLAYER_HURT_VEL_X           1.4     //velocity x when gets hurt
+    //vertical
+#define PLAYER_ACCEL_Y              4.4     //jump acceleration
 #define PLAYER_HURT_VEL_Y           -3.6    //velocity y when gets hurt
 #define PLAYER_ATTACK_BOUNCE_VEL    -4      //velocity when bounces by attacking 
 

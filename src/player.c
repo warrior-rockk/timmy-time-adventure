@@ -22,7 +22,7 @@ static fixed friction;
 static fixed air_friction;
 static fixed accel_y;
 static fixed max_vel_x;
-static fixed cMinVelToIdle;
+static fixed minVelToReset;
 
 static fixed localFriction;
 static fixed localAccelX;
@@ -64,7 +64,7 @@ void player_create(tEntity *player)
     
     accel_y       = ftofix(PLAYER_ACCEL_Y);
     max_vel_x     = ftofix(PLAYER_MAX_VEL_X);    
-    cMinVelToIdle = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
+    minVelToReset = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
     //load player sfx
     playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
@@ -191,7 +191,7 @@ static void player_update_controls(tEntity *player)
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
         //limit min x velocity
-        if (abs(player->fixVel.x) > cMinVelToIdle)
+        if (abs(player->fixVel.x) > minVelToReset)
             playerFlags.moving = true;
         else{    
             playerFlags.moving = false;
@@ -273,7 +273,7 @@ static void player_update_state(tEntity *player)
     }    
     else if (playerFlags.crouched)
         player->state = ST_PLAYER_CROUCHED;
-    else if (abs(player->fixVel.x) > cMinVelToIdle || playerFlags.moving)
+    else if (abs(player->fixVel.x) > minVelToReset || playerFlags.moving)
     {
         player->state = ST_PLAYER_RUN;
     }

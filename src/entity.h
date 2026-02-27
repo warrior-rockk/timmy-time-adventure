@@ -17,6 +17,7 @@
 #define ENTITY_BLINK_SPEED  2
 
 #define ENTITY_GRAVITY      0.18
+#define ENTITY_MIN_VEL_X    0.1
 #define ENTITY_MAX_VEL_Y    6
 #define ENTITY_FRICTION     0.92
 

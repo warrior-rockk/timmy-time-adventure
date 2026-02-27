@@ -357,12 +357,14 @@ void entity_update_vel_pos(tEntity *entity)
     //if entity has physics flag
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
-        //apply velocities
-        entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));        
+        //apply X velocity
+        entity->fixPos.x += abs(entity->fixVel.x) < ftofix(ENTITY_MIN_VEL_X) ? 0 : fixmul(entity->fixVel.x, ftofix(deltaTime));        
+        
+        //apply Y velocity
         if (entity->ground)
         {
             entity->fixVel.y = 0;  
-            //apply friction all entities except player
+            //apply friction all entities except player (has is own friction logic)
             if (entity->id != PLAYER_ENTITY_ID)
                 entity->fixVel.x = fixmul(entity->fixVel.x, ftofix(ENTITY_FRICTION));
         }
