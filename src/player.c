@@ -388,7 +388,7 @@ static void player_update_collisions(tEntity *player)
     player->ground = false;
     objectForPickID = 0;
 
-    //check all the entity collision points    
+    //check all the entity collision points with tilemap     
     for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
     {                
         //check collision tile for collision point
@@ -402,34 +402,47 @@ static void player_update_collisions(tEntity *player)
     tEntity *checkEntity;
     for (uint8_t i = 0; i < numEntities; i++)
     {
+        //get entity to check
         checkEntity = entity_get(i);
+        
+        //if the entity is not the player and it's not dead
         if (checkEntity->id != player->id && !checkEntity->dead)
         {
+            //check entity class
             switch (checkEntity->entClass)
             {
+                //objects
                 case E_ENT_CLASS_OBJECT:
+                    //check vertical collision with entity
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
+                    //checks collision dir
                     if (colDir)
                     {
+                        //if collision dir down and attacking and object breakable
                         if (colDir == E_COLLISION_DIR_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                         {
+                            //send hurt signal
                             checkEntity->signal = E_ENT_SIGNAL_HURT;
                             //set bounce velocity
                             player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
                         }
                         else
+                            //adjust collision position (object solid)
                             collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
                     }
-
+                    
+                    //check horizontal collision with entity
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
 
-                    //comprobamos si colisionamos con un objeto recogible y esta en la mitad inferior
-                    if (!playerFlags.picked && (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)) 
-                        //TODO: if (isBitSet(colID.this.props,OBJ_PICKABLE) && colID.y >= y)                        
+                    //if lateral collision, check if is object pickable and on lower position to the player                    
+                    if ((colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT) && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_PICKABLE) 
+                         && !playerFlags.picked && checkEntity->pos.y >= player->pos.y)                        
                             objectForPickID = checkEntity->id;                                             
-
+                    
+                    //adjust collision position (object solid)
                     collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
                 break;
+                //enemies
                 case E_ENT_CLASS_ENEMY:
                     if (!playerFlags.dead)
                     {
