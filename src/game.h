@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video dimensions
 #define GAME_GFX_MODE           GFX_VGA
@@ -65,6 +65,7 @@ enum E_GAME_STATE
     E_GAME_ST_LOAD_LEVEL,
     E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
+    E_GAME_ST_PAUSE_LEVEL,
     E_GAME_ST_LOSE_LIVE,
     E_GAME_ST_COMPLETE_LEVEL,
     E_GAME_ST_GAME_OVER,

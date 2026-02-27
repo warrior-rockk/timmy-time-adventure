@@ -118,7 +118,7 @@ static void player_update_controls(tEntity *player)
     if (!playerFlags.disableMove)
     {
         //Right direction control
-        if (input_key_press(G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerFlags.crouched)
         {
             player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
@@ -127,7 +127,7 @@ static void player_update_controls(tEntity *player)
         }
         
         //Left direction control
-        if (input_key_press(G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerFlags.crouched)
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
@@ -136,10 +136,10 @@ static void player_update_controls(tEntity *player)
         }
 
         //Down control (crouch)
-        playerFlags.crouched = input_key_press(G_KEY_DOWN) && player->ground && !playerFlags.picked;
+        playerFlags.crouched = input_key_press(E_G_KEY_DOWN) && player->ground && !playerFlags.picked;
 
         //Jump control
-        if (input_key_pressed(G_KEY_JUMP) && player->ground)
+        if (input_key_pressed(E_G_KEY_JUMP) && player->ground)
         {
             player->fixVel.y = -accel_y;
             player->ground = false;
@@ -150,7 +150,7 @@ static void player_update_controls(tEntity *player)
     }
 
     //Action control (atack, pick)
-    if (input_key_pressed(G_KEY_ACTION))
+    if (input_key_pressed(E_G_KEY_ACTION))
     {
         //pick object if it's not picked
         if (playerFlags.picking && !playerFlags.picked)
@@ -186,7 +186,7 @@ static void player_update_controls(tEntity *player)
     }
 
     //apply friction
-    if ((!input_key_press(G_KEY_RIGHT) && !input_key_press(G_KEY_LEFT)) || playerFlags.crouched)
+    if ((!input_key_press(E_G_KEY_RIGHT) && !input_key_press(E_G_KEY_LEFT)) || playerFlags.crouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
         player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 

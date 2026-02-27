@@ -16,17 +16,20 @@
 #define K_FLAG_PRESSED      0x02
 
 //game keys
-#define G_KEY_PAUSE     0
-#define G_KEY_EXIT      1
-#define G_KEY_UP        2
-#define G_KEY_DOWN      3
-#define G_KEY_LEFT      4
-#define G_KEY_RIGHT     5
-#define G_KEY_JUMP      6
-#define G_KEY_ACTION    7
-#define G_KEY_D         8
-#define G_KEY_S         9
-#define GAME_KEYS_NUM   10
+enum E_GAME_KEYS
+{
+    E_G_KEY_PAUSE,
+    E_G_KEY_EXIT,
+    E_G_KEY_UP,
+    E_G_KEY_DOWN,
+    E_G_KEY_LEFT,
+    E_G_KEY_RIGHT,
+    E_G_KEY_JUMP,
+    E_G_KEY_ACTION,
+    E_G_KEY_D,
+    E_G_KEY_S,
+    E_GAME_KEYS_NUM,
+};
 
 //key struct
 typedef struct {

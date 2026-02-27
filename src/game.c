@@ -63,6 +63,8 @@ static void game_hud_update();
 static void game_hud_draw();
 static void game_destroy_level();
 static void game_do_fade();
+static void game_pause_sound();
+static void game_resume_sound();
 
 void game_update()
 {   
@@ -115,7 +117,7 @@ void game_update()
                     
                     if (input_any_key_pressed())
                     {
-                        if (input_key_press(G_KEY_EXIT))
+                        if (input_key_press(E_G_KEY_EXIT))
                         {
                             game.state = E_GAME_ST_EXIT;
                         }
@@ -194,7 +196,10 @@ void game_update()
             //game time
             if (get_clock_tick_1sec())
                 game.time--;
-                
+            
+            if (input_key_pressed(E_G_KEY_PAUSE))
+                game.state = E_GAME_ST_PAUSE_LEVEL;
+
             #ifdef DEBUGMODE
                 if (key[KEY_R])
                     game.state = E_GAME_ST_INIT_LEVEL;
@@ -202,9 +207,25 @@ void game_update()
                 if (key[KEY_C])
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
 
-                if (input_key_press(G_KEY_EXIT))
+                if (input_key_press(E_G_KEY_EXIT))
                     game.state = E_GAME_ST_DESTROY_LEVEL;            
             #endif
+        break;
+        case E_GAME_ST_PAUSE_LEVEL:            
+            map_draw(worldScreen, &scroll, false);
+            entities_draw(worldScreen, &scroll);
+            map_draw(worldScreen, &scroll, true);                    
+            game_hud_draw();           
+            
+            textprintf_centre_ex(worldScreen, gameFont, GAME_W >> 1, GAME_H >> 1,  WHITE_COLOR, BLACK_COLOR, "PAUSE");
+            
+            game_pause_sound();
+
+            if (input_key_pressed(E_G_KEY_PAUSE))
+            {
+                game.state = E_GAME_ST_PLAY_LEVEL;
+                game_resume_sound();
+            }
         break;
         case E_GAME_ST_LOSE_LIVE:
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
@@ -323,9 +344,9 @@ void game_update()
         if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
             game.state = E_GAME_ST_EXIT;
         
-        if (input_key_pressed(G_KEY_D))
+        if (input_key_pressed(E_G_KEY_D))
             debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
-        if (input_key_pressed(G_KEY_S))
+        if (input_key_pressed(E_G_KEY_S))
             debugOptions.stepByStep = !debugOptions.stepByStep;
 
         //trace state          
@@ -334,6 +355,8 @@ void game_update()
     
     #endif
 
+    //update sfx
+    sfx_update();
     //clear keyboard buffer to use keypressed()
     clear_keybuf();
 }
@@ -606,4 +629,20 @@ void game_hud_draw()
 
     //reset refresh flags
     hud.refresh = 0x00;
+}
+
+static void game_pause_sound()
+{
+    for (uint8_t i = 0; i < E_SFX_NUM_VOICES; i++)
+    {
+        sfx_pause(i);
+    }
+}
+
+static void game_resume_sound()
+{
+    for (uint8_t i = 0; i < E_SFX_NUM_VOICES; i++)
+    {
+        sfx_resume(i);
+    }
 }

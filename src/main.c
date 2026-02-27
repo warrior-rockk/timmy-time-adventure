@@ -136,13 +136,13 @@ static void main_stepByStep()
 {
     input_keys_update();
  
-    if (input_key_pressed(G_KEY_S))
+    if (input_key_pressed(E_G_KEY_S))
         debugOptions.stepByStep = !debugOptions.stepByStep;
  
-    if (input_key_pressed(G_KEY_EXIT))
+    if (input_key_pressed(E_G_KEY_EXIT))
         gameExit = true;
  
-    if (input_key_pressed(G_KEY_D))
+    if (input_key_pressed(E_G_KEY_D))
     {
         game_update();
         game_draw();         

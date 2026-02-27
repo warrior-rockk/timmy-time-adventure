@@ -10,7 +10,7 @@
 #include "utils.h"
 
 //definition of keys assigned for game keys
-static tKey gameKeys[GAME_KEYS_NUM] =
+static tKey gameKeys[E_GAME_KEYS_NUM] =
 {
     {KEY_SPACE, 0x00},
     {KEY_ESC, 0x00},
@@ -27,7 +27,7 @@ static tKey gameKeys[GAME_KEYS_NUM] =
 //general keys update
 void input_keys_update()
 {
-    for (int i = 0; i < GAME_KEYS_NUM; i++)
+    for (int i = 0; i < E_GAME_KEYS_NUM; i++)
     {
         CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_PRESSED);
 
