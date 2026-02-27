@@ -83,6 +83,15 @@ void player_init(tEntity *player)
     player->state = ST_PLAYER_IDLE;
 }
 
+void player_destroy(tEntity *player)
+{
+    //free player samples
+    for (uint8_t i = 0; i < SFX_PLAYER_NUM; i++)
+    {
+        destroy_sample(playerSfx[i]);    
+    }    
+}
+
 void player_update(tEntity *player)
 {
     //update friction
@@ -200,11 +209,104 @@ static void player_update_controls(tEntity *player)
     }
 }
 
+static void player_update_collisions(tEntity *player)
+{
+    uint8_t colDir = 0;
+    player->ground = false;
+    objectForPickID = 0;
+
+    //check all the entity collision points with tilemap     
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(player, i);        
+        //apply collision direction
+        collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);        
+    }
+
+    //check entities collisions
+    uint8_t numEntities = entities_get_num();
+    tEntity *checkEntity;
+    for (uint8_t i = 0; i < numEntities; i++)
+    {
+        //get entity to check
+        checkEntity = entity_get(i);
+        
+        //if the entity is not the player and it's not dead
+        if (checkEntity->id != player->id && !checkEntity->dead)
+        {
+            //check entity class
+            switch (checkEntity->entClass)
+            {
+                //objects
+                case E_ENT_CLASS_OBJECT:
+                    //check vertical collision with entity
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
+                    //if collided
+                    if (colDir)
+                    {
+                        //if collision dir down and attacking and object breakable
+                        if (colDir == E_COLLISION_DIR_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                        {
+                            //send hurt signal
+                            checkEntity->signal = E_ENT_SIGNAL_HURT;
+                            //set bounce velocity
+                            player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
+                        }
+                        else
+                            //adjust collision position (object solid)
+                            collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
+                    }
+                    
+                    //check horizontal collision with entity
+                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
+
+                    //if lateral collision, check if is object pickable and on lower position to the player                    
+                    if ((colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT) && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_PICKABLE) 
+                         && !playerFlags.picked && checkEntity->pos.y >= player->pos.y)                        
+                            objectForPickID = checkEntity->id;                                             
+                    
+                    //adjust collision position (object solid)
+                    collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
+                break;
+
+                //enemies
+                case E_ENT_CLASS_ENEMY:
+                    //if player is not dead
+                    if (!playerFlags.dead)
+                    {
+                        //check collision with entity but not adjust positions
+                        colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
+                        //if collided
+                        if (colDir)
+                        {
+                            //if collision down and attacking
+                            if (colDir == E_COLLISION_DIR_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            {
+                                //send signal to entity
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;  
+                                //add score
+                                game.score += SCORE_POINT_HURT_ENEMY;             
+                                //set bounce velocity
+                                player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
+                            } 
+                            //if not attacking (hurt player)
+                            else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
+                            {
+                                //set hurt flag
+                                playerFlags.hurt = true;                                 
+                            }
+                        }
+                    }
+                break;
+            }            
+        }
+    }
+}
+
 static void player_update_state(tEntity *player)
 {
-    //update state
-    player->prevState = player->state;    
-
+    //reset flag
     playerFlags.disableMove = false;
     
     //picking objects
@@ -252,7 +354,28 @@ static void player_update_state(tEntity *player)
     {
         playerFlags.disableMove = true;
         player->state = ST_PLAYER_HURT;   
-        playerInvincible = PLAYER_INVINCIBLE_TIME;     
+        playerInvincible = PLAYER_INVINCIBLE_TIME; 
+        
+        //rising edge of the state
+        if (player->prevState != player->state)
+        {
+            //play hurt sfx
+            sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE, false);                                                                          
+            //lose life
+            game.life -= 1;
+            //set hurt velocities
+            player->ground = false;
+            player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
+            player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
+            //if object picked, we lose it
+            if (playerFlags.picked)
+            {                                    
+                objectPicked->signal = E_ENT_SIGNAL_THROW;
+                objectPicked = NULL;
+                //reset flags
+                playerFlags.picked = false;                                    
+            }
+        }
     }
     else if (playerFlags.picking && !playerFlags.picked)
     	player->state = ST_PLAYER_PICKING;	
@@ -380,124 +503,4 @@ static void player_update_animations(tEntity *player)
         entity_blink(player);
     else
         player->visible = true;
-}
-
-static void player_update_collisions(tEntity *player)
-{
-    uint8_t colDir = 0;
-    player->ground = false;
-    objectForPickID = 0;
-
-    //check all the entity collision points with tilemap     
-    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
-    {                
-        //check collision tile for collision point
-        colDir = collision_check_tile(player, i);        
-        //apply collision direction
-        collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);        
-    }
-
-    //check entities collisions
-    uint8_t numEntities = entities_get_num();
-    tEntity *checkEntity;
-    for (uint8_t i = 0; i < numEntities; i++)
-    {
-        //get entity to check
-        checkEntity = entity_get(i);
-        
-        //if the entity is not the player and it's not dead
-        if (checkEntity->id != player->id && !checkEntity->dead)
-        {
-            //check entity class
-            switch (checkEntity->entClass)
-            {
-                //objects
-                case E_ENT_CLASS_OBJECT:
-                    //check vertical collision with entity
-                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
-                    //if collided
-                    if (colDir)
-                    {
-                        //if collision dir down and attacking and object breakable
-                        if (colDir == E_COLLISION_DIR_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
-                        {
-                            //send hurt signal
-                            checkEntity->signal = E_ENT_SIGNAL_HURT;
-                            //set bounce velocity
-                            player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
-                        }
-                        else
-                            //adjust collision position (object solid)
-                            collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
-                    }
-                    
-                    //check horizontal collision with entity
-                    colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
-
-                    //if lateral collision, check if is object pickable and on lower position to the player                    
-                    if ((colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT) && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_PICKABLE) 
-                         && !playerFlags.picked && checkEntity->pos.y >= player->pos.y)                        
-                            objectForPickID = checkEntity->id;                                             
-                    
-                    //adjust collision position (object solid)
-                    collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
-                break;
-
-                //enemies
-                case E_ENT_CLASS_ENEMY:
-                    //if player is not dead
-                    if (!playerFlags.dead)
-                    {
-                        //check collision with entity but not adjust positions
-                        colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_INFOONLY);     
-                        //if collided
-                        if (colDir)
-                        {
-                            //if collision down and attacking
-                            if (colDir == E_COLLISION_DIR_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
-                            {
-                                //send signal to entity
-                                checkEntity->signal = E_ENT_SIGNAL_HURT;  
-                                //add score
-                                game.score += SCORE_POINT_HURT_ENEMY;             
-                                //set bounce velocity
-                                player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
-                            } 
-                            //if not attacking (hurt player)
-                            else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
-                            {
-                                //set flags
-                                playerFlags.hurt = true; 
-                                //play hurt sfx
-                                sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE, false);                                                                          
-                                //lose life
-                                game.life -= 1;
-                                //set hurt velocities
-                                player->ground = false;
-                                player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
-                                player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
-                                //if object picked, we lose it
-                                if (playerFlags.picked)
-                                {                                    
-                                    objectPicked->signal = E_ENT_SIGNAL_THROW;
-                                    objectPicked = NULL;
-                                    //reset flags
-                                    playerFlags.picked = false;                                    
-                                }
-                            }
-                        }
-                    }
-                break;
-            }            
-        }
-    }
-}
-
-void player_destroy(tEntity *player)
-{
-    //free player samples
-    for (uint8_t i = 0; i < SFX_PLAYER_NUM; i++)
-    {
-        destroy_sample(playerSfx[i]);    
-    }    
 }
