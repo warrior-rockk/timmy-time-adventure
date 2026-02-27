@@ -294,7 +294,14 @@ void entities_update(tScroll *scroll)
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            entityList[i].sleep = true;                    }
+            //if entity is not player
+            if (entityList[i].id != PLAYER_ENTITY_ID)
+                //sleep the entity
+                entityList[i].sleep = true;                    
+            else
+                //if is player, lose live (fall on edges)
+                game.loseLive = true;
+        }
         else
         {
             visibleEntities++;
