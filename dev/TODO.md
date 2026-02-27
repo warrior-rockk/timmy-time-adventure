@@ -1,4 +1,6 @@
 # Bugs
+- [ ] Start player out of initial screen region activates out region and lose life
+- [ ] Esc on title don't exits
 
 # Engine
 - [ ] Less collision points to entities than player?
@@ -28,9 +30,9 @@
 - [X] Pause system
 
 # Player
-- [ ] Crouch change size
 - [ ] Idle special animation when no control
 - [ ] Animation on edge
 - [X] Slide crouched
 - [X] Better jump velocities/gravity
 - [X] Jump dynamic force when pressed
+- [X] Crouch change size

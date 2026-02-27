@@ -239,6 +239,32 @@ static void player_update_collisions(tEntity *player)
     player->ground = false;
     objectForPickID = 0;
 
+    //dimensions control
+    if (playerFlags.crouched)
+    {
+        if (player->size.y != PLAYER_SIZE_H_CROUCH)
+        {
+            //set size crouched
+            player->size.y = PLAYER_SIZE_H_CROUCH;
+            //adjust position
+            player->fixPos.y = player->fixPos.y + itofix(PLAYER_SIZE_H - PLAYER_SIZE_H_CROUCH);
+            //recalculate collision points
+            collision_set_collision_points(player, collision_get_point_index_by_entId(player->id));
+        }
+    }
+    else
+    {
+        if (player->size.y != PLAYER_SIZE_H)
+        {            
+            //set normal size
+            player->size.y = PLAYER_SIZE_H;
+            //adjust position
+            player->fixPos.y = player->fixPos.y - itofix(PLAYER_SIZE_H - PLAYER_SIZE_H_CROUCH);            
+            //recalculate collision points
+            collision_set_collision_points(player, collision_get_point_index_by_entId(player->id));
+        }
+    }
+
     //check all the entity collision points with tilemap     
     for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
     {                
@@ -419,7 +445,9 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_LAND;
     }    
     else if (playerFlags.crouched)
-        player->state = ST_PLAYER_CROUCHED;
+    {
+        player->state = ST_PLAYER_CROUCHED;        
+    }
     else if (abs(player->fixVel.x) > minVelToReset || playerFlags.moving)
     {
         player->state = ST_PLAYER_RUN;

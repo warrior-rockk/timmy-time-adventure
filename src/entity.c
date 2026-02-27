@@ -150,7 +150,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             case E_ENT_CLASS_PLAYER:
                 entityList[newEntity].img             = load_bmp("res/player/player.bmp",NULL);
                 entityList[newEntity].spriteSize      = (tVector){PLAYER_IMG_W,PLAYER_IMG_H};  
-                entityList[newEntity].size            = (tVector){PLAYER_W,PLAYER_H};        
+                entityList[newEntity].size            = (tVector){PLAYER_SIZE_W,PLAYER_SIZE_H};        
                 entityList[newEntity].axis            = E_ENT_AXIS_DOWN;
                 entityList[newEntity].properties      = E_ENT_PROP_PHYSICS_ON;
                 entityList[newEntity].entity_create   = &player_create;

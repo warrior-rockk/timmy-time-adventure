@@ -10,10 +10,11 @@
 #include "anim.h"
 #include "entity.h"
 
-#define PLAYER_W            12
-#define PLAYER_H            30 //40
-#define PLAYER_IMG_W        41
-#define PLAYER_IMG_H        41
+#define PLAYER_SIZE_W               12
+#define PLAYER_SIZE_H               30
+#define PLAYER_SIZE_H_CROUCH        16
+#define PLAYER_IMG_W                41
+#define PLAYER_IMG_H                41
 
 //player velocities    
     //horizontal
