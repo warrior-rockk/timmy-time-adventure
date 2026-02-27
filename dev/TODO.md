@@ -1,5 +1,4 @@
 # Bugs
-- [ ] Bug on eliminate enemy after gameover
 
 # Engine
 - [ ] Less collision points to entities than player?

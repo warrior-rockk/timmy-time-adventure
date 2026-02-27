@@ -137,7 +137,10 @@ void game_update()
             game.life           = GAME_INI_LIFE;
             game.score          = 0;
             game.loseLive       = false;
-            game.actualLevel    = 0;            
+            game.actualLevel    = 0;     
+            
+            object_system_init();
+            enemy_system_init();
                         
             game.state = E_GAME_ST_LOAD_LEVEL;            
         break;
@@ -401,9 +404,7 @@ void game_init()
     blit(hud.hudImg, hud.hudLifeOff, 99, 5, 0, 0, 15, 14);
 
     entity_system_init();
-    collision_system_init();
-    object_system_init();
-    enemy_system_init();
+    collision_system_init();    
     debug_init();
     timer_init(GAME_CLOCK_TICK);
     sfx_init(load_wav("res/player/jump.wav"), E_SFX_NUM_VOICES);

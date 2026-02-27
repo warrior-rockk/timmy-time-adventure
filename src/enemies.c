@@ -41,8 +41,8 @@ void enemy_system_destroy()
     //set number of entities
     numEnemyInstances = 0;   
     //free samples
-    destroy_sample(enemySfx[E_SFX_ENEMY_DEAD]);
-
+    for (uint8_t i = 0; i < E_SFX_ENEMY_NUM; i++)
+        destroy_sample(enemySfx[i]);
     //free resources
     for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
     {
