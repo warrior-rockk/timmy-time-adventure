@@ -242,28 +242,25 @@ void entity_destroy(uint16_t entityIndex)
 //function to init a entity
 void entity_init(uint8_t entityIndex)
 {
-    //if the entity doesn't have PERSISTENT flag (PERSISTENT entities don't initialize again)
-    if (!CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PERSISTENT))
-    {
-        //init entity data
-        entityList[entityIndex].pos       = entityList[entityIndex].initPos;
-        entityList[entityIndex].fixPos.x  = itofix(entityList[entityIndex].pos.x);
-        entityList[entityIndex].fixPos.y  = itofix(entityList[entityIndex].pos.y);
-        entityList[entityIndex].dir       = entityList[entityIndex].initDir;
-        entityList[entityIndex].fixVel    = (tFixVector){0, 0};
-        entityList[entityIndex].state     = 0;
-        entityList[entityIndex].prevState = 0;
-        entityList[entityIndex].anim.frame= 0;
-        entityList[entityIndex].dead      = 0;
-        entityList[entityIndex].visible   = true;
-        entityList[entityIndex].signal    = E_ENT_SIGNAL_NONE;
+    //init entity data
+    entityList[entityIndex].pos       = entityList[entityIndex].initPos;
+    entityList[entityIndex].fixPos.x  = itofix(entityList[entityIndex].pos.x);
+    entityList[entityIndex].fixPos.y  = itofix(entityList[entityIndex].pos.y);
+    entityList[entityIndex].dir       = entityList[entityIndex].initDir;
+    entityList[entityIndex].fixVel    = (tFixVector){0, 0};
+    entityList[entityIndex].state     = 0;
+    entityList[entityIndex].prevState = 0;
+    entityList[entityIndex].anim.frame= 0;
+    entityList[entityIndex].dead      = 0;
+    entityList[entityIndex].visible   = true;
+    entityList[entityIndex].signal    = E_ENT_SIGNAL_NONE;
 
-        //call custom entity entity
-        if (entityList[entityIndex].entity_init)
-        {
-            entityList[entityIndex].entity_init(&entityList[entityIndex]);          
-        }
+    //call custom entity entity
+    if (entityList[entityIndex].entity_init)
+    {
+        entityList[entityIndex].entity_init(&entityList[entityIndex]);          
     }
+    
 }
 
 //function to init the entities 
@@ -284,19 +281,27 @@ void entities_update(tScroll *scroll)
     {
         //check dead flag
         if (entityList[i].dead)
-            entityList[i].sleep = true;
+            //reset dead flag if object out of region of initial position
+            if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}, scroll))
+            {
+                entityList[i].sleep = true;
+                //if the entity doesn't is persistent, init the entity
+                if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
+                    entity_init(i);  
+            }
+            else
+                entityList[i].sleep = true;
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
-            entityList[i].sleep = true;
-            entity_init(i);           
-        }
+            entityList[i].sleep = true;                    }
         else
         {
-            //only update entity if visible
-            entityList[i].sleep = false;        
             visibleEntities++;
 
+            //clear flag
+            entityList[i].sleep = false;                    
+            //update previous state
             entityList[i].prevState = entityList[i].state;
             
             //call entity pointer update function

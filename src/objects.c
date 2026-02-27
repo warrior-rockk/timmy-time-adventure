@@ -84,7 +84,8 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
             collision_create_entity_points(entity);      
-            entity->properties = E_ENT_PROP_NO_BREAKABLE;              
+            SET_FLAG(entity->properties, E_ENT_PROP_NO_BREAKABLE);
+            SET_FLAG(entity->properties, E_ENT_PROP_PERSISTENT);            
         break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
@@ -277,7 +278,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
             {
                 //put object to sleep
-                this->sleep = true;                
+                //this->sleep = true;                
+                this->dead = true;
             }
         break;
     }
