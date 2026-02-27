@@ -22,6 +22,7 @@ static fixed friction;
 static fixed air_friction;
 static fixed accel_y;
 static fixed max_vel_x;
+static fixed max_vel_y;
 static fixed minVelToReset;
 
 static fixed localFriction;
@@ -39,6 +40,7 @@ static struct playerFlags
     uint16_t disableMove    : 1;
     uint16_t picking        : 1;
     uint16_t picked         : 1;
+    uint16_t jump           : 1;
 } playerFlags;
 
 static int16_t playerInvincible = 0;        //counter for player invincibility
@@ -64,6 +66,7 @@ void player_create(tEntity *player)
     
     accel_y       = ftofix(PLAYER_ACCEL_Y);
     max_vel_x     = ftofix(PLAYER_MAX_VEL_X);    
+    max_vel_y     = ftofix(PLAYER_JUMP_VEL_Y);    
     minVelToReset = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
     //load player sfx
@@ -148,14 +151,35 @@ static void player_update_controls(tEntity *player)
         playerFlags.crouched = input_key_press(E_G_KEY_DOWN) && player->ground && !playerFlags.picked;
 
         //Jump control
-        if (input_key_pressed(E_G_KEY_JUMP) && player->ground)
+        if (input_key_press(E_G_KEY_JUMP))
         {
-            player->fixVel.y = -accel_y;
-            player->ground = false;
-            playerFlags.attack = false;
-            
-            sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE, false);
+            //if not flag jump and not falling
+            if (!playerFlags.jump && player->fixVel.y <= 0)
+            {
+                //clear flags
+                player->ground = false;
+                playerFlags.attack = false;
+
+                //apply y acceleration
+                player->fixVel.y += -accel_y;
+                //if reached max jump velocity, set flag
+                if (player->fixVel.y < -(max_vel_y))
+                    playerFlags.jump = true;
+                
+                //play sfx jump
+                if (player->state != ST_PLAYER_JUMP)
+                    sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE, false);
+            }
         }
+        else 
+        {
+            //if not press jump, set flag jump
+            if (!input_key_press(E_G_KEY_JUMP))
+                playerFlags.jump = true;
+            //reset jump flag on ground
+            if(player->ground)                
+                playerFlags.jump = false;
+        }        
     }
 
     //Action control (atack, pick)
@@ -387,8 +411,8 @@ static void player_update_state(tEntity *player)
     {
         if (playerFlags.attack)
             player->state = ST_PLAYER_ATTACK;
-        else
-            player->state = ST_PLAYER_JUMP;
+        else        
+            player->state = ST_PLAYER_JUMP;           
     }
     else if (playerFlags.attack)
     {

@@ -1,4 +1,5 @@
 # Bugs
+- [ ] Bug on eliminate enemy after gameover
 
 # Engine
 - [ ] Less collision points to entities than player?
@@ -28,9 +29,9 @@
 - [X] Pause system
 
 # Player
-- [ ] Jump dynamic force when pressed
 - [ ] Crouch change size
 - [ ] Idle special animation when no control
 - [ ] Animation on edge
 - [X] Slide crouched
 - [X] Better jump velocities/gravity
+- [X] Jump dynamic force when pressed
