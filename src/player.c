@@ -130,7 +130,7 @@ static void player_update_controls(tEntity *player)
     if (!playerFlags.disableMove)
     {
         //Right direction control
-        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX) //&& !playerFlags.crouched)
         {
             player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x+= fixmul(accelX, ftofix(deltaTime));
@@ -139,7 +139,7 @@ static void player_update_controls(tEntity *player)
         }
         
         //Left direction control
-        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX) // && !playerFlags.crouched)
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x -= fixmul(accelX, ftofix(deltaTime));
@@ -444,10 +444,10 @@ static void player_update_state(tEntity *player)
     {
         player->state = ST_PLAYER_LAND;
     }    
-    else if (playerFlags.crouched)
-    {
-        player->state = ST_PLAYER_CROUCHED;        
-    }
+    //else if (playerFlags.crouched)
+    //{
+    //    player->state = ST_PLAYER_CROUCHED;        
+    //}
     else if (abs(player->fixVel.x) > minVelToReset || playerFlags.moving)
     {
         player->state = ST_PLAYER_RUN;
@@ -472,8 +472,12 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_RUN:
             if (playerFlags.picked)
                 play_animation(&player->anim, ANIM_PLY_RUN_PICKED);
-            else
-                play_animation(&player->anim, ANIM_PLY_RUN);
+            else{
+                if (!playerFlags.crouched)
+                    play_animation(&player->anim, ANIM_PLY_RUN);
+                else
+                    play_animation(&player->anim, ANIM_PLY_WALK_CROUCH);
+            }
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
