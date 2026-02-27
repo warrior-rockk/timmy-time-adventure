@@ -20,10 +20,8 @@ static fixed accel_x;
 static fixed accel_x_air;
 static fixed friction;
 static fixed air_friction;
-static fixed gravity;
 static fixed accel_y;
 static fixed max_vel_x;
-static fixed max_vel_y;
 static fixed cMinVelToIdle;
 
 static fixed localFriction;
@@ -63,11 +61,10 @@ void player_create(tEntity *player)
     accel_x_air   = ftofix(PLAYER_ACCEL_X_AIR); 
     friction      = ftofix(PLAYER_FRICTION);
     air_friction  = ftofix(PLAYER_AIR_FRICTION);
-    gravity       = ftofix(PLAYER_GRAVITY);
+    
     accel_y       = ftofix(PLAYER_ACCEL_Y);
-    max_vel_x     = ftofix(PLAYER_MAX_VEL_X);
-    max_vel_y     = ftofix(PLAYER_MAX_VEL_Y);
-    cMinVelToIdle = ftofix(PLAYER_MIN_VEL_TO_IDLE);
+    max_vel_x     = ftofix(PLAYER_MAX_VEL_X);    
+    cMinVelToIdle = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
     //load player sfx
     playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
@@ -418,7 +415,7 @@ static void player_update_collisions(tEntity *player)
                         {
                             checkEntity->signal = E_ENT_SIGNAL_HURT;
                             //set bounce velocity
-                            player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
+                            player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
                         }
                         else
                             collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
@@ -447,7 +444,7 @@ static void player_update_collisions(tEntity *player)
                                 //add score
                                 game.score += SCORE_POINT_HURT_ENEMY;             
                                 //set bounce velocity
-                                player->fixVel.y = itofix(PLAYER_ENEMY_BOUNCE_VEL);
+                                player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
                             } 
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
                             {

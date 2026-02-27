@@ -354,21 +354,9 @@ uint8_t entities_get_num()
 
 void entity_update_vel_pos(tEntity *entity)
 {
-    //apply velocity
-    //entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));
-    //entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
-
-    //update position
-    //entity->pos.x = fixtoi(entity->fixPos.x);
-    //entity->pos.y = fixtoi(entity->fixPos.y);
-    
-    
     //if entity has physics flag
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
-        fixed gravity       = ftofix(0.18);
-        fixed max_vel_y     = ftofix(6);
-
         //apply velocities
         entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));        
         if (entity->ground)
@@ -376,12 +364,12 @@ void entity_update_vel_pos(tEntity *entity)
             entity->fixVel.y = 0;  
             //apply friction all entities except player
             if (entity->id != PLAYER_ENTITY_ID)
-                entity->fixVel.x = fixmul(entity->fixVel.x, ftofix(0.92));
+                entity->fixVel.x = fixmul(entity->fixVel.x, ftofix(ENTITY_FRICTION));
         }
         else  
         {
             //gravity 
-            entity->fixVel.y += entity->fixVel.y >= max_vel_y ? 0 : fixmul(gravity, ftofix(deltaTime));
+            entity->fixVel.y += entity->fixVel.y >= ftofix(ENTITY_MAX_VEL_Y) ? 0 : fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
             entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
         }
     }

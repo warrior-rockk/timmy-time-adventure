@@ -16,6 +16,10 @@
 #define ENTITY_MAX_NUM      255     //Max. number of entities
 #define ENTITY_BLINK_SPEED  2
 
+#define ENTITY_GRAVITY      0.18
+#define ENTITY_MAX_VEL_Y    6
+#define ENTITY_FRICTION     0.92
+
 #define DEBUG_POINT_ENABLED_COLOR       53
 #define DEBUG_POINT_DISABLED_COLOR      66
 #define DEBUG_SHOW_ALL_LAYER            1
