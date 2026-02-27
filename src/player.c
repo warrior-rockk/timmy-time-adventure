@@ -16,13 +16,13 @@
 #include "timer.h"
 #include "sound.h"
 
-static fixed accel_x;
-static fixed accel_x_air;
+static fixed accelX;
+static fixed accelXAir;
 static fixed friction;
-static fixed air_friction;
-static fixed accel_y;
-static fixed max_vel_x;
-static fixed max_vel_y;
+static fixed airFriction;
+static fixed accelY;
+static fixed maxVelX;
+static fixed maxVelY;
 static fixed minVelToReset;
 
 static fixed localFriction;
@@ -59,14 +59,14 @@ static void player_update_animations(tEntity *player);
 void player_create(tEntity *player)
 {
     //set fixed constants
-    accel_x       = ftofix(PLAYER_ACCEL_X); 
-    accel_x_air   = ftofix(PLAYER_ACCEL_X_AIR); 
+    accelX       = ftofix(PLAYER_ACCEL_X); 
+    accelXAir   = ftofix(PLAYER_ACCEL_X_AIR); 
     friction      = ftofix(PLAYER_FRICTION);
-    air_friction  = ftofix(PLAYER_AIR_FRICTION);
+    airFriction  = ftofix(PLAYER_AIR_FRICTION);
     
-    accel_y       = ftofix(PLAYER_ACCEL_Y);
-    max_vel_x     = ftofix(PLAYER_MAX_VEL_X);    
-    max_vel_y     = ftofix(PLAYER_JUMP_VEL_Y);    
+    accelY       = ftofix(PLAYER_ACCEL_Y);
+    maxVelX     = ftofix(PLAYER_MAX_VEL_X);    
+    maxVelY     = ftofix(PLAYER_JUMP_VEL_Y);    
     minVelToReset = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
     //load player sfx
@@ -98,8 +98,8 @@ void player_destroy(tEntity *player)
 void player_update(tEntity *player)
 {
     //update friction
-    localFriction = player->ground ? friction: air_friction;
-    localAccelX = player->ground ? accel_x : accel_x_air;
+    localFriction = player->ground ? friction: airFriction;
+    localAccelX = player->ground ? accelX : accelXAir;
 
     //update controls
     player_update_controls(player);
@@ -130,19 +130,19 @@ static void player_update_controls(tEntity *player)
     if (!playerFlags.disableMove)
     {
         //Right direction control
-        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < max_vel_x && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX && !playerFlags.crouched)
         {
             player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-            //player->fixVel.x+= fixmul(accel_x, ftofix(deltaTime));
+            //player->fixVel.x+= fixmul(accelX, ftofix(deltaTime));
             player->dir = E_ENT_DIR_RIGHT;
             playerFlags.moving = true;
         }
         
         //Left direction control
-        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -max_vel_x && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.crouched)
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-            //player->fixVel.x -= fixmul(accel_x, ftofix(deltaTime));
+            //player->fixVel.x -= fixmul(accelX, ftofix(deltaTime));
             player->dir = E_ENT_DIR_LEFT;
             playerFlags.moving = true;
         }
@@ -161,9 +161,9 @@ static void player_update_controls(tEntity *player)
                 playerFlags.attack = false;
 
                 //apply y acceleration
-                player->fixVel.y += -accel_y;
+                player->fixVel.y += -accelY;
                 //if reached max jump velocity, set flag
-                if (player->fixVel.y < -(max_vel_y))
+                if (player->fixVel.y < -(maxVelY))
                     playerFlags.jump = true;
                 
                 //play sfx jump
