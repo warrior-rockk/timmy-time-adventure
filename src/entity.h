@@ -108,22 +108,23 @@ void entity_system_init();
 //destroys entity system
 void entity_system_destroy();
 
-//creates a new entity. Returns entity number
-int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir);
 //calls the init function on all entitites
 void entities_init();
 //calls the update function on all entities
 void entities_update(tScroll *scroll);
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer, tScroll *scroll);
+//destroy all entities
+void entities_destroy_all();
+//returns number of entities
+uint8_t entities_get_num();
+
+//creates a new entity. Returns entity number
+int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir);
 //function to update actual vel and position of an entity
 void entity_update_vel_pos(tEntity *entity);
 //returns entity based on entity number
 tEntity* entity_get(uint16_t numEntity);
-//returns number of entities
-uint8_t entities_get_num();
-//destroy all entities
-void entity_destroy_all();
 //blink entity
 void entity_blink(tEntity *entity);
 #endif

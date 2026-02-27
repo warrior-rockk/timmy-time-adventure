@@ -109,7 +109,7 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t  entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
+int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
 //, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
@@ -334,7 +334,7 @@ void entities_draw(BITMAP *buffer, tScroll *scroll)
 }
 
 //funtion to destroy all entities
-void entity_destroy_all()
+void entities_destroy_all()
 {
     //destroy each entity
     for (int i=numEntities - 1; i >= 0; i--)

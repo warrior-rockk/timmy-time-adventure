@@ -343,7 +343,7 @@ static void game_destroy_level()
 {
     MY_TRACE_FLAG( "Destroying level\n");
     //destroy entities
-    entity_destroy_all();
+    entities_destroy_all();
     object_system_destroy();
     enemy_system_destroy();    
     //unload map and map resources
