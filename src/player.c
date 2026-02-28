@@ -74,7 +74,8 @@ void player_create(tEntity *player)
     playerSfx[SFX_PLAYER_HURT]  = load_wav("res/player/hurt.wav");
     playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
     playerSfx[SFX_PLAYER_BOUNCE] = load_wav("res/player/bounce.wav");
-    playerSfx[SFX_PLAYER_PICK] = load_wav("res/player/pick.wav");    
+    playerSfx[SFX_PLAYER_PICK] = load_wav("res/player/pick.wav");
+    playerSfx[SFX_PLAYER_DEAD] = load_wav("res/player/dead.wav");    
 }
 
 void player_init(tEntity *player)
@@ -404,6 +405,8 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_DEAD;
         playerFlags.disableMove = true;
         player->fixVel.x = 0;
+        if (player->prevState != player->state)
+            sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE, false);
     }
     else if (playerFlags.hurt)
     {
