@@ -466,6 +466,8 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_IDLE:
             if (playerFlags.picked)
                 play_animation(&player->anim, ANIM_PLY_PICKED);
+            else if(playerFlags.crouched)
+                play_animation(&player->anim, ANIM_PLY_CROUCH);            
             else
                 play_animation(&player->anim, ANIM_PLY_BREATH);            
         break;
