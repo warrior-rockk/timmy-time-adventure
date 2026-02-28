@@ -72,7 +72,9 @@ void player_create(tEntity *player)
     //load player sfx
     playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
     playerSfx[SFX_PLAYER_HURT]  = load_wav("res/player/hurt.wav");
-    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");    
+    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
+    playerSfx[SFX_PLAYER_BOUNCE] = load_wav("res/player/bounce.wav");
+    playerSfx[SFX_PLAYER_PICK] = load_wav("res/player/pick.wav");    
 }
 
 void player_init(tEntity *player)
@@ -196,6 +198,7 @@ static void player_update_controls(tEntity *player)
                 objectPicked = entity_get(memObjectforPickID);
                 objectPicked->signal = E_ENT_SIGNAL_PICKING;
                 memObjectforPickID = 0;
+                sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE, false);
             /*}
             else
             {
@@ -302,6 +305,8 @@ static void player_update_collisions(tEntity *player)
                             checkEntity->signal = E_ENT_SIGNAL_HURT;
                             //set bounce velocity
                             player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
+                            //play sfx
+                            sfx_play(playerSfx[SFX_PLAYER_BOUNCE], E_SFX_PLAYER_VOICE, false);
                         }
                         else
                             //adjust collision position (object solid)

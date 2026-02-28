@@ -5,7 +5,7 @@
   "p_env_sustain": 0.064,
   "p_env_punch": 0,
   "p_env_decay": 0.355,
-  "p_base_freq": 0.57,
+  "p_base_freq": 0.639,
   "p_freq_limit": 0,
   "p_freq_ramp": -0.155,
   "p_freq_dramp": 0,
@@ -21,9 +21,10 @@
   "p_lpf_freq": 1,
   "p_lpf_ramp": 0,
   "p_lpf_resonance": 0,
-  "p_hpf_freq": 0.9461026471866802,
+  "p_hpf_freq": 0.752,
   "p_hpf_ramp": 0,
-  "sound_vol": 0.637,
+  "sound_vol": 0.576,
   "sample_rate": 22050,
-  "sample_size": 8
+  "sample_size": 8,
+  "p_vib_delay": -0.0002461636887745172
 }
