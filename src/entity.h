@@ -42,6 +42,7 @@ enum E_ENTITY_PROPERTIES
     E_ENT_PROP_PERSISTENT    = 0x04,
     E_ENT_PROP_NO_BREAKABLE  = 0x08,
     E_ENT_PROP_NO_PICKABLE   = 0x10,
+    E_ENT_PROP_ONE_USE       = 0x20,
 };
 
 //entities direction (for drawing)

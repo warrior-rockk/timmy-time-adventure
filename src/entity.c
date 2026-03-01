@@ -296,11 +296,19 @@ void entities_update(tScroll *scroll)
         {
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
+            {
                 //sleep the entity
-                entityList[i].sleep = true;                    
+                entityList[i].sleep = true;
+                if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_ONE_USE))
+                {
+                    entity_destroy(i);                    
+                }
+            }
             else
+            {
                 //if is player, lose live (fall on edges)
                 game.loseLive = true;
+            }
         }
         else
         {

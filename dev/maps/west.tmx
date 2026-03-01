@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="10" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="5">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="10" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="7">
  <properties>
   <property name="backColor" type="int" value="26"/>
  </properties>

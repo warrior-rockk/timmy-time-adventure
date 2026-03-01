@@ -113,6 +113,15 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){18, 40};        
             entity->axis = E_ENT_AXIS_DOWN;            
         break;
+        case E_BULLET_ENEMY_TYPE:
+            if (!enemyResources[E_BULLET_ENEMY_TYPE])
+                enemyResources[E_BULLET_ENEMY_TYPE] = load_bmp("res/enemies/bullet.bmp", NULL);
+            
+            entity->img = enemyResources[E_BULLET_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){2, 2};                          
+            entity->size = (tVector){2, 2};  
+            entity->properties = E_ENT_PROP_ONE_USE;                  
+        break;
         case E_EAGLE_ENEMY_TYPE:
             if (!enemyResources[E_EAGLE_ENEMY_TYPE])
                 enemyResources[E_EAGLE_ENEMY_TYPE] = load_bmp("res/enemies/eagle.bmp", NULL);
@@ -152,6 +161,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_COWBOY_ENEMY_TYPE:            
             enemy_cowboy_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_BULLET_ENEMY_TYPE:            
+            enemy_bullet_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -436,7 +448,8 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     
     switch (this->state)
     {
-        case E_COWBOY_ST_IDLE:            
+        case E_COWBOY_ST_IDLE:        
+            local->flag = false;    
             //check range of player
             player = entity_get(PLAYER_ENTITY_ID);
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, COWBOY_PLAYER_RANGE))
@@ -446,7 +459,14 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
         break;
         case E_COWBOY_ST_SHOOT:            
             if (play_animation(&this->anim, ANIM_COWBOY_SHOOT))
-                this->state++;
+            {
+                this->state++;      
+            }
+            if (this->anim.frame == 11 && !local->flag)
+            {
+                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir);
+                local->flag = true;
+            }
         break;     
         case E_COWBOY_ST_WAIT:
             if (local->timer > COWBOY_WAIT_TIME)
@@ -465,6 +485,28 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
+void enemy_bullet_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy defines
+    #define BULLET_VELOCITY     4.0
+
+    //enemy animations
+    #define ANIM_BULLET_IDLE   0,   0, 10,  ANIM_LOOP
+
+    //enemy states
+    enum E_BULLET_ENEMY_STATES{E_BULLET_ST_IDLE};   
+
+    tEntity *player;
+
+    switch (this->state)
+    {
+        case E_BULLET_ST_IDLE:            
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-BULLET_VELOCITY) : ftofix(BULLET_VELOCITY);
+
+            play_animation(&this->anim, ANIM_BULLET_IDLE);
+        break;
+    }       
+}
 
 void enemy_trace(tEntity *this)
 {
