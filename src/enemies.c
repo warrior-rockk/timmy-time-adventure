@@ -103,6 +103,22 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_PIRANHA_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){42, 33};                          
             entity->size = (tVector){32, 32};                    
+        break;
+        case E_COWBOY_ENEMY_TYPE:
+            if (!enemyResources[E_COWBOY_ENEMY_TYPE])
+                enemyResources[E_COWBOY_ENEMY_TYPE] = load_bmp("res/enemies/cowboy.bmp", NULL);
+            
+            entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){50, 40};                          
+            entity->size = (tVector){20, 44};                    
+        break;
+        case E_EAGLE_ENEMY_TYPE:
+            if (!enemyResources[E_EAGLE_ENEMY_TYPE])
+                enemyResources[E_EAGLE_ENEMY_TYPE] = load_bmp("res/enemies/eagle.bmp", NULL);
+            
+            entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){32, 34};                          
+            entity->size = (tVector){20, 18};                    
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -132,6 +148,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_PIRANHA_ENEMY_TYPE:            
             enemy_piranha_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_COWBOY_ENEMY_TYPE:            
+            enemy_cowboy_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -270,6 +289,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         break;
     }       
 }
+
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy animations
@@ -392,6 +412,58 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
         break;
     }       
 }
+
+void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define COWBOY_PLAYER_RANGE     160
+    #define COWBOY_WAIT_TIME        15
+
+    //enemy animations
+    #define ANIM_COWBOY_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_COWBOY_SHOOT  1,   16, 5,  ANIM_ONCE
+    #define ANIM_COWBOY_DEAD   17,  24, 10, ANIM_ONCE
+
+    //enemy states
+    enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_COWBOY_ST_HURT;
+    
+    switch (this->state)
+    {
+        case E_COWBOY_ST_IDLE:            
+            //check range of player
+            player = entity_get(PLAYER_ENTITY_ID);
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, COWBOY_PLAYER_RANGE))
+                this->state++;
+
+            play_animation(&this->anim, ANIM_COWBOY_IDLE);
+        break;
+        case E_COWBOY_ST_SHOOT:            
+            if (play_animation(&this->anim, ANIM_COWBOY_SHOOT))
+                this->state++;
+        break;     
+        case E_COWBOY_ST_WAIT:
+            if (local->timer > COWBOY_WAIT_TIME)
+            {
+                local->timer = 0;
+                this->state = E_COWBOY_ST_IDLE;
+            }
+            else
+                local->timer += get_clock_tick();
+
+            play_animation(&this->anim, ANIM_COWBOY_IDLE); 
+        break;   
+        case E_COWBOY_ST_HURT:
+            enemy_dead(this, E_COWBOY_ST_HURT, ANIM_COWBOY_DEAD);            
+        break;
+    }       
+}
+
 
 void enemy_trace(tEntity *this)
 {

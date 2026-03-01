@@ -17,6 +17,8 @@ enum E_ENEMY_TYPE
     E_RAPTOR_ENEMY_TYPE,
     E_SPIDER_ENEMY_TYPE,
     E_PIRANHA_ENEMY_TYPE,
+    E_COWBOY_ENEMY_TYPE,
+    E_EAGLE_ENEMY_TYPE,
     E_ENEMIES_TYPE_NUM,
 };
 
@@ -52,4 +54,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local);
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local);
 void enemy_spider_update(tEntity *this, tEnemyLocalData *local);
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local);
+
+void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local);
+void enemy_eagle_update(tEntity *this, tEnemyLocalData *local);
 #endif
