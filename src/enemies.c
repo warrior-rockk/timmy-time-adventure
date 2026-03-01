@@ -184,7 +184,7 @@ void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
         entity->dir = !entity->dir;
 }
 
-void enemy_dead(tEntity *entity, uint8_t deadStateNum, int startFrame, int endFrame, int speed, uint8_t mode)
+void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_t mode)
 {
     //stop enemy
     entity->fixVel.x = 0;
@@ -234,7 +234,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_PTERO_FLY);            
         break;
         case E_PTERO_ST_HURT:
-            enemy_dead(this, E_PTERO_ST_HURT, ANIM_PTERO_HURT);            
+            enemy_dead(this, ANIM_PTERO_HURT);            
         break;
         default:
             this->state = E_PTERO_ST_IDLE;
@@ -285,7 +285,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
         break;   
         case E_RAPTOR_ST_HURT:
-            enemy_dead(this, E_RAPTOR_ST_HURT, ANIM_RAPTOR_DEAD);            
+            enemy_dead(this, ANIM_RAPTOR_DEAD);            
         break;
     }       
 }
@@ -331,7 +331,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
                 this->state--;
         break;             
         case E_PIRANHA_ST_HURT:
-            enemy_dead(this, E_PIRANHA_ST_HURT, ANIM_RAPTOR_DEAD);            
+            enemy_dead(this, ANIM_RAPTOR_DEAD);            
         break;
     }       
 }
@@ -408,7 +408,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
                 this->state = E_SPIDER_ST_IDLE;
         break;
         case E_SPIDER_HURT:
-           enemy_dead(this, E_SPIDER_HURT, ANIM_PTERO_HURT);
+           enemy_dead(this, ANIM_PTERO_HURT);
         break;
     }       
 }
@@ -459,7 +459,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_COWBOY_IDLE); 
         break;   
         case E_COWBOY_ST_HURT:
-            enemy_dead(this, E_COWBOY_ST_HURT, ANIM_COWBOY_DEAD);            
+            enemy_dead(this, ANIM_COWBOY_DEAD);            
         break;
     }       
 }
