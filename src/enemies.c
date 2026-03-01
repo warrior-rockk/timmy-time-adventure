@@ -109,8 +109,9 @@ void enemy_create(tEntity *entity)
                 enemyResources[E_COWBOY_ENEMY_TYPE] = load_bmp("res/enemies/cowboy.bmp", NULL);
             
             entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
-            entity->spriteSize = (tVector){50, 40};                          
-            entity->size = (tVector){20, 44};                    
+            entity->spriteSize = (tVector){50, 45};                          
+            entity->size = (tVector){18, 40};        
+            entity->axis = E_ENT_AXIS_DOWN;            
         break;
         case E_EAGLE_ENEMY_TYPE:
             if (!enemyResources[E_EAGLE_ENEMY_TYPE])
