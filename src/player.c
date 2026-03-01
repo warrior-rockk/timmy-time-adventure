@@ -191,21 +191,12 @@ static void player_update_controls(tEntity *player)
         //pick object if it's not picked
         if (playerFlags.picking && !playerFlags.picked)
         {
-            //check if can pick object
-            //TODO: if (checkObjectPicking(memObjectforPickID))
-            //{
-                playerFlags.picked = true;                
-                //send picking signal to entity object
-                objectPicked = entity_get(memObjectforPickID);
-                objectPicked->signal = E_ENT_SIGNAL_PICKING;
-                memObjectforPickID = 0;
-                sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE, false);
-            /*}
-            else
-            {
-                picked = false;
-                failPick = true;
-            }*/
+            playerFlags.picked = true;                
+            //send picking signal to entity object
+            objectPicked = entity_get(memObjectforPickID);
+            objectPicked->signal = E_ENT_SIGNAL_PICKING;
+            memObjectforPickID = 0;
+            sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE, false);   
         }
         //throw object if picked
         else if (playerFlags.picked && objectPicked)

@@ -2,15 +2,14 @@
 - [ ] Esc on title don't exits
 
 # Engine
+- [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water
 - [ ] Fps drop down (486@66) when all screen full of tiles (with the second layer feature)
 - [ ] Entity destroy function pointer to unload entity resources
-- [ ] No pick object with object above
 - [ ] Type of tiles: solid, hurt...
 - [ ] Load resources function to check errors
-- [ ] Fix deltaTime collisions?
 - [ ] Redefine controls
 - [ ] Playback system
 - [ ] DeltaTime ¿double?
