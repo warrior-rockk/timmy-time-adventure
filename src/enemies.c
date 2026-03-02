@@ -527,7 +527,8 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_EAGLE_FLY     0,   7, 10,  ANIM_LOOP
     #define ANIM_EAGLE_ATTACK  9,   9, 10,  ANIM_LOOP
-    #define ANIM_EAGLE_RETURN  10,  10, 10,  ANIM_LOOP
+    #define ANIM_EAGLE_RETURN  10,  10, 10, ANIM_LOOP
+    #define ANIM_EAGLE_HURT    11,  14, 10, ANIM_ONCE
 
     //enemy states
     enum E_EAGLE_ENEMY_STATES{E_EAGLE_ST_FLY, E_EAGLE_ST_ATTACK, E_EAGLE_ST_RETURN, E_EAGLE_ST_HURT};   
@@ -595,7 +596,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
             play_animation(&this->anim, ANIM_EAGLE_RETURN);
         break;
         case E_EAGLE_ST_HURT:
-            enemy_dead(this, ANIM_EAGLE_FLY);            
+            enemy_dead(this, ANIM_EAGLE_HURT);            
         break;
     }       
 }
