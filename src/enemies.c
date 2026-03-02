@@ -165,6 +165,9 @@ void enemy_update(tEntity *entity)
         case E_BULLET_ENEMY_TYPE:            
             enemy_bullet_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
+        case E_EAGLE_ENEMY_TYPE:            
+            enemy_eagle_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
         default:
         break;
     }
@@ -507,6 +510,83 @@ void enemy_bullet_update(tEntity *this, tEnemyLocalData *local)
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-BULLET_VELOCITY) : ftofix(BULLET_VELOCITY);
 
             play_animation(&this->anim, ANIM_BULLET_IDLE);
+        break;
+    }       
+}
+
+void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define EAGLE_PATROL_VELOCITY     0.8
+    #define EAGLE_PATROL_RANGE        50
+    #define EAGLE_PLAYER_RANGE        30
+    #define EAGLE_ATTACK_VEL_Y        1.0
+    #define EAGLE_ATTACK_VEL_X        1.0
+
+    //enemy animations
+    #define ANIM_EAGLE_FLY     0,   7, 10,  ANIM_LOOP
+    #define ANIM_EAGLE_ATTACK  9,   9, 10,  ANIM_LOOP
+    #define ANIM_EAGLE_RETURN  10,  10, 10,  ANIM_LOOP
+
+    //enemy states
+    enum E_EAGLE_ENEMY_STATES{E_EAGLE_ST_FLY, E_EAGLE_ST_ATTACK, E_EAGLE_ST_RETURN, E_EAGLE_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_EAGLE_ST_HURT;
+
+    switch (this->state)
+    {
+        case E_EAGLE_ST_FLY:        
+            //get player instance
+            player = entity_get(PLAYER_ENTITY_ID);
+            
+            enemy_patrol_ia(this, ftofix(EAGLE_PATROL_VELOCITY), EAGLE_PATROL_RANGE);
+            
+            //attack in player range
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EAGLE_PLAYER_RANGE))
+            {
+                this->state++;
+                //direction to attack player
+                this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+            }
+
+            play_animation(&this->anim, ANIM_EAGLE_FLY);
+        break;        
+        case E_EAGLE_ST_ATTACK:
+            //get player instance
+            player = entity_get(PLAYER_ENTITY_ID);
+            //set attack velocities
+            this->fixVel.y = itofix(EAGLE_ATTACK_VEL_Y);
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -itofix(EAGLE_ATTACK_VEL_X) : itofix(EAGLE_ATTACK_VEL_X);
+            //end attack
+            if (this->pos.y > player->pos.y)
+            {
+                this->state++;
+                this->dir = !this->dir;
+            }
+
+            play_animation(&this->anim, ANIM_EAGLE_ATTACK);
+        break;
+        case E_EAGLE_ST_RETURN:
+            //set return velocities
+            this->fixVel.y = -itofix(EAGLE_ATTACK_VEL_Y);
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -itofix(EAGLE_ATTACK_VEL_X) : itofix(EAGLE_ATTACK_VEL_X);
+
+            if (in_range(this->pos.y, this->initPos.y, 2))
+            {
+                this->pos.y = this->initPos.y;
+                this->fixVel.x = 0;
+                this->fixVel.y = 0;
+                this->state = E_EAGLE_ST_FLY;
+            }
+
+            play_animation(&this->anim, ANIM_EAGLE_RETURN);
+        break;
+        case E_EAGLE_ST_HURT:
+            enemy_dead(this, ANIM_EAGLE_FLY);            
         break;
     }       
 }
