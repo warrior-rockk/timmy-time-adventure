@@ -1,4 +1,5 @@
 # Bugs
+- [ ] Two bullets on cowboy
 - [ ] Esc on title don't exits
 
 # Engine
