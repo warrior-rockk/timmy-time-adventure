@@ -131,6 +131,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){20, 18};      
             collision_create_entity_points(entity);              
         break;        
+        case E_TUMBLE_ENEMY_TYPE:
+            if (!enemyResources[E_TUMBLE_ENEMY_TYPE])
+                enemyResources[E_TUMBLE_ENEMY_TYPE] = load_bmp("res/enemies/tumble.bmp", NULL);
+            
+            entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){32, 32};                          
+            entity->size = (tVector){32, 32};                  
+        break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
         break;
@@ -168,6 +176,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_EAGLE_ENEMY_TYPE:            
             enemy_eagle_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_TUMBLE_ENEMY_TYPE:            
+            enemy_tumble_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -597,6 +608,27 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
         break;
         case E_EAGLE_ST_HURT:
             enemy_dead(this, ANIM_EAGLE_HURT);            
+        break;
+    }       
+}
+
+void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy defines
+    #define TUMBLE_VELOCITY     2.2
+
+    //enemy animations
+    #define ANIM_TUMBLE_ROLL   0,   8, 10,  ANIM_LOOP
+
+    //enemy states
+    enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};   
+
+    switch (this->state)
+    {
+        case E_TUMBLE_ST_ROLL:            
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-TUMBLE_VELOCITY) : ftofix(TUMBLE_VELOCITY);
+
+            play_animation(&this->anim, ANIM_TUMBLE_ROLL);
         break;
     }       
 }

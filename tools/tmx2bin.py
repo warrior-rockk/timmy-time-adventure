@@ -39,6 +39,7 @@ enemy_ent_types = {
     "cowboy"    : 4,
     "eagle"     : 5,
     "bullet"    : 6,
+    "tumble"    : 7,
 
 }
 #define array of lists of entity types
