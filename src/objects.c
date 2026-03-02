@@ -86,6 +86,24 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);      
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;            
         break;
+        case E_ROCK_2_OBJECT_TYPE:            
+            if (!objectResources[E_ROCK_2_OBJECT_TYPE])
+                objectResources[E_ROCK_2_OBJECT_TYPE] = load_bmp("res/objects/rock2.bmp", NULL);
+
+            entity->img = objectResources[E_ROCK_2_OBJECT_TYPE];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};      
+            collision_create_entity_points(entity);                    
+        break;
+        case E_EGG_OBJECT_TYPE:            
+            if (!objectResources[E_EGG_OBJECT_TYPE])
+                objectResources[E_EGG_OBJECT_TYPE] = load_bmp("res/objects/egg.bmp", NULL);
+
+            entity->img = objectResources[E_EGG_OBJECT_TYPE];
+            entity->spriteSize = (tVector){21, 16};
+            entity->size = (tVector){21, 16};      
+            collision_create_entity_points(entity);                    
+        break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
         break;
@@ -105,12 +123,9 @@ void object_update(tEntity *entity)
     {
         case E_GEM_OBJECT_TYPE:            
             object_gem_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;
-        case E_STONE_OBJECT_TYPE:
-        case E_ROCK_OBJECT_TYPE:
-            object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;
+        break;       
         default:
+            object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
     }
 }
@@ -118,8 +133,6 @@ void object_update(tEntity *entity)
 //calls specified object type init function
 void object_init(tEntity *entity)
 {   
-    
-
     switch (entity->entType)
     {        
         default:
@@ -211,7 +224,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 this->state = E_SOLID_ST_THROWING;
             }
         break;
-        case E_SOLID_ST_THROWING:
+        case E_SOLID_ST_THROWING:            
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    
@@ -228,7 +241,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                         this->state = E_SOLID_ST_BREAK;
                 }
             }
-
+            
             //check entities collisions            
             uint8_t numEntities = entities_get_num();
             tEntity *checkEntity;

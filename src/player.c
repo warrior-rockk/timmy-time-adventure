@@ -127,7 +127,11 @@ void player_update(tEntity *player)
         show_debug( "p.vX: %f", fixtof(player->fixVel.x));
         show_debug( "p.vY: %f", fixtof(player->fixVel.y));
         show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
-        show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);        
+        show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
+        if (objectPicked != NULL)
+            show_debug( "obj: %i", objectPicked->id);
+        else
+            show_debug( "obj: NO");             
     #endif
 }
 
