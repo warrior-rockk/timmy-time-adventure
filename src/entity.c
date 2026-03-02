@@ -181,6 +181,8 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             break;
         }
         
+        MY_TRACE_FLAG("Created entity ID:%i Class:%i Type:%i\n", entityList[newEntity].id, entityList[newEntity].entClass, entityList[newEntity].entType);
+
         //check entity properties
         if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))     
             collision_create_entity_points(&entityList[newEntity]);
@@ -231,7 +233,9 @@ void entity_destroy(uint16_t entityIndex)
     }
     else
         //reallocates the array with decremented entity number    
-        entityList = realloc(entityList, numEntities * sizeof(tEntity)); 
+        entityList = realloc(entityList, numEntities * sizeof(tEntity));
+    
+    MY_TRACE_FLAG("Destroyed entity ID:%i\n", entityIndex);
 }
 
 //function to init a entity

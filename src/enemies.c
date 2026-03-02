@@ -75,6 +75,8 @@ void enemy_destroy(tEntity *entity)
     else
         //reallocates the array with decremented entity number    
         enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));     
+    
+    MY_TRACE_FLAG("Destroyed enemy instance:%i\n", enemyIndex);
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
@@ -170,6 +172,8 @@ void enemy_create(tEntity *entity)
 
     //set actual instance num
     entity->entInstance = numEnemyInstances - 1;
+
+    MY_TRACE_FLAG("Created enemy instance:%i\n", entity->entInstance);
 };
 
 //calls specified enemy type update function

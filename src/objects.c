@@ -113,7 +113,9 @@ void object_create(tEntity *entity)
     MY_ASSERT(objectDataList);
 
     //set actual instance num
-    entity->entInstance = numObjectInstances - 1;                
+    entity->entInstance = numObjectInstances - 1;  
+    
+    MY_TRACE_FLAG("Created object instance:%i\n", entity->entInstance);
 };
 
 //calls specified object type update function
@@ -160,6 +162,8 @@ void object_destroy(tEntity *entity)
     else
         //reallocates the array with decremented entity number    
         objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));     
+
+    MY_TRACE_FLAG("Destroyed object instance:%i\n", objectIndex);
 }
 
 void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
