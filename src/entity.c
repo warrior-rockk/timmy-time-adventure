@@ -164,6 +164,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;
+                entityList[newEntity].entity_destroy  = &object_destroy;
                 entityList[newEntity].entity_destroy  = NULL;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;

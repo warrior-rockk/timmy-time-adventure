@@ -50,6 +50,7 @@ void enemy_init(tEntity *entity);
 void enemy_create(tEntity *entity);
 //updates an entity passing his entity structure
 void enemy_update(tEntity *entity);
+//destroys enemy instance of list
 void enemy_destroy(tEntity *entity);
 
 //custom update function for particular entity

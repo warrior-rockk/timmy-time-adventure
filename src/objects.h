@@ -39,6 +39,8 @@ void object_init(tEntity *entity);
 void object_create(tEntity *entity);
 //updates an entity passing his entity structure
 void object_update(tEntity *entity);
+//destroy object instance of list
+void object_destroy(tEntity *entity);
 
 //custom update function for gems objects
 void object_gem_update(tEntity *this, tSolidObjectLocalData *objData);

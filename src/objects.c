@@ -141,6 +141,27 @@ void object_init(tEntity *entity)
     }
 }
 
+void object_destroy(tEntity *entity)
+{
+    uint16_t objectIndex;
+    objectIndex = entity->entInstance;
+    
+    //copies last enemy to deleted enemy position
+    ((tSolidObjectLocalData*)objectDataList)[objectIndex] = ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1];
+    
+    //decrement entity number
+    numObjectInstances--;
+    if (numObjectInstances == 0)
+    {
+        //free entity list
+        free(objectDataList);
+        objectDataList = NULL;
+    }
+    else
+        //reallocates the array with decremented entity number    
+        objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));     
+}
+
 void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object states
