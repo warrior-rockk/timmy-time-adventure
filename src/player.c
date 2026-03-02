@@ -46,7 +46,7 @@ static struct playerFlags
 static int16_t playerInvincible = 0;        //counter for player invincibility
 static uint8_t objectForPickID = 0;         //actual frame object collision id
 static uint8_t memObjectforPickID = 0;      //save actual object collision id
-tEntity *objectPicked;                      //pointer to entity object picked
+static uint8_t objectPickedID = 0;          //id to entity object picked
 static uint16_t pickingCounter = 0;         //counter delay to pick object when collided
 SAMPLE *playerSfx[SFX_PLAYER_NUM];          //player sfx array
 
@@ -128,10 +128,7 @@ void player_update(tEntity *player)
         show_debug( "p.vY: %f", fixtof(player->fixVel.y));
         show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
         show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
-        if (objectPicked != NULL)
-            show_debug( "obj: %i", objectPicked->id);
-        else
-            show_debug( "obj: NO");             
+        //show_debug( "obj: %i", objectPickedID);        
     #endif
 }
 
@@ -200,17 +197,17 @@ static void player_update_controls(tEntity *player)
         {
             playerFlags.picked = true;                
             //send picking signal to entity object
-            objectPicked = entity_get(memObjectforPickID);
-            objectPicked->signal = E_ENT_SIGNAL_PICKING;
+            objectPickedID = memObjectforPickID;
+            entity_get(memObjectforPickID)->signal = E_ENT_SIGNAL_PICKING;            
             memObjectforPickID = 0;
             sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE, false);   
         }
         //throw object if picked
-        else if (playerFlags.picked && objectPicked)
+        else if (playerFlags.picked && objectPickedID)
         {            
             playerFlags.throwing = true;
-            objectPicked->signal = E_ENT_SIGNAL_THROW;
-            objectPicked = NULL;
+            entity_get(objectPickedID)->signal = E_ENT_SIGNAL_THROW;            
+            objectPickedID = 0;
             //reset flags
             playerFlags.picked = false;  
             sfx_play(playerSfx[SFX_PLAYER_THROW], E_SFX_PLAYER_VOICE, false);        
@@ -429,8 +426,8 @@ static void player_update_state(tEntity *player)
             //if object picked, we lose it
             if (playerFlags.picked)
             {                                    
-                objectPicked->signal = E_ENT_SIGNAL_THROW;
-                objectPicked = NULL;
+                entity_get(objectPickedID)->signal = E_ENT_SIGNAL_THROW;                
+                objectPickedID = 0;
                 //reset flags
                 playerFlags.picked = false;                                    
             }
