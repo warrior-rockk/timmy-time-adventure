@@ -50,6 +50,7 @@ void enemy_init(tEntity *entity);
 void enemy_create(tEntity *entity);
 //updates an entity passing his entity structure
 void enemy_update(tEntity *entity);
+void enemy_destroy(tEntity *entity);
 
 //custom update function for particular entity
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local);

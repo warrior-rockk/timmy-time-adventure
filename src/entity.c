@@ -172,7 +172,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_create   = &enemy_create;
                 entityList[newEntity].entity_init     = &enemy_init;
                 entityList[newEntity].entity_update   = &enemy_update;
-                entityList[newEntity].entity_destroy  = NULL;
+                entityList[newEntity].entity_destroy  = &enemy_destroy;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             default:
@@ -215,7 +215,7 @@ void entity_destroy(uint16_t entityIndex)
     //call custom destroy entity
     if (entityList[entityIndex].entity_destroy)
     {
-        entityList[entityIndex].entity_destroy(&entityList[entityIndex]);          
+        entityList[entityIndex].entity_destroy(&entityList[entityIndex]);         
     }
 
     //copies last entity to deleted entity position

@@ -56,6 +56,27 @@ void enemy_system_destroy()
     MY_TRACE_FLAG("Destroyed enemy system\n");
 }
 
+void enemy_destroy(tEntity *entity)
+{
+    uint16_t enemyIndex;
+    enemyIndex = entity->entInstance;
+    
+    //copies last enemy to deleted enemy position
+    ((tEnemyLocalData*)enemyDataList)[enemyIndex] = ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1];
+    
+    //decrement entity number
+    numEnemyInstances--;
+    if (numEnemyInstances == 0)
+    {
+        //free entity list
+        free(enemyDataList);
+        enemyDataList = NULL;
+    }
+    else
+        //reallocates the array with decremented entity number    
+        enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));     
+}
+
 //check enemy entity type to add the local data structure to local data list and increases instances number
 void enemy_create(tEntity *entity)
 {
@@ -183,6 +204,8 @@ void enemy_update(tEntity *entity)
         default:
         break;
     }
+
+    show_debug("Num enemies:%i", numEnemyInstances);
 }
 
 //calls specified enemy type init function

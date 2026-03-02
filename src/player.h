@@ -83,8 +83,8 @@ enum E_PLAYER_SFX
     SFX_PLAYER_NUM,
 };
 
-void player_create();
-void player_init();
-void player_update();
-void player_destroy();
+void player_create(tEntity *player);
+void player_init(tEntity *player);
+void player_update(tEntity *player);
+void player_destroy(tEntity *player);
 #endif

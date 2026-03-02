@@ -1,8 +1,8 @@
 # Bugs
-- [ ] Two bullets on cowboy
 - [ ] Esc on title don't exits
 
 # Engine
+- [ ] Frame counter added to trace to check the game cycle of msg
 - [ ] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
