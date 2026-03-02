@@ -111,7 +111,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){50, 45};                          
             entity->size = (tVector){18, 40};        
-            entity->axis = E_ENT_AXIS_DOWN;            
+            entity->axis = E_ENT_AXIS_DOWN;                        
         break;
         case E_BULLET_ENEMY_TYPE:
             if (!enemyResources[E_BULLET_ENEMY_TYPE])
@@ -120,7 +120,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_BULLET_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){2, 2};                          
             entity->size = (tVector){2, 2};  
-            entity->properties = E_ENT_PROP_ONE_USE;                  
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break;
         case E_EAGLE_ENEMY_TYPE:
             if (!enemyResources[E_EAGLE_ENEMY_TYPE])

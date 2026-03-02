@@ -292,7 +292,7 @@ void entities_update(tScroll *scroll)
             {
                 //sleep the entity
                 entityList[i].sleep = true;
-                if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_ONE_USE))
+                if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
                 {
                     entity_destroy(i);                    
                 }

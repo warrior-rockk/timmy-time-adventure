@@ -37,20 +37,20 @@ enum E_ENTITY_CLASS
 
 enum E_ENTITY_PROPERTIES
 {
-    E_ENT_PROP_PHYSICS_ON    = 0x01,
-    E_ENT_PROP_NO_COLLISION  = 0x02,
-    E_ENT_PROP_PERSISTENT    = 0x04,
-    E_ENT_PROP_NO_BREAKABLE  = 0x08,
-    E_ENT_PROP_NO_PICKABLE   = 0x10,
-    E_ENT_PROP_ONE_USE       = 0x20,
+    E_ENT_PROP_PHYSICS_ON       = 0x01,     //entity not affected by gravity or friction
+    E_ENT_PROP_NO_COLLISION     = 0x02,     //entity not collidable
+    E_ENT_PROP_PERSISTENT       = 0x04,     //entity doesn't init when out region
+    E_ENT_PROP_NO_BREAKABLE     = 0x08,     //entity not breakable
+    E_ENT_PROP_NO_PICKABLE      = 0x10,     //entity not pickable by player
+    E_ENT_PROP_AUTO_DESTROY     = 0x20,     //entity destroys when out region
+    E_ENT_PROP_NO_HURT          = 0x40,     //player can't hurt
 };
 
 //entities direction (for drawing)
 enum E_ENTITY_DIR
 {
     E_ENT_DIR_LEFT,
-    E_ENT_DIR_RIGHT,
-    
+    E_ENT_DIR_RIGHT,    
 };
 
 //entities alignment size axis (for drawing)

@@ -331,7 +331,7 @@ static void player_update_collisions(tEntity *player)
                         if (colDir)
                         {
                             //if collision down and attacking
-                            if (colDir == E_COLLISION_DIR_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
+                            if (colDir == E_COLLISION_DIR_DOWN && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_HURT))
                             {
                                 //send signal to entity
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;  
