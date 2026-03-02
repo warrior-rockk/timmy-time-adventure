@@ -136,8 +136,8 @@ void enemy_create(tEntity *entity)
                 enemyResources[E_TUMBLE_ENEMY_TYPE] = load_bmp("res/enemies/tumble.bmp", NULL);
             
             entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
-            entity->spriteSize = (tVector){32, 32};                          
-            entity->size = (tVector){32, 32};                  
+            entity->spriteSize = (tVector){30, 29};                          
+            entity->size = (tVector){30, 29};                  
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -618,7 +618,7 @@ void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
     #define TUMBLE_VELOCITY     2.2
 
     //enemy animations
-    #define ANIM_TUMBLE_ROLL   0,   8, 10,  ANIM_LOOP
+    #define ANIM_TUMBLE_ROLL   0,   7, 10,  ANIM_LOOP
 
     //enemy states
     enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};   

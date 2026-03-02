@@ -200,9 +200,9 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="8" name="tumble" type="enemy" x="944" y="96" width="32" height="32"/>
-  <object id="9" name="tumble" type="enemy" x="1280" y="96" width="32" height="32"/>
-  <object id="10" name="tumble" type="enemy" x="1120" y="96" width="32" height="32"/>
+  <object id="8" name="tumble" type="enemy" x="943.75" y="98.5" width="30" height="29"/>
+  <object id="9" name="tumble" type="enemy" x="1279.75" y="98.5" width="30" height="29"/>
+  <object id="10" name="tumble" type="enemy" x="1119.75" y="98.5" width="30" height="29"/>
  </objectgroup>
  <objectgroup id="2" name="Objects">
   <object id="1" name="player1" type="player" x="720" y="32" width="16" height="32"/>
