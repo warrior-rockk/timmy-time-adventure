@@ -96,6 +96,9 @@ void player_destroy(tEntity *player)
     {
         destroy_sample(playerSfx[i]);    
     }    
+
+    //free player bitmaps
+    destroy_bitmap(player->img);
 }
 
 void player_update(tEntity *player)

@@ -496,8 +496,6 @@ void enemy_bullet_update(tEntity *this, tEnemyLocalData *local)
     //enemy states
     enum E_BULLET_ENEMY_STATES{E_BULLET_ST_IDLE};   
 
-    tEntity *player;
-
     switch (this->state)
     {
         case E_BULLET_ST_IDLE:            

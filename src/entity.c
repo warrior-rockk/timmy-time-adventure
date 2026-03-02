@@ -209,14 +209,7 @@ tEntity* entity_get(uint16_t numEntity)
 void entity_destroy(uint16_t entityIndex)
 {    
     //free entity collision point memory
-    //if (CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_PHYSICS_ON))
     collision_destroy_entity_points(entityList[entityIndex].id);
-
-    //unload player entity spriteSheet
-    if (entityIndex == PLAYER_ENTITY_ID && entityList[entityIndex].img)
-    {        
-        destroy_bitmap(entityList[entityIndex].img);
-    }
 
     //call custom destroy entity
     if (entityList[entityIndex].entity_destroy)
