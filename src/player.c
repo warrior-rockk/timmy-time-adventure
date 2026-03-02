@@ -343,6 +343,9 @@ static void player_update_collisions(tEntity *player)
                             //if not attacking (hurt player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
                             {
+                                #ifdef DEBUGMODE
+                                    if (!debugOptions.invencible)                        
+                                #endif
                                 //set hurt flag
                                 playerFlags.hurt = true;                                 
                             }

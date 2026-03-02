@@ -28,7 +28,7 @@
 
 //debug option structure
 #ifdef DEBUGMODE
-    tDebugOptions debugOptions = {0, 0};   
+    tDebugOptions debugOptions = {0};   
 #endif
 
 //game structure
@@ -57,14 +57,15 @@ struct hud
 } hud;
 
 static void game_load_level(uint8_t numLevel);
-static void game_debug_info();
-static void game_hud_init();
-static void game_hud_update();
-static void game_hud_draw();
 static void game_destroy_level();
 static void game_do_fade();
 static void game_pause_sound();
 static void game_resume_sound();
+static void game_hud_init();
+static void game_hud_update();
+static void game_hud_draw();
+static void game_debug_update();
+static void game_debug_info();
 
 void game_update()
 {   
@@ -192,8 +193,8 @@ void game_update()
 
             //check game lose life
             if (game.loseLive)
-            {
-                game.lives--;
+            {                
+                game.lives--;                
                 game.state = E_GAME_ST_LOSE_LIVE;
             }            
 
@@ -341,22 +342,7 @@ void game_update()
     }
        
     #ifdef DEBUGMODE
-        if (debugOptions.showDebugInfo)
-            game_debug_info();
-        
-        //force game exit
-        if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
-            game.state = E_GAME_ST_EXIT;
-        
-        if (input_key_pressed(E_G_KEY_D))
-            debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
-        if (input_key_pressed(E_G_KEY_S))
-            debugOptions.stepByStep = !debugOptions.stepByStep;
-
-        //trace state          
-        if (game.state != game.prevState)
-            MY_TRACE_FLAG("Game changes from state %i to state %i\n", game.prevState, game.state);
-    
+        game_debug_update();    
     #endif
 
     //update sfx
@@ -459,6 +445,33 @@ void game_draw()
     
     //do pending fades
     game_do_fade();
+}
+
+static void game_debug_update()
+{
+#ifdef DEBUGMODE
+
+    if (debugOptions.showDebugInfo)
+        game_debug_info();
+    
+    //force game exit
+    if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
+        game.state = E_GAME_ST_EXIT;
+    
+    if (input_key_pressed(E_G_KEY_D))
+        debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
+    if (input_key_pressed(E_G_KEY_S))
+        debugOptions.stepByStep = !debugOptions.stepByStep;
+    if (input_key_pressed(E_G_KEY_I))
+    {
+        debugOptions.invencible = !debugOptions.invencible;
+        game.life = 3;
+    }
+
+    //trace state          
+    if (game.state != game.prevState)
+        MY_TRACE_FLAG("Game changes from state %i to state %i\n", game.prevState, game.state);
+#endif
 }
 
 static void game_debug_info()

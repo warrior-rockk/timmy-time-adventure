@@ -2,6 +2,7 @@
 - [ ] Esc on title don't exits
 
 # Engine
+- [ ] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM

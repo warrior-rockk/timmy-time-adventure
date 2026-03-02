@@ -134,6 +134,7 @@ typedef struct
 {
     uint8_t showDebugInfo; 
     uint8_t stepByStep;
+    uint8_t invencible;
 } tDebugOptions;
 
 typedef struct
