@@ -75,6 +75,8 @@ typedef struct tRectangle
 
 //clamp value between min and max
 int clamp(int value, int min, int max);
+//fixed clamp value between min and max
+int fix_clamp(fixed value, fixed min, fixed max);
 //retuns true if the value is on target +/- the offset
 bool in_range(int value, int target, int offset);
 //function to abort program with critical error

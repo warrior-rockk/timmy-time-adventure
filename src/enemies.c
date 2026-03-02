@@ -128,7 +128,8 @@ void enemy_create(tEntity *entity)
             
             entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){32, 34};                          
-            entity->size = (tVector){20, 18};                    
+            entity->size = (tVector){20, 18};      
+            collision_create_entity_points(entity);              
         break;        
         default:
             abort_on_error("Tipo de entidad enemigo no reconocida");
@@ -519,10 +520,10 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     //enemy definitions
     #define EAGLE_PATROL_VELOCITY     0.8
     #define EAGLE_PATROL_RANGE        50
-    #define EAGLE_PLAYER_RANGE        30
-    #define EAGLE_ATTACK_VEL_Y        1.0
-    #define EAGLE_ATTACK_VEL_X        1.0
-
+    #define EAGLE_PLAYER_RANGE        45
+    #define EAGLE_ATTACK_VEL_Y        1.6
+    #define EAGLE_ATTACK_MAX_VEL_X    2
+    
     //enemy animations
     #define ANIM_EAGLE_FLY     0,   7, 10,  ANIM_LOOP
     #define ANIM_EAGLE_ATTACK  9,   9, 10,  ANIM_LOOP
@@ -551,6 +552,12 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
                 this->state++;
                 //direction to attack player
                 this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+                
+                //calculate x velocity
+                fixed targetX = abs(itofix(player->pos.x - this->pos.x));
+                fixed targetY = abs(itofix(player->pos.y - this->pos.y));
+                fixed velX = fix_clamp(fixdiv(targetX, fixdiv(targetY, ftofix(EAGLE_ATTACK_VEL_Y))), 0, itofix(EAGLE_ATTACK_MAX_VEL_X));
+                this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -velX : velX;                
             }
 
             play_animation(&this->anim, ANIM_EAGLE_FLY);
@@ -559,13 +566,15 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
             //get player instance
             player = entity_get(PLAYER_ENTITY_ID);
             //set attack velocities
-            this->fixVel.y = itofix(EAGLE_ATTACK_VEL_Y);
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -itofix(EAGLE_ATTACK_VEL_X) : itofix(EAGLE_ATTACK_VEL_X);
-            //end attack
-            if (this->pos.y > player->pos.y)
+            this->fixVel.y = ftofix(EAGLE_ATTACK_VEL_Y);
+                        
+            //end attack                        
+            //check collision tile for collision point
+            uint8_t colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
+            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
+            if (colDir == E_COLLISION_DIR_DOWN)
             {
-                this->state++;
-                this->dir = !this->dir;
+                this->state++;                
             }
 
             play_animation(&this->anim, ANIM_EAGLE_ATTACK);
@@ -573,7 +582,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
         case E_EAGLE_ST_RETURN:
             //set return velocities
             this->fixVel.y = -itofix(EAGLE_ATTACK_VEL_Y);
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -itofix(EAGLE_ATTACK_VEL_X) : itofix(EAGLE_ATTACK_VEL_X);
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -ftofix(EAGLE_ATTACK_VEL_Y) : ftofix(EAGLE_ATTACK_VEL_Y);
 
             if (in_range(this->pos.y, this->initPos.y, 2))
             {

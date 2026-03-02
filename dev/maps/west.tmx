@@ -150,7 +150,7 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="7" name="eagle" type="enemy" x="512" y="64" width="20" height="18">
+  <object id="7" name="eagle" type="enemy" x="400" y="48" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>

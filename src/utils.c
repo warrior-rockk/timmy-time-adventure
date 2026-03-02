@@ -35,6 +35,16 @@ int clamp(int value, int min, int max)
         return value;
 }
 
+fixed fix_clamp(fixed value, fixed min, fixed max)
+{
+    if (value < min)
+        return min;
+    else if (value > max)
+        return max;
+    else
+        return value;
+}
+
 //retuns true if the value is on target +/- the offset
 bool in_range(int value, int target, int offset)
 {
