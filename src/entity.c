@@ -268,12 +268,20 @@ void entities_init()
 //function to update entities
 void entities_update(tScroll *scroll)
 {
-    int visibleEntities = 0;
+    #ifdef DEBUGMODE
+        struct entityCounter
+        {
+            uint8_t visibles;
+            uint8_t sleeps;
+            uint8_t deads;
+        } entityCounter = {0};        
+    #endif
 
     for (int i=0; i < numEntities; i++)
     {
         //check dead flag
-        if (entityList[i].dead)
+        if (entityList[i].dead)            
+        {
             //reset dead flag if object out of region of initial position
             if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}, scroll))
             {
@@ -281,9 +289,13 @@ void entities_update(tScroll *scroll)
                 //if the entity doesn't is persistent, init the entity
                 if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
                     entity_init(i);  
-            }
-            else
+            }            
+            #ifdef DEBUGMODE 
+                entityCounter.deads++; 
+                entityCounter.sleeps++; 
                 entityList[i].sleep = true;
+            #endif
+        }
         //check entity on region
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
         {
@@ -302,10 +314,17 @@ void entities_update(tScroll *scroll)
                 //if is player, lose live (fall on edges)
                 game.loseLive = true;
             }
+            
+            #ifdef DEBUGMODE                 
+                entityCounter.sleeps++;             
+            #endif
         }
         else
         {
-            visibleEntities++;
+            #ifdef DEBUGMODE 
+                if (entityList[i].visible)
+                    entityCounter.visibles++;
+            #endif
 
             //clear flag
             entityList[i].sleep = false;                    
@@ -332,7 +351,9 @@ void entities_update(tScroll *scroll)
         }
     }   
 
-    show_debug("NumEnt: %d, Visib: %d", numEntities, visibleEntities);    
+    #ifdef DEBUGMODE
+        show_debug("NumEnt:%i, V:%i, S:%i, D:%i", numEntities, entityCounter.visibles, entityCounter.sleeps, entityCounter.deads);    
+    #endif
 }
 
 //funtion to draws entities
