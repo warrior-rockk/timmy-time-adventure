@@ -136,6 +136,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].initDir         = initDir;
         //initialize data
         entityList[newEntity].pos             = initPos;
+        entityList[newEntity].dir             = initDir;
         entityList[newEntity].fixPos.x        = itofix(initPos.x);
         entityList[newEntity].fixPos.y        = itofix(initPos.y);
         entityList[newEntity].fixVel.x        = 0;
@@ -261,7 +262,11 @@ void entities_init()
 {
     for (int i=0; i < numEntities; i++)
     {
-        entity_init(i);
+        //auto-destroy entities doesn't initialize
+        if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
+            entity_destroy(i);
+        else
+            entity_init(i);
     }   
 }
 

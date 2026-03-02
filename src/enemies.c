@@ -445,13 +445,18 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_COWBOY_ST_HURT;
-    
+
     switch (this->state)
     {
         case E_COWBOY_ST_IDLE:        
             local->flag = false;    
-            //check range of player
-            player = entity_get(PLAYER_ENTITY_ID);
+            //get player instance
+            player = entity_get(PLAYER_ENTITY_ID);            
+            
+            //direction faces player
+            this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+
+            //shoot in player range
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, COWBOY_PLAYER_RANGE))
                 this->state++;
 
