@@ -46,6 +46,9 @@ void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode)
     //updates scroll position following target position
     if (mode == E_SCROLL_Y || mode == E_SCROLL_X_Y)
     {
+        /*if (targetPos->y > ((16*8) + scroll->pos.y))
+            scroll->pos.y = targetPos->y - (16*8);*/
+        
         if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
             scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffsetY;
         else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
