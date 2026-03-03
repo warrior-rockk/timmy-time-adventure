@@ -1,4 +1,5 @@
 # Bugs
+- [ ] Test level: can pick object above other
 - [ ] Esc on title don't exits
 
 # Engine

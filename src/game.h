@@ -25,8 +25,8 @@
 #define SCREEN_Y                200
 
 //game screen size (SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen))
-#define GAME_W                  256
-#define GAME_H                  160 // 192
+#define GAME_W                  256     //16 tiles width
+#define GAME_H                  160     //10 tiles height
 #define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
 
@@ -77,9 +77,9 @@ enum E_GAME_STATE
 //game levels
 enum E_GAME_LEVELS
 {    
-    E_GAME_LEVEL_WEST,    
-    E_GAME_LEVEL_JURASSIC,    
     E_GAME_LEVEL_TEST,    
+    E_GAME_LEVEL_WEST,    
+    E_GAME_LEVEL_JURASSIC,
     E_GAME_NUM_LEVELS,
 };
 
