@@ -349,6 +349,8 @@ void game_update()
     sfx_update();
     //clear keyboard buffer to use keypressed()
     clear_keybuf();
+    //updates frame counter
+    inc_frame_counter();    
 }
 
 
@@ -470,7 +472,9 @@ static void game_debug_update()
 
     //trace state          
     if (game.state != game.prevState)
+    {
         MY_TRACE_FLAG("Game changes from state %i to state %i\n", game.prevState, game.state);
+    }
 #endif
 }
 

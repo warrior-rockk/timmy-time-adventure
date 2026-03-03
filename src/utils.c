@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include "utils.h"
 
+//general frame counter
+uint16_t frameCounter = 0;
+
 //debug structure
 #ifdef DEBUGMODE
 struct debug
@@ -156,4 +159,14 @@ uint16_t playTime_get_hours()
 uint8_t playTime_get_minutes()
 {
     return playTime.minutes;
+}
+
+uint16_t get_frame_counter()
+{
+    return frameCounter;
+}
+
+void inc_frame_counter()
+{
+    frameCounter++;
 }

@@ -25,7 +25,7 @@
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)                ASSERT(condition)
     #define MY_TRACE                            TRACE
-    #define MY_TRACE_FLAG(data, ...)            TRACE(TRACE_FLAG": " data, ##__VA_ARGS__)
+    #define MY_TRACE_FLAG(data, ...)            TRACE("(%i)", get_frame_counter()); TRACE(TRACE_FLAG": " data, ##__VA_ARGS__)
 #endif
 
 #define HALT    exit(-1);
@@ -95,4 +95,8 @@ void playTime_update(bool clock1sec);
 uint16_t playTime_get_hours();
 //function to get playtime minutes
 uint8_t playTime_get_minutes();
+//gets frame counter
+uint16_t get_frame_counter();
+//increments frame counter (put on game loop cycle)
+void inc_frame_counter();
 #endif
