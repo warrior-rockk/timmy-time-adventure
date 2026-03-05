@@ -159,7 +159,7 @@ void game_update()
                     game.viewMap    = true;
 
                     entities_init();
-                    scroll_init(&scroll);
+                    scroll_init(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_init();                    
 
