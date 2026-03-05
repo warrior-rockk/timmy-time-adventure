@@ -379,7 +379,7 @@ void game_init()
     set_palette(desktop_palette);
 
     //loads game font
-    gameFont = load_font("res/gamefont.pcx", NULL, NULL);
+    gameFont = load_font("res/font4.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
