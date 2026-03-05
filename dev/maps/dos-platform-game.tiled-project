@@ -53,7 +53,8 @@
                 "ANIMATION",
                 "SLOPE_45",
                 "SLOPE_135",
-                "NO_SCROLL_Y"
+                "NO_SCROLL_Y",
+                "NO_SCROLL_X"
             ],
             "valuesAsFlags": true
         }

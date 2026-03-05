@@ -59,7 +59,7 @@
   </tile>
   <tile id="29">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+    <property name="property" type="int" propertytype="tileProperties" value="35"/>
    </properties>
   </tile>
   <tile id="33">
@@ -249,7 +249,7 @@
   </tile>
   <tile id="95">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="33"/>
+    <property name="property" type="int" propertytype="tileProperties" value="35"/>
    </properties>
   </tile>
  </tileset>

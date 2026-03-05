@@ -320,21 +320,22 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
                         //check if tile animation 
                         if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
                             //draw tile animation frame                            
-                            draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
-                        else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_Y))
-                        {
-                            //memorize tile with stop scroll
-                            memTileStopScrollY = true;                                   
-                        }
-                        else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_X))
-                        {
-                            //memorize tile with stop scroll
-                            memTileStopScrollX = true;                            
-                        }
+                            draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                                                
                         else
                         {
                             //draw tile id
                             draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                        }
+                        //check tile stop scroll
+                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_Y))
+                        {
+                            //memorize tile with stop scroll
+                            memTileStopScrollY = true;                                   
+                        }
+                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_X))
+                        {
+                            //memorize tile with stop scroll
+                            memTileStopScrollX = true;                            
                         }
                     }
                 }
@@ -342,8 +343,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         }
     }
 
-    //sets stop scroll if any tile with this property (only back layer)
-    if (!frontLayer)
+    //sets stop scroll if any tile with this property (only front layer)
+    if (frontLayer)
     {
         scroll->stopScrollY = memTileStopScrollY;
         scroll->stopScrollX = memTileStopScrollX;
