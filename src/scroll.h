@@ -22,12 +22,26 @@ enum E_SCROLL_MODE
     E_SCROLL_NONE,
 };
 
+//scroll movements
+enum E_SCROLL_MOVE
+{
+    E_SCROLL_MOVE_NONE,
+    E_SCROLL_MOVE_LEFT,
+    E_SCROLL_MOVE_RIGHT,
+    E_SCROLL_MOVE_UP,
+    E_SCROLL_MOVE_DOWN,
+};
+
 //scroll object
 typedef struct
 {
     tVector pos;        //scroll actual position
+    tVector target;
     tVector window;     //scroll window size
     tVector limit;      //scroll limit position
+    tFixVector fixPos;
+    tFixVector fixVel;
+    uint8_t moving;
 } tScroll;
 
 //Offset target position to follow by scroll. 
@@ -40,7 +54,7 @@ tScroll scroll_create(tVector window, tVector limit);
 //inits scroll object
 void scroll_init(tScroll *scroll);
 //updates scroll object. Receives the target follow position or NULL
-void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode);
+void scroll_update(tScroll *scroll, tVector *cameraTarget, uint8_t mode);
 
 //check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll);

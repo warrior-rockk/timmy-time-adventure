@@ -4,6 +4,8 @@
 * 07/05/2025
 * Warcom Soft. - warrior.rockk@gmail.com 
 ********************************************************************/
+#include <math.h>
+
 #include "scroll.h"
 
 tScroll scroll_create(tVector window, tVector limit)
@@ -22,22 +24,25 @@ void scroll_init(tScroll *scroll)
 {
     MY_ASSERT(scroll);
     
-    scroll->pos.x = 0;
-    scroll->pos.y = 0;    
+    scroll->pos     = (tVector){0, 0};        
+    scroll->target  = (tVector){0, 0};
+    scroll->fixPos  = (tFixVector){0, 0};    
+    scroll->fixVel  = (tFixVector){0, 0}; 
+    scroll->moving  = E_SCROLL_MOVE_NONE;
 }
 
-void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode)
+void scroll_update(tScroll *scroll, tVector *cameraTarget, uint8_t mode)
 {
     MY_ASSERT(scroll);
-    MY_ASSERT(targetPos);
+    MY_ASSERT(cameraTarget);
 
     //updates scroll position following target position
     if (mode == E_SCROLL_X || mode == E_SCROLL_X_Y)
     {
-        if (targetPos->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
-            scroll->pos.x = targetPos->x - (scroll->window.x >> 1) - scrollOffsetX;
-        else if (targetPos->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
-            scroll->pos.x = targetPos->x - (scroll->window.x >> 1) + scrollOffsetX;
+        if (cameraTarget->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
+            scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) - scrollOffsetX;
+        else if (cameraTarget->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
+            scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) + scrollOffsetX;
     }
 
     //limit scroll position
@@ -46,14 +51,48 @@ void scroll_update(tScroll *scroll, tVector *targetPos, uint8_t mode)
     //updates scroll position following target position
     if (mode == E_SCROLL_Y || mode == E_SCROLL_X_Y)
     {
-        /*if (targetPos->y > ((16*8) + scroll->pos.y))
-            scroll->pos.y = targetPos->y - (16*8);*/
-        
-        if (targetPos->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
-            scroll->pos.y = targetPos->y - (scroll->window.y >> 1) - scrollOffsetY;
-        else if (targetPos->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
-            scroll->pos.y = targetPos->y - (scroll->window.y >> 1) + scrollOffsetY;
-    }
+        /*if (cameraTarget->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
+            scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) - scrollOffsetY;
+        else if (cameraTarget->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
+            scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) + scrollOffsetY;
+        */
+
+        //calculate Y scroll target
+        scroll->target.y = (int16_t)(cameraTarget->y / (scroll->window.y - 32)) * scroll->window.y;
+
+        //set scroll velocity
+        if (scroll->moving == E_SCROLL_MOVE_NONE)
+        {
+            if (scroll->pos.y < scroll->target.y)
+            {
+                scroll->fixVel.y = itofix(10);
+                scroll->moving = E_SCROLL_MOVE_DOWN;
+            }
+            else if (scroll->pos.y > scroll->target.y)
+            {
+                scroll->fixVel.y = itofix(-10);
+                scroll->moving = E_SCROLL_MOVE_UP;
+            }            
+        }
+        else     
+        {
+            if ((scroll->pos.y >= scroll->target.y && scroll->moving == E_SCROLL_MOVE_DOWN) ||
+                (scroll->pos.y <= scroll->target.y && scroll->moving == E_SCROLL_MOVE_UP))
+            {
+                scroll->fixVel.y = 0;  
+                scroll->fixPos.y = itofix(scroll->target.y);
+                scroll->moving = E_SCROLL_MOVE_NONE;
+            }
+        }
+
+        //add velocity
+        scroll->fixPos.y = scroll->fixPos.y + scroll->fixVel.y;
+        //update position        
+        scroll->pos.y = fixtoi(scroll->fixPos.y);
+        show_debug("scFy: %.2f scPY: %i scTY: %i", fixtof(scroll->fixPos.y), scroll->pos.y, scroll->target.y);
+        show_debug("scVY: %.2f", fixtof(scroll->fixVel.y));
+        show_debug("wX: %i, wY: %i, lX:%i lY:%i", scroll->window.x, scroll->window.y, scroll->limit.x, scroll->limit.y);
+    }    
     
     //limit scroll position
     scroll->pos.y = (int16_t)clamp(scroll->pos.y, 0, scroll->limit.y);
