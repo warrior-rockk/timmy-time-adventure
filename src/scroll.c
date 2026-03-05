@@ -43,10 +43,10 @@ void scroll_update(tScroll *scroll, tVector *cameraTarget)
         //continuous follow camera
         case E_SCROLL_NORMAL_MODE:
         case E_SCROLL_BY_WINDOW_Y_MODE:
-            if (cameraTarget->x > (scroll->window.x >> 1) + scroll->pos.x + scrollOffsetX)
-                scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) - scrollOffsetX;
-            else if (cameraTarget->x < (scroll->window.x >> 1) + scroll->pos.x - scrollOffsetX)
-                scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) + scrollOffsetX;
+            if (cameraTarget->x > (scroll->window.x >> 1) + scroll->pos.x + SCROLL_OFFSET_X)
+                scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) - SCROLL_OFFSET_X;
+            else if (cameraTarget->x < (scroll->window.x >> 1) + scroll->pos.x - SCROLL_OFFSET_X)
+                scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) + SCROLL_OFFSET_X;
         break;
     }
     //limit scroll position
@@ -57,10 +57,10 @@ void scroll_update(tScroll *scroll, tVector *cameraTarget)
     {
         //continuous follow camera
         case E_SCROLL_NORMAL_MODE:
-            if (cameraTarget->y > (scroll->window.y >> 1) + scroll->pos.y + scrollOffsetY)
-                scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) - scrollOffsetY;
-            else if (cameraTarget->y < (scroll->window.y >> 1) + scroll->pos.y - scrollOffsetY)
-                scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) + scrollOffsetY;        
+            if (cameraTarget->y > (scroll->window.y >> 1) + scroll->pos.y + SCROLL_OFFSET_Y)
+                scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) - SCROLL_OFFSET_Y;
+            else if (cameraTarget->y < (scroll->window.y >> 1) + scroll->pos.y - SCROLL_OFFSET_Y)
+                scroll->pos.y = cameraTarget->y - (scroll->window.y >> 1) + SCROLL_OFFSET_Y;        
         break;
         //continuous follow camera adjusting to room screen
         case E_SCROLL_BY_WINDOW_MODE:

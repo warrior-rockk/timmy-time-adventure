@@ -10,10 +10,13 @@
 #include "utils.h"
 
 //scroll definitions
-#define SCROLL_IN_REGION_OFFSET_X   32
-#define SCROLL_IN_REGION_OFFSET_Y   32
-#define SCROLL_BY_WINDOW_RANGE      32
-#define SCROLL_BY_WINDOW_VEL_Y      10
+#define SCROLL_OFFSET_X             8   //Offset X target position to follow camera
+#define SCROLL_OFFSET_Y             14  //Offset Y target position to follow camera
+#define SCROLL_BY_WINDOW_RANGE      32  //Range to scroll by window
+#define SCROLL_BY_WINDOW_VEL_Y      10  //Scroll velocity Y moving by window
+
+#define SCROLL_IN_REGION_OFFSET_X   32  //Offset X to scroll region check
+#define SCROLL_IN_REGION_OFFSET_Y   32  //Offset Y to scroll region check
 
 //scroll modes
 enum E_SCROLL_MODE
@@ -36,21 +39,16 @@ enum E_SCROLL_BY_WINDOW_MOVE
 
 //scroll object
 typedef struct
-{
+{    
+    uint8_t mode;       //scroll mode
+    uint8_t moving;     //scroll moving flags
     tVector pos;        //scroll actual position
-    tVector target;
+    tVector target;     //scroll target position
     tVector window;     //scroll window size
     tVector limit;      //scroll limit position
-    tFixVector fixPos;
-    tFixVector fixVel;
-    uint8_t moving;
-    uint8_t mode;
+    tFixVector fixPos;  //scroll actual position fixed point
+    tFixVector fixVel;  //scroll velocity fixed point
 } tScroll;
-
-//Offset target position to follow by scroll. 
-//If the target is in the offset zone, the scroll doesn't move allowing a tiny zone with not scroll movement
-static const uint16_t scrollOffsetX = 8;
-static const uint16_t scrollOffsetY = 14;
 
 //creates scroll with the window dimensions and limits. Returns a scroll object
 tScroll scroll_create(tVector window, tVector limit, uint8_t mode);
