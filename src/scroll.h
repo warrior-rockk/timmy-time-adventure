@@ -12,18 +12,20 @@
 //scroll definitions
 #define SCROLL_IN_REGION_OFFSET_X   32
 #define SCROLL_IN_REGION_OFFSET_Y   32
+#define SCROLL_BY_WINDOW_RANGE      32
+#define SCROLL_BY_WINDOW_VEL_Y      10
 
 //scroll modes
 enum E_SCROLL_MODE
 {
-    E_SCROLL_X_Y,
-    E_SCROLL_X,
-    E_SCROLL_Y,
-    E_SCROLL_NONE,
+    E_SCROLL_NONE_MODE,             //no scroll
+    E_SCROLL_NORMAL_MODE,           //continuous follow camera
+    E_SCROLL_BY_WINDOW_MODE,        //continuous follow camera adjusting to scroll window screen
+    E_SCROLL_BY_WINDOW_Y_MODE,      //continuous follow camera adjusting only Y to scroll window screen
 };
 
-//scroll movements
-enum E_SCROLL_MOVE
+//scroll movements on by Window mode
+enum E_SCROLL_BY_WINDOW_MOVE
 {
     E_SCROLL_MOVE_NONE,
     E_SCROLL_MOVE_LEFT,
@@ -42,6 +44,7 @@ typedef struct
     tFixVector fixPos;
     tFixVector fixVel;
     uint8_t moving;
+    uint8_t mode;
 } tScroll;
 
 //Offset target position to follow by scroll. 
@@ -50,11 +53,11 @@ static const uint16_t scrollOffsetX = 8;
 static const uint16_t scrollOffsetY = 14;
 
 //creates scroll with the window dimensions and limits. Returns a scroll object
-tScroll scroll_create(tVector window, tVector limit);
+tScroll scroll_create(tVector window, tVector limit, uint8_t mode);
 //inits scroll object
 void scroll_init(tScroll *scroll);
 //updates scroll object. Receives the target follow position or NULL
-void scroll_update(tScroll *scroll, tVector *cameraTarget, uint8_t mode);
+void scroll_update(tScroll *scroll, tVector *cameraTarget);
 
 //check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect, tScroll *scroll);

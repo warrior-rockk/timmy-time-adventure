@@ -160,14 +160,14 @@ void game_update()
 
                     entities_init();
                     scroll_init(&scroll);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_init();                    
 
                     gameSeq.step++;
                 break;
                 case 1:                
                     entities_update(&scroll);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_update();                    
                     
                     map_draw(worldScreen, &scroll, false);                    
@@ -183,7 +183,7 @@ void game_update()
         break;
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update(&scroll);
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
             game_hud_update();
 
             map_draw(worldScreen, &scroll, false);
@@ -233,7 +233,7 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);        
+            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
             
             entities_draw(worldScreen, &scroll);
 
@@ -260,7 +260,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos, game.scrollMode);                    
+                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);                    
                     entities_draw(worldScreen, &scroll);
 
                     //TODO: replace with the duration of complete music
@@ -497,7 +497,7 @@ static void game_load_level(uint8_t numLevel)
     map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
-    //game.scrollMode = E_SCROLL_X;
+    game.scrollMode = E_SCROLL_BY_WINDOW_Y_MODE;
     //TODO: read level time from map
     game.time = 300;
 
@@ -507,7 +507,7 @@ static void game_load_level(uint8_t numLevel)
     mapDimension.y = mapDimension.y > GAME_H ? (mapDimension.y - GAME_H)  : mapDimension.y - GAME_H;
     
     //create scroll    
-    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension);    
+    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);    
 }
 
 void game_destroy()
