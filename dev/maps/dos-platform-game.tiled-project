@@ -52,7 +52,8 @@
                 "FRONT_LAYER",
                 "ANIMATION",
                 "SLOPE_45",
-                "SLOPE_135"
+                "SLOPE_135",
+                "NO_SCROLL_Y"
             ],
             "valuesAsFlags": true
         }

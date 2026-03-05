@@ -20,6 +20,8 @@ tScroll scroll_create(tVector window, tVector limit, uint8_t mode)
     scroll.fixPos  = (tFixVector){0, 0};    
     scroll.fixVel  = (tFixVector){0, 0}; 
     scroll.moving  = E_SCROLL_MOVE_NONE;
+    scroll.stopScrollX = false;
+    scroll.stopScrollY = false;
 
     scroll.window   = window;
     scroll.limit    = limit;
@@ -42,9 +44,11 @@ void scroll_update(tScroll *scroll, tVector *cameraTarget)
     MY_ASSERT(scroll);
     MY_ASSERT(cameraTarget);
 
-    scroll_update_x(scroll, cameraTarget, false);
+    if (!scroll->stopScrollX)
+        scroll_update_x(scroll, cameraTarget, false);
     
-    scroll_update_y(scroll, cameraTarget, false);
+    if (!scroll->stopScrollY)
+        scroll_update_y(scroll, cameraTarget, false);
     
     //show_debug("scFy: %.2f scPY: %i scTY: %i", fixtof(scroll->fixPos.y), scroll->pos.y, scroll->target.y);
     //show_debug("scVY: %.2f", fixtof(scroll->fixVel.y));

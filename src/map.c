@@ -276,6 +276,8 @@ void map_unload()
 void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
 {
     tTile *tile;
+    bool memTileStopScrollX = false;
+    bool memTileStopScrollY = false;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
@@ -292,8 +294,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         {            
             play_animation_seq(&tileAnimation[i].anim, tileAnimation[i].frames, tileAnimation[i].numFrames, ANIM_LOOP);            
         }
-    }
-    
+    }        
+
     //draw map if not front layer or tiles on front layer
     if (!frontLayer || tilesOnFrontLayer)
     {
@@ -319,13 +321,32 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
                         if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
                             //draw tile animation frame                            
                             draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                        else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_Y))
+                        {
+                            //memorize tile with stop scroll
+                            memTileStopScrollY = true;                                   
+                        }
+                        else if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_X))
+                        {
+                            //memorize tile with stop scroll
+                            memTileStopScrollX = true;                            
+                        }
                         else
+                        {
                             //draw tile id
                             draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                        }
                     }
                 }
             }    
         }
+    }
+
+    //sets stop scroll if any tile with this property (only back layer)
+    if (!frontLayer)
+    {
+        scroll->stopScrollY = memTileStopScrollY;
+        scroll->stopScrollX = memTileStopScrollX;
     }
 }
 
