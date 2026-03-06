@@ -16,9 +16,9 @@
 //struct of tile
 typedef struct
 {
-    uint8_t tileId;             //id of tile on tileset
-    uint8_t tileProperty;       //property of tile   
+    uint8_t tileId;             //id of tile on tileset    
     uint8_t tileAnimationId;    //id of array of tile animation 
+    uint16_t tileProperty;       //property of tile   
 } tTile;
 
 //tile animation
@@ -33,15 +33,15 @@ typedef struct
 //tile properties
 enum E_TILE_PROPERTY
 {
-    E_TILE_PROP_NO_SOLID    = 0x01,
-    E_TILE_PROP_FRONT_LAYER = 0x02,
-    E_TILE_PROP_ANIMATION   = 0x04,
-    E_TILE_PROP_SLOPE_45    = 0x08,
-    E_TILE_PROP_SLOPE_135   = 0x10,
-    E_TILE_PROP_NO_SCROLL_Y = 0x20,
-    E_TILE_PROP_NO_SCROLL_X = 0x40,
-    E_TILE_PROP_TOP_STAIR   = 0x80,
-    //E_TILE_PROP_STAIR       = 0xFF,
+    E_TILE_PROP_NO_SOLID    = 0x0001,
+    E_TILE_PROP_FRONT_LAYER = 0x0002,
+    E_TILE_PROP_ANIMATION   = 0x0004,
+    E_TILE_PROP_SLOPE_45    = 0x0008,
+    E_TILE_PROP_SLOPE_135   = 0x0010,
+    E_TILE_PROP_NO_SCROLL_Y = 0x0020,
+    E_TILE_PROP_NO_SCROLL_X = 0x0040,
+    E_TILE_PROP_TOP_STAIR   = 0x0080,
+    E_TILE_PROP_STAIR       = 0x0100,
 };
 
 //loads a map level and creates level entities
@@ -55,6 +55,6 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer);
 //checks if position exists on tile maps
 uint16_t map_tile_exists(tVector checkPosition);
 //gets map tile property
-uint8_t map_get_tile_property(tVector checkPosition);
+uint16_t map_get_tile_property(tVector checkPosition);
 
 #endif

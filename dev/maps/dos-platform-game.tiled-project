@@ -54,7 +54,9 @@
                 "SLOPE_45",
                 "SLOPE_135",
                 "NO_SCROLL_Y",
-                "NO_SCROLL_X"
+                "NO_SCROLL_X",
+                "TOP_STAIR",
+                "STAIR"
             ],
             "valuesAsFlags": true
         }

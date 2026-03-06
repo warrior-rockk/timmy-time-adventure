@@ -22,7 +22,7 @@ struct entity {
 
 struct tileData {
     u8 tileId;
-    u8 tileData;
+    u16 tileData;
 };
 
 struct tileFrame {

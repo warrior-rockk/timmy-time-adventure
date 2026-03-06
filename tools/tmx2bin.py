@@ -186,7 +186,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         #   - Num tiles with animation      (uint16)
         # [Body]
         #   - Tile array            (uint8 * num_tiles)
-        #   - Tile properties       (uint8 * Num tiles with data)
+        #   - Tile properties       (uint16* Num tiles with data)
         #   - Tile animations:
         #       -Tile id     (u8)
         #       -Num frames  (u8)
@@ -203,9 +203,9 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)
             f.write(struct.pack(f'<{len(tiles)}B', *[t & 0xFF for t in tiles]))
             
-            # Write tiles properties 'B' = u8_t
+            # Write tiles properties
             for tile_id, value in tile_data:
-                f.write(struct.pack('BB', tile_id, value))
+                f.write(struct.pack('<BH', tile_id, value))
 
             # Write tile animations
             for tile_id, frames in tile_animations.items():                

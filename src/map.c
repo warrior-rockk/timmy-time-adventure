@@ -99,7 +99,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     for (uint8_t i = 0; i < mapHeader.numTilesWithProperty; i++)
     {
         fread(&tilesWithProperty[i].tileId,         sizeof(uint8_t),    1, file);
-        fread(&tilesWithProperty[i].tileProperty,   sizeof(uint8_t),    1, file);
+        fread(&tilesWithProperty[i].tileProperty,   sizeof(uint16_t),    1, file);
     }
     
     //fill the tile properties of full map
@@ -352,13 +352,12 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
     }
 }
 
-
 uint16_t map_tile_exists(tVector checkPosition)
 {
     return (checkPosition.x / mapHeader.tile_width) < mapHeader.map_width && (checkPosition.y / mapHeader.tile_height) < mapHeader.map_height && checkPosition.x >= 0 && checkPosition.y >= 0;
 }
 
-uint8_t map_get_tile_property(tVector checkPosition)
+uint16_t map_get_tile_property(tVector checkPosition)
 {
     if (map[((checkPosition.y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition.x / mapHeader.tile_width)].tileId == 0)
         return E_TILE_PROP_NO_SOLID;

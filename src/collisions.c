@@ -230,7 +230,7 @@ tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
 }
 
 //check if collision enabled based on collision direction and tile property
-bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint8_t tileProperty)
+bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t tileProperty)
 {
 	//TODO:comprobamos si el tile es visible en la pantalla, asi, los tiles fuera de region no ser�n solidos
     //if (checkTileVisible(idEntity,posX,posY))

@@ -106,7 +106,7 @@ uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
 //check the tile property to determine the collision behaviour based on colDir (return 1 if collided or 0 no collided)
-bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
+bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint16_t tileProperty);
 //return the property of tile on collision point number
 uint8_t collision_get_tile(tEntity *entity, uint16_t pointNum);
 
