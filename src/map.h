@@ -40,6 +40,8 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_SLOPE_135   = 0x10,
     E_TILE_PROP_NO_SCROLL_Y = 0x20,
     E_TILE_PROP_NO_SCROLL_X = 0x40,
+    E_TILE_PROP_TOP_STAIR   = 0x80,
+    //E_TILE_PROP_STAIR       = 0xFF,
 };
 
 //loads a map level and creates level entities

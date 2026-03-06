@@ -74,6 +74,7 @@ void enemy_destroy(tEntity *entity)
     }
     else
         //reallocates the array with decremented entity number    
+        //TODO: this is incorrect when entities has different local data structure
         enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));     
     
     MY_TRACE_FLAG("Destroyed enemy instance:%i\n", enemyIndex);

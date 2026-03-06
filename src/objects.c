@@ -161,6 +161,7 @@ void object_destroy(tEntity *entity)
     }
     else
         //reallocates the array with decremented entity number    
+        //TODO: this is incorrect when entities has different local data structure
         objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));     
 
     MY_TRACE_FLAG("Destroyed object instance:%i\n", objectIndex);

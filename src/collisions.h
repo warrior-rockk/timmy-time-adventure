@@ -107,6 +107,8 @@ uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
 //check the tile property to determine the collision behaviour based on colDir (return 1 if collided or 0 no collided)
 bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint8_t tileProperty);
+//return the property of tile on collision point number
+uint8_t collision_get_tile(tEntity *entity, uint16_t pointNum);
 
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);

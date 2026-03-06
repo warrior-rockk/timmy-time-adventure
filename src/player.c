@@ -15,6 +15,7 @@
 #include "collisions.h"
 #include "timer.h"
 #include "sound.h"
+#include "map.h"
 
 static fixed accelX;
 static fixed accelXAir;
@@ -41,6 +42,7 @@ static struct playerFlags
     uint16_t picking        : 1;
     uint16_t picked         : 1;
     uint16_t jump           : 1;
+    uint16_t onStairs       : 1;
 } playerFlags;
 
 static int16_t playerInvincible = 0;        //counter for player invincibility
@@ -154,9 +156,49 @@ static void player_update_controls(tEntity *player)
             playerFlags.moving = true;
         }
 
-        //Down control (crouch)
-        playerFlags.crouched = input_key_press(E_G_KEY_DOWN) && player->ground && !playerFlags.picked;
-
+        //Down control (crouch / go down stairs)
+        if (input_key_press(E_G_KEY_DOWN))
+        {
+            if (!playerFlags.picked)
+            {                
+                //check if player down point is on tile stairs
+				if (collision_get_tile(player, E_COLPOINT_CENTER_DOWN) == E_TILE_PROP_TOP_STAIR) // || collision_get_tile(player, E_COLPOINT_CENTER_DOWN) == STAIRS)
+                {
+					//check if center player point is on tile stairs
+					if (collision_get_tile(player, E_COLPOINT_CENTER) == E_TILE_PROP_TOP_STAIR) // || collision_get_tile(player, E_COLPOINT_CENTER) == STAIRS)	
+                    {
+						//snap player on tile
+                        player->fixPos.x = itofix(player->pos.x + 8 - (player->pos.x % 16));
+						//this.fX = x+(cTileSize>>1)-(x%cTileSize);
+						//go down stairs
+                        player->fixVel.y += itofix(1);
+						//this.fY += cPlayerVelYStairs;
+                    }
+                    //else, we are on the top of stairs
+					else
+                    {
+						//adjust player to start of stair
+                        player->fixPos.y += itofix(player->size.y >> 1);
+						//this.fY += (this.alto>>1);
+					}
+					//reset velocities
+					player->fixVel = (tFixVector){0,0};                    
+					//set flagas
+					playerFlags.onStairs = true;
+                    //reset flags
+                    playerFlags.jump = false;
+                    playerFlags.crouched = false;					
+                }
+                else
+                {
+                    playerFlags.crouched = player->ground;
+                    playerFlags.onStairs = false;
+                }
+            }
+        }
+        else
+            playerFlags.crouched = false;
+        
         //Jump control
         if (input_key_press(E_G_KEY_JUMP))
         {

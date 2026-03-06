@@ -343,6 +343,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         }
     }
 
+    //TODO: modify to allow stop scroll on back layer
     //sets stop scroll if any tile with this property (only front layer)
     if (frontLayer)
     {
