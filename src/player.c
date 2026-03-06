@@ -126,11 +126,13 @@ void player_update(tEntity *player)
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
         #endif
-        show_debug( "p.vX: %f", fixtof(player->fixVel.x));
-        show_debug( "p.vY: %f", fixtof(player->fixVel.y));
-        show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
-        show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
-        //show_debug( "obj: %i", objectPickedID);        
+        //show_debug( "p.vX: %f", fixtof(player->fixVel.x));
+        //show_debug( "p.vY: %f", fixtof(player->fixVel.y));
+        //show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
+        //show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
+        show_debug( "onStairs: %i", playerFlags.onStairs);     
+        //show_debug("Property: %i", map_get_tile_property((tVector){1442,71}));
+        //show_debug("Test: %i", CHECK_FLAG(map_get_tile_property((tVector){1442,71}), 256));
     #endif
 }
 
@@ -160,25 +162,25 @@ static void player_update_controls(tEntity *player)
         if (input_key_press(E_G_KEY_DOWN))
         {
             if (!playerFlags.picked)
-            {                
+            {   
                 //check if player down point is on tile stairs
-				if (collision_get_tile(player, E_COLPOINT_CENTER_DOWN) == E_TILE_PROP_TOP_STAIR) // || collision_get_tile(player, E_COLPOINT_CENTER_DOWN) == STAIRS)
+				if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER_DOWN), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER_DOWN), E_TILE_PROP_STAIR))
                 {
 					//check if center player point is on tile stairs
-					if (collision_get_tile(player, E_COLPOINT_CENTER) == E_TILE_PROP_TOP_STAIR) // || collision_get_tile(player, E_COLPOINT_CENTER) == STAIRS)	
+					if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_STAIR))	
                     {
 						//snap player on tile
-                        player->fixPos.x = itofix(player->pos.x + 8 - (player->pos.x % 16));
+                        //player->fixPos.x = itofix(player->pos.x + 8 - (player->pos.x % 8));
 						//this.fX = x+(cTileSize>>1)-(x%cTileSize);
 						//go down stairs
-                        player->fixVel.y += itofix(1);
+                        player->fixPos.y += ftofix(0.6);
 						//this.fY += cPlayerVelYStairs;
                     }
                     //else, we are on the top of stairs
 					else
                     {
 						//adjust player to start of stair
-                        player->fixPos.y += itofix(player->size.y >> 1);
+                        player->fixPos.y += itofix((player->size.y >> 1));
 						//this.fY += (this.alto>>1);
 					}
 					//reset velocities
@@ -199,6 +201,8 @@ static void player_update_controls(tEntity *player)
         else
             playerFlags.crouched = false;
         
+        player->noGravity = playerFlags.onStairs;
+
         //Jump control
         if (input_key_press(E_G_KEY_JUMP))
         {
@@ -481,6 +485,13 @@ static void player_update_state(tEntity *player)
         player->state = ST_PLAYER_PICKED;
     else if (playerFlags.throwing)
         player->state = ST_PLAYER_THROWING;
+    else if (playerFlags.onStairs)
+    {
+		if (input_key_press(E_G_KEY_DOWN) || input_key_press(E_G_KEY_UP))
+            player->state = ST_PLAYER_MOVING_ON_STAIRS;
+        else
+            player->state = ST_PLAYER_ON_STAIRS;        
+    }
     else if (!player->ground == true)
     {
         if (playerFlags.attack)
@@ -601,6 +612,12 @@ static void player_update_animations(tEntity *player)
                     player->state = ST_PLAYER_IDLE;
                 }    
             }
+        break;
+        case ST_PLAYER_ON_STAIRS:
+            play_animation(&player->anim, ANIM_PLY_ON_STAIRS);
+        break;
+        case ST_PLAYER_MOVING_ON_STAIRS:
+            play_animation(&player->anim, ANIM_PLY_MOVE_STAIRS);
         break;
     }
 

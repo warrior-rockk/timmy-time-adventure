@@ -14,7 +14,7 @@
 #define PLAYER_SIZE_H               30
 #define PLAYER_SIZE_H_CROUCH        16
 #define PLAYER_IMG_W                41
-#define PLAYER_IMG_H                41
+#define PLAYER_IMG_H                44
 
 //player velocities    
     //horizontal
@@ -56,6 +56,8 @@
 #define ANIM_PLY_JUMP_UP_PICKED     60, 61, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_DOWN_PICKED   62, 63, 10, ANIM_ONCE
 #define ANIM_PLY_THROW_AIR          64, 64, 10, ANIM_ONCE
+#define ANIM_PLY_ON_STAIRS          69, 69, 10, ANIM_LOOP
+#define ANIM_PLY_MOVE_STAIRS        70, 71, 30, ANIM_LOOP
 
 enum ePlayerState
 {
@@ -70,6 +72,8 @@ enum ePlayerState
     ST_PLAYER_PICKING,
     ST_PLAYER_PICKED,
     ST_PLAYER_THROWING,
+    ST_PLAYER_ON_STAIRS,
+    ST_PLAYER_MOVING_ON_STAIRS,
 };
 
 enum E_PLAYER_SFX

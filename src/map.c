@@ -100,6 +100,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     {
         fread(&tilesWithProperty[i].tileId,         sizeof(uint8_t),    1, file);
         fread(&tilesWithProperty[i].tileProperty,   sizeof(uint16_t),    1, file);
+        //MY_TRACE_FLAG("\tReaded tile id: %i with property: %i\n", tilesWithProperty[i].tileId, tilesWithProperty[i].tileProperty);
     }
     
     //fill the tile properties of full map

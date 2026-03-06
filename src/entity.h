@@ -98,6 +98,7 @@ typedef struct tEntity
     bool sleep;                 //sleep flag: no entity update and no entity draw
     bool visible;               //visible flag: no entity draw
     bool ground;                //ground flag
+    bool noGravity;             //TODO: not use this flag for all entities. ¿separate update velocities for player?
     //function pointers
     void (*entity_init)(struct tEntity *entity);
     void (*entity_create)(struct tEntity *entity);

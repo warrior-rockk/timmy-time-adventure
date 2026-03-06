@@ -703,7 +703,7 @@ bool collision_check_entity_col_points(uint16_t entityId)
     return false;
 }
 
-uint8_t collision_get_tile(tEntity *entity, uint16_t pointNum)
+uint16_t collision_get_tile_property(tEntity *entity, uint16_t pointNum)
 { 
     //gets collision point index
     uint16_t entIndex = collision_get_point_index_by_entId(entity->id);
