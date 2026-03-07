@@ -239,6 +239,13 @@ static void player_update_controls(tEntity *player)
         //Jump control
         if (input_key_press(E_G_KEY_JUMP))
         {
+            if (playerFlags.onStairs)
+			{
+                //fall from stairs
+                playerFlags.onStairs = false;
+                playerFlags.jump = true;
+                player->ground = false;
+            }
             //if not flag jump and not falling
             if (!playerFlags.jump && player->fixVel.y <= 0)
             {
