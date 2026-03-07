@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
-#include "entity.h"
 
 #define TRACE_FLAG  "[MAP]"
 
@@ -371,4 +370,14 @@ uint16_t map_get_tile_property(tVector checkPosition)
 tVector map_get_dimensions()
 {
     return (tVector){mapHeader.map_width * mapHeader.tile_width, mapHeader.map_height * mapHeader.tile_height};
+}
+
+int16_t map_snap_x_to_tile(tEntity *entity)
+{
+    return (entity->pos.x + (entity->size.x >> 1)) + (mapHeader.tile_width >> 1) - ((entity->pos.x + (entity->size.x >> 1)) % mapHeader.tile_width) - (entity->size.x >> 1);
+}
+
+int16_t map_snap_y_to_tile(tEntity *entity)
+{
+    return (entity->pos.y + (entity->size.y >> 1)) + (mapHeader.tile_height >> 1) - ((entity->pos.y + (entity->size.y >> 1)) % mapHeader.tile_height) - (entity->size.y >> 1);
 }

@@ -12,6 +12,7 @@
 #include "game.h"
 #include "scroll.h"
 #include "anim.h"
+#include "entity.h"
 
 //struct of tile
 typedef struct
@@ -56,5 +57,8 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer);
 uint16_t map_tile_exists(tVector checkPosition);
 //gets map tile property
 uint16_t map_get_tile_property(tVector checkPosition);
-
+//return x position snapped to tile
+int16_t map_snap_x_to_tile(tEntity *entity);
+//return y position snapped to tile
+int16_t map_snap_y_to_tile(tEntity *entity);
 #endif

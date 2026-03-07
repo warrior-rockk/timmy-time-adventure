@@ -170,18 +170,16 @@ static void player_update_controls(tEntity *player)
 					if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_STAIR))	
                     {
 						//snap player on tile
-                        //player->fixPos.x = itofix(player->pos.x + 8 - (player->pos.x % 8));
-						//this.fX = x+(cTileSize>>1)-(x%cTileSize);
-						//go down stairs
+                        //player->fixPos.x = itofix((player->pos.x + (player->size.x >> 1)) + (8) - ((player->pos.x + (player->size.x >> 1)) % 16) - (player->size.x >> 1));
+						player->fixPos.x = itofix(map_snap_x_to_tile(player));
+                        //go down stairs
                         player->fixPos.y += ftofix(0.6);
-						//this.fY += cPlayerVelYStairs;
                     }
                     //else, we are on the top of stairs
 					else
                     {
 						//adjust player to start of stair
                         player->fixPos.y += itofix((player->size.y >> 1));
-						//this.fY += (this.alto>>1);
 					}
 					//reset velocities
 					player->fixVel = (tFixVector){0,0};                    
