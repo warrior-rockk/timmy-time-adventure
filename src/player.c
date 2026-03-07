@@ -200,9 +200,6 @@ static void player_update_controls(tEntity *player)
         else
             playerFlags.crouched = false;
         
-        //TODO: move this
-        player->noGravity = playerFlags.onStairs;
-
         //Up control: climb stairs
 		if (input_key_press(E_G_KEY_UP))	
         {		
@@ -211,8 +208,7 @@ static void player_update_controls(tEntity *player)
             {
 				//check if center of entity are on tile stairs
                 if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_STAIR))
-				//if (getTileCode(id,CENTER_POINT) == STAIRS || getTileCode(id,CENTER_POINT) == TOP_STAIRS)
-                {
+				{
 					//reset velocities
                     player->fixVel = (tFixVector){0, 0};
 					//snap to tile
@@ -226,12 +222,10 @@ static void player_update_controls(tEntity *player)
                 }
                 //else, if center down point on top of stair, exits stairs
                 else if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER_DOWN), E_TILE_PROP_TOP_STAIR))
-                //else if (getTileCode(id,CENTER_DOWN_POINT) == TOP_STAIRS)
                 {
-					//climb to platform (above tile of the stair)
+					//position to platform (above tile of the stair)
                     player->fixPos.y = itofix((((entity_center_y(player) / 16) * 16) + 16) - player->size.y);
-                    //this.fY = (((y/cTileSize)*cTileSize)+cTileSize)-(this.alto>>1);
-					//reset flag
+                    //reset flag
 					playerFlags.onStairs = false;
 				}				
 			}
@@ -442,6 +436,9 @@ static void player_update_state(tEntity *player)
 {
     //reset flag
     playerFlags.disableMove = false;
+
+    //TODO: move this
+    player->noGravity = playerFlags.onStairs;
     
     //picking objects
     if (objectForPickID != 0)

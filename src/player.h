@@ -57,7 +57,8 @@
 #define ANIM_PLY_JUMP_UP_PICKED     60, 61, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_DOWN_PICKED   62, 63, 10, ANIM_ONCE
 #define ANIM_PLY_THROW_AIR          64, 64, 10, ANIM_ONCE
-#define ANIM_PLY_ON_STAIRS          69, 69, 10, ANIM_LOOP
+#define ANIM_PLY_ON_TOP_STAIRS      69, 69, 10, ANIM_LOOP
+#define ANIM_PLY_ON_STAIRS          70, 70, 10, ANIM_LOOP
 #define ANIM_PLY_MOVE_STAIRS        70, 71, 30, ANIM_LOOP
 
 enum ePlayerState
