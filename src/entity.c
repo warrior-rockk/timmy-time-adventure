@@ -439,3 +439,13 @@ void entity_blink(tEntity *entity)
     if (get_clock_count(ENTITY_BLINK_SPEED))
         entity->visible = !entity->visible;
 }
+
+int16_t entity_center_x(tEntity *entity)
+{
+    return entity->pos.x + (entity->size.x >> 1);
+}
+
+int16_t entity_center_y(tEntity *entity)
+{
+    return entity->pos.y + (entity->size.y >> 1);
+}

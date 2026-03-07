@@ -17,6 +17,8 @@
 #include "sound.h"
 #include "map.h"
 
+#define TRACE_FLAG      "[PLAYER]"
+
 static fixed accelX;
 static fixed accelXAir;
 static fixed friction;
@@ -170,10 +172,9 @@ static void player_update_controls(tEntity *player)
 					if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_STAIR))	
                     {
 						//snap player on tile
-                        //player->fixPos.x = itofix((player->pos.x + (player->size.x >> 1)) + (8) - ((player->pos.x + (player->size.x >> 1)) % 16) - (player->size.x >> 1));
-						player->fixPos.x = itofix(map_snap_x_to_tile(player));
+                        player->fixPos.x = itofix(map_snap_x_to_tile(player));
                         //go down stairs
-                        player->fixPos.y += ftofix(0.6);
+                        player->fixPos.y += ftofix(PLAYER_STAIRS_VEL_Y);
                     }
                     //else, we are on the top of stairs
 					else
@@ -199,7 +200,42 @@ static void player_update_controls(tEntity *player)
         else
             playerFlags.crouched = false;
         
+        //TODO: move this
         player->noGravity = playerFlags.onStairs;
+
+        //Up control: climb stairs
+		if (input_key_press(E_G_KEY_UP))	
+        {		
+			//check if not object picked
+			if (!playerFlags.picked)
+            {
+				//check if center of entity are on tile stairs
+                if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER), E_TILE_PROP_STAIR))
+				//if (getTileCode(id,CENTER_POINT) == STAIRS || getTileCode(id,CENTER_POINT) == TOP_STAIRS)
+                {
+					//reset velocities
+                    player->fixVel = (tFixVector){0, 0};
+					//snap to tile
+                    player->fixPos.x = itofix(map_snap_x_to_tile(player));
+					//going down stairs
+                    player->fixPos.y -= ftofix(PLAYER_STAIRS_VEL_Y);
+					//set flags
+					playerFlags.onStairs = true;
+					//reset flags
+                    playerFlags.jump = false;
+                }
+                //else, if center down point on top of stair, exits stairs
+                else if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER_DOWN), E_TILE_PROP_TOP_STAIR))
+                //else if (getTileCode(id,CENTER_DOWN_POINT) == TOP_STAIRS)
+                {
+					//climb to platform (above tile of the stair)
+                    player->fixPos.y = itofix((((entity_center_y(player) / 16) * 16) + 16) - player->size.y);
+                    //this.fY = (((y/cTileSize)*cTileSize)+cTileSize)-(this.alto>>1);
+					//reset flag
+					playerFlags.onStairs = false;
+				}				
+			}
+		}
 
         //Jump control
         if (input_key_press(E_G_KEY_JUMP))

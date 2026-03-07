@@ -30,6 +30,7 @@
 #define PLAYER_JUMP_VEL_Y           3.4     //max jump velocity
 #define PLAYER_HURT_VEL_Y           -3.6    //velocity y when gets hurt
 #define PLAYER_ATTACK_BOUNCE_VEL    -4      //velocity when bounces by attacking 
+#define PLAYER_STAIRS_VEL_Y         0.6     //velocity on stairs
 
 //player times
 #define PLAYER_INVINCIBLE_TIME      200

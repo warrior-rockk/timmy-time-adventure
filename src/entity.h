@@ -130,4 +130,8 @@ void entity_update_vel_pos(tEntity *entity);
 tEntity* entity_get(uint16_t numEntity);
 //blink entity
 void entity_blink(tEntity *entity);
+//returns the center position x of an entity
+int16_t entity_center_x(tEntity *entity);
+//returns the center position y of an entity
+int16_t entity_center_y(tEntity *entity);
 #endif
