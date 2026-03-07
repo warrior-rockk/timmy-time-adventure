@@ -45,6 +45,11 @@ static struct playerFlags
     uint16_t picked         : 1;
     uint16_t jump           : 1;
     uint16_t onStairs       : 1;
+    uint16_t spare11        : 1;
+    uint16_t spare12        : 1;
+    uint16_t spare13        : 1;
+    uint16_t spare14        : 1;
+    uint16_t spare15        : 1;
 } playerFlags;
 
 static int16_t playerInvincible = 0;        //counter for player invincibility
@@ -143,7 +148,7 @@ static void player_update_controls(tEntity *player)
     if (!playerFlags.disableMove)
     {
         //Right direction control
-        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX) //&& !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX && !playerFlags.onStairs)
         {
             player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x+= fixmul(accelX, ftofix(deltaTime));
@@ -152,7 +157,7 @@ static void player_update_controls(tEntity *player)
         }
         
         //Left direction control
-        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX) // && !playerFlags.crouched)
+        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.onStairs)
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x -= fixmul(accelX, ftofix(deltaTime));
