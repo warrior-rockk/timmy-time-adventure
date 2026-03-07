@@ -16,6 +16,7 @@ static tEntColPoints *entColPointsList;     //dynamic list of entities collision
 static uint16_t numEntitiesColPoints;       //number of entities collision points
 BITMAP *collisionMapSlope45;                //collision map of a 45º slope
 BITMAP *collisionMapSlope135;               //collision map of a 135º slope
+BITMAP *collisionMapSolidOnFall;            //collision map of solid only on fall
 
 //inits collision system
 void collision_system_init()
@@ -28,6 +29,7 @@ void collision_system_init()
     //load special tile collision map
     collisionMapSlope135    = load_bmp("res/tiles/slope135.bmp", NULL);
     collisionMapSlope45     = load_bmp("res/tiles/slope45.bmp", NULL);
+    collisionMapSolidOnFall = load_bmp("res/tiles/sonfall.bmp", NULL);
 
     MY_TRACE_FLAG("Initialized collision system\n");
 }
@@ -43,6 +45,7 @@ void collision_system_destroy()
     //free resources
     destroy_bitmap(collisionMapSlope135);
     destroy_bitmap(collisionMapSlope45);
+    destroy_bitmap(collisionMapSolidOnFall);
 
     MY_TRACE_FLAG("Destroyed collision system\n");
 }
@@ -78,6 +81,13 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                     else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_135))
                     {
                         if (getpixel(collisionMapSlope135, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        {
+                            return dist;
+                        }
+                    }
+                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_TOP_STAIR))
+                    {
+                        if (getpixel(collisionMapSolidOnFall, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
@@ -157,6 +167,10 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                     else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_135))
                     {
                         colPixel = getpixel(collisionMapSlope135, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                    }
+                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_TOP_STAIR))
+                    {
+                        colPixel = getpixel(collisionMapSolidOnFall, (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else
                     {                        
@@ -238,6 +252,9 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
         {
 			//Colisiones superiores
 			case E_COLLISION_DIR_UP: 
+                return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR)) ||
+					    (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y > 0);
+            break;
             case E_COLLISION_DIR_LEFT:
             case E_COLLISION_DIR_RIGHT:
 				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID);
@@ -249,9 +266,10 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
 			//Colisiones inferiores
 		    case E_COLLISION_DIR_DOWN: 
             case E_COLLISION_DIR_CENTER:
-				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)      ||
+				return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR)) ||
 					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
-					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45);
+					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
+                        (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0);
 					   //TODO: rest of collisions
                        /*||
                        tileProperty == NO_SCROLL_L ||

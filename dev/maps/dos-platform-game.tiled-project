@@ -56,7 +56,8 @@
                 "NO_SCROLL_Y",
                 "NO_SCROLL_X",
                 "TOP_STAIR",
-                "STAIR"
+                "STAIR",
+                "SOLID_ON_FALL"
             ],
             "valuesAsFlags": true
         }
