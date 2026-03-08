@@ -42,7 +42,13 @@ void enemy_system_destroy()
     numEnemyInstances = 0;   
     //free samples
     for (uint8_t i = 0; i < E_SFX_ENEMY_NUM; i++)
-        destroy_sample(enemySfx[i]);
+    {
+        if (enemySfx[i])
+        {
+            destroy_sample(enemySfx[i]);
+            enemySfx[i] = NULL;
+        }
+    }
     //free resources
     for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
     {

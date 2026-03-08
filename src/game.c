@@ -139,15 +139,17 @@ void game_update()
             game.score          = 0;
             game.loseLive       = false;
             game.actualLevel    = 0;     
-            
-            object_system_init();
-            enemy_system_init();
                         
             game.state = E_GAME_ST_LOAD_LEVEL;            
         break;
         case E_GAME_ST_LOAD_LEVEL:
             clear_to_color(buffer, BLACK_COLOR);
+            
+            object_system_init();
+            enemy_system_init();
+
             game_load_level(game.actualLevel);
+            
             game.state = E_GAME_ST_INIT_LEVEL;
         break;        
         case E_GAME_ST_INIT_LEVEL:
