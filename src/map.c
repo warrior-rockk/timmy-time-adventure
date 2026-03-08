@@ -57,10 +57,10 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         abort_on_error("Error reading map header\n");
     }
     
-    //set screen limit for draw map
-    screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1 : screenSize.x / mapHeader.tile_width;
+    //set screen limit for draw map (adds 1 tile x and y to screen limit for maps larger than screen)
+    screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1  : screenSize.x / mapHeader.tile_width;
     screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
-
+    
     MY_TRACE_FLAG("Loading map: %s with tileFile: %s\n", mapFile, tileFile);
     MY_TRACE_FLAG("\tTile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     MY_TRACE_FLAG("\tMap dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
@@ -281,7 +281,7 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
-    int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll   
+    int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll  
     
     //TODO: replace clear all buffer with color only positions with no tiles?
     if (!frontLayer)
@@ -303,8 +303,12 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
         {
             for (int x = 0; x < screenLimit.x; x++)        
             {
-                //get map tile on current position
-                tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
+                //check if tile exists on map array
+                if ((((y + ty) * mapHeader.map_width) + x + tx) < (mapHeader.map_width * mapHeader.map_height))
+                    //get map tile on current position
+                    tile = &map[((y + ty) * mapHeader.map_width) + x + tx];
+                else
+                    break;
                 
                 //if has tile id
                 if (tile->tileId != 0)

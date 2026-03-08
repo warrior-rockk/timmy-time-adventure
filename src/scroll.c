@@ -8,6 +8,9 @@
 
 #include "scroll.h"
 
+#define TRACE_FLAG      "[SCROLL]"
+
+
 static void scroll_update_x(tScroll *scroll, tVector *cameraTarget, bool init);
 static void scroll_update_y(tScroll *scroll, tVector *cameraTarget, bool init);
 

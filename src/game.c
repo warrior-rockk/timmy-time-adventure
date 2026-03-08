@@ -503,8 +503,8 @@ static void game_load_level(uint8_t numLevel)
 
     //calculate scroll dimensions based on map dimensions
     tVector mapDimension = map_get_dimensions();
-    mapDimension.x = mapDimension.x > GAME_W ? (mapDimension.x - GAME_W)  : mapDimension.x - GAME_W;
-    mapDimension.y = mapDimension.y > GAME_H ? (mapDimension.y - GAME_H)  : mapDimension.y - GAME_H;
+    mapDimension.x = mapDimension.x - GAME_W;
+    mapDimension.y = mapDimension.y - GAME_H;
     
     //create scroll    
     scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);    
