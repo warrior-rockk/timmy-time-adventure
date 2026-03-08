@@ -343,6 +343,13 @@ void object_end_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->state)
     {
         case E_END_ST_IDLE:
+
+            //if collision with player
+            if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+            {
+                game.levelComplete = true;
+            }
+
             this->anim.frame = 0;
         break;        
         default:

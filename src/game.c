@@ -205,6 +205,9 @@ void game_update()
             if (input_key_pressed(E_G_KEY_PAUSE))
                 game.state = E_GAME_ST_PAUSE_LEVEL;
 
+            if (game.levelComplete)
+                game.state = E_GAME_ST_COMPLETE_LEVEL;
+
             #ifdef DEBUGMODE
                 if (key[KEY_R])
                     game.state = E_GAME_ST_INIT_LEVEL;
@@ -277,7 +280,8 @@ void game_update()
                     MY_TRACE_FLAG( "Completed level\n");
                     game_destroy_level();
                     game.actualLevel++;
-                    gameSeq.step = 0;                    
+                    gameSeq.step = 0;          
+                    game.levelComplete = false;          
                     if (game.actualLevel == E_GAME_NUM_LEVELS)
                         game.state = E_GAME_ST_ENDING;
                     else    
