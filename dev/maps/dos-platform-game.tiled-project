@@ -22,6 +22,22 @@
             "valuesAsFlags": false
         },
         {
+            "id": 4,
+            "name": "entityProperties",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "PHYSICS_ON",
+                "NO_COLLISION",
+                "PERSISTENT",
+                "NO_BREAKABLE",
+                "NO_PICKABLE",
+                "AUTO_DESTROY",
+                "NO_HURT"
+            ],
+            "valuesAsFlags": true
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 1,

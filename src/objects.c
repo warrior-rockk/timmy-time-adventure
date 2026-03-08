@@ -104,6 +104,15 @@ void object_create(tEntity *entity)
             entity->size = (tVector){21, 16};      
             collision_create_entity_points(entity);                    
         break;
+        case E_END_OBJECT_TYPE:            
+            if (!objectResources[E_END_OBJECT_TYPE])
+                objectResources[E_END_OBJECT_TYPE] = load_bmp("res/objects/end.bmp", NULL);
+
+            entity->img = objectResources[E_END_OBJECT_TYPE];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){8, 8};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
         break;
@@ -126,6 +135,9 @@ void object_update(tEntity *entity)
         case E_GEM_OBJECT_TYPE:            
             object_gem_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;       
+        case E_END_OBJECT_TYPE:
+            object_end_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -320,6 +332,21 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 this->dead = true;
             }
         break;
+    }
+}
+
+void object_end_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object states
+    enum E_END_STATE {E_END_ST_IDLE};
+
+    switch (this->state)
+    {
+        case E_END_ST_IDLE:
+            this->anim.frame = 0;
+        break;        
+        default:
+            this->state = E_END_ST_IDLE;
     }
 }
 
