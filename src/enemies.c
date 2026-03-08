@@ -131,6 +131,8 @@ void enemy_create(tEntity *entity)
         case E_COWBOY_ENEMY_TYPE:
             if (!enemyResources[E_COWBOY_ENEMY_TYPE])
                 enemyResources[E_COWBOY_ENEMY_TYPE] = load_bmp("res/enemies/cowboy.bmp", NULL);
+            if (!enemySfx[E_SFX_ENEMY_SHOOT])
+                enemySfx[E_SFX_ENEMY_SHOOT]  = load_wav("res/enemies/shoot.wav");
             
             entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){50, 45};                          
@@ -513,6 +515,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
             if (this->anim.frame == 11 && !local->flag)
             {
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir);
+                sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE, false);
                 local->flag = true;
             }
         break;     
