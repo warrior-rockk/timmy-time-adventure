@@ -1,9 +1,10 @@
 # Bugs
 - [ ] Test level: can pick object above other
 - [ ] Esc on title don't exits
+- [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [X] Frame counter added to trace to check the game cycle of msg
+- [ ] Collision to border of screen
 - [ ] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
@@ -19,7 +20,6 @@
 - [ ] Reset ground flag on entity init?
 - [ ] Save half entity sizes on structure?
 - [ ] Platform objects
-- [ ] Ladder tiles
 - [ ] All entities on one layer and map_load creates all
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
@@ -29,6 +29,8 @@
 - [X] Improve front layer marking flag on no front layer if are tiles with front property
 - [X] Tile animations
 - [X] Pause system
+- [X] Ladder tiles
+- [X] Frame counter added to trace to check the game cycle of msg
 
 # Player
 - [ ] Idle special animation when no control
