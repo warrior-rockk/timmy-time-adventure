@@ -262,13 +262,13 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
 					   tileProperty == NO_SCROLL_R;*/
 			break;
 			case E_COLLISION_DIR_UP: 
-                return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL)) ||
+                return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
 					    (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y > 0) ||
                         (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y > 0);
             break;
 		    case E_COLLISION_DIR_DOWN: 
             case E_COLLISION_DIR_CENTER:
-				return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL)) ||
+				return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
 					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
 					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
                         (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0) ||

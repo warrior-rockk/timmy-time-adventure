@@ -69,7 +69,7 @@
   </tile>
   <tile id="30">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="257"/>
+    <property name="property" type="int" propertytype="tileProperties" value="256"/>
    </properties>
   </tile>
   <tile id="33">
