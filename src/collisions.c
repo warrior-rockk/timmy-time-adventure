@@ -68,7 +68,7 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
 			//check if tile is solid
             if (!CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_NO_SOLID))
             {
-				//check tile propertyu to count as collision or not
+				//check tile property to count as collision or not
 				if (collision_check_by_direction(entity, colDirCode, map_get_tile_property(linePath->start)))
                 {
                     if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_45))
@@ -252,7 +252,10 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
         {
 			case E_COLLISION_DIR_LEFT:
             case E_COLLISION_DIR_RIGHT:
-				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID);
+				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)  &&
+                       !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && 
+                       !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)     && 
+                       !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL);
                         //TODO: no scroll collision?
                        /*  ||
 					   tileProperty == NO_SCROLL_L ||
