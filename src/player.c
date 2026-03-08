@@ -84,7 +84,8 @@ void player_create(tEntity *player)
     playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
     playerSfx[SFX_PLAYER_BOUNCE] = load_wav("res/player/bounce.wav");
     playerSfx[SFX_PLAYER_PICK] = load_wav("res/player/pick.wav");
-    playerSfx[SFX_PLAYER_DEAD] = load_wav("res/player/dead.wav");    
+    playerSfx[SFX_PLAYER_DEAD] = load_wav("res/player/dead.wav");
+    playerSfx[SFX_PLAYER_STAIR] = load_wav("res/player/stair.wav");    
 }
 
 void player_init(tEntity *player)
@@ -673,6 +674,8 @@ static void player_update_animations(tEntity *player)
         break;
         case ST_PLAYER_MOVING_ON_STAIRS:
             play_animation(&player->anim, ANIM_PLY_MOVE_STAIRS);
+            if (player->anim.frame != player->anim.lastFrame)
+                sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE, false);
         break;
     }
 

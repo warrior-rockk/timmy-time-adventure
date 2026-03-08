@@ -59,7 +59,7 @@
 #define ANIM_PLY_THROW_AIR          64, 64, 10, ANIM_ONCE
 #define ANIM_PLY_ON_TOP_STAIRS      69, 69, 10, ANIM_LOOP
 #define ANIM_PLY_ON_STAIRS          70, 70, 10, ANIM_LOOP
-#define ANIM_PLY_MOVE_STAIRS        70, 71, 30, ANIM_LOOP
+#define ANIM_PLY_MOVE_STAIRS        70, 71, 20, ANIM_LOOP
 
 enum ePlayerState
 {
@@ -86,6 +86,7 @@ enum E_PLAYER_SFX
     SFX_PLAYER_BOUNCE,
     SFX_PLAYER_PICK,
     SFX_PLAYER_DEAD,
+    SFX_PLAYER_STAIR,
     SFX_PLAYER_NUM,
 };
 
