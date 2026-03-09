@@ -64,6 +64,7 @@ static void player_update_controls(tEntity *player);
 static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
 static void player_update_animations(tEntity *player);
+static void player_update_size(tEntity *player);
 
 void player_create(tEntity *player)
 {
@@ -119,6 +120,9 @@ void player_update(tEntity *player)
 
     //update controls
     player_update_controls(player);
+    
+    //update size
+    player_update_size(player);
     
     //update collisions    
     player_update_collisions(player);       
@@ -319,12 +323,8 @@ static void player_update_controls(tEntity *player)
     }
 }
 
-static void player_update_collisions(tEntity *player)
+static void player_update_size(tEntity *player)
 {
-    uint8_t colDir = 0;
-    player->ground = false;
-    objectForPickID = 0;
-
     //dimensions control
     if (playerFlags.crouched)
     {
@@ -350,6 +350,13 @@ static void player_update_collisions(tEntity *player)
             collision_set_collision_points(player, collision_get_point_index_by_entId(player->id));
         }
     }
+}
+
+static void player_update_collisions(tEntity *player)
+{
+    uint8_t colDir = 0;
+    player->ground = false;
+    objectForPickID = 0;
 
     //check all the entity collision points with tilemap     
     for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
