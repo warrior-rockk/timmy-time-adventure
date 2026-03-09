@@ -450,6 +450,8 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
     levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
     
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;

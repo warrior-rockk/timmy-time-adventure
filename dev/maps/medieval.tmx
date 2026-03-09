@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+ <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="100" columns="10">
+  <image source="../gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="160"/>
+  <tile id="23">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="Tiles" width="32" height="10">
+  <properties>
+   <property name="backColor" type="int" value="99"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,23,23,23,23,23,23,23,23,23,
+2,2,2,2,2,2,2,2,2,2,2,5,0,0,1,2,0,0,1,2,0,0,1,2,2,2,2,2,2,2,2,2,
+24,24,24,24,24,24,24,24,24,24,24,15,0,0,11,15,0,0,11,15,0,0,11,12,12,12,12,12,12,12,12,12,
+24,24,24,24,24,24,24,24,24,24,34,35,0,0,21,15,0,0,21,15,0,0,21,12,12,12,12,12,12,12,12,12
+</data>
+ </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="1" name="player1" type="player" x="16" y="80" width="16" height="30"/>
+ </objectgroup>
+</map>
