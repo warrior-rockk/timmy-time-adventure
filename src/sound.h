@@ -11,6 +11,8 @@
 #include <stdbool.h>
 #include "allegro.h"
 
+#define SFX_FREQ_RND_PERCENT        20 //(+/- % freq variation on sfx_play_rnd)
+
 //sound modes
 enum E_SOUND_MODES{
     E_SOUND_SB_MODE,
@@ -22,7 +24,6 @@ enum E_SOUND_MODES{
 typedef struct 
 {
     int position;
-    int sampleId;
     bool playing;
     bool paused;
     bool finished;
@@ -50,20 +51,36 @@ long music_get_pos();
 //seeks music to position
 void music_seek(int position);
 
+//inits sfx system. Uses any sample file to preallocate voices
 void sfx_init(SAMPLE *initSample, uint8_t numVoices);
+//destroys sfx system
 void sfx_destroy();
+//updates sfx system
 void sfx_update();
-void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq);
+//plays a sample on sound card voice
+void sfx_play(SAMPLE* sampleFile, uint8_t voice);
+//plays a sample on sound card voice randomize the frequency
+void sfx_play_rnd(SAMPLE* sampleFile, uint8_t voice);
+//stops sfx voice
 void sfx_stop(uint8_t voice);
+//pause sfx voice
 void sfx_pause(uint8_t voice);
+//resumes sfx voice
 void sfx_resume(uint8_t voice);
+//get voice data
 tSfx sfx_get_voice_data(uint8_t voice);
+//set voice data
 void sfx_set_voice_data(uint8_t voice, tSfx voiceData);
+//check if sfx is playing
 bool sfx_voice_is_playing(uint8_t voice);
+//check if sfx are finished
 bool sfx_voice_finished(uint8_t voice);
+//clear sfx finished flag
 void sfx_voice_clear_finished(uint8_t voice);
-int sfx_get_voice_sample_id(uint8_t voice);
+//int sfx_get_voice_sample_id(uint8_t voice);
 
+//reallocate sfx voice
 void sfx_voice_reallocate(SAMPLE* sampleFile, uint8_t voice);
+//set position, on millis, of sfx
 void sfx_voice_set_position(uint8_t voice, int position);
 #endif

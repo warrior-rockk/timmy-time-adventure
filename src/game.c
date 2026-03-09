@@ -288,14 +288,14 @@ void game_update()
                         game_hud_draw();                        
                         //play score add sound                            
                         if (!sfx_voice_is_playing(E_SFX_GAME_VOICE))
-                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE, false);                        
+                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE);                        
                     }
                     else
                     {
                         game_hud_update();
                         game_hud_draw();
                         //play end score point
-                        sfx_play(gameSfx[E_SFX_GAME_POINT_END], E_SFX_GAME_VOICE, false);                        
+                        sfx_play(gameSfx[E_SFX_GAME_POINT_END], E_SFX_GAME_VOICE);                        
                         gameSeq.step++;
                     }
                 break;

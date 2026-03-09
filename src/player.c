@@ -267,7 +267,7 @@ static void player_update_controls(tEntity *player)
                 
                 //play sfx jump
                 if (player->state != ST_PLAYER_JUMP)
-                    sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE, false);
+                    sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE);
             }
         }
         else 
@@ -292,7 +292,7 @@ static void player_update_controls(tEntity *player)
             objectPickedID = memObjectforPickID;
             entity_get(memObjectforPickID)->signal = E_ENT_SIGNAL_PICKING;            
             memObjectforPickID = 0;
-            sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE, false);   
+            sfx_play(playerSfx[SFX_PLAYER_PICK], E_SFX_PLAYER_VOICE);   
         }
         //throw object if picked
         else if (playerFlags.picked && objectPickedID)
@@ -302,7 +302,7 @@ static void player_update_controls(tEntity *player)
             objectPickedID = 0;
             //reset flags
             playerFlags.picked = false;  
-            sfx_play(playerSfx[SFX_PLAYER_THROW], E_SFX_PLAYER_VOICE, false);        
+            sfx_play(playerSfx[SFX_PLAYER_THROW], E_SFX_PLAYER_VOICE);        
             
         }
         else if(!player->ground && !playerFlags.picked)
@@ -404,7 +404,7 @@ static void player_update_collisions(tEntity *player)
                             //set bounce velocity
                             player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
                             //play sfx
-                            sfx_play(playerSfx[SFX_PLAYER_BOUNCE], E_SFX_PLAYER_VOICE, false);
+                            sfx_play(playerSfx[SFX_PLAYER_BOUNCE], E_SFX_PLAYER_VOICE);
                         }
                         else
                             //adjust collision position (object solid)
@@ -508,7 +508,7 @@ static void player_update_state(tEntity *player)
         playerFlags.disableMove = true;
         player->fixVel.x = 0;
         if (player->prevState != player->state)
-            sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE, false);
+            sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE);
     }
     else if (playerFlags.hurt)
     {
@@ -520,7 +520,7 @@ static void player_update_state(tEntity *player)
         if (player->prevState != player->state)
         {
             //play hurt sfx
-            sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE, false);                                                                          
+            sfx_play(playerSfx[SFX_PLAYER_HURT], E_SFX_PLAYER_VOICE);                                                                          
             //lose life
             game.life -= 1;
             
@@ -691,7 +691,7 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_MOVING_ON_STAIRS:
             play_animation(&player->anim, ANIM_PLY_MOVE_STAIRS);
             if (player->anim.frame != player->anim.lastFrame)
-                sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE, false);
+                sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE);
         break;
         case ST_PLAYER_WAIT_IDLE:
             if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))

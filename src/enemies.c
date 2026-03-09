@@ -257,7 +257,7 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
     entity_blink(entity);
     //play dead sfx
     if (entity->state != entity->prevState)
-        sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE, false);
+        sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE);
     //play dead animation
     if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
     {
@@ -521,7 +521,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
             if (this->anim.frame == 11 && !local->flag)
             {
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir);
-                sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE, false);
+                sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
                 local->flag = true;
             }
         break;     

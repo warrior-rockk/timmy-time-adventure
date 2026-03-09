@@ -24,7 +24,6 @@ static tSfx *sfx;
 //init sample to allocate voices
 SAMPLE *initSfx;
 
-//inits sound system
 int sound_init()
 {
     switch(soundMode)
@@ -49,19 +48,16 @@ int sound_init()
     }
 }
 
-//sets sound system mode
 void sound_set_mode(enum E_SOUND_MODES _soundMode)
 {
     soundMode = _soundMode;
 }
 
-//gets sound system mode
 enum E_SOUND_MODES sound_get_mode()
 {
     return soundMode;
 }
 
-//function to play music
 void play_music(MIDI *midiFile, int loop)
 {
     //stop actual music
@@ -87,7 +83,6 @@ void play_music(MIDI *midiFile, int loop)
     }
 }
 
-//function to stop midi music
 void stop_music()
 {
     //stop actual music
@@ -98,7 +93,6 @@ void stop_music()
         ;//pc_speaker_stop_song();
 }
 
-//function to pause music
 void pause_music()
 {
     if (soundMode == E_SOUND_SB_MODE)
@@ -107,7 +101,6 @@ void pause_music()
         ;//pc_speaker_pause_song();
 }
 
-//function to resume music
 void resume_music()
 {
     if (soundMode == E_SOUND_SB_MODE)
@@ -116,7 +109,6 @@ void resume_music()
         ;//pc_speaker_resume_song();
 }
 
-//returns music position
 long music_get_pos()
 {
     if (soundMode == E_SOUND_SB_MODE)
@@ -127,7 +119,6 @@ long music_get_pos()
         return 0;
 }
 
-//seeks music to position
 void music_seek(int position)
 {
     if (soundMode == E_SOUND_SB_MODE)
@@ -136,7 +127,6 @@ void music_seek(int position)
         ;//pc_speaker_seek_song(position);
 }
 
-//function to init sfx sound system
 void sfx_init(SAMPLE *initSample, uint8_t numVoices)
 {
     //allocate sfx array
@@ -173,7 +163,6 @@ void sfx_init(SAMPLE *initSample, uint8_t numVoices)
     MY_TRACE_FLAG("SFX system initialized\n");
 }
 
-//function to destroy sfx system (free resources)
 void sfx_destroy()
 {
     MY_TRACE_FLAG("Destroy SFX system\n");
@@ -196,7 +185,6 @@ void sfx_destroy()
     MY_TRACE_FLAG("SFX system destroyed\n");
 }
 
-//function to update sfx sound system
 void sfx_update()
 {
     for (int i = 0; i < sfxVoices; i++)
@@ -262,13 +250,9 @@ void sfx_update()
     }
 }
 
-//function to play a sound
-void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
+void sfx_play(SAMPLE* sampleFile, uint8_t voice)
 {
     ASSERT(voice < sfxVoices);
-    
-    //TODO: for what??
-    //sfx[voice].sampleId = soundId;
     
     switch (soundMode)
     {
@@ -283,40 +267,6 @@ void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
                 reallocate_voice(voice, sampleFile);                
             }
 
-            //TODO: other function to randomize frequency?
-            //randomize frequency
-            /*
-            if (rndFreq)
-            {
-                //get a random percent variation from twice of SFX_FREQ_RND_PERCENT (half for negative, half for positive)
-                int freqVariation = (rand() % (SFX_FREQ_RND_PERCENT * 2));
-
-                //get sample original frequency
-                int sampleFreq = voice_get_frequency(voice);
-                TRACE("Original freq: %iHz | ", sampleFreq);
-
-                //calculate new frequency
-                fixed newFreq;
-                //if variation is below half
-                if (freqVariation < SFX_FREQ_RND_PERCENT)
-                {
-                    //sub the percentage variation to original freq
-                    newFreq = itofix(sampleFreq) - fixmul(itofix(sampleFreq),(fixdiv(itofix(freqVariation),itofix(100))));
-                    TRACE("Variation: -%i%% | ", freqVariation);
-                }
-                else
-                {
-                    //add the percentage variation to original freq
-                    newFreq = fixmul(itofix(sampleFreq), fixdiv(itofix(freqVariation - SFX_FREQ_RND_PERCENT), itofix(100.0))) + itofix(sampleFreq);
-                    TRACE("Variation: +%i%% | ", (freqVariation - SFX_FREQ_RND_PERCENT));
-                }
-
-                //set the new frequency
-                voice_set_frequency(voice, fixtoi(newFreq));
-                TRACE("New freq: %iHz\n", fixtoi(newFreq));
-                
-            }*/
-            
             //start sample allocated on voice channel
             voice_start(voice);
             MY_TRACE_FLAG("SFX voice %i played\n", voice);
@@ -329,6 +279,58 @@ void sfx_play(SAMPLE* sampleFile, uint8_t voice, bool rndFreq)
     //set flag
     sfx[voice].playing = true;
     sfx[voice].finished = false;
+}
+
+void sfx_play_rnd(SAMPLE* sampleFile, uint8_t voice)
+{
+    ASSERT(voice < sfxVoices);
+    
+    switch (soundMode)
+    {
+        case E_SOUND_SB_MODE:            
+            //reallocate the sample on select voice of selected channel
+            if (!voice_check(voice))
+            {                
+                voice = allocate_voice(sampleFile);             
+            }
+            else
+            {                
+                reallocate_voice(voice, sampleFile);                
+            }
+
+            //randomize frequency
+            
+            //get a random percent variation from twice of SFX_FREQ_RND_PERCENT (half for negative, half for positive)
+            int freqVariation = (rand() % (SFX_FREQ_RND_PERCENT * 2));
+
+            //get sample original frequency
+            int sampleFreq = voice_get_frequency(voice);
+            MY_TRACE_FLAG("Original freq: %iHz | ", sampleFreq);
+
+            //calculate new frequency
+            fixed newFreq;
+            //if variation is below half
+            if (freqVariation < SFX_FREQ_RND_PERCENT)
+            {
+                //sub the percentage variation to original freq
+                newFreq = itofix(sampleFreq) - fixmul(itofix(sampleFreq),(fixdiv(itofix(freqVariation),itofix(100))));
+                MY_TRACE_FLAG("Variation: -%i%% | ", freqVariation);
+            }
+            else
+            {
+                //add the percentage variation to original freq
+                newFreq = fixmul(itofix(sampleFreq), fixdiv(itofix(freqVariation - SFX_FREQ_RND_PERCENT), itofix(100.0))) + itofix(sampleFreq);
+                MY_TRACE_FLAG("Variation: +%i%% | ", (freqVariation - SFX_FREQ_RND_PERCENT));
+            }
+
+            //set the new frequency
+            voice_set_frequency(voice, fixtoi(newFreq));
+            MY_TRACE_FLAG("New freq: %iHz\n", fixtoi(newFreq));
+                
+            //call regular sfx play
+            sfx_play(sampleFile, voice);
+        break;
+    }
 }
 
 void sfx_stop(uint8_t voice)
@@ -366,10 +368,10 @@ bool sfx_voice_finished(uint8_t voice)
     return sfx[voice].finished;
 }
 
-int sfx_get_voice_sample_id(uint8_t voice)
+/*int sfx_get_voice_sample_id(uint8_t voice)
 {
     return sfx[voice].sampleId;
-}
+}*/
 
 void sfx_voice_clear_finished(uint8_t voice)
 {

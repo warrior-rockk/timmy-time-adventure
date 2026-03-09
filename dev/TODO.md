@@ -30,6 +30,9 @@
 - [X] Ladder tiles
 - [X] Frame counter added to trace to check the game cycle of msg
 
+# Sound
+- [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
+
 # Player
 - [ ] Animation on edge
 - [X] Idle special animation when no control
