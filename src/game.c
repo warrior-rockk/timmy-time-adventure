@@ -205,7 +205,7 @@ void game_update()
             if (get_clock_tick_1sec())
                 game.time--;
             
-            if (input_key_pressed(E_G_KEY_PAUSE))
+            if (input_key_down(E_G_KEY_PAUSE))
                 game.state = E_GAME_ST_PAUSE_LEVEL;
 
             if (game.levelComplete)
@@ -232,7 +232,7 @@ void game_update()
             
             game_pause_sound();
 
-            if (input_key_pressed(E_G_KEY_PAUSE))
+            if (input_key_down(E_G_KEY_PAUSE))
             {
                 game.state = E_GAME_ST_PLAY_LEVEL;
                 game_resume_sound();
@@ -504,11 +504,11 @@ static void game_debug_update()
     if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
         game.state = E_GAME_ST_EXIT;
     
-    if (input_key_pressed(E_G_KEY_D))
+    if (input_key_down(E_G_KEY_D))
         debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
-    if (input_key_pressed(E_G_KEY_S))
+    if (input_key_down(E_G_KEY_S))
         debugOptions.stepByStep = !debugOptions.stepByStep;
-    if (input_key_pressed(E_G_KEY_I))
+    if (input_key_down(E_G_KEY_I))
     {
         debugOptions.invencible = !debugOptions.invencible;
         game.life = 3;

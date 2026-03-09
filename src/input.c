@@ -32,20 +32,29 @@ void input_keys_update()
 
     for (int i = 0; i < E_GAME_KEYS_NUM; i++)
     {
-        CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_PRESSED);
+        CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_DOWN);
+        CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_UP);
 
         if (key[gameKeys[i].keyId])
         {
             _anyKeyPressed = true;
             SET_BIT(gameKeys[i].keyFlags, K_FLAG_PRESS);
+            
+            //check key down
             if (!CHECK_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS))
             {
                 SET_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS);
-                SET_BIT(gameKeys[i].keyFlags, K_FLAG_PRESSED); 
+                SET_BIT(gameKeys[i].keyFlags, K_FLAG_DOWN); 
             }
         }
         else
         {
+            //check key up
+            if (CHECK_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS))
+            {
+                SET_BIT(gameKeys[i].keyFlags, K_FLAG_UP); 
+            }
+
             CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS);
             CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_PRESS); 
         }
@@ -57,9 +66,14 @@ bool input_key_press(uint8_t keyId)
     return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESS);
 }
 
-bool input_key_pressed(uint8_t keyId)
+bool input_key_down(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESSED);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_DOWN);
+}
+
+bool input_key_up(uint8_t keyId)
+{
+    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_UP);
 }
 
 bool input_any_key_pressed()

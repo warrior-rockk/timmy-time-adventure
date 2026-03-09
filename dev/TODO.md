@@ -2,7 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [ ] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
@@ -29,6 +28,7 @@
 - [X] Pause system
 - [X] Ladder tiles
 - [X] Frame counter added to trace to check the game cycle of msg
+- [X] Input: replace key_press and key_pressed for key_down, key_up, key_press
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group

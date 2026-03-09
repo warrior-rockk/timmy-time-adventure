@@ -11,9 +11,10 @@
 #include <stdbool.h>
 
 //key state flags
-#define K_FLAG_MEM_PRESS    0x00
-#define K_FLAG_PRESS        0x01
-#define K_FLAG_PRESSED      0x02
+#define K_FLAG_MEM_PRESS    0
+#define K_FLAG_PRESS        1
+#define K_FLAG_DOWN         2
+#define K_FLAG_UP           3
 
 //game keys
 enum E_GAME_KEYS
@@ -42,8 +43,10 @@ typedef struct {
 void input_keys_update();
 //return true if key is pressed
 bool input_key_press(uint8_t keyId);
-//return true if key pressed on raising edge
-bool input_key_pressed(uint8_t keyId);
+//return true if key pressed down (on raising edge)
+bool input_key_down(uint8_t keyId);
+//return true if key pressed up (on raising edge)
+bool input_key_up(uint8_t keyId);
 //return true if any key pressed of the game keys
 bool input_any_key_pressed();
 #endif

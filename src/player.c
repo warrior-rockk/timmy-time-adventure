@@ -282,7 +282,7 @@ static void player_update_controls(tEntity *player)
     }
 
     //Action control (atack, pick)
-    if (input_key_pressed(E_G_KEY_ACTION))
+    if (input_key_down(E_G_KEY_ACTION))
     {
         //pick object if it's not picked
         if (playerFlags.picking && !playerFlags.picked)
