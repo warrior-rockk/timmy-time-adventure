@@ -281,13 +281,14 @@ void game_update()
                 case 1:
                     //obtain score for time left                         
                     if (game.time > 0 )
-                    {
+                    {                        
                         game.time--;
                         game.score += SCORE_POINT_TIME_LEFT;
                         game_hud_update();
-                        game_hud_draw();
-                        //play score add sound
-                        sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE, false);
+                        game_hud_draw();                        
+                        //play score add sound                            
+                        if (!sfx_voice_is_playing(E_SFX_GAME_VOICE))
+                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE, false);                        
                     }
                     else
                     {
