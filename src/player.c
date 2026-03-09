@@ -359,9 +359,12 @@ static void player_update_collisions(tEntity *player)
         //apply collision direction
         collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);   
         
-        //check tile with hurt property     
-        if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
-            playerFlags.hurt = true;
+        //check tile with hurt property
+        if (!playerInvincible)     
+        {
+            if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
+                playerFlags.hurt = true;
+        }
     }
 
     //check entities collisions
@@ -490,7 +493,7 @@ static void player_update_state(tEntity *player)
 
     //invincible flag
     playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
-
+    
     //set the state (priority order)
     if (playerFlags.dead)
     {
