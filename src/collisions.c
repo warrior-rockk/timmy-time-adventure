@@ -175,25 +175,6 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                         colPixel = 255;
                     }
                 }
-                /*TODO:if (collision_check_by_direction(idEntity,colCode,colVector.vStart.y/cTileSize,colVector.vStart.x/cTileSize))
-                {
-                    //Obtenemos el pixel de colision segun el tipo de tile
-                    switch (tileMap[colVector.vStart.y/cTileSize][colVector.vStart.x/cTileSize].tileCode)
-                        case SLOPE_135:
-                            colPixel = map_get_pixel(0,mapTriangle135,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize));
-                        end;
-                        case SLOPE_45:
-                            colPixel = map_get_pixel(0,mapTriangle45,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize));
-                        end;
-                        case TOP_STAIRS,SOLID_ON_FALL:
-                            colPixel = map_get_pixel(0,mapSolidOnFall,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize));
-                        end;
-                        default:
-                            colPixel = map_get_pixel(0,mapBox,(colVector.vStart.x%cTileSize),(colVector.vStart.y%cTileSize));
-                        end;
-                    end;
-                }*/
-               //colPixel = 0; 
             }	
         }
         
@@ -243,48 +224,43 @@ tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint)
 
 //check if collision enabled based on collision direction and tile property
 bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t tileProperty)
-{
-	//TODO:comprobamos si el tile es visible en la pantalla, asi, los tiles fuera de region no ser�n solidos
-    //if (checkTileVisible(idEntity,posX,posY))
-		switch(colDirCode)
-        {
-			case E_COLLISION_DIR_LEFT:
-            case E_COLLISION_DIR_RIGHT:
-				return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)  &&
-                       !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && 
-                       !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)     && 
-                       !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL);
-                        //TODO: no scroll collision?
-                       /*  ||
-					   tileProperty == NO_SCROLL_L ||
-					   tileProperty == NO_SCROLL_R;*/
-			break;
-			case E_COLLISION_DIR_UP: 
-                return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
-					    (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y > 0) ||
-                        (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y > 0);
-            break;
-		    case E_COLLISION_DIR_DOWN: 
-            case E_COLLISION_DIR_CENTER:
-				return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
-					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
-					    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
-                        (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0) ||
-                        (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y >= 0);
-					   //TODO: rest of collisions
-                       /*||
-                       tileProperty == NO_SCROLL_L ||
-					   tileProperty == NO_SCROLL_R ||
-					  (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
-					  (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
-			break;
-            default:
-                return 0;
-            break;			
-		}
-	/*else
-		return 0; 
-	*/
+{	
+    switch(colDirCode)
+    {
+        case E_COLLISION_DIR_LEFT:
+        case E_COLLISION_DIR_RIGHT:
+            return !CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID)  &&
+                    !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && 
+                    !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)     && 
+                    !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL);
+                    //TODO: no scroll collision?
+                    /*  ||
+                    tileProperty == NO_SCROLL_L ||
+                    tileProperty == NO_SCROLL_R;*/
+        break;
+        case E_COLLISION_DIR_UP: 
+            return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
+                    (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y > 0) ||
+                    (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y > 0);
+        break;
+        case E_COLLISION_DIR_DOWN: 
+        case E_COLLISION_DIR_CENTER:
+            return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
+                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
+                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
+                    (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0) ||
+                    (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y >= 0);
+                    //TODO: rest of collisions
+                    /*||
+                    tileProperty == NO_SCROLL_L ||
+                    tileProperty == NO_SCROLL_R ||
+                    (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
+                    (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
+        break;
+        default:
+            return 0;
+        break;			
+    }
 }
 
 uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)

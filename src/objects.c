@@ -201,8 +201,10 @@ void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
 void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define SOLID_THROW_VEL_X   2
-    #define SOLID_THROW_VEL_Y   -2
+    #define SOLID_THROW_VEL_X       2
+    #define SOLID_THROW_VEL_Y       -2
+    #define SOLID_PICKED_OFFSET_Y   20
+    #define SOLID_PICKED_OFFSET_X   1
 
     //object states
     enum E_SOLID_OBJECT_STATES{E_SOLID_ST_IDLE, E_SOLID_ST_PICKED, E_SOLID_ST_THROWING, E_SOLID_ST_BREAK};
@@ -228,33 +230,17 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
         case E_SOLID_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             
-            //TODO: comprobamos si el jugador no muere cuando nos lleva
-            //if (exists(idPlayer))
-                tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
-                this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x - itofix(0) : playerEnt->fixPos.x + itofix(0);
-                //isBitSet(idPlayer.flags,B_HMIRROR) ? this.fX = idPlayer.x-cObjectPickedPosX : this.fX = idPlayer.x+cObjectPickedPosX;
-                this->fixPos.y  = playerEnt->fixPos.y - itofix(20);
-                //correccion de altura por grafico player
-                /*if (idPlayer.graph == 28)
-                    this.fY ++;
-                end;
-                if (idPlayer.graph == 29)
-                    this.fY += 2;
-                end;*/
-                //el objeto se vuelve persistente
-                //setBit(this.props,PERSISTENT);
-                //reseteamos flag boton si lo hubiera seteado el proceso
-                //if (idButton == father) 
-                //	idButton = 0;
-                //end;
-            /*else
-                this.state = THROWING_STATE;
-            end;*/
+            //position the object relative to player
+            tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
+            this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x + itofix(SOLID_PICKED_OFFSET_X) : playerEnt->fixPos.x - itofix(SOLID_PICKED_OFFSET_X);
+            this->fixPos.y  = playerEnt->fixPos.y - itofix(SOLID_PICKED_OFFSET_Y);
+            
+            //check if receive throw signal
             if (this->signal == E_ENT_SIGNAL_THROW)
             {
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
-                
+                //set throw velocities
                 this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-SOLID_THROW_VEL_X) : itofix(SOLID_THROW_VEL_X);
                 this->fixVel.y = itofix(SOLID_THROW_VEL_Y);
                 this->ground = false;
