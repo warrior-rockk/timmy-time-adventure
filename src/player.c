@@ -57,6 +57,7 @@ static uint8_t objectForPickID = 0;         //actual frame object collision id
 static uint8_t memObjectforPickID = 0;      //save actual object collision id
 static uint8_t objectPickedID = 0;          //id to entity object picked
 static uint16_t pickingCounter = 0;         //counter delay to pick object when collided
+static uint8_t idleCounter = 0;             //counter to idle animation
 SAMPLE *playerSfx[SFX_PLAYER_NUM];          //player sfx array
 
 //local functions declarations
@@ -461,11 +462,10 @@ static void player_update_collisions(tEntity *player)
 
 static void player_update_state(tEntity *player)
 {
-    //reset flag
+    //reset flags
     playerFlags.disableMove = false;
-
-    //TODO: move this
-    player->noGravity = playerFlags.onStairs;
+    idleCounter =  (player->state != ST_PLAYER_IDLE && player->state != ST_PLAYER_WAIT_IDLE) ? 0 : idleCounter;
+    player->noGravity = playerFlags.onStairs; //TODO: move this
     
     //picking objects
     if (objectForPickID != 0)
@@ -572,18 +572,20 @@ static void player_update_state(tEntity *player)
     else if (playerFlags.attack)
     {
         player->state = ST_PLAYER_LAND;
-    }    
-    //else if (playerFlags.crouched)
-    //{
-    //    player->state = ST_PLAYER_CROUCHED;        
-    //}
+    }        
     else if (abs(player->fixVel.x) > minVelToReset || playerFlags.moving)
     {
         player->state = ST_PLAYER_RUN;
     }
     else
     {
-        player->state = ST_PLAYER_IDLE;
+        if (idleCounter >= PLAYER_IDLE_WAIT_TIME)
+            player->state = ST_PLAYER_WAIT_IDLE;
+        else
+        {
+            player->state = ST_PLAYER_IDLE;
+            idleCounter += get_clock_tick_1sec();
+        }
     }
 }
 
@@ -690,6 +692,10 @@ static void player_update_animations(tEntity *player)
             play_animation(&player->anim, ANIM_PLY_MOVE_STAIRS);
             if (player->anim.frame != player->anim.lastFrame)
                 sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE, false);
+        break;
+        case ST_PLAYER_WAIT_IDLE:
+            if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))
+                idleCounter = 0;
         break;
     }
 

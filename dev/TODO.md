@@ -31,8 +31,8 @@
 - [X] Frame counter added to trace to check the game cycle of msg
 
 # Player
-- [ ] Idle special animation when no control
 - [ ] Animation on edge
+- [X] Idle special animation when no control
 - [X] Slide crouched
 - [X] Better jump velocities/gravity
 - [X] Jump dynamic force when pressed

@@ -33,8 +33,9 @@
 #define PLAYER_STAIRS_VEL_Y         0.6     //velocity on stairs
 
 //player times
-#define PLAYER_INVINCIBLE_TIME      200
-#define PLAYER_PICKING_TIME         30
+#define PLAYER_INVINCIBLE_TIME      200     //clock times
+#define PLAYER_PICKING_TIME         30      //clock times
+#define PLAYER_IDLE_WAIT_TIME       5       //seconds
 
 //player animations
 #define ANIM_PLY_IDLE                0,  0, 10, ANIM_ONCE
@@ -60,6 +61,7 @@
 #define ANIM_PLY_ON_TOP_STAIRS      69, 69, 10, ANIM_LOOP
 #define ANIM_PLY_ON_STAIRS          70, 70, 10, ANIM_LOOP
 #define ANIM_PLY_MOVE_STAIRS        70, 71, 20, ANIM_LOOP
+#define ANIM_PLY_IDLE_WAIT          72, 83, 10, ANIM_ONCE
 
 enum ePlayerState
 {
@@ -76,6 +78,7 @@ enum ePlayerState
     ST_PLAYER_THROWING,
     ST_PLAYER_ON_STAIRS,
     ST_PLAYER_MOVING_ON_STAIRS,
+    ST_PLAYER_WAIT_IDLE,
 };
 
 enum E_PLAYER_SFX
