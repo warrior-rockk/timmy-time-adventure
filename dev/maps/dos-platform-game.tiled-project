@@ -73,7 +73,8 @@
                 "NO_SCROLL_X",
                 "TOP_STAIR",
                 "STAIR",
-                "SOLID_ON_FALL"
+                "SOLID_ON_FALL",
+                "HURT"
             ],
             "valuesAsFlags": true
         }

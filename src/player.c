@@ -357,7 +357,11 @@ static void player_update_collisions(tEntity *player)
         //check collision tile for collision point
         colDir = collision_check_tile(player, i);        
         //apply collision direction
-        collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);        
+        collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);   
+        
+        //check tile with hurt property     
+        if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
+            playerFlags.hurt = true;
     }
 
     //check entities collisions

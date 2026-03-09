@@ -44,6 +44,7 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_TOP_STAIR       = 0x0080,       //Tile is top of stairs
     E_TILE_PROP_STAIR           = 0x0100,       //Tile is stairs
     E_TILE_PROP_SOLID_ON_FALL   = 0x0200,       //Tile only solid falling into
+    E_TILE_PROP_HURT            = 0x0400,       //Tile hurts player
 };
 
 //loads a map level and creates level entities

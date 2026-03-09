@@ -177,6 +177,21 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
+  <tile id="65">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+   </properties>
+  </tile>
   <tile id="73">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
