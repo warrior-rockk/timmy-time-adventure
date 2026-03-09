@@ -43,6 +43,7 @@ uint8_t gameExit = false;
 tScroll scroll;
 
 tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
+SAMPLE *gameSfx[E_SFX_GAME_NUM];
 
 struct hud
 {
@@ -403,6 +404,9 @@ void game_init()
     debug_init();
     timer_init(GAME_CLOCK_TICK);
     sfx_init(load_wav("res/player/jump.wav"), E_SFX_NUM_VOICES);
+    
+    //load game sfx
+    gameSfx[E_SFX_GAME_POINT] = load_wav("res/game/point.wav");
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
@@ -519,7 +523,19 @@ static void game_load_level(uint8_t numLevel)
 void game_destroy()
 {
     MY_TRACE_FLAG("Destroying game\n");
+    
+    //free fonts
     destroy_font(gameFont);
+    
+    //free samples
+    for (uint8_t i = 0; i < E_SFX_GAME_NUM; i++)
+    {
+        if (gameSfx[i])
+        {
+            destroy_sample(gameSfx[i]);
+            gameSfx[i] = NULL;
+        }
+    }
 }
 
 static void game_do_fade()

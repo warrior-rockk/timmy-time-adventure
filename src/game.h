@@ -109,6 +109,13 @@ enum E_GAME_SFX_VOICES
     E_SFX_NUM_VOICES,
 };
 
+//game sfx
+enum E_GAME_SFX
+{
+    E_SFX_GAME_POINT,
+    E_SFX_GAME_NUM,
+};
+
 //game data
 typedef struct
 {
