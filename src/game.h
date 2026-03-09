@@ -51,6 +51,7 @@
 #define HUD_POSITION_X          40
 
 //score points
+#define SCORE_POINT_TIME_LEFT   1
 #define SCORE_POINT_HURT_ENEMY  10
 #define SCORE_POINT_EXTRA_LIFE  500
 #define SCORE_OVERFLOW          65000
@@ -113,6 +114,7 @@ enum E_GAME_SFX_VOICES
 enum E_GAME_SFX
 {
     E_SFX_GAME_POINT,
+    E_SFX_GAME_POINT_END,
     E_SFX_GAME_NUM,
 };
 
@@ -125,7 +127,7 @@ typedef struct
     uint8_t lives;
     uint8_t life;
     uint8_t loseLive;
-    uint8_t score;
+    uint16_t score;
     uint16_t time;    
     uint8_t fadeIn;
     uint8_t fadeOut;    

@@ -273,13 +273,43 @@ void game_update()
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
                     {                
                         gameSeq.timeCounter = 0;
-                        gameSeq.step++;
-                        game.fadeOut = true;                         
+                        gameSeq.step++;                        
                     }
                     else
                         gameSeq.timeCounter += get_clock_tick();
                 break;
                 case 1:
+                    //obtain score for time left                         
+                    if (game.time > 0 )
+                    {
+                        game.time--;
+                        game.score += SCORE_POINT_TIME_LEFT;
+                        game_hud_update();
+                        game_hud_draw();
+                        //play score add sound
+                        sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE, false);
+                    }
+                    else
+                    {
+                        game_hud_update();
+                        game_hud_draw();
+                        //play end score point
+                        sfx_play(gameSfx[E_SFX_GAME_POINT_END], E_SFX_GAME_VOICE, false);                        
+                        gameSeq.step++;
+                    }
+                break;
+                case 2:
+                    //wait 2 seconds
+                    if (gameSeq.timeCounter >= 2)
+                    {                
+                        game.fadeOut = true;                         
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;                        
+                    }
+                    else
+                        gameSeq.timeCounter += get_clock_tick_1sec();    
+                break;
+                case 3:
                     MY_TRACE_FLAG( "Completed level\n");
                     game_destroy_level();
                     game.actualLevel++;
@@ -406,7 +436,8 @@ void game_init()
     sfx_init(load_wav("res/player/jump.wav"), E_SFX_NUM_VOICES);
     
     //load game sfx
-    gameSfx[E_SFX_GAME_POINT] = load_wav("res/game/point.wav");
+    gameSfx[E_SFX_GAME_POINT]       = load_wav("res/game/point.wav");
+    gameSfx[E_SFX_GAME_POINT_END]   = load_wav("res/game/pointEnd.wav");
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
