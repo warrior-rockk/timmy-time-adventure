@@ -4,10 +4,10 @@
 * 31/01/2026
 * Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
-#include "allegro.h"
-
 #include "input.h"
 #include "utils.h"
+
+bool _anyKeyPressed = false;
 
 //definition of keys assigned for game keys
 static tKey gameKeys[E_GAME_KEYS_NUM] =
@@ -28,12 +28,15 @@ static tKey gameKeys[E_GAME_KEYS_NUM] =
 //general keys update
 void input_keys_update()
 {
+    _anyKeyPressed = false;
+
     for (int i = 0; i < E_GAME_KEYS_NUM; i++)
     {
         CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_PRESSED);
 
         if (key[gameKeys[i].keyId])
         {
+            _anyKeyPressed = true;
             SET_BIT(gameKeys[i].keyFlags, K_FLAG_PRESS);
             if (!CHECK_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS))
             {
@@ -61,5 +64,5 @@ bool input_key_pressed(uint8_t keyId)
 
 bool input_any_key_pressed()
 {
-    return keypressed();
+    return _anyKeyPressed;
 }

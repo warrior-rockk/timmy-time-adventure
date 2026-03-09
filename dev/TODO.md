@@ -1,5 +1,4 @@
 # Bugs
-- [ ] Esc on title don't exits
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
