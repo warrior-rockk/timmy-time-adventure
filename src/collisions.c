@@ -99,16 +99,14 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                 }                
             }
         }
-        //TODO: map limits collision
-        /*
+        //if not exists, check map x limits
         else
         {
-			
-            //si no existe, se considera solido si es limite del mapeado
-			if (linePath->start.x <= 0 || linePath->start.x >= level.numTilesX*cTileSize)
-				return dist;
-			end;
-		}*/
+            tVector mapDimensions = map_get_dimensions();
+            //limit of map it's solid
+			if (linePath->start.x <= 0 || linePath->start.x >= mapDimensions.x)
+				return dist;			
+		}
 				
 		//add collision distance
 		dist++;

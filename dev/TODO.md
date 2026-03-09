@@ -3,7 +3,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [ ] Collision to border of screen
 - [ ] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
@@ -20,6 +19,7 @@
 - [ ] All entities on one layer and map_load creates all
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
+- [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
 - [X] Type of tiles: solid, hurt...
 - [X] Implement Y Scroll following player
