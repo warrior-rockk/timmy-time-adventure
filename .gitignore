@@ -54,3 +54,4 @@ dkms.conf
 build/
 !static/CWSDPMI.EXE
 *.tiled-session
+.DS_Store
