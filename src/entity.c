@@ -145,6 +145,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].prevState       = 0;
         entityList[newEntity].dead            = false;
         entityList[newEntity].visible         = true;
+        entityList[newEntity].noGravity       = false;
         //data based on entity class
         switch (entityList[newEntity].entClass)
         {
