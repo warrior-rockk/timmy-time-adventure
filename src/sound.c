@@ -327,10 +327,15 @@ void sfx_play_rnd(SAMPLE* sampleFile, uint8_t voice)
             voice_set_frequency(voice, fixtoi(newFreq));
             MY_TRACE_FLAG("New freq: %iHz\n", fixtoi(newFreq));
                 
-            //call regular sfx play
-            sfx_play(sampleFile, voice);
+            //start sample allocated on voice channel
+            voice_start(voice);
+            MY_TRACE_FLAG("SFX voice %i played\n", voice);
         break;
     }
+
+    //set flag
+    sfx[voice].playing = true;
+    sfx[voice].finished = false;
 }
 
 void sfx_stop(uint8_t voice)

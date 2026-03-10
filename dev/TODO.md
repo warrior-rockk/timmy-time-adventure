@@ -2,6 +2,7 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
+- [ ] Items: extra live, life, score...
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
