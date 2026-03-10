@@ -291,6 +291,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                             {
                                 //send signal to entity
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;
+                                //add score
+                                game.score += SCORE_POINT_HURT_ENEMY;  
                                 if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                                     //change state
                                     this->state = E_SOLID_ST_BREAK;                                 

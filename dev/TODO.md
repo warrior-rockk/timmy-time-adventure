@@ -1,6 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] No score when enemy dead by throwing object
+- [ ] As left/right col point upper for slopes, can enter solid tile
 
 # Engine
 - [ ] Items: extra live, life, score...
