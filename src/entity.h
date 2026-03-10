@@ -76,7 +76,7 @@ typedef struct tEntity
 {
     uint16_t id;                //entity id number
     tVector pos;                //entity position
-    tVector size;               //entity size
+    tVector size;               //entity size (for position and collision. It's better to be multiple to tileSize to easy snap on Tiled)
     tVector spriteSize;         //entity sprite size
     tFixVector fixPos;          //entity fixed position
     tFixVector fixVel;          //entity fixed velocities

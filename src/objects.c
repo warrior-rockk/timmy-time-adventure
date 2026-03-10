@@ -83,8 +83,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
-            collision_create_entity_points(entity);      
-            entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;            
+            collision_create_entity_points(entity);                  
         break;
         case E_ROCK_2_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_2_OBJECT_TYPE])

@@ -1,5 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] No score when enemy dead by throwing object
 
 # Engine
 - [ ] Items: extra live, life, score...
