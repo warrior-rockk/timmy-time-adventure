@@ -269,26 +269,6 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
-  <tile id="95">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
-  <tile id="96">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
-  <tile id="97">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
-  <tile id="98">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
   <tile id="99">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="35"/>
