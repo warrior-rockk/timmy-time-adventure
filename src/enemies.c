@@ -307,7 +307,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 
 void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 {              
-    #define RAPTOR_VELOCITY         0.8
+    #define RAPTOR_VELOCITY         0.6
     #define RAPTOR_RANGE_PATROL     50
     #define RAPTOR_PLAYER_RANGE     20
     
