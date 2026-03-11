@@ -207,10 +207,14 @@ static void player_update_controls(tEntity *player)
                     playerFlags.onStairs = false;
                 }
             }
+        }        
+        else if (playerFlags.crouched)
+        {
+            //don't reset crouch if solid tile on upper tile
+            if(CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (!player->dir * player->size.x), player->pos.y - PLAYER_CROUCH_CHECK_Y}), E_TILE_PROP_NO_SOLID))
+                playerFlags.crouched = false;
         }
-        else
-            playerFlags.crouched = false;
-        
+
         //Up control: climb stairs
 		if (input_key_press(E_G_KEY_UP))	
         {		

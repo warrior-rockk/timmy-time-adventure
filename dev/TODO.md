@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Don't disable crouch if collision on head
 
 # Engine
 - [ ] Items: extra live, life, score...

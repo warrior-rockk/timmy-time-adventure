@@ -10,11 +10,13 @@
 #include "anim.h"
 #include "entity.h"
 
-#define PLAYER_SIZE_W               12
-#define PLAYER_SIZE_H               30
-#define PLAYER_SIZE_H_CROUCH        16
-#define PLAYER_IMG_W                41
-#define PLAYER_IMG_H                44
+//player dimensions
+#define PLAYER_SIZE_W               12      //player collision size width
+#define PLAYER_SIZE_H               30      //player collision size height
+#define PLAYER_SIZE_H_CROUCH        16      //player collision size height when crouched
+#define PLAYER_IMG_W                41      //player sprite width
+#define PLAYER_IMG_H                44      //player sprite height
+#define PLAYER_CROUCH_CHECK_Y       16      //player y offset to check above tile when crouched
 
 //player velocities    
     //horizontal
