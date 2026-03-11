@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] As left/right col point upper for slopes, can enter solid tile
 - [ ] Don't disable crouch if collision on head
 
 # Engine

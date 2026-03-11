@@ -457,7 +457,7 @@ void collision_set_collision_points(tEntity *entity, uint8_t colPointIndex)
         uint8_t halfSizeX       = entity->size.x>>1;
         uint8_t halfSizeY       = entity->size.y>>1;
         uint8_t dividedSizeX    = entity->size.x / 4; 
-        uint8_t dividedSizeY    = entity->size.y / 3; //6; //TODO: adjust this point to climb slopes. The point can't be higher than 1 tile (16px)
+        uint8_t dividedSizeY    = entity->size.y / 6; //3; //TODO: adjust this point to climb slopes. The point can't be higher than 1 tile (16px)
         
         entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].offset.x 		= entity->size.x; 
         entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].offset.y 		= dividedSizeY;  
