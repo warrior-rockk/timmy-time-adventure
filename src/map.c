@@ -137,6 +137,9 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         fread(&tileAnimation[i].numFrames,   sizeof(uint8_t),    1, file);
         MY_TRACE_FLAG("Tile animation id: %i has tileId: %i with %i frames\n", i, tileAnimation[i].tileId, tileAnimation[i].numFrames);
 
+        //inits frame time to ensure tile animation syncronization
+        tileAnimation[i].anim.frameTime = 0;
+
         //if tile has animation, save animation property to tile to check later
         for (uint16_t j = 0; j < total_tiles; j++)
         {            
