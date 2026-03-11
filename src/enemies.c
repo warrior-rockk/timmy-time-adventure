@@ -356,7 +356,12 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
 {              
-    //enemy animations
+    //enemy definitions
+    #define PIRANHA_WAIT_TIME   2
+    #define PIRANHA_VEL_Y       -4
+    #define PIRANHA_VEL_X       0.8
+
+    //enemy animations    
     #define ANIM_PIRANHA_JUMP   1,   9,  5, ANIM_ONCE
     
     //enemy states
@@ -376,13 +381,13 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
             this->fixPos.x = itofix(this->initPos.x);
             this->fixPos.y = itofix(this->initPos.y);
 
-            if (local->timer >= 2)
+            if (local->timer >= PIRANHA_WAIT_TIME)
             {
                 this->state++;
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
-                this->fixVel.y = ftofix(-4);
-                this->fixVel.x = ftofix(0.8);
+                this->fixVel.y = ftofix(PIRANHA_VEL_Y);
+                this->fixVel.x = ftofix(PIRANHA_VEL_X);
                 this->ground = false;
             }
             else
