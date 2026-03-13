@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video dimensions
 #define GAME_GFX_MODE           GFX_VGA
@@ -38,8 +38,8 @@
 #define GAME_CLOCK_TICK     10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          2       //initial game lives
-#define GAME_INI_LIFE           2       //initial game life
+#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIFE           3       //initial game life
 #define GAME_FADE_SPEED         2       //general game fade speed
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
 
