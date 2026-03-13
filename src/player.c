@@ -482,7 +482,7 @@ static void player_update_state(tEntity *player)
         }
         else
         {
-            pickingCounter += get_clock_tick();
+            pickingCounter += clock_tick_get();
         }
     }
     else
@@ -503,7 +503,7 @@ static void player_update_state(tEntity *player)
     }    
 
     //invincible flag
-    playerInvincible = playerInvincible > 0 ? playerInvincible - get_clock_tick() : 0;
+    playerInvincible = playerInvincible > 0 ? playerInvincible - clock_tick_get() : 0;
     
     //set the state (priority order)
     if (playerFlags.dead)
@@ -588,7 +588,7 @@ static void player_update_state(tEntity *player)
         else
         {
             player->state = ST_PLAYER_IDLE;
-            idleCounter += get_clock_tick_1sec();
+            idleCounter += clock_tick_1sec_get();
         }
     }
 }

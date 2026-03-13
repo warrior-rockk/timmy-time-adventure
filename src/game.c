@@ -102,7 +102,7 @@ void game_update()
                         game.fadeOut = true;
                     }
                     else
-                        gameSeq.timeCounter += get_clock_tick();
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -202,7 +202,7 @@ void game_update()
             }            
 
             //game time
-            if (get_clock_tick_1sec())
+            if (clock_tick_1sec_get())
                 game.time--;
             
             if (input_key_down(E_G_KEY_PAUSE))
@@ -260,7 +260,7 @@ void game_update()
                 gameSeq.timeCounter = 0;                
             }
             else
-                gameSeq.timeCounter += get_clock_tick();            
+                gameSeq.timeCounter += clock_tick_get();            
         break;
         case E_GAME_ST_COMPLETE_LEVEL:
             switch (gameSeq.step)
@@ -276,7 +276,7 @@ void game_update()
                         gameSeq.step++;                        
                     }
                     else
-                        gameSeq.timeCounter += get_clock_tick();
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 1:
                     //obtain score for time left                         
@@ -308,7 +308,7 @@ void game_update()
                         gameSeq.step++;                        
                     }
                     else
-                        gameSeq.timeCounter += get_clock_tick_1sec();    
+                        gameSeq.timeCounter += clock_tick_1sec_get();    
                 break;
                 case 3:
                     MY_TRACE_FLAG( "Completed level\n");
@@ -342,7 +342,7 @@ void game_update()
                         game.fadeOut = true;
                     }
                     else
-                        gameSeq.timeCounter += get_clock_tick();
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -364,7 +364,7 @@ void game_update()
                         game.fadeOut = true;
                     }
                     else
-                        gameSeq.timeCounter += get_clock_tick();
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -525,7 +525,7 @@ static void game_debug_update()
 static void game_debug_info()
 {
     //debug info
-    show_debug("FPS: %d", get_fps());
+    show_debug("FPS: %d", fps_get());
     //show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
     //show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
     //show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));

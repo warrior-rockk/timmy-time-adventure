@@ -1,5 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] out of region trace needs braces. Put on macro?
 
 # Engine
 - [ ] Items: extra live, life, score...

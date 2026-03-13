@@ -443,7 +443,7 @@ void entity_update_vel_pos(tEntity *entity)
 
 void entity_blink(tEntity *entity)
 {
-    if (get_clock_count(ENTITY_BLINK_SPEED))
+    if (clock_counter_check(ENTITY_BLINK_SPEED))
         entity->visible = !entity->visible;
 }
 

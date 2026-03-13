@@ -27,7 +27,7 @@ int main()
     //main loop
     do
     {
-        playTime_update(get_clock_tick_1sec());
+        playTime_update(clock_tick_1sec_get());
 
         #ifdef DEBUGMODE
             if (debugOptions.stepByStep)

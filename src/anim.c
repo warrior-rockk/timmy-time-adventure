@@ -30,7 +30,7 @@ bool play_animation(tAnimation *animation, uint8_t startFrame, uint8_t endFrame,
     }
 
     //increment frame time
-    if (get_clock_tick())
+    if (clock_tick_get())
     {
         animation->frameTime += 1;
     }
@@ -92,7 +92,7 @@ bool play_animation_seq(tAnimation *animation, tAnimFrame *frames, uint8_t numFr
     }
 
     //increment frame time
-    if (get_clock_tick())
+    if (clock_tick_get())
     {
         animation->frameTime += 1;
     }
