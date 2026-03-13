@@ -157,7 +157,7 @@ void game_update()
         case E_GAME_ST_INIT_LEVEL:
             switch (gameSeq.step)
             {
-                case 0:
+                case 0: //Init level data and entities
                     game.life       = GAME_INI_LIFE;            
                     game.loseLive   = false;            
                     game.viewMap    = true;
@@ -167,24 +167,32 @@ void game_update()
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_init();                    
 
-                    gameSeq.step++;
-                break;
-                case 1:                
                     entities_update(&scroll);
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_update();                    
-                    
-                    map_draw(worldScreen, &scroll, false);                    
-                    entities_draw(worldScreen, &scroll);                    
-                    map_draw(worldScreen, &scroll, true);                    
-                    game_hud_draw();
 
                     music_play(musicLevel, -1);
-                    
-                    game.state = E_GAME_ST_PLAY_LEVEL;
-                    game.fadeIn = true;
-                    gameSeq.step = 0;
-                break;
+
+                    gameSeq.step++;
+                break;                
+                case 1: //level start delay
+                    if (gameSeq.timeCounter >= GAME_INIT_LEVEL_DELAY)
+                    {
+                        game.state = E_GAME_ST_PLAY_LEVEL;
+                        game.fadeIn = true;
+                        gameSeq.step = 0;
+                        gameSeq.timeCounter = 0;
+                    }
+                    else
+                    {
+                        map_draw(worldScreen, &scroll, false);                    
+                        entities_draw(worldScreen, &scroll);                    
+                        map_draw(worldScreen, &scroll, true);                    
+                        game_hud_draw();
+                        
+                        gameSeq.timeCounter += clock_tick_get();
+                    }
+                break;                
             }
         break;
         case E_GAME_ST_PLAY_LEVEL:            

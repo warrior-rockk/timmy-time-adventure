@@ -42,6 +42,7 @@
 #define GAME_INI_LIFE           3       //initial game life
 #define GAME_FADE_SPEED         2       //general game fade speed
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
+#define GAME_INIT_LEVEL_DELAY   100     //time delay on start level
 
 //position of player on entities array
 #define PLAYER_ENTITY_ID    0
