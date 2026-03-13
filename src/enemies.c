@@ -357,15 +357,15 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy definitions
-    #define PIRANHA_WAIT_TIME   2
-    #define PIRANHA_VEL_Y       -4
-    #define PIRANHA_VEL_X       0.8
+    #define PIRANHA_DEFAULT_WAIT_TIME   150
+    #define PIRANHA_VEL_Y               -4
+    #define PIRANHA_VEL_X               0.8
 
     //enemy animations    
     #define ANIM_PIRANHA_JUMP   1,   9,  5, ANIM_ONCE
     
     //enemy states
-    enum E_PIRANHA_ENEMY_STATES{E_PIRANHA_ST_IDLE, E_PIRANHA_ST_JUMP, E_PIRANHA_ST_HURT};   
+    enum E_PIRANHA_ENEMY_STATES{E_PIRANHA_ST_IDLE, E_PIRANHA_ST_DELAY, E_PIRANHA_ST_JUMP, E_PIRANHA_ST_HURT};   
     
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
@@ -380,10 +380,19 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
             this->visible = false;
             this->fixPos.x = itofix(this->initPos.x);
             this->fixPos.y = itofix(this->initPos.y);
+            this->fixVel.y = 0;
+            this->fixVel.x = 0;
 
-            if (local->timer >= PIRANHA_WAIT_TIME)
+            if (clock_counter_check(PIRANHA_DEFAULT_WAIT_TIME))
             {
-                this->state++;
+                this->state = E_PIRANHA_ST_DELAY;    
+            }
+        break;
+        case E_PIRANHA_ST_DELAY:
+            //waits spare delay
+            if (local->timer >= this->spare) 
+            {                
+                this->state = E_PIRANHA_ST_JUMP;                
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->fixVel.y = ftofix(PIRANHA_VEL_Y);
@@ -391,13 +400,13 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
                 this->ground = false;
             }
             else
-                local->timer += get_clock_tick_1sec();
+                local->timer += clock_tick_get();
         break;
         case E_PIRANHA_ST_JUMP:            
             local->timer = 0;
             this->visible = true;            
-            if (play_animation(&this->anim, ANIM_PIRANHA_JUMP))
-                this->state--;
+            if (play_animation(&this->anim, ANIM_PIRANHA_JUMP))                
+                this->state = E_PIRANHA_ST_IDLE;
         break;             
         case E_PIRANHA_ST_HURT:
             enemy_dead(this, ANIM_RAPTOR_DEAD);            
@@ -525,7 +534,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
             }
             if (this->anim.frame == 11 && !local->flag)
             {
-                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir);
+                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
                 local->flag = true;
             }
@@ -537,7 +546,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
                 this->state = E_COWBOY_ST_IDLE;
             }
             else
-                local->timer += get_clock_tick();
+                local->timer += clock_tick_get();
 
             play_animation(&this->anim, ANIM_COWBOY_IDLE); 
         break;   
