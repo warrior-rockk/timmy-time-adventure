@@ -209,7 +209,7 @@ void game_update()
             if (game.loseLive)
             {                
                 game.lives--;                
-                game.state = E_GAME_ST_LOSE_LIVE;
+                game.state = E_GAME_ST_LOSE_LIVE;                
             }            
 
             //game time
@@ -253,6 +253,8 @@ void game_update()
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
             
             entities_draw(worldScreen, &scroll);
+            
+            music_stop(musicLevel);
 
             //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
@@ -279,6 +281,8 @@ void game_update()
                 case 0:
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);                    
                     entities_draw(worldScreen, &scroll);
+
+                    music_stop(musicLevel);
 
                     //TODO: replace with the duration of complete music
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
@@ -735,6 +739,8 @@ static void game_pause_sound()
     {
         sfx_pause(i);
     }
+
+    music_pause();
 }
 
 static void game_resume_sound()
@@ -743,4 +749,6 @@ static void game_resume_sound()
     {
         sfx_resume(i);
     }
+
+    music_resume();
 }

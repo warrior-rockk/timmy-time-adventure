@@ -4,6 +4,8 @@
 - [ ] Crouch one frame standing animation
 - [ ] Object picked dissapears out region jumping
 - [ ] Excessive scroll x offset?
+- [ ] Check direction for player hurt movement
+- [ ] Raptor with collisions
 
 # Engine
 - [ ] Items: extra live, life, score...
