@@ -228,6 +228,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_SOLID_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            SET_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
             
             //position the object relative to player
             tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
@@ -248,6 +249,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
         case E_SOLID_ST_THROWING:            
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    

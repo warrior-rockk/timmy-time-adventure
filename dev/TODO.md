@@ -2,8 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 - [ ] Idle animation starts when no control regarless state
 - [ ] Crouch one frame standing animation
-- [ ] Object picked dissapears out region jumping
-- [ ] Excessive scroll x offset?
 - [ ] Check direction for player hurt movement
 - [ ] Raptor with collisions
 

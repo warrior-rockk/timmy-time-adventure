@@ -308,8 +308,8 @@ void entities_update(tScroll *scroll)
                 entityList[i].sleep = true;
             #endif
         }
-        //check entity on region
-        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll))
+        //check entity on region (and no persistent property)
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll) && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
         {
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
