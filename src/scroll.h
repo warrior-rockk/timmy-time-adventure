@@ -10,7 +10,7 @@
 #include "utils.h"
 
 //scroll definitions
-#define SCROLL_OFFSET_X             8   //Offset X target position to follow camera
+#define SCROLL_OFFSET_X             0   //Offset X target position to follow camera
 #define SCROLL_OFFSET_Y             14  //Offset Y target position to follow camera
 #define SCROLL_BY_WINDOW_RANGE      32  //Range to scroll by window
 #define SCROLL_BY_WINDOW_VEL_Y      10  //Scroll velocity Y moving by window

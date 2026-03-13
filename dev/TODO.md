@@ -1,5 +1,9 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] Idle animation starts when no control regarless state
+- [ ] Crouch one frame standing animation
+- [ ] Object picked dissapears out region jumping
+- [ ] Excessive scroll x offset?
 
 # Engine
 - [ ] Items: extra live, life, score...
@@ -11,13 +15,14 @@
 - [ ] Load resources function to check errors
 - [ ] Redefine controls
 - [ ] Playback system
-- [ ] DeltaTime ¿double?
+- [ ] DeltaTime ¿double? Review deltaTime calculation
 - [ ] Reset ground flag on entity init?
 - [ ] Save half entity sizes on structure?
 - [ ] Platform objects
 - [ ] All entities on one layer and map_load creates all
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
+- [ ] PC Speaker effects?
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
 - [X] Type of tiles: solid, hurt...
