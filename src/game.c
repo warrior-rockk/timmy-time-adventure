@@ -580,6 +580,13 @@ void game_destroy()
             gameSfx[i] = NULL;
         }
     }
+
+    //destroy music
+    if (musicLevel)
+    {
+        destroy_midi(musicLevel);
+        musicLevel = NULL;
+    }
 }
 
 static void game_do_fade()
