@@ -10,6 +10,8 @@
 #include "entity.h"
 #include "anim.h"
 
+#define ENEMY_DEFAULT_DEAD_TIME     20      //time to display enemy death animation
+
 //types of enemies
 enum E_ENEMY_TYPE
 {

@@ -276,7 +276,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
-    #define ANIM_PTERO_DEAD    2,   5,  20, ANIM_ONCE
+    #define ANIM_PTERO_DEAD    2,   5,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
     #define ANIM_PTERO_HURT    6,   8,  20, ANIM_ONCE
 
     //enemy states
@@ -314,7 +314,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
     #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
-    #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
+    #define ANIM_RAPTOR_DEAD   7,   9,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ST_ATTACK, E_RAPTOR_ST_HURT};   
@@ -362,7 +362,8 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
     #define PIRANHA_VEL_X               0.8
 
     //enemy animations    
-    #define ANIM_PIRANHA_JUMP   1,   9,  5, ANIM_ONCE
+    #define ANIM_PIRANHA_JUMP   1,   9,  5,  ANIM_ONCE
+    #define ANIM_PIRANHA_DEAD   10,  10, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
     
     //enemy states
     enum E_PIRANHA_ENEMY_STATES{E_PIRANHA_ST_IDLE, E_PIRANHA_ST_DELAY, E_PIRANHA_ST_JUMP, E_PIRANHA_ST_HURT};   
@@ -409,7 +410,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
                 this->state = E_PIRANHA_ST_IDLE;
         break;             
         case E_PIRANHA_ST_HURT:
-            enemy_dead(this, ANIM_RAPTOR_DEAD);            
+            enemy_dead(this, ANIM_PIRANHA_DEAD);            
         break;
     }       
 }
@@ -422,8 +423,9 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_SPIDER_IDLE   0,   0,  20, ANIM_LOOP
-    #define ANIM_SPIDER_TURN   0,   7,  20, ANIM_LOOP
-
+    #define ANIM_SPIDER_TURN   0,   7,  20, ANIM_LOOP 
+    #define ANIM_SPIDER_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_LOOP
+    
     //enemy states
     enum E_SPIDER_ENEMY_STATES{E_SPIDER_ST_IDLE, E_SPIDER_ST_MOVING_1, E_SPIDER_ST_MOVING_2, E_SPIDER_ST_MOVING_3, E_SPIDER_ST_MOVING_4, E_SPIDER_HURT};   
 
@@ -500,7 +502,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_COWBOY_IDLE   0,   0, 10,  ANIM_LOOP
     #define ANIM_COWBOY_SHOOT  1,   16, 5,  ANIM_ONCE
-    #define ANIM_COWBOY_DEAD   17,  24, 10, ANIM_ONCE
+    #define ANIM_COWBOY_DEAD   17,  24, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
@@ -590,7 +592,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     #define ANIM_EAGLE_FLY     0,   7, 10,  ANIM_LOOP
     #define ANIM_EAGLE_ATTACK  9,   9, 10,  ANIM_LOOP
     #define ANIM_EAGLE_RETURN  10,  10, 10, ANIM_LOOP
-    #define ANIM_EAGLE_HURT    11,  14, 10, ANIM_ONCE
+    #define ANIM_EAGLE_HURT    11,  14, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_EAGLE_ENEMY_STATES{E_EAGLE_ST_FLY, E_EAGLE_ST_ATTACK, E_EAGLE_ST_RETURN, E_EAGLE_ST_HURT};   
