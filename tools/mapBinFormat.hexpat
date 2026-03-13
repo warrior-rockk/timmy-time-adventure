@@ -18,6 +18,7 @@ struct entity {
     u16 x;
     u16 y;
     u8 dir;
+    s16 spare;
 };
 
 struct tileData {

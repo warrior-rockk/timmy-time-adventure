@@ -99,6 +99,7 @@ typedef struct tEntity
     bool visible;               //visible flag: no entity draw
     bool ground;                //ground flag
     bool noGravity;             //TODO: not use this flag for all entities. ¿separate update velocities for player?
+    int16_t spare;              
     //function pointers
     void (*entity_init)(struct tEntity *entity);
     void (*entity_create)(struct tEntity *entity);
@@ -123,7 +124,7 @@ void entities_destroy_all();
 uint8_t entities_get_num();
 
 //creates a new entity. Returns entity number
-int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir);
+int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir, int16_t spare);
 //function to update actual vel and position of an entity
 void entity_update_vel_pos(tEntity *entity);
 //returns entity based on entity number
@@ -134,4 +135,6 @@ void entity_blink(tEntity *entity);
 int16_t entity_center_x(tEntity *entity);
 //returns the center position y of an entity
 int16_t entity_center_y(tEntity *entity);
+//traces entity information
+void entity_trace(tEntity *entity);
 #endif

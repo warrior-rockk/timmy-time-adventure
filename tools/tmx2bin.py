@@ -244,9 +244,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     ox = int(float(obj.attrib.get('x', 0)))
                     oy = int(float(obj.attrib.get('y', 0)))
                     oDir = get_property_value(obj, "dir", default=0)
-                    
+                    spare = get_property_value(obj, "spare", default=0)
+
                     # write object data
-                    f.write(struct.pack('<BBHHB', entClass, entType, ox, oy, oDir))                    
+                    f.write(struct.pack('<BBHHBH', entClass, entType, ox, oy, oDir, spare))                    
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 
@@ -277,9 +278,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     ox = int(float(obj.attrib.get('x', 0)))
                     oy = int(float(obj.attrib.get('y', 0)))
                     oDir = get_property_value(obj, "dir", default=0)
-                    
+                    spare = get_property_value(obj, "spare", default=0)
+
                     # write object data
-                    f.write(struct.pack('<BBHHB', entClass, entType, ox, oy, oDir))                    
+                    f.write(struct.pack('<BBHHBH', entClass, entType, ox, oy, oDir, spare))                    
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 

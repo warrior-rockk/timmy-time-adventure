@@ -30,6 +30,7 @@ typedef struct {
     uint16_t x;
     uint16_t y;
     uint8_t dir;
+    int16_t spare;
 } tMapEntity;
 
 tTile *map;
@@ -194,11 +195,12 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
         fread(&mapObjects[i].x,       sizeof(uint16_t),   1, file);
         fread(&mapObjects[i].y,       sizeof(uint16_t),   1, file);
         fread(&mapObjects[i].dir,     sizeof(uint8_t),    1, file);
+        fread(&mapObjects[i].spare,   sizeof(int16_t),    1, file);
 
-        MY_TRACE_FLAG("\t\tObject Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir);
+        MY_TRACE_FLAG("\t\tObject Class: %u Type: %u X: %i Y: %i Dir: %u Spare: %i\n", mapObjects[i].class, mapObjects[i].type, mapObjects[i].x, mapObjects[i].y, mapObjects[i].dir, mapObjects[i].spare);
 
         //create entity
-        entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir);
+        entity_create(mapObjects[i].class, mapObjects[i].type, (tVector){mapObjects[i].x, mapObjects[i].y}, mapObjects[i].dir, mapObjects[i].spare);
     }
 
     //read map enemies
@@ -223,11 +225,12 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
             fread(&mapEnemies[i].x,       sizeof(uint16_t),   1, file);
             fread(&mapEnemies[i].y,       sizeof(uint16_t),   1, file);
             fread(&mapEnemies[i].dir,     sizeof(uint8_t),    1, file);
+            fread(&mapEnemies[i].spare,   sizeof(int16_t),    1, file);
 
-            MY_TRACE_FLAG("\t\tEnemy Class: %u Type: %u X: %i Y: %i Dir: %u\n", mapEnemies[i].class, mapEnemies[i].type, mapEnemies[i].x, mapEnemies[i].y, mapEnemies[i].dir);
+            MY_TRACE_FLAG("\t\tEnemy Class: %u Type: %u X: %i Y: %i Dir: %u Spare: %i\n", mapEnemies[i].class, mapEnemies[i].type, mapEnemies[i].x, mapEnemies[i].y, mapEnemies[i].dir, mapEnemies[i].spare);
 
             //create entity
-            entity_create(mapEnemies[i].class, mapEnemies[i].type, (tVector){mapEnemies[i].x, mapEnemies[i].y}, mapEnemies[i].dir);
+            entity_create(mapEnemies[i].class, mapEnemies[i].type, (tVector){mapEnemies[i].x, mapEnemies[i].y}, mapEnemies[i].dir, mapEnemies[i].spare);
         }
     
         free(mapEnemies);

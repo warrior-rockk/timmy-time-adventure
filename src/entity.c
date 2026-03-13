@@ -109,7 +109,7 @@ void entity_system_destroy()
 }
 
 //creates new entity based on passed values
-int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir)
+int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir, int16_t spare)
 //, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
@@ -134,6 +134,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].entType         = entityType;
         entityList[newEntity].initPos         = initPos;        
         entityList[newEntity].initDir         = initDir;
+        entityList[newEntity].spare           = spare;
         //initialize data
         entityList[newEntity].pos             = initPos;
         entityList[newEntity].dir             = initDir;
@@ -313,8 +314,13 @@ void entities_update(tScroll *scroll)
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
             {
+                if (!entityList[i].sleep)
+                {
+                    MY_TRACE_FLAG("Entity: %i Instance: %i to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);
+                }
+
                 //sleep the entity
-                entityList[i].sleep = true;
+                entityList[i].sleep = true;                
                 if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
                 {
                     entity_destroy(i);                    
@@ -449,4 +455,36 @@ int16_t entity_center_x(tEntity *entity)
 int16_t entity_center_y(tEntity *entity)
 {
     return entity->pos.y + (entity->size.y >> 1);
+}
+
+void entity_trace(tEntity *entity)
+{
+    #ifdef DEBUGMODE
+        MY_TRACE_FLAG("Trace Entity id: %i:\n", entity->id);
+        
+        MY_TRACE_FLAG("\tEntity Type: %i\n", entity->entType);      
+        MY_TRACE_FLAG("\tEntity Class: %i\n", entity->entClass);     
+        MY_TRACE_FLAG("\tEntity Instance: %i\n", entity->entInstance);  
+        MY_TRACE_FLAG("\tProperties: %i\n", entity->properties);   
+        MY_TRACE_FLAG("\tInit pos x: %i Init pos y: %i\n", entity->initPos.x, entity->initPos.y);      
+        MY_TRACE_FLAG("\tPos x: %i Pos y:%i\n", entity->pos.x , entity->pos.y);          
+        MY_TRACE_FLAG("\tFix Pos x: %f Fix Pos y:%f\n", fixtof(entity->fixPos.x), fixtof(entity->fixPos.y));       
+        MY_TRACE_FLAG("\tFix Vel x: %f Fix Vel y:%f\n", fixtof(entity->fixVel.x), fixtof(entity->fixVel.y));       
+        MY_TRACE_FLAG("\tSize x: %i Size y:%i\n", entity->size.x, entity->size.y);         
+        MY_TRACE_FLAG("\tSprite size x: %i Sprite size y:%i\n", entity->spriteSize.x, entity->spriteSize.y);   
+        MY_TRACE_FLAG("\tInit Dir: %i\n", entity->initDir);  		
+        MY_TRACE_FLAG("\tDir: %i\n", entity->dir);      		    
+        MY_TRACE_FLAG("\tAxis: %i\n", entity->axis);         
+        MY_TRACE_FLAG("\tState: %i\n", entity->state);        
+        MY_TRACE_FLAG("\tPrevState: %i\n", entity->prevState);    
+        MY_TRACE_FLAG("\tSignal: %i\n", entity->signal);       
+        MY_TRACE_FLAG("\tDead: %i\n", entity->dead);         
+        MY_TRACE_FLAG("\tSleep: %i\n", entity->sleep);        
+        MY_TRACE_FLAG("\tVisible: %i\n", entity->visible);      
+        MY_TRACE_FLAG("\tGround: %i\n", entity->ground);       
+        MY_TRACE_FLAG("\tNo Gravity: %i\n", entity->noGravity);    
+        MY_TRACE_FLAG("\tSpare: %i\n", entity->spare);     
+        
+        MY_TRACE_FLAG("End Trace Entity\n");
+    #endif
 }
