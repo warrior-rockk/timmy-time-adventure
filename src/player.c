@@ -468,7 +468,7 @@ static void player_update_state(tEntity *player)
 {
     //reset flags
     playerFlags.disableMove = false;
-    idleCounter =  (player->state != ST_PLAYER_IDLE && player->state != ST_PLAYER_WAIT_IDLE) ? 0 : idleCounter;
+    idleCounter =  player->state != ST_PLAYER_IDLE ? 0 : idleCounter;
     player->noGravity = playerFlags.onStairs; //TODO: move this
     
     //picking objects
@@ -583,13 +583,8 @@ static void player_update_state(tEntity *player)
     }
     else
     {
-        if (idleCounter >= PLAYER_IDLE_WAIT_TIME)
-            player->state = ST_PLAYER_WAIT_IDLE;
-        else
-        {
-            player->state = ST_PLAYER_IDLE;
-            idleCounter += clock_tick_1sec_get();
-        }
+        player->state = ST_PLAYER_IDLE;
+        idleCounter += clock_tick_1sec_get();        
     }
 }
 
@@ -603,6 +598,11 @@ static void player_update_animations(tEntity *player)
                 play_animation(&player->anim, ANIM_PLY_PICKED);
             else if(playerFlags.crouched)
                 play_animation(&player->anim, ANIM_PLY_CROUCH);            
+            else if (idleCounter >= PLAYER_IDLE_WAIT_TIME)
+            {
+                if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))
+                    idleCounter = 0;    
+            }
             else
                 play_animation(&player->anim, ANIM_PLY_BREATH);            
         break;
@@ -696,11 +696,7 @@ static void player_update_animations(tEntity *player)
             play_animation(&player->anim, ANIM_PLY_MOVE_STAIRS);
             if (player->anim.frame != player->anim.lastFrame)
                 sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE);
-        break;
-        case ST_PLAYER_WAIT_IDLE:
-            if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))
-                idleCounter = 0;
-        break;
+        break;        
     }
 
     //blink
