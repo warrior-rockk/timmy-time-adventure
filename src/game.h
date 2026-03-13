@@ -152,7 +152,7 @@ typedef struct
 { 
     char *mapFile;			//binary file of map and entities
     char *tileFile;		    //bitmap file for map tiles
-    //char *musicFile;		//music file of level
+    char *musicFile;		//music file of level
 } tLevelDataFile;
 
 //sequence struct

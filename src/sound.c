@@ -58,18 +58,18 @@ enum E_SOUND_MODES sound_get_mode()
     return soundMode;
 }
 
-void play_music(MIDI *midiFile, int loop)
+void music_play(MIDI *midiFile, int loop)
 {
     //stop actual music
-    stop_music();
+    music_stop();
 
     if (soundMode == E_SOUND_SB_MODE)
     {
         //load index music index
-        TRACE("Load music data file object\n");
+        MY_TRACE_FLAG("Load music data file object\n");
         
         //play midi
-        TRACE("Play midi music\n");
+        MY_TRACE_FLAG("Play midi music\n");
         play_midi(midiFile, loop);
     }
     else if(soundMode == E_SOUND_SPEAKER_MODE)
@@ -83,7 +83,7 @@ void play_music(MIDI *midiFile, int loop)
     }
 }
 
-void stop_music()
+void music_stop()
 {
     //stop actual music
     MY_TRACE_FLAG("Stopping midi\n");
@@ -93,7 +93,7 @@ void stop_music()
         ;//pc_speaker_stop_song();
 }
 
-void pause_music()
+void music_pause()
 {
     if (soundMode == E_SOUND_SB_MODE)
         midi_pause();
@@ -101,7 +101,7 @@ void pause_music()
         ;//pc_speaker_pause_song();
 }
 
-void resume_music()
+void music_resume()
 {
     if (soundMode == E_SOUND_SB_MODE)
         midi_resume();

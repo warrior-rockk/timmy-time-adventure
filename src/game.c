@@ -41,6 +41,7 @@ FONT *gameFont;
 double deltaTime;
 uint8_t gameExit = false;
 tScroll scroll;
+MIDI* musicLevel;
 
 tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
 SAMPLE *gameSfx[E_SFX_GAME_NUM];
@@ -177,6 +178,8 @@ void game_update()
                     entities_draw(worldScreen, &scroll);                    
                     map_draw(worldScreen, &scroll, true);                    
                     game_hud_draw();
+
+                    music_play(musicLevel, -1);
                     
                     game.state = E_GAME_ST_PLAY_LEVEL;
                     game.fadeIn = true;
@@ -445,13 +448,17 @@ void game_init()
 
     //initialize levels data
     levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
-    levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";    
+    levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
+    levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].musicFile  = "res/midi/jungle.mid";
     levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
     levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
+    levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;            
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;            
     
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
@@ -551,7 +558,10 @@ static void game_load_level(uint8_t numLevel)
     mapDimension.y = mapDimension.y - GAME_H;
     
     //create scroll    
-    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);    
+    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
+    
+    if (levelDataFile[numLevel].musicFile)
+        musicLevel = load_midi(levelDataFile[numLevel].musicFile);
 }
 
 void game_destroy()

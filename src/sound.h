@@ -39,13 +39,13 @@ void sound_set_mode(enum E_SOUND_MODES _soundMode);
 enum E_SOUND_MODES sound_get_mode();
 
 //plays game music
-void play_music(MIDI *midiFile, int loop);
+void music_play(MIDI *midiFile, int loop);
 //stops game music
-void stop_music();
+void music_stop();
 //pauses game music
-void pause_music();
+void music_pause();
 //resume game music
-void resume_music();
+void music_resume();
 //get music position
 long music_get_pos();
 //seeks music to position
