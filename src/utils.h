@@ -25,7 +25,7 @@
 #ifdef ALLEGRO_H
     #define MY_ASSERT(condition)                ASSERT(condition)
     #define MY_TRACE                            TRACE
-    #define MY_TRACE_FLAG(data, ...)            TRACE("(%i)", get_frame_counter()); TRACE(TRACE_FLAG": " data, ##__VA_ARGS__)
+    #define MY_TRACE_FLAG(data, ...)            { TRACE("(%i)", get_frame_counter()); TRACE(TRACE_FLAG": " data, ##__VA_ARGS__); }
 #endif
 
 #define HALT    exit(-1);

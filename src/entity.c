@@ -314,10 +314,8 @@ void entities_update(tScroll *scroll)
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
             {
-                if (!entityList[i].sleep)
-                {
-                    MY_TRACE_FLAG("Entity: %i Instance: %i to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);
-                }
+                if (!entityList[i].sleep)                
+                    MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
 
                 //sleep the entity
                 entityList[i].sleep = true;                
