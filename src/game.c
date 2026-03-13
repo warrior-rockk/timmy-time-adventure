@@ -31,20 +31,20 @@
     tDebugOptions debugOptions = {0};   
 #endif
 
-//game structure
-tGame game;
-tSequence gameSeq;
-BITMAP *buffer;
-BITMAP *worldScreen;
-RGB* gamePal;
-FONT *gameFont;
-double deltaTime;
-uint8_t gameExit = false;
-tScroll scroll;
-MIDI* musicLevel;
+double deltaTime;                   //deltaTime
+uint8_t gameExit = false;           //flag to exit to main
 
-tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];
-SAMPLE *gameSfx[E_SFX_GAME_NUM];
+BITMAP *buffer;                     //screen buffer
+BITMAP *worldScreen;                //map window buffer
+RGB* gamePal;                       //game palette
+FONT *gameFont;                     //game font
+SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
+MIDI* musicLevel;                   //current MIDI music level
+
+tGame game;                         //game structure
+tSequence gameSeq;                  //game sequence
+tScroll scroll;                     //game scroll
+tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];    //level files
 
 struct hud
 {
