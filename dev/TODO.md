@@ -1,7 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
 - [ ] Crouch one frame standing animation
-- [ ] Check direction for player hurt movement
 - [ ] Raptor with collisions
 
 # Engine

@@ -209,6 +209,7 @@ void game_update()
             if (game.loseLive)
             {                
                 game.lives--;                
+                music_stop(musicLevel);
                 game.state = E_GAME_ST_LOSE_LIVE;                
             }            
 
@@ -253,8 +254,7 @@ void game_update()
             scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
             
             entities_draw(worldScreen, &scroll);
-            
-            music_stop(musicLevel);
+                       
 
             //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
