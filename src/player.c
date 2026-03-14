@@ -135,15 +135,15 @@ void player_update(tEntity *player)
     player_update_animations(player);
 
     #ifdef DEBUGMODE
-        #if DEBUG_TRACE_ENTITIES
+        //#if DEBUG_TRACE_ENTITIES
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
-        #endif
+        //#endif
         //show_debug( "p.vX: %f", fixtof(player->fixVel.x));
         //show_debug( "p.vY: %f", fixtof(player->fixVel.y));
         //show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
         //show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
-        show_debug( "onStairs: %i", playerFlags.onStairs);     
+        //show_debug( "crouched: %i", playerFlags.crouched);     
         //show_debug("Property: %i", map_get_tile_property((tVector){1442,71}));
         //show_debug("Test: %i", CHECK_FLAG(map_get_tile_property((tVector){1442,71}), 256));
     #endif
@@ -597,7 +597,12 @@ static void player_update_animations(tEntity *player)
             if (playerFlags.picked)
                 play_animation(&player->anim, ANIM_PLY_PICKED);
             else if(playerFlags.crouched)
-                play_animation(&player->anim, ANIM_PLY_CROUCH);            
+            {
+                if (player->prevState == ST_PLAYER_RUN && playerFlags.crouched)
+                    play_animation(&player->anim, ANIM_PLY_CROUCH);
+                else
+                    play_animation(&player->anim, ANIM_PLY_GET_CROUCH);            
+            }
             else if (idleCounter >= PLAYER_IDLE_WAIT_TIME)
             {
                 if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))
@@ -609,12 +614,10 @@ static void player_update_animations(tEntity *player)
         case ST_PLAYER_RUN:
             if (playerFlags.picked)
                 play_animation(&player->anim, ANIM_PLY_RUN_PICKED);
-            else{
-                if (!playerFlags.crouched)
-                    play_animation(&player->anim, ANIM_PLY_RUN);
-                else
-                    play_animation(&player->anim, ANIM_PLY_WALK_CROUCH);
-            }
+            else if (playerFlags.crouched)
+                play_animation(&player->anim, ANIM_PLY_WALK_CROUCH);
+            else    
+                play_animation(&player->anim, ANIM_PLY_RUN);                
         break;
         case ST_PLAYER_JUMP:
             if (player->fixVel.y < 0)
@@ -637,7 +640,7 @@ static void player_update_animations(tEntity *player)
             }
         break;
         case ST_PLAYER_CROUCHED:
-            play_animation(&player->anim, ANIM_PLY_CROUCH);
+            play_animation(&player->anim, ANIM_PLY_GET_CROUCH);
         break;
         case ST_PLAYER_ATTACK:
             play_animation(&player->anim, ANIM_PLY_ATTACK);

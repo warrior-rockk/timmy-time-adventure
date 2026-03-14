@@ -47,7 +47,8 @@
 #define ANIM_PLY_JUMP_DOWN          12, 13, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_RUN_UP        17, 18, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_RUN_DOWN      19, 21, 30, ANIM_ONCE
-#define ANIM_PLY_CROUCH             28, 31, 2,  ANIM_ONCE
+#define ANIM_PLY_GET_CROUCH         28, 31, 2,  ANIM_ONCE
+#define ANIM_PLY_CROUCH             31, 31, 2,  ANIM_LOOP
 #define ANIM_PLY_WALK_CROUCH        65, 68, 20, ANIM_LOOP
 #define ANIM_PLY_ATTACK             37, 37, 10, ANIM_ONCE 
 #define ANIM_PLY_LAND               33, 33, 15, ANIM_ONCE  

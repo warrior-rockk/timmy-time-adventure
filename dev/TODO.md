@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Crouch one frame standing animation
 - [ ] Raptor with collisions
 
 # Engine
