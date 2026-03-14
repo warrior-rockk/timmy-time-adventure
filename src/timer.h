@@ -10,6 +10,8 @@
 #include <stdbool.h>
 #include "allegro.h"
 
+#define DELTA_TIME_LIMIT       6
+
 //inits the timer system specifing game tick duration on ms
 void timer_init(long gameTickDuration);
 //indicates to timer the start of game frame to calculate deltaTime

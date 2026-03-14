@@ -86,6 +86,10 @@ void timer_end_frame(double *deltaTime)
 
     if (trace != retrace_count)
         *deltaTime = (double)(retrace_count-trace);
+    
+    //limit delta time
+    if (*deltaTime > DELTA_TIME_LIMIT)
+        *deltaTime = 1;
 
     tick = false;
     tick1sec = false;
