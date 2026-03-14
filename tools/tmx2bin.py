@@ -33,6 +33,7 @@ object_ent_types = {
     "egg"           : 4,
     "end"           : 5,
     "checkpoint"    : 6,
+    "item"          : 7,
 }
 #define entity enemies types
 enemy_ent_types = {

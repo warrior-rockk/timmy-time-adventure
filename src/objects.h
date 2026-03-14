@@ -20,7 +20,15 @@ enum E_OBJECT_TYPE
     E_EGG_OBJECT_TYPE,
     E_END_OBJECT_TYPE,
     E_CHECKPOINT_OBJECT_TYPE,
+    E_ITEM_OBJECT_TYPE,
     E_OBJECTS_TYPE_NUM,
+};
+
+enum E_ITEMS_TYPE
+{
+    E_ITEM_EXTRA_LIFE,
+    E_ITEM_FULL_LIFE,
+    E_ITEMS_NUM,
 };
 
 typedef struct 
@@ -48,6 +56,7 @@ void object_destroy(tEntity *entity);
 void object_gem_update(tEntity *this, tSolidObjectLocalData *objData);
 //custom update function for stone objects
 void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
 
 void object_end_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *objData);

@@ -252,9 +252,11 @@ void entity_init(uint8_t entityIndex)
     entityList[entityIndex].state     = 0;
     entityList[entityIndex].prevState = 0;
     entityList[entityIndex].anim.frame= 0;
-    entityList[entityIndex].dead      = 0;
     entityList[entityIndex].visible   = true;
     entityList[entityIndex].signal    = E_ENT_SIGNAL_NONE;
+    //only reset dead if not NO_SPAWN property
+    if (!CHECK_FLAG(entityList[entityIndex].properties, E_ENT_PROP_NO_SPAWN))
+        entityList[entityIndex].dead      = 0;
 
     //call custom entity entity
     if (entityList[entityIndex].entity_init)

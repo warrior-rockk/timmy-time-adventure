@@ -38,6 +38,16 @@
             "valuesAsFlags": true
         },
         {
+            "id": 5,
+            "name": "items",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "EXTRA LIFE"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 1,
@@ -73,8 +83,7 @@
                 "NO_SCROLL_X",
                 "TOP_STAIR",
                 "STAIR",
-                "SOLID_ON_FALL",
-                "HURT"
+                "SOLID_ON_FALL"
             ],
             "valuesAsFlags": true
         }

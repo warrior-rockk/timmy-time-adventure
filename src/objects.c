@@ -15,6 +15,7 @@
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
+BITMAP *itemResources[E_ITEMS_NUM];
 
 void object_system_init()
 {
@@ -44,6 +45,16 @@ void object_system_destroy()
             objectResources[i] = NULL;
         }
     }
+
+    for (uint8_t i = 0; i < E_ITEMS_NUM; i++)
+    {
+        if (itemResources[i])
+        {
+            destroy_bitmap(itemResources[i]);
+            itemResources[i] = NULL;
+        }
+    }
+
     MY_TRACE_FLAG("Destroyed object system\n");
 }
 
@@ -117,6 +128,20 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 36};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
+        case E_ITEM_OBJECT_TYPE:         
+            switch (entity->spare)
+            {
+                case E_ITEM_EXTRA_LIFE:
+                    if (!itemResources[E_ITEM_EXTRA_LIFE])
+                        itemResources[E_ITEM_EXTRA_LIFE] = load_bmp("res/objects/live.bmp", NULL);
+                    entity->img = itemResources[E_ITEM_EXTRA_LIFE];
+                break;
+            }   
+            
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};      
+            entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_SPAWN;
+        break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
         break;
@@ -144,6 +169,9 @@ void object_update(tEntity *entity)
         break;
         case E_CHECKPOINT_OBJECT_TYPE:
             object_checkpoint_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_ITEM_OBJECT_TYPE:
+            object_item_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -329,6 +357,33 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 this->dead = true;
             }
         break;
+    }
+}
+
+void object_item_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object states
+    enum E_ITEM_STATE {E_ITEM_ST_IDLE};
+
+    switch (this->state)
+    {
+        case E_ITEM_ST_IDLE:
+            switch (this->spare)
+            {
+                case E_ITEM_EXTRA_LIFE:
+                    //if collision with player
+                    if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+                    {
+                        game.lives++;
+                        this->dead = true;
+                    }
+                break;
+            }
+            
+            this->anim.frame = 0;
+        break;        
+        default:
+            this->state = E_ITEM_ST_IDLE;
     }
 }
 
