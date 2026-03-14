@@ -2,6 +2,7 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
+- [ ] Palette for each level with player colors on top?
 - [ ] Items: extra live, life, score...
 - [ ] Sfx particles for spider web or player splash water
 - [ ] Redefine controls
