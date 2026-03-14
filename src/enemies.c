@@ -114,8 +114,10 @@ void enemy_create(tEntity *entity)
             
             entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){72, 44};                          
-            entity->size = (tVector){50, 32};
-            entity->axis = E_ENT_AXIS_DOWN;            
+            entity->size = (tVector){46, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
         break;
         case E_SPIDER_ENEMY_TYPE:
             if (!enemyResources[E_SPIDER_ENEMY_TYPE])
@@ -325,6 +327,18 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_RAPTOR_ST_HURT;
     
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+    }
+
     switch (this->state)
     {
         case E_RAPTOR_ST_IDLE:            

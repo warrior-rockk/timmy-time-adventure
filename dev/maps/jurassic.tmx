@@ -338,7 +338,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="Enemies">
-  <object id="3" name="raptor" type="enemy" x="320" y="96" width="50" height="32">
+  <object id="3" name="raptor" type="enemy" x="336" y="96" width="46" height="32">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>

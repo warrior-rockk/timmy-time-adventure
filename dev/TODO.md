@@ -1,8 +1,8 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Raptor with collisions
 
 # Engine
+- [ ] Simple collisions on entity update?
 - [ ] Items: extra live, life, score...
 - [ ] Level checkpoints
 - [ ] Less collision points to entities than player?

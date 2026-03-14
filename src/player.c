@@ -135,10 +135,10 @@ void player_update(tEntity *player)
     player_update_animations(player);
 
     #ifdef DEBUGMODE
-        //#if DEBUG_TRACE_ENTITIES
+        #if DEBUG_TRACE_ENTITIES
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
-        //#endif
+        #endif
         //show_debug( "p.vX: %f", fixtof(player->fixVel.x));
         //show_debug( "p.vY: %f", fixtof(player->fixVel.y));
         //show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
