@@ -2,22 +2,11 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [ ] Simple collisions on entity update?
 - [ ] Items: extra live, life, score...
-- [ ] Less collision points to entities than player?
-- [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water
-- [ ] Fps drop down (486@66) when all screen full of tiles (with the second layer feature)
-- [ ] Load resources function to check errors
 - [ ] Redefine controls
 - [ ] Playback system
-- [ ] DeltaTime ¿double? Review deltaTime calculation
-- [ ] Reset ground flag on entity init?
-- [ ] Save half entity sizes on structure?
 - [ ] Platform objects
-- [ ] All entities on one layer and map_load creates all
-- [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
-- [ ] Collision points on entity structure?
 - [ ] PC Speaker effects?
 - [X] Level checkpoints
 - [X] Collision to border of screen
@@ -43,3 +32,15 @@
 - [X] Better jump velocities/gravity
 - [X] Jump dynamic force when pressed
 - [X] Crouch change size
+
+# Improvements
+- [ ] Simple collisions check on entity update?
+- [ ] Less collision points to entities than player?s
+- [ ] DeltaTime ¿double? Review deltaTime calculation
+- [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
+- [ ] Reset ground flag on entity init?
+- [ ] Save half entity sizes on structure?
+- [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
+- [ ] Collision points on entity structure?
+- [ ] All entities on one layer and map_load creates all
+- [ ] Load resources function to check errorss
