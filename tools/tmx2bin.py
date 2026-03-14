@@ -26,12 +26,13 @@ player_ent_types = {
 }
 #define entity object types
 object_ent_types = {
-    "gem"       : 0,
-    "stone"     : 1,
-    "rock"      : 2,
-    "rock2"     : 3,
-    "egg"       : 4,
-    "end"       : 5,
+    "gem"           : 0,
+    "stone"         : 1,
+    "rock"          : 2,
+    "rock2"         : 3,
+    "egg"           : 4,
+    "end"           : 5,
+    "checkpoint"    : 6,
 }
 #define entity enemies types
 enemy_ent_types = {

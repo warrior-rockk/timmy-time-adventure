@@ -19,6 +19,7 @@ enum E_OBJECT_TYPE
     E_ROCK_2_OBJECT_TYPE,
     E_EGG_OBJECT_TYPE,
     E_END_OBJECT_TYPE,
+    E_CHECKPOINT_OBJECT_TYPE,
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -49,4 +50,5 @@ void object_gem_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
 
 void object_end_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

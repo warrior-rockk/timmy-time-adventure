@@ -112,6 +112,11 @@ void object_create(tEntity *entity)
             entity->size = (tVector){8, 8};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
+        case E_CHECKPOINT_OBJECT_TYPE:            
+            entity->img = NULL;
+            entity->size = (tVector){16, 36};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Tipo de entidad objeto no reconocida");
         break;
@@ -136,6 +141,9 @@ void object_update(tEntity *entity)
         break;       
         case E_END_OBJECT_TYPE:
             object_end_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_CHECKPOINT_OBJECT_TYPE:
+            object_checkpoint_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -343,6 +351,22 @@ void object_end_update(tEntity *this, tSolidObjectLocalData *local)
         break;        
         default:
             this->state = E_END_ST_IDLE;
+    }
+}
+
+void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object states
+    enum E_CHECKPOINT_STATE {E_CHECKPOINT_ST_IDLE};
+
+    switch (this->state)
+    {
+        case E_CHECKPOINT_ST_IDLE:
+            //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
+            entity_get(PLAYER_ENTITY_ID)->initPos = this->pos;
+        break;        
+        default:
+            this->state = E_CHECKPOINT_ST_IDLE;
     }
 }
 

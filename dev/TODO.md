@@ -4,7 +4,6 @@
 # Engine
 - [ ] Simple collisions on entity update?
 - [ ] Items: extra live, life, score...
-- [ ] Level checkpoints
 - [ ] Less collision points to entities than player?
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Sfx particles for spider web or player splash water
@@ -20,6 +19,7 @@
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
 - [ ] PC Speaker effects?
+- [X] Level checkpoints
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
 - [X] Type of tiles: solid, hurt...
