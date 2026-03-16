@@ -462,20 +462,16 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
     levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
     levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
-    levelDataFile[E_GAME_LEVEL_TEST].palFile        = NULL;
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     levelDataFile[E_GAME_LEVEL_JURASSIC].musicFile  = "res/midi/jungle.mid";
-    levelDataFile[E_GAME_LEVEL_JURASSIC].palFile    = "res/pals/jurassic.bmp";
     levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
     levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
     levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;
-    levelDataFile[E_GAME_LEVEL_WEST].palFile        = NULL;            
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].palFile    = NULL;            
-    
+        
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
     #else
@@ -561,13 +557,6 @@ static void game_debug_info()
 //testing
 static void game_load_level(uint8_t numLevel)
 {
-    //load palette file
-    /*if (levelDataFile[numLevel].palFile)
-    {
-        free(load_bmp(levelDataFile[numLevel].palFile, desktop_palette));
-        set_palette(desktop_palette);   
-    }*/
-
     //load map and entities    
     map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile, (tVector){GAME_W, GAME_H});
     

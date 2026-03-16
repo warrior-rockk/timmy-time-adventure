@@ -153,8 +153,7 @@ typedef struct
 typedef struct
 { 
     char *mapFile;			//binary file of map and entities
-    char *tileFile;		    //bitmap file for map tiles
-    char *palFile;          //palette file of level
+    char *tileFile;		    //bitmap file for map tiles    
     char *musicFile;		//music file of level
 } tLevelDataFile;
 
