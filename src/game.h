@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1
+#define ALLEGRO_USES_SOUND      0
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -31,14 +31,14 @@
 #define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
 
 //colors
-#define BLACK_COLOR             79
-#define WHITE_COLOR             12
+#define BLACK_COLOR             1
+#define WHITE_COLOR             63
 
 //clock iteration duration value
 #define GAME_CLOCK_TICK     10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIVES          1       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #define GAME_FADE_SPEED         3       //general game fade speed
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
@@ -154,6 +154,7 @@ typedef struct
 { 
     char *mapFile;			//binary file of map and entities
     char *tileFile;		    //bitmap file for map tiles
+    char *palFile;          //palette file of level
     char *musicFile;		//music file of level
 } tLevelDataFile;
 

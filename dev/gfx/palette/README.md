@@ -10,6 +10,6 @@ The next 192 colors is for each level/enemies/level objects
 - Create palette from image with 191 limit colors (190 + 1 for the transparent color)
 - Convert to indexed
 - Palette size to 256
-- Copy and paste the actual colors starting on position 65 and remap
+- Cut and paste the actual colors starting on position 65 and remap
 - Open playerHudItems palette file and copy the 64 colors
 - Paste on palette position 0 and remap

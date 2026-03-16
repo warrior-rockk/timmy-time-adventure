@@ -4,7 +4,6 @@
 # Engine
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
-- [ ] Palette for each level with player colors on top?
 - [ ] Sfx particles for spider web or player splash water
 - [ ] Redefine controls
 - [ ] Playback system
@@ -24,6 +23,7 @@
 - [X] Frame counter added to trace to check the game cycle of msg
 - [X] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [X] Items: extra live, life, score...
+- [X] Palette for each level with player colors on top?
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
@@ -35,6 +35,9 @@
 - [X] Better jump velocities/gravity
 - [X] Jump dynamic force when pressed
 - [X] Crouch change size
+
+# Gfx
+- [ ] Paint player jeans blue
 
 # Improvements
 - [ ] Simple collisions check on entity update?

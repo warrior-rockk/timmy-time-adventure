@@ -312,7 +312,7 @@
  </tileset>
  <layer id="1" name="Tiles" width="208" height="20">
   <properties>
-   <property name="backColor" type="int" value="22"/>
+   <property name="backColor" type="int" value="255"/>
   </properties>
   <data encoding="csv">
 75,77,78,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,74,75,76,77,78,0,0,0,0,0,0,74,75,76,77,78,0,0,0,0,0,0,0,0,79,80,82,83,0,0,0,0,0,0,0,0,14,5,4,4,12,0,0,0,0,75,77,78,0,0,0,0,0,0,0,0,0,6,5,4,4,4,4,4,5,5,5,8,78,0,0,0,0,0,0,74,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,76,77,78,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,79,80,82,83,0,0,0,0,0,0,85,86,87,85,86,87,88,0,0,0,0,0,0,0,84,85,86,87,94,95,94,49,47,47,47,49,47,48,48,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,95,
@@ -427,11 +427,6 @@
    </properties>
   </object>
   <object id="37" name="item" type="object" x="640" y="32" width="16" height="16">
-   <properties>
-    <property name="spare" type="int" propertytype="items" value="0"/>
-   </properties>
-  </object>
-  <object id="38" name="item" type="object" x="208" y="96" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>

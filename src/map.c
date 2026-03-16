@@ -250,6 +250,8 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     tiles = (BITMAP **)malloc(mapHeader.tileCount * sizeof(BITMAP));
     //load map tileSheet    
     mapTileSheet = load_bmp(tileFile, desktop_palette);
+    //apply level tileset palette
+    set_palette(desktop_palette);
     //create tiles from tilesheet image
     for (uint8_t i = 0; i < mapHeader.tileCount; i++)
     {

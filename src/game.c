@@ -91,7 +91,7 @@ void game_update()
                     BITMAP *logo = load_bmp("res/game/warcom.bmp", NULL);
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);                    
-                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 59, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, BLACK_COLOR);
                     gameSeq.step++;
                 break;
                 case 2:
@@ -115,8 +115,8 @@ void game_update()
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
-                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 59, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 59, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 30, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 30, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
@@ -428,7 +428,7 @@ void game_init()
 
     /* set the color palette */
     //temporaly
-    free(load_bmp("res/tiles/tsheet.bmp", desktop_palette));
+    free(load_bmp("res/pals/level.bmp", desktop_palette));
     set_palette(desktop_palette);
 
     //loads game font
@@ -462,15 +462,19 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
     levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
     levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
+    levelDataFile[E_GAME_LEVEL_TEST].palFile        = NULL;
     levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
     levelDataFile[E_GAME_LEVEL_JURASSIC].musicFile  = "res/midi/jungle.mid";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].palFile    = "res/pals/jurassic.bmp";
     levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
     levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
-    levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;            
+    levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;
+    levelDataFile[E_GAME_LEVEL_WEST].palFile        = NULL;            
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;            
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].palFile    = NULL;            
     
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
@@ -557,6 +561,14 @@ static void game_debug_info()
 //testing
 static void game_load_level(uint8_t numLevel)
 {
+    //load palette file
+    /*if (levelDataFile[numLevel].palFile)
+    {
+        free(load_bmp(levelDataFile[numLevel].palFile, desktop_palette));
+        set_palette(desktop_palette);   
+    }*/
+
+    //load map and entities    
     map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
@@ -572,6 +584,7 @@ static void game_load_level(uint8_t numLevel)
     //create scroll    
     scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
     
+    //load music level
     if (levelDataFile[numLevel].musicFile)
         musicLevel = load_midi(levelDataFile[numLevel].musicFile);
 }
@@ -633,12 +646,12 @@ void game_hud_init()
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
 
-    textout_centre_ex(buffer, gameFont, "LIVES",   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, 12, -1);
-    textout_centre_ex(buffer, gameFont, "LIFE",    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, 12, -1);
-    textout_centre_ex(buffer, gameFont, "SCORE",   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, 12, -1);
-    textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, 12, -1);
+    textout_centre_ex(buffer, gameFont, "LIVES",   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
+    textout_centre_ex(buffer, gameFont, "LIFE",    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
+    textout_centre_ex(buffer, gameFont, "SCORE",   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
+    textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
 
-    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, 12, -1);
+    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, WHITE_COLOR, -1);
 
     hud.refresh = E_REFRESH_HUD_ALL;
 }
