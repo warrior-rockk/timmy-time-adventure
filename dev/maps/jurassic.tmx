@@ -431,7 +431,7 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="38" name="item" type="object" x="576" y="64" width="16" height="16">
+  <object id="38" name="item" type="object" x="208" y="96" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
