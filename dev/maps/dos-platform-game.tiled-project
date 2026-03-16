@@ -43,7 +43,8 @@
             "storageType": "int",
             "type": "enum",
             "values": [
-                "EXTRA LIFE"
+                "EXTRA_LIFE",
+                "FULL_LIFE"
             ],
             "valuesAsFlags": false
         },

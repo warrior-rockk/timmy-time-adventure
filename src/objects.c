@@ -133,8 +133,13 @@ void object_create(tEntity *entity)
             {
                 case E_ITEM_EXTRA_LIFE:
                     if (!itemResources[E_ITEM_EXTRA_LIFE])
-                        itemResources[E_ITEM_EXTRA_LIFE] = load_bmp("res/objects/live.bmp", NULL);
+                        itemResources[E_ITEM_EXTRA_LIFE] = load_bmp("res/objects/items.bmp", NULL);
                     entity->img = itemResources[E_ITEM_EXTRA_LIFE];
+                break;
+                case E_ITEM_FULL_LIFE:
+                    if (!itemResources[E_ITEM_FULL_LIFE])
+                        itemResources[E_ITEM_FULL_LIFE] = load_bmp("res/objects/items.bmp", NULL);
+                    entity->img = itemResources[E_ITEM_FULL_LIFE];
                 break;
             }   
             
@@ -365,6 +370,10 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
     //object states
     enum E_ITEM_STATE {E_ITEM_ST_IDLE};
 
+    //object animations
+    #define ANIM_ITEM_EXTRA_LIFE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_ITEM_FULL_LIFE    1,   1, 10,  ANIM_LOOP
+
     switch (this->state)
     {
         case E_ITEM_ST_IDLE:
@@ -377,10 +386,20 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
                         game.lives++;
                         this->dead = true;
                     }
+
+                    play_animation(&this->anim, ANIM_ITEM_EXTRA_LIFE);
+                break;
+                case E_ITEM_FULL_LIFE:
+                    //if collision with player
+                    if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+                    {
+                        game.life = GAME_INI_LIFE;
+                        this->dead = true;
+                    }
+
+                    play_animation(&this->anim, ANIM_ITEM_FULL_LIFE);
                 break;
             }
-            
-            this->anim.frame = 0;
         break;        
         default:
             this->state = E_ITEM_ST_IDLE;

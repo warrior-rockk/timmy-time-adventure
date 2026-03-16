@@ -27,7 +27,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
     {
         int16_t drawX, drawY;
         
-        //assign current frame sub-bitmap of entity
+        //assign current frame sub-bitmap of entity        
         entitySprite = create_sub_bitmap(entity->img, entity->anim.frame * entity->spriteSize.x, 0, entity->spriteSize.x, entity->spriteSize.y);
 
         //check alignment axis
@@ -162,6 +162,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_destroy  = &player_destroy;
             break;
             case E_ENT_CLASS_OBJECT:
+                entityList[newEntity].img             = NULL;    
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
@@ -171,6 +172,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             case E_ENT_CLASS_ENEMY:
+                entityList[newEntity].img             = NULL;    
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &enemy_create;
                 entityList[newEntity].entity_init     = &enemy_init;

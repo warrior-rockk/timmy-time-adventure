@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="208" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="38">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="208" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="39">
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="100" columns="10">
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="160"/>
   <tile id="1">
@@ -429,6 +429,11 @@
   <object id="37" name="item" type="object" x="640" y="32" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
+  <object id="38" name="item" type="object" x="576" y="64" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
  </objectgroup>
