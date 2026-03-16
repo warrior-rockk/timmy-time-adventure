@@ -9,12 +9,14 @@
 #include "game.h"
 #include "objects.h"
 #include "collisions.h"
+#include "sound.h"
 
 #define TRACE_FLAG  "[OBJECT]"
 
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
+SAMPLE *objectSfx[E_SFX_OBJECT_NUM];
 
 void object_system_init()
 {
@@ -23,6 +25,9 @@ void object_system_init()
     objectDataList = NULL;
     //set number of entities
     numObjectInstances = 0;    
+
+    //load object sfx
+    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_wav("res/objects/powerup.wav");
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -42,6 +47,16 @@ void object_system_destroy()
         {
             destroy_bitmap(objectResources[i]);
             objectResources[i] = NULL;
+        }
+    }
+
+    //free samples
+    for (uint8_t i = 0; i < E_SFX_OBJECT_NUM; i++)
+    {
+        if (objectSfx[i])
+        {
+            destroy_sample(objectSfx[i]);
+            objectSfx[i] = NULL;
         }
     }
 
@@ -374,6 +389,7 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
                     if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
                     {
                         game.life = GAME_INI_LIFE;
+                        sfx_play(objectSfx[E_SFX_OBJECT_FULL_LIFE], E_SFX_OBJECT_VOICE);
                         this->dead = true;
                     }
 

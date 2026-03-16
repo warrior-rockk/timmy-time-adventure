@@ -38,6 +38,12 @@ typedef struct
     uint16_t timer;    
 } tSolidObjectLocalData;
 
+enum E_OBJECT_SFX
+{
+    E_SFX_OBJECT_FULL_LIFE,        
+    E_SFX_OBJECT_NUM,
+};
+
 //debug trace entity object info
 void object_trace(tEntity *this);
 
