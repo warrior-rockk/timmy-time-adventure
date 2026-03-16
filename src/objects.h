@@ -11,6 +11,7 @@
 
 #define ANIM_OBJECT_BREAK                1,  2, 10, ANIM_ONCE
 
+//object types
 enum E_OBJECT_TYPE
 {
     E_GEM_OBJECT_TYPE,
@@ -24,6 +25,7 @@ enum E_OBJECT_TYPE
     E_OBJECTS_TYPE_NUM,
 };
 
+//item type uses spare to set type
 enum E_ITEMS_TYPE
 {
     E_ITEM_EXTRA_LIFE,
