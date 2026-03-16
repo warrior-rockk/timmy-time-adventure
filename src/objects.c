@@ -15,7 +15,6 @@
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
-BITMAP *itemResources[E_ITEMS_NUM];
 
 void object_system_init()
 {
@@ -43,15 +42,6 @@ void object_system_destroy()
         {
             destroy_bitmap(objectResources[i]);
             objectResources[i] = NULL;
-        }
-    }
-
-    for (uint8_t i = 0; i < E_ITEMS_NUM; i++)
-    {
-        if (itemResources[i])
-        {
-            destroy_bitmap(itemResources[i]);
-            itemResources[i] = NULL;
         }
     }
 
@@ -129,20 +119,10 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
         case E_ITEM_OBJECT_TYPE:         
-            switch (entity->spare)
-            {
-                case E_ITEM_EXTRA_LIFE:
-                    if (!itemResources[E_ITEM_EXTRA_LIFE])
-                        itemResources[E_ITEM_EXTRA_LIFE] = load_bmp("res/objects/items.bmp", NULL);
-                    entity->img = itemResources[E_ITEM_EXTRA_LIFE];
-                break;
-                case E_ITEM_FULL_LIFE:
-                    if (!itemResources[E_ITEM_FULL_LIFE])
-                        itemResources[E_ITEM_FULL_LIFE] = load_bmp("res/objects/items.bmp", NULL);
-                    entity->img = itemResources[E_ITEM_FULL_LIFE];
-                break;
-            }   
-            
+            if (!objectResources[E_ITEM_OBJECT_TYPE])
+                objectResources[E_ITEM_OBJECT_TYPE] = load_bmp("res/objects/items.bmp", NULL);
+
+            entity->img = objectResources[E_ITEM_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_SPAWN;
