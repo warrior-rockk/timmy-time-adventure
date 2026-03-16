@@ -433,7 +433,7 @@
   </object>
   <object id="38" name="item" type="object" x="208" y="96" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
  </objectgroup>

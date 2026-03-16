@@ -28,6 +28,7 @@ void object_system_init()
 
     //load object sfx
     objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_wav("res/objects/powerup.wav");
+    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_wav("res/objects/live.wav");
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -379,6 +380,7 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
                     if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
                     {
                         game.lives++;
+                        sfx_play(objectSfx[E_SFX_OBJECT_EXTRA_LIVE], E_SFX_OBJECT_VOICE);
                         this->dead = true;
                     }
 
