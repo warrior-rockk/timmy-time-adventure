@@ -35,17 +35,21 @@
 #define WHITE_COLOR             63
 
 //clock iteration duration value
-#define GAME_CLOCK_TICK     10      //10ms game tick
+#define GAME_CLOCK_TICK         10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          1       //initial game lives
+#define GAME_INI_LIVES          3       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
-#define GAME_FADE_SPEED         3       //general game fade speed
+#ifdef DEBUGMODE
+    #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
+#else
+    #define GAME_FADE_SPEED         2       //general game fade speed (1: slowest 64: instantaneous)
+#endif
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
 #define GAME_INIT_LEVEL_DELAY   100     //time delay on start level
 
 //position of player on entities array
-#define PLAYER_ENTITY_ID    0
+#define PLAYER_ENTITY_ID        0
 
 //HUD defines
 #define HUD_POSITION_Y          166

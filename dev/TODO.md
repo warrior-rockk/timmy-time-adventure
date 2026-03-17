@@ -9,6 +9,7 @@
 - [ ] Playback system
 - [ ] Platform objects
 - [ ] PC Speaker effects?
+- [ ] Camera shake
 - [X] Level checkpoints
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
