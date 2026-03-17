@@ -39,7 +39,7 @@ BITMAP *worldScreen;                //map window buffer
 RGB* gamePal;                       //game palette
 FONT *gameFont;                     //game font
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
-MIDI* musicLevel;                   //current MIDI music level
+MIDI* gameMusic;                    //current MIDI game music
 
 tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
@@ -94,18 +94,21 @@ void game_update()
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);                    
                     textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
+
+                    gameMusic = load_midi("res/game/warcom.mid");
+                    music_play(gameMusic, 0);
+                                        
                     gameSeq.step++;
                 break;
                 case 2:
-                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    if (music_get_pos() < 0 || input_any_key_pressed())
                     {
                         game.state++;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = true;
+                        music_stop();
                     }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -119,20 +122,22 @@ void game_update()
                     BITMAP *logo = load_bmp("res/game/dosclub.bmp", desktop_palette);
                                         
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
-                    destroy_bitmap(logo);                    
+                    destroy_bitmap(logo);   
+                    
+                    gameMusic = load_midi("res/game/dosclub.mid");
+                    music_play(gameMusic, 0);
                     
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    if (music_get_pos() < 0 || input_any_key_pressed())
                     {
                         game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = true;
-                    }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
+                        music_stop();
+                    }                    
                 break;
             }
         break;
@@ -201,13 +206,13 @@ void game_update()
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
                     game_hud_update();                    
 
-                    music_play(musicLevel, -1);
+                    music_play(gameMusic, -1);
                     
                     gameSeq.step++;
                 break;                
                 case 1: //level start delay
                     game.fadeIn = true;
-                    
+
                     if (gameSeq.timeCounter >= GAME_INIT_LEVEL_DELAY)
                     {
                         game.state = E_GAME_ST_PLAY_LEVEL;                        
@@ -240,7 +245,7 @@ void game_update()
             if (game.loseLive)
             {                
                 game.lives--;                
-                music_stop(musicLevel);
+                music_stop(gameMusic);
                 game.state = E_GAME_ST_LOSE_LIVE;                
             }            
 
@@ -313,7 +318,7 @@ void game_update()
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);                    
                     entities_draw(worldScreen, &scroll);
 
-                    music_stop(musicLevel);
+                    music_stop(gameMusic);
 
                     //TODO: replace with the duration of complete music
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
@@ -374,7 +379,7 @@ void game_update()
             {
                 case 0:
                     game_destroy_level();                            
-                    textout_centre_ex(buffer, gameFont, "GAME OVER", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "GAME OVER", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
                     MY_TRACE_FLAG( "Game Over\n");
                     gameSeq.step++;
@@ -396,7 +401,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    textout_centre_ex(buffer, gameFont, "CONGRATULATIONS!", GAME_W>>1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "CONGRATULATIONS!", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
                     gameSeq.step++;
@@ -457,17 +462,12 @@ void game_init()
 {
     MY_TRACE_FLAG( "Init game\n");
 
-    /* set the color palette */
-    //temporaly
-    //free(load_bmp("res/pals/level.bmp", desktop_palette));
-    //set_palette(desktop_palette);
-
     //loads game font
     gameFont = load_font("res/game/font4.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
-    //clear_to_color(buffer, BLACK_COLOR);
+    clear(buffer);
 
     //load hud image
     hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
@@ -513,14 +513,12 @@ void game_init()
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
+    game.fadeState      = E_FADED_IN;    
     hud.refresh         = E_REFRESH_HUD_ALL;
     game.viewMap        = false;
 
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
-
-    //forces initial fadeout
-    game.fadeState = E_FADED_IN;    
 }
 
 void game_draw()
@@ -609,7 +607,7 @@ static void game_load_level(uint8_t numLevel)
     
     //load music level
     if (levelDataFile[numLevel].musicFile)
-        musicLevel = load_midi(levelDataFile[numLevel].musicFile);
+        gameMusic = load_midi(levelDataFile[numLevel].musicFile);
 }
 
 void game_destroy()
@@ -630,10 +628,10 @@ void game_destroy()
     }
 
     //destroy music
-    if (musicLevel)
+    if (gameMusic)
     {
-        destroy_midi(musicLevel);
-        musicLevel = NULL;
+        destroy_midi(gameMusic);
+        gameMusic = NULL;
     }
 }
 
