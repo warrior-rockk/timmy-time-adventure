@@ -24,6 +24,8 @@
 #include "enemies.h"
 #include "sound.h"
 
+#include "gdata.h"
+
 #define TRACE_FLAG  "[GAME]"
 
 //debug option structure
@@ -40,7 +42,7 @@ RGB* gamePal;                       //game palette
 FONT *gameFont;                     //game font
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
-
+DATAFILE_INDEX *gameDataIndex; 
 tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
 tScroll scroll;                     //game scroll
@@ -469,8 +471,12 @@ void game_init()
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear(buffer);
 
+    //create game data file index
+    gameDataIndex = create_datafile_index("res/game/gdata.dat");
+
     //load hud image
-    hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
+    hud.hudImg = load_datafile_object_indexed(gameDataIndex, HUD_BMP)->dat;
+    //hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
     hud.hudLifeOff = create_bitmap(15, 14);
     hud.hudLifeOn  = create_bitmap(15, 14);
     blit(hud.hudImg, hud.hudLifeOn, 65, 5, 0, 0, 15, 14);
