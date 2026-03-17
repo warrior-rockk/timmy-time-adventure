@@ -83,18 +83,47 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    game.fadeOut = true;
+                    clear(buffer);
+                    game.fadeOut = true;                                        
                     gameSeq.step++;
-                break;
+                break;                                
                 case 1:
-                    game.fadeIn = true;
-                    BITMAP *logo = load_bmp("res/game/warcom.bmp", NULL);
+                    game.fadeIn = true;                                        
+                    BITMAP *logo = load_bmp("res/game/warcom.bmp", desktop_palette);
+                                        
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);                    
-                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
                     gameSeq.step++;
                 break;
                 case 2:
+                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    {
+                        game.state++;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+            }
+        break;
+        case E_GAME_ST_DOS_LOGO:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game.fadeIn = true;
+                    clear(buffer);
+                    
+                    BITMAP *logo = load_bmp("res/game/dosclub.bmp", desktop_palette);
+                                        
+                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
+                    destroy_bitmap(logo);                    
+                    
+                    gameSeq.step++;
+                break;
+                case 1:
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
                         game.state = E_GAME_ST_TITLE;
@@ -111,12 +140,13 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    clear_to_color(buffer, BLACK_COLOR);
+                    clear(buffer);                    
+                    free(load_bmp("res/game/hud.bmp", desktop_palette));
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
-                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, 30, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, 30, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, WHITE_COLOR, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
@@ -172,14 +202,15 @@ void game_update()
                     game_hud_update();                    
 
                     music_play(musicLevel, -1);
-
+                    
                     gameSeq.step++;
                 break;                
                 case 1: //level start delay
+                    game.fadeIn = true;
+                    
                     if (gameSeq.timeCounter >= GAME_INIT_LEVEL_DELAY)
                     {
-                        game.state = E_GAME_ST_PLAY_LEVEL;
-                        game.fadeIn = true;
+                        game.state = E_GAME_ST_PLAY_LEVEL;                        
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
                     }
@@ -428,18 +459,18 @@ void game_init()
 
     /* set the color palette */
     //temporaly
-    free(load_bmp("res/pals/level.bmp", desktop_palette));
-    set_palette(desktop_palette);
+    //free(load_bmp("res/pals/level.bmp", desktop_palette));
+    //set_palette(desktop_palette);
 
     //loads game font
-    gameFont = load_font("res/font4.pcx", NULL, NULL);
+    gameFont = load_font("res/game/font4.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
-    clear_to_color(buffer, BLACK_COLOR);
+    //clear_to_color(buffer, BLACK_COLOR);
 
     //load hud image
-    hud.hudImg = load_bmp("res/hud.bmp", NULL);
+    hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
     hud.hudLifeOff = create_bitmap(15, 14);
     hud.hudLifeOn  = create_bitmap(15, 14);
     blit(hud.hudImg, hud.hudLifeOn, 65, 5, 0, 0, 15, 14);
@@ -449,7 +480,7 @@ void game_init()
     collision_system_init();    
     debug_init();
     timer_init(GAME_CLOCK_TICK);
-    sfx_init(load_wav("res/player/jump.wav"), E_SFX_NUM_VOICES);
+    sfx_init(load_wav("res/game/point.wav"), E_SFX_NUM_VOICES);
     
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]       = load_wav("res/game/point.wav");
@@ -473,7 +504,7 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
         
     #ifdef DEBUGMODE
-        game.state      = E_GAME_ST_INIT;
+        game.state      = E_GAME_ST_LOGO; //E_GAME_ST_INIT;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif
@@ -487,6 +518,9 @@ void game_init()
 
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
+
+    //forces initial fadeout
+    game.fadeState = E_FADED_IN;    
 }
 
 void game_draw()

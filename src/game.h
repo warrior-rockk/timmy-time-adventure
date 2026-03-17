@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -61,6 +61,7 @@
 enum E_GAME_STATE
 {
     E_GAME_ST_LOGO,
+    E_GAME_ST_DOS_LOGO,
     E_GAME_ST_INTRO,
     E_GAME_ST_TITLE,
     E_GAME_ST_INIT,
