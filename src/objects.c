@@ -11,12 +11,15 @@
 #include "collisions.h"
 #include "sound.h"
 
+#include "data/odata.h"
+
 #define TRACE_FLAG  "[OBJECT]"
 
 uint16_t numObjectInstances;        //num of object instances
 static void *objectDataList;        //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];
+DATAFILE_INDEX *objectDataFileIndex;
 
 void object_system_init()
 {
@@ -26,9 +29,12 @@ void object_system_init()
     //set number of entities
     numObjectInstances = 0;    
 
+    //create data file index
+    objectDataFileIndex = create_datafile_index("objects.dat");
+
     //load object sfx
-    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_wav("res/objects/powerup.wav");
-    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_wav("res/objects/live.wav");
+    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_datafile_object_indexed(objectDataFileIndex, POWERUP_WAV)->dat;
+    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_datafile_object_indexed(objectDataFileIndex, LIVE_WAV)->dat;
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -61,6 +67,8 @@ void object_system_destroy()
         }
     }
 
+    destroy_datafile_index(objectDataFileIndex);
+
     MY_TRACE_FLAG("Destroyed object system\n");
 }
 
@@ -76,26 +84,9 @@ void object_create(tEntity *entity)
     //set object properties    
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_TYPE:            
-            if (!objectResources[E_GEM_OBJECT_TYPE])
-                objectResources[E_GEM_OBJECT_TYPE] = load_bmp("res/objects/object.bmp", NULL);
-
-            entity->img = objectResources[E_GEM_OBJECT_TYPE];
-            entity->spriteSize = (tVector){entity->img->w, entity->img->h};
-            entity->size = (tVector){14, 16};                
-        break;
-        case E_STONE_OBJECT_TYPE:            
-            if (!objectResources[E_STONE_OBJECT_TYPE])
-                objectResources[E_STONE_OBJECT_TYPE] = load_bmp("res/objects/stone.bmp", NULL);
-
-            entity->img = objectResources[E_STONE_OBJECT_TYPE];
-            entity->spriteSize = (tVector){16, 16};
-            entity->size = (tVector){16, 16};              
-            collision_create_entity_points(entity);                    
-        break;
         case E_ROCK_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_OBJECT_TYPE])
-                objectResources[E_ROCK_OBJECT_TYPE] = load_bmp("res/objects/rock.bmp", NULL);
+                objectResources[E_ROCK_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ROCK_BMP)->dat;
 
             entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -104,7 +95,7 @@ void object_create(tEntity *entity)
         break;
         case E_ROCK_2_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_2_OBJECT_TYPE])
-                objectResources[E_ROCK_2_OBJECT_TYPE] = load_bmp("res/objects/rock2.bmp", NULL);
+                objectResources[E_ROCK_2_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ROCK2_BMP)->dat;
 
             entity->img = objectResources[E_ROCK_2_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -113,7 +104,7 @@ void object_create(tEntity *entity)
         break;
         case E_EGG_OBJECT_TYPE:            
             if (!objectResources[E_EGG_OBJECT_TYPE])
-                objectResources[E_EGG_OBJECT_TYPE] = load_bmp("res/objects/egg.bmp", NULL);
+                objectResources[E_EGG_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, EGG_BMP)->dat;
 
             entity->img = objectResources[E_EGG_OBJECT_TYPE];
             entity->spriteSize = (tVector){21, 16};
@@ -122,7 +113,7 @@ void object_create(tEntity *entity)
         break;
         case E_END_OBJECT_TYPE:            
             if (!objectResources[E_END_OBJECT_TYPE])
-                objectResources[E_END_OBJECT_TYPE] = load_bmp("res/objects/end.bmp", NULL);
+                objectResources[E_END_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, END_BMP)->dat;
 
             entity->img = objectResources[E_END_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -136,7 +127,7 @@ void object_create(tEntity *entity)
         break;
         case E_ITEM_OBJECT_TYPE:         
             if (!objectResources[E_ITEM_OBJECT_TYPE])
-                objectResources[E_ITEM_OBJECT_TYPE] = load_bmp("res/objects/items.bmp", NULL);
+                objectResources[E_ITEM_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ITEMS_BMP)->dat;
 
             entity->img = objectResources[E_ITEM_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -162,9 +153,6 @@ void object_update(tEntity *entity)
 {   
     switch (entity->entType)
     {
-        case E_GEM_OBJECT_TYPE:            
-            object_gem_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;       
         case E_END_OBJECT_TYPE:
             object_end_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -213,25 +201,6 @@ void object_destroy(tEntity *entity)
         objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));     
 
     MY_TRACE_FLAG("Destroyed object instance:%i\n", objectIndex);
-}
-
-void object_gem_update(tEntity *this, tSolidObjectLocalData *local)
-{
-    //object states
-    enum E_GEM_STATE {E_GEM_ST_IDLE};
-
-    switch (this->state)
-    {
-        case E_GEM_ST_IDLE:
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);            
-            
-            //change direction on range patrol
-            if ((this->dir && this->pos.x > (this->initPos.x + 20)) || (!this->dir && this->pos.x < (this->initPos.x - 20)))
-                this->dir = !this->dir;
-        break;        
-        default:
-            this->state = E_GEM_ST_IDLE;
-    }
 }
 
 void object_solid_update(tEntity *this, tSolidObjectLocalData *local)

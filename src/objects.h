@@ -14,8 +14,6 @@
 //object types
 enum E_OBJECT_TYPE
 {
-    E_GEM_OBJECT_TYPE,
-    E_STONE_OBJECT_TYPE,
     E_ROCK_OBJECT_TYPE,
     E_ROCK_2_OBJECT_TYPE,
     E_EGG_OBJECT_TYPE,
@@ -61,8 +59,6 @@ void object_update(tEntity *entity);
 //destroy object instance of list
 void object_destroy(tEntity *entity);
 
-//custom update function for gems objects
-void object_gem_update(tEntity *this, tSolidObjectLocalData *objData);
 //custom update function for stone objects
 void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
