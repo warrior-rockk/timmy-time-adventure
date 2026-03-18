@@ -526,6 +526,7 @@ void game_init()
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
     game.fadeState      = E_FADED_IN;    
+    game.fadeOut        = true;
     hud.refresh         = E_REFRESH_HUD_ALL;
     game.viewMap        = false;
 
