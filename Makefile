@@ -57,7 +57,7 @@ TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(DEBUG_BIN_DIR)/%.bin, $(TMX_FILES))
 
 #dat resources
-DAT_RESOURCES := ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat
+DAT_RESOURCES := ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat ${DEBUG_BIN_DIR}west.dat ${DEBUG_BIN_DIR}medieval.dat
 
 #all targets
 all: debug release
@@ -86,6 +86,12 @@ ${DEBUG_BIN_DIR}enemies.dat: ${RESOURCES_DIR}enemies/
 
 ${DEBUG_BIN_DIR}jurassic.dat: ${RESOURCES_DIR}levels/jurassic/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/judata.h
+
+${DEBUG_BIN_DIR}west.dat: ${RESOURCES_DIR}levels/west/
+	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/wedata.h
+
+${DEBUG_BIN_DIR}medieval.dat: ${RESOURCES_DIR}levels/medieval/
+	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/medata.h
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 

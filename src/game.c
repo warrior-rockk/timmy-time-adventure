@@ -26,6 +26,8 @@
 
 #include "data/gdata.h"
 #include "data/judata.h"
+#include "data/wedata.h"
+#include "data/medata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -514,12 +516,18 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
     levelDataFile[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
     levelDataFile[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE_MID;
-    //levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
-    //levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
-    //levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;
-    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
-    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
-    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
+
+    levelDataFile[E_GAME_LEVEL_WEST].mapFile            = "west.bin";
+    levelDataFile[E_GAME_LEVEL_WEST].dataFile           = "west.dat";
+    levelDataFile[E_GAME_LEVEL_WEST].tileFileIndex      = WEST_BMP;
+    levelDataFile[E_GAME_LEVEL_WEST].palFileIndex       = WEST_PAL;
+    levelDataFile[E_GAME_LEVEL_WEST].musicFileIndex     = WEST_MID;
+
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile        = "medieval.bin";
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].dataFile       = "medieval.dat";
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFileIndex  = MEDIEVAL_BMP;
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].palFileIndex   = MEDIEVAL_PAL;
+    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
         
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
