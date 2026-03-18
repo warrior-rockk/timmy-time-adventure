@@ -24,7 +24,7 @@
 #include "enemies.h"
 #include "sound.h"
 
-#include "gdata.h"
+#include "data/gdata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -472,7 +472,7 @@ void game_init()
     clear(buffer);
 
     //create game data file index
-    gameDataIndex = create_datafile_index("res/game/gdata.dat");
+    gameDataIndex = create_datafile_index("game.dat");
 
     //load hud image
     hud.hudImg = load_datafile_object_indexed(gameDataIndex, HUD_BMP)->dat;
