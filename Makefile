@@ -70,6 +70,7 @@ all: debug release
 debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) ${DAT_RESOURCES}
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
 maps: directories $(BIN_FILES)
+dat: ${DAT_RESOURCES}
 
 # Regla explícita para crear directorios
 directories:
@@ -77,10 +78,10 @@ directories:
 
 #generate dat files
 ${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --h ${SRC_DIR}/data/gdata.h
 
 ${DEBUG_BIN_DIR}player.dat: ${RESOURCES_DIR}player/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --h ${SRC_DIR}/data/pdata.h
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
