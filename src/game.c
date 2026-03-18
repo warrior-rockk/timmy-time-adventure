@@ -492,11 +492,12 @@ void game_init()
     collision_system_init();    
     debug_init();
     timer_init(GAME_CLOCK_TICK);
-    sfx_init(load_wav("res/game/point.wav"), E_SFX_NUM_VOICES);
+    sfx_init(load_datafile_object_indexed(gameDataIndex, POINT_WAV)->dat, E_SFX_NUM_VOICES);
+    
     
     //load game sfx
-    gameSfx[E_SFX_GAME_POINT]       = load_wav("res/game/point.wav");
-    gameSfx[E_SFX_GAME_POINT_END]   = load_wav("res/game/pointEnd.wav");
+    gameSfx[E_SFX_GAME_POINT]       = load_datafile_object_indexed(gameDataIndex, POINT_WAV)->dat;
+    gameSfx[E_SFX_GAME_POINT_END]   = load_datafile_object_indexed(gameDataIndex, POINTEND_WAV)->dat;
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
