@@ -17,6 +17,8 @@
 #include "sound.h"
 #include "map.h"
 
+#include "data/pdata.h"
+
 #define TRACE_FLAG      "[PLAYER]"
 
 static fixed accelX;
@@ -30,6 +32,8 @@ static fixed minVelToReset;
 
 static fixed localFriction;
 static fixed localAccelX;
+
+static DATAFILE_INDEX* playerDataFileIndex;
 
 //local player variables
 static struct playerFlags
@@ -80,14 +84,20 @@ void player_create(tEntity *player)
     maxVelY     = ftofix(PLAYER_JUMP_VEL_Y);    
     minVelToReset = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
+    //create data file index for fast open individual data objects
+    playerDataFileIndex = create_datafile_index("player.dat");
+
+    //load player sprite
+    player->img                     = load_datafile_object_indexed(playerDataFileIndex, PLAYER_BMP)->dat;
+
     //load player sfx
-    playerSfx[SFX_PLAYER_JUMP]  = load_wav("res/player/jump.wav");
-    playerSfx[SFX_PLAYER_HURT]  = load_wav("res/player/hurt.wav");
-    playerSfx[SFX_PLAYER_THROW] = load_wav("res/player/throw.wav");
-    playerSfx[SFX_PLAYER_BOUNCE] = load_wav("res/player/bounce.wav");
-    playerSfx[SFX_PLAYER_PICK] = load_wav("res/player/pick.wav");
-    playerSfx[SFX_PLAYER_DEAD] = load_wav("res/player/dead.wav");
-    playerSfx[SFX_PLAYER_STAIR] = load_wav("res/player/stair.wav");    
+    playerSfx[SFX_PLAYER_JUMP]      = load_datafile_object_indexed(playerDataFileIndex, JUMP_WAV)->dat;
+    playerSfx[SFX_PLAYER_HURT]      = load_datafile_object_indexed(playerDataFileIndex, HURT_WAV)->dat;
+    playerSfx[SFX_PLAYER_THROW]     = load_datafile_object_indexed(playerDataFileIndex, THROW_WAV)->dat;
+    playerSfx[SFX_PLAYER_BOUNCE]    = load_datafile_object_indexed(playerDataFileIndex, BOUNCE_WAV)->dat;
+    playerSfx[SFX_PLAYER_PICK]      = load_datafile_object_indexed(playerDataFileIndex, PICK_WAV)->dat;
+    playerSfx[SFX_PLAYER_DEAD]      = load_datafile_object_indexed(playerDataFileIndex, DEAD_WAV)->dat;
+    playerSfx[SFX_PLAYER_STAIR]     = load_datafile_object_indexed(playerDataFileIndex, STAIR_WAV)->dat;
 }
 
 void player_init(tEntity *player)
@@ -111,6 +121,8 @@ void player_destroy(tEntity *player)
 
     //free player bitmaps
     destroy_bitmap(player->img);
+
+    destroy_datafile_index(playerDataFileIndex);
 }
 
 void player_update(tEntity *player)

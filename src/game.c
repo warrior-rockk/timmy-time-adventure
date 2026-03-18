@@ -516,7 +516,7 @@ void game_init()
     levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
         
     #ifdef DEBUGMODE
-        game.state      = E_GAME_ST_LOGO; //E_GAME_ST_INIT;
+        game.state      = E_GAME_ST_INIT;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif

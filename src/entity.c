@@ -129,6 +129,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         //identification data
         entityList[newEntity].id              = newEntity;
         entityList[newEntity].entInstance     = 0;
+        entityList[newEntity].img             = NULL;
         //parameters data
         entityList[newEntity].entClass        = entityClass;
         entityList[newEntity].entType         = entityType;
@@ -150,8 +151,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         //data based on entity class
         switch (entityList[newEntity].entClass)
         {
-            case E_ENT_CLASS_PLAYER:
-                entityList[newEntity].img             = load_bmp("res/player/player.bmp",NULL);
+            case E_ENT_CLASS_PLAYER:                
                 entityList[newEntity].spriteSize      = (tVector){PLAYER_IMG_W,PLAYER_IMG_H};  
                 entityList[newEntity].size            = (tVector){PLAYER_SIZE_W,PLAYER_SIZE_H};        
                 entityList[newEntity].axis            = E_ENT_AXIS_DOWN;
@@ -161,8 +161,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_update   = &player_update;
                 entityList[newEntity].entity_destroy  = &player_destroy;
             break;
-            case E_ENT_CLASS_OBJECT:
-                entityList[newEntity].img             = NULL;    
+            case E_ENT_CLASS_OBJECT:                   
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
@@ -171,8 +170,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_destroy  = NULL;
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
-            case E_ENT_CLASS_ENEMY:
-                entityList[newEntity].img             = NULL;    
+            case E_ENT_CLASS_ENEMY:                   
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &enemy_create;
                 entityList[newEntity].entity_init     = &enemy_init;
