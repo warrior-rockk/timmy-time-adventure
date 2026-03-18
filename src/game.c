@@ -471,10 +471,9 @@ void game_init()
     //game palette
     gamePal = load_datafile_object_indexed(gameDataIndex, INTRO_PAL)->dat;
     set_palette(gamePal);
-
-    //TODO: load font from dat?
+    
     //loads game font 
-    gameFont = load_font("res/game/font4.pcx", NULL, NULL);
+    gameFont = grab_font_from_bitmap(load_datafile_object_indexed(gameDataIndex, FONT4_BMP)->dat);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
