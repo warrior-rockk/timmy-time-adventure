@@ -78,7 +78,7 @@ directories:
 	@mkdir -p $(MAPS_OUT_DIR)	
 
 #generate dat files
-${DEBUG_BIN_DIR}game.dat: ${GAME_DAT_FILES}
+${DEBUG_BIN_DIR}game.dat: $(wildcard ${GAME_DAT_DIR}*.*)
 	./tools/dat create $@ --bmp ${GAME_DAT_DIR}*.bmp --wav ${GAME_DAT_DIR}*.wav --midi ${GAME_DAT_DIR}*.mid
 
 #binary target (debug)
