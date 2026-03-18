@@ -57,10 +57,9 @@ LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
 #test map generation
 MAPS_SRC_DIR = ./dev/maps
-MAPS_OUT_DIR = ${DEBUG_BIN_DIR}
 # Buscamos todos los .tmx y definimos sus equivalentes .bin
 TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
-BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES))
+BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(DEBUG_BIN_DIR)/%.bin, $(TMX_FILES))
 
 #dat resources
 DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat
@@ -69,14 +68,10 @@ DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BI
 all: debug release
 
 #main targets
-debug: directories ${DEBUG_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
+debug: ${DEBUG_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
-maps: directories $(BIN_FILES)
-dat: ${DAT_RESOURCES}
-
-# Regla explícita para crear directorios
-directories:
-	@mkdir -p $(MAPS_OUT_DIR)	
+maps: $(BIN_FILES)
+dat: ${DAT_RESOURCES}	
 
 #generate dat files
 ${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
@@ -113,14 +108,9 @@ ${DEBUG_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
 	${CC} -x c -c -MD $< -o $@ ${DEBUG_CFLAGS}
 
 # REGLA CLAVE: Convertir .tmx a .bin
-$(MAPS_OUT_DIR)/%.bin: $(MAPS_SRC_DIR)/%.tmx | $(MAPS_OUT_DIR)
+$(DEBUG_BIN_DIR)/%.bin: $(MAPS_SRC_DIR)/%.tmx | $(DEBUG_BIN_DIR)
 	@echo "Convirtiendo mapa: $< -> $@"
 	python3 ./tools/tmx2bin.py $< $@
-
-#copy resources (debug)
-${DEBUG_RES_DIR}%: ${RESOURCES_DIR}%
-	mkdir -p  $(@D)
-	cp $< $@
 
 #binary target (release)
 ${RELEASE_BIN_DIR}${APP}: ${RELEASE_OBJS}
@@ -136,11 +126,6 @@ ${RELEASE_BIN_DIR}${APP}: ${RELEASE_OBJS}
 ${RELEASE_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
 	mkdir -p ${RELEASE_OBJS_DIR}
 	${CC} -x c -c -MD $< -o $@ ${RELEASE_CFLAGS}
-
-#copy resources (release)
-${RELEASE_RES_DIR}%: ${RESOURCES_DIR}%
-	mkdir -p  $(@D)
-	cp $< $@
 
 #dependency includes
 -include ${DEBUG_OBJS_DIR}*.d
