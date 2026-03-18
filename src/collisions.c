@@ -10,6 +10,8 @@
 #include "collisions.h"
 #include "map.h"
 
+#include "data/cdata.h"
+
 #define TRACE_FLAG  "[COLLISION]"
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
@@ -17,6 +19,7 @@ static uint16_t numEntitiesColPoints;       //number of entities collision point
 BITMAP *collisionMapSlope45;                //collision map of a 45º slope
 BITMAP *collisionMapSlope135;               //collision map of a 135º slope
 BITMAP *collisionMapSolidOnFall;            //collision map of solid only on fall
+DATAFILE_INDEX *collisionDataFileIndex;
 
 //inits collision system
 void collision_system_init()
@@ -26,10 +29,14 @@ void collision_system_init()
     entColPointsList = NULL;
     //clear num entities collision points
     numEntitiesColPoints = 0;
+
+    //create data file index
+    collisionDataFileIndex = create_datafile_index("coll.dat");
+
     //load special tile collision map
-    collisionMapSlope135    = load_bmp("res/tiles/slope135.bmp", NULL);
-    collisionMapSlope45     = load_bmp("res/tiles/slope45.bmp", NULL);
-    collisionMapSolidOnFall = load_bmp("res/tiles/sonfall.bmp", NULL);
+    collisionMapSlope135    = load_datafile_object_indexed(collisionDataFileIndex, SLOPE135_BMP)->dat;
+    collisionMapSlope45     = load_datafile_object_indexed(collisionDataFileIndex, SLOPE45_BMP)->dat;
+    collisionMapSolidOnFall = load_datafile_object_indexed(collisionDataFileIndex, SONFALL_BMP)->dat;
 
     MY_TRACE_FLAG("Initialized collision system\n");
 }
@@ -46,6 +53,8 @@ void collision_system_destroy()
     destroy_bitmap(collisionMapSlope135);
     destroy_bitmap(collisionMapSlope45);
     destroy_bitmap(collisionMapSolidOnFall);
+
+    destroy_datafile_index(collisionDataFileIndex);
 
     MY_TRACE_FLAG("Destroyed collision system\n");
 }
