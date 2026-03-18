@@ -12,12 +12,15 @@
 #include "collisions.h"
 #include "sound.h"
 
+#include "data/edata.h"
+
 #define TRACE_FLAG  "[ENEMY]"
 
 uint16_t numEnemyInstances;        //num of enemy instances
 static void *enemyDataList;        //list of enemy local data
 BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
 SAMPLE *enemySfx[E_SFX_ENEMY_NUM];
+DATAFILE_INDEX *enemyDataFileIndex;
 
 void enemy_system_init()
 {
@@ -27,8 +30,11 @@ void enemy_system_init()
     //set number of entities
     numEnemyInstances = 0;     
 
+    //create data file index
+    enemyDataFileIndex = create_datafile_index("enemies.dat");
+
     //load enemy sfx
-    enemySfx[E_SFX_ENEMY_DEAD]  = load_wav("res/enemies/dead.wav");
+    enemySfx[E_SFX_ENEMY_DEAD]  = load_datafile_object_indexed(enemyDataFileIndex, DEAD_WAV)->dat;
 
     MY_TRACE_FLAG("Initialized enemy system\n");
 }
@@ -58,6 +64,8 @@ void enemy_system_destroy()
             enemyResources[i] = NULL;
         }
     }
+
+    destroy_datafile_index(enemyDataFileIndex);
 
     MY_TRACE_FLAG("Destroyed enemy system\n");
 }
@@ -101,7 +109,7 @@ void enemy_create(tEntity *entity)
         case E_PTERO_ENEMY_TYPE:            
             //load enemy resources
             if (!enemyResources[E_PTERO_ENEMY_TYPE])
-                enemyResources[E_PTERO_ENEMY_TYPE] = load_bmp("res/enemies/ptero.bmp", NULL);
+                enemyResources[E_PTERO_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, PTERO_BMP)->dat;
             
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){71, 64};
@@ -110,7 +118,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_RAPTOR_ENEMY_TYPE:
             if (!enemyResources[E_RAPTOR_ENEMY_TYPE])
-                enemyResources[E_RAPTOR_ENEMY_TYPE] = load_bmp("res/enemies/raptor2.bmp", NULL);
+                enemyResources[E_RAPTOR_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, RAPTOR2_BMP)->dat;
             
             entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){72, 44};                          
@@ -121,7 +129,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_SPIDER_ENEMY_TYPE:
             if (!enemyResources[E_SPIDER_ENEMY_TYPE])
-                enemyResources[E_SPIDER_ENEMY_TYPE] = load_bmp("res/enemies/spider.bmp", NULL);
+                enemyResources[E_SPIDER_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, SPIDER_BMP)->dat;
             
             entity->img = enemyResources[E_SPIDER_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){20, 29};                          
@@ -130,7 +138,7 @@ void enemy_create(tEntity *entity)
         break;        
         case E_PIRANHA_ENEMY_TYPE:
             if (!enemyResources[E_PIRANHA_ENEMY_TYPE])
-                enemyResources[E_PIRANHA_ENEMY_TYPE] = load_bmp("res/enemies/piranha.bmp", NULL);
+                enemyResources[E_PIRANHA_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, PIRANHA_BMP)->dat;
             
             entity->img = enemyResources[E_PIRANHA_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){42, 33};                          
@@ -138,9 +146,9 @@ void enemy_create(tEntity *entity)
         break;
         case E_COWBOY_ENEMY_TYPE:
             if (!enemyResources[E_COWBOY_ENEMY_TYPE])
-                enemyResources[E_COWBOY_ENEMY_TYPE] = load_bmp("res/enemies/cowboy.bmp", NULL);
+                enemyResources[E_COWBOY_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, COWBOY_BMP)->dat;
             if (!enemySfx[E_SFX_ENEMY_SHOOT])
-                enemySfx[E_SFX_ENEMY_SHOOT]  = load_wav("res/enemies/shoot.wav");
+                enemySfx[E_SFX_ENEMY_SHOOT]  = load_datafile_object_indexed(enemyDataFileIndex, SHOOT_WAV)->dat;
             
             entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){50, 45};                          
@@ -149,7 +157,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_BULLET_ENEMY_TYPE:
             if (!enemyResources[E_BULLET_ENEMY_TYPE])
-                enemyResources[E_BULLET_ENEMY_TYPE] = load_bmp("res/enemies/bullet.bmp", NULL);
+                enemyResources[E_BULLET_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, BULLET_BMP)->dat;
             
             entity->img = enemyResources[E_BULLET_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){2, 2};                          
@@ -158,7 +166,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_EAGLE_ENEMY_TYPE:
             if (!enemyResources[E_EAGLE_ENEMY_TYPE])
-                enemyResources[E_EAGLE_ENEMY_TYPE] = load_bmp("res/enemies/eagle.bmp", NULL);
+                enemyResources[E_EAGLE_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, EAGLE_BMP)->dat;
             
             entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){32, 34};                          
@@ -167,7 +175,7 @@ void enemy_create(tEntity *entity)
         break;        
         case E_TUMBLE_ENEMY_TYPE:
             if (!enemyResources[E_TUMBLE_ENEMY_TYPE])
-                enemyResources[E_TUMBLE_ENEMY_TYPE] = load_bmp("res/enemies/tumble.bmp", NULL);
+                enemyResources[E_TUMBLE_ENEMY_TYPE] = load_datafile_object_indexed(enemyDataFileIndex, TUMBLE_BMP)->dat;
             
             entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){30, 29};                          
