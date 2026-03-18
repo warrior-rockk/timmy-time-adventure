@@ -63,13 +63,13 @@ BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES
 #dat resources
 DAT_RESOURCES		:= game.dat
 GAME_DAT_DIR		:= ${RESOURCES_DIR}game/
-GAME_DAT_FILES		:= $(wildcard ./res/game/*.*)
+GAME_DAT_FILES		:= $(wildcard ${GAME_DAT_DIR}*.*)
 
 #all targets
 all: debug release
 
 #main targets
-debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) ${DEBUG_BIN_DIR}${DAT_RESOURCES} #dat_files
+debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) ${DEBUG_BIN_DIR}${DAT_RESOURCES}
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
 maps: directories $(BIN_FILES)
 
@@ -80,10 +80,6 @@ directories:
 #generate dat files
 ${DEBUG_BIN_DIR}game.dat: ${GAME_DAT_FILES}
 	./tools/dat create $@ --bmp ${GAME_DAT_DIR}*.bmp --wav ${GAME_DAT_DIR}*.wav --midi ${GAME_DAT_DIR}*.mid
-
-dat_files:
-	@echo "genero ${DEBUG_BIN_DIR}game.dat"
-	./tools/dat create ${DEBUG_BIN_DIR}game.dat --bmp ${GAME_DAT_DIR}*.bmp --wav ${GAME_DAT_DIR}*.wav --midi ${GAME_DAT_DIR}*.mid
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
