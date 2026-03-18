@@ -43,33 +43,28 @@ RELEASE_OBJS_DIR  	:= ${BUILD_DIR}release/obj/
 RELEASE_RES_DIR		:= ${RELEASE_BIN_DIR}/res/
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
-#$(call rwildcard,${RESOURCES_DIR},*.png) $(call rwildcard,${RESOURCES_DIR},*.ttf)
-RESOURCES			:= $(call rwildcard,${RESOURCES_DIR},*.bmp) $(call rwildcard,${RESOURCES_DIR},*.pcx) $(call rwildcard,${RESOURCES_DIR},*.wav) $(call rwildcard,${RESOURCES_DIR},*.mid) $(call rwildcard,${RESOURCES_DIR},*.dat)
 DEBUG_OBJS 			:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${DEBUG_OBJS_DIR}%.o, ${SRCS})
-DEBUG_RESOURCES		:= ${patsubst ${RESOURCES_DIR}%, ${DEBUG_RES_DIR}%,${RESOURCES}}
 RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${SRCS})
-RELEASE_RESOURCES	:= ${patsubst ${RESOURCES_DIR}%, ${RELEASE_RES_DIR}%,${RESOURCES}}
 #compiler/linker flags
 CC					:= ${OS_GCC}
 DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
-#test map generation
+#map resources
 MAPS_SRC_DIR = ./dev/maps
-# Buscamos todos los .tmx y definimos sus equivalentes .bin
 TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(DEBUG_BIN_DIR)/%.bin, $(TMX_FILES))
 
 #dat resources
-DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat
+DAT_RESOURCES := ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat
 
 #all targets
 all: debug release
 
 #main targets
 debug: ${DEBUG_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
-release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
+release: ${RELEASE_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
 maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
@@ -107,9 +102,9 @@ ${DEBUG_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
 	mkdir -p ${DEBUG_OBJS_DIR}	
 	${CC} -x c -c -MD $< -o $@ ${DEBUG_CFLAGS}
 
-# REGLA CLAVE: Convertir .tmx a .bin
+# Convert .tmx to .bin
 $(DEBUG_BIN_DIR)/%.bin: $(MAPS_SRC_DIR)/%.tmx | $(DEBUG_BIN_DIR)
-	@echo "Convirtiendo mapa: $< -> $@"
+	@echo "## Converting map: $< -> $@"
 	python3 ./tools/tmx2bin.py $< $@
 
 #binary target (release)
