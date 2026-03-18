@@ -63,7 +63,7 @@ BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES
 #dat resources
 DAT_RESOURCES		:= game.dat
 GAME_DAT_DIR		:= ${RESOURCES_DIR}game/
-GAME_DAT_FILES		:= $(wildcard ./res/game/*.bmp)
+GAME_DAT_FILES		:= $(wildcard ./res/game/*.*)
 
 #all targets
 all: debug release
