@@ -78,10 +78,10 @@ directories:
 
 #generate dat files
 ${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --h ${SRC_DIR}/data/gdata.h
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/gdata.h
 
 ${DEBUG_BIN_DIR}player.dat: ${RESOURCES_DIR}player/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --h ${SRC_DIR}/data/pdata.h
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/pdata.h
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 

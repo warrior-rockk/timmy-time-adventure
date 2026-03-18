@@ -4,3 +4,5 @@
 #define POINT_WAV                     	3   	//SAMP
 #define POINTEND_WAV                  	4   	//SAMP
 #define DOSCLUB_MID                   	5   	//MIDI
+#define WARCOM_MID                    	6   	//MIDI
+#define INTRO_PAL                     	7   	//PAL 

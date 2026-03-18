@@ -5,3 +5,4 @@
 #define JUMP_WAV                      	4   	//SAMP
 #define PICK_WAV                      	5   	//SAMP
 #define STAIR_WAV                     	6   	//SAMP
+#define THROW_WAV                     	7   	//SAMP

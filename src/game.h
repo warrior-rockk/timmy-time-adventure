@@ -173,6 +173,7 @@ extern tGame game;
 extern double deltaTime;
 extern uint8_t gameExit;
 extern tDebugOptions debugOptions;
+extern RGB* gamePal;
 
 //function to init game
 void game_init();

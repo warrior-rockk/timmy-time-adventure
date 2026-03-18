@@ -90,14 +90,16 @@ void game_update()
                     gameSeq.step++;
                 break;                                
                 case 1:
-                    game.fadeIn = true;                                        
-                    BITMAP *logo = load_bmp("res/game/warcom.bmp", desktop_palette);
-                                        
+                    game.fadeIn = true;        
+                    
+                    BITMAP *logo = load_datafile_object_indexed(gameDataIndex, WARCOM_BMP)->dat;
+                    
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
-                    destroy_bitmap(logo);                    
+                    destroy_bitmap(logo);
+                    
                     textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
 
-                    gameMusic = load_midi("res/game/warcom.mid");
+                    gameMusic = load_datafile_object_indexed(gameDataIndex, WARCOM_MID)->dat;
                     music_play(gameMusic, 0);
                                         
                     gameSeq.step++;
@@ -120,13 +122,13 @@ void game_update()
                 case 0:
                     game.fadeIn = true;
                     clear(buffer);
-                    
-                    BITMAP *logo = load_bmp("res/game/dosclub.bmp", desktop_palette);
+                                        
+                    BITMAP *logo = load_datafile_object_indexed(gameDataIndex, DOSCLUB_BMP)->dat;
                                         
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);   
-                    
-                    gameMusic = load_midi("res/game/dosclub.mid");
+                                        
+                    gameMusic = load_datafile_object_indexed(gameDataIndex, DOSCLUB_MID)->dat;
                     music_play(gameMusic, 0);
                     
                     gameSeq.step++;
@@ -148,7 +150,6 @@ void game_update()
             {
                 case 0:
                     clear(buffer);                    
-                    free(load_bmp("res/game/hud.bmp", desktop_palette));
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
@@ -464,15 +465,20 @@ void game_init()
 {
     MY_TRACE_FLAG( "Init game\n");
 
-    //loads game font
+    //create game data file index for fast open individual data objects
+    gameDataIndex = create_datafile_index("game.dat");
+
+    //game palette
+    gamePal = load_datafile_object_indexed(gameDataIndex, INTRO_PAL)->dat;
+    set_palette(gamePal);
+
+    //TODO: load font from dat?
+    //loads game font 
     gameFont = load_font("res/game/font4.pcx", NULL, NULL);
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear(buffer);
-
-    //create game data file index
-    gameDataIndex = create_datafile_index("game.dat");
 
     //load hud image
     hud.hudImg = load_datafile_object_indexed(gameDataIndex, HUD_BMP)->dat;
@@ -639,6 +645,9 @@ void game_destroy()
         destroy_midi(gameMusic);
         gameMusic = NULL;
     }
+
+    //destroy game data index
+    destroy_datafile_index(gameDataIndex);
 }
 
 static void game_do_fade()
@@ -657,7 +666,7 @@ static void game_do_fade()
     {
         if (game.fadeState == E_FADED_OFF)
         {
-            fade_in(desktop_palette, GAME_FADE_SPEED);
+            fade_in(gamePal, GAME_FADE_SPEED);
             game.fadeState = E_FADED_IN;
         }
         
