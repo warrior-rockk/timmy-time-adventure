@@ -509,7 +509,7 @@ void game_init()
     //levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
     //levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
     //levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
-    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile        = "res/maps/jurassic.bin";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile        = "jurassic.bin";
     levelDataFile[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
     levelDataFile[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
     levelDataFile[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;

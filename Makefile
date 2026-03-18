@@ -57,7 +57,7 @@ LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
 #test map generation
 MAPS_SRC_DIR = ./dev/maps
-MAPS_OUT_DIR = ${DEBUG_RES_DIR}maps
+MAPS_OUT_DIR = ${DEBUG_BIN_DIR}
 # Buscamos todos los .tmx y definimos sus equivalentes .bin
 TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES))
