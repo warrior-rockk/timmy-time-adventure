@@ -69,13 +69,17 @@ GAME_DAT_FILES		:= $(wildcard ./res/game/*.bmp)
 all: debug release
 
 #main targets
-debug: ${DEBUG_BIN_DIR}${APP} directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) dat_files
+debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) ${DEBUG_BIN_DIR}${DAT_RESOURCES} #dat_files
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
 maps: directories $(BIN_FILES)
 
 # Regla explícita para crear directorios
 directories:
 	@mkdir -p $(MAPS_OUT_DIR)	
+
+#generate dat files
+${DEBUG_BIN_DIR}game.dat: ${GAME_DAT_FILES}
+	./tools/dat create $@ --bmp ${GAME_DAT_DIR}*.bmp --wav ${GAME_DAT_DIR}*.wav --midi ${GAME_DAT_DIR}*.mid
 
 dat_files:
 	@echo "genero ${DEBUG_BIN_DIR}game.dat"
