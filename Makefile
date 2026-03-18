@@ -62,8 +62,6 @@ BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES
 
 #dat resources
 DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat
-#GAME_DAT_DIR		:= ${RESOURCES_DIR}game/
-#PLAYER_DAT_DIR		:= ${RESOURCES_DIR}player/
 
 #all targets
 all: debug release
@@ -78,11 +76,11 @@ directories:
 	@mkdir -p $(MAPS_OUT_DIR)	
 
 #generate dat files
-${DEBUG_BIN_DIR}game.dat: $(wildcard ${RESOURCES_DIR}game/*.*)
-	./tools/dat create $@ --bmp ${RESOURCES_DIR}game/*.bmp --wav ${RESOURCES_DIR}game/*.wav --midi ${RESOURCES_DIR}game/*.mid
+${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid
 
-${DEBUG_BIN_DIR}player.dat: $(wildcard ${RESOURCES_DIR}player/*.*)
-	./tools/dat create $@ --bmp ${RESOURCES_DIR}player/*.bmp --wav ${RESOURCES_DIR}player/*.wav --midi ${RESOURCES_DIR}player/*.mid
+${DEBUG_BIN_DIR}player.dat: ${RESOURCES_DIR}player/
+	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
