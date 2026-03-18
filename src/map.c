@@ -44,7 +44,7 @@ uint8_t *mapIds;
 tVector screenLimit;
 bool tilesOnFrontLayer;
 
-void map_load(char *mapFile, char *tileFile, tVector screenSize)
+void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
 {
     //load map file
     FILE *file = fopen(mapFile, "rb");
@@ -62,7 +62,7 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
     screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1  : screenSize.x / mapHeader.tile_width;
     screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
     
-    MY_TRACE_FLAG("Loading map: %s with tileFile: %s\n", mapFile, tileFile);
+    MY_TRACE_FLAG("Loading map: %s\n", mapFile);
     MY_TRACE_FLAG("\tTile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     MY_TRACE_FLAG("\tMap dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
     MY_TRACE_FLAG("\tBackground color: %u\n", mapHeader.backgroundColor);
@@ -248,13 +248,11 @@ void map_load(char *mapFile, char *tileFile, tVector screenSize)
 
     //allocate tiles bitmaps    
     tiles = (BITMAP **)malloc(mapHeader.tileCount * sizeof(BITMAP));
-    //TODO: load palette from dataFile
-    //load map tileSheet    
-    mapTileSheet = load_bmp(tileFile, gamePal);    
+    
     //create tiles from tilesheet image
     for (uint8_t i = 0; i < mapHeader.tileCount; i++)
     {
-        tiles[i] = create_sub_bitmap(mapTileSheet, (i % mapHeader.tileColumns) * mapHeader.tile_height, (int)(i / mapHeader.tileColumns) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
+        tiles[i] = create_sub_bitmap(tileset, (i % mapHeader.tileColumns) * mapHeader.tile_height, (int)(i / mapHeader.tileColumns) * mapHeader.tile_width, mapHeader.tile_width, mapHeader.tile_height);
     }        
 }
 

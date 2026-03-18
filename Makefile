@@ -63,7 +63,7 @@ TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(MAPS_OUT_DIR)/%.bin, $(TMX_FILES))
 
 #dat resources
-DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat
+DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat
 
 #all targets
 all: debug release
@@ -90,6 +90,9 @@ ${DEBUG_BIN_DIR}objects.dat: ${RESOURCES_DIR}objects/
 
 ${DEBUG_BIN_DIR}enemies.dat: ${RESOURCES_DIR}enemies/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/edata.h
+
+${DEBUG_BIN_DIR}jurassic.dat: ${RESOURCES_DIR}levels/jurassic/
+	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/judata.h
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 

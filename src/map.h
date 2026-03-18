@@ -48,7 +48,7 @@ enum E_TILE_PROPERTY
 };
 
 //loads a map level and creates level entities
-void map_load(char *mapFile, char *tileFile, tVector screenSize);
+void map_load(char *mapFile, BITMAP *tileset, tVector screenSize);
 //unload the map and free resources
 void map_unload();
 //get the dimensions of the map (on tiles)

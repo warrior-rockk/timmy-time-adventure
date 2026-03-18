@@ -157,9 +157,11 @@ typedef struct
 
 typedef struct
 { 
-    char *mapFile;			//binary file of map and entities
-    char *tileFile;		    //bitmap file for map tiles    
-    char *musicFile;		//music file of level
+    char *mapFile;			    //binary file of map and entities
+    char *dataFile;             //datafile file for level
+    uint8_t tileFileIndex;		//index of bitmap file for map tiles on datafile
+    uint8_t palFileIndex;		//index of palette file for map tiles on datafile
+    uint8_t musicFileIndex;		//index of music file of level on datafile
 } tLevelDataFile;
 
 //sequence struct

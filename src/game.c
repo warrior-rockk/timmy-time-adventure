@@ -25,6 +25,7 @@
 #include "sound.h"
 
 #include "data/gdata.h"
+#include "data/judata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -47,6 +48,7 @@ tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
 tScroll scroll;                     //game scroll
 tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];    //level files
+DATAFILE *levelDAT;
 
 struct hud
 {
@@ -456,6 +458,8 @@ static void game_destroy_level()
     //unload map and map resources
     map_unload();    
 
+    unload_datafile(levelDAT);
+
     clear_to_color(worldScreen, BLACK_COLOR);
     clear_to_color(buffer, BLACK_COLOR);   
     game.viewMap = false;
@@ -502,18 +506,20 @@ void game_init()
     worldScreen = create_bitmap(GAME_W, GAME_H);
 
     //initialize levels data
-    levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
-    levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
-    levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
-    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile    = "res/maps/jurassic.bin";
-    levelDataFile[E_GAME_LEVEL_JURASSIC].tileFile   = "res/tiles/jurassic.bmp";
-    levelDataFile[E_GAME_LEVEL_JURASSIC].musicFile  = "res/midi/jungle.mid";
-    levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
-    levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
-    levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
+    //levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
+    //levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
+    //levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
+    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile        = "res/maps/jurassic.bin";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
+    levelDataFile[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
+    levelDataFile[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
+    levelDataFile[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE_MID;
+    //levelDataFile[E_GAME_LEVEL_WEST].mapFile        = "res/maps/west.bin";
+    //levelDataFile[E_GAME_LEVEL_WEST].tileFile       = "res/tiles/west.bmp";
+    //levelDataFile[E_GAME_LEVEL_WEST].musicFile      = NULL;
+    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile    = "res/maps/medieval.bin";
+    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFile   = "res/tiles/medieval.bmp";
+    //levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFile  = NULL;
         
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
@@ -602,8 +608,14 @@ static void game_debug_info()
 //testing
 static void game_load_level(uint8_t numLevel)
 {
+    //load level data file
+    levelDAT = load_datafile(levelDataFile[numLevel].dataFile);
+    
+    //load level palette
+    gamePal = levelDAT[levelDataFile[numLevel].palFileIndex].dat;
+
     //load map and entities    
-    map_load(levelDataFile[numLevel].mapFile, levelDataFile[numLevel].tileFile, (tVector){GAME_W, GAME_H});
+    map_load(levelDataFile[numLevel].mapFile, (BITMAP *)levelDAT[levelDataFile[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
     game.scrollMode = E_SCROLL_BY_WINDOW_Y_MODE;
@@ -619,8 +631,8 @@ static void game_load_level(uint8_t numLevel)
     scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
     
     //load music level
-    if (levelDataFile[numLevel].musicFile)
-        gameMusic = load_midi(levelDataFile[numLevel].musicFile);
+    gameMusic = (MIDI *)levelDAT[levelDataFile[numLevel].musicFileIndex].dat;
+    
 }
 
 void game_destroy()
