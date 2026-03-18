@@ -9,6 +9,7 @@ ifeq ($(OS),Windows_NT)
 	OS_LIB_DIR := ./
 	#OS_DOSBOX  := 'D:/Instalables/Proyectos/Old Days/bin/DOSBox/DosBox.exe'
 	OS_DOSBOX  := 'D:/Instalables/Proyectos/DosBox-x/dosbox-x.exe'
+	DAT        := ./tools/dat/dat_win.exe
 else
 	UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
@@ -20,6 +21,7 @@ else
 		OS_GCC	   := /Users/warrior/Downloads/djgpp/bin/i586-pc-msdosdjgpp-gcc	
 		OS_LIB_DIR := /Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/lib/djgpp
 		OS_DOSBOX  := /Applications/dosbox-x.app/Contents/MacOS/dosbox-x
+		DAT        := ./tools/dat/dat
     endif
 endif
 
@@ -78,10 +80,10 @@ directories:
 
 #generate dat files
 ${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/gdata.h
+	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/gdata.h
 
 ${DEBUG_BIN_DIR}player.dat: ${RESOURCES_DIR}player/
-	./tools/dat create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/pdata.h
+	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/pdata.h
 
 #binary target (debug)
 ${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
