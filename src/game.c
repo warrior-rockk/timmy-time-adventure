@@ -49,8 +49,8 @@ DATAFILE_INDEX *gameDataIndex;
 tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
 tScroll scroll;                     //game scroll
-tLevelDataFile levelDataFile[E_GAME_NUM_LEVELS];    //level files
-DATAFILE *levelDAT;
+tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
+DATAFILE *levelDAT;                 //level datafile
 
 struct hud
 {
@@ -508,26 +508,26 @@ void game_init()
     worldScreen = create_bitmap(GAME_W, GAME_H);
 
     //initialize levels data
-    //levelDataFile[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
-    //levelDataFile[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
-    //levelDataFile[E_GAME_LEVEL_TEST].musicFile      = NULL;            
-    levelDataFile[E_GAME_LEVEL_JURASSIC].mapFile        = "jurassic.bin";
-    levelDataFile[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
-    levelDataFile[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
-    levelDataFile[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
-    levelDataFile[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE_MID;
+    //levelData[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
+    //levelData[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
+    //levelData[E_GAME_LEVEL_TEST].musicFile      = NULL;            
+    levelData[E_GAME_LEVEL_JURASSIC].mapFile        = "jurassic.bin";
+    levelData[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
+    levelData[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
+    levelData[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
+    levelData[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE_MID;
 
-    levelDataFile[E_GAME_LEVEL_WEST].mapFile            = "west.bin";
-    levelDataFile[E_GAME_LEVEL_WEST].dataFile           = "west.dat";
-    levelDataFile[E_GAME_LEVEL_WEST].tileFileIndex      = WEST_BMP;
-    levelDataFile[E_GAME_LEVEL_WEST].palFileIndex       = WEST_PAL;
-    levelDataFile[E_GAME_LEVEL_WEST].musicFileIndex     = WEST_MID;
+    levelData[E_GAME_LEVEL_WEST].mapFile            = "west.bin";
+    levelData[E_GAME_LEVEL_WEST].dataFile           = "west.dat";
+    levelData[E_GAME_LEVEL_WEST].tileFileIndex      = WEST_BMP;
+    levelData[E_GAME_LEVEL_WEST].palFileIndex       = WEST_PAL;
+    levelData[E_GAME_LEVEL_WEST].musicFileIndex     = WEST_MID;
 
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].mapFile        = "medieval.bin";
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].dataFile       = "medieval.dat";
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].tileFileIndex  = MEDIEVAL_BMP;
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].palFileIndex   = MEDIEVAL_PAL;
-    levelDataFile[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
+    levelData[E_GAME_LEVEL_MEDIEVAL].mapFile        = "medieval.bin";
+    levelData[E_GAME_LEVEL_MEDIEVAL].dataFile       = "medieval.dat";
+    levelData[E_GAME_LEVEL_MEDIEVAL].tileFileIndex  = MEDIEVAL_BMP;
+    levelData[E_GAME_LEVEL_MEDIEVAL].palFileIndex   = MEDIEVAL_PAL;
+    levelData[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
         
     #ifdef DEBUGMODE
         game.state      = E_GAME_ST_INIT;
@@ -617,13 +617,13 @@ static void game_debug_info()
 static void game_load_level(uint8_t numLevel)
 {
     //load level data file
-    levelDAT = load_datafile(levelDataFile[numLevel].dataFile);
+    levelDAT = load_datafile(levelData[numLevel].dataFile);
     
     //load level palette
-    gamePal = levelDAT[levelDataFile[numLevel].palFileIndex].dat;
+    gamePal = levelDAT[levelData[numLevel].palFileIndex].dat;
 
     //load map and entities    
-    map_load(levelDataFile[numLevel].mapFile, (BITMAP *)levelDAT[levelDataFile[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
+    map_load(levelData[numLevel].mapFile, (BITMAP *)levelDAT[levelData[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
     game.scrollMode = E_SCROLL_BY_WINDOW_Y_MODE;
@@ -639,7 +639,7 @@ static void game_load_level(uint8_t numLevel)
     scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
     
     //load music level
-    gameMusic = (MIDI *)levelDAT[levelDataFile[numLevel].musicFileIndex].dat;
+    gameMusic = (MIDI *)levelDAT[levelData[numLevel].musicFileIndex].dat;
     
 }
 

@@ -162,7 +162,7 @@ typedef struct
     uint8_t tileFileIndex;		//index of bitmap file for map tiles on datafile
     uint8_t palFileIndex;		//index of palette file for map tiles on datafile
     uint8_t musicFileIndex;		//index of music file of level on datafile
-} tLevelDataFile;
+} tLevelData;
 
 //sequence struct
 typedef struct
