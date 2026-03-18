@@ -69,7 +69,7 @@ DAT_RESOURCES		:= ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BI
 all: debug release
 
 #main targets
-debug: directories ${DEBUG_BIN_DIR}${APP} ${DEBUG_RESOURCES} $(BIN_FILES) ${DAT_RESOURCES}
+debug: directories ${DEBUG_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
 release: ${RELEASE_BIN_DIR}${APP} ${RELEASE_RESOURCES}
 maps: directories $(BIN_FILES)
 dat: ${DAT_RESOURCES}
