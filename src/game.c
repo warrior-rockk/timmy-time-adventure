@@ -652,13 +652,6 @@ void game_destroy()
         }
     }
 
-    //destroy music
-    if (gameMusic)
-    {
-        destroy_midi(gameMusic);
-        gameMusic = NULL;
-    }
-
     //destroy game data index
     destroy_datafile_index(gameDataIndex);
 }
