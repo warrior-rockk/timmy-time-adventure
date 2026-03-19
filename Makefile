@@ -63,8 +63,8 @@ DAT_RESOURCES := ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN
 all: debug release
 
 #main targets
-debug: ${DEBUG_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
-release: ${RELEASE_BIN_DIR}${APP} $(BIN_FILES) ${DAT_RESOURCES}
+debug: ${DEBUG_BIN_DIR}${APP} maps dat
+release: ${RELEASE_BIN_DIR}${APP} maps dat
 maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
@@ -150,6 +150,4 @@ info:
 	@echo ${OS}
 	@echo "Src objects:"
 	@echo "${SRCS}"
-	@echo "Resources:"
-	@echo "${RESOURCES}"
 	
