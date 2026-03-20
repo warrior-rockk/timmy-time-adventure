@@ -35,29 +35,21 @@ RESOURCES_DIR		:= ./res/
 STATIC_DIR			:= ./static/
 INCLUDES_DIR		:= ${OS_INC_DIR}
 LIBS_DIR			:= ${OS_LIB_DIR}
-DEBUG_BIN_DIR   	:= ${BUILD_DIR}debug/bin/
-DEBUG_OBJS_DIR  	:= ${BUILD_DIR}debug/obj/
-DEBUG_RES_DIR		:= ${DEBUG_BIN_DIR}/res/
-RELEASE_BIN_DIR 	:= ${BUILD_DIR}release/bin/
-RELEASE_OBJS_DIR  	:= ${BUILD_DIR}release/obj/
-RELEASE_RES_DIR		:= ${RELEASE_BIN_DIR}/res/
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
-DEBUG_OBJS 			:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${DEBUG_OBJS_DIR}%.o, ${SRCS})
-RELEASE_OBJS 		:= $(patsubst ${SRC_DIR}%.${SRC_EXT}, ${RELEASE_OBJS_DIR}%.o, ${SRCS})
+C_FILES             = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
+MAPS_SRC_DIR 		= ./dev/maps
+TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC}
 DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
-#map resources
-MAPS_SRC_DIR = ./dev/maps
-TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
-
 #all targets
 all: debug release
 
+#main target definitions
 debug: CFLAGS = ${DEBUG_CFLAGS}
 debug: BUILD_DIR = ./build/debug/
 debug: execute_build
@@ -65,25 +57,33 @@ release: CFLAGS = ${RELEASE_CFLAGS}
 release: BUILD_DIR = ./build/release/
 release: execute_build
 
+#main make build
 execute_build:
 	$(MAKE) build_process BUILD_DIR=$(BUILD_DIR) CFLAGS="$(CFLAGS)"
+build_process: directories $(APP) maps dat
 
-build_process: directories $(APP) dat maps
-
+#definitions depending build target
 OBJ_DIR      	= $(BUILD_DIR)obj
-C_FILES         = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
 OBJ_FILES 		= $(patsubst $(SRC_DIR)/%.${SRC_EXT}, $(OBJ_DIR)/%.o, $(C_FILES))
+#map resources
+BIN_FILES 		= $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(BUILD_DIR)bin/%.bin, $(TMX_FILES))
 #dat resources
 DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/coll.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat
-#map resources
-BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(BUILD_DIR)bin/%.bin, $(TMX_FILES))
 
-#main targets
-#debug: ${DEBUG_BIN_DIR}${APP} maps dat
-#release: ${RELEASE_BIN_DIR}${APP} maps dat
+#resource targets
 maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
+#binary target
+$(APP): $(OBJ_FILES)
+	@echo "## Linking ${APP}"
+	${CC} $(OBJ_FILES) -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
+
+#compile objects generating dependency files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	${CC} -x c -c -MD $< -o $@ ${CFLAGS}
+
+#create directories and copy static files	
 directories:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p ${BUILD_DIR}bin
@@ -114,15 +114,6 @@ ${BUILD_DIR}bin/west.dat: ${RESOURCES_DIR}levels/west/
 
 ${BUILD_DIR}bin/medieval.dat: ${RESOURCES_DIR}levels/medieval/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/medata.h
-
-#binary target
-$(APP): $(OBJ_FILES)
-	@echo "## Linking ${APP}"
-	${CC} $(OBJ_FILES) -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
-
-#compile objects generating dependency files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	${CC} -x c -c -MD $< -o $@ ${CFLAGS}
 
 # Convert .tmx to .bin
 ${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/
