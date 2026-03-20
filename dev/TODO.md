@@ -1,7 +1,9 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] No doble jump when collision with head
 
 # Engine
+- [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
