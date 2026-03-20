@@ -477,7 +477,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             if (colDir == E_COLLISION_DIR_DOWN)
             {
                 this->state++;
-                local->flag = this->pos.y;
+                local->flag = this->pos.y - this->initPos.y;
                 MY_TRACE_FLAG("flag: %i\n", local->flag);
             }
         break;      
@@ -485,7 +485,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             this->fixVel.y = ftofix(-SPIDER_VELOCITY);            
             play_animation(&this->anim, ANIM_SPIDER_TURN);
 
-            if (this->pos.y < (local->flag - 40))
+            if (this->pos.y < this->initPos.y + (local->flag >> 1))
                 this->state++;            
         break;
         case E_SPIDER_ST_MOVING_3:
