@@ -53,6 +53,6 @@ dkms.conf
 
 build/
 !static/CWSDPMI.EXE
-!tools/dat.exe
+!tools/dat/dat_win.exe
 *.tiled-session
 .DS_Store
