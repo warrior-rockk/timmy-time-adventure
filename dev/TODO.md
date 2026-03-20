@@ -1,8 +1,9 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] No doble jump when collision with head
+- [ ] No doble jump when collision with head (collision puts velY to 0 so jump go to max jump force)
 
 # Engine
+- [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
