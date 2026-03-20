@@ -54,79 +54,80 @@ LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 #map resources
 MAPS_SRC_DIR = ./dev/maps
 TMX_FILES = $(wildcard $(MAPS_SRC_DIR)/*.tmx)
-BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(DEBUG_BIN_DIR)/%.bin, $(TMX_FILES))
-
-#dat resources
-DAT_RESOURCES := ${DEBUG_BIN_DIR}game.dat ${DEBUG_BIN_DIR}player.dat ${DEBUG_BIN_DIR}coll.dat ${DEBUG_BIN_DIR}objects.dat ${DEBUG_BIN_DIR}enemies.dat ${DEBUG_BIN_DIR}jurassic.dat ${DEBUG_BIN_DIR}west.dat ${DEBUG_BIN_DIR}medieval.dat
 
 #all targets
 all: debug release
 
+debug: CFLAGS = ${DEBUG_CFLAGS}
+debug: BUILD_DIR = ./build/debug/
+debug: execute_build
+release: CFLAGS = ${RELEASE_CFLAGS}
+release: BUILD_DIR = ./build/release/
+release: execute_build
+
+execute_build:
+	$(MAKE) build_process BUILD_DIR=$(BUILD_DIR) CFLAGS="$(CFLAGS)"
+
+build_process: directories $(APP) dat maps
+
+OBJ_DIR      	= $(BUILD_DIR)obj
+C_FILES         = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
+OBJ_FILES 		= $(patsubst $(SRC_DIR)/%.${SRC_EXT}, $(OBJ_DIR)/%.o, $(C_FILES))
+#dat resources
+DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/coll.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat
+#map resources
+BIN_FILES = $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(BUILD_DIR)bin/%.bin, $(TMX_FILES))
+
 #main targets
-debug: ${DEBUG_BIN_DIR}${APP} maps dat
-release: ${RELEASE_BIN_DIR}${APP} maps dat
+#debug: ${DEBUG_BIN_DIR}${APP} maps dat
+#release: ${RELEASE_BIN_DIR}${APP} maps dat
 maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
+directories:
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p ${BUILD_DIR}bin
+	@echo "## Copy static files"
+	cp -r ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
+
 #generate dat files
-${DEBUG_BIN_DIR}game.dat: ${RESOURCES_DIR}game/
+${BUILD_DIR}bin/game.dat: ${RESOURCES_DIR}game/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/gdata.h
 
-${DEBUG_BIN_DIR}coll.dat: ${RESOURCES_DIR}collisions/
+${BUILD_DIR}bin/coll.dat: ${RESOURCES_DIR}collisions/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/cdata.h
 
-${DEBUG_BIN_DIR}player.dat: ${RESOURCES_DIR}player/
+${BUILD_DIR}bin/player.dat: ${RESOURCES_DIR}player/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/pdata.h
 
-${DEBUG_BIN_DIR}objects.dat: ${RESOURCES_DIR}objects/
+${BUILD_DIR}bin/objects.dat: ${RESOURCES_DIR}objects/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/odata.h
 
-${DEBUG_BIN_DIR}enemies.dat: ${RESOURCES_DIR}enemies/
+${BUILD_DIR}bin/enemies.dat: ${RESOURCES_DIR}enemies/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/edata.h
 
-${DEBUG_BIN_DIR}jurassic.dat: ${RESOURCES_DIR}levels/jurassic/
+${BUILD_DIR}bin/jurassic.dat: ${RESOURCES_DIR}levels/jurassic/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/judata.h
 
-${DEBUG_BIN_DIR}west.dat: ${RESOURCES_DIR}levels/west/
+${BUILD_DIR}bin/west.dat: ${RESOURCES_DIR}levels/west/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/wedata.h
 
-${DEBUG_BIN_DIR}medieval.dat: ${RESOURCES_DIR}levels/medieval/
+${BUILD_DIR}bin/medieval.dat: ${RESOURCES_DIR}levels/medieval/
 	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/medata.h
 
-#binary target (debug)
-${DEBUG_BIN_DIR}${APP}: ${DEBUG_OBJS} 
-	mkdir -p ${DEBUG_BIN_DIR}	
-	
-	@echo "## Linking Debug ${APP}"
-	${CC} $^ -o $@ ${DEBUG_CFLAGS} ${LDFLAGS}
-	
-	@echo "## Copy static files"
-	cp -r ${STATIC_DIR}/*.* ${DEBUG_BIN_DIR}
-	
-#compile objects generating dependency files (debug)
-${DEBUG_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
-	mkdir -p ${DEBUG_OBJS_DIR}	
-	${CC} -x c -c -MD $< -o $@ ${DEBUG_CFLAGS}
+#binary target
+$(APP): $(OBJ_FILES)
+	@echo "## Linking ${APP}"
+	${CC} $(OBJ_FILES) -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
+
+#compile objects generating dependency files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	${CC} -x c -c -MD $< -o $@ ${CFLAGS}
 
 # Convert .tmx to .bin
-$(DEBUG_BIN_DIR)/%.bin: $(MAPS_SRC_DIR)/%.tmx | $(DEBUG_BIN_DIR)
+${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/
 	@echo "## Converting map: $< -> $@"
 	python3 ./tools/tmx2bin.py $< $@
-
-#binary target (release)
-${RELEASE_BIN_DIR}${APP}: ${RELEASE_OBJS}
-	mkdir -p ${RELEASE_BIN_DIR}
-
-	@echo "## Linking Release ${APP}"
-	${CC} $^ -o $@ ${RELEASE_CFLAGS} ${LDFLAGS}
-
-	@echo "## Copy static files"
-	cp -r ${STATIC_DIR}/*.* ${RELEASE_BIN_DIR}
-	
-#compile objects generating dependency files (release)
-${RELEASE_OBJS_DIR}%.o: ${SRC_DIR}%.${SRC_EXT}
-	mkdir -p ${RELEASE_OBJS_DIR}
-	${CC} -x c -c -MD $< -o $@ ${RELEASE_CFLAGS}
 
 #dependency includes
 -include ${DEBUG_OBJS_DIR}*.d
