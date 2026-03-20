@@ -176,7 +176,7 @@ typedef struct
 extern tGame game;
 extern double deltaTime;
 extern uint8_t gameExit;
-extern RGB* gamePal;
+
 #ifdef DEBUGMODE
 extern tDebugOptions debugOptions;
 #endif
