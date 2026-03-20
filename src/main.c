@@ -16,8 +16,10 @@
 #define TRACE_FLAG "[MAIN]"
 
 static void main_init();
-static void main_stepByStep();
 static void main_exit();
+#ifdef DEBUGMODE
+static void main_stepByStep();
+#endif
 
 int main()
 {    
@@ -132,6 +134,7 @@ static void main_init()
     playTime_init();
 }
 
+#ifdef DEBUGMODE
 static void main_stepByStep()
 {
     input_keys_update();
@@ -148,6 +151,7 @@ static void main_stepByStep()
         game_draw();         
     }           
 }
+#endif
 
 //function that handles game exit
 void main_exit()
