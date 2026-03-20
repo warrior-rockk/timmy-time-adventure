@@ -60,7 +60,7 @@ release: execute_build
 #main make build
 execute_build:
 	$(MAKE) build_process BUILD_DIR=$(BUILD_DIR) CFLAGS="$(CFLAGS)"
-build_process: directories $(APP) maps dat
+build_process: directories ${BUILD_DIR}bin/$(APP) maps dat
 
 #definitions depending build target
 OBJ_DIR      	= $(BUILD_DIR)obj
@@ -75,7 +75,7 @@ maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
 #binary target
-$(APP): $(OBJ_FILES)
+${BUILD_DIR}bin/$(APP): $(OBJ_FILES)
 	@echo "## Linking ${APP}"
 	${CC} $(OBJ_FILES) -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
 
@@ -88,7 +88,7 @@ directories:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p ${BUILD_DIR}bin
 	@echo "## Copy static files"
-	cp -r ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
+	cp -ru ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
 
 #generate dat files
 ${BUILD_DIR}bin/game.dat: ${RESOURCES_DIR}game/
