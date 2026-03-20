@@ -405,6 +405,7 @@ void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *local)
         case E_CHECKPOINT_ST_IDLE:
             //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
             entity_get(PLAYER_ENTITY_ID)->initPos = this->pos;
+            entity_get(PLAYER_ENTITY_ID)->initDir = this->dir;
         break;        
         default:
             this->state = E_CHECKPOINT_ST_IDLE;

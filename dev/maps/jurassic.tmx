@@ -383,7 +383,7 @@
     <property name="dir" type="int" value="0"/>
    </properties>
   </object>
-  <object id="40" name="ptero" type="enemy" x="2672" y="48" width="50" height="20">
+  <object id="40" name="ptero" type="enemy" x="2672" y="32" width="50" height="20">
    <properties>
     <property name="dir" type="int" value="0"/>
    </properties>
@@ -415,7 +415,7 @@
   </object>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="16" y="48" width="16" height="30">
+  <object id="1" name="player1" type="player" x="2960" y="240" width="16" height="30">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
