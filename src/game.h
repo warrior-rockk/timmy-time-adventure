@@ -146,6 +146,7 @@ typedef struct
 } tGame;
 
 //options for debug mode
+#ifdef DEBUGMODE
 #define DEBUG_TRACE_ENTITIES            0
 #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
 typedef struct
@@ -154,6 +155,7 @@ typedef struct
     uint8_t stepByStep;
     uint8_t invencible;
 } tDebugOptions;
+#endif
 
 typedef struct
 { 
@@ -174,8 +176,10 @@ typedef struct
 extern tGame game;
 extern double deltaTime;
 extern uint8_t gameExit;
-extern tDebugOptions debugOptions;
 extern RGB* gamePal;
+#ifdef DEBUGMODE
+extern tDebugOptions debugOptions;
+#endif
 
 //function to init game
 void game_init();

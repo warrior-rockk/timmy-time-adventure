@@ -49,13 +49,17 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         }
 
         //draw entity sprite
+        #ifdef DEBUGMODE
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
+        #endif    
             if (entity->dir == E_ENT_DIR_RIGHT)   
                 draw_sprite(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                                
             else
                 draw_sprite_h_flip(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                        
+        #ifdef DEBUGMODE
         }
+        #endif
     }
     
     #ifdef DEBUGMODE        

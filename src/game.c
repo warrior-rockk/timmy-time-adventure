@@ -72,8 +72,10 @@ static void game_resume_sound();
 static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
+#ifdef DEBUGMODE
 static void game_debug_update();
 static void game_debug_info();
+#endif
 
 void game_update()
 {   
@@ -571,10 +573,9 @@ void game_draw()
     game_do_fade();
 }
 
+#ifdef DEBUGMODE
 static void game_debug_update()
 {
-#ifdef DEBUGMODE
-
     if (debugOptions.showDebugInfo)
         game_debug_info();
     
@@ -597,7 +598,6 @@ static void game_debug_update()
     {
         MY_TRACE_FLAG("Game changes from state %i to state %i\n", game.prevState, game.state);
     }
-#endif
 }
 
 static void game_debug_info()
@@ -612,6 +612,7 @@ static void game_debug_info()
     //show_debug("Lives:%i Life:%i", game.lives, game.life);
     //show_debug("State: %i", game.state);
 }
+#endif
 
 //testing
 static void game_load_level(uint8_t numLevel)
