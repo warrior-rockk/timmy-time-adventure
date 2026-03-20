@@ -147,7 +147,7 @@ typedef struct
 
 //options for debug mode
 #ifdef DEBUGMODE
-#define DEBUG_TRACE_ENTITIES            0
+#define DEBUG_TRACE_ENTITIES            1
 #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
 typedef struct
 {

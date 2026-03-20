@@ -478,14 +478,15 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
             {
                 this->state++;
                 local->flag = this->pos.y;
+                MY_TRACE_FLAG("flag: %i\n", local->flag);
             }
         break;      
         case E_SPIDER_ST_MOVING_2:
             this->fixVel.y = ftofix(-SPIDER_VELOCITY);            
             play_animation(&this->anim, ANIM_SPIDER_TURN);
 
-            if (this->pos.y < (local->flag - (local->flag >> 1)))
-                this->state++;
+            if (this->pos.y < (local->flag - 40))
+                this->state++;            
         break;
         case E_SPIDER_ST_MOVING_3:
             this->fixVel.y = ftofix(SPIDER_VELOCITY);            
