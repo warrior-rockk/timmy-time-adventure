@@ -88,7 +88,7 @@ directories:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p ${BUILD_DIR}bin
 	@echo "## Copy static files"
-	cp -ru ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
+	cp -r ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
 
 #generate dat files
 ${BUILD_DIR}bin/game.dat: ${RESOURCES_DIR}game/
