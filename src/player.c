@@ -382,6 +382,10 @@ static void player_update_collisions(tEntity *player)
         colDir = collision_check_tile(player, i);        
         //apply collision direction
         collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);   
+
+        //reset jump if head collision
+        if (colDir == E_COLLISION_DIR_UP)
+            playerFlags.jump = true;
         
         //check tile with hurt property
         if (!playerInvincible)     
