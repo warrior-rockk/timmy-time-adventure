@@ -1,6 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Makefile: changes on game.h doesn't recompile!! With .dat either
+- [X] Makefile: changes on game.h doesn't recompile!! With .dat either
 
 # Engine
 - [ ] Debug teleport to next checkpoint? or mouse change position?
