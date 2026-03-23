@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "collisions.h"
 #include "sound.h"
+#include "resources.h"
 
 #include "data/edata.h"
 
@@ -31,7 +32,7 @@ void enemy_system_init()
     numEnemyInstances = 0;     
 
     //create data file index
-    enemyDataFileIndex = create_datafile_index("enemies.dat");
+    enemyDataFileIndex = create_dat_index("enemies.dat");
 
     //load enemy sfx
     enemySfx[E_SFX_ENEMY_DEAD]  = load_datafile_object_indexed(enemyDataFileIndex, DEAD_WAV)->dat;

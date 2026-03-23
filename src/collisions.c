@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "collisions.h"
 #include "map.h"
+#include "resources.h"
 
 #include "data/cdata.h"
 
@@ -31,7 +32,7 @@ void collision_system_init()
     numEntitiesColPoints = 0;
 
     //create data file index
-    collisionDataFileIndex = create_datafile_index("coll.dat");
+    collisionDataFileIndex = create_dat_index("coll.dat");
 
     //load special tile collision map
     collisionMapSlope135    = load_datafile_object_indexed(collisionDataFileIndex, SLOPE135_BMP)->dat;

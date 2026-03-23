@@ -53,4 +53,4 @@
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
 - [ ] All entities on one layer and map_load creates all
-- [ ] Load resources function to check errorss
+- [X] Load resources function to check errorss

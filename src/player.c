@@ -16,6 +16,7 @@
 #include "timer.h"
 #include "sound.h"
 #include "map.h"
+#include "resources.h"
 
 #include "data/pdata.h"
 
@@ -85,7 +86,7 @@ void player_create(tEntity *player)
     minVelToReset = ftofix(PLAYER_MIN_VEL_X_TO_RESET);
 
     //create data file index for fast open individual data objects
-    playerDataFileIndex = create_datafile_index("player.dat");
+    playerDataFileIndex = create_dat_index("player.dat");
 
     //load player sprite
     player->img                     = load_datafile_object_indexed(playerDataFileIndex, PLAYER_BMP)->dat;

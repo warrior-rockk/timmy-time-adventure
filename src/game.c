@@ -23,6 +23,7 @@
 #include "input.h"
 #include "enemies.h"
 #include "sound.h"
+#include "resources.h"
 
 #include "data/gdata.h"
 #include "data/judata.h"
@@ -474,7 +475,7 @@ void game_init()
     MY_TRACE_FLAG( "Init game\n");
 
     //create game data file index for fast open individual data objects
-    gameDataIndex = create_datafile_index("game.dat");
+    gameDataIndex = create_dat_index("game.dat");
 
     //game palette
     gamePal = load_datafile_object_indexed(gameDataIndex, INTRO_PAL)->dat;

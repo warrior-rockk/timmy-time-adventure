@@ -10,6 +10,7 @@
 #include "objects.h"
 #include "collisions.h"
 #include "sound.h"
+#include "resources.h"
 
 #include "data/odata.h"
 
@@ -30,7 +31,7 @@ void object_system_init()
     numObjectInstances = 0;    
 
     //create data file index
-    objectDataFileIndex = create_datafile_index("objects.dat");
+    objectDataFileIndex = create_dat_index("objects.dat");
 
     //load object sfx
     objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_datafile_object_indexed(objectDataFileIndex, POWERUP_WAV)->dat;
