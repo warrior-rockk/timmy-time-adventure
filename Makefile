@@ -121,8 +121,8 @@ ${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/
 	python3 ./tools/tmx2bin.py $< $@
 
 #dependency includes
--include ./build/debug/obj/*.d
--include ./build/release/obj/*.d
+-include ${BUILD_DIR}obj/*.d
+#-include ./build/release/obj/*.d
 
 #run targets
 run_debug: debug
