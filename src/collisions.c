@@ -55,7 +55,7 @@ void collision_system_destroy()
     destroy_bitmap(collisionMapSlope45);
     destroy_bitmap(collisionMapSolidOnFall);
 
-    destroy_datafile_index(collisionDataFileIndex);
+    destroy_dat_index(collisionDataFileIndex);
 
     MY_TRACE_FLAG("Destroyed collision system\n");
 }

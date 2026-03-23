@@ -68,7 +68,7 @@ void object_system_destroy()
         }
     }
 
-    destroy_datafile_index(objectDataFileIndex);
+    destroy_dat_index(objectDataFileIndex);
 
     MY_TRACE_FLAG("Destroyed object system\n");
 }

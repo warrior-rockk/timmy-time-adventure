@@ -123,7 +123,7 @@ void player_destroy(tEntity *player)
     //free player bitmaps
     destroy_bitmap(player->img);
 
-    destroy_datafile_index(playerDataFileIndex);
+    destroy_dat_index(playerDataFileIndex);
 }
 
 void player_update(tEntity *player)

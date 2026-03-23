@@ -663,7 +663,7 @@ void game_destroy()
     }
 
     //destroy game data index
-    destroy_datafile_index(gameDataIndex);
+    destroy_dat_index(gameDataIndex);
 }
 
 static void game_do_fade()

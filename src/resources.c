@@ -52,3 +52,10 @@ RGB* load_dat_pal_indexed(DATAFILE_INDEX *dataFileIndex, int item)
 {
     return load_dat_indexed(dataFileIndex, item, DAT_PALETTE)->dat;
 }
+
+void destroy_dat_index(DATAFILE_INDEX *dataFileIndex)
+{
+    MY_TRACE_FLAG("Destroyed datafile index for %s\n", dataFileIndex->filename);
+    if (dataFileIndex)
+        destroy_datafile_index(dataFileIndex);
+}

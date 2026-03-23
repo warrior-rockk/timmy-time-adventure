@@ -66,7 +66,7 @@ void enemy_system_destroy()
         }
     }
 
-    destroy_datafile_index(enemyDataFileIndex);
+    destroy_dat_index(enemyDataFileIndex);
 
     MY_TRACE_FLAG("Destroyed enemy system\n");
 }

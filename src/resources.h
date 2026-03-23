@@ -11,6 +11,8 @@
 
 //creates datafile index to access the objects of datafile by his index
 DATAFILE_INDEX* create_dat_index(const char *filename);
+//destroys datafile index
+void destroy_dat_index(DATAFILE_INDEX *dataFileIndex);
 //loads bmp object from datafile by his object index
 BITMAP* load_dat_bmp_indexed(DATAFILE_INDEX *dataFileIndex, int item);
 //loads wav object from datafile by his object index
