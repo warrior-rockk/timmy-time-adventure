@@ -35,9 +35,9 @@ void collision_system_init()
     collisionDataFileIndex = create_dat_index("coll.dat");
 
     //load special tile collision map
-    collisionMapSlope135    = load_datafile_object_indexed(collisionDataFileIndex, SLOPE135_BMP)->dat;
-    collisionMapSlope45     = load_datafile_object_indexed(collisionDataFileIndex, SLOPE45_BMP)->dat;
-    collisionMapSolidOnFall = load_datafile_object_indexed(collisionDataFileIndex, SONFALL_BMP)->dat;
+    collisionMapSlope135    = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE135_BMP);
+    collisionMapSlope45     = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE45_BMP);
+    collisionMapSolidOnFall = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);
 
     MY_TRACE_FLAG("Initialized collision system\n");
 }

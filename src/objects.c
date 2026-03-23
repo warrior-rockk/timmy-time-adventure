@@ -34,8 +34,8 @@ void object_system_init()
     objectDataFileIndex = create_dat_index("objects.dat");
 
     //load object sfx
-    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_datafile_object_indexed(objectDataFileIndex, POWERUP_WAV)->dat;
-    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_datafile_object_indexed(objectDataFileIndex, LIVE_WAV)->dat;
+    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
+    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -87,7 +87,7 @@ void object_create(tEntity *entity)
     {
         case E_ROCK_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_OBJECT_TYPE])
-                objectResources[E_ROCK_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ROCK_BMP)->dat;
+                objectResources[E_ROCK_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ROCK_BMP);
 
             entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -96,7 +96,7 @@ void object_create(tEntity *entity)
         break;
         case E_ROCK_2_OBJECT_TYPE:            
             if (!objectResources[E_ROCK_2_OBJECT_TYPE])
-                objectResources[E_ROCK_2_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ROCK2_BMP)->dat;
+                objectResources[E_ROCK_2_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ROCK2_BMP);
 
             entity->img = objectResources[E_ROCK_2_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -105,7 +105,7 @@ void object_create(tEntity *entity)
         break;
         case E_EGG_OBJECT_TYPE:            
             if (!objectResources[E_EGG_OBJECT_TYPE])
-                objectResources[E_EGG_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, EGG_BMP)->dat;
+                objectResources[E_EGG_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, EGG_BMP);
 
             entity->img = objectResources[E_EGG_OBJECT_TYPE];
             entity->spriteSize = (tVector){21, 16};
@@ -114,7 +114,7 @@ void object_create(tEntity *entity)
         break;
         case E_END_OBJECT_TYPE:            
             if (!objectResources[E_END_OBJECT_TYPE])
-                objectResources[E_END_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, END_BMP)->dat;
+                objectResources[E_END_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, END_BMP);
 
             entity->img = objectResources[E_END_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
@@ -128,7 +128,7 @@ void object_create(tEntity *entity)
         break;
         case E_ITEM_OBJECT_TYPE:         
             if (!objectResources[E_ITEM_OBJECT_TYPE])
-                objectResources[E_ITEM_OBJECT_TYPE] = load_datafile_object_indexed(objectDataFileIndex, ITEMS_BMP)->dat;
+                objectResources[E_ITEM_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ITEMS_BMP);
 
             entity->img = objectResources[E_ITEM_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};

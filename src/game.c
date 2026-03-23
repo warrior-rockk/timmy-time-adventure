@@ -99,14 +99,14 @@ void game_update()
                 case 1:
                     game.fadeIn = true;        
                     
-                    BITMAP *logo = load_datafile_object_indexed(gameDataIndex, WARCOM_BMP)->dat;
+                    BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, WARCOM_BMP);
                     
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);
                     
                     textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
 
-                    gameMusic = load_datafile_object_indexed(gameDataIndex, WARCOM_MID)->dat;
+                    gameMusic = load_dat_midi_indexed(gameDataIndex, WARCOM_MID);
                     music_play(gameMusic, 0);
                                         
                     gameSeq.step++;
@@ -130,12 +130,12 @@ void game_update()
                     game.fadeIn = true;
                     clear(buffer);
                                         
-                    BITMAP *logo = load_datafile_object_indexed(gameDataIndex, DOSCLUB_BMP)->dat;
+                    BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, DOSCLUB_BMP);
                                         
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);   
                                         
-                    gameMusic = load_datafile_object_indexed(gameDataIndex, DOSCLUB_MID)->dat;
+                    gameMusic = load_dat_midi_indexed(gameDataIndex, DOSCLUB_MID);
                     music_play(gameMusic, 0);
                     
                     gameSeq.step++;
@@ -478,18 +478,18 @@ void game_init()
     gameDataIndex = create_dat_index("game.dat");
 
     //game palette
-    gamePal = load_datafile_object_indexed(gameDataIndex, INTRO_PAL)->dat;
+    gamePal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);
     set_palette(gamePal);
     
     //loads game font 
-    gameFont = grab_font_from_bitmap(load_datafile_object_indexed(gameDataIndex, FONT4_BMP)->dat);
+    gameFont = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
     
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear(buffer);
 
     //load hud image
-    hud.hudImg = load_datafile_object_indexed(gameDataIndex, HUD_BMP)->dat;
+    hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
     //hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
     hud.hudLifeOff = create_bitmap(15, 14);
     hud.hudLifeOn  = create_bitmap(15, 14);
@@ -500,12 +500,12 @@ void game_init()
     collision_system_init();    
     debug_init();
     timer_init(GAME_CLOCK_TICK);
-    sfx_init(load_datafile_object_indexed(gameDataIndex, POINT_WAV)->dat, E_SFX_NUM_VOICES);
+    sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
     
     
     //load game sfx
-    gameSfx[E_SFX_GAME_POINT]       = load_datafile_object_indexed(gameDataIndex, POINT_WAV)->dat;
-    gameSfx[E_SFX_GAME_POINT_END]   = load_datafile_object_indexed(gameDataIndex, POINTEND_WAV)->dat;
+    gameSfx[E_SFX_GAME_POINT]       = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
+    gameSfx[E_SFX_GAME_POINT_END]   = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);

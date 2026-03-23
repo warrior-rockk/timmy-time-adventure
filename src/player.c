@@ -89,16 +89,16 @@ void player_create(tEntity *player)
     playerDataFileIndex = create_dat_index("player.dat");
 
     //load player sprite
-    player->img                     = load_datafile_object_indexed(playerDataFileIndex, PLAYER_BMP)->dat;
+    player->img                     = load_dat_bmp_indexed(playerDataFileIndex, PLAYER_BMP);
 
     //load player sfx
-    playerSfx[SFX_PLAYER_JUMP]      = load_datafile_object_indexed(playerDataFileIndex, JUMP_WAV)->dat;
-    playerSfx[SFX_PLAYER_HURT]      = load_datafile_object_indexed(playerDataFileIndex, HURT_WAV)->dat;
-    playerSfx[SFX_PLAYER_THROW]     = load_datafile_object_indexed(playerDataFileIndex, THROW_WAV)->dat;
-    playerSfx[SFX_PLAYER_BOUNCE]    = load_datafile_object_indexed(playerDataFileIndex, BOUNCE_WAV)->dat;
-    playerSfx[SFX_PLAYER_PICK]      = load_datafile_object_indexed(playerDataFileIndex, PICK_WAV)->dat;
-    playerSfx[SFX_PLAYER_DEAD]      = load_datafile_object_indexed(playerDataFileIndex, DEAD_WAV)->dat;
-    playerSfx[SFX_PLAYER_STAIR]     = load_datafile_object_indexed(playerDataFileIndex, STAIR_WAV)->dat;
+    playerSfx[SFX_PLAYER_JUMP]      = load_dat_wav_indexed(playerDataFileIndex, JUMP_WAV);
+    playerSfx[SFX_PLAYER_HURT]      = load_dat_wav_indexed(playerDataFileIndex, HURT_WAV);
+    playerSfx[SFX_PLAYER_THROW]     = load_dat_wav_indexed(playerDataFileIndex, THROW_WAV);
+    playerSfx[SFX_PLAYER_BOUNCE]    = load_dat_wav_indexed(playerDataFileIndex, BOUNCE_WAV);
+    playerSfx[SFX_PLAYER_PICK]      = load_dat_wav_indexed(playerDataFileIndex, PICK_WAV);
+    playerSfx[SFX_PLAYER_DEAD]      = load_dat_wav_indexed(playerDataFileIndex, DEAD_WAV);
+    playerSfx[SFX_PLAYER_STAIR]     = load_dat_wav_indexed(playerDataFileIndex, STAIR_WAV);
 }
 
 void player_init(tEntity *player)
