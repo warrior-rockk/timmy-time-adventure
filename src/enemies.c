@@ -512,7 +512,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
                 this->state = E_SPIDER_ST_IDLE;
         break;
         case E_SPIDER_HURT:
-           enemy_dead(this, ANIM_PTERO_HURT);
+           enemy_dead(this, ANIM_SPIDER_DEAD);
         break;
     }       
 }
