@@ -183,7 +183,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             default:
-                abort_on_error("Tipo de entidad desconocida %i", entityList[newEntity].entClass);
+                abort_on_error("Entity type not valid %i", entityList[newEntity].entClass);
             break;
         }
         

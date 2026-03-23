@@ -182,7 +182,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){30, 29};                  
         break;        
         default:
-            abort_on_error("Tipo de entidad enemigo no reconocida");
+            abort_on_error("Enemy type entity not valid");
         break;
     }
 

@@ -99,26 +99,26 @@ static void main_init()
     
     //initialize and install modules    
     if (allegro_init() != 0)
-        abort_on_error("Error iniciando libreria Allegro");
+        abort_on_error("Error initializating Allegro");
     #if ALLEGRO_USES_TIMER
         MY_TRACE_FLAG("Initializing timer\n");
         if (install_timer() != 0)
-            abort_on_error("Error iniciando el modulo timer");
+            abort_on_error("Error initializating timer module");
     #endif
     #if ALLEGRO_USES_KEYBOARD
         MY_TRACE_FLAG("Initializing keyboard\n");
         if (install_keyboard() != 0)
-            abort_on_error("Error iniciando el teclado");
+            abort_on_error("Error initializating keyboard");
     #endif
     #if ALLEGRO_USES_MOUSE
         MY_TRACE_FLAG("Initializing mouse\n");
         if (install_mouse() < 0)
-            abort_on_error("Error iniciando el mouse");
+            abort_on_error("Error initializating mouse");
     #endif
     #if ALLEGRO_USES_SOUND
         MY_TRACE_FLAG("Initializing sound\n");        
         if (sound_init() != 0)
-            abort_on_error("Error iniciando el sonido");
+            abort_on_error("Error initializating sound");
     #else
         sound_set_mode(E_SOUND_OFF_MODE);
         sound_init();
@@ -128,7 +128,7 @@ static void main_init()
     
     //set video mode
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
-        abort_on_error("Error seteando modo grafico");
+        abort_on_error("Error setting graphic mode");
     set_color_depth(GAME_COLOR_DEPTH);
 
     playTime_init();

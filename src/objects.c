@@ -135,7 +135,7 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_SPAWN;
         break;
         default:
-            abort_on_error("Tipo de entidad objeto no reconocida");
+            abort_on_error("Object entity type not valid");
         break;
     }
     
