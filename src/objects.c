@@ -111,6 +111,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){21, 16};
             entity->size = (tVector){21, 16};      
             collision_create_entity_points(entity);                    
+            entity->properties = E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_END_OBJECT_TYPE:            
             if (!objectResources[E_END_OBJECT_TYPE])
