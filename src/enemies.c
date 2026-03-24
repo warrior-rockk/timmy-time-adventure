@@ -268,7 +268,10 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
     entity_blink(entity);
     //play dead sfx
     if (entity->state != entity->prevState)
+    {
         sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE);
+        game.score += SCORE_POINT_HURT_ENEMY;
+    }
     //play dead animation
     if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
     {

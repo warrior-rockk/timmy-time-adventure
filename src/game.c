@@ -724,7 +724,7 @@ void game_hud_update()
     if (game.score != hud.last_score)
     {
         //check extra life by score
-        if (!(game.score % SCORE_POINT_EXTRA_LIFE) && game.score > 0)
+        if (!(game.score % SCORE_POINT_EXTRA_LIFE) && game.score > 0 && game.score != hud.last_score)
         {
             game.lives++;
         }
