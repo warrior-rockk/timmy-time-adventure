@@ -91,29 +91,29 @@ directories:
 	cp -r ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
 
 #generate dat files
-${BUILD_DIR}bin/game.dat: ${RESOURCES_DIR}game/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/gdata.h
+${BUILD_DIR}bin/game.dat: $(wildcard ${RESOURCES_DIR}game/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}game/*.bmp --wav ${RESOURCES_DIR}game/*.wav --midi ${RESOURCES_DIR}game/*.mid --pal-bmp ${RESOURCES_DIR}game/*.pal --h ${SRC_DIR}/data/gdata.h
 
-${BUILD_DIR}bin/coll.dat: ${RESOURCES_DIR}collisions/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/cdata.h
+${BUILD_DIR}bin/coll.dat: $(wildcard ${RESOURCES_DIR}collisions/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}collisions/*.bmp --wav ${RESOURCES_DIR}collisions/*.wav --midi ${RESOURCES_DIR}collisions/*.mid --pal-bmp ${RESOURCES_DIR}collisions/*.pal --h ${SRC_DIR}/data/cdata.h
 
-${BUILD_DIR}bin/player.dat: ${RESOURCES_DIR}player/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/pdata.h
+${BUILD_DIR}bin/player.dat: $(wildcard ${RESOURCES_DIR}player/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}player/*.bmp --wav ${RESOURCES_DIR}player/*.wav --midi ${RESOURCES_DIR}player/*.mid --pal-bmp ${RESOURCES_DIR}player/*.pal --h ${SRC_DIR}/data/pdata.h
 
-${BUILD_DIR}bin/objects.dat: ${RESOURCES_DIR}objects/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/odata.h
+${BUILD_DIR}bin/objects.dat: $(wildcard ${RESOURCES_DIR}objects/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}objects/*.bmp --wav ${RESOURCES_DIR}objects/*.wav --midi ${RESOURCES_DIR}objects/*.mid --pal-bmp ${RESOURCES_DIR}objects/*.pal --h ${SRC_DIR}/data/odata.h
 
-${BUILD_DIR}bin/enemies.dat: ${RESOURCES_DIR}enemies/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/edata.h
+${BUILD_DIR}bin/enemies.dat: $(wildcard ${RESOURCES_DIR}enemies/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}enemies/*.bmp --wav ${RESOURCES_DIR}enemies/*.wav --midi ${RESOURCES_DIR}enemies/*.mid --pal-bmp ${RESOURCES_DIR}enemies/*.pal --h ${SRC_DIR}/data/edata.h
 
-${BUILD_DIR}bin/jurassic.dat: ${RESOURCES_DIR}levels/jurassic/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/judata.h
+${BUILD_DIR}bin/jurassic.dat: $(wildcard ${RESOURCES_DIR}levels/jurassic/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}levels/jurassic/*.bmp --wav ${RESOURCES_DIR}levels/jurassic/*.wav --midi ${RESOURCES_DIR}levels/jurassic/*.mid --pal-bmp ${RESOURCES_DIR}levels/jurassic/*.pal --h ${SRC_DIR}/data/judata.h
 
-${BUILD_DIR}bin/west.dat: ${RESOURCES_DIR}levels/west/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/wedata.h
+${BUILD_DIR}bin/west.dat: $(wildcard ${RESOURCES_DIR}levels/west/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}levels/west/*.bmp --wav ${RESOURCES_DIR}levels/west/*.wav --midi ${RESOURCES_DIR}levels/west/*.mid --pal-bmp ${RESOURCES_DIR}levels/west/*.pal --h ${SRC_DIR}/data/wedata.h
 
-${BUILD_DIR}bin/medieval.dat: ${RESOURCES_DIR}levels/medieval/
-	${DAT} create $@ --bmp $^*.bmp --wav $^*.wav --midi $^*.mid --pal-bmp $^*.pal --h ${SRC_DIR}/data/medata.h
+${BUILD_DIR}bin/medieval.dat: $(wildcard ${RESOURCES_DIR}levels/medieval/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}levels/medieval/*.bmp --wav ${RESOURCES_DIR}levels/medieval/*.wav --midi ${RESOURCES_DIR}levels/medieval/*.mid --pal-bmp ${RESOURCES_DIR}levels/medieval/*.pal --h ${SRC_DIR}/data/medata.h
 
 # Convert .tmx to .bin
 ${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/
