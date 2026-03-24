@@ -605,7 +605,7 @@ static void game_debug_info()
 {
     //debug info
     show_debug("FPS: %d", fps_get());
-    //show_debug("s.x: %d, s.x: %d", scroll.pos.x, scroll.pos.y);
+    show_debug("s.x: %d, s.y: %d", scroll.pos.x, scroll.pos.y);
     //show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
     //show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
     //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);

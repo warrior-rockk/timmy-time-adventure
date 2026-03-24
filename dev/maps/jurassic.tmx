@@ -379,11 +379,6 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
-  <tile id="100">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="35"/>
-   </properties>
-  </tile>
  </tileset>
  <layer id="1" name="Tiles" width="192" height="30">
   <properties>

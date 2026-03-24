@@ -30,6 +30,7 @@ tScroll scroll_create(tVector window, tVector limit, uint8_t mode)
     scroll.limit    = limit;
     scroll.mode     = mode;
 
+    MY_TRACE_FLAG("Created scroll with window x:%i y:%i and limit x:%i y:%i\n", scroll.window.x, scroll.window.y, scroll.limit.x, scroll.limit.y);
     return scroll;
 }
 
@@ -100,8 +101,17 @@ static void scroll_update_y(tScroll *scroll, tVector *cameraTarget, bool init)
         case E_SCROLL_BY_WINDOW_MODE:
         case E_SCROLL_BY_WINDOW_Y_MODE:
             //calculate Y scroll target
-            scroll->target.y = (int16_t)(cameraTarget->y / (scroll->window.y - SCROLL_BY_WINDOW_RANGE)) * scroll->window.y;
-
+            if (!scroll->moving)
+            {
+                //check camera target to move scroll down one scroll window position
+                if (cameraTarget->y > (scroll->pos.y + scroll->window.y - SCROLL_BY_WINDOW_RANGE) && scroll->pos.y < scroll->limit.y)
+                    scroll->target.y += scroll->window.y;
+                //check camera target to move scroll up one scroll window position
+                if (cameraTarget->y < (scroll->pos.y - SCROLL_BY_WINDOW_RANGE) && scroll->pos.y > 0)    
+                    scroll->target.y -= scroll->window.y;                
+            }
+            //show_debug("Scroll target y:%i", scroll->target.y);
+            
             //set scroll velocity
             if (scroll->moving == E_SCROLL_MOVE_NONE && !init)
             {
