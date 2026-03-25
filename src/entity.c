@@ -296,10 +296,10 @@ void entities_update(tScroll *scroll)
     #endif
 
     //clear flags
-    game.stopScrollLeft = false;
+    /*game.stopScrollLeft = false;
     game.stopScrollRight = false;
     game.stopScrollDown = false;
-    game.stopScrollUp = false;
+    game.stopScrollUp = false;*/
     
     for (int i=0; i < numEntities; i++)
     {
@@ -326,11 +326,18 @@ void entities_update(tScroll *scroll)
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
             {
-                if (!entityList[i].sleep)                
+                if (!entityList[i].sleep)
+                {                
                     MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
-
-                //sleep the entity
-                entityList[i].sleep = true;                
+                    //sleep the entity
+                    entityList[i].sleep = true;                
+                    //call on frame of entity update of entities that need do something when go to sleep
+                    if (entityList[i].entity_update)
+                    {
+                        entityList[i].entity_update(&entityList[i]);                          
+                    }
+                }
+                //check autodestroy flag to destroy entity
                 if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
                 {
                     entity_destroy(i);                    

@@ -75,7 +75,14 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
 		//if tile exists on path point position
         if (map_tile_exists(linePath->start))
         {
-			//check if tile is solid
+			//check collision with scroll stopped
+            if (((linePath->start.x) >= game.stopScrollRight && game.stopScrollRight) || 
+                ((linePath->start.x) <= game.stopScrollLeft && game.stopScrollLeft))
+            {
+                return dist;
+            }
+
+            //check if tile is solid
             if (!CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_NO_SOLID))
             {
 				//check tile property to count as collision or not

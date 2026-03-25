@@ -425,14 +425,34 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->entType)
     {
         case E_STOP_SCROLL_OBJECT_TYPE:
-            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT) && entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)
-                game.stopScrollLeft = this->pos.x;
-            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT) && entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
-                game.stopScrollRight = this->pos.x;
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
+            {
+                if (this->sleep)
+                    game.stopScrollLeft = false;
+                else if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
+                    game.stopScrollLeft = this->pos.x;
+            }
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
+            {
+                if (this->sleep)
+                    game.stopScrollRight = false;
+                else if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
+                    game.stopScrollRight = this->pos.x;
+            }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
-                game.stopScrollDown = true;
+            {
+                if (this->sleep)
+                    game.stopScrollDown = false;
+                else
+                    game.stopScrollDown = true;
+            }   
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
-                game.stopScrollUp = true;    
+            {
+                if (this->sleep)
+                    game.stopScrollUp = false;
+                else
+                    game.stopScrollUp = true;
+            }
         break;
     }
 }

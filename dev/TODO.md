@@ -2,9 +2,10 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 - [ ] Spider doesn't disappear
 - [ ] Downing stairs player gets crouched not pressing key
+- [ ] No apply stop scroll object when scroll initialized
 
 # Engine
-- [ ] Collisions with the stop scroll x
+- [X] Collisions with the stop scroll x
 - [ ] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
