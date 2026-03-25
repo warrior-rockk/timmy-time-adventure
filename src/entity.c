@@ -340,6 +340,7 @@ void entities_update(tScroll *scroll)
             {
                 //if is player, lose live (fall on edges)
                 game.loseLive = true;
+                MY_TRACE_FLAG("Lose player live because out region\n");
             }
             
             #ifdef DEBUGMODE                 

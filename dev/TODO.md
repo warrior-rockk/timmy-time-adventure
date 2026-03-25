@@ -2,7 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 - [ ] Spider doesn't disappear
 - [ ] Downing stairs player gets crouched not pressing key
-- [ ] Bug Starting game on screen y 3
 
 # Engine
 - [ ] Debug teleport to next checkpoint? or mouse change position?

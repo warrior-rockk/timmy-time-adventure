@@ -209,7 +209,9 @@ void game_update()
 
                     entities_init();
                     scroll_init(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll.pos.x, scroll.pos.y);
                     scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll.pos.x, scroll.pos.y);
                     game_hud_init();                    
 
                     entities_update(&scroll);
