@@ -425,9 +425,9 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->entType)
     {
         case E_STOP_SCROLL_OBJECT_TYPE:
-            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT) && entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)
                 game.stopScrollLeft = this->pos.x;
-            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT) && entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
                 game.stopScrollRight = this->pos.x;
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
                 game.stopScrollDown = true;

@@ -4,6 +4,8 @@
 - [ ] Downing stairs player gets crouched not pressing key
 
 # Engine
+- [ ] Collisions with the stop scroll x
+- [ ] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
