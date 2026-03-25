@@ -39,8 +39,8 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_ANIMATION       = 0x0004,       //Tile has animation
     E_TILE_PROP_SLOPE_45        = 0x0008,       //Tile is slope 45º
     E_TILE_PROP_SLOPE_135       = 0x0010,       //Tile is slope 135º
-    E_TILE_PROP_NO_SCROLL_Y     = 0x0020,       //Tile stops scroll Y (die pit) (NOTE: in the same screen window, can't put a no scroll tile and move the scroll)
-    E_TILE_PROP_NO_SCROLL_X     = 0x0040,       //Tile stops scroll X (NOTE: in the same screen window, can't put a no scroll tile and move the scroll)
+    E_TILE_PROP_SPARE1          = 0x0020,       //Spare
+    E_TILE_PROP_SPARE2          = 0x0040,       //Spare
     E_TILE_PROP_TOP_STAIR       = 0x0080,       //Tile is top of stairs
     E_TILE_PROP_STAIR           = 0x0100,       //Tile is stairs
     E_TILE_PROP_SOLID_ON_FALL   = 0x0200,       //Tile only solid falling into

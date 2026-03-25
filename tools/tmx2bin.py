@@ -32,6 +32,7 @@ object_ent_types = {
     "end"           : 3,
     "checkpoint"    : 4,
     "item"          : 5,
+    "stopScroll"    : 6,
 }
 #define entity enemies types
 enemy_ent_types = {

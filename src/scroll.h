@@ -42,8 +42,6 @@ typedef struct
 {    
     uint8_t mode;       //scroll mode
     uint8_t moving;     //scroll moving flags
-    bool stopScrollX;
-    bool stopScrollY;
     tVector pos;        //scroll actual position
     tVector target;     //scroll target position
     tVector window;     //scroll window size

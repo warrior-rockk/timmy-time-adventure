@@ -136,6 +136,11 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_SPAWN;
         break;
+        case E_STOP_SCROLL_OBJECT_TYPE:            
+            entity->img = NULL;
+            entity->size = (tVector){16, 16};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Object entity type not valid");
         break;
@@ -163,6 +168,9 @@ void object_update(tEntity *entity)
         break;
         case E_ITEM_OBJECT_TYPE:
             object_item_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_STOP_SCROLL_OBJECT_TYPE:
+            object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -409,6 +417,23 @@ void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *local)
         break;        
         default:
             this->state = E_CHECKPOINT_ST_IDLE;
+    }
+}
+
+void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    switch (this->entType)
+    {
+        case E_STOP_SCROLL_OBJECT_TYPE:
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
+                game.stopScrollLeft = true;
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
+                game.stopScrollRight = true;
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
+                game.stopScrollDown = true;
+            if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
+                game.stopScrollUp = true;    
+        break;
     }
 }
 

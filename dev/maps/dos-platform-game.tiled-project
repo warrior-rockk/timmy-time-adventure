@@ -49,6 +49,19 @@
             "valuesAsFlags": false
         },
         {
+            "id": 6,
+            "name": "stopScroll",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "NO_SCROLL_LEFT",
+                "NO_SCROLL_RIGHT",
+                "NO_SCROLL_DOWN",
+                "NO_SCROLL_UP"
+            ],
+            "valuesAsFlags": true
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 1,
@@ -80,8 +93,8 @@
                 "ANIMATION",
                 "SLOPE_45",
                 "SLOPE_135",
-                "NO_SCROLL_Y",
-                "NO_SCROLL_X",
+                "SPARE1",
+                "SPARE2",
                 "TOP_STAIR",
                 "STAIR",
                 "SOLID_ON_FALL",

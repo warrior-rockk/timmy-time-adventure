@@ -281,8 +281,6 @@ void map_unload()
 void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
 {
     tTile *tile;
-    bool memTileStopScrollX = false;
-    bool memTileStopScrollY = false;
     int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
     int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
     int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
@@ -335,29 +333,10 @@ void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
                             //draw tile id
                             draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
                         }
-                        //check tile stop scroll
-                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_Y))
-                        {
-                            //memorize tile with stop scroll
-                            memTileStopScrollY = true;                                   
-                        }
-                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_NO_SCROLL_X))
-                        {
-                            //memorize tile with stop scroll
-                            memTileStopScrollX = true;                            
-                        }
                     }
                 }
             }    
         }
-    }
-
-    //TODO: modify to allow stop scroll on back layer
-    //sets stop scroll if any tile with this property (only front layer)
-    if (frontLayer)
-    {
-        scroll->stopScrollY = memTileStopScrollY;
-        scroll->stopScrollX = memTileStopScrollX;
     }
 }
 

@@ -20,6 +20,7 @@ enum E_OBJECT_TYPE
     E_END_OBJECT_TYPE,
     E_CHECKPOINT_OBJECT_TYPE,
     E_ITEM_OBJECT_TYPE,
+    E_STOP_SCROLL_OBJECT_TYPE,
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -29,6 +30,15 @@ enum E_ITEMS_TYPE
     E_ITEM_EXTRA_LIFE,
     E_ITEM_FULL_LIFE,
     E_ITEMS_NUM,
+};
+
+//stop scroll options
+enum E_STOP_SCROLL_OPTIONS
+{
+    E_STOP_SCROLL_LEFT      = 0x01,
+    E_STOP_SCROLL_RIGHT     = 0x02,
+    E_STOP_SCROLL_DOWN      = 0x04,
+    E_STOP_SCROLL_UP        = 0x08, 
 };
 
 typedef struct 
@@ -59,10 +69,10 @@ void object_update(tEntity *entity);
 //destroy object instance of list
 void object_destroy(tEntity *entity);
 
-//custom update function for stone objects
+//custom update function for objects
 void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
-
+void object_trigger_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_end_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif
