@@ -491,7 +491,7 @@
   </object>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="1648" y="240" width="16" height="30">
+  <object id="1" name="player1" type="player" x="1904" y="224" width="16" height="30">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>

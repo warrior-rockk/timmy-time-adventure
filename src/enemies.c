@@ -272,11 +272,13 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
         sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE);
         game.score += SCORE_POINT_HURT_ENEMY;
     }
+    
     //play dead animation
     if (play_animation(&entity->anim, startFrame, endFrame, speed, mode))
     {
         entity->dead = true;
         entity->signal = E_ENT_SIGNAL_NONE;
+        MY_TRACE_FLAG("Entity %i set dead\n", entity->id);
     }
 }
 
@@ -450,7 +452,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_SPIDER_IDLE   0,   0,  20, ANIM_LOOP
     #define ANIM_SPIDER_TURN   0,   7,  20, ANIM_LOOP 
-    #define ANIM_SPIDER_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_SPIDER_DEAD   0,   1,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
     
     //enemy states
     enum E_SPIDER_ENEMY_STATES{E_SPIDER_ST_IDLE, E_SPIDER_ST_MOVING_1, E_SPIDER_ST_MOVING_2, E_SPIDER_ST_MOVING_3, E_SPIDER_ST_MOVING_4, E_SPIDER_HURT};   
@@ -517,7 +519,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
         case E_SPIDER_HURT:
            enemy_dead(this, ANIM_SPIDER_DEAD);
         break;
-    }       
+    }
 }
 
 void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
