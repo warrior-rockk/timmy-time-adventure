@@ -591,7 +591,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
-  <object id="70" name="stopScroll" type="object" x="3072" y="208" width="16" height="16">
+  <object id="70" name="stopScroll" type="object" x="3072" y="224" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
