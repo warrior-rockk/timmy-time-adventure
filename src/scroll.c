@@ -88,6 +88,8 @@ static void scroll_update_x(tScroll *scroll, tVector *cameraTarget, bool init)
     if (scroll->pos.x < game.stopScrollLeft && game.stopScrollLeft)
         scroll->pos.x = game.stopScrollLeft;
 
+    MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll->pos.x, game.stopScrollLeft);
+
     //scroll->pos.x = (int16_t)clamp(scroll->pos.x, game.stopScrollLeft, game.stopScrollRight - scroll->window.x);
     show_debug("stopRight %i stopLeft %i", game.stopScrollRight, game.stopScrollLeft);  
 

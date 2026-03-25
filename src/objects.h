@@ -43,7 +43,8 @@ enum E_STOP_SCROLL_OPTIONS
 
 typedef struct 
 {
-    uint16_t timer;    
+    uint16_t timer;  
+    int16_t flag;  
 } tSolidObjectLocalData;
 
 enum E_OBJECT_SFX

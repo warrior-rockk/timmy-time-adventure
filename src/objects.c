@@ -185,6 +185,7 @@ void object_init(tEntity *entity)
     {        
         default:
             ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
+            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].flag = 0;
         break;
     }
 }
@@ -427,31 +428,59 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         case E_STOP_SCROLL_OBJECT_TYPE:
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
             {
-                if (this->sleep)
-                    game.stopScrollLeft = false;
+                if (this->sleep) 
+                {
+                    if (local->flag == E_STOP_SCROLL_LEFT)
+                        game.stopScrollLeft = false;
+                }
                 else if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
+                {
                     game.stopScrollLeft = this->pos.x;
+                    local->flag = E_STOP_SCROLL_LEFT;
+                    MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
+                }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
             {
                 if (this->sleep)
-                    game.stopScrollRight = false;
+                {
+                    if (local->flag == E_STOP_SCROLL_RIGHT)
+                        game.stopScrollRight = false;
+                }
                 else if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
+                {
                     game.stopScrollRight = this->pos.x;
+                    local->flag = E_STOP_SCROLL_RIGHT;
+                    MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
+                }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
             {
                 if (this->sleep)
-                    game.stopScrollDown = false;
+                {
+                    if (local->flag == E_STOP_SCROLL_DOWN)
+                        game.stopScrollDown = false;
+                }
                 else
+                {
                     game.stopScrollDown = true;
+                    local->flag = E_STOP_SCROLL_DOWN;
+                    MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
+                }
             }   
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
             {
                 if (this->sleep)
-                    game.stopScrollUp = false;
+                {
+                    if (local->flag == E_STOP_SCROLL_UP)
+                        game.stopScrollUp = false;
+                }
                 else
+                {
                     game.stopScrollUp = true;
+                    local->flag = E_STOP_SCROLL_UP;
+                    MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
+                }
             }
         break;
     }

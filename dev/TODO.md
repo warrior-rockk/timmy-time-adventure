@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] No apply stop scroll object when scroll initialized (because the object stop out of region by scroll don't updated position)
 
 # Engine
 - [X] Collisions with the stop scroll x
