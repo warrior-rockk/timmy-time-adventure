@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Downing stairs player gets crouched not pressing key
 - [ ] No apply stop scroll object when scroll initialized (because the object stop out of region by scroll don't updated position)
 
 # Engine

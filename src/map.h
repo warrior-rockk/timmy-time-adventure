@@ -34,6 +34,7 @@ typedef struct
 //tile properties
 enum E_TILE_PROPERTY
 {
+    E_TILE_PROP_SOLID           = 0x0000,       //Solid tile (collidable)
     E_TILE_PROP_NO_SOLID        = 0x0001,       //No collision with this tile
     E_TILE_PROP_FRONT_LAYER     = 0x0002,       //Tile draws on front layer
     E_TILE_PROP_ANIMATION       = 0x0004,       //Tile has animation
