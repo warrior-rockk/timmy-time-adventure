@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="68">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="69">
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="110" columns="10">
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="176"/>
   <tile id="1">
@@ -491,7 +491,7 @@
   </object>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="2784" y="96" width="16" height="30">
+  <object id="1" name="player1" type="player" x="1600" y="240" width="16" height="30">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -541,17 +541,17 @@
   </object>
   <object id="46" name="rock" type="object" x="2144" y="208" width="16" height="16"/>
   <object id="50" name="end" type="object" x="3696" y="32" width="16" height="16"/>
-  <object id="52" name="stopScroll" type="object" x="1408" y="128" width="32" height="32">
+  <object id="52" name="stopScroll" type="object" x="1408" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="56" name="stopScroll" type="object" x="3104" y="48" width="16" height="16">
+  <object id="56" name="stopScroll" type="object" x="3072" y="48" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="63" name="stopScroll" type="object" x="3056" y="208" width="16" height="16">
+  <object id="63" name="stopScroll" type="object" x="3072" y="208" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
@@ -566,17 +566,22 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="62" name="stopScroll" type="object" x="1504" y="208" width="16" height="32">
+  <object id="62" name="stopScroll" type="object" x="1536" y="208" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
-  <object id="64" name="stopScroll" type="object" x="1504" y="128" width="48" height="32">
+  <object id="68" name="stopScroll" type="object" x="1536" y="304" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+   </properties>
+  </object>
+  <object id="64" name="stopScroll" type="object" x="1504" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="65" name="stopScroll" type="object" x="1616" y="128" width="48" height="32">
+  <object id="65" name="stopScroll" type="object" x="1616" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>

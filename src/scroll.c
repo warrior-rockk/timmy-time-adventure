@@ -71,13 +71,22 @@ static void scroll_update_x(tScroll *scroll, tVector *cameraTarget, bool init)
         //continuous follow camera
         case E_SCROLL_NORMAL_MODE:
         case E_SCROLL_BY_WINDOW_Y_MODE:
-            if ((cameraTarget->x > (scroll->window.x >> 1) + scroll->pos.x + SCROLL_OFFSET_X) && !game.stopScrollRight)
+            if (cameraTarget->x > (scroll->window.x >> 1) + scroll->pos.x + SCROLL_OFFSET_X)
                 scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) - SCROLL_OFFSET_X;
-            else if ((cameraTarget->x < (scroll->window.x >> 1) + scroll->pos.x - SCROLL_OFFSET_X) && !game.stopScrollLeft)
+            else if ((cameraTarget->x < (scroll->window.x >> 1) + scroll->pos.x - SCROLL_OFFSET_X))
                 scroll->pos.x = cameraTarget->x - (scroll->window.x >> 1) + SCROLL_OFFSET_X;
         break;
     }
     
+    if (scroll->pos.x > game.stopScrollRight - scroll->window.x && game.stopScrollRight)
+        scroll->pos.x = game.stopScrollRight - scroll->window.x;
+    
+    if (scroll->pos.x < game.stopScrollLeft && game.stopScrollLeft)
+        scroll->pos.x = game.stopScrollLeft;
+
+    //scroll->pos.x = (int16_t)clamp(scroll->pos.x, game.stopScrollLeft, game.stopScrollRight - scroll->window.x);
+    show_debug("stopRight %i stopLeft %i", game.stopScrollRight, game.stopScrollLeft);  
+
     //limit scroll position
     scroll->pos.x = (int16_t)clamp(scroll->pos.x, 0, scroll->limit.x);
 }
@@ -141,6 +150,8 @@ static void scroll_update_y(tScroll *scroll, tVector *cameraTarget, bool init)
             scroll->pos.y = fixtoi(scroll->fixPos.y);
         break;
     }
+
+    show_debug("StopScrollDown %i, StopScrollUp %i", game.stopScrollDown, game.stopScrollUp);
     //limit scroll position
     scroll->pos.y = (int16_t)clamp(scroll->pos.y, 0, scroll->limit.y);    
 }

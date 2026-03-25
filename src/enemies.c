@@ -450,7 +450,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
     //enemy animations
     #define ANIM_SPIDER_IDLE   0,   0,  20, ANIM_LOOP
     #define ANIM_SPIDER_TURN   0,   7,  20, ANIM_LOOP 
-    #define ANIM_SPIDER_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_LOOP
+    #define ANIM_SPIDER_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
     
     //enemy states
     enum E_SPIDER_ENEMY_STATES{E_SPIDER_ST_IDLE, E_SPIDER_ST_MOVING_1, E_SPIDER_ST_MOVING_2, E_SPIDER_ST_MOVING_3, E_SPIDER_ST_MOVING_4, E_SPIDER_HURT};   
