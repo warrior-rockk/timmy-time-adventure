@@ -546,16 +546,6 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="56" name="stopScroll" type="object" x="3072" y="48" width="16" height="16">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
-   </properties>
-  </object>
-  <object id="63" name="stopScroll" type="object" x="3072" y="208" width="16" height="16">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
-   </properties>
-  </object>
   <object id="57" name="stopScroll" type="object" x="2080" y="128" width="64" height="32">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>

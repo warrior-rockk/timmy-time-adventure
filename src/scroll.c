@@ -115,12 +115,13 @@ static void scroll_update_y(tScroll *scroll, tVector *cameraTarget, bool init)
             {
                 //check camera target to move scroll down one scroll window position
                 if ((cameraTarget->y > (scroll->pos.y + scroll->window.y - SCROLL_BY_WINDOW_RANGE) && scroll->pos.y < scroll->limit.y) && (!game.stopScrollDown || init))
-                    scroll->target.y += (int16_t)(floor(cameraTarget->y / scroll->window.y)) * scroll->window.y;
+                    scroll->target.y = (int16_t)(floor(cameraTarget->y / scroll->window.y)) * scroll->window.y;
                 //check camera target to move scroll up one scroll window position
                 if ((cameraTarget->y < (scroll->pos.y - SCROLL_BY_WINDOW_RANGE) && scroll->pos.y > 0) && (!game.stopScrollUp || init))   
-                    scroll->target.y -= (int16_t)(floor(cameraTarget->y / scroll->window.y)) * scroll->window.y;
+                    scroll->target.y = (int16_t)(floor(cameraTarget->y / scroll->window.y)) * scroll->window.y;
             }
-            //show_debug("Scroll target y:%i", scroll->target.y);
+            show_debug("Scroll target y:%i", scroll->target.y);
+            show_debug("Floor %i", (int16_t)(floor(cameraTarget->y / scroll->window.y)));
 
             //set scroll velocity
             if (scroll->moving == E_SCROLL_MOVE_NONE && !init)
