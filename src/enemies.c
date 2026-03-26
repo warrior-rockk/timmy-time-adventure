@@ -114,7 +114,7 @@ void enemy_create(tEntity *entity)
             
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){71, 64};
-            entity->size.x = 50;
+            entity->size.x = 40;
             entity->size.y = 20;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
@@ -287,8 +287,8 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 {
     //enemy defines
-    #define PTERO_VELOCITY          0.4
-    #define PTERO_RANGE_PATROL      20
+    #define PTERO_VELOCITY                  0.4
+    #define PTERO_DEFAULT_RANGE_PATROL      20
 
     //enemy animations
     #define ANIM_PTERO_FLY     0,   1,  20, ANIM_LOOP
@@ -309,7 +309,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
             this->state = E_PTERO_ST_MOVE;                
         break;
         case E_PTERO_ST_MOVE:
-            enemy_patrol_ia(this, ftofix(PTERO_VELOCITY), PTERO_RANGE_PATROL);
+            enemy_patrol_ia(this, ftofix(PTERO_VELOCITY), this->spare != 0 ? this->spare : PTERO_DEFAULT_RANGE_PATROL);
                                     
             play_animation(&this->anim, ANIM_PTERO_FLY);            
         break;
