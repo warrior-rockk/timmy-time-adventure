@@ -71,9 +71,11 @@ void object_update(tEntity *entity);
 void object_destroy(tEntity *entity);
 
 //custom update function for objects
+
+//object solid (pickable or not and breakable or not)
 void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
+//items object (extra live, full life)
 void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
+//special trigger objects (checkpoints, end level, stop scroll...)
 void object_trigger_update(tEntity *this, tSolidObjectLocalData *objData);
-void object_end_update(tEntity *this, tSolidObjectLocalData *objData);
-void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

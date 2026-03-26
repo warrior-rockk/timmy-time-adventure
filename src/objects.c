@@ -161,16 +161,12 @@ void object_update(tEntity *entity)
     switch (entity->entType)
     {
         case E_END_OBJECT_TYPE:
-            object_end_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;
         case E_CHECKPOINT_OBJECT_TYPE:
-            object_checkpoint_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        case E_STOP_SCROLL_OBJECT_TYPE:
+            object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
             object_item_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;
-        case E_STOP_SCROLL_OBJECT_TYPE:
-            object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -382,15 +378,19 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_end_update(tEntity *this, tSolidObjectLocalData *local)
+void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 {
-    //object states
-    enum E_END_STATE {E_END_ST_IDLE};
-
-    switch (this->state)
+    switch (this->entType)
     {
-        case E_END_ST_IDLE:
-
+        case E_CHECKPOINT_OBJECT_TYPE:
+            //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
+            if (!this->sleep)
+            {
+                entity_get(PLAYER_ENTITY_ID)->initPos = this->pos;
+                entity_get(PLAYER_ENTITY_ID)->initDir = this->dir;
+            }
+        break;
+        case E_END_OBJECT_TYPE:
             //if collision with player
             if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
             {
@@ -398,36 +398,8 @@ void object_end_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             this->anim.frame = 0;
-        break;        
-        default:
-            this->state = E_END_ST_IDLE;
-    }
-}
-
-void object_checkpoint_update(tEntity *this, tSolidObjectLocalData *local)
-{
-    //object states
-    enum E_CHECKPOINT_STATE {E_CHECKPOINT_ST_IDLE};
-
-    switch (this->state)
-    {
-        case E_CHECKPOINT_ST_IDLE:
-            //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
-            if (!this->sleep)
-            {
-                entity_get(PLAYER_ENTITY_ID)->initPos = this->pos;
-                entity_get(PLAYER_ENTITY_ID)->initDir = this->dir;
-            }
-        break;        
-        default:
-            this->state = E_CHECKPOINT_ST_IDLE;
-    }
-}
-
-void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
-{
-    switch (this->entType)
-    {
+        break;
+        //stop scroll trigger
         case E_STOP_SCROLL_OBJECT_TYPE:
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
             {
