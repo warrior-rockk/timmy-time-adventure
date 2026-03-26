@@ -12,7 +12,7 @@
 
 //player dimensions
 #define PLAYER_SIZE_W               12      //player collision size width
-#define PLAYER_SIZE_H               30      //player collision size height
+#define PLAYER_SIZE_H               32      //player collision size height
 #define PLAYER_SIZE_H_CROUCH        16      //player collision size height when crouched
 #define PLAYER_IMG_W                41      //player sprite width
 #define PLAYER_IMG_H                44      //player sprite height
