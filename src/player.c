@@ -465,9 +465,6 @@ static void player_update_collisions(tEntity *player)
                             //if not attacking (hurt player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
                             {
-                                #ifdef DEBUGMODE
-                                    if (!debugOptions.invencible)                        
-                                #endif
                                 //set hurt flag
                                 playerFlags.hurt = true;                                 
                             }
@@ -529,6 +526,10 @@ static void player_update_state(tEntity *player)
         if (player->prevState != player->state)
             sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE);
     }
+    #ifdef DEBUGMODE
+    else if (playerFlags.hurt && debugOptions.invencible)
+        playerFlags.hurt = false;
+    #endif
     else if (playerFlags.hurt)
     {
         playerFlags.disableMove = true;
