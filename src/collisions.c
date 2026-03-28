@@ -163,7 +163,7 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
         checkPosition.y = fixtoi(linePath->start.y);
 
         //check if tile exists on path position
-        if (map_tile_exists(checkPosition))
+        if (map_tile_exists(checkPosition) && map_tile_visible(checkPosition))
         {   
             //check if tile is not solid
             if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_NO_SOLID))

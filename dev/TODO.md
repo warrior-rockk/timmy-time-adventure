@@ -3,7 +3,7 @@
 
 # Engine
 - [X] Collisions with the stop scroll x
-- [ ] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
+- [X] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
 - [ ] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
