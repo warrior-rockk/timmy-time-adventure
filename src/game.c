@@ -207,16 +207,16 @@ void game_update()
                     game.viewMap    = true;
 
                     entities_init();
-                    MY_TRACE_FLAG("player on x %i y %i\n", entity_get(PLAYER_ENTITY_ID)->pos.x, entity_get(PLAYER_ENTITY_ID)->pos.y);
+                    //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(PLAYER_ENTITY_ID)->pos.x, entity_get(PLAYER_ENTITY_ID)->pos.y);
                     scroll_init(entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
                     entities_update();
                     scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_update();                    
 
                     music_play(gameMusic, -1);
