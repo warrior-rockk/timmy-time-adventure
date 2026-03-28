@@ -26,6 +26,7 @@
     #define MY_ASSERT(condition)                ASSERT(condition)
     #define MY_TRACE                            TRACE
     #define MY_TRACE_FLAG(data, ...)            { TRACE("(%i)", get_frame_counter()); TRACE(TRACE_FLAG": " data, ##__VA_ARGS__); }
+    #define MY_TRACE_MARK                       MY_TRACE("[MARK]\n")
 #endif
 
 #define HALT    exit(-1);

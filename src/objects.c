@@ -413,7 +413,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
 
                     local->flag = E_STOP_SCROLL_LEFT;
-                    MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
+                    //MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
                 }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
@@ -427,7 +427,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
                     local->flag = E_STOP_SCROLL_RIGHT;
-                    MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
+                    //MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
                 }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
@@ -441,7 +441,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.x);
                     local->flag = E_STOP_SCROLL_DOWN;
-                    MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
+                    //MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
                 }
             }   
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
@@ -455,7 +455,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.x);
                     local->flag = E_STOP_SCROLL_UP;
-                    MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
+                    //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
                 }
             }
         break;

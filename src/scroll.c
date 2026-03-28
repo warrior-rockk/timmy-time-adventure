@@ -91,10 +91,10 @@ static void scroll_update_x(tVector *cameraTarget, bool init)
     if (scroll.pos.x < scroll.stopScroll.left && scroll.stopScroll.left)
         scroll.pos.x = scroll.stopScroll.left;
 
-    MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, scroll.stopScroll.left);
+    //MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, scroll.stopScroll.left);
 
     //scroll.pos.x = (int16_t)clamp(scroll.pos.x, game.stopScrollLeft, game.stopScrollRight - scroll.window.x);
-    show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
+    //show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
 
     //limit scroll position
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
@@ -125,8 +125,8 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
                 if ((cameraTarget->y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
                     scroll.target.y = (int16_t)(floor(cameraTarget->y / scroll.window.y)) * scroll.window.y;
             }
-            show_debug("Scroll target y:%i", scroll.target.y);
-            show_debug("Floor %i", (int16_t)(floor(cameraTarget->y / scroll.window.y)));
+            //show_debug("Scroll target y:%i", scroll.target.y);
+            //show_debug("Floor %i", (int16_t)(floor(cameraTarget->y / scroll.window.y)));
 
             //set scroll velocity
             if (scroll.moving == E_SCROLL_MOVE_NONE && !init)
@@ -161,7 +161,7 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
         break;
     }
 
-    show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
+    //show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
     //limit scroll position
     scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y);    
 }

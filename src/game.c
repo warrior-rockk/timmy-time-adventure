@@ -595,6 +595,8 @@ static void game_debug_update()
         debugOptions.invencible = !debugOptions.invencible;
         game.life = 3;
     }
+    if (key[KEY_M])
+        MY_TRACE_MARK;
 
     //trace state          
     if (game.state != game.prevState)
