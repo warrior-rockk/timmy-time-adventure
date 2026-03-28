@@ -7,7 +7,6 @@
 #include <math.h>
 
 #include "scroll.h"
-#include "game.h"
 
 #define TRACE_FLAG      "[SCROLL]"
 
@@ -201,5 +200,8 @@ int16_t scroll_get_stop_scroll(uint8_t dir)
         case E_STOP_SCROLL_UP:
             return scroll.stopScroll.up;
         break;    
+        default:
+            return 0;
+        break;
     }
 }
