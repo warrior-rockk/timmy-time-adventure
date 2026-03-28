@@ -46,16 +46,19 @@ typedef struct
     tVector target;     //scroll target position
     tVector window;     //scroll window size
     tVector limit;      //scroll limit position
+    t4dir stopScroll;   //stop scroll direction positions
     tFixVector fixPos;  //scroll actual position fixed point
     tFixVector fixVel;  //scroll velocity fixed point
 } tScroll;
 
-//creates scroll with the window dimensions, limits and mode. Returns a scroll object
-tScroll scroll_create(tVector window, tVector limit, uint8_t mode);
+//creates scroll with the window dimensions, limits and mode
+void scroll_create(tVector window, tVector limit, uint8_t mode);
 //inits scroll object
-void scroll_init(tScroll *scroll, tVector *initPos);
+void scroll_init(tVector *initPos);
 //updates scroll object. Receives the camera target follow position
-void scroll_update(tScroll *scroll, tVector *cameraTarget);
+void scroll_update(tVector *cameraTarget);
 //check if rectangle is on scroll region
-bool scroll_rect_on_region(tRectangle rect, tScroll *scroll);
+bool scroll_rect_on_region(tRectangle rect);
+//returns scroll position
+tVector scroll_get_position();
 #endif

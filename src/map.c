@@ -278,13 +278,15 @@ void map_unload()
     MY_TRACE_FLAG("Map unloaded\n");
 }
 
-void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer)
+void map_draw(BITMAP *buffer, bool frontLayer)
 {
     tTile *tile;
-    int16_t sx = scroll->pos.x % mapHeader.tile_width;      //tile pos x on scroll
-    int16_t sy = scroll->pos.y % mapHeader.tile_height;     //tile pos y on scroll
-    int16_t tx = scroll->pos.x / mapHeader.tile_width;      //tile num x on scroll
-    int16_t ty = scroll->pos.y / mapHeader.tile_height;     //tile num y on scroll  
+    tVector scrollPos = scroll_get_position();
+
+    int16_t sx = scrollPos.x % mapHeader.tile_width;      //tile pos x on scroll
+    int16_t sy = scrollPos.y % mapHeader.tile_height;     //tile pos y on scroll
+    int16_t tx = scrollPos.x / mapHeader.tile_width;      //tile num x on scroll
+    int16_t ty = scrollPos.y / mapHeader.tile_height;     //tile num y on scroll  
     
     //TODO: replace clear all buffer with color only positions with no tiles?
     if (!frontLayer)

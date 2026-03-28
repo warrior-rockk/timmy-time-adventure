@@ -116,9 +116,9 @@ void entity_system_destroy();
 //calls the init function on all entitites
 void entities_init();
 //calls the update function on all entities
-void entities_update(tScroll *scroll);
+void entities_update();
 //draws all entities on passed buffer
-void entities_draw(BITMAP *buffer, tScroll *scroll);
+void entities_draw(BITMAP *buffer);
 //destroy all entities
 void entities_destroy_all();
 //returns number of entities

@@ -55,7 +55,7 @@ void map_unload();
 //get the dimensions of the map (on tiles)
 tVector map_get_dimensions();
 //draw the current map
-void map_draw(BITMAP *buffer, tScroll *scroll, bool frontLayer);
+void map_draw(BITMAP *buffer, bool frontLayer);
 //checks if position exists on tile maps
 uint16_t map_tile_exists(tVector checkPosition);
 //gets map tile property

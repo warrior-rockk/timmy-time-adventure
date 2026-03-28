@@ -49,7 +49,6 @@ MIDI* gameMusic;                    //current MIDI game music
 DATAFILE_INDEX *gameDataIndex; 
 tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
-tScroll scroll;                     //game scroll
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
@@ -208,15 +207,15 @@ void game_update()
                     game.viewMap    = true;
 
                     entities_init();
-                    scroll_init(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll.pos.x, scroll.pos.y);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll.pos.x, scroll.pos.y);
+                    scroll_init(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
-                    entities_update(&scroll);
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);
-                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll.pos.x, scroll.pos.y);
+                    entities_update();
+                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_update();                    
 
                     music_play(gameMusic, -1);
@@ -234,9 +233,9 @@ void game_update()
                     }
                     else
                     {
-                        map_draw(worldScreen, &scroll, false);                    
-                        entities_draw(worldScreen, &scroll);                    
-                        map_draw(worldScreen, &scroll, true);                    
+                        map_draw(worldScreen, false);                    
+                        entities_draw(worldScreen);                    
+                        map_draw(worldScreen, true);                    
                         game_hud_draw();
                         
                         gameSeq.timeCounter += clock_tick_get();
@@ -245,13 +244,13 @@ void game_update()
             }
         break;
         case E_GAME_ST_PLAY_LEVEL:            
-            entities_update(&scroll);
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            entities_update();
+            scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);        
             game_hud_update();
 
-            map_draw(worldScreen, &scroll, false);
-            entities_draw(worldScreen, &scroll);
-            map_draw(worldScreen, &scroll, true);                    
+            map_draw(worldScreen, false);
+            entities_draw(worldScreen);
+            map_draw(worldScreen, true);                    
             game_hud_draw();           
 
             //check game lose life
@@ -284,9 +283,9 @@ void game_update()
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
-            map_draw(worldScreen, &scroll, false);
-            entities_draw(worldScreen, &scroll);
-            map_draw(worldScreen, &scroll, true);                    
+            map_draw(worldScreen, false);
+            entities_draw(worldScreen);
+            map_draw(worldScreen, true);                    
             game_hud_draw();           
             
             textprintf_centre_ex(worldScreen, gameFont, GAME_W >> 1, GAME_H >> 1,  WHITE_COLOR, BLACK_COLOR, "PAUSE");
@@ -300,9 +299,9 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);        
             
-            entities_draw(worldScreen, &scroll);
+            entities_draw(worldScreen);
                        
 
             //TODO: replace with the duration of dead music
@@ -328,8 +327,8 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    scroll_update(&scroll, &entity_get(PLAYER_ENTITY_ID)->pos);                    
-                    entities_draw(worldScreen, &scroll);
+                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);                    
+                    entities_draw(worldScreen);
 
                     music_stop(gameMusic);
 
@@ -612,7 +611,7 @@ static void game_debug_info()
 {
     //debug info
     show_debug("FPS: %d", fps_get());
-    show_debug("s.x: %d, s.y: %d", scroll.pos.x, scroll.pos.y);
+    show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
     //show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
     //show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
     //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
@@ -645,7 +644,7 @@ static void game_load_level(uint8_t numLevel)
     mapDimension.y = mapDimension.y - GAME_H;
     
     //create scroll    
-    scroll = scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
+    scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
     
     //load music level
     gameMusic = (MIDI *)levelDAT[levelData[numLevel].musicFileIndex].dat;

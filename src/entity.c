@@ -21,8 +21,10 @@ static uint16_t numEntities;    //number of entities
 static BITMAP *entitySprite;    //pointer to sub-bitmap of entity frame
 
 //private function to draw one entity
-static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
+static void entity_draw(BITMAP *buffer, tEntity *entity)
 {
+    tVector scrollPos = scroll_get_position();
+
     if (entity->img)
     {
         int16_t drawX, drawY;
@@ -54,9 +56,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         {
         #endif    
             if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                                
+                draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                                
             else
-                draw_sprite_h_flip(buffer, entitySprite, drawX - scroll->pos.x, drawY - scroll->pos.y);                        
+                draw_sprite_h_flip(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                        
         #ifdef DEBUGMODE
         }
         #endif
@@ -66,7 +68,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
         if (debugOptions.showDebugInfo >= DEBUG_SHOW_ALL_LAYER)
         {
             //draw debug entity collision box
-            rect(buffer, entity->pos.x - scroll->pos.x, entity->pos.y - scroll->pos.y, (entity->pos.x + entity->size.x) - scroll->pos.x , (entity->pos.y + entity->size.y) - scroll->pos.y , 40);            
+            rect(buffer, entity->pos.x - scrollPos.x, entity->pos.y - scrollPos.y, (entity->pos.x + entity->size.x) - scrollPos.x , (entity->pos.y + entity->size.y) - scrollPos.y , 40);            
 
             //draw debug entity collision points
             if (collision_check_entity_col_points(entity->id))
@@ -80,7 +82,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity, tScroll *scroll)
                         entPointColor = DEBUG_POINT_ENABLED_COLOR;
                     else
                         entPointColor = DEBUG_POINT_DISABLED_COLOR;                    
-                    putpixel(buffer, entity->pos.x + entPoint->offset.x - scroll->pos.x, entity->pos.y + entPoint->offset.y - scroll->pos.y, entPointColor);
+                    putpixel(buffer, entity->pos.x + entPoint->offset.x - scrollPos.x, entity->pos.y + entPoint->offset.y - scrollPos.y, entPointColor);
                 }
             }            
         }
@@ -286,7 +288,7 @@ void entities_init()
 }
 
 //function to update entities
-void entities_update(tScroll *scroll)
+void entities_update()
 {
     #ifdef DEBUGMODE
         struct entityCounter
@@ -309,7 +311,7 @@ void entities_update(tScroll *scroll)
         if (entityList[i].dead)            
         {
             //reset dead flag if object out of region of initial position
-            if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}, scroll))
+            if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}))
             {
                 entityList[i].sleep = true;
                 //if the entity doesn't is persistent, init the entity
@@ -323,7 +325,7 @@ void entities_update(tScroll *scroll)
             #endif
         }
         //check entity on region (and no persistent property)
-        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}, scroll) && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
         {
             //if entity is not player
             if (entityList[i].id != PLAYER_ENTITY_ID)
@@ -394,13 +396,13 @@ void entities_update(tScroll *scroll)
 }
 
 //funtion to draws entities
-void entities_draw(BITMAP *buffer, tScroll *scroll)
+void entities_draw(BITMAP *buffer)
 {
     for (int i=numEntities - 1; i >= 0; i--)
     {
         //only draws if visible and not sleep
         if (entityList[i].visible && !entityList[i].sleep)
-            entity_draw(buffer, &entityList[i], scroll);
+            entity_draw(buffer, &entityList[i]);
     }    
 }
 

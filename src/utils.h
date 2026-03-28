@@ -73,6 +73,15 @@ typedef struct tRectangle
     tVector size;
 } tRectangle;
 
+//4 directions type
+typedef struct
+{
+    int16_t left;
+    int16_t right;
+    int16_t down;
+    int16_t up;
+} t4dir;
+
 //clamp value between min and max
 int clamp(int value, int min, int max);
 //fixed clamp value between min and max
