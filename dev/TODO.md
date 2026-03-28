@@ -2,9 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [X] Collisions with the stop scroll x
-- [X] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
-- [ ] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
@@ -30,6 +27,9 @@
 - [X] Input: replace key_press and key_pressed for key_down, key_up, key_press
 - [X] Items: extra live, life, score...
 - [X] Palette for each level with player colors on top?
+- [X] Collisions with the stop scroll x
+- [X] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
+- [X] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
