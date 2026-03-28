@@ -406,11 +406,12 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->sleep) 
                 {
                     if (local->flag == E_STOP_SCROLL_LEFT)
-                        game.stopScrollLeft = false;
+                        scroll_stop_scroll(E_STOP_SCROLL_LEFT, 0);
                 }
                 else if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
                 {
-                    game.stopScrollLeft = this->pos.x;
+                    scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
+
                     local->flag = E_STOP_SCROLL_LEFT;
                     MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
                 }
@@ -420,11 +421,11 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->sleep)
                 {
                     if (local->flag == E_STOP_SCROLL_RIGHT)
-                        game.stopScrollRight = false;
+                        scroll_stop_scroll(E_STOP_SCROLL_RIGHT, 0);
                 }
                 else if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
                 {
-                    game.stopScrollRight = this->pos.x;
+                    scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
                     local->flag = E_STOP_SCROLL_RIGHT;
                     MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
                 }
@@ -434,11 +435,11 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->sleep)
                 {
                     if (local->flag == E_STOP_SCROLL_DOWN)
-                        game.stopScrollDown = false;
+                        scroll_stop_scroll(E_STOP_SCROLL_DOWN, 0);
                 }
                 else
                 {
-                    game.stopScrollDown = true;
+                    scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.x);
                     local->flag = E_STOP_SCROLL_DOWN;
                     MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
                 }
@@ -448,11 +449,11 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->sleep)
                 {
                     if (local->flag == E_STOP_SCROLL_UP)
-                        game.stopScrollUp = false;
+                        scroll_stop_scroll(E_STOP_SCROLL_UP, 0);
                 }
                 else
                 {
-                    game.stopScrollUp = true;
+                    scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.x);
                     local->flag = E_STOP_SCROLL_UP;
                     MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
                 }

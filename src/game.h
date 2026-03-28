@@ -143,10 +143,6 @@ typedef struct
     uint8_t viewMap;
     uint8_t scrollMode;
     uint8_t levelComplete;
-    uint16_t stopScrollLeft;
-    uint16_t stopScrollRight;
-    bool stopScrollUp;
-    bool stopScrollDown;
 } tGame;
 
 //options for debug mode

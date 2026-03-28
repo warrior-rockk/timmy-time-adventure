@@ -80,16 +80,16 @@ static void scroll_update_x(tVector *cameraTarget, bool init)
         break;
     }
     
-    if (scroll.pos.x > game.stopScrollRight - scroll.window.x && game.stopScrollRight)
-        scroll.pos.x = game.stopScrollRight - scroll.window.x;
+    if (scroll.pos.x > scroll.stopScroll.right - scroll.window.x && scroll.stopScroll.right)
+        scroll.pos.x = scroll.stopScroll.right - scroll.window.x;
     
-    if (scroll.pos.x < game.stopScrollLeft && game.stopScrollLeft)
-        scroll.pos.x = game.stopScrollLeft;
+    if (scroll.pos.x < scroll.stopScroll.left && scroll.stopScroll.left)
+        scroll.pos.x = scroll.stopScroll.left;
 
-    MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, game.stopScrollLeft);
+    MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, scroll.stopScroll.left);
 
     //scroll.pos.x = (int16_t)clamp(scroll.pos.x, game.stopScrollLeft, game.stopScrollRight - scroll.window.x);
-    show_debug("stopRight %i stopLeft %i", game.stopScrollRight, game.stopScrollLeft);  
+    show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
 
     //limit scroll position
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
@@ -114,10 +114,10 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
             if (!scroll.moving)
             {
                 //check camera target to move scroll down one scroll window position
-                if ((cameraTarget->y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!game.stopScrollDown || init))
+                if ((cameraTarget->y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!scroll.stopScroll.down || init))
                     scroll.target.y = (int16_t)(floor(cameraTarget->y / scroll.window.y)) * scroll.window.y;
                 //check camera target to move scroll up one scroll window position
-                if ((cameraTarget->y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!game.stopScrollUp || init))   
+                if ((cameraTarget->y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
                     scroll.target.y = (int16_t)(floor(cameraTarget->y / scroll.window.y)) * scroll.window.y;
             }
             show_debug("Scroll target y:%i", scroll.target.y);
@@ -156,7 +156,7 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
         break;
     }
 
-    show_debug("StopScrollDown %i, StopScrollUp %i", game.stopScrollDown, game.stopScrollUp);
+    show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
     //limit scroll position
     scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y);    
 }
@@ -164,4 +164,42 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
 tVector scroll_get_position()
 {
     return (tVector){scroll.pos.x, scroll.pos.y};
+}
+
+void scroll_stop_scroll(uint8_t dir, int16_t value)
+{
+    switch (dir)
+    {
+        case E_STOP_SCROLL_LEFT:
+            scroll.stopScroll.left = value;
+        break;
+        case E_STOP_SCROLL_RIGHT:
+            scroll.stopScroll.right = value;
+        break;
+        case E_STOP_SCROLL_DOWN:
+            scroll.stopScroll.down = value;
+        break;
+        case E_STOP_SCROLL_UP:
+            scroll.stopScroll.up = value;
+        break;    
+    }
+}
+
+int16_t scroll_get_stop_scroll(uint8_t dir)
+{
+    switch (dir)
+    {
+        case E_STOP_SCROLL_LEFT:
+            return scroll.stopScroll.left;
+        break;
+        case E_STOP_SCROLL_RIGHT:
+            return scroll.stopScroll.right;
+        break;
+        case E_STOP_SCROLL_DOWN:
+            return scroll.stopScroll.down;
+        break;
+        case E_STOP_SCROLL_UP:
+            return scroll.stopScroll.up;
+        break;    
+    }
 }

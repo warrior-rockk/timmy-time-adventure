@@ -37,6 +37,15 @@ enum E_SCROLL_BY_WINDOW_MOVE
     E_SCROLL_MOVE_DOWN,
 };
 
+//stop scroll options
+enum E_STOP_SCROLL_OPTIONS
+{
+    E_STOP_SCROLL_LEFT      = 0x01,
+    E_STOP_SCROLL_RIGHT     = 0x02,
+    E_STOP_SCROLL_DOWN      = 0x04,
+    E_STOP_SCROLL_UP        = 0x08, 
+};
+
 //scroll object
 typedef struct
 {    
@@ -61,4 +70,8 @@ void scroll_update(tVector *cameraTarget);
 bool scroll_rect_on_region(tRectangle rect);
 //returns scroll position
 tVector scroll_get_position();
+//set stop scroll value for a stop scroll direction (left, right, down or up)
+void scroll_stop_scroll(uint8_t dir, int16_t value);
+//get stop scroll values for a stop scroll direction (left, right, down or up)
+int16_t scroll_get_stop_scroll(uint8_t dir);
 #endif

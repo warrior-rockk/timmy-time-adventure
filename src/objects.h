@@ -32,15 +32,6 @@ enum E_ITEMS_TYPE
     E_ITEMS_NUM,
 };
 
-//stop scroll options
-enum E_STOP_SCROLL_OPTIONS
-{
-    E_STOP_SCROLL_LEFT      = 0x01,
-    E_STOP_SCROLL_RIGHT     = 0x02,
-    E_STOP_SCROLL_DOWN      = 0x04,
-    E_STOP_SCROLL_UP        = 0x08, 
-};
-
 typedef struct 
 {
     uint16_t timer;  

@@ -76,8 +76,8 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
         if (map_tile_exists(linePath->start))
         {
 			//check collision with scroll stopped
-            if (((linePath->start.x) >= game.stopScrollRight && game.stopScrollRight) || 
-                ((linePath->start.x) <= game.stopScrollLeft && game.stopScrollLeft))
+            if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
+                ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
             {
                 return dist;
             }

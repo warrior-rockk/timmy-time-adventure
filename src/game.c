@@ -546,10 +546,6 @@ void game_init()
     game.score          = 0;
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;
-    game.stopScrollLeft = false;
-    game.stopScrollRight= false;
-    game.stopScrollDown = false;
-    game.stopScrollUp   = false;
     hud.refresh         = E_REFRESH_HUD_ALL;
     game.viewMap        = false;
 
