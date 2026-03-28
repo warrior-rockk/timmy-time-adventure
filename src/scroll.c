@@ -12,8 +12,8 @@
 
 tScroll scroll;     //game scroll object
 
-static void scroll_update_x(tVector *cameraTarget, bool init);
-static void scroll_update_y(tVector *cameraTarget, bool init);
+static void scroll_update_x(tVector cameraTarget, bool init);
+static void scroll_update_y(tVector cameraTarget, bool init);
 
 void scroll_create(tVector window, tVector limit, uint8_t mode)
 {
@@ -34,7 +34,7 @@ void scroll_create(tVector window, tVector limit, uint8_t mode)
     MY_TRACE_FLAG("Created scroll with window x:%i y:%i and limit x:%i y:%i\n", scroll.window.x, scroll.window.y, scroll.limit.x, scroll.limit.y);
 }
 
-void scroll_init(tVector *initPos)
+void scroll_init(tVector initPos)
 {
     
     scroll.moving  = E_SCROLL_MOVE_NONE;
@@ -46,7 +46,7 @@ void scroll_init(tVector *initPos)
     MY_TRACE_FLAG("Scroll initialized on position x: %i position y:%i\n", scroll.pos.x, scroll.pos.y);
 }
 
-void scroll_update(tVector *cameraTarget)
+void scroll_update(tVector cameraTarget)
 {
     scroll_update_x(cameraTarget, false);
     
@@ -70,7 +70,7 @@ bool scroll_on_region(tVector checkPosition)
             checkPosition.x < (scroll.pos.x + scroll.window.x) && checkPosition.x > (scroll.pos.x);
 }
 
-static void scroll_update_x(tVector *cameraTarget, bool init)
+static void scroll_update_x(tVector cameraTarget, bool init)
 {
     //updates X scroll position
     switch (scroll.mode)    
@@ -78,10 +78,10 @@ static void scroll_update_x(tVector *cameraTarget, bool init)
         //continuous follow camera
         case E_SCROLL_NORMAL_MODE:
         case E_SCROLL_BY_WINDOW_Y_MODE:
-            if (cameraTarget->x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
-                scroll.pos.x = cameraTarget->x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
-            else if ((cameraTarget->x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
-                scroll.pos.x = cameraTarget->x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;
+            if (cameraTarget.x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
+                scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
+            else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
+                scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;
         break;
     }
     
@@ -100,17 +100,17 @@ static void scroll_update_x(tVector *cameraTarget, bool init)
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
 }
 
-static void scroll_update_y(tVector *cameraTarget, bool init)
+static void scroll_update_y(tVector cameraTarget, bool init)
 {
     //updates Y scroll position
     switch (scroll.mode)
     {
         //continuous follow camera: sets scroll position y to center cameraTarget +/- offset
         case E_SCROLL_NORMAL_MODE:
-            if (cameraTarget->y > (scroll.window.y >> 1) + scroll.pos.y + SCROLL_OFFSET_Y)
-                scroll.pos.y = cameraTarget->y - (scroll.window.y >> 1) - SCROLL_OFFSET_Y;
-            else if (cameraTarget->y < (scroll.window.y >> 1) + scroll.pos.y - SCROLL_OFFSET_Y)
-                scroll.pos.y = cameraTarget->y - (scroll.window.y >> 1) + SCROLL_OFFSET_Y;        
+            if (cameraTarget.y > (scroll.window.y >> 1) + scroll.pos.y + SCROLL_OFFSET_Y)
+                scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) - SCROLL_OFFSET_Y;
+            else if (cameraTarget.y < (scroll.window.y >> 1) + scroll.pos.y - SCROLL_OFFSET_Y)
+                scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) + SCROLL_OFFSET_Y;        
         break;
         //moves the scroll only when change the size of scroll window +/- range
         case E_SCROLL_BY_WINDOW_MODE:
@@ -119,14 +119,14 @@ static void scroll_update_y(tVector *cameraTarget, bool init)
             if (!scroll.moving)
             {
                 //check camera target to move scroll down one scroll window position
-                if ((cameraTarget->y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!scroll.stopScroll.down || init))
-                    scroll.target.y = (int16_t)(floor(cameraTarget->y / scroll.window.y)) * scroll.window.y;
+                if ((cameraTarget.y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!scroll.stopScroll.down || init))
+                    scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
                 //check camera target to move scroll up one scroll window position
-                if ((cameraTarget->y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
-                    scroll.target.y = (int16_t)(floor(cameraTarget->y / scroll.window.y)) * scroll.window.y;
+                if ((cameraTarget.y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
+                    scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
             }
             //show_debug("Scroll target y:%i", scroll.target.y);
-            //show_debug("Floor %i", (int16_t)(floor(cameraTarget->y / scroll.window.y)));
+            //show_debug("Floor %i", (int16_t)(floor(cameraTarget.y / scroll.window.y)));
 
             //set scroll velocity
             if (scroll.moving == E_SCROLL_MOVE_NONE && !init)

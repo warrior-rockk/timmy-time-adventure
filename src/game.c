@@ -207,14 +207,15 @@ void game_update()
                     game.viewMap    = true;
 
                     entities_init();
-                    scroll_init(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    MY_TRACE_FLAG("player on x %i y %i\n", entity_get(PLAYER_ENTITY_ID)->pos.x, entity_get(PLAYER_ENTITY_ID)->pos.y);
+                    scroll_init(entity_get(PLAYER_ENTITY_ID)->pos);
                     MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
-                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
                     MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
                     entities_update();
-                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);
+                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
                     MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_update();                    
 
@@ -245,7 +246,7 @@ void game_update()
         break;
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update();
-            scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);        
             game_hud_update();
 
             map_draw(worldScreen, false);
@@ -299,7 +300,7 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);        
             
             entities_draw(worldScreen);
                        
@@ -327,7 +328,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    scroll_update(&entity_get(PLAYER_ENTITY_ID)->pos);                    
+                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);                    
                     entities_draw(worldScreen);
 
                     music_stop(gameMusic);

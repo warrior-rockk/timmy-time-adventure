@@ -63,9 +63,9 @@ typedef struct
 //creates scroll with the window dimensions, limits and mode
 void scroll_create(tVector window, tVector limit, uint8_t mode);
 //inits scroll object
-void scroll_init(tVector *initPos);
+void scroll_init(tVector initPos);
 //updates scroll object. Receives the camera target follow position
-void scroll_update(tVector *cameraTarget);
+void scroll_update(tVector cameraTarget);
 //check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect);
 //check if position is on scroll region
