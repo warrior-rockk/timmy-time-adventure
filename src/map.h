@@ -58,8 +58,6 @@ tVector map_get_dimensions();
 void map_draw(BITMAP *buffer, bool frontLayer);
 //checks if position exists on tile maps
 uint16_t map_tile_exists(tVector checkPosition);
-//check if map tile is on scroll visible position
-bool map_tile_visible(tVector checkPosition);
 //gets map tile property
 uint16_t map_get_tile_property(tVector checkPosition);
 //return x position snapped to tile

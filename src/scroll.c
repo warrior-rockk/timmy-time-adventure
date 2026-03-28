@@ -64,6 +64,12 @@ bool scroll_rect_on_region(tRectangle rect)
             
 }
 
+bool scroll_on_region(tVector checkPosition)
+{
+    return  checkPosition.y < (scroll.pos.y + scroll.window.y) && checkPosition.y > (scroll.pos.y) &&
+            checkPosition.x < (scroll.pos.x + scroll.window.x) && checkPosition.x > (scroll.pos.x);
+}
+
 static void scroll_update_x(tVector *cameraTarget, bool init)
 {
     //updates X scroll position

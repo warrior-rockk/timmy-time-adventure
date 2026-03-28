@@ -347,15 +347,6 @@ uint16_t map_tile_exists(tVector checkPosition)
     return (checkPosition.x / mapHeader.tile_width) < mapHeader.map_width && (checkPosition.y / mapHeader.tile_height) < mapHeader.map_height && checkPosition.x >= 0 && checkPosition.y >= 0;
 }
 
-bool map_tile_visible(tVector checkPosition)
-{
-    tVector scrollPosition = scroll_get_position();
-    //tVector tilePosition = (tVector){checkPosition.x / mapHeader.tile_width, checkPosition.y / mapHeader.tile_height};
-    //return in_range_vector(tilePosition, scrollPosition, (tVector){0,0});  
-
-    return checkPosition.y < (scrollPosition.y + GAME_H); 
-}
-
 uint16_t map_get_tile_property(tVector checkPosition)
 {
     if (!map_tile_exists(checkPosition))
