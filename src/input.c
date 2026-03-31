@@ -18,6 +18,7 @@ int controlPlayingFrame;					//numero de frame reproducido actual
 bool StopControlPlaying;					//flag para detener la reproduccion
 
 tInputLogEvent inputLogEvent;
+uint8_t controlLogger[6][3];					//Array de controles del controlLogger
 
 //definition of keys assigned for game keys
 static tKey gameKeys[E_GAME_KEYS_NUM] =
@@ -180,7 +181,98 @@ void input_log_record(const char *_file)
             fwrite(&inputLogEvent.controlEvent[i],  sizeof(uint8_t),    1, recordFile);
 		}
 		//cerramos el archivo
-		free(recordFile);
+		fclose(recordFile);
 		//TODO: log("Archivo "+_file+" guardado con �xito",DEBUG_ENGINE);
     }
+}
+
+//funcion que reproduce los controles grabados
+void input_log_player(const char *_file)
+{
+	uint16_t index;					//indice del registro
+	
+	//iniciamos flags
+	controlLoggerFinished = false;
+	StopControlPlaying	  = false;
+	
+	//abrimos la reproduccion de archivo
+    FILE *playerFile = fopen(_file, "rb");
+    if (!playerFile) {
+        abort_on_error("Error reading input log record file %s\n", _file);
+        //TODO: log("Grabacion se guarda en memoria",DEBUG_ENGINE);
+    }
+    else
+    {
+		//leemos los registros grabados
+		for (uint16_t i = 0; i < cControlLoggerMaxFrames; i++)
+        {
+			fread(&inputLogEvent.frameTime[i],     sizeof(uint16_t),   1, playerFile);
+            fread(&inputLogEvent.controlCode[i],   sizeof(uint8_t),    1, playerFile);
+            fread(&inputLogEvent.controlEvent[i],  sizeof(uint8_t),    1, playerFile);
+        }
+		//cerramos el archivo
+		fclose(playerFile);
+		//TODO: log("Archivo "+_file+" le�do con �xito",DEBUG_ENGINE);
+	}
+	
+	//TODO: log("Reproduccion iniciada",DEBUG_ENGINE);
+	
+	do
+    {
+		//comprobamos si el player esta vivo
+		//if (get_status(idPlayer) <> STATUS_ALIVE)
+		//	log("Esperando a player para reproduccion",DEBUG_ENGINE);
+		//	controlLoggerPlaying = false;
+		//else
+			controlLoggerPlaying = true;
+			
+			//recorremos el array de teclas a comprobar
+			for (uint8_t i = 0; i < cControlCheckNumber; i++)
+            {
+				//limpiamos los eventos del control actual
+				controlLogger[i][K_FLAG_PRESS] = false;
+				controlLogger[i][K_FLAG_DOWN]	= false;
+				controlLogger[i][K_FLAG_UP] 		= false;
+				//si el timestamp actual coincide con el registro y el control activo es el actual
+				if ( inputLogEvent.frameTime[index] == controlPlayingFrame && 
+					 inputLogEvent.controlCode[index]  == i )
+                {
+					//seteamos el control y su evento en el controlLogger
+					controlLogger[inputLogEvent.controlCode[index]][inputLogEvent.controlEvent[index]] = true;
+					//si el evento es E_DOWN, �mplicitamente es E_PRESSED tambi�n
+					if (inputLogEvent.controlEvent[index] == K_FLAG_DOWN)
+						controlLogger[inputLogEvent.controlCode[index]][K_FLAG_PRESS] = true;
+					
+					//incrementamos indice
+					index++;
+					if (index == cControlLoggerMaxFrames)
+						break;
+					
+					//TODO: log("Reproducido control "+controlStrings[i]+" con evento:"+inputLogEvent.controlEvent[index-1]+" en frame: "+controlPlayingFrame+" e indice: "+index,DEBUG_CONTROLS);
+				}
+            }
+			
+			controlPlayingFrame ++;
+
+		//}
+	
+    } while(index < cControlLoggerMaxFrames && inputLogEvent.controlCode[index]  == cendRecordCode && !StopControlPlaying); //TODO: control + s
+	//se comprueba con key porque wgeKey esta deshabilitado en reproduccion
+	//until (index == cControlLoggerMaxFrames || inputLogEvent.controlCode[index]  == cendRecordCode || key(_control) && key(_s) || StopControlPlaying ); 
+	
+	//limpiamos el buffer de reproduccion
+	for (uint8_t i = 0; i < cControlCheckNumber; i++)
+    {
+		controlLogger[i][K_FLAG_PRESS] = false;
+		controlLogger[i][K_FLAG_DOWN]	= false;
+		controlLogger[i][K_FLAG_DOWN] 		= false;
+	}
+	
+	//reiniciamos flags
+	controlLoggerPlaying = false;
+	controlLoggerFinished = true;
+	StopControlPlaying = false;
+	controlPlayingFrame = 0;
+	
+	//TODO: log("Reproduccion detenida",DEBUG_ENGINE);
 }
