@@ -16,17 +16,21 @@
 #define K_FLAG_DOWN         2
 #define K_FLAG_UP           3
 
+#define cControlLoggerMaxFrames     1000
+#define cControlCheckNumber     	6		//Numero de controles a comprobar
+#define cendRecordCode     		    128    //Valor no asociado a control que indica fin de grabacion
+
 //game keys
 enum E_GAME_KEYS
 {
-    E_G_KEY_PAUSE,
-    E_G_KEY_EXIT,
     E_G_KEY_UP,
     E_G_KEY_DOWN,
     E_G_KEY_LEFT,
     E_G_KEY_RIGHT,
     E_G_KEY_JUMP,
     E_G_KEY_ACTION,
+    E_G_KEY_PAUSE,
+    E_G_KEY_EXIT,
     E_G_KEY_D,
     E_G_KEY_S,
     E_G_KEY_I,
@@ -38,6 +42,13 @@ typedef struct {
     uint16_t keyId;
     uint8_t keyFlags;
 } tKey;
+
+//input logger event
+typedef struct {
+    uint16_t frameTime[cControlLoggerMaxFrames];	//Frame time stamp
+	uint8_t controlCode[cControlLoggerMaxFrames];	//Input code
+	uint8_t controlEvent[cControlLoggerMaxFrames];  //Input event 
+} tInputLogEvent;
 
 //updates keys state
 void input_keys_update();
