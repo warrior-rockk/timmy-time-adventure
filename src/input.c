@@ -11,12 +11,16 @@
 
 bool _anyKeyPressed = false;
 
-bool controlLoggerRecording;				//flag de grabando controles	
-bool controlLoggerPlaying;					//flag de reproduciendo controles
-bool controlLoggerFinished;					//flag de reproduccion finalizada
-int controlPlayingFrame;					//numero de frame reproducido actual
-bool StopControlPlaying;					//flag para detener la reproduccion
+//input logger status flags
+static struct inputLoggerStatus
+{
+    uint8_t recording      : 1;		//record input flag
+    uint8_t playing        : 1;		//playing input flag
+    uint8_t finished       : 1;		//finished input play flag
+    uint8_t stopPlay       : 1;    	//stop input play flag
+} inputLoggerStatus;
 
+int controlPlayingFrame;					//numero de frame reproducido actual
 tInputLogEvent inputLogEvent;
 uint8_t controlLogger[6][3];					//Array de controles del controlLogger
 
@@ -99,8 +103,8 @@ void input_log_record(const char *_file)
 	uint16_t index;					//indice de registro
 	
 	//reset flags
-	controlLoggerRecording = true;
-	controlLoggerFinished = false;
+	inputLoggerStatus.recording = true;
+	inputLoggerStatus.finished = false;
 	
 	//TODO: log("Grabacion iniciada",DEBUG_ENGINE);
 	
@@ -161,7 +165,7 @@ void input_log_record(const char *_file)
 		inputLogEvent.controlCode[index]    = cendRecordCode; 	
 	}
 	
-	controlLoggerRecording = false;
+	inputLoggerStatus.recording = false;
 	
 	//TODO: log("Grabacion Finalizada",DEBUG_ENGINE);
 	
@@ -192,8 +196,8 @@ void input_log_player(const char *_file)
 	uint16_t index;					//indice del registro
 	
 	//iniciamos flags
-	controlLoggerFinished = false;
-	StopControlPlaying	  = false;
+	inputLoggerStatus.finished = false;
+	inputLoggerStatus.stopPlay	  = false;
 	
 	//abrimos la reproduccion de archivo
     FILE *playerFile = fopen(_file, "rb");
@@ -222,9 +226,9 @@ void input_log_player(const char *_file)
 		//comprobamos si el player esta vivo
 		//if (get_status(idPlayer) <> STATUS_ALIVE)
 		//	log("Esperando a player para reproduccion",DEBUG_ENGINE);
-		//	controlLoggerPlaying = false;
+		//	inputLoggerStatus.playing = false;
 		//else
-			controlLoggerPlaying = true;
+			inputLoggerStatus.playing = true;
 			
 			//recorremos el array de teclas a comprobar
 			for (uint8_t i = 0; i < cControlCheckNumber; i++)
@@ -256,9 +260,9 @@ void input_log_player(const char *_file)
 
 		//}
 	
-    } while(index < cControlLoggerMaxFrames && inputLogEvent.controlCode[index]  == cendRecordCode && !StopControlPlaying); //TODO: control + s
+    } while(index < cControlLoggerMaxFrames && inputLogEvent.controlCode[index]  == cendRecordCode && !inputLoggerStatus.stopPlay); //TODO: control + s
 	//se comprueba con key porque wgeKey esta deshabilitado en reproduccion
-	//until (index == cControlLoggerMaxFrames || inputLogEvent.controlCode[index]  == cendRecordCode || key(_control) && key(_s) || StopControlPlaying ); 
+	//until (index == cControlLoggerMaxFrames || inputLogEvent.controlCode[index]  == cendRecordCode || key(_control) && key(_s) || inputLoggerStatus.stopPlaying ); 
 	
 	//limpiamos el buffer de reproduccion
 	for (uint8_t i = 0; i < cControlCheckNumber; i++)
@@ -269,9 +273,9 @@ void input_log_player(const char *_file)
 	}
 	
 	//reiniciamos flags
-	controlLoggerPlaying = false;
-	controlLoggerFinished = true;
-	StopControlPlaying = false;
+	inputLoggerStatus.playing = false;
+	inputLoggerStatus.finished = true;
+	inputLoggerStatus.stopPlay = false;
 	controlPlayingFrame = 0;
 	
 	//TODO: log("Reproduccion detenida",DEBUG_ENGINE);
