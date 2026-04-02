@@ -26,7 +26,7 @@ int controlPlayingFrame;					//numero de frame reproducido actual
 static uint16_t controlFrameCounter = 0;		//contador frames grabaci�n
 static uint16_t eventIndex = 0;						//indice de registro
 tInputLogEvent inputLogEvent;
-uint8_t controlLogger[6][3];					//Array de controles del controlLogger
+uint8_t controlLogger[E_GAME_KEYS_NUM][3];					//Array de controles del controlLogger
 char *recordFilename;
 
 //definition of keys assigned for game keys
@@ -45,6 +45,7 @@ static tKey gameKeys[E_GAME_KEYS_NUM] =
     {KEY_I, 0x00},
 };
 void input_log_record_update();
+void input_log_player_update();
 
 //general keys update
 void input_keys_update()
@@ -84,21 +85,23 @@ void input_keys_update()
 	//input logger
 	if (inputLoggerStatus.recording)
 		input_log_record_update();
+	if (inputLoggerStatus.playing)
+		input_log_player_update();
 }
 
 bool input_key_press(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESS);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESS) || (controlLogger[keyId][K_FLAG_PRESS] && inputLoggerStatus.playing);
 }
 
 bool input_key_down(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_DOWN);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_DOWN)  || (controlLogger[keyId][K_FLAG_DOWN]  && inputLoggerStatus.playing);
 }
 
 bool input_key_up(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_UP);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_UP)  || (controlLogger[keyId][K_FLAG_UP]  && inputLoggerStatus.playing);
 }
 
 bool input_any_key_pressed()
@@ -110,7 +113,8 @@ void input_log_record()//const char *filename)
 {
 	//reset flags
 	inputLoggerStatus.recording = true;
-	inputLoggerStatus.finished = false;
+	inputLoggerStatus.finished 	= false;
+	inputLoggerStatus.playing 	= false;
 
 	controlFrameCounter = 0;		//contador frames grabaci�n
 	eventIndex = 0;						//indice de registro
@@ -138,7 +142,7 @@ void input_log_record_update()
 	    //else
 						
 			//comprobamos todos los controles disponibles
-			for (uint8_t i = 0; i <= cControlCheckNumber; i++)
+			for (uint8_t i = 0; i < cControlCheckNumber; i++)
             {
 				//si se ha presionado un control
                 if (input_key_press(i))
@@ -156,9 +160,7 @@ void input_log_record_update()
 					
 					//incrementamos el indice
 					eventIndex ++;
-					if (eventIndex == cControlLoggerMaxFrames)
-						break;
-					
+										
 					//TODO: log("Grabado control "+controlStrings[i]+" con evento "+inputLogEvent.controlEvent[eventIndex-1]+" en frame: "+controlFrameCounter+" e indice: "+eventIndex,DEBUG_CONTROLS);
 				}
             }
@@ -197,25 +199,26 @@ void input_log_record_update()
 			}
 			//cerramos el archivo
 			fclose(recordFile);
-			MY_TRACE_FLAG("Input log record file %s succefully write\n", _file);			
+			MY_TRACE_FLAG("Input log record file %s successfully write\n", _file);		
+			HALT	
 		}
 	}
 }
 
-//funcion que reproduce los controles grabados
-void input_log_player(const char *_file)
+void input_log_player()
 {
-	uint16_t eventIndex;					//indice del registro
-	
 	//iniciamos flags
-	inputLoggerStatus.finished = false;
-	inputLoggerStatus.stopPlay	  = false;
-	
+	inputLoggerStatus.finished 	  = false;
+	inputLoggerStatus.stopPlay	  = false;	
+	inputLoggerStatus.recording   = false;
+
+	eventIndex = 0;						//indice de registro
+
 	//abrimos la reproduccion de archivo
+	char *_file = "record.rec";
     FILE *playerFile = fopen(_file, "rb");
     if (!playerFile) {
-        abort_on_error("Error reading input log record file %s\n", _file);
-        //TODO: log("Grabacion se guarda en memoria",DEBUG_ENGINE);
+        MY_TRACE_FLAG("Error reading input log record file %s. Input log reads on volatile memory\n", _file);	
     }
     else
     {
@@ -228,27 +231,30 @@ void input_log_player(const char *_file)
         }
 		//cerramos el archivo
 		fclose(playerFile);
-		//TODO: log("Archivo "+_file+" le�do con �xito",DEBUG_ENGINE);
+		MY_TRACE_FLAG("Input logger file %s successfully readed\n", _file);
+		inputLoggerStatus.playing = true;
+		MY_TRACE_FLAG("Input logger playing\n");
 	}
-	
-	//TODO: log("Reproduccion iniciada",DEBUG_ENGINE);
-	
-	do
+}
+
+//funcion que reproduce los controles grabados
+void input_log_player_update()//const char *_file)
+{
+	if (eventIndex < cControlLoggerMaxFrames && inputLogEvent.controlCode[eventIndex] != cendRecordCode && !inputLoggerStatus.stopPlay) //TODO: control + s
     {
 		//comprobamos si el player esta vivo
 		//if (get_status(idPlayer) <> STATUS_ALIVE)
 		//	log("Esperando a player para reproduccion",DEBUG_ENGINE);
 		//	inputLoggerStatus.playing = false;
 		//else
-			inputLoggerStatus.playing = true;
 			
 			//recorremos el array de teclas a comprobar
 			for (uint8_t i = 0; i < cControlCheckNumber; i++)
             {
 				//limpiamos los eventos del control actual
-				controlLogger[i][K_FLAG_PRESS] = false;
+				controlLogger[i][K_FLAG_PRESS] 	= false;
 				controlLogger[i][K_FLAG_DOWN]	= false;
-				controlLogger[i][K_FLAG_UP] 		= false;
+				controlLogger[i][K_FLAG_UP] 	= false;
 				//si el timestamp actual coincide con el registro y el control activo es el actual
 				if ( inputLogEvent.frameTime[eventIndex] == controlPlayingFrame && 
 					 inputLogEvent.controlCode[eventIndex]  == i )
@@ -259,12 +265,10 @@ void input_log_player(const char *_file)
 					if (inputLogEvent.controlEvent[eventIndex] == K_FLAG_DOWN)
 						controlLogger[inputLogEvent.controlCode[eventIndex]][K_FLAG_PRESS] = true;
 					
+					//MY_TRACE_FLAG("Player control %i with event %i on frame %i\n", inputLogEvent.controlCode[eventIndex], inputLogEvent.controlEvent[eventIndex], inputLogEvent.frameTime[eventIndex]);
+						
 					//incrementamos indice
-					eventIndex++;
-					if (eventIndex == cControlLoggerMaxFrames)
-						break;
-					
-					//TODO: log("Reproducido control "+controlStrings[i]+" con evento:"+inputLogEvent.controlEvent[eventIndex-1]+" en frame: "+controlPlayingFrame+" e indice: "+eventIndex,DEBUG_CONTROLS);
+					eventIndex++;					
 				}
             }
 			
@@ -272,23 +276,34 @@ void input_log_player(const char *_file)
 
 		//}
 	
-    } while(eventIndex < cControlLoggerMaxFrames && inputLogEvent.controlCode[eventIndex]  == cendRecordCode && !inputLoggerStatus.stopPlay); //TODO: control + s
+    }	
 	//se comprueba con key porque wgeKey esta deshabilitado en reproduccion
 	//until (eventIndex == cControlLoggerMaxFrames || inputLogEvent.controlCode[eventIndex]  == cendRecordCode || key(_control) && key(_s) || inputLoggerStatus.stopPlaying ); 
-	
-	//limpiamos el buffer de reproduccion
-	for (uint8_t i = 0; i < cControlCheckNumber; i++)
-    {
-		controlLogger[i][K_FLAG_PRESS] = false;
-		controlLogger[i][K_FLAG_DOWN]	= false;
-		controlLogger[i][K_FLAG_DOWN] 		= false;
+	else
+	{
+		//limpiamos el buffer de reproduccion
+		for (uint8_t i = 0; i < cControlCheckNumber; i++)
+		{
+			controlLogger[i][K_FLAG_PRESS] = false;
+			controlLogger[i][K_FLAG_DOWN]	= false;
+			controlLogger[i][K_FLAG_DOWN] 		= false;
+		}
+		
+		//reiniciamos flags
+		inputLoggerStatus.playing = false;
+		inputLoggerStatus.finished = true;
+		inputLoggerStatus.stopPlay = false;
+		controlPlayingFrame = 0;
+		
+		MY_TRACE_FLAG("Input logger player stopped\n");
 	}
-	
-	//reiniciamos flags
-	inputLoggerStatus.playing = false;
-	inputLoggerStatus.finished = true;
-	inputLoggerStatus.stopPlay = false;
-	controlPlayingFrame = 0;
-	
-	//TODO: log("Reproduccion detenida",DEBUG_ENGINE);
+}
+
+bool input_log_recording()
+{
+	return inputLoggerStatus.recording;
+}
+bool input_log_playing()
+{
+	return inputLoggerStatus.playing;
 }

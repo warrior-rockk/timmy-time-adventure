@@ -60,4 +60,9 @@ bool input_key_down(uint8_t keyId);
 bool input_key_up(uint8_t keyId);
 //return true if any key pressed of the game keys
 bool input_any_key_pressed();
+
+void input_log_record();
+void input_log_player();
+bool input_log_recording();
+bool input_log_playing();
 #endif

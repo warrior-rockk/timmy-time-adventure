@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1
+#define ALLEGRO_USES_SOUND      0
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
