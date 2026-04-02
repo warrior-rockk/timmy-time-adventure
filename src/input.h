@@ -10,15 +10,19 @@
 #include "allegro.h"
 #include <stdbool.h>
 
-//key state flags
-#define K_FLAG_MEM_PRESS    0
-#define K_FLAG_PRESS        1
-#define K_FLAG_DOWN         2
-#define K_FLAG_UP           3
-
 #define cControlLoggerMaxFrames     1000
 #define cControlCheckNumber     	6		//Numero de controles a comprobar
 #define cendRecordCode     		    128    //Valor no asociado a control que indica fin de grabacion
+
+//key state flags
+enum E_KEY_STATE
+{
+    E_K_ST_MEM_PRESS,    
+    E_K_ST_PRESS,        
+    E_K_ST_DOWN,         
+    E_K_ST_UP, 
+    E_KEY_ST_NUM,          
+};
 
 //game keys
 enum E_GAME_KEYS

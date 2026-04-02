@@ -26,7 +26,7 @@ int controlPlayingFrame;					//numero de frame reproducido actual
 static uint16_t controlFrameCounter = 0;		//contador frames grabaci�n
 static uint16_t eventIndex = 0;						//indice de registro
 tInputLogEvent inputLogEvent;
-uint8_t controlLogger[E_GAME_KEYS_NUM][3];					//Array de controles del controlLogger
+uint8_t controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];					//Array de controles del controlLogger
 char *recordFilename;
 
 //definition of keys assigned for game keys
@@ -54,31 +54,31 @@ void input_keys_update()
 
     for (int i = 0; i < E_GAME_KEYS_NUM; i++)
     {
-        CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_DOWN);
-        CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_UP);
+        CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_DOWN);
+        CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_UP);
 
         if (key[gameKeys[i].keyId])
         {
             _anyKeyPressed = true;
-            SET_BIT(gameKeys[i].keyFlags, K_FLAG_PRESS);
+            SET_BIT(gameKeys[i].keyFlags, E_K_ST_PRESS);
             
             //check key down
-            if (!CHECK_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS))
+            if (!CHECK_BIT(gameKeys[i].keyFlags, E_K_ST_MEM_PRESS))
             {
-                SET_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS);
-                SET_BIT(gameKeys[i].keyFlags, K_FLAG_DOWN); 
+                SET_BIT(gameKeys[i].keyFlags, E_K_ST_MEM_PRESS);
+                SET_BIT(gameKeys[i].keyFlags, E_K_ST_DOWN); 
             }
         }
         else
         {
             //check key up
-            if (CHECK_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS))
+            if (CHECK_BIT(gameKeys[i].keyFlags, E_K_ST_MEM_PRESS))
             {
-                SET_BIT(gameKeys[i].keyFlags, K_FLAG_UP); 
+                SET_BIT(gameKeys[i].keyFlags, E_K_ST_UP); 
             }
 
-            CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_MEM_PRESS);
-            CLEAR_BIT(gameKeys[i].keyFlags, K_FLAG_PRESS); 
+            CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_MEM_PRESS);
+            CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_PRESS); 
         }
     }
 
@@ -91,17 +91,17 @@ void input_keys_update()
 
 bool input_key_press(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_PRESS) || (controlLogger[keyId][K_FLAG_PRESS] && inputLoggerStatus.playing);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_PRESS) || (controlLogger[keyId][E_K_ST_PRESS] && inputLoggerStatus.playing);
 }
 
 bool input_key_down(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_DOWN)  || (controlLogger[keyId][K_FLAG_DOWN]  && inputLoggerStatus.playing);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_DOWN)  || (controlLogger[keyId][E_K_ST_DOWN]  && inputLoggerStatus.playing);
 }
 
 bool input_key_up(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, K_FLAG_UP)  || (controlLogger[keyId][K_FLAG_UP]  && inputLoggerStatus.playing);
+    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_UP)  || (controlLogger[keyId][E_K_ST_UP]  && inputLoggerStatus.playing);
 }
 
 bool input_any_key_pressed()
@@ -152,11 +152,11 @@ void input_log_record_update()
 					inputLogEvent.controlCode[eventIndex]    = i;
 					//registramos el tipo de evento
 					if (input_key_down(i))
-						inputLogEvent.controlEvent[eventIndex]  	= K_FLAG_DOWN;
+						inputLogEvent.controlEvent[eventIndex]  	= E_K_ST_DOWN;
 					else if (input_key_up(i))
-						inputLogEvent.controlEvent[eventIndex]   = K_FLAG_UP;
+						inputLogEvent.controlEvent[eventIndex]   = E_K_ST_UP;
 					else
-						inputLogEvent.controlEvent[eventIndex]  = K_FLAG_PRESS;
+						inputLogEvent.controlEvent[eventIndex]  = E_K_ST_PRESS;
 					
 					//incrementamos el indice
 					eventIndex ++;
@@ -252,9 +252,9 @@ void input_log_player_update()//const char *_file)
 			for (uint8_t i = 0; i < cControlCheckNumber; i++)
             {
 				//limpiamos los eventos del control actual
-				controlLogger[i][K_FLAG_PRESS] 	= false;
-				controlLogger[i][K_FLAG_DOWN]	= false;
-				controlLogger[i][K_FLAG_UP] 	= false;
+				controlLogger[i][E_K_ST_PRESS] 	= false;
+				controlLogger[i][E_K_ST_DOWN]	= false;
+				controlLogger[i][E_K_ST_UP] 	= false;
 				//si el timestamp actual coincide con el registro y el control activo es el actual
 				if ( inputLogEvent.frameTime[eventIndex] == controlPlayingFrame && 
 					 inputLogEvent.controlCode[eventIndex]  == i )
@@ -262,8 +262,8 @@ void input_log_player_update()//const char *_file)
 					//seteamos el control y su evento en el controlLogger
 					controlLogger[inputLogEvent.controlCode[eventIndex]][inputLogEvent.controlEvent[eventIndex]] = true;
 					//si el evento es E_DOWN, �mplicitamente es E_PRESSED tambi�n
-					if (inputLogEvent.controlEvent[eventIndex] == K_FLAG_DOWN)
-						controlLogger[inputLogEvent.controlCode[eventIndex]][K_FLAG_PRESS] = true;
+					if (inputLogEvent.controlEvent[eventIndex] == E_K_ST_DOWN)
+						controlLogger[inputLogEvent.controlCode[eventIndex]][E_K_ST_PRESS] = true;
 					
 					//MY_TRACE_FLAG("Player control %i with event %i on frame %i\n", inputLogEvent.controlCode[eventIndex], inputLogEvent.controlEvent[eventIndex], inputLogEvent.frameTime[eventIndex]);
 						
@@ -284,9 +284,9 @@ void input_log_player_update()//const char *_file)
 		//limpiamos el buffer de reproduccion
 		for (uint8_t i = 0; i < cControlCheckNumber; i++)
 		{
-			controlLogger[i][K_FLAG_PRESS] = false;
-			controlLogger[i][K_FLAG_DOWN]	= false;
-			controlLogger[i][K_FLAG_DOWN] 		= false;
+			controlLogger[i][E_K_ST_PRESS] = false;
+			controlLogger[i][E_K_ST_DOWN]	= false;
+			controlLogger[i][E_K_ST_DOWN] 		= false;
 		}
 		
 		//reiniciamos flags

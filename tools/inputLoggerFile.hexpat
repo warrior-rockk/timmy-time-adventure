@@ -1,9 +1,12 @@
 #define cControlLoggerMaxFrames  1000
 
-enum eventType : u8 {
-  K_PRESS,
-  K_DOWN,
-  K_UP,
+enum E_KEY_STATE : u8
+{
+    E_K_ST_MEM_PRESS,    
+    E_K_ST_PRESS,        
+    E_K_ST_DOWN,         
+    E_K_ST_UP, 
+    E_KEY_ST_NUM,          
 };
 
 enum E_GAME_KEYS : u8 
@@ -26,7 +29,7 @@ struct inputLogEvent
 {
     u16 frameTime;    //Frame time stamp
     E_GAME_KEYS controlCode;   //Input code
-    eventType controlEvent;  //Input event 
+    E_KEY_STATE controlEvent;  //Input event 
 };
 
 inputLogEvent data[cControlLoggerMaxFrames] @ 0x00;
