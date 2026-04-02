@@ -22,12 +22,11 @@ static struct inputLoggerStatus
     uint8_t stop           : 1;    	//stop input play/record flag
 } inputLoggerStatus;
 
-int controlPlayingFrame;					//numero de frame reproducido actual
+int controlPlayingFrame;						//numero de frame reproducido actual
 static uint16_t controlFrameCounter = 0;		//contador frames grabaci�n
-static uint16_t eventIndex = 0;						//indice de registro
+static uint16_t eventIndex = 0;					//indice de registro
 tInputLogEvent inputLogEvent;
-uint8_t controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];					//Array de controles del controlLogger
-char *recordFilename;
+uint8_t controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];	//Array de controles del controlLogger
 
 //definition of keys assigned for game keys
 static tKey gameKeys[E_GAME_KEYS_NUM] =
@@ -120,7 +119,7 @@ void input_log_record()//const char *filename)
 	eventIndex = 0;						//indice de registro
 
 	//clear record buffer
-	for (uint16_t i = 0; i < cControlLoggerMaxFrames; i++)
+	for (uint16_t i = 0; i < INPUT_LOG_MAX_FRAMES; i++)
     {
 		inputLogEvent.frameTime[i]      = 0;
 		inputLogEvent.controlCode[i]    = 0;
@@ -133,7 +132,7 @@ void input_log_record()//const char *filename)
 void input_log_record_update()
 {
 	//loop grabacion
-	if (eventIndex < cControlLoggerMaxFrames && !inputLoggerStatus.stop) //TODO: control + S
+	if (eventIndex < INPUT_LOG_MAX_FRAMES && !inputLoggerStatus.stop) //TODO: control + S
 	//until(eventIndex == cControlLoggerMaxFrames || wgeKey(_control,E_PRESSED) && wgeKey(_s,E_DOWN));
     {
 		//comprobamos si el player esta vivo
@@ -142,7 +141,7 @@ void input_log_record_update()
 	    //else
 						
 			//comprobamos todos los controles disponibles
-			for (uint8_t i = 0; i < cControlCheckNumber; i++)
+			for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
             {
 				//si se ha presionado un control
                 if (input_key_press(i))
@@ -172,10 +171,10 @@ void input_log_record_update()
 	else
 	{
     	//marcamos fin de grabacion si no lleg� al maximo
-		if (eventIndex < cControlLoggerMaxFrames)
+		if (eventIndex < INPUT_LOG_MAX_FRAMES)
 		{
 			inputLogEvent.frameTime[eventIndex]      = controlFrameCounter;
-			inputLogEvent.controlCode[eventIndex]    = cendRecordCode; 	
+			inputLogEvent.controlCode[eventIndex]    = INPUT_END_RECORD_CODE; 	
 		}
 		
 		inputLoggerStatus.recording = false;
@@ -191,7 +190,7 @@ void input_log_record_update()
 		else
 		{
 			//escribimos los registros grabados
-			for (uint16_t i = 0; i < cControlLoggerMaxFrames; i++)
+			for (uint16_t i = 0; i < INPUT_LOG_MAX_FRAMES; i++)
 			{
 				fwrite(&inputLogEvent.frameTime[i],     sizeof(uint16_t),   1, recordFile);
 				fwrite(&inputLogEvent.controlCode[i],   sizeof(uint8_t),    1, recordFile);
@@ -233,7 +232,7 @@ void input_log_play()
     else
     {
 		//leemos los registros grabados
-		for (uint16_t i = 0; i < cControlLoggerMaxFrames; i++)
+		for (uint16_t i = 0; i < INPUT_LOG_MAX_FRAMES; i++)
         {
 			fread(&inputLogEvent.frameTime[i],     sizeof(uint16_t),   1, playerFile);
             fread(&inputLogEvent.controlCode[i],   sizeof(uint8_t),    1, playerFile);
@@ -250,7 +249,7 @@ void input_log_play()
 //funcion que reproduce los controles grabados
 void input_log_player_update()//const char *_file)
 {
-	if (eventIndex < cControlLoggerMaxFrames && inputLogEvent.controlCode[eventIndex] != cendRecordCode && !inputLoggerStatus.stop) //TODO: control + s
+	if (eventIndex < INPUT_LOG_MAX_FRAMES && inputLogEvent.controlCode[eventIndex] != INPUT_END_RECORD_CODE && !inputLoggerStatus.stop) //TODO: control + s
     {
 		//comprobamos si el player esta vivo
 		//if (get_status(idPlayer) <> STATUS_ALIVE)
@@ -259,7 +258,7 @@ void input_log_player_update()//const char *_file)
 		//else
 			
 			//recorremos el array de teclas a comprobar
-			for (uint8_t i = 0; i < cControlCheckNumber; i++)
+			for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
             {
 				//limpiamos los eventos del control actual
 				controlLogger[i][E_K_ST_PRESS] 	= false;
@@ -292,7 +291,7 @@ void input_log_player_update()//const char *_file)
 	else
 	{
 		//limpiamos el buffer de reproduccion
-		for (uint8_t i = 0; i < cControlCheckNumber; i++)
+		for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
 		{
 			controlLogger[i][E_K_ST_PRESS] = false;
 			controlLogger[i][E_K_ST_DOWN]	= false;

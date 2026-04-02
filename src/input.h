@@ -10,9 +10,9 @@
 #include "allegro.h"
 #include <stdbool.h>
 
-#define cControlLoggerMaxFrames     1000
-#define cControlCheckNumber     	6		//Numero de controles a comprobar
-#define cendRecordCode     		    128    //Valor no asociado a control que indica fin de grabacion
+#define INPUT_LOG_MAX_FRAMES        1000    //max record frames to store
+#define INPUT_CHECK_CONTROL_NUM     6		//num of controls to record
+#define INPUT_END_RECORD_CODE       128     //end record code
 
 //key state flags
 enum E_KEY_STATE
@@ -43,15 +43,15 @@ enum E_GAME_KEYS
 
 //key struct
 typedef struct {
-    uint8_t keyId;
-    uint8_t keyFlags;
+    uint8_t keyId;      //id of the key
+    uint8_t keyFlags;   //key flag state
 } tKey;
 
 //input logger event
 typedef struct {
-    uint16_t frameTime[cControlLoggerMaxFrames];	//Frame time stamp
-	uint8_t controlCode[cControlLoggerMaxFrames];	//Input code
-	uint8_t controlEvent[cControlLoggerMaxFrames];  //Input event 
+    uint16_t frameTime[INPUT_LOG_MAX_FRAMES];   //Frame time stamp
+	uint8_t controlCode[INPUT_LOG_MAX_FRAMES];	//Input code
+	uint8_t controlEvent[INPUT_LOG_MAX_FRAMES]; //Input event 
 } tInputLogEvent;
 
 //updates keys state
