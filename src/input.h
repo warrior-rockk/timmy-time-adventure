@@ -43,7 +43,7 @@ enum E_GAME_KEYS
 
 //key struct
 typedef struct {
-    uint16_t keyId;
+    uint8_t keyId;
     uint8_t keyFlags;
 } tKey;
 
