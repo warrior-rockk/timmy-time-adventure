@@ -8,7 +8,6 @@
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
 - [ ] Redefine controls
-- [ ] Playback system
 - [ ] Platform objects
 - [ ] PC Speaker effects?
 - [ ] Camera shake
@@ -30,6 +29,7 @@
 - [X] Collisions with the stop scroll x
 - [X] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
 - [X] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
+- [X] Playback system
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group

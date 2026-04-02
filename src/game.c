@@ -230,7 +230,7 @@ void game_update()
                     {
                         game.state = E_GAME_ST_PLAY_LEVEL;                        
                         gameSeq.step = 0;
-                        gameSeq.timeCounter = 0;
+                        gameSeq.timeCounter = 0;                        
                     }
                     else
                     {
@@ -600,8 +600,10 @@ static void game_debug_update()
         MY_TRACE_MARK;
     if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
         input_log_record();
+    if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
+        input_log_stop();
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
-        input_log_player();
+        input_log_play();
 
     //trace state          
     if (game.state != game.prevState)

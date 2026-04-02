@@ -66,7 +66,8 @@ bool input_key_up(uint8_t keyId);
 bool input_any_key_pressed();
 
 void input_log_record();
-void input_log_player();
+void input_log_stop();
+void input_log_play();
 bool input_log_recording();
 bool input_log_playing();
 #endif

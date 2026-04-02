@@ -19,7 +19,7 @@ static struct inputLoggerStatus
     uint8_t recording      : 1;		//record input flag
     uint8_t playing        : 1;		//playing input flag
     uint8_t finished       : 1;		//finished input play flag
-    uint8_t stopPlay       : 1;    	//stop input play flag
+    uint8_t stop           : 1;    	//stop input play/record flag
 } inputLoggerStatus;
 
 int controlPlayingFrame;					//numero de frame reproducido actual
@@ -133,7 +133,7 @@ void input_log_record()//const char *filename)
 void input_log_record_update()
 {
 	//loop grabacion
-	if (eventIndex < cControlLoggerMaxFrames) //TODO: control + S
+	if (eventIndex < cControlLoggerMaxFrames && !inputLoggerStatus.stop) //TODO: control + S
 	//until(eventIndex == cControlLoggerMaxFrames || wgeKey(_control,E_PRESSED) && wgeKey(_s,E_DOWN));
     {
 		//comprobamos si el player esta vivo
@@ -205,11 +205,21 @@ void input_log_record_update()
 	}
 }
 
-void input_log_player()
+void input_log_stop()
+{
+	inputLoggerStatus.stop = true;
+
+	if (inputLoggerStatus.recording)
+		MY_TRACE_FLAG("Stopping input recording...\n");
+	if (inputLoggerStatus.playing)
+		MY_TRACE_FLAG("Stopping input playing...\n");
+}
+
+void input_log_play()
 {
 	//iniciamos flags
 	inputLoggerStatus.finished 	  = false;
-	inputLoggerStatus.stopPlay	  = false;	
+	inputLoggerStatus.stop		  = false;	
 	inputLoggerStatus.recording   = false;
 
 	eventIndex = 0;						//indice de registro
@@ -240,7 +250,7 @@ void input_log_player()
 //funcion que reproduce los controles grabados
 void input_log_player_update()//const char *_file)
 {
-	if (eventIndex < cControlLoggerMaxFrames && inputLogEvent.controlCode[eventIndex] != cendRecordCode && !inputLoggerStatus.stopPlay) //TODO: control + s
+	if (eventIndex < cControlLoggerMaxFrames && inputLogEvent.controlCode[eventIndex] != cendRecordCode && !inputLoggerStatus.stop) //TODO: control + s
     {
 		//comprobamos si el player esta vivo
 		//if (get_status(idPlayer) <> STATUS_ALIVE)
@@ -290,9 +300,9 @@ void input_log_player_update()//const char *_file)
 		}
 		
 		//reiniciamos flags
-		inputLoggerStatus.playing = false;
-		inputLoggerStatus.finished = true;
-		inputLoggerStatus.stopPlay = false;
+		inputLoggerStatus.playing 	= false;
+		inputLoggerStatus.finished 	= true;
+		inputLoggerStatus.stop		= false;
 		controlPlayingFrame = 0;
 		
 		MY_TRACE_FLAG("Input logger player stopped\n");
