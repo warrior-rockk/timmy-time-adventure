@@ -611,11 +611,11 @@ static void game_debug_update()
     if (key[KEY_M])
         MY_TRACE_MARK;
     if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
-        input_log_record();
+        input_log_record("demo.rec");
     if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
         input_log_stop();
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
-        input_log_play();
+        input_log_play("demo.rec");
 
     //trace state          
     if (game.state != game.prevState)

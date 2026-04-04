@@ -20,6 +20,7 @@ static struct inputLoggerStatus
 {
     uint16_t frameCounter;          //frame counter to record or play
     uint16_t eventIndex;		    //event index
+    char *filename;                 //record log filename
     uint8_t recording      : 1;		//record input flag
     uint8_t playing        : 1;		//playing input flag
     uint8_t finished       : 1;		//finished input play flag
@@ -131,7 +132,7 @@ bool input_any_key_pressed()
     return _anyKeyPressed;
 }
 
-void input_log_record()//const char *filename)
+void input_log_record(const char *_file)//const char *filename)
 {
 	//reset flags
 	inputLoggerStatus.recording     = true;
@@ -140,6 +141,7 @@ void input_log_record()//const char *filename)
     inputLoggerStatus.stop   	    = false;
 	inputLoggerStatus.frameCounter  = 0;		
 	inputLoggerStatus.eventIndex    = 0;
+    inputLoggerStatus.filename      = _file;
 
 	//clear record buffer
 	for (uint16_t i = 0; i < INPUT_LOG_MAX_EVENTS; i++)
@@ -198,10 +200,9 @@ void input_log_record_update()
 		MY_TRACE_FLAG("Input log recording finished\n");
 		
 		//store the events to file
-		char *_file = "record.rec";
-		FILE *recordFile = fopen(_file, "wb");
+		FILE *recordFile = fopen(inputLoggerStatus.filename, "wb");
 		if (!recordFile) {
-			MY_TRACE_FLAG("Error creating input log record file %s. Input log stored only on volatile memory\n", _file);			
+			MY_TRACE_FLAG("Error creating input log record file %s. Input log stored only on volatile memory\n", inputLoggerStatus.filename);			
 		}
 		else
 		{
@@ -214,7 +215,7 @@ void input_log_record_update()
 			}
 			//close file
 			fclose(recordFile);
-			MY_TRACE_FLAG("Input log record file %s successfully write. Recorded %i events\n", _file, inputLoggerStatus.eventIndex);
+			MY_TRACE_FLAG("Input log record file %s successfully write. Recorded %i events\n", inputLoggerStatus.filename, inputLoggerStatus.eventIndex);
 		}
 	}
 }
@@ -229,7 +230,7 @@ void input_log_stop()
 		MY_TRACE_FLAG("Stopping input playing...\n");
 }
 
-void input_log_play()
+void input_log_play(const char *_file)
 {
 	//reset flags
 	inputLoggerStatus.recording     = false;
@@ -238,12 +239,12 @@ void input_log_play()
     inputLoggerStatus.stop   	    = false;
 	inputLoggerStatus.frameCounter  = 0;		
 	inputLoggerStatus.eventIndex    = 0;
+    inputLoggerStatus.filename      = _file; 
 
 	//open input log file
-	char *_file = "record.rec";
-    FILE *playerFile = fopen(_file, "rb");
+	FILE *playerFile = fopen(inputLoggerStatus.filename, "rb");
     if (!playerFile) {
-        MY_TRACE_FLAG("Error reading input log record file %s. Input log reads on volatile memory\n", _file);	
+        MY_TRACE_FLAG("Error reading input log record file %s. Input log reads on volatile memory\n", inputLoggerStatus.filename);	
     }
     else
     {
@@ -255,7 +256,7 @@ void input_log_play()
         }
 		//close file
 		fclose(playerFile);
-		MY_TRACE_FLAG("Input logger file %s successfully readed. Readed %i events\n", _file, i);
+		MY_TRACE_FLAG("Input logger file %s successfully readed. Readed %i events\n", inputLoggerStatus.filename, i);
 		inputLoggerStatus.playing = true;
 		MY_TRACE_FLAG("Input logger playing\n");
 	}
