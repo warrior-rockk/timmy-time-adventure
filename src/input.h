@@ -49,9 +49,9 @@ typedef struct {
 
 //input logger event
 typedef struct {
-    uint16_t frameTime[INPUT_LOG_MAX_EVENTS];   //Frame time stamp
-	uint8_t controlCode[INPUT_LOG_MAX_EVENTS];	//Input code
-	uint8_t controlEvent[INPUT_LOG_MAX_EVENTS]; //Input event 
+    uint16_t frameTime;     //Frame time stamp
+	uint8_t controlCode;	//Input code
+	uint8_t controlEvent;   //Input event 
 } tInputLogEvent;
 
 //updates keys state
