@@ -1,5 +1,7 @@
 #define cControlLoggerMaxFrames  1000
 
+import std.mem;
+
 enum E_KEY_STATE : u8
 {
     E_K_ST_MEM_PRESS,    
@@ -23,6 +25,7 @@ enum E_GAME_KEYS : u8
     E_G_KEY_S,
     E_G_KEY_I,
     E_GAME_KEYS_NUM,
+    E_GAME_STOP_LOG = 128,
 };
 
 struct inputLogEvent
@@ -32,4 +35,4 @@ struct inputLogEvent
     E_KEY_STATE controlEvent;  //Input event 
 };
 
-inputLogEvent data[cControlLoggerMaxFrames] @ 0x00;
+inputLogEvent data[while($ < std::mem::size())] @ 0x00;
