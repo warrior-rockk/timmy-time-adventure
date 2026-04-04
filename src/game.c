@@ -687,6 +687,8 @@ void game_destroy()
 
     //destroy game data index
     destroy_dat_index(gameDataIndex);
+
+    input_keys_destroy();
 }
 
 static void game_do_fade()

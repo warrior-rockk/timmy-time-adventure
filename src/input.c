@@ -49,6 +49,17 @@ void input_keys_init(uint8_t _numGameKeys)
     }    
 }
 
+void input_keys_destroy()
+{
+    if (gameKeys)
+        free(gameKeys);
+    
+    for (uint8_t i = 0; i < numGameKeys; i++)
+        free(controlLogger[i]);
+    
+    free(controlLogger);
+}
+
 void input_key_redefine(uint8_t keyId, uint8_t keyCode)
 {
     ASSERT(keyId < numGameKeys);

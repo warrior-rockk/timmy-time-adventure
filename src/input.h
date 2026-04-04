@@ -38,6 +38,8 @@ typedef struct {
 
 //inits input system
 void input_keys_init(uint8_t _numGameKeys);
+//destroys input system
+void input_keys_destroy();
 //redefine control
 void input_key_redefine(uint8_t keyId, uint8_t keyCode);
 //updates keys state
