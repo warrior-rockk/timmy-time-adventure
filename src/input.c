@@ -91,17 +91,17 @@ void input_keys_update()
 
 bool input_key_press(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_PRESS) || (controlLogger[keyId][E_K_ST_PRESS] && inputLoggerStatus.playing);
+    return (CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_PRESS) && !inputLoggerStatus.playing) || (controlLogger[keyId][E_K_ST_PRESS] && inputLoggerStatus.playing);
 }
 
 bool input_key_down(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_DOWN)  || (controlLogger[keyId][E_K_ST_DOWN]  && inputLoggerStatus.playing);
+    return (CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_DOWN) && !inputLoggerStatus.playing) || (controlLogger[keyId][E_K_ST_DOWN]  && inputLoggerStatus.playing);
 }
 
 bool input_key_up(uint8_t keyId)
 {
-    return CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_UP)  || (controlLogger[keyId][E_K_ST_UP]  && inputLoggerStatus.playing);
+    return (CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_UP) && !inputLoggerStatus.playing)  || (controlLogger[keyId][E_K_ST_UP]  && inputLoggerStatus.playing);
 }
 
 bool input_any_key_pressed()
