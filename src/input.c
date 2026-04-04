@@ -11,22 +11,21 @@
 
 #define TRACE_FLAG  "[INPUT]"
 
-bool _anyKeyPressed = false;
+bool _anyKeyPressed = false;        //flag for any key pressed
 
-//input logger status flags
+//input logger status
 static struct inputLoggerStatus
 {
+    uint16_t frameCounter;          //frame counter to record or play
+    uint16_t eventIndex;		    //event index
     uint8_t recording      : 1;		//record input flag
     uint8_t playing        : 1;		//playing input flag
     uint8_t finished       : 1;		//finished input play flag
     uint8_t stop           : 1;    	//stop input play/record flag
 } inputLoggerStatus;
 
-int controlPlayingFrame;						//numero de frame reproducido actual
-static uint16_t controlFrameCounter = 0;		//contador frames grabaci�n
-static uint16_t eventIndex = 0;					//indice de registro
-tInputLogEvent inputLogEvent;
-uint8_t controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];	//Array de controles del controlLogger
+tInputLogEvent inputLogEvent;                       //input log event
+bool controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];	//input play logger array
 
 //definition of keys assigned for game keys
 static tKey gameKeys[E_GAME_KEYS_NUM] =
@@ -43,6 +42,8 @@ static tKey gameKeys[E_GAME_KEYS_NUM] =
     {KEY_S, 0x00},
     {KEY_I, 0x00},
 };
+
+//prototypes
 void input_log_record_update();
 void input_log_player_update();
 
@@ -111,17 +112,19 @@ bool input_any_key_pressed()
 void input_log_record()//const char *filename)
 {
 	//reset flags
-	inputLoggerStatus.recording = true;
-	inputLoggerStatus.finished 	= false;
-	inputLoggerStatus.playing 	= false;
-	controlFrameCounter         = 0;		//contador frames grabaci�n
-	eventIndex                  = 0;		//indice de registro
+	inputLoggerStatus.recording     = true;
+	inputLoggerStatus.finished 	    = false;
+	inputLoggerStatus.playing 	    = false;
+    inputLoggerStatus.stop   	    = false;
+	inputLoggerStatus.frameCounter  = 0;		
+	inputLoggerStatus.eventIndex    = 0;
 
 	//clear record buffer
 	for (uint16_t i = 0; i < INPUT_LOG_MAX_EVENTS; i++)
     {
 		inputLogEvent.frameTime[i]      = 0;
 		inputLogEvent.controlCode[i]    = 0;
+        inputLogEvent.controlEvent[i]   = 0;
 	}
 
 	MY_TRACE_FLAG("Input log recording started\n");
@@ -130,7 +133,7 @@ void input_log_record()//const char *filename)
 //record log input on each frame
 void input_log_record_update()
 {
-	if (eventIndex < INPUT_LOG_MAX_EVENTS && !inputLoggerStatus.stop)
+	if (inputLoggerStatus.eventIndex < INPUT_LOG_MAX_EVENTS && !inputLoggerStatus.stop)
 	{					
         //check the number of controls configured
         for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
@@ -139,30 +142,30 @@ void input_log_record_update()
             if (input_key_press(i))
             {				
                 //register control code with frametimestamp
-                inputLogEvent.frameTime[eventIndex]      = controlFrameCounter;
-                inputLogEvent.controlCode[eventIndex]    = i;
+                inputLogEvent.frameTime[inputLoggerStatus.eventIndex]      = inputLoggerStatus.frameCounter;
+                inputLogEvent.controlCode[inputLoggerStatus.eventIndex]    = i;
                 //register control event
                 if (input_key_down(i))
-                    inputLogEvent.controlEvent[eventIndex]  = E_K_ST_DOWN;
+                    inputLogEvent.controlEvent[inputLoggerStatus.eventIndex]  = E_K_ST_DOWN;
                 else if (input_key_up(i))
-                    inputLogEvent.controlEvent[eventIndex]  = E_K_ST_UP;
+                    inputLogEvent.controlEvent[inputLoggerStatus.eventIndex]  = E_K_ST_UP;
                 else
-                    inputLogEvent.controlEvent[eventIndex]  = E_K_ST_PRESS;
+                    inputLogEvent.controlEvent[inputLoggerStatus.eventIndex]  = E_K_ST_PRESS;
                 
                 //increment event index
-                eventIndex++;
+                inputLoggerStatus.eventIndex++;
             }
         }
         //increment frame counter
-        controlFrameCounter++;	
+        inputLoggerStatus.frameCounter++;	
     } 
 	else
 	{
     	//mark end of log if not max event reached
-		if (eventIndex < INPUT_LOG_MAX_EVENTS)
+		if (inputLoggerStatus.eventIndex < INPUT_LOG_MAX_EVENTS)
 		{
-			inputLogEvent.frameTime[eventIndex]      = controlFrameCounter;
-			inputLogEvent.controlCode[eventIndex]    = INPUT_END_RECORD_CODE; 	
+			inputLogEvent.frameTime[inputLoggerStatus.eventIndex]      = inputLoggerStatus.frameCounter;
+			inputLogEvent.controlCode[inputLoggerStatus.eventIndex]    = INPUT_END_RECORD_CODE; 	
 		}
 		//reset flag
 		inputLoggerStatus.recording = false;
@@ -204,10 +207,12 @@ void input_log_stop()
 void input_log_play()
 {
 	//reset flags
-	inputLoggerStatus.finished 	  = false;
-	inputLoggerStatus.stop		  = false;	
-	inputLoggerStatus.recording   = false;
-	eventIndex                    = 0;
+	inputLoggerStatus.recording     = false;
+	inputLoggerStatus.finished 	    = false;
+	inputLoggerStatus.playing 	    = false;
+    inputLoggerStatus.stop   	    = false;
+	inputLoggerStatus.frameCounter  = 0;		
+	inputLoggerStatus.eventIndex    = 0;
 
 	//open input log file
 	char *_file = "record.rec";
@@ -235,7 +240,7 @@ void input_log_play()
 //plays the records of a input log file
 void input_log_player_update()//const char *_file)
 {
-	if (eventIndex < INPUT_LOG_MAX_EVENTS && inputLogEvent.controlCode[eventIndex] != INPUT_END_RECORD_CODE && !inputLoggerStatus.stop)
+	if (inputLoggerStatus.eventIndex < INPUT_LOG_MAX_EVENTS && inputLogEvent.controlCode[inputLoggerStatus.eventIndex] != INPUT_END_RECORD_CODE && !inputLoggerStatus.stop)
     {		
         //check the configured number of controls
         for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
@@ -245,20 +250,20 @@ void input_log_player_update()//const char *_file)
             controlLogger[i][E_K_ST_DOWN]	= false;
             controlLogger[i][E_K_ST_UP] 	= false;
             //if frametimestamp and control equals with record
-            if ( inputLogEvent.frameTime[eventIndex] == controlPlayingFrame && inputLogEvent.controlCode[eventIndex]  == i )
+            if ( inputLogEvent.frameTime[inputLoggerStatus.eventIndex] == inputLoggerStatus.frameCounter && inputLogEvent.controlCode[inputLoggerStatus.eventIndex]  == i )
             {
                 //sets the control and his event
-                controlLogger[inputLogEvent.controlCode[eventIndex]][inputLogEvent.controlEvent[eventIndex]] = true;
+                controlLogger[inputLogEvent.controlCode[inputLoggerStatus.eventIndex]][inputLogEvent.controlEvent[inputLoggerStatus.eventIndex]] = true;
                 //if ST_DOWN event, is ST_PRESS too
-                if (inputLogEvent.controlEvent[eventIndex] == E_K_ST_DOWN)
-                    controlLogger[inputLogEvent.controlCode[eventIndex]][E_K_ST_PRESS] = true;
+                if (inputLogEvent.controlEvent[inputLoggerStatus.eventIndex] == E_K_ST_DOWN)
+                    controlLogger[inputLogEvent.controlCode[inputLoggerStatus.eventIndex]][E_K_ST_PRESS] = true;
                     
                 //increment event index
-                eventIndex++;					
+                inputLoggerStatus.eventIndex++;					
             }
         }
         //increment playing frame
-        controlPlayingFrame ++;
+        inputLoggerStatus.frameCounter ++;
     }	
 	else
 	{
@@ -271,10 +276,10 @@ void input_log_player_update()//const char *_file)
 		}
 		
 		//reset flags
-		inputLoggerStatus.playing 	= false;
-		inputLoggerStatus.finished 	= true;
-		inputLoggerStatus.stop		= false;
-		controlPlayingFrame         = 0;
+		inputLoggerStatus.playing 	    = false;
+		inputLoggerStatus.finished 	    = true;
+		inputLoggerStatus.stop		    = false;
+		inputLoggerStatus.frameCounter  = 0;
 		
 		MY_TRACE_FLAG("Input logger player stopped\n");
 	}
