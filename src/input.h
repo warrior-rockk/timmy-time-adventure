@@ -11,7 +11,6 @@
 #include <stdbool.h>
 
 #define INPUT_LOG_MAX_EVENTS        1000    //max record frames to store
-#define INPUT_CHECK_CONTROL_NUM     6		//num of controls to record
 #define INPUT_END_RECORD_CODE       128     //end record code
 
 //key state flags
@@ -24,26 +23,9 @@ enum E_KEY_STATE
     E_KEY_ST_NUM,          
 };
 
-//game keys
-enum E_GAME_KEYS
-{
-    E_G_KEY_UP,
-    E_G_KEY_DOWN,
-    E_G_KEY_LEFT,
-    E_G_KEY_RIGHT,
-    E_G_KEY_JUMP,
-    E_G_KEY_ACTION,
-    E_G_KEY_PAUSE,
-    E_G_KEY_EXIT,
-    E_G_KEY_D,
-    E_G_KEY_S,
-    E_G_KEY_I,
-    E_GAME_KEYS_NUM,
-};
-
 //key struct
 typedef struct {
-    uint8_t keyId;      //id of the key
+    uint8_t keyCode;      //id of the key
     uint8_t keyFlags;   //key flag state
 } tKey;
 
@@ -54,6 +36,10 @@ typedef struct {
 	uint8_t controlEvent;   //Input event 
 } tInputLogEvent;
 
+//inits input system
+void input_keys_init(uint8_t _numGameKeys);
+//redefine control
+void input_key_redefine(uint8_t keyId, uint8_t keyCode);
 //updates keys state
 void input_keys_update();
 //return true if key is pressed

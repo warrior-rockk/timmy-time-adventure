@@ -11,7 +11,9 @@
 
 #define TRACE_FLAG  "[INPUT]"
 
-bool _anyKeyPressed = false;        //flag for any key pressed
+bool _anyKeyPressed = false;    //flag for any key pressed
+static uint8_t numGameKeys;     //number of configured game keys
+static tKey *gameKeys;          //definition of keys assigned for game keys
 
 //input logger status
 static struct inputLoggerStatus
@@ -25,39 +27,48 @@ static struct inputLoggerStatus
 } inputLoggerStatus;
 
 tInputLogEvent inputLogEvent[INPUT_LOG_MAX_EVENTS]; //input log event
-bool controlLogger[E_GAME_KEYS_NUM][E_KEY_ST_NUM];	//input play logger array
-
-//definition of keys assigned for game keys
-static tKey gameKeys[E_GAME_KEYS_NUM] =
-{
-    {KEY_UP, 0x00},
-    {KEY_DOWN, 0x00},
-    {KEY_LEFT, 0x00},
-    {KEY_RIGHT, 0x00},
-    {KEY_Z, 0x00},
-    {KEY_X, 0x00},
-    {KEY_SPACE, 0x00},
-    {KEY_ESC, 0x00},
-    {KEY_D, 0x00},
-    {KEY_S, 0x00},
-    {KEY_I, 0x00},
-};
+bool **controlLogger;                               //input play logger array
 
 //prototypes
 void input_log_record_update();
 void input_log_player_update();
 
-//general keys update
+void input_keys_init(uint8_t _numGameKeys)
+{
+    //set number of game keys
+    numGameKeys = _numGameKeys;
+    
+    //alloc memory for game keys array
+    gameKeys = (tKey *)malloc(numGameKeys * sizeof(tKey));    
+    
+    //alloc memory for controlLogger array
+    controlLogger = (bool **)malloc(numGameKeys * sizeof(bool *));
+    for (uint8_t i = 0; i < numGameKeys; i++)
+    {
+        controlLogger[i] = (bool *)malloc(E_KEY_ST_NUM * sizeof(bool));
+    }    
+}
+
+void input_key_redefine(uint8_t keyId, uint8_t keyCode)
+{
+    ASSERT(keyId < numGameKeys);
+
+    gameKeys[keyId].keyCode = keyCode;
+    gameKeys[keyId].keyFlags = 0x00;
+
+    MY_TRACE_FLAG("Redefine key id %i with code %i\n", keyId, keyCode);
+}
+
 void input_keys_update()
 {
     _anyKeyPressed = false;
 
-    for (int i = 0; i < E_GAME_KEYS_NUM; i++)
+    for (int i = 0; i < numGameKeys; i++)
     {
         CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_DOWN);
         CLEAR_BIT(gameKeys[i].keyFlags, E_K_ST_UP);
 
-        if (key[gameKeys[i].keyId])
+        if (key[gameKeys[i].keyCode])
         {
             _anyKeyPressed = true;
             SET_BIT(gameKeys[i].keyFlags, E_K_ST_PRESS);
@@ -136,7 +147,7 @@ void input_log_record_update()
 	if (inputLoggerStatus.eventIndex < INPUT_LOG_MAX_EVENTS && !inputLoggerStatus.stop)
 	{					
         //check the number of controls configured
-        for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
+        for (uint8_t i = 0; i < numGameKeys; i++)
         {
             //check control pressed
             if (input_key_press(i))
@@ -245,7 +256,7 @@ void input_log_player_update()//const char *_file)
 	if (inputLoggerStatus.eventIndex < INPUT_LOG_MAX_EVENTS && inputLogEvent[inputLoggerStatus.eventIndex].controlCode != INPUT_END_RECORD_CODE && !inputLoggerStatus.stop)
     {		
         //check the configured number of controls
-        for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
+        for (uint8_t i = 0; i < numGameKeys; i++)
         {
             //clear events of current control
             controlLogger[i][E_K_ST_PRESS] 	= false;
@@ -270,7 +281,7 @@ void input_log_player_update()//const char *_file)
 	else
 	{
 		//clears play control buffer
-		for (uint8_t i = 0; i < INPUT_CHECK_CONTROL_NUM; i++)
+		for (uint8_t i = 0; i < numGameKeys; i++)
 		{
 			controlLogger[i][E_K_ST_PRESS]  = false;
 			controlLogger[i][E_K_ST_DOWN]   = false;

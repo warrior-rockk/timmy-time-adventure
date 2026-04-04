@@ -91,6 +91,23 @@ enum E_GAME_LEVELS
     E_GAME_NUM_LEVELS,
 };
 
+//game keys
+enum E_GAME_KEYS
+{
+    E_G_KEY_UP,
+    E_G_KEY_DOWN,
+    E_G_KEY_LEFT,
+    E_G_KEY_RIGHT,
+    E_G_KEY_JUMP,
+    E_G_KEY_ACTION,
+    E_G_KEY_PAUSE,
+    E_G_KEY_EXIT,
+    E_G_KEY_D,
+    E_G_KEY_S,
+    E_G_KEY_I,
+    E_GAME_KEYS_NUM,
+};
+
 //refresh HUD
 enum E_REFRESH_HUD
 {

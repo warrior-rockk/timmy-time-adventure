@@ -504,8 +504,20 @@ void game_init()
     debug_init();
     timer_init(GAME_CLOCK_TICK);
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
-    
-    
+    input_keys_init(E_GAME_KEYS_NUM);
+    //default redefine keys
+    input_key_redefine(E_G_KEY_UP,      KEY_UP);
+    input_key_redefine(E_G_KEY_DOWN,    KEY_DOWN);
+    input_key_redefine(E_G_KEY_LEFT,    KEY_LEFT);
+    input_key_redefine(E_G_KEY_RIGHT,   KEY_RIGHT);
+    input_key_redefine(E_G_KEY_JUMP,    KEY_Z);
+    input_key_redefine(E_G_KEY_ACTION,  KEY_X);
+    input_key_redefine(E_G_KEY_PAUSE,   KEY_SPACE);
+    input_key_redefine(E_G_KEY_EXIT,    KEY_ESC);
+    input_key_redefine(E_G_KEY_D,       KEY_D);
+    input_key_redefine(E_G_KEY_S,       KEY_S);
+    input_key_redefine(E_G_KEY_I,       KEY_I);
+
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]       = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
     gameSfx[E_SFX_GAME_POINT_END]   = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
