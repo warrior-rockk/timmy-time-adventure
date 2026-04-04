@@ -10,7 +10,7 @@
 #include "allegro.h"
 #include <stdbool.h>
 
-#define INPUT_LOG_MAX_FRAMES        1000    //max record frames to store
+#define INPUT_LOG_MAX_EVENTS        1000    //max record frames to store
 #define INPUT_CHECK_CONTROL_NUM     6		//num of controls to record
 #define INPUT_END_RECORD_CODE       128     //end record code
 
@@ -49,9 +49,9 @@ typedef struct {
 
 //input logger event
 typedef struct {
-    uint16_t frameTime[INPUT_LOG_MAX_FRAMES];   //Frame time stamp
-	uint8_t controlCode[INPUT_LOG_MAX_FRAMES];	//Input code
-	uint8_t controlEvent[INPUT_LOG_MAX_FRAMES]; //Input event 
+    uint16_t frameTime[INPUT_LOG_MAX_EVENTS];   //Frame time stamp
+	uint8_t controlCode[INPUT_LOG_MAX_EVENTS];	//Input code
+	uint8_t controlEvent[INPUT_LOG_MAX_EVENTS]; //Input event 
 } tInputLogEvent;
 
 //updates keys state
@@ -65,9 +65,16 @@ bool input_key_up(uint8_t keyId);
 //return true if any key pressed of the game keys
 bool input_any_key_pressed();
 
+//starts to record input log file
 void input_log_record();
+//stops record or play input log
 void input_log_stop();
+//starts to play input log file
 void input_log_play();
+//checks if recording input log file
 bool input_log_recording();
+//check if playing input log file
 bool input_log_playing();
+//checks if play input log file is finished
+bool input_log_play_finished();
 #endif
