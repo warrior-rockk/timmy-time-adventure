@@ -2,6 +2,7 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
+- [ ] Maps tmx with templates and generate output file on save
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
