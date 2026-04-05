@@ -114,7 +114,7 @@ void enemy_create(tEntity *entity)
             
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){71, 64};
-            entity->size.x = 40;
+            entity->size.x = 30;
             entity->size.y = 20;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
