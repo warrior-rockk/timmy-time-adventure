@@ -719,8 +719,15 @@ uint16_t collision_get_tile_property(tEntity *entity, uint16_t pointNum)
 { 
     //gets collision point index
     uint16_t entIndex = collision_get_point_index_by_entId(entity->id);
-
-    return map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y});
+    //vector to check
+    tVector checkPosition = {entity->pos.x + entColPointsList[entIndex].colPoint[pointNum].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[pointNum].offset.y};
+    //get tile property
+    uint16_t tileProperty = map_get_tile_property(checkPosition);
+    //some properties returns no solid when out of scroll region
+    if (tileProperty == E_TILE_PROP_HURT && !scroll_on_region(checkPosition))
+        return E_TILE_PROP_NO_SOLID;
+    else
+        return tileProperty;
 }
 
 //funcion que engloba la gestion de las fisicas de un proceso
