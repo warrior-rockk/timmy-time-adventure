@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
- <editorsettings>
-  <export target="../../res/maps/medieval.tmx" format="tmx"/>
- </editorsettings>
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="100" columns="10">
-  <image source="../gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="160"/>
+  <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="160"/>
   <tile id="23">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>

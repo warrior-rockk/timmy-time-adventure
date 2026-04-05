@@ -2,7 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [ ] Maps tmx with templates and generate output file on save
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
@@ -31,6 +30,7 @@
 - [X] Refactor stop scroll system. Scroll system internal scroll instead return scroll object?
 - [X] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [X] Playback system
+- [X] Maps tmx with templates and generate output file on save
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group

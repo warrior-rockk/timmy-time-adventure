@@ -38,7 +38,7 @@ LIBS_DIR			:= ${OS_LIB_DIR}
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
 C_FILES             = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
-MAPS_SRC_DIR 		= ./dev/maps
+MAPS_SRC_DIR 		= ${RESOURCES_DIR}maps
 TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC}
