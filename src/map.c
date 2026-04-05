@@ -349,7 +349,7 @@ uint16_t map_tile_exists(tVector checkPosition)
 
 uint16_t map_get_tile_property(tVector checkPosition)
 {
-    if (!map_tile_exists(checkPosition))
+    if (!map_tile_exists(checkPosition) || !scroll_on_region(checkPosition))
         return E_TILE_PROP_NO_SOLID;
     else if (map[((checkPosition.y / mapHeader.tile_height) * mapHeader.map_width) + (checkPosition.x / mapHeader.tile_width)].tileId == 0)
         return E_TILE_PROP_NO_SOLID;

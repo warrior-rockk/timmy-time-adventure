@@ -501,7 +501,7 @@
   <object id="81" template="enemies/spider.tx" x="2496" y="368"/>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" template="objects/player1.tx" type="player" x="1744" y="384"/>
+  <object id="1" template="objects/player1.tx" type="player" x="2576" y="368"/>
   <object id="7" template="objects/rock.tx" type="object" x="672" y="32"/>
   <object id="26" name="rock" type="object" x="976" y="112" width="16" height="16">
    <properties>
