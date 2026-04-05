@@ -503,7 +503,7 @@
   <object id="86" template="enemies/raptor.tx" x="3632" y="96"/>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" template="objects/player1.tx" type="player" x="16" y="96"/>
+  <object id="1" template="objects/player1.tx" type="player" x="2240" y="336"/>
   <object id="7" template="objects/rock.tx" type="object" x="672" y="32"/>
   <object id="26" name="rock" type="object" x="976" y="112" width="16" height="16">
    <properties>
