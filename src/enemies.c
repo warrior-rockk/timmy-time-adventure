@@ -128,6 +128,17 @@ void enemy_create(tEntity *entity)
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
         break;
+        case E_TRICE_ENEMY_TYPE:
+            if (!enemyResources[E_TRICE_ENEMY_TYPE])
+                enemyResources[E_TRICE_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, TRICE_BMP);
+            
+            entity->img = enemyResources[E_TRICE_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){48, 34};                          
+            entity->size = (tVector){40, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
+        break;
         case E_SPIDER_ENEMY_TYPE:
             if (!enemyResources[E_SPIDER_ENEMY_TYPE])
                 enemyResources[E_SPIDER_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, SPIDER_BMP);
@@ -224,6 +235,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_TUMBLE_ENEMY_TYPE:            
             enemy_tumble_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_TRICE_ENEMY_TYPE:            
+            enemy_trice_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -380,6 +394,76 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             enemy_dead(this, ANIM_RAPTOR_DEAD);            
         break;
     }       
+}
+
+void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
+{              
+    #define TRICE_WALK_VELOCITY     0.4
+    #define TRICE_RUN_VELOCITY      1.2
+    #define TRICE_RANGE_PATROL      50
+    #define TRICE_PLAYER_RANGE      90
+    
+    //enemy animations
+    #define ANIM_TRICE_IDLE    1,   1,  10, ANIM_LOOP
+    #define ANIM_TRICE_RUN     10,  18, 5, ANIM_LOOP
+    #define ANIM_TRICE_DEAD    19,  22, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_TRICE_ENEMY_STATES{E_TRICE_ST_IDLE, E_TRICE_ST_MOVING, E_TRICE_ST_ATTACK, E_TRICE_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_TRICE_ST_HURT;
+    
+    switch (this->state)
+    {
+        case E_TRICE_ST_IDLE:            
+            this->state++;
+        break;
+        case E_TRICE_ST_MOVING:            
+            //enemy_patrol_ia(this, ftofix(TRICE_WALK_VELOCITY), TRICE_PLAYER_RANGE);
+            
+
+            //check range of player
+            
+            player = entity_get(PLAYER_ENTITY_ID);
+            this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, TRICE_PLAYER_RANGE))
+            {
+                this->state = E_TRICE_ST_ATTACK;
+            }
+
+            play_animation(&this->anim, ANIM_TRICE_IDLE);
+        break;     
+        case E_TRICE_ST_ATTACK:
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-TRICE_RUN_VELOCITY) : ftofix(TRICE_RUN_VELOCITY); 
+            
+            //check range of player
+            player = entity_get(PLAYER_ENTITY_ID);
+            //this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, TRICE_PLAYER_RANGE))
+                this->state = E_TRICE_ST_MOVING;
+
+            play_animation(&this->anim, ANIM_TRICE_RUN); 
+        break;   
+        case E_TRICE_ST_HURT:
+            enemy_dead(this, ANIM_TRICE_DEAD);            
+        break;
+    }       
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+    }
 }
 
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
