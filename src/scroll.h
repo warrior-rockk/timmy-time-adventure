@@ -69,7 +69,7 @@ void scroll_update(tVector cameraTarget);
 //check if rectangle is on scroll region
 bool scroll_rect_on_region(tRectangle rect);
 //check if position is on scroll region
-bool scroll_on_region(tVector checkPosition);
+bool scroll_position_on_region(tVector checkPosition);
 //returns scroll position
 tVector scroll_get_position();
 //set stop scroll value for a stop scroll direction (left, right, down or up)
