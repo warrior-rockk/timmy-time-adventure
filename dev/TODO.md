@@ -1,6 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Bug stop scroll x and not collision floor because player off tiles
+- [ ] Bug stop scroll x
 
 # Engine
 - [ ] Reassign update object/enemy pointer on object/enemy create?
