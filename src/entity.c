@@ -324,40 +324,36 @@ void entities_update()
                 entityList[i].sleep = true;
             #endif
         }
-        //check entity on region (and no persistent property)
-        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
+        //check entity (non-player) out of region (and no persistent property)
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id != PLAYER_ENTITY_ID && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
         {
-            //if entity is not player
-            if (entityList[i].id != PLAYER_ENTITY_ID)
-            {
-                if (!entityList[i].sleep)
-                {                
-                    MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
-                    //sleep the entity
-                    entityList[i].sleep = true;                
-                    //call on frame of entity update of entities that need do something when go to sleep
-                    if (entityList[i].entity_update)
-                    {
-                        entityList[i].entity_update(&entityList[i]);                          
-                    }
-                }
-                //check autodestroy flag to destroy entity
-                if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
+            if (!entityList[i].sleep)
+            {                
+                MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
+                //sleep the entity
+                entityList[i].sleep = true;                
+                //call on frame of entity update of entities that need do something when go to sleep
+                if (entityList[i].entity_update)
                 {
-                    entity_destroy(i);                    
+                    entityList[i].entity_update(&entityList[i]);                          
                 }
             }
-            else
+            //check autodestroy flag to destroy entity
+            if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
             {
-                //if is player, lose live (fall on edges)
-                game.loseLive = true;
-                MY_TRACE_FLAG("Lose player live because out region\n");
+                entity_destroy(i);                    
             }
-            
             #ifdef DEBUGMODE                 
                 entityCounter.sleeps++;             
             #endif
         }
+        //check player out of region (only bottom)            
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id == PLAYER_ENTITY_ID && entityList[i].pos.y > scroll_get_position().y)
+        {
+            //if is player, lose live (fall on edges)
+            game.loseLive = true;
+            MY_TRACE_FLAG("Lose player live because out region\n");
+        }        
         else
         {
             #ifdef DEBUGMODE 
