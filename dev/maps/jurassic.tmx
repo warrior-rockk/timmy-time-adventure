@@ -503,7 +503,7 @@
   <object id="86" template="enemies/raptor.tx" x="3632" y="96"/>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" template="objects/player1.tx" type="player" x="2528" y="48"/>
+  <object id="1" template="objects/player1.tx" type="player" x="1632" y="240"/>
   <object id="7" template="objects/rock.tx" type="object" x="672" y="32"/>
   <object id="26" name="rock" type="object" x="976" y="112" width="16" height="16">
    <properties>
@@ -543,7 +543,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="62" name="stopScroll" type="object" x="1536" y="208" width="16" height="16">
+  <object id="62" name="stopScroll" type="object" x="1536" y="288" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
