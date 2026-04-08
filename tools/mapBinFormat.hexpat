@@ -1,5 +1,13 @@
 #pragma little endian
 
+enum E_ENTITY_CLASS : u8
+{
+    E_ENT_CLASS_PLAYER,
+    E_ENT_CLASS_OBJECT,
+    E_ENT_CLASS_ENEMY,
+    E_ENT_CLASS_PLATFORM,
+};
+
 struct mapHeader {
     u16 tile_width;
     u16 tile_height;
@@ -13,7 +21,7 @@ struct mapHeader {
 };
 
 struct entity {
-    u8 class;
+    E_ENTITY_CLASS class;
     u8 type;
     u16 x;
     u16 y;

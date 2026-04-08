@@ -1,6 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Bug collision stop scroll x
+- [ ] Bug collision stop scroll x. Need to order the entities fixed by tool: triggers->player->rest of entities
 
 # Engine
 - [ ] Reassign update object/enemy pointer on object/enemy create?
