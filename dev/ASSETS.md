@@ -1,6 +1,8 @@
 # Possible titles
-- [ ] Tim Travel Adventure
+- [ ] Timmy Time Adventure
 - [ ] Tim Time Adventure
+- [ ] Tim Travel Adventure
+- [ ] Timmy Time Travel
 - [ ] Tim's Travel Adventure
 
 # Level TileSets
@@ -14,10 +16,11 @@
 
 # Enemies spriteSet
 ## Jurassic
-- [ ] Raptor
-- [ ] Ptero
-- [ ] Spider
-- [ ] Piranha
+- [X] Raptor
+- [X] Ptero
+- [X] Spider
+- [X] Piranha
+- [X] Triceraptor
 
 ## Wild West
 - [ ] Cowboy

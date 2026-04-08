@@ -12,6 +12,10 @@
 - [ ] Platform objects
 - [ ] PC Speaker effects?
 - [ ] Camera shake
+- [ ] Intro
+- [ ] Title screen
+- [ ] Menus and options
+- [ ] Tutorial
 - [X] Level checkpoints
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
