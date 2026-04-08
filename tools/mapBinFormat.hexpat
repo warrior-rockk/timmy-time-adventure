@@ -8,6 +8,32 @@ enum E_ENTITY_CLASS : u8
     E_ENT_CLASS_PLATFORM,
 };
 
+enum E_OBJECT_TYPE : u8
+{
+    E_ROCK_OBJECT_TYPE,
+    E_ROCK_2_OBJECT_TYPE,
+    E_EGG_OBJECT_TYPE,
+    E_END_OBJECT_TYPE,
+    E_CHECKPOINT_OBJECT_TYPE,
+    E_ITEM_OBJECT_TYPE,
+    E_STOP_SCROLL_OBJECT_TYPE,
+    E_OBJECTS_TYPE_NUM,
+};
+
+enum E_ENEMY_TYPE : u8
+{
+    E_PTERO_ENEMY_TYPE,
+    E_RAPTOR_ENEMY_TYPE,
+    E_SPIDER_ENEMY_TYPE,
+    E_PIRANHA_ENEMY_TYPE,
+    E_COWBOY_ENEMY_TYPE,
+    E_EAGLE_ENEMY_TYPE,
+    E_BULLET_ENEMY_TYPE,
+    E_TUMBLE_ENEMY_TYPE,
+    E_TRICE_ENEMY_TYPE,
+    E_ENEMIES_TYPE_NUM,
+};
+
 struct mapHeader {
     u16 tile_width;
     u16 tile_height;
@@ -22,7 +48,12 @@ struct mapHeader {
 
 struct entity {
     E_ENTITY_CLASS class;
-    u8 type;
+    match (class)
+    {
+        (E_ENTITY_CLASS::E_ENT_CLASS_PLAYER): u8 type;
+        (E_ENTITY_CLASS::E_ENT_CLASS_OBJECT): E_OBJECT_TYPE type;
+        (E_ENTITY_CLASS::E_ENT_CLASS_ENEMY): E_ENEMY_TYPE type;        
+    }    
     u16 x;
     u16 y;
     u8 dir;
