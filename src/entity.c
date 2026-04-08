@@ -299,13 +299,7 @@ void entities_update()
         } entityCounter = {0};        
     #endif
 
-    //clear flags
-    /*game.stopScrollLeft = false;
-    game.stopScrollRight = false;
-    game.stopScrollDown = false;
-    game.stopScrollUp = false;*/
-    
-    for (int i=0; i < numEntities; i++)
+    for (uint8_t i = 0; i < numEntities; i++)
     {
         //check dead flag
         if (entityList[i].dead)            

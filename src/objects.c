@@ -403,60 +403,29 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         case E_STOP_SCROLL_OBJECT_TYPE:
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
             {
-                if (this->sleep) 
-                {
-                    if (local->flag == E_STOP_SCROLL_LEFT)
-                        scroll_stop_scroll(E_STOP_SCROLL_LEFT, 0);
-                }
-                else if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
+                if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
-
-                    local->flag = E_STOP_SCROLL_LEFT;
                     //MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
                 }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
             {
-                if (this->sleep)
-                {
-                    if (local->flag == E_STOP_SCROLL_RIGHT)
-                        scroll_stop_scroll(E_STOP_SCROLL_RIGHT, 0);
-                }
-                else if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
+                if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
-                    local->flag = E_STOP_SCROLL_RIGHT;
                     //MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
                 }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
-            {
-                if (this->sleep)
-                {
-                    if (local->flag == E_STOP_SCROLL_DOWN)
-                        scroll_stop_scroll(E_STOP_SCROLL_DOWN, 0);
-                }
-                else
-                {
-                    scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.y);
-                    local->flag = E_STOP_SCROLL_DOWN;
-                    //MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
-                }
+            {                
+                scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.y);
+                //MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);                
             }   
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
-            {
-                if (this->sleep)
-                {
-                    if (local->flag == E_STOP_SCROLL_UP)
-                        scroll_stop_scroll(E_STOP_SCROLL_UP, 0);
-                }
-                else
-                {
-                    scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y);
-                    local->flag = E_STOP_SCROLL_UP;
-                    //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
-                }
+            {                
+                scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y);
+                //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);                
             }
         break;
     }

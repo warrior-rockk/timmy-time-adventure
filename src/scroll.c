@@ -57,6 +57,9 @@ void scroll_update(tVector cameraTarget)
     
     scroll_update_y(cameraTarget, false);
     
+    //reset stop scroll flags
+    memset(&scroll.stopScroll, 0, sizeof(scroll.stopScroll));
+    
     //show_debug("scFy: %.2f scPY: %i scTY: %i", fixtof(scroll.fixPos.y), scroll.pos.y, scroll.target.y);
     //show_debug("scVY: %.2f", fixtof(scroll.fixVel.y));
     //show_debug("wX: %i, wY: %i, lX:%i lY:%i", scroll.window.x, scroll.window.y, scroll.limit.x, scroll.limit.y);    

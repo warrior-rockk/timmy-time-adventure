@@ -525,7 +525,7 @@
   </object>
  </objectgroup>
  <objectgroup id="2" name="Objects">
-  <object id="1" name="player1" type="player" x="1632" y="240" width="16" height="32">
+  <object id="1" name="player1" type="player" x="1600" y="352" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
