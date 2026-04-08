@@ -439,7 +439,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 }
                 else
                 {
-                    scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.x);
+                    scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.y);
                     local->flag = E_STOP_SCROLL_DOWN;
                     //MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);
                 }
@@ -453,7 +453,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 }
                 else
                 {
-                    scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.x);
+                    scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y);
                     local->flag = E_STOP_SCROLL_UP;
                     //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);
                 }
