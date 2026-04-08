@@ -35,14 +35,10 @@ void scroll_create(tVector window, tVector limit, uint8_t mode)
 }
 
 void scroll_init(tVector initPos)
-{
-    
+{    
     //reset flags
     scroll.moving  = E_SCROLL_MOVE_NONE;
-    scroll.stopScroll.left  = 0;
-    scroll.stopScroll.right = 0;
-    scroll.stopScroll.down  = 0;
-    scroll.stopScroll.up    = 0;
+    memset(&scroll.stopScroll, 0, sizeof(scroll.stopScroll));
 
     scroll_update_x(initPos, true);
     
@@ -169,7 +165,7 @@ static void scroll_update_y(tVector cameraTarget, bool init)
         break;
     }
 
-    //show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
+    show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
     //limit scroll position
     scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y);    
 }

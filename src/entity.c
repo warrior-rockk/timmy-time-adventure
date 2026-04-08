@@ -197,8 +197,10 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
             break;
         }
         
-        MY_TRACE_FLAG("Created entity ID:%i Class:%i Type:%i\n", entityList[newEntity].id, entityList[newEntity].entClass, entityList[newEntity].entType);
-
+        #if DEBUG_TRACE_CREATE_ENTITIES
+            MY_TRACE_FLAG("Created entity ID:%i Class:%i Type:%i\n", entityList[newEntity].id, entityList[newEntity].entClass, entityList[newEntity].entType);
+        #endif
+        
         //check entity properties
         if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))     
             collision_create_entity_points(&entityList[newEntity]);
@@ -331,12 +333,7 @@ void entities_update()
             {                
                 MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
                 //sleep the entity
-                entityList[i].sleep = true;                
-                //call on frame of entity update of entities that need do something when go to sleep
-                if (entityList[i].entity_update)
-                {
-                    entityList[i].entity_update(&entityList[i]);                          
-                }
+                entityList[i].sleep = true;                                
             }
             //check autodestroy flag to destroy entity
             if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
@@ -352,7 +349,7 @@ void entities_update()
         {
             //if is player, lose live (fall on edges)
             game.loseLive = true;
-            MY_TRACE_FLAG("Lose player live because out region\n");
+            MY_TRACE_FLAG("Lose player live because out region\n");            
         }        
         else
         {

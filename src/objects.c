@@ -152,7 +152,9 @@ void object_create(tEntity *entity)
     //set actual instance num
     entity->entInstance = numObjectInstances - 1;  
     
-    MY_TRACE_FLAG("Created object instance:%i\n", entity->entInstance);
+    #if DEBUG_TRACE_CREATE_ENTITIES
+        MY_TRACE_FLAG("Created object instance:%i\n", entity->entInstance);
+    #endif
 };
 
 //calls specified object type update function
@@ -384,11 +386,8 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
     {
         case E_CHECKPOINT_OBJECT_TYPE:
             //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
-            if (!this->sleep)
-            {
-                entity_get(entity_get_player_id())->initPos = this->pos;
-                entity_get(entity_get_player_id())->initDir = this->dir;
-            }
+            entity_get(entity_get_player_id())->initPos = this->pos;
+            entity_get(entity_get_player_id())->initDir = this->dir;            
         break;
         case E_END_OBJECT_TYPE:
             //if collision with player

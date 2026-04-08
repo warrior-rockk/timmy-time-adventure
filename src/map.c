@@ -196,8 +196,10 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
         fread(&mapEntities[i].dir,     sizeof(uint8_t),    1, file);
         fread(&mapEntities[i].spare,   sizeof(int16_t),    1, file);
 
-        MY_TRACE_FLAG("\tEntity Class: %u Type: %u X: %i Y: %i Dir: %u Spare: %i\n", mapEntities[i].class, mapEntities[i].type, mapEntities[i].x, mapEntities[i].y, mapEntities[i].dir, mapEntities[i].spare);
-
+        #if DEBUG_TRACE_CREATE_ENTITIES
+            MY_TRACE_FLAG("\tEntity Class: %u Type: %u X: %i Y: %i Dir: %u Spare: %i\n", mapEntities[i].class, mapEntities[i].type, mapEntities[i].x, mapEntities[i].y, mapEntities[i].dir, mapEntities[i].spare);
+        #endif
+        
         //create entity
         entity_create(mapEntities[i].class, mapEntities[i].type, (tVector){mapEntities[i].x, mapEntities[i].y}, mapEntities[i].dir, mapEntities[i].spare);        
     }

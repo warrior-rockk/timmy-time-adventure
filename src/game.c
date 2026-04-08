@@ -211,12 +211,12 @@ void game_update()
                     scroll_init(entity_get(entity_get_player_id())->pos);
                     //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     scroll_update(entity_get(entity_get_player_id())->pos);
-                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    //MY_TRACE_FLAG("1Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
                     entities_update();
                     scroll_update(entity_get(entity_get_player_id())->pos);
-                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_update();                    
 
                     music_play(gameMusic, -1);
@@ -300,11 +300,8 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(entity_get(entity_get_player_id())->pos);        
-            
             entities_draw(worldScreen);
-                       
-
+            
             //TODO: replace with the duration of dead music
             if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
             {

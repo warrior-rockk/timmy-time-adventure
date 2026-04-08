@@ -204,7 +204,9 @@ void enemy_create(tEntity *entity)
     //set actual instance num
     entity->entInstance = numEnemyInstances - 1;
 
-    MY_TRACE_FLAG("Created enemy instance:%i\n", entity->entInstance);
+    #if DEBUG_TRACE_CREATE_ENTITIES
+        MY_TRACE_FLAG("Created enemy instance:%i\n", entity->entInstance);
+    #endif
 };
 
 //calls specified enemy type update function
