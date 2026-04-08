@@ -385,7 +385,7 @@
    </properties>
   </tile>
  </tileset>
- <layer id="1" name="Tiles" width="240" height="30">
+ <layer id="1" name="tiles" width="240" height="30">
   <properties>
    <property name="backColor" type="int" value="255"/>
   </properties>
@@ -422,109 +422,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,47,47,47,47,47,47,47,47,47,47,101,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,68,68,67,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Enemies">
-  <object id="3" name="raptor" type="enemy" x="336" y="96" width="46" height="32">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="25" name="raptor" type="enemy" x="800" y="96" width="50" height="32">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="24" name="raptor" type="enemy" x="1280" y="96" width="50" height="32">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="8" name="raptor" type="enemy" x="1712" y="98" width="50" height="30">
-   <properties>
-    <property name="dir" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="48" name="raptor" type="enemy" x="2416" y="240" width="50" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="5" name="ptero" type="enemy" x="1568" y="80" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="39" name="ptero" type="enemy" x="2560" y="48" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="40" name="ptero" type="enemy" x="2672" y="32" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="10" name="spider" type="enemy" x="2912" y="48" width="16" height="16"/>
-  <object id="41" name="spider" type="enemy" x="2672" y="224" width="16" height="16"/>
-  <object id="42" name="spider" type="enemy" x="2608" y="192" width="16" height="16"/>
-  <object id="49" name="spider" type="enemy" x="1872" y="176" width="16" height="16"/>
-  <object id="12" name="piranha" type="enemy" x="2080" y="128" width="32" height="32">
-   <properties>
-    <property name="dir" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="29" name="piranha" type="enemy" x="2192" y="128" width="32" height="32">
-   <properties>
-    <property name="dir" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="30" name="piranha" type="enemy" x="2288" y="128" width="32" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="34" name="piranha" type="enemy" x="2336" y="128" width="32" height="32">
-   <properties>
-    <property name="dir" type="int" value="1"/>
-    <property name="spare" type="int" value="60"/>
-   </properties>
-  </object>
-  <object id="71" name="ptero" type="enemy" x="3168" y="256" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
-   </properties>
-  </object>
-  <object id="72" name="ptero" type="enemy" x="3200" y="192" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" value="50"/>
-   </properties>
-  </object>
-  <object id="73" name="ptero" type="enemy" x="3184" y="352" width="50" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" value="50"/>
-   </properties>
-  </object>
-  <object id="77" name="trice" type="enemy" x="1968" y="416" width="48" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="81" name="spider" type="enemy" x="2496" y="368" width="16" height="16"/>
-  <object id="83" name="trice" type="enemy" x="2992" y="416" width="48" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="86" name="raptor" type="enemy" x="3632" y="96" width="50" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup id="2" name="Objects">
+ <objectgroup id="2" name="entities">
   <object id="1" name="player1" type="player" x="1600" y="352" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
@@ -654,6 +552,106 @@
   <object id="85" name="trice" type="enemy" x="3088" y="96" width="48" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+   </properties>
+  </object>
+  <object id="3" name="raptor" type="enemy" x="336" y="96" width="46" height="32">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="25" name="raptor" type="enemy" x="800" y="96" width="50" height="32">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="24" name="raptor" type="enemy" x="1280" y="96" width="50" height="32">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="8" name="raptor" type="enemy" x="1712" y="98" width="50" height="30">
+   <properties>
+    <property name="dir" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="48" name="raptor" type="enemy" x="2416" y="240" width="50" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="5" name="ptero" type="enemy" x="1568" y="80" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="39" name="ptero" type="enemy" x="2560" y="48" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="40" name="ptero" type="enemy" x="2672" y="32" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="10" name="spider" type="enemy" x="2912" y="48" width="16" height="16"/>
+  <object id="41" name="spider" type="enemy" x="2672" y="224" width="16" height="16"/>
+  <object id="42" name="spider" type="enemy" x="2608" y="192" width="16" height="16"/>
+  <object id="49" name="spider" type="enemy" x="1872" y="176" width="16" height="16"/>
+  <object id="12" name="piranha" type="enemy" x="2080" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="29" name="piranha" type="enemy" x="2192" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="30" name="piranha" type="enemy" x="2288" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="34" name="piranha" type="enemy" x="2336" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" type="int" value="1"/>
+    <property name="spare" type="int" value="60"/>
+   </properties>
+  </object>
+  <object id="71" name="ptero" type="enemy" x="3168" y="256" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="72" name="ptero" type="enemy" x="3200" y="192" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="73" name="ptero" type="enemy" x="3184" y="352" width="50" height="20">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="77" name="trice" type="enemy" x="1968" y="416" width="48" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="81" name="spider" type="enemy" x="2496" y="368" width="16" height="16"/>
+  <object id="83" name="trice" type="enemy" x="2992" y="416" width="48" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="86" name="raptor" type="enemy" x="3632" y="96" width="50" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
  </objectgroup>

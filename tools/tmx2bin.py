@@ -221,10 +221,10 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     print(f"  - 🖼️ Frame TileID: {frame['tileid']} (Duration: {frame['duration']}ms)")
                     f.write(struct.pack('<BH', int(frame['tileid']), int(frame['duration'])))
             
-            # Search object layer            
+            # Search entities layer            
             for obj_group in root.findall('objectgroup'):
                 layerName = obj_group.get('name')
-                if layerName != 'Objects':
+                if layerName != 'entities':
                     # If not found layer, jump to next
                     continue
                 
@@ -253,8 +253,8 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     # print info
                     print(f"\tClass:{raw_class} - Type:{raw_type}")
 
-            # Search enemies layer
-            foundEnemyLayer = 0            
+            # Search enemies layer (deprecated. Enemies are on entity layer)
+            """ foundEnemyLayer = 0            
             for obj_group in root.findall('objectgroup'):
                 layerName = obj_group.get('name')
                 if layerName != 'Enemies':
@@ -289,7 +289,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
             # if not found enemy layer, write 0 enemy count
             if not foundEnemyLayer:
-                f.write(struct.pack('<H', 0))
+                f.write(struct.pack('<H', 0)) """
         
         print(f"✅--- Done ---✅")
         print(f"File saved in: {bin_file}")
