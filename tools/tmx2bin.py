@@ -12,12 +12,13 @@ import zlib
 import sys
 import os
 
-#define entity classes
+#define entity classes (order define entity create game order)
 entity_classes = {
-     "player"   : 0,
-     "object"   : 1,
-     "enemy"    : 2,
-     "platform" : 3,     
+     "trigger"  : 0,
+     "player"   : 1,
+     "object"   : 2,
+     "enemy"    : 3,
+     "platform" : 4,     
 }
 #define entity player types
 player_ent_types = {
@@ -48,7 +49,7 @@ enemy_ent_types = {
 
 }
 #define array of lists of entity types
-ent_types = [player_ent_types, object_ent_types, enemy_ent_types]
+ent_types = [object_ent_types, player_ent_types, object_ent_types, enemy_ent_types]
 
 def get_custom_properties(element):
     """Get custom properties and returns on dictionary."""
@@ -232,14 +233,14 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                 # Write: numObjects (H) + list of (x0, y0, dir0)
                 print(f"✅ Processing layer: '{layerName}'")                
                 
+                # Extract entity data to temporal list
                 objs = obj_group.findall('object')
-                f.write(struct.pack('<H', len(objs))) # Write num objects
-                print(f"📍 Processing objets: {len(objs)} objects")
-                for obj in objs:                                        
+                extracted_entities = []
+                for obj in objs:
                     # Get class and type (Tiled uses class or type for class by version)
                     raw_class = obj.attrib.get('class') or obj.attrib.get('type') or ""
-                    raw_type = obj.attrib.get('name')                    
-                    # Get from our arrays of entities class and types                    
+                    raw_type = obj.attrib.get('name')
+                    # Get from our arrays of entities class and types 
                     entClass = entity_classes.get(raw_class, 0)
                     entType = ent_types[entClass].get(raw_type, 0)
                     # Get general entity data
@@ -248,10 +249,34 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                     oDir = get_property_value(obj, "dir", default=0)
                     spare = get_property_value(obj, "spare", default=0)
 
-                    # write object data
-                    f.write(struct.pack('<BBHHBH', entClass, entType, ox, oy, oDir, spare))                    
-                    # print info
-                    print(f"\tClass:{raw_class} - Type:{raw_type}")
+                    # store to dict for easy sort
+                    extracted_entities.append({
+                        'class_id': entClass,
+                        'type_id': entType,
+                        'x': ox,
+                        'y': oy,
+                        'dir': oDir,
+                        'spare': spare,
+                        'raw_class': raw_class, # for print info
+                        'raw_type': raw_type # for print info
+                    })
+
+                # sort entity list by class_id
+                extracted_entities.sort(key=lambda x: x['class_id'])
+
+                # Write to bin file
+                f.write(struct.pack('<H', len(extracted_entities))) # Write num objects                
+                print(f"📍 Processing {len(extracted_entities)} entities in custom order...")
+                for ent in extracted_entities:
+                    f.write(struct.pack('<BBHHBH', 
+                        ent['class_id'], 
+                        ent['type_id'], 
+                        ent['x'], 
+                        ent['y'], 
+                        ent['dir'], 
+                        ent['spare']
+                    ))
+                    print(f"\tWritten Class: {ent['raw_class']} - Type: {ent['raw_type']}")
 
             # Search enemies layer (deprecated. Enemies are on entity layer)
             """ foundEnemyLayer = 0            

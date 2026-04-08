@@ -199,7 +199,7 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
         MY_TRACE_FLAG("\tEntity Class: %u Type: %u X: %i Y: %i Dir: %u Spare: %i\n", mapEntities[i].class, mapEntities[i].type, mapEntities[i].x, mapEntities[i].y, mapEntities[i].dir, mapEntities[i].spare);
 
         //create entity
-        entity_create(mapEntities[i].class, mapEntities[i].type, (tVector){mapEntities[i].x, mapEntities[i].y}, mapEntities[i].dir, mapEntities[i].spare);
+        entity_create(mapEntities[i].class, mapEntities[i].type, (tVector){mapEntities[i].x, mapEntities[i].y}, mapEntities[i].dir, mapEntities[i].spare);        
     }
 
     //clean resources    

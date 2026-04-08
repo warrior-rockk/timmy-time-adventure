@@ -19,6 +19,7 @@
 static tEntity *entityList;     //dynamic list of entities
 static uint16_t numEntities;    //number of entities
 static BITMAP *entitySprite;    //pointer to sub-bitmap of entity frame
+uint8_t playerEntityId = 0;     //id of the player on array of entities
 
 //private function to draw one entity
 static void entity_draw(BITMAP *buffer, tEntity *entity)
@@ -155,6 +156,10 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].visible         = true;
         entityList[newEntity].noGravity       = false;
         entityList[newEntity].anim.frameTime  = 0;
+
+        //if entity class is player, set the player id
+        if (entityClass == E_ENT_CLASS_PLAYER)
+            playerEntityId = entityList[newEntity].id;
         
         //data based on entity class
         switch (entityList[newEntity].entClass)
@@ -169,7 +174,8 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_update   = &player_update;
                 entityList[newEntity].entity_destroy  = &player_destroy;
             break;
-            case E_ENT_CLASS_OBJECT:                   
+            case E_ENT_CLASS_OBJECT:
+            case E_ENT_CLASS_TRIGGER:                   
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
@@ -319,7 +325,7 @@ void entities_update()
             #endif
         }
         //check entity (non-player) out of region (and no persistent property)
-        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id != PLAYER_ENTITY_ID && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id != entity_get_player_id() && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
         {
             if (!entityList[i].sleep)
             {                
@@ -342,7 +348,7 @@ void entities_update()
             #endif
         }
         //check player out of region (only bottom)            
-        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id == PLAYER_ENTITY_ID && entityList[i].pos.y > scroll_get_position().y)
+        else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id == entity_get_player_id() && entityList[i].pos.y > scroll_get_position().y)
         {
             //if is player, lose live (fall on edges)
             game.loseLive = true;
@@ -428,7 +434,7 @@ void entity_update_vel_pos(tEntity *entity)
         {
             entity->fixVel.y = 0;  
             //apply friction all entities except player (has is own friction logic)
-            if (entity->id != PLAYER_ENTITY_ID)
+            if (entity->id != entity_get_player_id())
                 entity->fixVel.x = fixmul(entity->fixVel.x, ftofix(ENTITY_FRICTION));
         }
         else  
@@ -467,6 +473,16 @@ int16_t entity_center_x(tEntity *entity)
 int16_t entity_center_y(tEntity *entity)
 {
     return entity->pos.y + (entity->size.y >> 1);
+}
+
+void entity_set_player_id(uint8_t playerId)
+{
+    playerEntityId = playerId;
+}
+
+uint8_t entity_get_player_id()
+{
+    return playerEntityId;
 }
 
 void entity_trace(tEntity *entity)

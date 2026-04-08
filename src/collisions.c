@@ -163,7 +163,7 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
         checkPosition.y = fixtoi(linePath->start.y);
 
         //check if tile exists on path position and position visible on scroll (only for player)
-        if (map_tile_exists(checkPosition) && (scroll_position_on_region(checkPosition) || entity->id != PLAYER_ENTITY_ID))
+        if (map_tile_exists(checkPosition) && (scroll_position_on_region(checkPosition) || entity->id != entity_get_player_id()))
         {   
             //check if tile is not solid
             if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_NO_SOLID))

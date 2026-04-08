@@ -426,7 +426,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" type="player" x="1600" y="352"/>
+  <object id="1" template="objects/player1.tx" type="player" x="3232" y="96"/>
   <object id="7" template="objects/rock.tx" type="object" x="672" y="32"/>
   <object id="26" name="rock" type="object" x="976" y="112" width="16" height="16">
    <properties>
@@ -455,78 +455,78 @@
   </object>
   <object id="46" name="rock" type="object" x="2144" y="208" width="16" height="16"/>
   <object id="50" template="triggers/end.tx" type="object" x="3776" y="64"/>
-  <object id="52" template="triggers/stopScroll.tx" type="object" x="1408" y="128"/>
-  <object id="57" name="stopScroll" type="object" x="2080" y="128" width="64" height="32">
+  <object id="52" template="triggers/stopScroll.tx" type="trigger" x="1408" y="128"/>
+  <object id="57" name="stopScroll" type="trigger" x="2080" y="128" width="64" height="32">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="61" name="stopScroll" type="object" x="2928" y="304" width="16" height="16">
+  <object id="61" name="stopScroll" type="trigger" x="2928" y="304" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="62" name="stopScroll" type="object" x="1536" y="288" width="16" height="16">
+  <object id="62" name="stopScroll" type="trigger" x="1536" y="288" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
-  <object id="68" name="stopScroll" type="object" x="1536" y="336" width="16" height="16">
+  <object id="68" name="stopScroll" type="trigger" x="1536" y="336" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
-  <object id="64" name="stopScroll" type="object" x="1504" y="128" width="16" height="16">
+  <object id="64" name="stopScroll" type="trigger" x="1504" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="65" name="stopScroll" type="object" x="1616" y="128" width="16" height="16">
+  <object id="65" name="stopScroll" type="trigger" x="1616" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="66" name="stopScroll" type="object" x="2192" y="128" width="64" height="32">
+  <object id="66" name="stopScroll" type="trigger" x="2192" y="128" width="64" height="32">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="67" name="stopScroll" type="object" x="2304" y="128" width="64" height="32">
+  <object id="67" name="stopScroll" type="trigger" x="2304" y="128" width="64" height="32">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="69" name="stopScroll" type="object" x="3072" y="48" width="16" height="16">
+  <object id="69" name="stopScroll" type="trigger" x="3072" y="48" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
-  <object id="70" name="stopScroll" type="object" x="3072" y="224" width="16" height="16">
+  <object id="70" name="stopScroll" type="trigger" x="3072" y="224" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
-  <object id="74" name="stopScroll" type="object" x="3328" y="224" width="16" height="16">
+  <object id="74" name="stopScroll" type="trigger" x="3328" y="224" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="75" name="stopScroll" type="object" x="3328" y="352" width="16" height="16">
+  <object id="75" name="stopScroll" type="trigger" x="3328" y="352" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="78" template="triggers/stopScroll.tx" x="2288" y="320">
+  <object id="78" template="triggers/stopScroll.tx" type="trigger" x="2288" y="320">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
    </properties>
   </object>
-  <object id="79" template="triggers/stopScroll.tx" x="2304" y="320">
+  <object id="79" template="triggers/stopScroll.tx" type="trigger" x="2304" y="320">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
    </properties>
   </object>
-  <object id="80" template="triggers/stopScroll.tx" x="2560" y="320">
+  <object id="80" template="triggers/stopScroll.tx" type="trigger" x="2560" y="320">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
    </properties>

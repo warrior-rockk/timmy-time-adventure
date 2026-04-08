@@ -29,6 +29,7 @@
 //game entity classes
 enum E_ENTITY_CLASS
 {
+    E_ENT_CLASS_TRIGGER,    //trigger has priority order from player
     E_ENT_CLASS_PLAYER,
     E_ENT_CLASS_OBJECT,
     E_ENT_CLASS_ENEMY,
@@ -136,6 +137,10 @@ void entity_blink(tEntity *entity);
 int16_t entity_center_x(tEntity *entity);
 //returns the center position y of an entity
 int16_t entity_center_y(tEntity *entity);
+//sets the id of the player on entities array
+void entity_set_player_id(uint8_t playerId);
+//gets the id of the player on entities array
+uint8_t entity_get_player_id();
 //traces entity information
 void entity_trace(tEntity *entity);
 #endif

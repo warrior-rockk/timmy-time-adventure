@@ -376,7 +376,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             enemy_patrol_ia(this, ftofix(RAPTOR_VELOCITY), RAPTOR_PLAYER_RANGE);
             
             //check range of player
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
                 this->state = E_RAPTOR_ST_ATTACK;
 
@@ -384,7 +384,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         break;     
         case E_RAPTOR_ST_ATTACK:
             //check range of player
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
                 this->state = E_RAPTOR_ST_MOVING;
 
@@ -428,7 +428,7 @@ void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
 
             //check range of player
             
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, TRICE_PLAYER_RANGE))
             {
@@ -441,7 +441,7 @@ void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-TRICE_RUN_VELOCITY) : ftofix(TRICE_RUN_VELOCITY); 
             
             //check range of player
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             //this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
             if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, TRICE_PLAYER_RANGE))
                 this->state = E_TRICE_ST_MOVING;
@@ -631,7 +631,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
         case E_COWBOY_ST_IDLE:        
             local->flag = false;    
             //get player instance
-            player = entity_get(PLAYER_ENTITY_ID);            
+            player = entity_get(entity_get_player_id());            
             
             //direction faces player
             this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
@@ -720,7 +720,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     {
         case E_EAGLE_ST_FLY:        
             //get player instance
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             
             enemy_patrol_ia(this, ftofix(EAGLE_PATROL_VELOCITY), EAGLE_PATROL_RANGE);
             
@@ -742,7 +742,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
         break;        
         case E_EAGLE_ST_ATTACK:
             //get player instance
-            player = entity_get(PLAYER_ENTITY_ID);
+            player = entity_get(entity_get_player_id());
             //set attack velocities
             this->fixVel.y = ftofix(EAGLE_ATTACK_VEL_Y);
                         

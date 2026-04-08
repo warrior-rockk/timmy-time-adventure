@@ -207,15 +207,15 @@ void game_update()
                     game.viewMap    = true;
 
                     entities_init();
-                    //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(PLAYER_ENTITY_ID)->pos.x, entity_get(PLAYER_ENTITY_ID)->pos.y);
-                    scroll_init(entity_get(PLAYER_ENTITY_ID)->pos);
+                    //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(entity_get_player_id())->pos.x, entity_get(entity_get_player_id())->pos.y);
+                    scroll_init(entity_get(entity_get_player_id())->pos);
                     //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
-                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
+                    scroll_update(entity_get(entity_get_player_id())->pos);
                     //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
                     entities_update();
-                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);
+                    scroll_update(entity_get(entity_get_player_id())->pos);
                     //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_update();                    
 
@@ -246,7 +246,7 @@ void game_update()
         break;
         case E_GAME_ST_PLAY_LEVEL:            
             entities_update();
-            scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(entity_get(entity_get_player_id())->pos);        
             game_hud_update();
 
             map_draw(worldScreen, false);
@@ -300,7 +300,7 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);        
+            scroll_update(entity_get(entity_get_player_id())->pos);        
             
             entities_draw(worldScreen);
                        
@@ -328,7 +328,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    scroll_update(entity_get(PLAYER_ENTITY_ID)->pos);                    
+                    scroll_update(entity_get(entity_get_player_id())->pos);                    
                     entities_draw(worldScreen);
 
                     music_stop(gameMusic);
@@ -629,10 +629,10 @@ static void game_debug_info()
     //debug info
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
-    //show_debug( "p.vX: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.x));
-    //show_debug( "p.vY: %f", fixtof(entity_get(PLAYER_ENTITY_ID)->fixVel.y));
-    //show_debug( "p.x: %d", entity_get(PLAYER_ENTITY_ID)->pos.x);
-    //show_debug( "p.y: %d", entity_get(PLAYER_ENTITY_ID)->pos.y);
+    //show_debug( "p.vX: %f", fixtof(entity_get(entity_get_player_id())->fixVel.x));
+    //show_debug( "p.vY: %f", fixtof(entity_get(entity_get_player_id())->fixVel.y));
+    //show_debug( "p.x: %d", entity_get(entity_get_player_id())->pos.x);
+    //show_debug( "p.y: %d", entity_get(entity_get_player_id())->pos.y);
     //show_debug("Lives:%i Life:%i", game.lives, game.life);
     //show_debug("State: %i", game.state);
 }

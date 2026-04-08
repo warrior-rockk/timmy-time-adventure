@@ -244,7 +244,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             SET_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
             
             //position the object relative to player
-            tEntity *playerEnt = entity_get(PLAYER_ENTITY_ID);
+            tEntity *playerEnt = entity_get(entity_get_player_id());
             this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x + itofix(SOLID_PICKED_OFFSET_X) : playerEnt->fixPos.x - itofix(SOLID_PICKED_OFFSET_X);
             this->fixPos.y  = playerEnt->fixPos.y - itofix(SOLID_PICKED_OFFSET_Y);
             
@@ -286,7 +286,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             for (uint8_t i = 0; i < numEntities; i++)
             {
                 checkEntity = entity_get(i);
-                if (checkEntity->id != this->id && checkEntity->id != PLAYER_ENTITY_ID && !checkEntity->dead)
+                if (checkEntity->id != this->id && checkEntity->id != entity_get_player_id() && !checkEntity->dead)
                 {
                     switch (checkEntity->entClass)
                     {
@@ -351,7 +351,7 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 case E_ITEM_EXTRA_LIFE:
                     //if collision with player
-                    if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+                    if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
                     {
                         game.lives++;
                         sfx_play(objectSfx[E_SFX_OBJECT_EXTRA_LIVE], E_SFX_OBJECT_VOICE);
@@ -362,7 +362,7 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
                 break;
                 case E_ITEM_FULL_LIFE:
                     //if collision with player
-                    if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+                    if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
                     {
                         game.life = GAME_INI_LIFE;
                         sfx_play(objectSfx[E_SFX_OBJECT_FULL_LIFE], E_SFX_OBJECT_VOICE);
@@ -386,13 +386,13 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
             if (!this->sleep)
             {
-                entity_get(PLAYER_ENTITY_ID)->initPos = this->pos;
-                entity_get(PLAYER_ENTITY_ID)->initDir = this->dir;
+                entity_get(entity_get_player_id())->initPos = this->pos;
+                entity_get(entity_get_player_id())->initDir = this->dir;
             }
         break;
         case E_END_OBJECT_TYPE:
             //if collision with player
-            if (collision_check_entity(this, entity_get(PLAYER_ENTITY_ID), E_CHECK_PROCESS_INFOONLY))
+            if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
                 game.levelComplete = true;
             }
@@ -403,7 +403,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         case E_STOP_SCROLL_OBJECT_TYPE:
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
             {
-                if (entity_get(PLAYER_ENTITY_ID)->pos.x > this->pos.x)    
+                if (entity_get(entity_get_player_id())->pos.x > this->pos.x)    
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
                     //MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
@@ -411,7 +411,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
             {
-                if (entity_get(PLAYER_ENTITY_ID)->pos.x < this->pos.x)
+                if (entity_get(entity_get_player_id())->pos.x < this->pos.x)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
                     //MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
