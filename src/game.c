@@ -155,6 +155,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
+                    gamePal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);                    
                     clear(buffer);                    
                     game.fadeIn = true;
                     gameSeq.step++;                    
