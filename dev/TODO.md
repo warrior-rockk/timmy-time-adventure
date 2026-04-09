@@ -1,5 +1,7 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] No detect collision on fall because code of not solid when offscreen (check stopScroll flag)
+- [ ] 
 
 # Engine
 - [ ] Reassign update object/enemy pointer on object/enemy create?
@@ -16,6 +18,8 @@
 - [ ] Title screen
 - [ ] Menus and options
 - [ ] Tutorial
+- [ ] Translation text
+- [ ] Change background color and fade to do sunset?
 - [X] Level checkpoints
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources
