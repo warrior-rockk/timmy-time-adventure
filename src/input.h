@@ -54,11 +54,11 @@ bool input_key_up(uint8_t keyId);
 bool input_any_key_pressed();
 
 //starts to record input log file
-void input_log_record(const char *filename);
+void input_log_record(char *filename);
 //stops record or play input log
 void input_log_stop();
 //starts to play input log file
-void input_log_play(const char *_file);
+void input_log_play(char *_file);
 //checks if recording input log file
 bool input_log_recording();
 //check if playing input log file

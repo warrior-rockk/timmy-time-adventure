@@ -132,7 +132,7 @@ bool input_any_key_pressed()
     return _anyKeyPressed;
 }
 
-void input_log_record(const char *_file)//const char *filename)
+void input_log_record(char *_file)//const char *filename)
 {
 	//reset flags
 	inputLoggerStatus.recording     = true;
@@ -230,7 +230,7 @@ void input_log_stop()
 		MY_TRACE_FLAG("Stopping input playing...\n");
 }
 
-void input_log_play(const char *_file)
+void input_log_play(char *_file)
 {
 	//reset flags
 	inputLoggerStatus.recording     = false;
