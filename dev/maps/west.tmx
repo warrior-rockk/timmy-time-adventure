@@ -259,7 +259,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="1584" y="96" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="32" y="96" width="16" height="32"/>
   <object id="11" name="rock2" type="object" x="864" y="112" width="16" height="16"/>
   <object id="12" name="egg" type="object" x="80" y="112" width="21" height="16"/>
   <object id="3" template="enemies/cowboy.tx" type="enemy" x="187" y="88"/>
