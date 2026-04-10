@@ -1,6 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] No detect collision on fall because code of not solid when offscreen (check stopScroll flag)
 - [ ] Tiled templates convert to triggers class
 - [ ] Checkpoints to triggers too? End game too?
 
