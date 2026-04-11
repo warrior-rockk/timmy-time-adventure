@@ -192,6 +192,16 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){30, 29};                          
             entity->size = (tVector){30, 29};                  
+        break;
+        case E_SCORPION_ENEMY_TYPE:
+            if (!enemyResources[E_SCORPION_ENEMY_TYPE])
+                enemyResources[E_SCORPION_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, SCORPION_BMP);
+            
+            entity->img = enemyResources[E_SCORPION_ENEMY_TYPE]; 
+            entity->spriteSize = (tVector){30, 23};                          
+            entity->size = (tVector){24, 16};      
+            entity->axis = E_ENT_AXIS_DOWN;
+            collision_create_entity_points(entity);              
         break;        
         default:
             abort_on_error("Enemy type entity not valid");
@@ -240,6 +250,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_TRICE_ENEMY_TYPE:            
             enemy_trice_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_SCORPION_ENEMY_TYPE:            
+            enemy_scorpion_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -804,6 +817,52 @@ void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
 void enemy_trace(tEntity *this)
 {
     MY_TRACE_FLAG("Enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
+}
+
+void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
+{              
+    #define SCORPION_VELOCITY         0.6
+    #define SCORPION_RANGE_PATROL     50
+    
+    //enemy animations
+    #define ANIM_SCORPION_WALK   1,   4,  10, ANIM_LOOP
+    #define ANIM_SCORPION_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_SCORPION_ENEMY_STATES{E_SCORPION_ST_IDLE, E_SCORPION_ST_MOVING, E_SCORPION_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_SCORPION_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+    }
+
+    switch (this->state)
+    {
+        case E_SCORPION_ST_IDLE:            
+            this->state++;
+        break;
+        case E_SCORPION_ST_MOVING:            
+            enemy_patrol_ia(this, ftofix(SCORPION_VELOCITY), SCORPION_RANGE_PATROL);
+            
+            play_animation(&this->anim, ANIM_SCORPION_WALK);
+        break;     
+        case E_SCORPION_ST_HURT:
+            enemy_dead(this, ANIM_SCORPION_DEAD);            
+        break;
+    }       
 }
 
 //TEMPLATE FOR ENEMY

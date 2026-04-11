@@ -24,6 +24,7 @@ enum E_ENEMY_TYPE
     E_BULLET_ENEMY_TYPE,
     E_TUMBLE_ENEMY_TYPE,
     E_TRICE_ENEMY_TYPE,
+    E_SCORPION_ENEMY_TYPE,
     E_ENEMIES_TYPE_NUM,
 };
 
@@ -68,4 +69,5 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local);
 void enemy_eagle_update(tEntity *this, tEnemyLocalData *local);
 void enemy_bullet_update(tEntity *this, tEnemyLocalData *local);
 void enemy_tumble_update(tEntity *this, tEnemyLocalData *local);
+void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local);
 #endif
