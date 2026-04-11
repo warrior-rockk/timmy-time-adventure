@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="stopScroll" type="object" width="16" height="16">
+ <object name="stopScroll" type="trigger" width="16" height="16">
   <properties>
    <property name="spare" type="int" propertytype="stopScroll" value="4"/>
   </properties>

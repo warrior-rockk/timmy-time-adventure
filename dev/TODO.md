@@ -1,7 +1,5 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
-- [ ] Tiled templates convert to triggers class
-- [ ] Checkpoints to triggers too? End game too?
 
 # Engine
 - [ ] Reassign update object/enemy pointer on object/enemy create?
