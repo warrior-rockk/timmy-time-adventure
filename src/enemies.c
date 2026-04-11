@@ -180,7 +180,21 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){24, 16};      
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);              
-        break;        
+        break;
+        case E_INDIAN_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){47, 47};                          
+            entity->size = (tVector){16, 32};      
+            entity->axis = E_ENT_AXIS_DOWN;
+        break;       
+        case E_AXE_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, AXE_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){19, 19};                          
+            entity->size = (tVector){16, 16};  
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
+        break; 
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -231,6 +245,12 @@ void enemy_update(tEntity *entity)
         break;
         case E_SCORPION_ENEMY_TYPE:            
             enemy_scorpion_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_INDIAN_ENEMY_TYPE:            
+            enemy_indian_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_AXE_ENEMY_TYPE:            
+            enemy_axe_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -856,6 +876,93 @@ void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
         break;     
         case E_SCORPION_ST_HURT:
             enemy_dead(this, ANIM_SCORPION_DEAD);            
+        break;
+    }       
+}
+
+void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define INDIAN_PLAYER_RANGE     160
+    #define INDIAN_WAIT_TIME        15
+    #define INDIAN_AXE_FRAME_THROW  6
+
+    //enemy animations
+    #define ANIM_INDIAN_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_INDIAN_SHOOT  5,   8, 20,  ANIM_ONCE
+    #define ANIM_INDIAN_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_INDIAN_ENEMY_STATES{E_INDIAN_ST_IDLE, E_INDIAN_ST_SHOOT, E_INDIAN_ST_WAIT, E_INDIAN_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_INDIAN_ST_HURT;
+
+    switch (this->state)
+    {
+        case E_INDIAN_ST_IDLE:        
+            local->flag = false;    
+            //get player instance
+            player = entity_get(entity_get_player_id());            
+            
+            //direction faces player
+            this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
+
+            //shoot in player range
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN_PLAYER_RANGE))
+                this->state++;
+
+            play_animation(&this->anim, ANIM_INDIAN_IDLE);
+        break;
+        case E_INDIAN_ST_SHOOT:            
+            if (play_animation(&this->anim, ANIM_INDIAN_SHOOT))
+            {
+                this->state++;      
+            }
+            if (this->anim.frame == INDIAN_AXE_FRAME_THROW && !local->flag)
+            {
+                entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - 6}, this->dir, this->spare);
+                local->flag = true;
+            }
+        break;     
+        case E_INDIAN_ST_WAIT:
+            if (local->timer > INDIAN_WAIT_TIME)
+            {
+                local->timer = 0;
+                this->state = E_INDIAN_ST_IDLE;
+            }
+            else
+                local->timer += clock_tick_get();
+
+            play_animation(&this->anim, ANIM_INDIAN_IDLE); 
+        break;   
+        case E_INDIAN_ST_HURT:
+            enemy_dead(this, ANIM_INDIAN_DEAD);            
+        break;
+    }       
+}
+
+void enemy_axe_update(tEntity *this, tEnemyLocalData *local)
+{              
+    //enemy defines
+    #define AXE_VELOCITY     4.0
+
+    //enemy animations
+    #define ANIM_AXE_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_AXE_TURN   0,   2, 10,  ANIM_LOOP
+
+    //enemy states
+    enum E_AXE_ENEMY_STATES{E_AXE_ST_IDLE};   
+
+    switch (this->state)
+    {
+        case E_AXE_ST_IDLE:            
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY);
+
+            play_animation(&this->anim, ANIM_AXE_TURN);
         break;
     }       
 }

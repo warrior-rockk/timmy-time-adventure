@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="116" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="16">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="116" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="17">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -259,7 +259,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="720" y="32" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="1376" y="48" width="16" height="32"/>
   <object id="11" name="rock2" type="object" x="864" y="112" width="16" height="16"/>
   <object id="12" name="egg" type="object" x="80" y="112" width="21" height="16"/>
   <object id="3" template="enemies/cowboy.tx" type="enemy" x="187" y="88"/>
@@ -279,6 +279,11 @@
    </properties>
   </object>
   <object id="15" name="scorpion" type="enemy" x="1792" y="112" width="24" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="16" name="indian" type="enemy" x="1744" y="240" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
