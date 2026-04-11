@@ -179,6 +179,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){30, 23};                          
             entity->size = (tVector){24, 16};      
             entity->axis = E_ENT_AXIS_DOWN;
+            entity->properties = E_ENT_PROP_NO_HURT;
             collision_create_entity_points(entity);              
         break;
         case E_INDIAN_ENEMY_TYPE:
