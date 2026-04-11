@@ -379,7 +379,11 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
         //check collision tile for collision point
         colDir = collision_check_tile(this, i);        
         //apply collision direction
-        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
     }
 
     switch (this->state)
@@ -388,7 +392,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
             this->state++;
         break;
         case E_RAPTOR_ST_MOVING:            
-            enemy_patrol_ia(this, ftofix(RAPTOR_VELOCITY), RAPTOR_PLAYER_RANGE);
+            enemy_patrol_ia(this, ftofix(RAPTOR_VELOCITY), RAPTOR_RANGE_PATROL);
             
             //check range of player
             player = entity_get(entity_get_player_id());
@@ -846,7 +850,11 @@ void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
         //check collision tile for collision point
         colDir = collision_check_tile(this, i);        
         //apply collision direction
-        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
     }
 
     switch (this->state)
