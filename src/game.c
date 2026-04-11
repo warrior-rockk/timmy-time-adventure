@@ -331,6 +331,9 @@ void game_update()
 
                     music_stop(gameMusic);
 
+                    gameSeq.step++;
+                break;
+                case 1:
                     //TODO: replace with the duration of complete music
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
                     {                
@@ -340,7 +343,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 1:
+                case 2:
                     //obtain score for time left                         
                     if (game.time > 0)
                     {                        
@@ -367,7 +370,7 @@ void game_update()
                         game.time = 0;
                     }
                 break;
-                case 2:
+                case 3:
                     //wait 2 seconds
                     if (gameSeq.timeCounter >= 2)
                     {                
@@ -378,7 +381,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_1sec_get();    
                 break;
-                case 3:
+                case 4:
                     MY_TRACE_FLAG( "Completed level\n");
                     game_destroy_level();
                     game.actualLevel++;
