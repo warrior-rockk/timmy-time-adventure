@@ -71,6 +71,7 @@ enum E_ENTITY_SIGNAL
     E_ENT_SIGNAL_KILL,
     E_ENT_SIGNAL_PICKING,
     E_ENT_SIGNAL_THROW,
+    E_ENT_SIGNAL_AWAKE,
 };
 
 //entity object

@@ -72,7 +72,7 @@
   </tile>
   <tile id="38">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+    <property name="property" type="int" propertytype="tileProperties" value="512"/>
    </properties>
   </tile>
   <tile id="39">
@@ -259,7 +259,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="336" y="96" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="720" y="32" width="16" height="32"/>
   <object id="11" name="rock2" type="object" x="864" y="112" width="16" height="16"/>
   <object id="12" name="egg" type="object" x="80" y="112" width="21" height="16"/>
   <object id="3" template="enemies/cowboy.tx" type="enemy" x="187" y="88"/>
@@ -269,9 +269,9 @@
    </properties>
   </object>
   <object id="7" template="enemies/eagle.tx" type="enemy" x="400" y="48"/>
-  <object id="8" template="enemies/tumble.tx" type="enemy" x="943.75" y="98.5"/>
-  <object id="9" name="tumble" type="enemy" x="1279.75" y="98.5" width="30" height="29"/>
-  <object id="10" name="tumble" type="enemy" x="1119.75" y="98.5" width="30" height="29"/>
+  <object id="8" template="enemies/tumble.tx" type="enemy" x="944" y="96"/>
+  <object id="9" name="tumble" type="enemy" x="1280" y="96" width="30" height="29"/>
+  <object id="10" name="tumble" type="enemy" x="1120" y="96" width="30" height="29"/>
   <object id="13" template="triggers/checkpoint.tx" x="704" y="32"/>
   <object id="14" name="scorpion" type="enemy" x="1504" y="112" width="24" height="16">
    <properties>

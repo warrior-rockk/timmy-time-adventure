@@ -333,7 +333,7 @@ void entities_update()
             {                
                 MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
                 //sleep the entity
-                entityList[i].sleep = true;                                
+                entityList[i].sleep = true;
             }
             //check autodestroy flag to destroy entity
             if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
@@ -357,6 +357,10 @@ void entities_update()
                 if (entityList[i].visible)
                     entityCounter.visibles++;
             #endif
+
+            //if entity was sleeping, send awake signal 
+            if (entityList[i].sleep)
+                entityList[i].signal = E_ENT_SIGNAL_AWAKE;
 
             //clear flag
             entityList[i].sleep = false;                    

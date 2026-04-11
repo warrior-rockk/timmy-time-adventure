@@ -806,7 +806,13 @@ void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
     #define ANIM_TUMBLE_ROLL   0,   7, 10,  ANIM_LOOP
 
     //enemy states
-    enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};   
+    enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};
+    
+    if (this->signal == E_ENT_SIGNAL_AWAKE)
+    {
+        this->signal = E_ENT_SIGNAL_NONE;
+        this->pos = this->initPos;
+    }
 
     switch (this->state)
     {
@@ -814,6 +820,11 @@ void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-TUMBLE_VELOCITY) : ftofix(TUMBLE_VELOCITY);
 
             play_animation(&this->anim, ANIM_TUMBLE_ROLL);
+
+            if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
+            {
+                this->dead = true;
+            }
         break;
     }       
 }
