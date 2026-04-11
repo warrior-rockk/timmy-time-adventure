@@ -24,6 +24,7 @@
 #include "enemies.h"
 #include "sound.h"
 #include "resources.h"
+#include "interface.h"
 
 #include "data/gdata.h"
 #include "data/judata.h"
@@ -160,8 +161,8 @@ void game_update()
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
-                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, (SCREEN_H>>1) + 16, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
@@ -171,14 +172,22 @@ void game_update()
                         }
                         else
                         {
-                            game.state = E_GAME_ST_INIT;
-                            game.fadeOut = true;
+                            game.state = E_GAME_ST_MAIN_MENU;
                         }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                     }
                 break;
             }
+        break;
+        case E_GAME_ST_MAIN_MENU:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    dialog_draw(buffer, (tRectangle){20, 100, 50, 30}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
+                    gameSeq.step++;
+                break;
+            }    
         break;
         case E_GAME_ST_INIT:
             game.lives          = GAME_INI_LIVES;
