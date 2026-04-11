@@ -722,10 +722,11 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     #define ANIM_EAGLE_FLY     0,   7, 10,  ANIM_LOOP
     #define ANIM_EAGLE_ATTACK  9,   9, 10,  ANIM_LOOP
     #define ANIM_EAGLE_RETURN  10,  10, 10, ANIM_LOOP
+    #define ANIM_EAGLE_TURN    15,  17, 5, ANIM_ONCE
     #define ANIM_EAGLE_HURT    11,  14, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_EAGLE_ENEMY_STATES{E_EAGLE_ST_FLY, E_EAGLE_ST_ATTACK, E_EAGLE_ST_RETURN, E_EAGLE_ST_HURT};   
+    enum E_EAGLE_ENEMY_STATES{E_EAGLE_ST_IDLE, E_EAGLE_ST_FLY, E_EAGLE_ST_ATTACK, E_EAGLE_ST_RETURN, E_EAGLE_ST_TURN, E_EAGLE_ST_HURT};   
 
     tEntity *player;
 
@@ -735,11 +736,19 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
 
     switch (this->state)
     {
+        case E_EAGLE_ST_IDLE:
+            //use local flag to store direction
+            local->flag = this->dir;
+            this->state++;
+        break;
         case E_EAGLE_ST_FLY:        
             //get player instance
             player = entity_get(entity_get_player_id());
             
             enemy_patrol_ia(this, ftofix(EAGLE_PATROL_VELOCITY), EAGLE_PATROL_RANGE);
+            //if direction changes, do turn animation
+            if (this->dir != local->flag)
+                this->state = E_EAGLE_ST_TURN;
             
             //attack in player range
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EAGLE_PLAYER_RANGE))
@@ -788,6 +797,13 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
             }
 
             play_animation(&this->anim, ANIM_EAGLE_RETURN);
+        break;
+        case E_EAGLE_ST_TURN:
+            //set the new direction
+            local->flag = this->dir;
+            //play turn animation
+            if (play_animation(&this->anim, ANIM_EAGLE_TURN))
+                this->state = E_EAGLE_ST_FLY;
         break;
         case E_EAGLE_ST_HURT:
             enemy_dead(this, ANIM_EAGLE_HURT);            
