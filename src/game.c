@@ -555,7 +555,7 @@ void game_init()
     levelData[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
         
     #ifdef DEBUGMODE
-        game.state      = E_GAME_ST_INIT;
+        game.state      = DEBUG_INI_GAME_STATE;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif
