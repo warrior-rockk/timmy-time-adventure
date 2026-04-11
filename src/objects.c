@@ -86,27 +86,21 @@ void object_create(tEntity *entity)
     switch (entity->entType)
     {
         case E_ROCK_OBJECT_TYPE:            
-            if (!objectResources[E_ROCK_OBJECT_TYPE])
-                objectResources[E_ROCK_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ROCK_BMP);
-
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK_BMP);
             entity->img = objectResources[E_ROCK_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
             collision_create_entity_points(entity);                  
         break;
         case E_ROCK_2_OBJECT_TYPE:            
-            if (!objectResources[E_ROCK_2_OBJECT_TYPE])
-                objectResources[E_ROCK_2_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ROCK2_BMP);
-
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK2_BMP);
             entity->img = objectResources[E_ROCK_2_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);                    
         break;
         case E_EGG_OBJECT_TYPE:            
-            if (!objectResources[E_EGG_OBJECT_TYPE])
-                objectResources[E_EGG_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, EGG_BMP);
-
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
             entity->img = objectResources[E_EGG_OBJECT_TYPE];
             entity->spriteSize = (tVector){21, 16};
             entity->size = (tVector){21, 16};      
@@ -114,9 +108,7 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_END_OBJECT_TYPE:            
-            if (!objectResources[E_END_OBJECT_TYPE])
-                objectResources[E_END_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, END_BMP);
-
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
             entity->img = objectResources[E_END_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){8, 8};      
@@ -128,9 +120,7 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
         case E_ITEM_OBJECT_TYPE:         
-            if (!objectResources[E_ITEM_OBJECT_TYPE])
-                objectResources[E_ITEM_OBJECT_TYPE] = load_dat_bmp_indexed(objectDataFileIndex, ITEMS_BMP);
-
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ITEMS_BMP);
             entity->img = objectResources[E_ITEM_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      

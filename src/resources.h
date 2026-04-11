@@ -21,4 +21,8 @@ SAMPLE* load_dat_wav_indexed(DATAFILE_INDEX *dataFileIndex, int item);
 MIDI* load_dat_midi_indexed(DATAFILE_INDEX *dataFileIndex, int item);
 //loads palette object from datafile by his object index
 RGB* load_dat_pal_indexed(DATAFILE_INDEX *dataFileIndex, int item);
+//checks if the entity resource is assigned or loads the bmp resource of the resource index
+void load_entity_bmp_resources(BITMAP **entityResource, DATAFILE_INDEX *resourceIndex, uint8_t resourceItemId);
+//checks if the entity resource is assigned or loads the wav resource of the resource index
+void load_entity_wav_resources(SAMPLE **entityResource, DATAFILE_INDEX *resourceIndex, uint8_t resourceItemId);
 #endif

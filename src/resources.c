@@ -59,3 +59,15 @@ void destroy_dat_index(DATAFILE_INDEX *dataFileIndex)
     if (dataFileIndex)
         destroy_datafile_index(dataFileIndex);
 }
+
+void load_entity_bmp_resources(BITMAP **entityResource, DATAFILE_INDEX *resourceIndex, uint8_t resourceItemId)
+{
+    if (!*entityResource)
+        *entityResource = load_dat_bmp_indexed(resourceIndex, resourceItemId);
+}
+
+void load_entity_wav_resources(SAMPLE **entityResource, DATAFILE_INDEX *resourceIndex, uint8_t resourceItemId)
+{
+    if (!*entityResource)
+        *entityResource = load_dat_wav_indexed(resourceIndex, resourceItemId);
+}

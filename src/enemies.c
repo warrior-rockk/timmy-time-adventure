@@ -108,19 +108,14 @@ void enemy_create(tEntity *entity)
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            
-            //load enemy resources
-            if (!enemyResources[E_PTERO_ENEMY_TYPE])
-                enemyResources[E_PTERO_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, PTERO_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PTERO_BMP);
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){71, 64};
             entity->size.x = 30;
             entity->size.y = 20;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
-            if (!enemyResources[E_RAPTOR_ENEMY_TYPE])
-                enemyResources[E_RAPTOR_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, RAPTOR2_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, RAPTOR2_BMP);
             entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){46, 32};
@@ -129,9 +124,7 @@ void enemy_create(tEntity *entity)
             collision_create_entity_points(entity);     
         break;
         case E_TRICE_ENEMY_TYPE:
-            if (!enemyResources[E_TRICE_ENEMY_TYPE])
-                enemyResources[E_TRICE_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, TRICE_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TRICE_BMP);
             entity->img = enemyResources[E_TRICE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){48, 34};                          
             entity->size = (tVector){40, 32};
@@ -140,63 +133,48 @@ void enemy_create(tEntity *entity)
             collision_create_entity_points(entity);     
         break;
         case E_SPIDER_ENEMY_TYPE:
-            if (!enemyResources[E_SPIDER_ENEMY_TYPE])
-                enemyResources[E_SPIDER_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, SPIDER_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SPIDER_BMP);
             entity->img = enemyResources[E_SPIDER_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){20, 29};                          
             entity->size = (tVector){16, 16};        
             collision_create_entity_points(entity);              
         break;        
         case E_PIRANHA_ENEMY_TYPE:
-            if (!enemyResources[E_PIRANHA_ENEMY_TYPE])
-                enemyResources[E_PIRANHA_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, PIRANHA_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PIRANHA_BMP);
             entity->img = enemyResources[E_PIRANHA_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){42, 33};                          
             entity->size = (tVector){32, 32};                    
         break;
         case E_COWBOY_ENEMY_TYPE:
-            if (!enemyResources[E_COWBOY_ENEMY_TYPE])
-                enemyResources[E_COWBOY_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, COWBOY_BMP);
-            if (!enemySfx[E_SFX_ENEMY_SHOOT])
-                enemySfx[E_SFX_ENEMY_SHOOT]  = load_dat_wav_indexed(enemyDataFileIndex, SHOOT_WAV);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, COWBOY_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SHOOT], enemyDataFileIndex, SHOOT_WAV);
             entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){50, 45};                          
             entity->size = (tVector){18, 40};        
             entity->axis = E_ENT_AXIS_DOWN;                        
         break;
         case E_BULLET_ENEMY_TYPE:
-            if (!enemyResources[E_BULLET_ENEMY_TYPE])
-                enemyResources[E_BULLET_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, BULLET_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BULLET_BMP);
             entity->img = enemyResources[E_BULLET_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){2, 2};                          
             entity->size = (tVector){2, 2};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break;
         case E_EAGLE_ENEMY_TYPE:
-            if (!enemyResources[E_EAGLE_ENEMY_TYPE])
-                enemyResources[E_EAGLE_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, EAGLE_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EAGLE_BMP);
             entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){32, 34};                          
             entity->size = (tVector){20, 18};      
             collision_create_entity_points(entity);              
         break;        
         case E_TUMBLE_ENEMY_TYPE:
-            if (!enemyResources[E_TUMBLE_ENEMY_TYPE])
-                enemyResources[E_TUMBLE_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, TUMBLE_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TUMBLE_BMP);
             entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){30, 29};                          
             entity->size = (tVector){30, 29};                  
         break;
         case E_SCORPION_ENEMY_TYPE:
-            if (!enemyResources[E_SCORPION_ENEMY_TYPE])
-                enemyResources[E_SCORPION_ENEMY_TYPE] = load_dat_bmp_indexed(enemyDataFileIndex, SCORPION_BMP);
-            
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
             entity->img = enemyResources[E_SCORPION_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){30, 23};                          
             entity->size = (tVector){24, 16};      
