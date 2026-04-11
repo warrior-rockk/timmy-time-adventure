@@ -835,8 +835,6 @@ void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
     //enemy states
     enum E_SCORPION_ENEMY_STATES{E_SCORPION_ST_IDLE, E_SCORPION_ST_MOVING, E_SCORPION_ST_HURT};   
 
-    tEntity *player;
-
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_SCORPION_ST_HURT;

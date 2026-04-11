@@ -1,5 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] Tumbleweed don't respawn
 
 # Engine
 - [ ] Use rotations to change enemy direction?

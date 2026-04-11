@@ -342,7 +342,7 @@ void game_update()
                 break;
                 case 1:
                     //obtain score for time left                         
-                    if (game.time > 0 )
+                    if (game.time > 0)
                     {                        
                         game.time--;
                         game.score += SCORE_POINT_TIME_LEFT;
@@ -359,6 +359,12 @@ void game_update()
                         //play end score point
                         sfx_play(gameSfx[E_SFX_GAME_POINT_END], E_SFX_GAME_VOICE);                        
                         gameSeq.step++;
+                    }
+                    //bypass gain time score
+                    if (input_any_key_pressed())
+                    {
+                        game.score += (SCORE_POINT_TIME_LEFT * game.time);
+                        game.time = 0;
                     }
                 break;
                 case 2:
