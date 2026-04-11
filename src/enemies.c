@@ -884,7 +884,7 @@ void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN_PLAYER_RANGE     160
-    #define INDIAN_WAIT_TIME        15
+    #define INDIAN_WAIT_TIME        25
     #define INDIAN_AXE_FRAME_THROW  6
 
     //enemy animations
