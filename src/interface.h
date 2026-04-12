@@ -10,5 +10,15 @@
 
 #include "utils.h"
 
-void dialog_draw(BITMAP *drawBitmapBuffer, tRectangle dialogRect, BITMAP *tileSetStyle);
+typedef struct
+{
+    tRectangle rect;
+    BITMAP *dialogBuffer;
+    uint8_t optionSelected;
+} tDialog;
+
+tDialog dialog_create(tRectangle dialogRect, BITMAP *tileSetStyle);
+void dialog_add_options(tDialog dialog, FONT *textFont, const char *options, uint8_t selectedOption);
+
+void dialog_draw(BITMAP *drawBuffer, tDialog dialog);
 #endif

@@ -184,8 +184,13 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    dialog_draw(buffer, (tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 32}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
+                    tDialog menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
+                    dialog_add_options(menuDialog, gameFont, "PLAY;OPTIONS;EXIT", 0);
+                    dialog_draw(buffer, menuDialog);
+                    
                     gameSeq.step++;
+                break;
+                case 1:
                 break;
             }    
         break;
