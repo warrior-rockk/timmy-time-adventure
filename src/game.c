@@ -53,6 +53,8 @@ tSequence gameSeq;                  //game sequence
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
+tDialog menuDialog;
+
 struct hud
 {
     BITMAP *hudImg;
@@ -184,13 +186,18 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    tDialog menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
-                    dialog_add_options(menuDialog, gameFont, "PLAY;OPTIONS;EXIT", 0);
+                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), 3);
+                    dialog_add_options(menuDialog, gameFont, "PLAY;OPTIONS;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
                     dialog_draw(buffer, menuDialog);
                     
                     gameSeq.step++;
                 break;
                 case 1:
+                    if (input_key_down(E_G_KEY_DOWN))
+                    {
+                        menuDialog.optionSelected++;
+                        dialog_draw(buffer, menuDialog);
+                    }
                 break;
             }    
         break;
