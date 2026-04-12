@@ -53,7 +53,7 @@ tSequence gameSeq;                  //game sequence
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
-tDialog menuDialog;
+tDialog *menuDialog;
 
 struct hud
 {
@@ -186,17 +186,22 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), 3);
-                    dialog_add_options(menuDialog, gameFont, "PLAY;OPTIONS;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
-                    dialog_draw(buffer, menuDialog);
+                    menuDialog = dialog_set((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, 3);
+                    dialog_add_options(gameFont, "PLAY;OPTIONS;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
+                    dialog_draw(buffer);
                     
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (input_key_down(E_G_KEY_DOWN))
+                    if (input_key_down(E_G_KEY_DOWN) && menuDialog->optionSelected < menuDialog->numOptions - 1)
                     {
-                        menuDialog.optionSelected++;
-                        dialog_draw(buffer, menuDialog);
+                        menuDialog->optionSelected++;
+                        gameSeq.step--;  
+                    }
+                    if (input_key_down(E_G_KEY_UP) && menuDialog->optionSelected > 0)
+                    {
+                        menuDialog->optionSelected--;
+                        gameSeq.step--;  
                     }
                 break;
             }    
@@ -532,6 +537,7 @@ void game_init()
     debug_init();
     timer_init(GAME_CLOCK_TICK);
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
+    interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
     input_keys_init(E_GAME_KEYS_NUM);
     //default redefine keys
     input_key_redefine(E_G_KEY_UP,      KEY_UP);

@@ -18,14 +18,19 @@
 
 typedef struct
 {
+    BITMAP *skin;
+    BITMAP *drawBuffer;
     tRectangle rect;
-    BITMAP *dialogBuffer;
+    uint8_t numOptions;
     uint8_t optionSelected;
-    uint8_t styleSize;
 } tDialog;
 
-tDialog dialog_create(tRectangle dialogRect, BITMAP *tileSetStyle, int16_t backgroundColor);
-void dialog_add_options(tDialog dialog, FONT *textFont, const char *options, uint8_t textColor, BITMAP *cursor);
+void interface_init(BITMAP *interfaceSkin);
+void interface_destroy();
 
-void dialog_draw(BITMAP *drawBuffer, tDialog dialog);
+tDialog *dialog_set(tRectangle dialogRect, int16_t backgroundColor);
+void dialog_add_options(FONT *textFont, const char *options, uint8_t textColor, BITMAP *cursor);
+void dialog_select_option(uint8_t option);
+uint8_t dialog_option_selected();
+void dialog_draw(BITMAP *drawBuffer);
 #endif
