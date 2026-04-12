@@ -4,7 +4,6 @@
 # Engine
 - [ ] Reassign update object/enemy pointer on object/enemy create?
 - [ ] Debug teleport to next checkpoint? or mouse change position?
-- [ ] Object called trigger: no scroll, change background, etc..
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water

@@ -184,7 +184,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    dialog_draw(buffer, (tRectangle){20, 100, 50, 30}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
+                    dialog_draw(buffer, (tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 32}, load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
                     gameSeq.step++;
                 break;
             }    
