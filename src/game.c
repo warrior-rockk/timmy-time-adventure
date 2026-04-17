@@ -187,7 +187,8 @@ void game_update()
             {
                 case 0:
                     menuDialog = dialog_set((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, 3);
-                    dialog_add_options(gameFont, "PLAY;OPTIONS;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
+                    dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
+                    dialog_add_values("ESPAÑOL;ENGLISH", 2);
                     dialog_draw(buffer);
                     
                     gameSeq.step++;

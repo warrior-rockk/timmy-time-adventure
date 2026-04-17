@@ -30,6 +30,8 @@ void interface_destroy();
 
 tDialog *dialog_set(tRectangle dialogRect, int16_t backgroundColor);
 void dialog_add_options(FONT *textFont, const char *options, uint8_t textColor, BITMAP *cursor);
+void dialog_add_values(const char *values, uint8_t value);
+
 void dialog_select_option(uint8_t option);
 uint8_t dialog_option_selected();
 void dialog_draw(BITMAP *drawBuffer);
