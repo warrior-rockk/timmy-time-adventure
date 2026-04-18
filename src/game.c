@@ -53,7 +53,7 @@ tSequence gameSeq;                  //game sequence
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
-tDialog *menuDialog;
+tDialog menuDialog;                 //menu dialog object
 
 struct hud
 {
@@ -186,14 +186,17 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    menuDialog = dialog_set((tRectangle){(SCREEN_W >> 1) - 40, 100, 80, 64}, 3);
-                    dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
-                    dialog_add_values("ESPAÑOL;ENGLISH", 2);
-                    dialog_draw(buffer);
+                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3);
+                    dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63);
+
+                    //dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
+                    //dialog_add_values("ESPAÑOL;ENGLISH", 2);
+                    menuDialog.option[0].value = 2;
+                    dialog_draw(&menuDialog, buffer);
                     
                     gameSeq.step++;
                 break;
-                case 1:
+                /*case 1:
                     if (input_key_down(E_G_KEY_DOWN) && menuDialog->optionSelected < menuDialog->numOptions - 1)
                     {
                         menuDialog->optionSelected++;
@@ -204,7 +207,7 @@ void game_update()
                         menuDialog->optionSelected--;
                         gameSeq.step--;  
                     }
-                break;
+                break;*/
             }    
         break;
         case E_GAME_ST_INIT:
@@ -538,7 +541,7 @@ void game_init()
     debug_init();
     timer_init(GAME_CLOCK_TICK);
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
-    interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP));
+    interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont);
     input_keys_init(E_GAME_KEYS_NUM);
     //default redefine keys
     input_key_redefine(E_G_KEY_UP,      KEY_UP);

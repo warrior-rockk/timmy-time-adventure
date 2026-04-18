@@ -12,27 +12,38 @@
 #define DIALOG_SPACING_Y            2
 
 #define DIALOG_OPTIONS_DELIMITER    ";"
-#define DIALOG_MAX_OPTION_LENGTH    20
+#define DIALOG_MAX_OPTION_LENGTH    50
 
 #include "utils.h"
 
+typedef struct 
+{
+    char text[DIALOG_MAX_OPTION_LENGTH];
+    char strValues[DIALOG_MAX_OPTION_LENGTH];
+    int16_t value;
+    uint8_t textColor;
+} tDialogOption;
+
 typedef struct
 {
-    BITMAP *skin;
-    BITMAP *drawBuffer;
+    BITMAP *drawContainer;
     tRectangle rect;
+    tDialogOption *option;
     uint8_t numOptions;
     uint8_t optionSelected;
 } tDialog;
 
-void interface_init(BITMAP *interfaceSkin);
+void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
 void interface_destroy();
 
-tDialog *dialog_set(tRectangle dialogRect, int16_t backgroundColor);
-void dialog_add_options(FONT *textFont, const char *options, uint8_t textColor, BITMAP *cursor);
-void dialog_add_values(const char *values, uint8_t value);
+tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor);
+void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor);
 
-void dialog_select_option(uint8_t option);
-uint8_t dialog_option_selected();
-void dialog_draw(BITMAP *drawBuffer);
+void dialog_draw(tDialog *dialog, BITMAP *drawBuffer);
+
+//void dialog_add_values(const char *values, uint8_t value);
+
+//void dialog_select_option(uint8_t option);
+//uint8_t dialog_option_selected();
+
 #endif
