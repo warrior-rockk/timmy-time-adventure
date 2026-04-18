@@ -187,27 +187,30 @@ void game_update()
             {
                 case 0:
                     menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3);
+                    
                     dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63);
+                    dialog_add_option(&menuDialog, "SONIDO:", "SB;SPEAKER;OFF", 63);
+                    dialog_add_option(&menuDialog, "MUSICA:", "MIDI;OGG;OFF", 63);
 
                     //dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
                     //dialog_add_values("ESPAÑOL;ENGLISH", 2);
-                    menuDialog.option[0].value = 2;
+                    
                     dialog_draw(&menuDialog, buffer);
                     
                     gameSeq.step++;
                 break;
-                /*case 1:
-                    if (input_key_down(E_G_KEY_DOWN) && menuDialog->optionSelected < menuDialog->numOptions - 1)
+                case 1:
+                    if (input_key_down(E_G_KEY_RIGHT))
                     {
-                        menuDialog->optionSelected++;
-                        gameSeq.step--;  
+                        dialog_inc_option_value(&menuDialog);
+                        dialog_draw(&menuDialog, buffer);
                     }
-                    if (input_key_down(E_G_KEY_UP) && menuDialog->optionSelected > 0)
+                    if (input_key_down(E_G_KEY_LEFT))
                     {
-                        menuDialog->optionSelected--;
-                        gameSeq.step--;  
+                        dialog_dec_option_value(&menuDialog);
+                        dialog_draw(&menuDialog, buffer);
                     }
-                break;*/
+                break;
             }    
         break;
         case E_GAME_ST_INIT:

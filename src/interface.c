@@ -35,11 +35,7 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor)
     //set drawing buffer for dialog oontainer
     dialog.drawContainer = create_bitmap(dialog.rect.size.x, dialog.rect.size.y);
     //set background color
-    if (backgroundColor > 0)
-        clear_to_color(dialog.drawContainer, backgroundColor);
-    else
-        clear_bitmap(dialog.drawContainer);
-
+    dialog.backgrounColor = backgroundColor;
     dialog.option = NULL;
     
     //returns dialog object
@@ -48,6 +44,9 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor)
 
 void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor)
 {
+    ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
+
     //allocates option memory
     dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
     //copies the data
@@ -75,6 +74,9 @@ uint8_t dialog_option_selected()
 
 void dialog_draw_container(tDialog *dialog)
 {
+    //clear container bitmap
+    clear_to_color(dialog->drawContainer, dialog->backgrounColor);
+
     //obtain dialog tiles
     BITMAP *dialogTiles[9];
     for (uint8_t i = 0; i < 9; i++)
@@ -110,33 +112,31 @@ void dialog_draw_options(tDialog *dialog)
     int posY;
     char s[DIALOG_MAX_OPTION_LENGTH];
     char *ch;
-    char *valueStrSelected;
+    char valueStrSelected[DIALOG_MAX_OPTION_LENGTH];
     int optionLine = 0;
 
     //sets the initial Y text position
     posY = interfaceSkin->h;
-    
+
     for (uint8_t i = 0; i < dialog->numOptions; i++)
     {
+        strcpy(valueStrSelected, "");
         //make a copy of the string for tokenizer
         strcpy(s, dialog->option[i].strValues);
         //first token
         ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
-        if (dialog->option[i].value == 0)
-            strcpy(valueStrSelected, ch);
-        else
+        //while tokens left
+        while (ch)
         {
-            //while ch != NULL (tokens left)
-            while (ch)
+            if (optionLine == dialog->option[i].value)
             {
-                optionLine++;
-
-                if (optionLine == dialog->option[i].value)
-                    strcpy(valueStrSelected, ch);
-                
-                //get next token
-                ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
+                strcpy(valueStrSelected, ch);
+                break;
             }
+
+            //get next token
+            ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
+            optionLine++;
         }
 
         //print text option and value
@@ -156,4 +156,14 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
     dialog_draw_options(dialog);
 
     draw_sprite(drawBuffer, dialog->drawContainer, dialog->rect.pos.x, dialog->rect.pos.y);
+}
+
+bool dialog_inc_option_value(tDialog *dialog)
+{
+    dialog->option[dialog->optionSelected].value++;
+}
+
+bool dialog_dec_option_value(tDialog *dialog)
+{
+    dialog->option[dialog->optionSelected].value--;
 }

@@ -31,6 +31,7 @@ typedef struct
     tDialogOption *option;
     uint8_t numOptions;
     uint8_t optionSelected;
+    uint8_t backgrounColor;
 } tDialog;
 
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
@@ -38,6 +39,9 @@ void interface_destroy();
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor);
 void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor);
+
+bool dialog_inc_option_value(tDialog *dialog);
+bool dialog_dec_option_value(tDialog *dialog);
 
 void dialog_draw(tDialog *dialog, BITMAP *drawBuffer);
 
