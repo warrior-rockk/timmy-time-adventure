@@ -221,23 +221,43 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
 bool dialog_inc_option_value(tDialog *dialog)
 {
     if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].maxValue)
+    {
         *(dialog->option[dialog->optionSelected].value) += 1;   
+        return true;
+    }
+    else
+        return false;
 }
 
 bool dialog_dec_option_value(tDialog *dialog)
 {
     if (*(dialog->option[dialog->optionSelected].value) > dialog->option[dialog->optionSelected].minValue)
+    {
         *(dialog->option[dialog->optionSelected].value) -= 1;
+        return true;
+    }
+    else
+        return false;
 }
 
 bool dialog_next_option(tDialog *dialog)
 {
     if (dialog->optionSelected < dialog->numOptions - 1)
+    {
         dialog->optionSelected++;
+        return true;
+    }
+    else
+        return false;
 }
 
 bool dialog_prev_option(tDialog *dialog)
 {
     if (dialog->optionSelected > 0)
-    dialog->optionSelected--;
+    {
+        dialog->optionSelected--;
+        return true;
+    }
+    else
+        return false;
 }

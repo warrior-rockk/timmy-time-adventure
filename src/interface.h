@@ -45,23 +45,28 @@ typedef struct
     bool autoSize;                              //flag for adjusts the height automatically based on options
 } tDialog;
 
+//initializates the interface system
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
+//destroys the interface system
 void interface_destroy();
 
+//creates a interface dialog with specified dimensions and position, background color and flag to autosize the height based on number of options
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
+//adds a text list option to specified dialog
 void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
+//adds a numeric option to specified dialog
 void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value);
 
-bool dialog_inc_option_value(tDialog *dialog);
-bool dialog_dec_option_value(tDialog *dialog);
+//increases selected option. Return true if not the end of options
 bool dialog_next_option(tDialog *dialog);
+//decreases selected option. Return true if not the start of options
 bool dialog_prev_option(tDialog *dialog);
+//increases the value of selected option. Return true if not the end of value
+bool dialog_inc_option_value(tDialog *dialog);
+//decreases the value of selected option. Return true if not the start of value
+bool dialog_dec_option_value(tDialog *dialog);
 
+//draws the dialog on specifed draw buffer
 void dialog_draw(tDialog *dialog, BITMAP *drawBuffer);
-
-//void dialog_add_values(const char *values, uint8_t value);
-
-//void dialog_select_option(uint8_t option);
-//uint8_t dialog_option_selected();
 
 #endif
