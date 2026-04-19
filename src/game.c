@@ -186,7 +186,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3);
+                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3, true);
                     
                     dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63);
                     dialog_add_option(&menuDialog, "SONIDO:", "SB;SPEAKER;OFF", 63);

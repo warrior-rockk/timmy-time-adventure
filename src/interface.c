@@ -26,7 +26,7 @@ void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
         dialogTiles[i] = create_sub_bitmap(interfaceSkin, i * interfaceSkin->h, 0, interfaceSkin->h, interfaceSkin->h);
 }
 
-tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor)
+tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize)
 {
     //creates dialog object
     tDialog dialog;
@@ -34,9 +34,17 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor)
     //reset dialog data
     dialog.optionSelected = 0;
     dialog.numOptions = 0;
+    dialog.autoSize = autoSize;
 
     //set size
     dialog.rect = dialogRect;
+    if (autoSize)
+    {
+        //TODO: autoSize of x?
+        //dialog.rect.size.x = interfaceSkin->h * 3;
+        dialog.rect.size.y = interfaceSkin->h * 4;
+    }    
+
     //set drawing buffer for dialog oontainer
     dialog.drawContainer = create_bitmap(dialog.rect.size.x, dialog.rect.size.y);
     //set background color
@@ -62,7 +70,7 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     dialog->option[dialog->numOptions].numValues = 0;
     for (uint8_t i = 0; strValues[i] != '\0'; i++)
     {
-        if (strValues[i] == ';') 
+        if (strValues[i] == DIALOG_OPTIONS_DELIMITER) 
             dialog->option[dialog->numOptions].numValues++;
     }
 
@@ -72,18 +80,18 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     
     //increases num options
     dialog->numOptions++;   
-}
 
-/*void dialog_select_option(uint8_t option)
-{
-    dialog->optionSelected = option;
+    //resize container if resize active
+    if (dialog->autoSize)
+    {
+        //set new size
+        //dialog->rect.size.x += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h;
+        destroy_bitmap(dialog->drawContainer);
+        //set drawing buffer for dialog oontainer
+        dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
+    }
 }
-
-uint8_t dialog_option_selected()
-{
-    return dialog->optionSelected;
-}
-*/
 
 void dialog_draw_container(tDialog *dialog)
 {
@@ -132,14 +140,11 @@ void dialog_draw_options(tDialog *dialog)
         strcpy(valueStrSelected, "");
         //make a copy of the string for tokenizer
         strcpy(s, dialog->option[i].strValues);
-        TRACE("s %s\n", s);
         //first token
         ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
-        TRACE("ch %s\n", ch);
         //while tokens left
         while (ch)
         {
-            TRACE("value %i\n", dialog->option[i].value);
             if (optionLine == dialog->option[i].value)
             {
                 strcpy(valueStrSelected, ch);
