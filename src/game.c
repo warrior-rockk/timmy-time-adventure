@@ -195,6 +195,7 @@ void game_update()
                     dialog_add_option(&menuDialog, "PLAY", 63);
                     dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
                     dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 63, &volume);
+                    dialog_add_option(&menuDialog, "EXIT", 63);
 
                     dialog_draw(&menuDialog, buffer);
                     
@@ -220,6 +221,20 @@ void game_update()
                     {
                         if (dialog_prev_option(&menuDialog))
                             dialog_draw(&menuDialog, buffer);
+                    }
+                    if (input_key_down(E_G_KEY_ACTION))
+                    {
+                        if (menuDialog.optionSelected == 0)
+                        {
+                            game.state = E_GAME_ST_INIT;
+                            game.fadeOut = true;
+                            gameSeq.step = 0;
+                        }
+                        else if (menuDialog.optionSelected == 3)
+                        {
+                            game.state = E_GAME_ST_DESTROY_LEVEL;
+                            gameSeq.step = 0;
+                        }
                     }
                 break;
             }    
