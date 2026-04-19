@@ -191,7 +191,7 @@ void game_update()
                     dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63);
                     dialog_add_option(&menuDialog, "SONIDO:", "SB;SPEAKER;OFF", 63);
                     dialog_add_option(&menuDialog, "MUSICA:", "MIDI;OGG;OFFF", 63);
-
+                    
                     //dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
                     //dialog_add_values("ESPAÑOL;ENGLISH", 2);
                     //menuDialog.option[0].value = 1;

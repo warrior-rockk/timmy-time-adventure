@@ -10,6 +10,7 @@
 
 #define DIALOG_SPACING_X            2
 #define DIALOG_SPACING_Y            2
+#define DIALOG_TEXT_MARGIN_Y        2
 
 #define DIALOG_OPTIONS_DELIMITER    ";"
 #define DIALOG_MAX_OPTION_LENGTH    50

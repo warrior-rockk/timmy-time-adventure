@@ -13,12 +13,17 @@
 //inteface skin loaded on init
 BITMAP *interfaceSkin;
 FONT *interfaceFont;
+BITMAP *dialogTiles[9];
 
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
 {
     //sets the bitmap skin of interface
     interfaceSkin = _interfaceSkin;
     interfaceFont = _interfaceFont;
+
+    //obtain dialog tiles
+    for (uint8_t i = 0; i < 9; i++)
+        dialogTiles[i] = create_sub_bitmap(interfaceSkin, i * interfaceSkin->h, 0, interfaceSkin->h, interfaceSkin->h);
 }
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor)
@@ -85,11 +90,6 @@ void dialog_draw_container(tDialog *dialog)
     //clear container bitmap
     clear_to_color(dialog->drawContainer, dialog->backgrounColor);
 
-    //obtain dialog tiles
-    BITMAP *dialogTiles[9];
-    for (uint8_t i = 0; i < 9; i++)
-        dialogTiles[i] = create_sub_bitmap(interfaceSkin, i * interfaceSkin->h, 0, interfaceSkin->h, interfaceSkin->h);
-    
     //draw corners
     draw_sprite(dialog->drawContainer, dialogTiles[0], 0, 0);                                                           //leftUp
     draw_sprite(dialog->drawContainer, dialogTiles[1], 0, dialog->rect.size.y - interfaceSkin->h);                        //LeftDown
@@ -152,14 +152,13 @@ void dialog_draw_options(tDialog *dialog)
         }
 
         //print text option and value
-        textprintf_ex(dialog->drawContainer, interfaceFont, interfaceSkin->h + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+        textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
         //increment line position
         posY += text_height(interfaceFont);
     }
     
     //draw cursor
-    //masked_blit(cursor, dialog->drawContainer, 0, 0, interfaceSkin->h, ((cursor->h) * dialog->optionSelected) + interfaceSkin->h + DIALOG_SPACING_Y, cursor->w, cursor->h);
-    //masked_blit(cursor, dialog->drawContainer, 0, 0, interfaceSkin->h + cursor->w + DIALOG_SPACING_X, (text_height(textFont) * dialog->optionSelected) + DIALOG_SPACING_Y, cursor->w, cursor->h);
+    draw_sprite(dialog->drawContainer, dialogTiles[8], interfaceSkin->h, interfaceSkin->h + DIALOG_TEXT_MARGIN_Y + (text_height(interfaceFont) * dialog->optionSelected) + DIALOG_SPACING_Y);
 }
 
 void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
