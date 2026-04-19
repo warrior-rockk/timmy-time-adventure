@@ -55,7 +55,7 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     return dialog;
 }
 
-void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor)
+void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
@@ -75,9 +75,8 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     }
 
     //init data
-    dialog->option[dialog->numOptions].value = 0;
     dialog->option[dialog->numOptions].textColor = textColor;
-    
+    dialog->option[dialog->numOptions].value     = value;
     //increases num options
     dialog->numOptions++;   
 
@@ -91,6 +90,8 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
         //set drawing buffer for dialog oontainer
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
+
+
 }
 
 void dialog_draw_container(tDialog *dialog)
@@ -145,7 +146,7 @@ void dialog_draw_options(tDialog *dialog)
         //while tokens left
         while (ch)
         {
-            if (optionLine == dialog->option[i].value)
+            if (optionLine == *(dialog->option[i].value))
             {
                 strcpy(valueStrSelected, ch);
                 break;
@@ -176,14 +177,14 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
 
 bool dialog_inc_option_value(tDialog *dialog)
 {
-    if (dialog->option[dialog->optionSelected].value < dialog->option[dialog->optionSelected].numValues)
-        dialog->option[dialog->optionSelected].value++;
+    if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].numValues)
+        *(dialog->option[dialog->optionSelected].value) += 1;   
 }
 
 bool dialog_dec_option_value(tDialog *dialog)
 {
-    if (dialog->option[dialog->optionSelected].value > 0)
-        dialog->option[dialog->optionSelected].value--;
+    if (*(dialog->option[dialog->optionSelected].value) > 0)
+        *(dialog->option[dialog->optionSelected].value) -= 1;
 }
 
 bool dialog_next_option(tDialog *dialog)

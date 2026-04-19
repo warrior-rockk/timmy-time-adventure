@@ -19,29 +19,29 @@
 
 typedef struct 
 {
-    char text[DIALOG_MAX_OPTION_LENGTH];
-    char strValues[DIALOG_MAX_OPTION_LENGTH];
-    int16_t value;
-    uint8_t numValues;
-    uint8_t textColor;
+    char text[DIALOG_MAX_OPTION_LENGTH];        //text of the option
+    char strValues[DIALOG_MAX_OPTION_LENGTH];   //list of values for the option separated by delimiter
+    uint8_t numValues;                          //calculated num of values
+    uint8_t textColor;                          //text color for option
+    int16_t *value;                             //pointer to value data
 } tDialogOption;
 
 typedef struct
 {
-    BITMAP *drawContainer;
-    tRectangle rect;
-    tDialogOption *option;
-    uint8_t numOptions;
-    uint8_t optionSelected;
-    uint8_t backgrounColor;
-    bool autoSize;
+    BITMAP *drawContainer;                      //dialog draw backbuffer
+    tRectangle rect;                            //dimensions and position
+    tDialogOption *option;                      //array of options objects
+    uint8_t numOptions;                         //num of options of the dialog
+    uint8_t optionSelected;                     //current selected option
+    uint8_t backgrounColor;                     //background color for dialog
+    bool autoSize;                              //flag for adjusts the height automatically based on options
 } tDialog;
 
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
 void interface_destroy();
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
-void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor);
+void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
 
 bool dialog_inc_option_value(tDialog *dialog);
 bool dialog_dec_option_value(tDialog *dialog);
