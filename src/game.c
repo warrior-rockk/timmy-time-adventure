@@ -192,8 +192,8 @@ void game_update()
                     volume = 50;
                     menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3, true);
                     
-                    //dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63, &testLang);
-                    dialog_add_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
+                    dialog_add_option(&menuDialog, "PLAY", 63);
+                    dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
                     dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 63, &volume);
 
                     dialog_draw(&menuDialog, buffer);
@@ -203,24 +203,23 @@ void game_update()
                 case 1:
                     if (input_key_down(E_G_KEY_RIGHT))
                     {
-                        dialog_inc_option_value(&menuDialog);
-                        TRACE("lang %i\n", testLang);
-                        dialog_draw(&menuDialog, buffer);
+                        if (dialog_inc_option_value(&menuDialog))
+                            dialog_draw(&menuDialog, buffer);
                     }
                     if (input_key_down(E_G_KEY_LEFT))
                     {
-                        dialog_dec_option_value(&menuDialog);
-                        dialog_draw(&menuDialog, buffer);
+                        if (dialog_dec_option_value(&menuDialog))
+                            dialog_draw(&menuDialog, buffer);
                     }
                     if (input_key_down(E_G_KEY_DOWN))
                     {
-                        dialog_next_option(&menuDialog);
-                        dialog_draw(&menuDialog, buffer);
+                        if (dialog_next_option(&menuDialog))
+                            dialog_draw(&menuDialog, buffer);
                     }
                     if (input_key_down(E_G_KEY_UP))
                     {
-                        dialog_prev_option(&menuDialog);
-                        dialog_draw(&menuDialog, buffer);
+                        if (dialog_prev_option(&menuDialog))
+                            dialog_draw(&menuDialog, buffer);
                     }
                 break;
             }    

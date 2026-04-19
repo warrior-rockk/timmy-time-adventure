@@ -55,7 +55,39 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     return dialog;
 }
 
-void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value)
+void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor)
+{
+    ASSERT(strlen(optionText) <= DIALOG_MAX_OPTION_LENGTH);
+    
+    //allocates option memory
+    dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
+    //copies the data
+    strcpy(dialog->option[dialog->numOptions].text, optionText);
+    
+    //count values
+    dialog->option[dialog->numOptions].minValue = 0;
+    dialog->option[dialog->numOptions].maxValue = 0;
+    
+    //init data
+    dialog->option[dialog->numOptions].textColor    = textColor;
+    dialog->option[dialog->numOptions].value        = NULL;
+    dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NAVIGATION;
+    //increases num options
+    dialog->numOptions++;   
+
+    //resize container if resize active
+    if (dialog->autoSize)
+    {
+        //set new size
+        //dialog->rect.size.x += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h;
+        destroy_bitmap(dialog->drawContainer);
+        //set drawing buffer for dialog oontainer
+        dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
+    }
+}
+
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
@@ -170,36 +202,41 @@ void dialog_draw_options(tDialog *dialog)
 
     for (uint8_t i = 0; i < dialog->numOptions; i++)
     {
-        //check if is text list value or numeric
-        if (dialog->option[i].type  == E_OPTION_TYPE_TEXTLIST)
+        //check option type
+        switch (dialog->option[i].type)
         {
-            optionLine = 0;
-            strcpy(valueStrSelected, "");
-            //make a copy of the string for tokenizer
-            strcpy(s, dialog->option[i].strValues);
-            //first token
-            ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
-            //while tokens left
-            while (ch)
-            {
-                if (optionLine == *(dialog->option[i].value))
+            case E_OPTION_TYPE_NAVIGATION:
+                //print text option
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s", dialog->option[i].text);
+            break;
+            case E_OPTION_TYPE_TEXTLIST:
+                optionLine = 0;
+                strcpy(valueStrSelected, "");
+                //make a copy of the string for tokenizer
+                strcpy(s, dialog->option[i].strValues);
+                //first token
+                ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
+                //while tokens left
+                while (ch)
                 {
-                    strcpy(valueStrSelected, ch);
-                    break;
+                    if (optionLine == *(dialog->option[i].value))
+                    {
+                        strcpy(valueStrSelected, ch);
+                        break;
+                    }
+
+                    //get next token
+                    ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
+                    optionLine++;
                 }
 
-                //get next token
-                ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
-                optionLine++;
-            }
-
-            //print text option and value
-            textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
-        }
-        else
-        {
-            //print text option and numeric value
-            textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
+                //print text option and value
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+            break;
+            case E_OPTION_TYPE_NUMERIC:
+                //print text option and numeric value
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
+            break;
         }
 
         //increment line position
@@ -220,21 +257,31 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
 
 bool dialog_inc_option_value(tDialog *dialog)
 {
-    if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].maxValue)
+    if (dialog->option[dialog->optionSelected].value)
     {
-        *(dialog->option[dialog->optionSelected].value) += 1;   
-        return true;
-    }
+        if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].maxValue)
+        {
+            *(dialog->option[dialog->optionSelected].value) += 1;   
+            return true;
+        }
+        else
+            return false;
+        }
     else
         return false;
 }
 
 bool dialog_dec_option_value(tDialog *dialog)
 {
-    if (*(dialog->option[dialog->optionSelected].value) > dialog->option[dialog->optionSelected].minValue)
+    if (dialog->option[dialog->optionSelected].value)
     {
-        *(dialog->option[dialog->optionSelected].value) -= 1;
-        return true;
+        if (*(dialog->option[dialog->optionSelected].value) > dialog->option[dialog->optionSelected].minValue)
+        {
+            *(dialog->option[dialog->optionSelected].value) -= 1;
+            return true;
+        }
+        else
+            return false;
     }
     else
         return false;

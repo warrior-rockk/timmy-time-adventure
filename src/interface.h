@@ -19,6 +19,7 @@
 
 enum E_DIALOG_OPTION_TYPE
 {
+    E_OPTION_TYPE_NAVIGATION,
     E_OPTION_TYPE_TEXTLIST,
     E_OPTION_TYPE_NUMERIC,
 };
@@ -52,8 +53,10 @@ void interface_destroy();
 
 //creates a interface dialog with specified dimensions and position, background color and flag to autosize the height based on number of options
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
+//adds option to specified dialog
+void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor);
 //adds a text list option to specified dialog
-void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
 //adds a numeric option to specified dialog
 void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value);
 
