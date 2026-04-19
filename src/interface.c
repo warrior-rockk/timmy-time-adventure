@@ -70,7 +70,7 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     dialog->option[dialog->numOptions].numValues = 0;
     for (uint8_t i = 0; strValues[i] != '\0'; i++)
     {
-        if (strValues[i] == DIALOG_OPTIONS_DELIMITER) 
+        if (strValues[i] == ';') 
             dialog->option[dialog->numOptions].numValues++;
     }
 
