@@ -190,11 +190,14 @@ void game_update()
                     
                     dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63);
                     dialog_add_option(&menuDialog, "SONIDO:", "SB;SPEAKER;OFF", 63);
-                    dialog_add_option(&menuDialog, "MUSICA:", "MIDI;OGG;OFF", 63);
+                    dialog_add_option(&menuDialog, "MUSICA:", "MIDI;OGG;OFFF", 63);
 
                     //dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
                     //dialog_add_values("ESPAÑOL;ENGLISH", 2);
-                    
+                    //menuDialog.option[0].value = 1;
+                    //menuDialog.option[1].value = 1;
+                    //menuDialog.option[2].value = 1;
+
                     dialog_draw(&menuDialog, buffer);
                     
                     gameSeq.step++;
@@ -208,6 +211,16 @@ void game_update()
                     if (input_key_down(E_G_KEY_LEFT))
                     {
                         dialog_dec_option_value(&menuDialog);
+                        dialog_draw(&menuDialog, buffer);
+                    }
+                    if (input_key_down(E_G_KEY_DOWN))
+                    {
+                        dialog_next_option(&menuDialog);
+                        dialog_draw(&menuDialog, buffer);
+                    }
+                    if (input_key_down(E_G_KEY_UP))
+                    {
+                        dialog_prev_option(&menuDialog);
                         dialog_draw(&menuDialog, buffer);
                     }
                 break;

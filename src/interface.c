@@ -53,10 +53,18 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     strcpy(dialog->option[dialog->numOptions].text, textOptions);
     strcpy(dialog->option[dialog->numOptions].strValues, strValues);
     
+    //count values
+    dialog->option[dialog->numOptions].numValues = 0;
+    for (uint8_t i = 0; strValues[i] != '\0'; i++)
+    {
+        if (strValues[i] == ';') 
+            dialog->option[dialog->numOptions].numValues++;
+    }
+
     //init data
     dialog->option[dialog->numOptions].value = 0;
     dialog->option[dialog->numOptions].textColor = textColor;
-
+    
     //increases num options
     dialog->numOptions++;   
 }
@@ -120,14 +128,18 @@ void dialog_draw_options(tDialog *dialog)
 
     for (uint8_t i = 0; i < dialog->numOptions; i++)
     {
+        optionLine = 0;
         strcpy(valueStrSelected, "");
         //make a copy of the string for tokenizer
         strcpy(s, dialog->option[i].strValues);
+        TRACE("s %s\n", s);
         //first token
         ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
+        TRACE("ch %s\n", ch);
         //while tokens left
         while (ch)
         {
+            TRACE("value %i\n", dialog->option[i].value);
             if (optionLine == dialog->option[i].value)
             {
                 strcpy(valueStrSelected, ch);
@@ -160,10 +172,24 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
 
 bool dialog_inc_option_value(tDialog *dialog)
 {
-    dialog->option[dialog->optionSelected].value++;
+    if (dialog->option[dialog->optionSelected].value < dialog->option[dialog->optionSelected].numValues)
+        dialog->option[dialog->optionSelected].value++;
 }
 
 bool dialog_dec_option_value(tDialog *dialog)
 {
-    dialog->option[dialog->optionSelected].value--;
+    if (dialog->option[dialog->optionSelected].value > 0)
+        dialog->option[dialog->optionSelected].value--;
+}
+
+bool dialog_next_option(tDialog *dialog)
+{
+    if (dialog->optionSelected < dialog->numOptions - 1)
+        dialog->optionSelected++;
+}
+
+bool dialog_prev_option(tDialog *dialog)
+{
+    if (dialog->optionSelected > 0)
+    dialog->optionSelected--;
 }

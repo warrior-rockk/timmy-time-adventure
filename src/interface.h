@@ -21,6 +21,7 @@ typedef struct
     char text[DIALOG_MAX_OPTION_LENGTH];
     char strValues[DIALOG_MAX_OPTION_LENGTH];
     int16_t value;
+    uint8_t numValues;
     uint8_t textColor;
 } tDialogOption;
 
@@ -42,6 +43,8 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
 
 bool dialog_inc_option_value(tDialog *dialog);
 bool dialog_dec_option_value(tDialog *dialog);
+bool dialog_next_option(tDialog *dialog);
+bool dialog_prev_option(tDialog *dialog);
 
 void dialog_draw(tDialog *dialog, BITMAP *drawBuffer);
 
