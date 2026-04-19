@@ -67,16 +67,18 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
     strcpy(dialog->option[dialog->numOptions].strValues, strValues);
     
     //count values
-    dialog->option[dialog->numOptions].numValues = 0;
+    dialog->option[dialog->numOptions].minValue = 0;
+    dialog->option[dialog->numOptions].maxValue = 0;
     for (uint8_t i = 0; strValues[i] != '\0'; i++)
     {
         if (strValues[i] == ';') 
-            dialog->option[dialog->numOptions].numValues++;
+            dialog->option[dialog->numOptions].maxValue++;
     }
 
     //init data
-    dialog->option[dialog->numOptions].textColor = textColor;
-    dialog->option[dialog->numOptions].value     = value;
+    dialog->option[dialog->numOptions].textColor    = textColor;
+    dialog->option[dialog->numOptions].value        = value;
+    dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXTLIST;
     //increases num options
     dialog->numOptions++;   
 
@@ -90,8 +92,39 @@ void dialog_add_option(tDialog *dialog, const char *textOptions, const char *str
         //set drawing buffer for dialog oontainer
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
+}
 
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value)
+{
+    ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
+    
+    //allocates option memory
+    dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
+    //copies the data
+    strcpy(dialog->option[dialog->numOptions].text, textOptions);
+    strcpy(dialog->option[dialog->numOptions].strValues, "");
 
+    //set value limits
+    dialog->option[dialog->numOptions].minValue = minValue;
+    dialog->option[dialog->numOptions].maxValue = maxValue;
+    
+    //init data
+    dialog->option[dialog->numOptions].textColor = textColor;
+    dialog->option[dialog->numOptions].value     = value;
+    dialog->option[dialog->numOptions].type      = E_OPTION_TYPE_NUMERIC;
+    //increases num options
+    dialog->numOptions++;   
+
+    //resize container if resize active
+    if (dialog->autoSize)
+    {
+        //set new size
+        //dialog->rect.size.x += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h;
+        destroy_bitmap(dialog->drawContainer);
+        //set drawing buffer for dialog oontainer
+        dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
+    }
 }
 
 void dialog_draw_container(tDialog *dialog)
@@ -137,28 +170,38 @@ void dialog_draw_options(tDialog *dialog)
 
     for (uint8_t i = 0; i < dialog->numOptions; i++)
     {
-        optionLine = 0;
-        strcpy(valueStrSelected, "");
-        //make a copy of the string for tokenizer
-        strcpy(s, dialog->option[i].strValues);
-        //first token
-        ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
-        //while tokens left
-        while (ch)
+        //check if is text list value or numeric
+        if (dialog->option[i].type  == E_OPTION_TYPE_TEXTLIST)
         {
-            if (optionLine == *(dialog->option[i].value))
+            optionLine = 0;
+            strcpy(valueStrSelected, "");
+            //make a copy of the string for tokenizer
+            strcpy(s, dialog->option[i].strValues);
+            //first token
+            ch = strtok(s, DIALOG_OPTIONS_DELIMITER);
+            //while tokens left
+            while (ch)
             {
-                strcpy(valueStrSelected, ch);
-                break;
+                if (optionLine == *(dialog->option[i].value))
+                {
+                    strcpy(valueStrSelected, ch);
+                    break;
+                }
+
+                //get next token
+                ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
+                optionLine++;
             }
 
-            //get next token
-            ch = strtok(NULL, DIALOG_OPTIONS_DELIMITER);
-            optionLine++;
+            //print text option and value
+            textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+        }
+        else
+        {
+            //print text option and numeric value
+            textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
         }
 
-        //print text option and value
-        textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, dialog->option[i].textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
         //increment line position
         posY += text_height(interfaceFont);
     }
@@ -177,13 +220,13 @@ void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)
 
 bool dialog_inc_option_value(tDialog *dialog)
 {
-    if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].numValues)
+    if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].maxValue)
         *(dialog->option[dialog->optionSelected].value) += 1;   
 }
 
 bool dialog_dec_option_value(tDialog *dialog)
 {
-    if (*(dialog->option[dialog->optionSelected].value) > 0)
+    if (*(dialog->option[dialog->optionSelected].value) > dialog->option[dialog->optionSelected].minValue)
         *(dialog->option[dialog->optionSelected].value) -= 1;
 }
 

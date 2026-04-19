@@ -55,6 +55,8 @@ DATAFILE *levelDAT;                 //level datafile
 
 tDialog menuDialog;                 //menu dialog object
 int16_t testLang;
+int16_t volume;
+
 struct hud
 {
     BITMAP *hudImg;
@@ -187,17 +189,12 @@ void game_update()
             {
                 case 0:
                     testLang = 0;
+                    volume = 50;
                     menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3, true);
                     
                     //dialog_add_option(&menuDialog, "IDIOMA:", "ESPAÑOL;ENGLISH", 63, &testLang);
-                    dialog_add_option(&menuDialog, "SONIDO:", "SB;SPEAKER;OFF", 63, &testLang);
-                    //dialog_add_option(&menuDialog, "MUSICA:", "MIDI;OGG;OFFF", 63, &testLang);
-                    
-                    //dialog_add_options(gameFont, "PLAY;OPTIONS;LANG:;EXIT", 63, load_dat_bmp_indexed(gameDataIndex, CURSOR_BMP));
-                    //dialog_add_values("ESPAÑOL;ENGLISH", 2);
-                    //menuDialog.option[0].value = 1;
-                    //menuDialog.option[1].value = 1;
-                    //menuDialog.option[2].value = 1;
+                    dialog_add_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
+                    dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 63, &volume);
 
                     dialog_draw(&menuDialog, buffer);
                     

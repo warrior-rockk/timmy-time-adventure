@@ -17,11 +17,19 @@
 
 #include "utils.h"
 
+enum E_DIALOG_OPTION_TYPE
+{
+    E_OPTION_TYPE_TEXTLIST,
+    E_OPTION_TYPE_NUMERIC,
+};
+
 typedef struct 
 {
+    uint8_t type;                               //type of the option
     char text[DIALOG_MAX_OPTION_LENGTH];        //text of the option
     char strValues[DIALOG_MAX_OPTION_LENGTH];   //list of values for the option separated by delimiter
-    uint8_t numValues;                          //calculated num of values
+    int16_t minValue;                           //minimun value
+    int16_t maxValue;                           //maximum value
     uint8_t textColor;                          //text color for option
     int16_t *value;                             //pointer to value data
 } tDialogOption;
@@ -42,6 +50,7 @@ void interface_destroy();
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
 void dialog_add_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value);
 
 bool dialog_inc_option_value(tDialog *dialog);
 bool dialog_dec_option_value(tDialog *dialog);
