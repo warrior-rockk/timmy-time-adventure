@@ -77,6 +77,7 @@ static void game_resume_sound();
 static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
+static void game_navigation_menu(tDialog *dialog);
 #ifdef DEBUGMODE
 static void game_debug_update();
 static void game_debug_info();
@@ -202,26 +203,8 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (input_key_down(E_G_KEY_RIGHT))
-                    {
-                        if (dialog_inc_option_value(&menuDialog))
-                            dialog_draw(&menuDialog, buffer);
-                    }
-                    if (input_key_down(E_G_KEY_LEFT))
-                    {
-                        if (dialog_dec_option_value(&menuDialog))
-                            dialog_draw(&menuDialog, buffer);
-                    }
-                    if (input_key_down(E_G_KEY_DOWN))
-                    {
-                        if (dialog_next_option(&menuDialog))
-                            dialog_draw(&menuDialog, buffer);
-                    }
-                    if (input_key_down(E_G_KEY_UP))
-                    {
-                        if (dialog_prev_option(&menuDialog))
-                            dialog_draw(&menuDialog, buffer);
-                    }
+                    game_navigation_menu(&menuDialog);
+                    
                     if (input_key_down(E_G_KEY_ACTION))
                     {
                         if (menuDialog.optionSelected == 0)
@@ -908,4 +891,29 @@ static void game_resume_sound()
     }
 
     music_resume();
+}
+
+//process navigation dialog menu trought game controls
+static void game_navigation_menu(tDialog *dialog)
+{
+    if (input_key_down(E_G_KEY_RIGHT))
+    {
+        if (dialog_inc_option_value(dialog))
+            dialog_draw(dialog, buffer);
+    }
+    if (input_key_down(E_G_KEY_LEFT))
+    {
+        if (dialog_dec_option_value(dialog))
+            dialog_draw(dialog, buffer);
+    }
+    if (input_key_down(E_G_KEY_DOWN))
+    {
+        if (dialog_next_option(dialog))
+            dialog_draw(dialog, buffer);
+    }
+    if (input_key_down(E_G_KEY_UP))
+    {
+        if (dialog_prev_option(dialog))
+            dialog_draw(dialog, buffer);
+    }
 }
