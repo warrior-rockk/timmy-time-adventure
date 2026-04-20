@@ -22,6 +22,14 @@ enum E_GAME_TEXTS
     E_TXT_NUM,
 };
 
+//inits language system
 void lang_init();
+//destroys language system
+void lang_destroy();
+
+//loads a language file
+void lang_load(const char *langFileName, uint8_t langIndex);
+//gets text line from current lang
 char *lang_get_txt(int16_t txtIndex);
+
 #endif
