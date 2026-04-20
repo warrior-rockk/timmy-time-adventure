@@ -204,8 +204,8 @@ void game_update()
                 break;
                 case 1:
                     game_navigation_menu(&menuDialog);
-                    
-                    if (input_key_down(E_G_KEY_ACTION))
+
+                    if (input_key_down(E_G_KEY_ENTER))
                     {
                         if (menuDialog.optionSelected == 0)
                         {
@@ -564,6 +564,7 @@ void game_init()
     input_key_redefine(E_G_KEY_ACTION,  KEY_X);
     input_key_redefine(E_G_KEY_PAUSE,   KEY_SPACE);
     input_key_redefine(E_G_KEY_EXIT,    KEY_ESC);
+    input_key_redefine(E_G_KEY_ENTER,   KEY_ENTER);
     input_key_redefine(E_G_KEY_D,       KEY_D);
     input_key_redefine(E_G_KEY_S,       KEY_S);
     input_key_redefine(E_G_KEY_I,       KEY_I);

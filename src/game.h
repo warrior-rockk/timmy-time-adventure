@@ -100,6 +100,7 @@ enum E_GAME_KEYS
     E_G_KEY_ACTION,
     E_G_KEY_PAUSE,
     E_G_KEY_EXIT,
+    E_G_KEY_ENTER,
     E_G_KEY_D,
     E_G_KEY_S,
     E_G_KEY_I,
