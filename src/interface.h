@@ -42,7 +42,7 @@ typedef struct
     tDialogOption *option;                      //array of options objects
     uint8_t numOptions;                         //num of options of the dialog
     uint8_t optionSelected;                     //current selected option
-    uint8_t backgrounColor;                     //background color for dialog
+    uint8_t backgroundColor;                     //background color for dialog
     bool autoSize;                              //flag for adjusts the height automatically based on options
 } tDialog;
 

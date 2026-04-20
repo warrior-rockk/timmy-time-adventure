@@ -48,7 +48,7 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     //set drawing buffer for dialog oontainer
     dialog.drawContainer = create_bitmap(dialog.rect.size.x, dialog.rect.size.y);
     //set background color
-    dialog.backgrounColor = backgroundColor;
+    dialog.backgroundColor = backgroundColor;
     dialog.option = NULL;
     
     //returns dialog object
@@ -162,7 +162,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
 void dialog_draw_container(tDialog *dialog)
 {
     //clear container bitmap
-    clear_to_color(dialog->drawContainer, dialog->backgrounColor);
+    clear_to_color(dialog->drawContainer, dialog->backgroundColor);
     
     //draw corners
     draw_sprite(dialog->drawContainer, dialogTiles[0], 0, 0);                                                           //leftUp
