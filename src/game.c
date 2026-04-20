@@ -190,7 +190,7 @@ void game_update()
                 case 0:
                     testLang = 0;
                     volume = 50;
-                    menuDialog = dialog_create((tRectangle){(SCREEN_W >> 1) - 40, 100, 160, 64}, 3, true);
+                    menuDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 40, 100}, (tVector){160, 64}}, 3, true);
                     
                     dialog_add_option(&menuDialog, "PLAY", 63);
                     dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
