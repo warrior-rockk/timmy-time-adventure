@@ -2,6 +2,7 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
+- [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?
 - [ ] Debug teleport to next checkpoint? or mouse change position?
 - [ ] Item coins?

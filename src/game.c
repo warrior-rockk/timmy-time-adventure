@@ -25,6 +25,7 @@
 #include "sound.h"
 #include "resources.h"
 #include "interface.h"
+#include "lang.h"
 
 #include "data/gdata.h"
 #include "data/judata.h"
@@ -167,7 +168,7 @@ void game_update()
                     gameSeq.step++;                    
                 case 1:
                     textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "PRESS KEY TO START", SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
