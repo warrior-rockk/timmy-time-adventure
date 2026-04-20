@@ -191,12 +191,12 @@ void game_update()
                 case 0:
                     testLang = 0;
                     volume = 50;
-                    menuDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 40, 100}, (tVector){160, 64}}, 3, true);
+                    menuDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
-                    dialog_add_option(&menuDialog, "PLAY", 63);
-                    dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 63, &testLang);
-                    dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 63, &volume);
-                    dialog_add_option(&menuDialog, "EXIT", 63);
+                    dialog_add_option(&menuDialog, "PLAY", 31);
+                    dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 31, &testLang);
+                    dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 31, &volume);
+                    dialog_add_option(&menuDialog, "EXIT", 31);
 
                     dialog_draw(&menuDialog, buffer);
                     

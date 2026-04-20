@@ -154,7 +154,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
         //dialog->rect.size.x += interfaceSkin->h;
         dialog->rect.size.y += interfaceSkin->h;
         destroy_bitmap(dialog->drawContainer);
-        //set drawing buffer for dialog oontainer
+        //set drawing buffer for dialog container
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
 }
@@ -163,7 +163,7 @@ void dialog_draw_container(tDialog *dialog)
 {
     //clear container bitmap
     clear_to_color(dialog->drawContainer, dialog->backgrounColor);
-
+    
     //draw corners
     draw_sprite(dialog->drawContainer, dialogTiles[0], 0, 0);                                                           //leftUp
     draw_sprite(dialog->drawContainer, dialogTiles[1], 0, dialog->rect.size.y - interfaceSkin->h);                        //LeftDown
