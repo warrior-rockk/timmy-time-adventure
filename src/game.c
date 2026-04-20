@@ -207,6 +207,8 @@ void game_update()
 
                     if (input_key_down(E_G_KEY_ENTER))
                     {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+
                         if (menuDialog.optionSelected == 0)
                         {
                             game.state = E_GAME_ST_INIT;
@@ -217,6 +219,7 @@ void game_update()
                         {
                             game.state = E_GAME_ST_DESTROY_LEVEL;
                             gameSeq.step = 0;
+                            game.fadeOut = true;
                         }
                     }
                 break;
@@ -570,8 +573,10 @@ void game_init()
     input_key_redefine(E_G_KEY_I,       KEY_I);
 
     //load game sfx
-    gameSfx[E_SFX_GAME_POINT]       = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
-    gameSfx[E_SFX_GAME_POINT_END]   = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
+    gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
+    gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
+    gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
+    gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
 
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
@@ -900,21 +905,33 @@ static void game_navigation_menu(tDialog *dialog)
     if (input_key_down(E_G_KEY_RIGHT))
     {
         if (dialog_inc_option_value(dialog))
+        {
+            sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+        }
     }
     if (input_key_down(E_G_KEY_LEFT))
     {
         if (dialog_dec_option_value(dialog))
+        {
+            sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+        }
     }
     if (input_key_down(E_G_KEY_DOWN))
     {
         if (dialog_next_option(dialog))
+        {
+            sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+        }
     }
     if (input_key_down(E_G_KEY_UP))
     {
         if (dialog_prev_option(dialog))
+        {
+            sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+        }
     }
 }

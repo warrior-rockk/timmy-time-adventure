@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -139,6 +139,8 @@ enum E_GAME_SFX
 {
     E_SFX_GAME_POINT,
     E_SFX_GAME_POINT_END,
+    E_SFX_GAME_MENU_NAV,
+    E_SFX_GAME_MENU_SELECT,
     E_SFX_GAME_NUM,
 };
 
