@@ -5,19 +5,45 @@
 * Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
 #include <stdio.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <string.h>
 
+#include "utils.h"
 #include "lang.h"
 
 #define MAX_LINES 100
 
-uint8_t currentLang = E_LANG_ENG;
+uint8_t currentLang = E_LANG_ESP;
 char *texts[E_NUM_LANGS][E_TXT_NUM];
 
 void lang_init()
 {
     
+}
+
+void lang_load_mem(char *langBuffer, int langIndex) {
+    char line[256];
+    int row = 0;
+    int i = 0, j = 0;
+    
+    //Run the memory buffer
+    while (langBuffer[i] != '\0' && row < 100) {
+        
+        if (langBuffer[i] == '\n' || langBuffer[i] == '\r') {
+            
+            line[j] = '\0';
+            if (j > 0) { // avoid empty lines
+                texts[langIndex][row] = strdup(line);                
+                row++;
+            }
+            j = 0;
+            // Jump possible Windows \r\n
+            if (langBuffer[i] == '\r' && langBuffer[i+1] == '\n') i++;
+        } else {
+            line[j++] = langBuffer[i];            
+        }
+        i++;
+    }
 }
 
 void lang_load(const char *langFileName, uint8_t langIndex) {

@@ -622,8 +622,9 @@ void game_init()
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
 
-    lang_load("eng.txt", E_LANG_ENG);
-    lang_load("esp.txt", E_LANG_ESP);
+    //loads language texts
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
 }
 
 void game_draw()

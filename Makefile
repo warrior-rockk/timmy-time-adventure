@@ -92,7 +92,7 @@ directories:
 
 #generate dat files
 ${BUILD_DIR}bin/game.dat: $(wildcard ${RESOURCES_DIR}game/*)
-	${DAT} create $@ --bmp ${RESOURCES_DIR}game/*.bmp --wav ${RESOURCES_DIR}game/*.wav --midi ${RESOURCES_DIR}game/*.mid --pal-bmp ${RESOURCES_DIR}game/*.pal --h ${SRC_DIR}/data/gdata.h
+	${DAT} create $@ --bmp ${RESOURCES_DIR}game/*.bmp --wav ${RESOURCES_DIR}game/*.wav --midi ${RESOURCES_DIR}game/*.mid --pal-bmp ${RESOURCES_DIR}game/*.pal --data ${RESOURCES_DIR}game/*.txt --h ${SRC_DIR}/data/gdata.h
 
 ${BUILD_DIR}bin/coll.dat: $(wildcard ${RESOURCES_DIR}collisions/*)
 	${DAT} create $@ --bmp ${RESOURCES_DIR}collisions/*.bmp --wav ${RESOURCES_DIR}collisions/*.wav --midi ${RESOURCES_DIR}collisions/*.mid --pal-bmp ${RESOURCES_DIR}collisions/*.pal --h ${SRC_DIR}/data/cdata.h

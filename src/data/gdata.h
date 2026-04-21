@@ -11,3 +11,5 @@
 #define DOSCLUB_MID                   	10  	//MIDI
 #define WARCOM_MID                    	11  	//MIDI
 #define INTRO_PAL                     	12  	//PAL 
+#define ENG_TXT                       	13  	//DATA
+#define ESP_TXT                       	14  	//DATA
