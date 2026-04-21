@@ -167,8 +167,8 @@ void game_update()
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
-                    textout_centre_ex(buffer, gameFont, "DOS PLATFORM GAME", SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
@@ -194,10 +194,10 @@ void game_update()
                     volume = 50;
                     menuDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
-                    dialog_add_option(&menuDialog, "PLAY", 31);
-                    dialog_add_text_option(&menuDialog, "SOUND:", "SB;SPEAKER;OFF", 31, &testLang);
-                    dialog_add_num_option(&menuDialog, "VOLUME:", 0, 100, 31, &volume);
-                    dialog_add_option(&menuDialog, "EXIT", 31);
+                    dialog_add_option(&menuDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
+                    dialog_add_text_option(&menuDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
+                    dialog_add_num_option(&menuDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_option(&menuDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
 
                     dialog_draw(&menuDialog, buffer);
                     

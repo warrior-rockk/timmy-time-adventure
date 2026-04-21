@@ -13,7 +13,7 @@
 
 #define MAX_LINES 100
 
-uint8_t currentLang = E_LANG_ESP;
+uint8_t currentLang = E_LANG_ENG;
 char *texts[E_NUM_LANGS][E_TXT_NUM];
 
 void lang_init()
