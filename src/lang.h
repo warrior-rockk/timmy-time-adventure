@@ -32,6 +32,8 @@ enum E_GAME_TEXTS
 void lang_init();
 //destroys language system
 void lang_destroy();
+//set language
+void lang_set(uint8_t langIndex);
 
 //loads a language file
 void lang_load(const char *langFileName, uint8_t langIndex);

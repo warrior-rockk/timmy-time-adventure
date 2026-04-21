@@ -21,6 +21,11 @@ void lang_init()
     
 }
 
+void lang_set(uint8_t langIndex)
+{
+    currentLang = langIndex;
+}
+
 void lang_load_mem(char *langBuffer, int langIndex) {
     char line[256];
     int row = 0;

@@ -625,6 +625,7 @@ void game_init()
     //loads language texts
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    lang_set(E_LANG_ENG);
 }
 
 void game_draw()
