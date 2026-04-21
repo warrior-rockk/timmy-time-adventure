@@ -7,13 +7,11 @@
 #include <string.h>
 
 #include "allegro.h"
-
 #include "interface.h"
 
-//inteface skin loaded on init
-BITMAP *interfaceSkin;
-FONT *interfaceFont;
-BITMAP *dialogTiles[9];
+BITMAP *interfaceSkin;                          //inteface skin loaded on init
+FONT *interfaceFont;                            //interface font loaded on init
+BITMAP *dialogTiles[E_DIALOG_SKIN_NUM_TILES];     //tiles from skin to compose the dialog
 
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
 {
@@ -22,7 +20,7 @@ void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
     interfaceFont = _interfaceFont;
 
     //obtain dialog tiles
-    for (uint8_t i = 0; i < 9; i++)
+    for (uint8_t i = 0; i < E_DIALOG_SKIN_NUM_TILES; i++)
         dialogTiles[i] = create_sub_bitmap(interfaceSkin, i * interfaceSkin->h, 0, interfaceSkin->h, interfaceSkin->h);
 }
 
@@ -31,25 +29,24 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     //creates dialog object
     tDialog dialog;
 
-    //reset dialog data
+    //sets dialog data
     dialog.optionSelected = 0;
     dialog.numOptions = 0;
     dialog.autoSize = autoSize;
+    dialog.option = NULL;
+    dialog.backgroundColor = backgroundColor;
 
-    //set size
+    //sets size
     dialog.rect = dialogRect;
     if (autoSize)
     {
         //TODO: autoSize of x?
         //dialog.rect.size.x = interfaceSkin->h * 3;
-        dialog.rect.size.y = interfaceSkin->h * 4;
+        dialog.rect.size.y = interfaceSkin->h * 4;  //4 Y tiles minimun size
     }    
 
     //set drawing buffer for dialog oontainer
     dialog.drawContainer = create_bitmap(dialog.rect.size.x, dialog.rect.size.y);
-    //set background color
-    dialog.backgroundColor = backgroundColor;
-    dialog.option = NULL;
     
     //returns dialog object
     return dialog;
@@ -64,25 +61,25 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     //copies the data
     strcpy(dialog->option[dialog->numOptions].text, optionText);
     
-    //count values
-    dialog->option[dialog->numOptions].minValue = 0;
-    dialog->option[dialog->numOptions].maxValue = 0;
-    
     //init data
     dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = NULL;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NAVIGATION;
+    dialog->option[dialog->numOptions].minValue     = 0;
+    dialog->option[dialog->numOptions].maxValue     = 0;
+    
     //increases num options
     dialog->numOptions++;   
 
-    //resize container if resize active
+    //resize container if autoSize flag
     if (dialog->autoSize)
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
         dialog->rect.size.y += interfaceSkin->h;
-        destroy_bitmap(dialog->drawContainer);
+        
         //set drawing buffer for dialog oontainer
+        destroy_bitmap(dialog->drawContainer);
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
 }
@@ -98,19 +95,20 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     strcpy(dialog->option[dialog->numOptions].text, textOptions);
     strcpy(dialog->option[dialog->numOptions].strValues, strValues);
     
-    //count values
-    dialog->option[dialog->numOptions].minValue = 0;
-    dialog->option[dialog->numOptions].maxValue = 0;
-    for (uint8_t i = 0; strValues[i] != '\0'; i++)
-    {
-        if (strValues[i] == ';') 
-            dialog->option[dialog->numOptions].maxValue++;
-    }
-
     //init data
     dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = value;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXTLIST;
+    dialog->option[dialog->numOptions].minValue     = 0;
+    dialog->option[dialog->numOptions].maxValue     = 0;
+    
+    //calculate max value
+    for (uint8_t i = 0; strValues[i] != '\0'; i++)
+    {
+        if (strValues[i] == *(DIALOG_OPTIONS_DELIMITER)) 
+            dialog->option[dialog->numOptions].maxValue++;
+    }
+
     //increases num options
     dialog->numOptions++;   
 
@@ -120,8 +118,9 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
         dialog->rect.size.y += interfaceSkin->h;
-        destroy_bitmap(dialog->drawContainer);
+
         //set drawing buffer for dialog oontainer
+        destroy_bitmap(dialog->drawContainer);
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
 }
@@ -136,14 +135,13 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     strcpy(dialog->option[dialog->numOptions].text, textOptions);
     strcpy(dialog->option[dialog->numOptions].strValues, "");
 
-    //set value limits
-    dialog->option[dialog->numOptions].minValue = minValue;
-    dialog->option[dialog->numOptions].maxValue = maxValue;
-    
     //init data
-    dialog->option[dialog->numOptions].textColor = textColor;
-    dialog->option[dialog->numOptions].value     = value;
-    dialog->option[dialog->numOptions].type      = E_OPTION_TYPE_NUMERIC;
+    dialog->option[dialog->numOptions].textColor    = textColor;
+    dialog->option[dialog->numOptions].value        = value;
+    dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NUMERIC;
+    dialog->option[dialog->numOptions].minValue     = minValue;
+    dialog->option[dialog->numOptions].maxValue     = maxValue;
+    
     //increases num options
     dialog->numOptions++;   
 
@@ -153,8 +151,9 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
         dialog->rect.size.y += interfaceSkin->h;
-        destroy_bitmap(dialog->drawContainer);
+        
         //set drawing buffer for dialog container
+        destroy_bitmap(dialog->drawContainer);
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
 }
@@ -165,27 +164,23 @@ void dialog_draw_container(tDialog *dialog)
     clear_to_color(dialog->drawContainer, dialog->backgroundColor);
     
     //draw corners
-    draw_sprite(dialog->drawContainer, dialogTiles[0], 0, 0);                                                           //leftUp
-    draw_sprite(dialog->drawContainer, dialogTiles[1], 0, dialog->rect.size.y - interfaceSkin->h);                        //LeftDown
-    draw_sprite(dialog->drawContainer, dialogTiles[2], dialog->rect.size.x - interfaceSkin->h, 0);                        //RightUp
-    draw_sprite(dialog->drawContainer, dialogTiles[3], dialog->rect.size.x - interfaceSkin->h, dialog->rect.size.y - interfaceSkin->h);   //RightDown
+    draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CORNER_LEFT_UP], 0, 0);                                       
+    draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CORNER_LEFT_DOWN], 0, dialog->rect.size.y - interfaceSkin->h);
+    draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CORNER_RIGHT_UP], dialog->rect.size.x - interfaceSkin->h, 0);
+    draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CORNER_RIGHT_DOWN], dialog->rect.size.x - interfaceSkin->h, dialog->rect.size.y - interfaceSkin->h);
     
     //draw horizontal lines
     for (uint8_t i = 1; i < (dialog->rect.size.x / interfaceSkin->h) - 1; i++)
     {
-        //up
-        draw_sprite(dialog->drawContainer, dialogTiles[4], (i * interfaceSkin->h), 0);
-        //bottom
-        draw_sprite(dialog->drawContainer, dialogTiles[5], (i * interfaceSkin->h), dialog->rect.size.y - interfaceSkin->h);       
+        draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_H_LINE_UP], (i * interfaceSkin->h), 0);
+        draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_H_LINE_DOWN], (i * interfaceSkin->h), dialog->rect.size.y - interfaceSkin->h);       
     }
     
     //draw vertical lines
     for (uint8_t i = 1; i < (dialog->rect.size.y / interfaceSkin->h) - 1; i++)
     {
-        //up
-        draw_sprite(dialog->drawContainer, dialogTiles[6], 0, (i * interfaceSkin->h));
-        //bottom
-        draw_sprite(dialog->drawContainer, dialogTiles[7], dialog->rect.size.x - interfaceSkin->h, (i * interfaceSkin->h));       
+        draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_V_LINE_UP], 0, (i * interfaceSkin->h));
+        draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_V_LINE_DOWN], dialog->rect.size.x - interfaceSkin->h, (i * interfaceSkin->h));       
     }
 }
 
@@ -244,7 +239,7 @@ void dialog_draw_options(tDialog *dialog)
     }
     
     //draw cursor
-    draw_sprite(dialog->drawContainer, dialogTiles[8], interfaceSkin->h, interfaceSkin->h + DIALOG_TEXT_MARGIN_Y + (text_height(interfaceFont) * dialog->optionSelected) + DIALOG_SPACING_Y);
+    draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CURSOR], interfaceSkin->h, interfaceSkin->h + CURSOR_TEXT_OFFSET_Y + (text_height(interfaceFont) * dialog->optionSelected) + DIALOG_SPACING_Y);
 }
 
 void dialog_draw(tDialog *dialog, BITMAP *drawBuffer)

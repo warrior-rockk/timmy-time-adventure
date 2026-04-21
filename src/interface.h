@@ -8,15 +8,16 @@
 #ifndef _H_INTERFACE_
 #define _H_INTERFACE_
 
-#define DIALOG_SPACING_X            2
-#define DIALOG_SPACING_Y            2
-#define DIALOG_TEXT_MARGIN_Y        2
-
-#define DIALOG_OPTIONS_DELIMITER    ";"
-#define DIALOG_MAX_OPTION_LENGTH    50
-
 #include "utils.h"
 
+#define DIALOG_SPACING_X            2       //horizontal dialog spacing
+#define DIALOG_SPACING_Y            2       //vertical dialog spacing
+#define CURSOR_TEXT_OFFSET_Y        2       //vertical text offset to center cursor      
+
+#define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
+#define DIALOG_MAX_OPTION_LENGTH    50      //max char length of options
+
+//types of dialog option
 enum E_DIALOG_OPTION_TYPE
 {
     E_OPTION_TYPE_NAVIGATION,
@@ -24,6 +25,22 @@ enum E_DIALOG_OPTION_TYPE
     E_OPTION_TYPE_NUMERIC,
 };
 
+//tiles of dialog skin
+enum E_DIALOG_SKIN_TILES
+{
+    E_DIALOG_SKIN_TILE_CORNER_LEFT_UP,
+    E_DIALOG_SKIN_TILE_CORNER_LEFT_DOWN,
+    E_DIALOG_SKIN_TILE_CORNER_RIGHT_UP,
+    E_DIALOG_SKIN_TILE_CORNER_RIGHT_DOWN,
+    E_DIALOG_SKIN_TILE_H_LINE_UP,
+    E_DIALOG_SKIN_TILE_H_LINE_DOWN,
+    E_DIALOG_SKIN_TILE_V_LINE_UP,
+    E_DIALOG_SKIN_TILE_V_LINE_DOWN,
+    E_DIALOG_SKIN_TILE_CURSOR,
+    E_DIALOG_SKIN_NUM_TILES,
+};
+
+//dialog option struct
 typedef struct 
 {
     uint8_t type;                               //type of the option
@@ -35,6 +52,7 @@ typedef struct
     int16_t *value;                             //pointer to value data
 } tDialogOption;
 
+//dialog struct
 typedef struct
 {
     BITMAP *drawContainer;                      //dialog draw backbuffer
