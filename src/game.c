@@ -195,9 +195,11 @@ void game_update()
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
-                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
+                    //dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
+                    //dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
+                    
 
                     dialog_draw(&gameDialog, buffer);
                     
@@ -593,7 +595,8 @@ void game_init()
 
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
-    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    //TODO: translate texts to spanish
+    //lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
     lang_set(E_LANG_ENG);
 
     //load game sfx
