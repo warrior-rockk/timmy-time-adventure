@@ -16,7 +16,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -106,6 +106,8 @@ enum E_GAME_KEYS
     E_G_KEY_I,
     E_GAME_KEYS_NUM,
 };
+
+
 
 //refresh HUD
 enum E_REFRESH_HUD

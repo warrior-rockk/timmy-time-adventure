@@ -543,6 +543,9 @@ void game_init()
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear(buffer);
+    //initialize map bitmap
+    worldScreen = create_bitmap(GAME_W, GAME_H);
+    clear(worldScreen);
 
     //load hud image
     hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
@@ -552,13 +555,18 @@ void game_init()
     blit(hud.hudImg, hud.hudLifeOn, 65, 5, 0, 0, 15, 14);
     blit(hud.hudImg, hud.hudLifeOff, 99, 5, 0, 0, 15, 14);
 
-    entity_system_init();
-    collision_system_init();    
-    debug_init();
+    //init systems
+    #ifdef DEBUGMODE
+        debug_init();
+    #endif
     timer_init(GAME_CLOCK_TICK);
-    sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
+    lang_init();
+    entity_system_init();
+    collision_system_init();
     interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont);
-    input_keys_init(E_GAME_KEYS_NUM);
+    sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
+    input_keys_init(E_GAME_KEYS_NUM);    
+
     //default redefine keys
     input_key_redefine(E_G_KEY_UP,      KEY_UP);
     input_key_redefine(E_G_KEY_DOWN,    KEY_DOWN);
@@ -573,19 +581,18 @@ void game_init()
     input_key_redefine(E_G_KEY_S,       KEY_S);
     input_key_redefine(E_G_KEY_I,       KEY_I);
 
+    //loads language texts and set language by default
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    lang_set(E_LANG_ENG);
+
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
     gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
     gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
 
-    //initialize map bitmap
-    worldScreen = create_bitmap(GAME_W, GAME_H);
-
-    //initialize levels data
-    //levelData[E_GAME_LEVEL_TEST].mapFile        = "res/maps/level00.bin";
-    //levelData[E_GAME_LEVEL_TEST].tileFile       = "res/tiles/tsheet.bmp";
-    //levelData[E_GAME_LEVEL_TEST].musicFile      = NULL;            
+    //initialize levels data    
     levelData[E_GAME_LEVEL_JURASSIC].mapFile        = "jurassic.bin";
     levelData[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
     levelData[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
@@ -603,29 +610,30 @@ void game_init()
     levelData[E_GAME_LEVEL_MEDIEVAL].tileFileIndex  = MEDIEVAL_BMP;
     levelData[E_GAME_LEVEL_MEDIEVAL].palFileIndex   = MEDIEVAL_PAL;
     levelData[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
-        
+
+    //levelData[E_GAME_LEVEL_TEST].mapFile          = "res/maps/level00.bin";
+    //levelData[E_GAME_LEVEL_TEST].tileFile         = "res/tiles/tsheet.bmp";
+    //levelData[E_GAME_LEVEL_TEST].musicFile        = NULL;            
+    
+    //set inital game state
     #ifdef DEBUGMODE
         game.state      = DEBUG_INI_GAME_STATE;
     #else
         game.state      = E_GAME_ST_LOGO;
     #endif
+    
+    //initialize game flags
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
     game.actualLevel    = 0;
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
     game.fadeState      = E_FADED_IN;    
-    game.fadeOut        = true;
-    hud.refresh         = E_REFRESH_HUD_ALL;
+    game.fadeOut        = true;    
     game.viewMap        = false;
-
+    hud.refresh         = E_REFRESH_HUD_ALL;
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
-
-    //loads language texts
-    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
-    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
-    lang_set(E_LANG_ENG);
 }
 
 void game_draw()
