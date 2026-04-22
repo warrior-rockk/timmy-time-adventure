@@ -333,19 +333,31 @@ void game_update()
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
-            map_draw(worldScreen, false);
-            entities_draw(worldScreen);
-            map_draw(worldScreen, true);                    
-            game_hud_draw();           
-            
-            textprintf_centre_ex(worldScreen, gameFont, GAME_W >> 1, GAME_H >> 1,  WHITE_COLOR, BLACK_COLOR, "PAUSE");
-            
-            game_pause_sound();
-
-            if (input_key_down(E_G_KEY_PAUSE))
+            switch (gameSeq.step)
             {
-                game.state = E_GAME_ST_PLAY_LEVEL;
-                game_resume_sound();
+                case 0:
+                    /*map_draw(worldScreen, false);
+                    entities_draw(worldScreen);
+                    map_draw(worldScreen, true);                    
+                    game_hud_draw();           */
+            
+                    //textprintf_centre_ex(worldScreen, gameFont, GAME_W >> 1, GAME_H >> 1,  WHITE_COLOR, BLACK_COLOR, "PAUSE");                    
+                    menuDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 60, GAME_H >> 1}, (tVector){120, 0}}, 251, true);
+                    dialog_add_option(&menuDialog, "PAUSE", 31);
+                    dialog_draw(&menuDialog, worldScreen);
+
+                    game_pause_sound();
+                    
+                    gameSeq.step++;
+                break;
+                case 1:
+                    if (input_key_down(E_G_KEY_PAUSE))
+                    {
+                        gameSeq.step = 0;
+                        game.state = E_GAME_ST_PLAY_LEVEL;
+                        game_resume_sound();
+                    }
+                break;
             }
         break;
         case E_GAME_ST_LOSE_LIVE:

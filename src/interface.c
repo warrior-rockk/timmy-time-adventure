@@ -57,7 +57,7 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     {
         //TODO: autoSize of x?
         //dialog.rect.size.x = interfaceSkin->h * 3;
-        dialog.rect.size.y = interfaceSkin->h * 4;  //4 Y tiles minimun size
+        dialog.rect.size.y = interfaceSkin->h * 3;  //3 Y tiles minimun size: corner up+line+corner down
     }    
 
     //set drawing buffer for dialog oontainer
@@ -103,7 +103,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
         
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
@@ -144,7 +144,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
 
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
@@ -177,7 +177,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h;
+        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
         
         //set drawing buffer for dialog container
         destroy_bitmap(dialog->drawContainer);
