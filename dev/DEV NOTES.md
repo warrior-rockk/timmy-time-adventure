@@ -19,3 +19,19 @@ BUILD\DEBUG\BIN\
 				GAME.EXE
 				---.DAT
 				---.BIN
+
+# Menu structure
+## Main Menu
+	|--PLAY: go to play
+	|--OPTIONS
+		|--LANG: ENGLISH / ESPAÑOL
+		|--CONTROLS--
+					|--UP:
+					|--DOWN:
+					|--LEFT:
+					|--RIGHT:
+					|--ACTION:
+					+--JUMP:
+		|--SFX VOLUME: 0...100
+		+--MUSIC VOLUME: 0...100
+	+--EXIT: exit game
