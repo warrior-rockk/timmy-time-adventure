@@ -2,7 +2,6 @@
 - [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
-- [ ] Destroy dialog (not system)
 - [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?
 - [ ] Debug teleport to next checkpoint? or mouse change position?
@@ -19,6 +18,7 @@
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Change background color and fade to do sunset?
+- [X] Destroy dialog (not system)
 - [X] Translation text
 - [X] Level checkpoints
 - [X] Collision to border of screen

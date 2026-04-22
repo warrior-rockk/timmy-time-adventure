@@ -71,6 +71,9 @@ void interface_destroy();
 
 //creates a interface dialog with specified dimensions and position, background color and flag to autosize the height based on number of options
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
+//destroys dialog and free memory
+void dialog_destroy(tDialog *dialog);
+
 //adds option to specified dialog
 void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor);
 //adds a text list option to specified dialog

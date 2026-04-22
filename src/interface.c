@@ -67,6 +67,18 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     return dialog;
 }
 
+void dialog_destroy(tDialog *dialog)
+{
+    if (dialog->drawContainer)
+    {
+        destroy_bitmap(dialog->drawContainer);        
+    }
+    if (dialog->option)
+        free(dialog->option);
+
+    free(dialog);
+}
+
 void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor)
 {
     ASSERT(strlen(optionText) <= DIALOG_MAX_OPTION_LENGTH);

@@ -215,12 +215,14 @@ void game_update()
                             game.state = E_GAME_ST_INIT;
                             game.fadeOut = true;
                             gameSeq.step = 0;
+                            dialog_destroy(&menuDialog);
                         }
                         else if (menuDialog.optionSelected == 3)
                         {
                             game.state = E_GAME_ST_EXIT;
                             gameSeq.step = 0;
                             game.fadeOut = true;
+                            dialog_destroy(&menuDialog);
                         }
                     }
                 break;
