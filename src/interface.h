@@ -23,6 +23,7 @@ enum E_DIALOG_OPTION_TYPE
     E_OPTION_TYPE_NAVIGATION,
     E_OPTION_TYPE_TEXTLIST,
     E_OPTION_TYPE_NUMERIC,
+    E_OPTION_TYPE_TEXT,
 };
 
 //tiles of dialog skin
@@ -80,6 +81,8 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
 void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
 //adds a numeric option to specified dialog
 void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value);
+//adds text to dialog (no option)
+void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor);
 
 //increases selected option. Return true if not the end of options
 bool dialog_next_option(tDialog *dialog);

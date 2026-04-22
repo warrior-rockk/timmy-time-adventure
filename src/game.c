@@ -54,7 +54,7 @@ tSequence gameSeq;                  //game sequence
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
-tDialog menuDialog;                 //menu dialog object
+tDialog gameDialog;                 //game dialog object
 int16_t testLang;
 int16_t volume;
 
@@ -192,37 +192,37 @@ void game_update()
                 case 0:
                     testLang = 0;
                     volume = 50;
-                    menuDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
-                    dialog_add_option(&menuDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
-                    dialog_add_text_option(&menuDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
-                    dialog_add_num_option(&menuDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
-                    dialog_add_option(&menuDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
+                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
 
-                    dialog_draw(&menuDialog, buffer);
+                    dialog_draw(&gameDialog, buffer);
                     
                     gameSeq.step++;
                 break;
                 case 1:
-                    game_navigation_menu(&menuDialog);
+                    game_navigation_menu(&gameDialog);
 
                     if (input_key_down(E_G_KEY_ENTER))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
-                        if (menuDialog.optionSelected == 0)
+                        if (gameDialog.optionSelected == 0)
                         {
                             game.state = E_GAME_ST_INIT;
                             game.fadeOut = true;
                             gameSeq.step = 0;
-                            dialog_destroy(&menuDialog);
+                            dialog_destroy(&gameDialog);
                         }
-                        else if (menuDialog.optionSelected == 3)
+                        else if (gameDialog.optionSelected == 3)
                         {
                             game.state = E_GAME_ST_EXIT;
                             gameSeq.step = 0;
                             game.fadeOut = true;
-                            dialog_destroy(&menuDialog);
+                            dialog_destroy(&gameDialog);
                         }
                     }
                 break;
@@ -336,18 +336,13 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    /*map_draw(worldScreen, false);
-                    entities_draw(worldScreen);
-                    map_draw(worldScreen, true);                    
-                    game_hud_draw();           */
-            
-                    //textprintf_centre_ex(worldScreen, gameFont, GAME_W >> 1, GAME_H >> 1,  WHITE_COLOR, BLACK_COLOR, "PAUSE");                    
-                    menuDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 60, GAME_H >> 1}, (tVector){120, 0}}, 251, true);
-                    dialog_add_option(&menuDialog, "PAUSE", 31);
-                    dialog_draw(&menuDialog, worldScreen);
-
                     game_pause_sound();
-                    
+            
+                    //create pause dialog
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 40, GAME_H >> 1}, (tVector){80, 0}}, 251, true);
+                    dialog_add_text(&gameDialog, "PAUSE", 31);
+                    dialog_draw(&gameDialog, worldScreen);
+
                     gameSeq.step++;
                 break;
                 case 1:
@@ -355,6 +350,7 @@ void game_update()
                     {
                         gameSeq.step = 0;
                         game.state = E_GAME_ST_PLAY_LEVEL;
+                        dialog_destroy(&gameDialog);
                         game_resume_sound();
                     }
                 break;
