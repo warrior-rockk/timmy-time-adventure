@@ -7,14 +7,17 @@
 #ifndef _H_LANG_
 #define _H_LANG_
 
-#include "utils.h"
+#include <stdint.h>
 
 //inits language system
 void lang_init(uint8_t _numLangs, uint16_t _numTexts);
 //destroys language system
 void lang_destroy();
+
 //set language
 void lang_set(uint8_t langIndex);
+//get language
+uint8_t lang_get();
 
 //loads a language file
 void lang_load(const char *langFileName, uint8_t langIndex);

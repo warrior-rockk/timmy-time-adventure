@@ -218,7 +218,7 @@ void game_update()
                         }
                         else if (menuDialog.optionSelected == 3)
                         {
-                            game.state = E_GAME_ST_DESTROY_LEVEL;
+                            game.state = E_GAME_ST_EXIT;
                             gameSeq.step = 0;
                             game.fadeOut = true;
                         }
@@ -743,9 +743,11 @@ void game_destroy()
     MY_TRACE_FLAG("Destroying game\n");
     
     //free fonts
+    MY_TRACE_FLAG("\tDestroying font\n");
     destroy_font(gameFont);
     
     //free samples
+    MY_TRACE_FLAG("\tDestroying game sfx\n");
     for (uint8_t i = 0; i < E_SFX_GAME_NUM; i++)
     {
         if (gameSfx[i])
@@ -756,9 +758,13 @@ void game_destroy()
     }
 
     //destroy game data index
+    MY_TRACE_FLAG("\tDestroying gameDataIndex\n");
     destroy_dat_index(gameDataIndex);
 
+    MY_TRACE_FLAG("\tDestroying input key system\n");
     input_keys_destroy();
+    MY_TRACE_FLAG("\tDestroying language system\n");
+    lang_destroy();
 }
 
 static void game_do_fade()

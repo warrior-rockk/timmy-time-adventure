@@ -16,9 +16,9 @@
 - [ ] Title screen
 - [ ] Menus and options
 - [ ] Tutorial
-- [ ] Translation text
 - [ ] Loading screens? test on 86box
 - [ ] Change background color and fade to do sunset?
+- [X] Translation text
 - [X] Level checkpoints
 - [X] Collision to border of screen
 - [X] Entity destroy function pointer to unload entity resources

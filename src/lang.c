@@ -4,11 +4,10 @@
 * 20/04/2026
 * Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
+#include <stdlib.h>
 #include <stdio.h>
-//#include <stdlib.h>
 #include <string.h>
 
-#include "utils.h"
 #include "lang.h"
 
 #define MAX_LINES 100
@@ -33,9 +32,24 @@ void lang_init(uint8_t _numLangs, uint16_t _numTexts)
     numTexts = _numTexts;
 }
 
+void lang_destroy() {
+    for (int i = 0; i < numLangs; i++) {
+        for (int j = 0; j < numTexts; j++) {
+            free(texts[i][j]);//free string
+        }
+        free(texts[i]); //free texts array
+    }
+    free(texts); //free language array
+}
+
 void lang_set(uint8_t langIndex)
 {
     currentLang = langIndex;
+}
+
+uint8_t lang_get()
+{
+    return currentLang;
 }
 
 void lang_load_mem(char *langBuffer, int langIndex) {
@@ -84,14 +98,4 @@ void lang_load(const char *langFileName, uint8_t langIndex) {
 char *lang_get_txt(int16_t txtIndex)
 {
     return texts[currentLang][txtIndex];
-}
-
-void lang_destroy() {
-    for (int i = 0; i < numLangs; i++) {
-        for (int f = 0; f < MAX_LINES; f++) {
-            if (texts[i][f] != NULL) {
-                free(texts[i][f]);
-            }
-        }
-    }
 }
