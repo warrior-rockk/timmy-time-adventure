@@ -35,3 +35,18 @@ BUILD\DEBUG\BIN\
 		|--SFX VOLUME: 0...100
 		+--MUSIC VOLUME: 0...100
 	+--EXIT: exit game
+## In-game menu
+	|--CONTINUE: go to play
+	|--OPTIONS
+		|--LANG: ENGLISH / ESPAÑOL
+		|--CONTROLS--
+					|--UP:
+					|--DOWN:
+					|--LEFT:
+					|--RIGHT:
+					|--ACTION:
+					+--JUMP:
+		|--SFX VOLUME: 0...100
+		+--MUSIC VOLUME: 0...100
+	|--EXIT TO TITLE: exit to tile
+	+--EXIT TO DOS: exit game
