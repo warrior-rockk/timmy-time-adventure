@@ -745,6 +745,7 @@ void game_destroy()
     //free fonts
     MY_TRACE_FLAG("\tDestroying font\n");
     destroy_font(gameFont);
+    gameFont = NULL;
     
     //free samples
     MY_TRACE_FLAG("\tDestroying game sfx\n");
@@ -765,6 +766,8 @@ void game_destroy()
     input_keys_destroy();
     MY_TRACE_FLAG("\tDestroying language system\n");
     lang_destroy();
+    MY_TRACE_FLAG("\tDestroying interface system\n");
+    interface_destroy();
 }
 
 static void game_do_fade()

@@ -9,9 +9,9 @@
 #include "allegro.h"
 #include "interface.h"
 
-BITMAP *interfaceSkin;                          //inteface skin loaded on init
-FONT *interfaceFont;                            //interface font loaded on init
-BITMAP *dialogTiles[E_DIALOG_SKIN_NUM_TILES];     //tiles from skin to compose the dialog
+BITMAP *interfaceSkin;                              //interface skin loaded on init
+FONT *interfaceFont;                                //interface font loaded on init
+BITMAP *dialogTiles[E_DIALOG_SKIN_NUM_TILES];       //tiles from skin to compose the dialog
 
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
 {
@@ -22,6 +22,21 @@ void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont)
     //obtain dialog tiles
     for (uint8_t i = 0; i < E_DIALOG_SKIN_NUM_TILES; i++)
         dialogTiles[i] = create_sub_bitmap(interfaceSkin, i * interfaceSkin->h, 0, interfaceSkin->h, interfaceSkin->h);
+}
+
+void interface_destroy()
+{
+    //free interface tiles
+    for (uint8_t i = 0; i < E_DIALOG_SKIN_NUM_TILES; i++)
+        free(dialogTiles[i]);
+    //destroy skin bitmap
+    if (interfaceSkin)
+        destroy_bitmap(interfaceSkin);
+    //destroy skin font
+    interfaceFont = NULL;        
+    
+    //TODO:free allocated memory: do this on dialog_destroy of each object
+
 }
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize)
