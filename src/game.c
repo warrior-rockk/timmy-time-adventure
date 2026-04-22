@@ -560,7 +560,7 @@ void game_init()
         debug_init();
     #endif
     timer_init(GAME_CLOCK_TICK);
-    lang_init();
+    lang_init(E_NUM_LANGS, E_TXT_NUM);
     entity_system_init();
     collision_system_init();
     interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont);

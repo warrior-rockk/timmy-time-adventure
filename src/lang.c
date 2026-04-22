@@ -13,12 +13,24 @@
 
 #define MAX_LINES 100
 
-uint8_t currentLang = E_LANG_ENG;
-char *texts[E_NUM_LANGS][E_TXT_NUM];
+static uint8_t numLangs;                    //number of initialized languages
+static uint16_t numTexts;                   //number of initialized texts
+static uint8_t currentLang;                 //current language
+static char ***texts;                       //dynamic array of texts[LANG][TXT_NUM]
 
-void lang_init()
+void lang_init(uint8_t _numLangs, uint16_t _numTexts)
 {
+    //memory reservation for each language    
+    texts = (char ***)malloc(_numLangs * sizeof(char **)); 
     
+    //for each language, text num memory reservation
+    for (int i = 0; i < _numLangs; i++) {        
+        texts[i] = (char **)malloc(_numTexts * sizeof(char *));       
+    }
+
+    //store data
+    numLangs = _numLangs;
+    numTexts = _numTexts;
 }
 
 void lang_set(uint8_t langIndex)
@@ -38,7 +50,7 @@ void lang_load_mem(char *langBuffer, int langIndex) {
             
             line[j] = '\0';
             if (j > 0) { // avoid empty lines
-                texts[langIndex][row] = strdup(line);                
+                texts[langIndex][row] = strdup(line); 
                 row++;
             }
             j = 0;
@@ -75,7 +87,7 @@ char *lang_get_txt(int16_t txtIndex)
 }
 
 void lang_destroy() {
-    for (int i = 0; i < E_NUM_LANGS; i++) {
+    for (int i = 0; i < numLangs; i++) {
         for (int f = 0; f < MAX_LINES; f++) {
             if (texts[i][f] != NULL) {
                 free(texts[i][f]);

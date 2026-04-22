@@ -9,27 +9,8 @@
 
 #include "utils.h"
 
-enum E_LANGUAGES
-{    
-    E_LANG_ENG,
-    E_LANG_ESP,
-    E_NUM_LANGS,
-};
-
-enum E_GAME_TEXTS
-{
-    E_TXT_GAME_TITLE,
-    E_TXT_PRESS_TO_START,
-    E_TXT_MENU_PLAY,
-    E_TXT_MENU_SOUND,
-    E_TXT_MENU_SOUND_OPTIONS,
-    E_TXT_MENU_VOLUME,
-    E_TXT_MENU_EXIT,
-    E_TXT_NUM,
-};
-
 //inits language system
-void lang_init();
+void lang_init(uint8_t _numLangs, uint16_t _numTexts);
 //destroys language system
 void lang_destroy();
 //set language

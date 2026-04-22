@@ -107,7 +107,24 @@ enum E_GAME_KEYS
     E_GAME_KEYS_NUM,
 };
 
+enum E_GAME_TEXTS
+{
+    E_TXT_GAME_TITLE,
+    E_TXT_PRESS_TO_START,
+    E_TXT_MENU_PLAY,
+    E_TXT_MENU_SOUND,
+    E_TXT_MENU_SOUND_OPTIONS,
+    E_TXT_MENU_VOLUME,
+    E_TXT_MENU_EXIT,
+    E_TXT_NUM,
+};
 
+enum E_TEXT_LANGUAGES
+{    
+    E_LANG_ENG,
+    E_LANG_ESP,
+    E_NUM_LANGS,
+};
 
 //refresh HUD
 enum E_REFRESH_HUD
