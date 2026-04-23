@@ -91,6 +91,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NAVIGATION;
     dialog->option[dialog->numOptions].minValue     = 0;
     dialog->option[dialog->numOptions].maxValue     = 0;
+    dialog->option[dialog->numOptions].inc          = 1;
     
     //increases num options
     dialog->numOptions++;   
@@ -125,6 +126,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXTLIST;
     dialog->option[dialog->numOptions].minValue     = 0;
     dialog->option[dialog->numOptions].maxValue     = 0;
+    dialog->option[dialog->numOptions].inc          = 1;
     
     //calculate max value
     for (uint8_t i = 0; strValues[i] != '\0'; i++)
@@ -149,7 +151,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     }
 }
 
-void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value)
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value, uint8_t inc)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     
@@ -165,6 +167,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NUMERIC;
     dialog->option[dialog->numOptions].minValue     = minValue;
     dialog->option[dialog->numOptions].maxValue     = maxValue;
+    dialog->option[dialog->numOptions].inc          = inc;
     
     //increases num options
     dialog->numOptions++;   
@@ -197,6 +200,7 @@ void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXT;
     dialog->option[dialog->numOptions].minValue     = 0;
     dialog->option[dialog->numOptions].maxValue     = 0;
+    dialog->option[dialog->numOptions].inc          = 1;
     
     //increases num options
     dialog->numOptions++;   
@@ -321,7 +325,7 @@ bool dialog_inc_option_value(tDialog *dialog)
     {
         if (*(dialog->option[dialog->optionSelected].value) < dialog->option[dialog->optionSelected].maxValue)
         {
-            *(dialog->option[dialog->optionSelected].value) += 1;   
+            *(dialog->option[dialog->optionSelected].value) = *(dialog->option[dialog->optionSelected].value) + dialog->option[dialog->optionSelected].inc > dialog->option[dialog->optionSelected].maxValue ? dialog->option[dialog->optionSelected].maxValue : *(dialog->option[dialog->optionSelected].value) + dialog->option[dialog->optionSelected].inc;
             return true;
         }
         else
@@ -337,7 +341,7 @@ bool dialog_dec_option_value(tDialog *dialog)
     {
         if (*(dialog->option[dialog->optionSelected].value) > dialog->option[dialog->optionSelected].minValue)
         {
-            *(dialog->option[dialog->optionSelected].value) -= 1;
+            *(dialog->option[dialog->optionSelected].value) = *(dialog->option[dialog->optionSelected].value) - dialog->option[dialog->optionSelected].inc < dialog->option[dialog->optionSelected].minValue ? dialog->option[dialog->optionSelected].minValue : *(dialog->option[dialog->optionSelected].value) - dialog->option[dialog->optionSelected].inc;
             return true;
         }
         else

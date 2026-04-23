@@ -247,8 +247,8 @@ void game_update()
                     
                     dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &gameConfig.lang);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, 31, &gameConfig.sfxVolume);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, 31, &gameConfig.musicVolume);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, 31, &gameConfig.sfxVolume, 10);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, 31, &gameConfig.musicVolume, 10);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
                     
                     dialog_draw(&gameDialog, buffer);
