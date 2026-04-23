@@ -179,6 +179,7 @@ void game_update()
                         else
                         {
                             game.state = E_GAME_ST_MAIN_MENU;
+                            clear(buffer);
                         }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
@@ -189,9 +190,11 @@ void game_update()
         case E_GAME_ST_MAIN_MENU:
             switch (gameSeq.step)
             {
-                case 0:
+                case 0:                    
                     testLang = 0;
                     volume = 50;
+                    
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
@@ -265,7 +268,8 @@ void game_update()
                             case 4: //EXIT
                                 game.state = E_GAME_ST_MAIN_MENU;
                                 gameSeq.step = 0;                                
-                                dialog_destroy(&gameDialog);                                
+                                dialog_destroy(&gameDialog);             
+                                clear(buffer);                   
                             break;
                         }
                     }
