@@ -15,7 +15,7 @@
 * Jurassic level:       res/levels/jurassic/.bmp *.mid  -> LVLJU.DAT
 				        dev/maps/jurassic.tmx 		    -> LVLJU.BIN
 # Build structure				 
-BUILD\DEBUG\BIN\
+	BUILD\DEBUG\BIN\
 				GAME.EXE
 				---.DAT
 				---.BIN
