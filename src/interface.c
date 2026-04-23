@@ -100,7 +100,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
+        dialog->rect.size.y += (interfaceSkin->h * 2);
         
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
@@ -141,7 +141,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
+        dialog->rect.size.y += (interfaceSkin->h * 2);
 
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
@@ -174,7 +174,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
+        dialog->rect.size.y += (interfaceSkin->h * 2);
         
         //set drawing buffer for dialog container
         destroy_bitmap(dialog->drawContainer);
@@ -206,7 +206,7 @@ void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += interfaceSkin->h + DIALOG_SPACING_Y;
+        dialog->rect.size.y += (interfaceSkin->h * 2) + DIALOG_SPACING_Y;
         
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
@@ -250,7 +250,7 @@ void dialog_draw_options(tDialog *dialog)
     bool drawCursor = false;
 
     //sets the initial Y text position
-    posY = interfaceSkin->h;
+    posY = interfaceSkin->h + DIALOG_SPACING_Y;
 
     for (uint8_t i = 0; i < dialog->numOptions; i++)
     {
@@ -259,7 +259,7 @@ void dialog_draw_options(tDialog *dialog)
         {
             case E_OPTION_TYPE_NAVIGATION:
                 //print text option
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXTLIST:
@@ -284,17 +284,17 @@ void dialog_draw_options(tDialog *dialog)
                 }
 
                 //print text option and value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %s", dialog->option[i].text, valueStrSelected);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_NUMERIC:
                 //print text option and numeric value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXT:
                 //print text
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY + DIALOG_SPACING_Y, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
             break;
         }
 

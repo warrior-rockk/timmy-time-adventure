@@ -11,7 +11,7 @@
 #include "utils.h"
 
 #define DIALOG_SPACING_X            2       //horizontal dialog spacing
-#define DIALOG_SPACING_Y            2       //vertical dialog spacing
+#define DIALOG_SPACING_Y            4       //vertical dialog spacing
 #define CURSOR_TEXT_OFFSET_Y        2       //vertical text offset to center cursor      
 
 #define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
