@@ -50,7 +50,7 @@ typedef struct
     int16_t minValue;                           //minimun value
     int16_t maxValue;                           //maximum value
     uint8_t textColor;                          //text color for option
-    int16_t *value;                             //pointer to value data
+    uint8_t *value;                             //pointer to value data
 } tDialogOption;
 
 //dialog struct
@@ -78,9 +78,9 @@ void dialog_destroy(tDialog *dialog);
 //adds option to specified dialog
 void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor);
 //adds a text list option to specified dialog
-void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value);
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, uint8_t *value);
 //adds a numeric option to specified dialog
-void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value);
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value);
 //adds text to dialog (no option)
 void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor);
 

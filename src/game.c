@@ -70,6 +70,13 @@ struct hud
     uint8_t refresh;     
 } hud;
 
+struct gameConfig
+{
+    uint8_t lang;
+    uint8_t sfxVolume;
+    uint8_t musicVolume;
+} gameConfig;
+
 static void game_load_level(uint8_t numLevel);
 static void game_destroy_level();
 static void game_do_fade();
@@ -78,7 +85,7 @@ static void game_resume_sound();
 static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
-static void game_navigation_menu(tDialog *dialog);
+static bool game_navigation_menu(tDialog *dialog);
 #ifdef DEBUGMODE
 static void game_debug_update();
 static void game_debug_info();
@@ -246,10 +253,10 @@ void game_update()
                     clear(buffer);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 10}, (tVector){120, 0}}, 251, true);
                     
-                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &testLang);
+                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &gameConfig.lang);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 100, 31, &volume);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, 31, &gameConfig.sfxVolume);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, 31, &gameConfig.musicVolume);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
                     
                     dialog_draw(&gameDialog, buffer);
@@ -257,7 +264,13 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    game_navigation_menu(&gameDialog);
+                    if (game_navigation_menu(&gameDialog))
+                    {
+                        //TODO: check if lang changes
+                        lang_set(gameConfig.lang);
+                        gameSeq.step--;
+                        dialog_destroy(&gameDialog);
+                    }
 
                     if (input_key_down(E_G_KEY_ENTER))
                     {
@@ -587,6 +600,11 @@ static void game_destroy_level()
 void game_init()
 {
     MY_TRACE_FLAG( "Init game\n");
+    
+    //default game config
+    gameConfig.lang = E_LANG_ENG;    
+    gameConfig.sfxVolume = 200;
+    gameConfig.musicVolume = 200;
 
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
@@ -642,7 +660,7 @@ void game_init()
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
-    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ESP);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
     lang_set(E_LANG_ENG);
 
     //load game sfx
@@ -981,15 +999,18 @@ static void game_resume_sound()
     music_resume();
 }
 
-//process navigation dialog menu trought game controls
-static void game_navigation_menu(tDialog *dialog)
+//process navigation dialog menu trought game controls. Return true if value changes
+static bool game_navigation_menu(tDialog *dialog)
 {
+    bool changedValue = false;
+
     if (input_key_down(E_G_KEY_RIGHT))
     {
         if (dialog_inc_option_value(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+            changedValue = true;
         }
     }
     if (input_key_down(E_G_KEY_LEFT))
@@ -998,6 +1019,7 @@ static void game_navigation_menu(tDialog *dialog)
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, buffer);
+            changedValue = true;
         }
     }
     if (input_key_down(E_G_KEY_DOWN))
@@ -1016,4 +1038,6 @@ static void game_navigation_menu(tDialog *dialog)
             dialog_draw(dialog, buffer);
         }
     }
+
+    return changedValue;
 }

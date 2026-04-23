@@ -108,7 +108,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     }
 }
 
-void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, int16_t *value)
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, uint8_t *value)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
@@ -149,7 +149,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     }
 }
 
-void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, int16_t *value)
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     
