@@ -212,19 +212,20 @@ void game_update()
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
-                        if (gameDialog.optionSelected == 0)
+                        switch (gameDialog.optionSelected)
                         {
-                            game.state = E_GAME_ST_INIT;
-                            game.fadeOut = true;
-                            gameSeq.step = 0;
-                            dialog_destroy(&gameDialog);
-                        }
-                        else if (gameDialog.optionSelected == 3)
-                        {
-                            game.state = E_GAME_ST_EXIT;
-                            gameSeq.step = 0;
-                            game.fadeOut = true;
-                            dialog_destroy(&gameDialog);
+                            case 0: //PLAY
+                                game.state = E_GAME_ST_INIT;
+                                game.fadeOut = true;
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);
+                            break;
+                            case 2: //EXIT
+                                game.state = E_GAME_ST_EXIT;
+                                gameSeq.step = 0;
+                                game.fadeOut = true;
+                                dialog_destroy(&gameDialog);
+                            break;
                         }
                     }
                 break;
