@@ -127,6 +127,12 @@ void music_seek(int position)
         ;//pc_speaker_seek_song(position);
 }
 
+void music_set_volume(uint8_t volume)
+{
+    set_hardware_volume(-1, volume);
+    set_volume(-1, volume);
+}
+
 void sfx_init(SAMPLE *initSample, uint8_t numVoices)
 {
     //allocate sfx array
@@ -391,4 +397,10 @@ void sfx_voice_reallocate(SAMPLE* sampleFile, uint8_t voice)
 void sfx_voice_set_position(uint8_t voice, int position)
 {
     voice_set_position(voice, position);
+}
+
+void sfx_set_volume(uint8_t volume)
+{
+    set_hardware_volume(volume, -1);
+    set_volume(volume, -1);
 }

@@ -50,6 +50,8 @@ void music_resume();
 long music_get_pos();
 //seeks music to position
 void music_seek(int position);
+//sets music volume
+void music_set_volume(uint8_t volume);
 
 //inits sfx system. Uses any sample file to preallocate voices
 void sfx_init(SAMPLE *initSample, uint8_t numVoices);
@@ -77,6 +79,9 @@ bool sfx_voice_is_playing(uint8_t voice);
 bool sfx_voice_finished(uint8_t voice);
 //clear sfx finished flag
 void sfx_voice_clear_finished(uint8_t voice);
+//sets sfx volume
+void sfx_set_volume(uint8_t volume);
+
 //int sfx_get_voice_sample_id(uint8_t voice);
 
 //reallocate sfx voice

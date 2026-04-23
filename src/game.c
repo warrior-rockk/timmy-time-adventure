@@ -55,8 +55,6 @@ tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
 tDialog gameDialog;                 //game dialog object
-int16_t testLang;
-int16_t volume;
 
 struct hud
 {
@@ -198,18 +196,12 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:                    
-                    testLang = 0;
-                    volume = 50;
-                    
                     textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
                     
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
-                    //dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_SOUND), lang_get_txt(E_TXT_MENU_SOUND_OPTIONS), 31, &testLang);
-                    //dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_VOLUME), 0, 100, 31, &volume);
-                    
 
                     dialog_draw(&gameDialog, buffer);
                     
@@ -264,12 +256,24 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
+                    //if option changed
                     if (game_navigation_menu(&gameDialog))
                     {
-                        //TODO: check if lang changes
-                        lang_set(gameConfig.lang);
-                        gameSeq.step--;
-                        dialog_destroy(&gameDialog);
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 0: //lang                                
+                                lang_set(gameConfig.lang);
+                                //recreate dialog
+                                dialog_destroy(&gameDialog);
+                                gameSeq.step--;
+                            break;
+                            case 2: //sfx volume
+                                sfx_set_volume(gameConfig.sfxVolume);
+                            break;
+                            case 3: //music volume                                
+                                music_set_volume(gameConfig.musicVolume);                                
+                            break;
+                        }
                     }
 
                     if (input_key_down(E_G_KEY_ENTER))
@@ -603,8 +607,12 @@ void game_init()
     
     //default game config
     gameConfig.lang = E_LANG_ENG;    
-    gameConfig.sfxVolume = 200;
-    gameConfig.musicVolume = 200;
+    gameConfig.sfxVolume = 255;
+    gameConfig.musicVolume = 255;
+    
+    //set config volumes
+    sfx_set_volume(gameConfig.sfxVolume);
+    music_set_volume(gameConfig.sfxVolume);
 
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
@@ -661,7 +669,7 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
-    lang_set(E_LANG_ENG);
+    lang_set(E_LANG_ENG);    
 
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
