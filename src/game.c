@@ -220,10 +220,51 @@ void game_update()
                                 gameSeq.step = 0;
                                 dialog_destroy(&gameDialog);
                             break;
+                            case 1: //OPTIONS
+                                game.state = E_GAME_ST_OPTIONS_MENU;
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);
+                            break;
                             case 2: //EXIT
                                 game.state = E_GAME_ST_EXIT;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
+                                dialog_destroy(&gameDialog);
+                            break;
+                        }
+                    }
+                break;
+            }    
+        break;
+        case E_GAME_ST_OPTIONS_MENU:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    clear(buffer);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 10}, (tVector){120, 0}}, 251, true);
+                    
+                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &testLang);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 100, 31, &volume);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
+                    
+                    dialog_draw(&gameDialog, buffer);
+                    
+                    gameSeq.step++;
+                break;
+                case 1:
+                    game_navigation_menu(&gameDialog);
+
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 4: //EXIT
+                                game.state = E_GAME_ST_MAIN_MENU;
+                                gameSeq.step = 0;
                                 dialog_destroy(&gameDialog);
                             break;
                         }
