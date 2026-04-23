@@ -34,9 +34,6 @@ void interface_destroy()
         destroy_bitmap(interfaceSkin);
     //destroy skin font
     interfaceFont = NULL;        
-    
-    //TODO:free allocated memory: do this on dialog_destroy of each object
-
 }
 
 tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize)
@@ -69,14 +66,14 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
 
 void dialog_destroy(tDialog *dialog)
 {
+    //free container bitmap
     if (dialog->drawContainer)
     {
         destroy_bitmap(dialog->drawContainer);        
     }
+    //free allocated memory for options
     if (dialog->option)
         free(dialog->option);
-
-    free(dialog);
 }
 
 void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor)

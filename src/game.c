@@ -229,7 +229,7 @@ void game_update()
                                 game.state = E_GAME_ST_EXIT;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
-                                dialog_destroy(&gameDialog);
+                                dialog_destroy(&gameDialog);                                
                             break;
                         }
                     }
@@ -264,8 +264,8 @@ void game_update()
                         {
                             case 4: //EXIT
                                 game.state = E_GAME_ST_MAIN_MENU;
-                                gameSeq.step = 0;
-                                dialog_destroy(&gameDialog);
+                                gameSeq.step = 0;                                
+                                dialog_destroy(&gameDialog);                                
                             break;
                         }
                     }
@@ -638,7 +638,7 @@ void game_init()
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
-    //lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ESP);
     lang_set(E_LANG_ENG);
 
     //load game sfx

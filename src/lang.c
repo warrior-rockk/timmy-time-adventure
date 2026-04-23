@@ -35,7 +35,7 @@ void lang_init(uint8_t _numLangs, uint16_t _numTexts)
 void lang_destroy() {
     for (int i = 0; i < numLangs; i++) {
         for (int j = 0; j < numTexts; j++) {
-            free(texts[i][j]);//free string
+                free(texts[i][j]);//free string
         }
         free(texts[i]); //free texts array
     }
