@@ -411,7 +411,7 @@ void game_update()
             
                     //create pause dialog
                     gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 40, GAME_H >> 1}, (tVector){80, 0}}, 251, true);
-                    dialog_add_text(&gameDialog, "PAUSE", 31);
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE), 31);
                     dialog_draw(&gameDialog, worldScreen);
 
                     gameSeq.step++;
@@ -886,10 +886,10 @@ void game_hud_init()
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
 
-    textout_centre_ex(buffer, gameFont, "LIVES",   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
-    textout_centre_ex(buffer, gameFont, "LIFE",    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
-    textout_centre_ex(buffer, gameFont, "SCORE",   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
-    textout_centre_ex(buffer, gameFont, "TIME",    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, WHITE_COLOR, -1);
+    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_LIVES),   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_LIFE),    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_SCORE),   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_TIME),    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
 
     textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, WHITE_COLOR, -1);
 
