@@ -159,8 +159,9 @@ void game_update()
                     {
                         game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
-                        gameSeq.step = 0;
+                        gameSeq.step = 0;                        
                         game.fadeOut = true;
+                        gamePal = load_dat_pal_indexed(gameDataIndex, HUD_PAL);                    
                         music_stop();
                     }                    
                 break;
@@ -170,8 +171,8 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    gamePal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);                    
-                    clear(buffer);                    
+                    
+                    clear_to_color(buffer, 1);                    
                     game.fadeIn = true;
                     gameSeq.step++;                    
                 case 1:
@@ -200,7 +201,7 @@ void game_update()
             {
                 case 0:                    
                     textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 251, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 1, true);
                     
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), 31);
@@ -410,8 +411,8 @@ void game_update()
                     game_pause_sound();
             
                     //create pause dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 40, GAME_H >> 1}, (tVector){80, 0}}, 251, true);
-                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE), 31);
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 40, GAME_H >> 1}, (tVector){80, 0}}, 1, true);
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE), 63);
                     dialog_draw(&gameDialog, worldScreen);
 
                     gameSeq.step++;
