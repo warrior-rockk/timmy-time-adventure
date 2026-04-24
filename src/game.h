@@ -198,16 +198,16 @@ typedef struct
 
 //options for debug mode
 #ifdef DEBUGMODE
-#define DEBUG_TRACE_CREATE_ENTITIES     0
-#define DEBUG_TRACE_ENTITIES            0
-#define DEBUG_TRACE_COLL_POINTS_ARRAY   0
-#define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE
-typedef struct
-{
-    uint8_t showDebugInfo; 
-    uint8_t stepByStep;
-    uint8_t invencible;
-} tDebugOptions;
+    #define DEBUG_TRACE_CREATE_ENTITIES     0
+    #define DEBUG_TRACE_ENTITIES            0
+    #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    typedef struct
+    {
+        uint8_t showDebugInfo; 
+        uint8_t stepByStep;
+        uint8_t invencible;
+    } tDebugOptions;
 #endif
 
 typedef struct

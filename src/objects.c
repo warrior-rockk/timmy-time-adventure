@@ -98,6 +98,13 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);                    
+        case E_ROCK_3_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK3_BMP);
+            entity->img = objectResources[E_ROCK_3_OBJECT_TYPE];
+            entity->spriteSize = (tVector){17, 16};
+            entity->size = (tVector){16, 16};      
+            collision_create_entity_points(entity);     
+            entity->properties = E_ENT_PROP_NO_BREAKABLE;                   
         break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
