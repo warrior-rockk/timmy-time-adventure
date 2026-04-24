@@ -260,8 +260,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 this->state = E_SOLID_ST_THROWING;
             }
         break;
-        case E_SOLID_ST_THROWING:            
-            CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
+        case E_SOLID_ST_THROWING:                        
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    
@@ -323,6 +322,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;                                            
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
             //play break animation
             if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
             {
