@@ -202,7 +202,7 @@ void game_update()
                 case 0:                    
                     textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 1, true);
-                    
+                    TRACE("size x: %i\n", gameDialog.rect.size.x);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), 31);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
@@ -247,7 +247,7 @@ void game_update()
             {
                 case 0:
                     clear(buffer);
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 10}, (tVector){132, 0}}, 251, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, 251, true);
                     
                     dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &gameConfig.lang);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
@@ -411,7 +411,7 @@ void game_update()
                     game_pause_sound();
             
                     //create pause dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 40, GAME_H >> 1}, (tVector){80, 0}}, 1, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 30, GAME_H >> 1}, (tVector){60, 0}}, 1, true);
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE), 63);
                     dialog_draw(&gameDialog, worldScreen);
 

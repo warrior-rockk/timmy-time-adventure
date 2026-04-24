@@ -50,6 +50,8 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
 
     //sets size
     dialog.rect = dialogRect;
+    //fix x size to be multiple of skin tile size
+    dialog.rect.size.x = (dialog.rect.size.x % interfaceSkin->h) ? (dialog.rect.size.x / interfaceSkin->h) * interfaceSkin->h: dialog.rect.size.x;
     if (autoSize)
     {
         //TODO: autoSize of x?
