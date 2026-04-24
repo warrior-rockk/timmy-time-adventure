@@ -68,11 +68,12 @@ struct hud
     uint8_t refresh;     
 } hud;
 
+//game configuration
 struct gameConfig
 {
-    uint8_t lang;
-    uint8_t sfxVolume;
-    uint8_t musicVolume;
+    uint8_t lang;           //game language
+    uint8_t sfxVolume;      //sfx volume (0..255)
+    uint8_t musicVolume;    //music volume (0..255)
 } gameConfig;
 
 static void game_load_level(uint8_t numLevel);
@@ -84,6 +85,8 @@ static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
 static bool game_navigation_menu(tDialog *dialog);
+static void game_load_config();
+static void game_save_config();
 #ifdef DEBUGMODE
 static void game_debug_update();
 static void game_debug_info();
@@ -263,15 +266,18 @@ void game_update()
                         {
                             case 0: //lang                                
                                 lang_set(gameConfig.lang);
-                                //recreate dialog
+                                game_save_config();
+                                //redraw dialog
                                 dialog_destroy(&gameDialog);
                                 gameSeq.step--;
                             break;
                             case 2: //sfx volume
                                 sfx_set_volume(gameConfig.sfxVolume);
+                                game_save_config();
                             break;
                             case 3: //music volume                                
                                 music_set_volume(gameConfig.musicVolume);                                
+                                game_save_config();
                             break;
                         }
                     }
@@ -605,10 +611,8 @@ void game_init()
 {
     MY_TRACE_FLAG( "Init game\n");
     
-    //default game config
-    gameConfig.lang = E_LANG_ENG;    
-    gameConfig.sfxVolume = 255;
-    gameConfig.musicVolume = 255;
+    //load game config
+    game_load_config();
     
     //set config volumes
     sfx_set_volume(gameConfig.sfxVolume);
@@ -1048,4 +1052,47 @@ static bool game_navigation_menu(tDialog *dialog)
     }
 
     return changedValue;
+}
+
+static void game_load_config()
+{
+    //load config file
+    FILE *file = fopen(CONFIG_FILE, "rb");
+    
+    if (!file) {
+        //if not exists, create
+        MY_TRACE_FLAG("Config file doesn't exist. Creating with default values\n");
+        
+        //default values
+        gameConfig.lang         = E_LANG_ENG;    
+        gameConfig.sfxVolume    = 255;
+        gameConfig.musicVolume  = 255;
+
+        game_save_config();        
+    }
+    else
+    {
+        //read configuration
+        MY_TRACE_FLAG("Loading config file\n");
+        
+        //read each config data to avoid padding problems
+        fread(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
+        fread(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
+        fread(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+
+        fclose(file);
+        MY_TRACE_FLAG("Config file readed\n");
+    }
+}
+
+static void game_save_config()
+{    
+    FILE *file = fopen(CONFIG_FILE, "wb");
+
+    fwrite(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
+    fwrite(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
+    fwrite(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+
+    fclose(file);
+    MY_TRACE_FLAG("Config file saved\n");     
 }

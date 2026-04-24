@@ -11,6 +11,7 @@
 #define GAME_TITLE              "Dos platform game"
 #define MAJOR_VERSION           0
 #define MINOR_VERSION           1
+#define CONFIG_FILE             "GAME.CFG"
 
 //allegro engine
 #define ALLEGRO_USES_TIMER      1
