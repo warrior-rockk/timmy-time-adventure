@@ -210,7 +210,7 @@ void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
     {
         //set new size
         //dialog->rect.size.x += interfaceSkin->h;
-        dialog->rect.size.y += (interfaceSkin->h * 2) + DIALOG_SPACING_Y;
+        dialog->rect.size.y += (interfaceSkin->h * 2);
         
         //set drawing buffer for dialog oontainer
         destroy_bitmap(dialog->drawContainer);
