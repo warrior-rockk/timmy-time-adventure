@@ -246,7 +246,7 @@ void game_update()
             {
                 case 0:
                     clear(buffer);
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 10}, (tVector){120, 0}}, 251, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 10}, (tVector){132, 0}}, 251, true);
                     
                     dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &gameConfig.lang);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
@@ -610,14 +610,7 @@ static void game_destroy_level()
 void game_init()
 {
     MY_TRACE_FLAG( "Init game\n");
-    
-    //load game config
-    game_load_config();
-    
-    //set config volumes
-    sfx_set_volume(gameConfig.sfxVolume);
-    music_set_volume(gameConfig.sfxVolume);
-
+        
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
 
@@ -673,8 +666,7 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
-    lang_set(E_LANG_ENG);    
-
+    
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
     gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
@@ -723,6 +715,9 @@ void game_init()
     hud.refresh         = E_REFRESH_HUD_ALL;
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
+
+    //load game config
+    game_load_config();
 }
 
 void game_draw()
@@ -1081,6 +1076,12 @@ static void game_load_config()
         fread(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
 
         fclose(file);
+
+        //set config
+        lang_set(gameConfig.lang);
+        sfx_set_volume(gameConfig.sfxVolume);
+        music_set_volume(gameConfig.musicVolume);
+
         MY_TRACE_FLAG("Config file readed\n");
     }
 }
