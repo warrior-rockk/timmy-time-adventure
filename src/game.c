@@ -297,6 +297,14 @@ void game_update()
                             break;
                         }
                     }
+
+                    if (input_key_down(E_G_KEY_EXIT))
+                    {
+                        game.state = E_GAME_ST_MAIN_MENU;
+                        gameSeq.step = 0;                                
+                        dialog_destroy(&gameDialog);             
+                        clear(buffer);                       
+                    }
                 break;
             }    
         break;
