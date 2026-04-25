@@ -17,7 +17,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1
+#define ALLEGRO_USES_SOUND      0
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -34,6 +34,7 @@
 //colors
 #define BLACK_COLOR             1
 #define WHITE_COLOR             63
+#define DIALOG_TEXT_COLOR       WHITE_COLOR
 
 //clock iteration duration value
 #define GAME_CLOCK_TICK         10      //10ms game tick
@@ -73,6 +74,7 @@ enum E_GAME_STATE
     E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
     E_GAME_ST_PAUSE_LEVEL,
+    E_GAME_ST_PLAY_MENU,
     E_GAME_ST_LOSE_LIVE,
     E_GAME_ST_COMPLETE_LEVEL,
     E_GAME_ST_GAME_OVER,

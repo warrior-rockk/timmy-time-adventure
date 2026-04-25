@@ -84,7 +84,7 @@ static void game_resume_sound();
 static void game_hud_init();
 static void game_hud_update();
 static void game_hud_draw();
-static bool game_navigation_menu(tDialog *dialog);
+static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer);
 static void game_load_config();
 static void game_save_config();
 #ifdef DEBUGMODE
@@ -212,7 +212,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    game_navigation_menu(&gameDialog);
+                    game_navigation_menu(&gameDialog, buffer);
 
                     if (input_key_down(E_G_KEY_ENTER))
                     {
@@ -261,7 +261,7 @@ void game_update()
                 break;
                 case 1:
                     //if option changed
-                    if (game_navigation_menu(&gameDialog))
+                    if (game_navigation_menu(&gameDialog, buffer))
                     {
                         switch (gameDialog.optionSelected)
                         {
@@ -400,8 +400,8 @@ void game_update()
                 if (key[KEY_C])
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
 
-                if (input_key_press(E_G_KEY_EXIT))
-                    game.state = E_GAME_ST_DESTROY_LEVEL;            
+                if (input_key_down(E_G_KEY_EXIT))
+                    game.state = E_GAME_ST_PLAY_MENU;            
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
@@ -419,6 +419,74 @@ void game_update()
                 break;
                 case 1:
                     if (input_key_down(E_G_KEY_PAUSE))
+                    {
+                        gameSeq.step = 0;
+                        game.state = E_GAME_ST_PLAY_LEVEL;
+                        dialog_destroy(&gameDialog);
+                        game_resume_sound();
+                    }
+                break;
+            }
+        break;
+        case E_GAME_ST_PLAY_MENU:            
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game_pause_sound();
+            
+                    //create play menu dialog
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, GAME_H >> 1}, (tVector){100, 0}}, 1, true);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE), DIALOG_TEXT_COLOR);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), DIALOG_TEXT_COLOR);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE), DIALOG_TEXT_COLOR);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_DOS), DIALOG_TEXT_COLOR);
+                    
+                    dialog_draw(&gameDialog, worldScreen);
+
+                    gameSeq.step++;
+                break;
+                case 1:
+                    game_navigation_menu(&gameDialog, worldScreen);
+                    
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 0: //CONTINUE
+                                game.state = E_GAME_ST_PLAY_LEVEL;
+                                game_resume_sound();
+
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);
+                            break;
+                            case 1: //OPTIONS
+                                //TODO:
+                                game.state = E_GAME_ST_OPTIONS_MENU;
+                                
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);
+                            break;
+                            case 2: //EXIT TO TITLE
+                                game_destroy_level();
+                                game.fadeOut = true;
+                                game.state = E_GAME_ST_TITLE;
+                                
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);                                
+                            break;
+                            case 3: //EXIT TO DOS
+                                game.state = E_GAME_ST_EXIT;
+                                game.fadeOut = true;
+
+                                gameSeq.step = 0;
+                                dialog_destroy(&gameDialog);                                
+                            break;
+                        }
+                    }
+
+                    if (input_key_down(E_G_KEY_EXIT))
                     {
                         gameSeq.step = 0;
                         game.state = E_GAME_ST_PLAY_LEVEL;
@@ -1008,7 +1076,7 @@ static void game_resume_sound()
 }
 
 //process navigation dialog menu trought game controls. Return true if value changes
-static bool game_navigation_menu(tDialog *dialog)
+static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
 {
     bool changedValue = false;
 
@@ -1017,7 +1085,7 @@ static bool game_navigation_menu(tDialog *dialog)
         if (dialog_inc_option_value(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
-            dialog_draw(dialog, buffer);
+            dialog_draw(dialog, drawBuffer);
             changedValue = true;
         }
     }
@@ -1026,7 +1094,7 @@ static bool game_navigation_menu(tDialog *dialog)
         if (dialog_dec_option_value(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
-            dialog_draw(dialog, buffer);
+            dialog_draw(dialog, drawBuffer);
             changedValue = true;
         }
     }
@@ -1035,7 +1103,7 @@ static bool game_navigation_menu(tDialog *dialog)
         if (dialog_next_option(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
-            dialog_draw(dialog, buffer);
+            dialog_draw(dialog, drawBuffer);
         }
     }
     if (input_key_down(E_G_KEY_UP))
@@ -1043,7 +1111,7 @@ static bool game_navigation_menu(tDialog *dialog)
         if (dialog_prev_option(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
-            dialog_draw(dialog, buffer);
+            dialog_draw(dialog, drawBuffer);
         }
     }
 
