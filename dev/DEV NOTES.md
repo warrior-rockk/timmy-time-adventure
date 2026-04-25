@@ -50,3 +50,10 @@
 		+--MUSIC VOLUME: 0...100
 	|--EXIT TO TITLE: exit to tile
 	+--EXIT TO DOS: exit game
+
+## Retropolis impressions
+* Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse
+* Less time to pick a stone
+* Too much friction and inertia
+* Too difficult the perodayctile jump
+* Bug on time when repeat game overs

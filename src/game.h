@@ -17,7 +17,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0
+#define ALLEGRO_USES_SOUND      1
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -86,8 +86,9 @@ enum E_GAME_STATE
 //game levels
 enum E_GAME_LEVELS
 {            
+    E_GAME_LEVEL_JURASSIC,
     E_GAME_LEVEL_WEST,  
-    E_GAME_LEVEL_JURASSIC,                
+                    
     E_GAME_LEVEL_MEDIEVAL,
     E_GAME_LEVEL_TEST,    
     E_GAME_NUM_LEVELS,
