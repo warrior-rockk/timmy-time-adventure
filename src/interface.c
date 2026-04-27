@@ -265,7 +265,7 @@ void dialog_draw_options(tDialog *dialog)
         {
             case E_OPTION_TYPE_NAVIGATION:
                 //print text option
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s", dialog->option[i].text);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXTLIST:
@@ -290,17 +290,17 @@ void dialog_draw_options(tDialog *dialog)
                 }
 
                 //print text option and value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s %s", dialog->option[i].text, valueStrSelected);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_NUMERIC:
                 //print text option and numeric value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXT:
                 //print text
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : 20, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s", dialog->option[i].text);
             break;
         }
 

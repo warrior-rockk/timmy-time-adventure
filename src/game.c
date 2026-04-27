@@ -44,7 +44,6 @@ uint8_t gameExit = false;           //flag to exit to main
 
 BITMAP *buffer;                     //screen buffer
 BITMAP *worldScreen;                //map window buffer
-RGB* gamePal;                       //game palette
 FONT *gameFont;                     //game font
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
@@ -55,6 +54,11 @@ tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
 DATAFILE *levelDAT;                 //level datafile
 
 tDialog gameDialog;                 //game dialog object
+
+//palettes
+RGB *currentPal;                    //current palette setted
+RGB *introPal;                      //pal for intro sequence
+RGB *gamePal;                       //palette of 64 persistent colors for menus/title/hud/player
 
 struct hud
 {
@@ -161,7 +165,7 @@ void game_update()
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;                        
                         game.fadeOut = true;
-                        gamePal = load_dat_pal_indexed(gameDataIndex, HUD_PAL);                    
+                        currentPal = gamePal;
                         music_stop();
                     }                    
                 break;
@@ -170,8 +174,8 @@ void game_update()
         case E_GAME_ST_TITLE:
             switch (gameSeq.step)
             {
-                case 0:
-                    
+                case 0:                  
+                    currentPal = gamePal;
                     clear_to_color(buffer, 1);                    
                     game.fadeIn = true;
                     gameSeq.step++;                    
@@ -188,7 +192,7 @@ void game_update()
                         else
                         {
                             game.state = E_GAME_ST_MAIN_MENU;
-                            clear(buffer);
+                            clear_to_color(buffer, 1);
                         }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
@@ -203,9 +207,9 @@ void game_update()
                     textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, 1, true);
                     TRACE("size x: %i\n", gameDialog.rect.size.x);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), 31);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), 31);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY), WHITE_COLOR);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS), WHITE_COLOR);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), WHITE_COLOR);
 
                     dialog_draw(&gameDialog, buffer);
                     
@@ -246,14 +250,14 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    clear(buffer);
+                    clear_to_color(buffer, 1);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, 251, true);
                     
-                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), 31, &gameConfig.lang);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), 31);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, 31, &gameConfig.sfxVolume, 10);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, 31, &gameConfig.musicVolume, 10);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), 31);
+                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), WHITE_COLOR, &gameConfig.lang);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS), WHITE_COLOR);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, WHITE_COLOR, &gameConfig.sfxVolume, 10);
+                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, WHITE_COLOR, &gameConfig.musicVolume, 10);
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT), WHITE_COLOR);
                     
                     dialog_draw(&gameDialog, buffer);
                     
@@ -293,7 +297,7 @@ void game_update()
                                 game.state = E_GAME_ST_MAIN_MENU;
                                 gameSeq.step = 0;                                
                                 dialog_destroy(&gameDialog);             
-                                clear(buffer);                   
+                                clear_to_color(buffer, 1);                   
                             break;
                         }
                     }
@@ -303,7 +307,7 @@ void game_update()
                         game.state = E_GAME_ST_MAIN_MENU;
                         gameSeq.step = 0;                                
                         dialog_destroy(&gameDialog);             
-                        clear(buffer);                       
+                        clear_to_color(buffer, 1);                      
                     }
                 break;
             }    
@@ -404,16 +408,16 @@ void game_update()
 
             if (game.levelComplete)
                 game.state = E_GAME_ST_COMPLETE_LEVEL;
-
+            
+            if (input_key_down(E_G_KEY_EXIT))
+                    game.state = E_GAME_ST_PLAY_MENU;            
+            
             #ifdef DEBUGMODE
                 if (key[KEY_R])
                     game.state = E_GAME_ST_INIT_LEVEL;
                 
                 if (key[KEY_C])
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
-
-                if (input_key_down(E_G_KEY_EXIT))
-                    game.state = E_GAME_ST_PLAY_MENU;            
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
@@ -695,9 +699,13 @@ void game_init()
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
 
-    //game palette
-    gamePal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);
-    set_palette(gamePal);
+    //load palettes
+    introPal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);
+    gamePal  = load_dat_pal_indexed(gameDataIndex, HUD_PAL);
+
+    //set current game palette
+    currentPal = introPal;
+    set_palette(currentPal);
     
     //loads game font 
     gameFont = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
@@ -880,7 +888,7 @@ static void game_load_level(uint8_t numLevel)
     levelDAT = load_datafile(levelData[numLevel].dataFile);
     
     //load level palette
-    gamePal = levelDAT[levelData[numLevel].palFileIndex].dat;
+    currentPal = levelDAT[levelData[numLevel].palFileIndex].dat;
 
     //load map and entities    
     map_load(levelData[numLevel].mapFile, (BITMAP *)levelDAT[levelData[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
@@ -951,7 +959,7 @@ static void game_do_fade()
     {
         if (game.fadeState == E_FADED_OFF)
         {
-            fade_in(gamePal, GAME_FADE_SPEED);
+            fade_in(currentPal, GAME_FADE_SPEED);
             game.fadeState = E_FADED_IN;
         }
         

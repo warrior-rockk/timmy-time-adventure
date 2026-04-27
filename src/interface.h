@@ -17,6 +17,8 @@
 #define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
 #define DIALOG_MAX_OPTION_LENGTH    50      //max char length of options
 
+#define DIALOG_HIGHLIGHT_TEXT_COLOR 56
+
 //types of dialog option
 enum E_DIALOG_OPTION_TYPE
 {
