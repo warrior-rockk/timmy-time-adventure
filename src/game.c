@@ -334,6 +334,8 @@ void game_update()
                     game.life       = GAME_INI_LIFE;            
                     game.loseLive   = false;            
                     game.viewMap    = true;
+                    //TODO: reload level time from map
+                    game.time = 300;
 
                     entities_init();
                     //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(entity_get_player_id())->pos.x, entity_get(entity_get_player_id())->pos.y);
@@ -392,7 +394,9 @@ void game_update()
             }            
 
             //game time
-            if (clock_tick_1sec_get())
+            if (game.time <= 0)
+                game.loseLive = true;
+            else if (clock_tick_1sec_get())
                 game.time--;
             
             if (input_key_down(E_G_KEY_PAUSE))
