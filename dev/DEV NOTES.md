@@ -57,3 +57,4 @@
 * Too much friction and inertia
 * Too difficult the perodayctile jump
 * Bug on time when repeat game overs
+* reduce collision hitbox on hurt tiles (spikes, lava..)
