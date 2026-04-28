@@ -869,21 +869,29 @@ static void game_debug_update()
     if (key[KEY_X] && (key_shifts & KB_CTRL_FLAG))
         game.state = E_GAME_ST_EXIT;
     
-    if (input_key_down(E_G_KEY_D))
+    //toggle debug options
+    if (input_key_down(E_G_KEY_D) && (key_shifts & KB_CTRL_FLAG))
         debugOptions.showDebugInfo = debugOptions.showDebugInfo < 2 ? debugOptions.showDebugInfo + 1 : 0;
-    if (input_key_down(E_G_KEY_S))
+    //toggle step by step
+    if (input_key_down(E_G_KEY_S) && (key_shifts & KB_CTRL_FLAG))
         debugOptions.stepByStep = !debugOptions.stepByStep;
-    if (input_key_down(E_G_KEY_I))
+    //toggle invencible mode
+    if (input_key_down(E_G_KEY_I) && (key_shifts & KB_CTRL_FLAG))
     {
         debugOptions.invencible = !debugOptions.invencible;
         game.life = 3;
     }
-    if (key[KEY_M])
+    //insert log mark
+    if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
         MY_TRACE_MARK;
+
+    //record demo
     if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
         input_log_record("demo.rec");
+    //stop recording demo
     if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
         input_log_stop();
+    //play recorded demo
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
         input_log_play("demo.rec");
 
