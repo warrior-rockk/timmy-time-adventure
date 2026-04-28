@@ -478,7 +478,7 @@ void game_update()
                     game_pause_sound();
             
                     //create play menu dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, GAME_H >> 1}, (tVector){100, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, 40}, (tVector){100, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE));
