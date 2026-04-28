@@ -36,7 +36,7 @@ void interface_destroy()
     interfaceFont = NULL;        
 }
 
-tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize)
+tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSelectedColor, bool autoSize)
 {
     //creates dialog object
     tDialog dialog;
@@ -46,7 +46,8 @@ tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoS
     dialog.numOptions = 0;
     dialog.autoSize = autoSize;
     dialog.option = NULL;
-    dialog.backgroundColor = backgroundColor;
+    dialog.textColor = textColor;
+    dialog.textSelectedColor = textSelectedColor;
 
     //sets size
     dialog.rect = dialogRect;
@@ -78,7 +79,7 @@ void dialog_destroy(tDialog *dialog)
         free(dialog->option);
 }
 
-void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor)
+void dialog_add_option(tDialog *dialog, const char *optionText)
 {
     ASSERT(strlen(optionText) <= DIALOG_MAX_OPTION_LENGTH);
     
@@ -88,7 +89,6 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     strcpy(dialog->option[dialog->numOptions].text, optionText);
     
     //init data
-    dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = NULL;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NAVIGATION;
     dialog->option[dialog->numOptions].minValue     = 0;
@@ -111,7 +111,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColo
     }
 }
 
-void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, uint8_t *value)
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t *value)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
@@ -123,7 +123,6 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     strcpy(dialog->option[dialog->numOptions].strValues, strValues);
     
     //init data
-    dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = value;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXTLIST;
     dialog->option[dialog->numOptions].minValue     = 0;
@@ -153,7 +152,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
     }
 }
 
-void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value, uint8_t inc)
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t *value, uint8_t inc)
 {
     ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
     
@@ -164,7 +163,6 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     strcpy(dialog->option[dialog->numOptions].strValues, "");
 
     //init data
-    dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = value;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NUMERIC;
     dialog->option[dialog->numOptions].minValue     = minValue;
@@ -187,7 +185,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
     }
 }
 
-void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
+void dialog_add_text(tDialog *dialog, const char *text)
 {
     ASSERT(strlen(text) <= DIALOG_MAX_OPTION_LENGTH);
     
@@ -197,7 +195,6 @@ void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
     strcpy(dialog->option[dialog->numOptions].text, text);
     
     //init data
-    dialog->option[dialog->numOptions].textColor    = textColor;
     dialog->option[dialog->numOptions].value        = NULL;
     dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_TEXT;
     dialog->option[dialog->numOptions].minValue     = 0;
@@ -223,7 +220,7 @@ void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor)
 void dialog_draw_container(tDialog *dialog)
 {
     //clear container bitmap
-    clear_to_color(dialog->drawContainer, dialog->backgroundColor);
+    clear(dialog->drawContainer);
     
     //draw corners
     draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_CORNER_LEFT_UP], 0, 0);                                       
@@ -244,6 +241,10 @@ void dialog_draw_container(tDialog *dialog)
         draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_V_LINE_UP], 0, (i * interfaceSkin->h));
         draw_sprite(dialog->drawContainer, dialogTiles[E_DIALOG_SKIN_TILE_V_LINE_DOWN], dialog->rect.size.x - interfaceSkin->h, (i * interfaceSkin->h));       
     }
+
+    //draw dialog background
+    rectfill(dialog->drawContainer, interfaceSkin->h, interfaceSkin->h, dialog->rect.size.x - interfaceSkin->h, dialog->rect.size.y - interfaceSkin->h, 1);
+
 }
 
 void dialog_draw_options(tDialog *dialog)
@@ -265,7 +266,7 @@ void dialog_draw_options(tDialog *dialog)
         {
             case E_OPTION_TYPE_NAVIGATION:
                 //print text option
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->textSelectedColor : dialog->textColor, -1, "%s", dialog->option[i].text);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXTLIST:
@@ -290,17 +291,17 @@ void dialog_draw_options(tDialog *dialog)
                 }
 
                 //print text option and value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s %s", dialog->option[i].text, valueStrSelected);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->textSelectedColor : dialog->textColor, -1, "%s %s", dialog->option[i].text, valueStrSelected);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_NUMERIC:
                 //print text option and numeric value
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->textSelectedColor : dialog->textColor, -1, "%s %i", dialog->option[i].text, *(dialog->option[i].value));
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXT:
                 //print text
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->option[i].textColor : DIALOG_HIGHLIGHT_TEXT_COLOR, -1, "%s", dialog->option[i].text);
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, dialog->textColor, -1, "%s", dialog->option[i].text);
             break;
         }
 

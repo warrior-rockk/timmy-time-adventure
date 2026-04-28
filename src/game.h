@@ -35,6 +35,7 @@
 #define BLACK_COLOR             1
 #define WHITE_COLOR             63
 #define DIALOG_TEXT_COLOR       WHITE_COLOR
+#define DIALOG_SEL_TEXT_COLOR   56
 
 //clock iteration duration value
 #define GAME_CLOCK_TICK         10      //10ms game tick

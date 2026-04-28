@@ -17,7 +17,7 @@
 #define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
 #define DIALOG_MAX_OPTION_LENGTH    50      //max char length of options
 
-#define DIALOG_HIGHLIGHT_TEXT_COLOR 56
+//#define DIALOG_HIGHLIGHT_TEXT_COLOR 56
 
 //types of dialog option
 enum E_DIALOG_OPTION_TYPE
@@ -51,7 +51,6 @@ typedef struct
     char strValues[DIALOG_MAX_OPTION_LENGTH];   //list of values for the option separated by delimiter
     int16_t minValue;                           //minimun value
     int16_t maxValue;                           //maximum value
-    uint8_t textColor;                          //text color for option
     uint8_t *value;                             //pointer to value data
     uint8_t inc;                                //increment of value
 } tDialogOption;
@@ -64,7 +63,8 @@ typedef struct
     tDialogOption *option;                      //array of options objects
     uint8_t numOptions;                         //num of options of the dialog
     uint8_t optionSelected;                     //current selected option
-    uint8_t backgroundColor;                     //background color for dialog
+    uint8_t textColor;                          //text color for inactive options of dialog
+    uint8_t textSelectedColor;                  //text color for selected options of dialog
     bool autoSize;                              //flag for adjusts the height automatically based on options
 } tDialog;
 
@@ -74,18 +74,18 @@ void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
 void interface_destroy();
 
 //creates a interface dialog with specified dimensions and position, background color and flag to autosize the height based on number of options
-tDialog dialog_create(tRectangle dialogRect, int16_t backgroundColor, bool autoSize);
+tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSelectedColor, bool autoSize);
 //destroys dialog and free memory
 void dialog_destroy(tDialog *dialog);
 
 //adds option to specified dialog
-void dialog_add_option(tDialog *dialog, const char *optionText, uint8_t textColor);
+void dialog_add_option(tDialog *dialog, const char *optionText);
 //adds a text list option to specified dialog
-void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t textColor, uint8_t *value);
+void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t *value);
 //adds a numeric option to specified dialog
-void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t textColor, uint8_t *value, uint8_t inc);
+void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t *value, uint8_t inc);
 //adds text to dialog (no option)
-void dialog_add_text(tDialog *dialog, const char *text, uint8_t textColor);
+void dialog_add_text(tDialog *dialog, const char *text);
 
 //increases selected option. Return true if not the end of options
 bool dialog_next_option(tDialog *dialog);
