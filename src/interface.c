@@ -300,8 +300,8 @@ void dialog_draw_options(tDialog *dialog)
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXT:
-                //print text
-                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, dialog->textColor, -1, "%s", dialog->option[i].text);
+                //print text centered on dialog
+                textprintf_centre_ex(dialog->drawContainer, interfaceFont, dialog->rect.size.x >> 1, posY, dialog->textColor, -1, "%s", dialog->option[i].text);
             break;
         }
 

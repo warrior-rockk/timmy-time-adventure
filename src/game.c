@@ -454,7 +454,7 @@ void game_update()
                     game_pause_sound();
             
                     //create pause dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 30, GAME_H >> 1}, (tVector){60, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 70, GAME_H >> 1}, (tVector){140, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE));
                     dialog_draw(&gameDialog, worldScreen);
 
