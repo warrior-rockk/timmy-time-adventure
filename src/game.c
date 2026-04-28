@@ -1095,7 +1095,7 @@ void game_hud_draw()
     //update time
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_TIME))
     {
-        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= 10 ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
     }
 
     //reset refresh flags
