@@ -418,6 +418,18 @@ void game_update()
                 
                 if (key[KEY_C])
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
+                
+                if (key[KEY_M])
+                {
+                    uint8_t msg[6];
+                    msg[0] = 0xFF;
+                    msg[1] = 0x51;
+                    msg[2] = 0x03;
+                    msg[3] = 0x01;
+                    msg[4] = 0x00;
+                    msg[5] = 0x00;
+                    midi_out(&msg, 6);
+                }
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
