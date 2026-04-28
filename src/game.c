@@ -413,13 +413,13 @@ void game_update()
                     game.state = E_GAME_ST_PLAY_MENU;            
             
             #ifdef DEBUGMODE
-                if (key[KEY_R])
+                if (key[KEY_R] && (key_shifts & KB_CTRL_FLAG))
                     game.state = E_GAME_ST_INIT_LEVEL;
                 
-                if (key[KEY_C])
+                if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
                     game.state = E_GAME_ST_COMPLETE_LEVEL;
                 
-                if (key[KEY_M])
+                if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
                 {
                     //TODO: make midi tempo funcion with this and union with uint32_t
                     /* union DoubleToBytes {

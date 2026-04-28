@@ -139,13 +139,13 @@ static void main_stepByStep()
 {
     input_keys_update();
  
-    if (input_key_down(E_G_KEY_S))
+    if (input_key_down(E_G_KEY_S) && (key_shifts & KB_CTRL_FLAG))
         debugOptions.stepByStep = !debugOptions.stepByStep;
  
     if (input_key_down(E_G_KEY_EXIT))
         gameExit = true;
  
-    if (input_key_down(E_G_KEY_D))
+    if (input_key_down(E_G_KEY_D) && (key_shifts & KB_CTRL_FLAG))
     {
         game_update();
         game_draw();         
