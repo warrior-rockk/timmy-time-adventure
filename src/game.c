@@ -425,10 +425,11 @@ void game_update()
                     msg[0] = 0xFF;
                     msg[1] = 0x51;
                     msg[2] = 0x03;
-                    msg[3] = 0x01;
-                    msg[4] = 0x00;
-                    msg[5] = 0x00;
-                    midi_out(&msg, 6);
+                    //60000 / tempo = 
+                    msg[3] = 0x05;
+                    msg[4] = 0x14;
+                    msg[5] = 0xC8;
+                    midi_out(msg, 6);
                 }
             #endif
         break;
