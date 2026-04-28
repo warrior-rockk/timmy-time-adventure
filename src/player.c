@@ -389,7 +389,7 @@ static void player_update_collisions(tEntity *player)
             playerFlags.jump = true;
         
         //check tile with hurt property
-        if (!playerInvincible)     
+        if (!playerInvincible && i == E_COLPOINT_CENTER_DOWN)     
         {
             if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
                 playerFlags.hurt = true;

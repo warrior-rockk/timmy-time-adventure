@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="87">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="87">
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="110" columns="10">
   <image source="../../dev/gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="176"/>
   <tile id="1">
@@ -216,17 +216,17 @@
   </tile>
   <tile id="60">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1025"/>
    </properties>
   </tile>
   <tile id="61">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1025"/>
    </properties>
   </tile>
   <tile id="62">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1025"/>
    </properties>
   </tile>
   <tile id="65">
