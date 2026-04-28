@@ -421,6 +421,20 @@ void game_update()
                 
                 if (key[KEY_M])
                 {
+                    //TODO: make midi tempo funcion with this and union with uint32_t
+                    /* union DoubleToBytes {
+                        double valor;
+                        uint8_t bytes[sizeof(double)];
+                    };
+
+                    int main() {
+                        union DoubleToBytes d2b;
+                        d2b.valor = 12345.6789;
+
+                        // Ahora d2b.bytes ya contiene los datos
+                        // Puedes acceder a d2b.bytes[0], d2b.bytes[1], etc.
+                    }; */
+
                     uint8_t msg[6];
                     msg[0] = 0xFF;
                     msg[1] = 0x51;
