@@ -53,7 +53,7 @@
 
 ## Retropolis impressions
 * Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse
-* Less time to pick a stone
+* Less time to pick a stone (OK)
 * Too much friction and inertia
 * Too difficult the perodayctile jump
 * Bug on time when repeat game overs

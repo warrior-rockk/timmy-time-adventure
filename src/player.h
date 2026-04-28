@@ -36,7 +36,7 @@
 
 //player times
 #define PLAYER_INVINCIBLE_TIME      200     //clock times
-#define PLAYER_PICKING_TIME         30      //clock times
+#define PLAYER_PICKING_TIME         10      //clock times
 #define PLAYER_IDLE_WAIT_TIME       5       //seconds
 
 //player animations
