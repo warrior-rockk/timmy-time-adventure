@@ -659,7 +659,7 @@ static void player_update_animations(tEntity *player)
             play_animation(&player->anim, ANIM_PLY_GET_CROUCH);
         break;
         case ST_PLAYER_ATTACK:
-            play_animation(&player->anim, ANIM_PLY_ATTACK);
+            play_animation(&player->anim, ANIM_PLY_JUMP_ATTACK);
         break;
         case ST_PLAYER_LAND:
             if (play_animation(&player->anim, ANIM_PLY_LAND))
