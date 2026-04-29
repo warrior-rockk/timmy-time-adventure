@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "map.h"
 #include "resources.h"
+#include "scroll.h"
 
 #include "data/pdata.h"
 
@@ -461,12 +462,14 @@ static void player_update_collisions(tEntity *player)
                                 checkEntity->signal = E_ENT_SIGNAL_HURT;  
                                 //set bounce velocity
                                 player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
+                                //shake camera when kill enemy
+                                scroll_shake_camera();
                             } 
                             //if not attacking (hurt player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
                             {
                                 //set hurt flag
-                                playerFlags.hurt = true;                                 
+                                playerFlags.hurt = true;                                
                             }
                         }
                     }

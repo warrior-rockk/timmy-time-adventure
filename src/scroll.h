@@ -18,6 +18,9 @@
 #define SCROLL_IN_REGION_OFFSET_X   32  //Offset X to scroll region check
 #define SCROLL_IN_REGION_OFFSET_Y   8  //Offset Y to scroll region check
 
+#define SCROLL_SHAKE_VELOCITY       2
+#define SCROLL_SHAKE_DURATION       20
+
 //scroll modes
 enum E_SCROLL_MODE
 {
@@ -58,6 +61,9 @@ typedef struct
     t4dir stopScroll;   //stop scroll direction positions
     tFixVector fixPos;  //scroll actual position fixed point
     tFixVector fixVel;  //scroll velocity fixed point
+    bool cameraShake;   //flag to shake camera
+    tVector shakeValue; //scroll offset shake value
+    uint16_t shakeTimer;//timer of duration of shake
 } tScroll;
 
 //creates scroll with the window dimensions, limits and mode
@@ -76,4 +82,6 @@ tVector scroll_get_position();
 void scroll_stop_scroll(uint8_t dir, int16_t value);
 //get stop scroll values for a stop scroll direction (left, right, down or up)
 int16_t scroll_get_stop_scroll(uint8_t dir);
+
+void scroll_shake_camera();
 #endif

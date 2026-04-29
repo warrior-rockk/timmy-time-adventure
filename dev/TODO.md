@@ -13,13 +13,13 @@
 - [ ] Redefine controls
 - [ ] Platform objects
 - [ ] PC Speaker effects?
-- [ ] Camera shake
 - [ ] Intro
 - [ ] Title screen
 - [ ] Menus and options
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Change background color and fade to do sunset?
+- [X] Camera shake
 - [X] Destroy dialog (not system)
 - [X] Translation text
 - [X] Level checkpoints

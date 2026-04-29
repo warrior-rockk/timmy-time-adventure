@@ -7,6 +7,7 @@
 #include <math.h>
 
 #include "scroll.h"
+#include "timer.h"
 
 #define TRACE_FLAG      "[SCROLL]"
 
@@ -27,6 +28,10 @@ void scroll_create(tVector window, tVector limit, uint8_t mode)
     scroll.stopScroll.down  = 0;
     scroll.stopScroll.up    = 0;
     
+    scroll.cameraShake      = false;
+    scroll.shakeValue       = (tVector){0, 0};    
+    scroll.shakeTimer       = 0;
+        
     scroll.window           = window;
     scroll.limit            = limit;
     scroll.mode             = mode;
@@ -47,8 +52,39 @@ void scroll_init(tVector initPos)
     MY_TRACE_FLAG("Scroll initialized on position x: %i position y:%i\n", scroll.pos.x, scroll.pos.y);
 }
 
+//do a scroll camera shake
+static void scroll_update_shake()
+{
+    if (scroll.cameraShake)
+    {
+        if (clock_counter_check(SCROLL_SHAKE_VELOCITY))
+        {
+            scroll.shakeValue.x = 1;
+            scroll.shakeValue.y = 1;
+        }
+        else
+        {
+            scroll.shakeValue.x = 0;
+            scroll.shakeValue.y = -1;
+        }
+
+        if (scroll.shakeTimer >= SCROLL_SHAKE_DURATION)
+        {
+            //reset shake
+            scroll.cameraShake  = false;
+            scroll.shakeValue   = (tVector){0, 0};            
+            scroll.shakeTimer   = 0;
+        }
+        else if (clock_tick_get())
+            //count shake time
+            scroll.shakeTimer += 1;
+    }
+}
+
 void scroll_update(tVector cameraTarget)
 {
+    scroll_update_shake();
+
     scroll_update_x(cameraTarget, false);
     
     scroll_update_y(cameraTarget, false);
@@ -105,6 +141,8 @@ static void scroll_update_x(tVector cameraTarget, bool init)
 
     //limit scroll position
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
+    //add shake value
+    scroll.pos.x += scroll.shakeValue.x;
 }
 
 static void scroll_update_y(tVector cameraTarget, bool init)
@@ -122,55 +160,61 @@ static void scroll_update_y(tVector cameraTarget, bool init)
         //moves the scroll only when change the size of scroll window +/- range
         case E_SCROLL_BY_WINDOW_MODE:
         case E_SCROLL_BY_WINDOW_Y_MODE:
-            //calculate Y scroll target
-            if (!scroll.moving)
+            //if not shaking
+            if (!scroll.cameraShake)
             {
-                //check camera target to move scroll down one scroll window position
-                if ((cameraTarget.y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!scroll.stopScroll.down || init))
-                    scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
-                //check camera target to move scroll up one scroll window position
-                if ((cameraTarget.y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
-                    scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
-            }
-            //show_debug("Scroll target y:%i", scroll.target.y);
-            //show_debug("Floor %i", (int16_t)(floor(cameraTarget.y / scroll.window.y)));
-
-            //set scroll velocity
-            if (scroll.moving == E_SCROLL_MOVE_NONE && !init)
-            {
-                if (scroll.pos.y < scroll.target.y)
+                //calculate Y scroll target
+                if (!scroll.moving)
                 {
-                    scroll.fixVel.y = itofix(SCROLL_BY_WINDOW_VEL_Y);
-                    scroll.moving = E_SCROLL_MOVE_DOWN;
+                    //check camera target to move scroll down one scroll window position
+                    if ((cameraTarget.y > (scroll.pos.y + scroll.window.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y < scroll.limit.y) && (!scroll.stopScroll.down || init))
+                        scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
+                    //check camera target to move scroll up one scroll window position
+                    if ((cameraTarget.y < (scroll.pos.y - SCROLL_BY_WINDOW_RANGE) && scroll.pos.y > 0) && (!scroll.stopScroll.up || init))   
+                        scroll.target.y = (int16_t)(floor(cameraTarget.y / scroll.window.y)) * scroll.window.y;
                 }
-                else if (scroll.pos.y > scroll.target.y)
-                {
-                    scroll.fixVel.y = itofix(-SCROLL_BY_WINDOW_VEL_Y);
-                    scroll.moving = E_SCROLL_MOVE_UP;
-                }            
-            }
-            else     
-            {
-                if ((scroll.pos.y >= scroll.target.y && scroll.moving == E_SCROLL_MOVE_DOWN) ||
-                    (scroll.pos.y <= scroll.target.y && scroll.moving == E_SCROLL_MOVE_UP)   ||
-                    init)
-                {
-                    scroll.fixVel.y = 0;  
-                    scroll.fixPos.y = itofix(scroll.target.y);
-                    scroll.moving = E_SCROLL_MOVE_NONE;
-                }
-            }
+                //show_debug("Scroll target y:%i", scroll.target.y);
+                //show_debug("Floor %i", (int16_t)(floor(cameraTarget.y / scroll.window.y)));
 
-            //add velocity
-            scroll.fixPos.y = scroll.fixPos.y + scroll.fixVel.y;
-            //update position        
-            scroll.pos.y = fixtoi(scroll.fixPos.y);
+                //set scroll velocity
+                if (scroll.moving == E_SCROLL_MOVE_NONE && !init)
+                {
+                    if (scroll.pos.y < scroll.target.y)
+                    {
+                        scroll.fixVel.y = itofix(SCROLL_BY_WINDOW_VEL_Y);
+                        scroll.moving = E_SCROLL_MOVE_DOWN;
+                    }
+                    else if (scroll.pos.y > scroll.target.y)
+                    {
+                        scroll.fixVel.y = itofix(-SCROLL_BY_WINDOW_VEL_Y);
+                        scroll.moving = E_SCROLL_MOVE_UP;
+                    }            
+                }
+                else
+                {
+                    if ((scroll.pos.y >= scroll.target.y && scroll.moving == E_SCROLL_MOVE_DOWN) ||
+                        (scroll.pos.y <= scroll.target.y && scroll.moving == E_SCROLL_MOVE_UP)   ||
+                        init)
+                    {
+                        scroll.fixVel.y = 0;  
+                        scroll.fixPos.y = itofix(scroll.target.y);
+                        scroll.moving = E_SCROLL_MOVE_NONE;
+                    }
+                }
+
+                //add velocity
+                scroll.fixPos.y = scroll.fixPos.y + scroll.fixVel.y;
+                //update position        
+                scroll.pos.y = fixtoi(scroll.fixPos.y);
+            }
         break;
     }
 
-    show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
+    //show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
     //limit scroll position
-    scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y);    
+    scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y); 
+    //add shake value
+    scroll.pos.y += scroll.shakeValue.y;
 }
 
 tVector scroll_get_position()
@@ -217,4 +261,9 @@ int16_t scroll_get_stop_scroll(uint8_t dir)
             return 0;
         break;
     }
+}
+
+void scroll_shake_camera()
+{
+    scroll.cameraShake = true;
 }
