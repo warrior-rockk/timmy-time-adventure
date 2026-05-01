@@ -351,15 +351,19 @@ void game_update()
                 case 4: //redefine selected option key (esc = cancels)
                     clear_keybuf();
                     uint8_t selectedKey = readkey()>>8;
+                    //redefine key if not hit ESC
                     if (selectedKey != KEY_ESC)
                     {
                         gameConfig.gameKeys[gameDialog.optionSelected] = selectedKey;
                         input_key_redefine(gameDialog.optionSelected, selectedKey);
                         game_save_config();
                     }
-                    //redraw controls menu
-                    gameSeq.step = 2;
-                    dialog_destroy(&gameDialog);   
+                    //restore option text
+                    sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
+                    strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
+                    dialog_draw(&gameDialog, buffer); 
+                    input_keys_update();
+                    gameSeq.step = 3;
                 break;
             }    
         break;
