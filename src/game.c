@@ -82,6 +82,8 @@ struct gameConfig
 
 static void game_load_level(uint8_t numLevel);
 static void game_destroy_level();
+static void game_update_level();
+static void game_draw_level();
 static void game_do_fade();
 static void game_pause_sound();
 static void game_resume_sound();
@@ -91,6 +93,9 @@ static void game_hud_draw();
 static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer);
 static void game_load_config();
 static void game_save_config();
+static void game_create_options_menu();
+static void game_process_options_menu();
+
 #ifdef DEBUGMODE
 static void game_debug_update();
 static void game_debug_info();
@@ -253,38 +258,16 @@ void game_update()
                     clear_to_color(buffer, 1);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     
-                    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS));
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, &gameConfig.sfxVolume, 10);
-                    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
+                    game_create_options_menu();
                     
                     dialog_draw(&gameDialog, buffer);
-                    
                     gameSeq.step++;
                 break;
                 case 1:
                     //if option changed
                     if (game_navigation_menu(&gameDialog, buffer))
                     {
-                        switch (gameDialog.optionSelected)
-                        {
-                            case 0: //lang                                
-                                lang_set(gameConfig.lang);
-                                game_save_config();
-                                //redraw dialog
-                                dialog_destroy(&gameDialog);
-                                gameSeq.step--;
-                            break;
-                            case 2: //sfx volume
-                                sfx_set_volume(gameConfig.sfxVolume);
-                                game_save_config();
-                            break;
-                            case 3: //music volume                                
-                                music_set_volume(gameConfig.musicVolume);                                
-                                game_save_config();
-                            break;
-                        }
+                        game_process_options_menu();    
                     }
 
                     if (input_key_down(E_G_KEY_ENTER))
@@ -349,11 +332,9 @@ void game_update()
                     //MY_TRACE_FLAG("1Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     game_hud_init();                    
 
-                    entities_update();
-                    scroll_update(entity_get(entity_get_player_id())->pos);
+                    game_update_level();
                     //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
-                    game_hud_update();                    
-
+                    
                     music_play(gameMusic, -1);
                     
                     gameSeq.step++;
@@ -369,25 +350,16 @@ void game_update()
                     }
                     else
                     {
-                        map_draw(worldScreen, false);                    
-                        entities_draw(worldScreen);                    
-                        map_draw(worldScreen, true);                    
-                        game_hud_draw();
-                        
+                        game_draw_level();      
                         gameSeq.timeCounter += clock_tick_get();
                     }
                 break;                
             }
         break;
         case E_GAME_ST_PLAY_LEVEL:            
-            entities_update();
-            scroll_update(entity_get(entity_get_player_id())->pos);        
-            game_hud_update();
+            game_update_level();
 
-            map_draw(worldScreen, false);
-            entities_draw(worldScreen);
-            map_draw(worldScreen, true);                    
-            game_hud_draw();           
+            game_draw_level();
 
             //check game lose life
             if (game.loseLive)
@@ -485,11 +457,8 @@ void game_update()
                                 dialog_destroy(&gameDialog);
                             break;
                             case 1: //OPTIONS
-                                //TODO:
-                                /*game.state = E_GAME_ST_OPTIONS_MENU;
-                                
-                                gameSeq.step = 0;
-                                dialog_destroy(&gameDialog);*/
+                                gameSeq.step++;
+                                dialog_destroy(&gameDialog);
                             break;
                             case 2: //EXIT TO TITLE
                                 game_destroy_level();
@@ -515,6 +484,44 @@ void game_update()
                         game.state = E_GAME_ST_PLAY_LEVEL;
                         dialog_destroy(&gameDialog);
                         game_resume_sound();
+                    }
+                break;
+                case 2: //options menu    
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    
+                    game_create_options_menu();
+                    
+                    dialog_draw(&gameDialog, worldScreen);
+                    gameSeq.step++;
+                break;
+                case 3:
+                    //if option changed
+                    if (game_navigation_menu(&gameDialog, worldScreen))
+                    {
+                        game_process_options_menu();    
+                    }
+
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 4: //EXIT
+                                gameSeq.step = 0;                                
+                                dialog_destroy(&gameDialog);             
+                                clear_to_color(worldScreen, BLACK_COLOR); 
+                                game_draw_level();
+                            break;
+                        }
+                    }
+
+                    if (input_key_down(E_G_KEY_EXIT))
+                    {
+                        gameSeq.step = 0;                                
+                        dialog_destroy(&gameDialog);             
+                        clear_to_color(worldScreen, BLACK_COLOR); 
+                        game_draw_level();
                     }
                 break;
             }
@@ -1197,4 +1204,53 @@ static void game_save_config()
 
     fclose(file);
     MY_TRACE_FLAG("Config file saved\n");     
+}
+
+static void game_create_options_menu()
+{
+    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS));
+    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, &gameConfig.sfxVolume, 10);
+    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
+}
+
+static void game_process_options_menu()
+{
+    switch (gameDialog.optionSelected)
+    {
+        case 0: //lang                                
+            lang_set(gameConfig.lang);
+            game_save_config();
+            //redraw dialog
+            dialog_destroy(&gameDialog);
+            gameSeq.step--;
+        break;
+        case 2: //sfx volume
+            sfx_set_volume(gameConfig.sfxVolume);
+            game_save_config();
+        break;
+        case 3: //music volume                                
+            music_set_volume(gameConfig.musicVolume);                                
+            game_save_config();
+        break;
+    }
+}
+
+
+//summary function to update the world level
+static void game_update_level()
+{
+    entities_update();
+    scroll_update(entity_get(entity_get_player_id())->pos);        
+    game_hud_update();
+}
+
+//summary function to draw the world level
+static void game_draw_level()
+{
+    map_draw(worldScreen, false);
+    entities_draw(worldScreen);
+    map_draw(worldScreen, true);
+    game_hud_draw();
 }
