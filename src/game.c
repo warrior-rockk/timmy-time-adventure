@@ -102,7 +102,7 @@ static void game_load_config();
 static void game_save_config();
 static void game_create_options_menu();
 static void game_process_options_menu();
-static void game_create_controls_menu();
+static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -285,7 +285,7 @@ void game_update()
                         switch (gameDialog.optionSelected)
                         {
                             case 1: //CONTROLS
-                                gameSeq.step++;
+                                gameSeq.step = 10;
                                 dialog_destroy(&gameDialog);
                             break;
                             case 4: //EXIT
@@ -305,61 +305,13 @@ void game_update()
                         clear_to_color(buffer, 1);                      
                     }
                 break;
-                case 2: //draw controls menu
+                case 10:    //draw controls menu
                     clear_to_color(buffer, 1);
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
-                    
-                    game_create_controls_menu();
-                    
-                    dialog_draw(&gameDialog, buffer);
-                    gameSeq.step++;
+                    game_update_controls_menu(buffer, 0);
                 break;
-                case 3: //use controls menu
-                    game_navigation_menu(&gameDialog, buffer);
-
-                    //select key to redefine
-                    if (input_key_down(E_G_KEY_ENTER))
-                    {
-                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
-                        
-                        if (gameDialog.optionSelected == 6) //EXIT
-                        {
-                            gameSeq.step = 0;
-                            dialog_destroy(&gameDialog);   
-                        }  
-                        else
-                        {
-                            char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
-                            sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), lang_get_txt(E_TXT_MENU_PRESS_KEY));
-                            strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
-                            dialog_draw(&gameDialog, buffer);
-                            gameSeq.step++;                        
-                        }
-                    }
-
-                    if (input_key_down(E_G_KEY_EXIT))
-                    {
-                        gameSeq.step = 0;
-                        dialog_destroy(&gameDialog);       
-                    }
-                break;
-                case 4: //redefine selected option key (esc = cancels)
-                    clear_keybuf();
-                    uint8_t selectedKey = readkey()>>8;
-                    //redefine key if not hit ESC
-                    if (selectedKey != KEY_ESC)
-                    {
-                        gameConfig.gameKeys[gameDialog.optionSelected] = selectedKey;
-                        input_key_redefine(gameDialog.optionSelected, selectedKey);
-                        game_save_config();
-                    }
-                    //restore option text
-                    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
-                    sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
-                    strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
-                    dialog_draw(&gameDialog, buffer); 
-                    input_keys_update();
-                    gameSeq.step = 3;
+                case 11:    //select key
+                case 12:    //redefine
+                    game_update_controls_menu(buffer, 0);
                 break;
             }    
         break;
@@ -575,6 +527,10 @@ void game_update()
 
                         switch (gameDialog.optionSelected)
                         {
+                            case 1: //controls
+                                gameSeq.step = 10;
+                                dialog_destroy(&gameDialog);
+                            break;
                             case 4: //EXIT
                                 gameSeq.step = 0;                                
                                 dialog_destroy(&gameDialog);             
@@ -591,6 +547,11 @@ void game_update()
                         clear_to_color(worldScreen, BLACK_COLOR); 
                         game_draw_level();
                     }
+                break;
+                case 10:    //draw controls menu
+                case 11:    //select key
+                case 12:    //redefine
+                    game_update_controls_menu(worldScreen, 2);
                 break;
             }
         break;
@@ -1325,16 +1286,74 @@ static void game_process_options_menu()
     }
 }
 
-//creates menu redefine controls
-static void game_create_controls_menu()
+//creates and updates menu redefine controls
+static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
 {
     char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
-    for (uint8_t i = 0; i < 6; i++)
+            
+    switch (gameSeq.step)
     {
-        sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
-        dialog_add_option(&gameDialog, txtBuffer);    
-    }
-    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));    
+        case 10: //draw controls menu
+            
+            gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+            
+            for (uint8_t i = 0; i < 6; i++)
+            {
+                sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
+                dialog_add_option(&gameDialog, txtBuffer);    
+            }
+            dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT)); 
+            
+            dialog_draw(&gameDialog, drawBuffer);
+            gameSeq.step++;
+        break;
+        case 11: //use controls menu
+            game_navigation_menu(&gameDialog, drawBuffer);
+
+            //select key to redefine
+            if (input_key_down(E_G_KEY_ENTER))
+            {
+                sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                
+                if (gameDialog.optionSelected == 6) //EXIT
+                {
+                    gameSeq.step = stepReturn;
+                    dialog_destroy(&gameDialog);   
+                }  
+                else
+                {
+                    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
+                    sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), lang_get_txt(E_TXT_MENU_PRESS_KEY));
+                    strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
+                    dialog_draw(&gameDialog, drawBuffer);
+                    gameSeq.step++;                        
+                }
+            }
+
+            if (input_key_down(E_G_KEY_EXIT))
+            {
+                gameSeq.step = stepReturn;
+                dialog_destroy(&gameDialog);       
+            }
+        break;
+        case 12: //redefine selected option key (esc = cancels)
+            clear_keybuf();
+            uint8_t selectedKey = readkey()>>8;
+            //redefine key if not hit ESC
+            if (selectedKey != KEY_ESC)
+            {
+                gameConfig.gameKeys[gameDialog.optionSelected] = selectedKey;
+                input_key_redefine(gameDialog.optionSelected, selectedKey);
+                game_save_config();
+            }
+            //restore option text
+            sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
+            strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
+            dialog_draw(&gameDialog, drawBuffer); 
+            input_keys_update();
+            gameSeq.step = 11;
+        break;
+    }       
 }
 
 //summary function to update the world level
