@@ -81,9 +81,10 @@ struct hud
 //game configuration
 struct gameConfig
 {
-    uint8_t lang;           //game language
-    uint8_t sfxVolume;      //sfx volume (0..255)
-    uint8_t musicVolume;    //music volume (0..255)
+    uint8_t lang;                           //game language
+    uint8_t sfxVolume;                      //sfx volume (0..255)
+    uint8_t musicVolume;                    //music volume (0..255)
+    uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys
 } gameConfig;
 
 static void game_load_level(uint8_t numLevel);
@@ -352,7 +353,9 @@ void game_update()
                     uint8_t selectedKey = readkey()>>8;
                     if (selectedKey != KEY_ESC)
                     {
+                        gameConfig.gameKeys[gameDialog.optionSelected] = selectedKey;
                         input_key_redefine(gameDialog.optionSelected, selectedKey);
+                        game_save_config();
                     }
                     //redraw controls menu
                     gameSeq.step = 2;
@@ -816,20 +819,6 @@ void game_init()
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
     input_keys_init(E_GAME_KEYS_NUM);    
 
-    //default redefine keys
-    input_key_redefine(E_G_KEY_UP,      KEY_UP);
-    input_key_redefine(E_G_KEY_DOWN,    KEY_DOWN);
-    input_key_redefine(E_G_KEY_LEFT,    KEY_LEFT);
-    input_key_redefine(E_G_KEY_RIGHT,   KEY_RIGHT);
-    input_key_redefine(E_G_KEY_JUMP,    KEY_Z);
-    input_key_redefine(E_G_KEY_ACTION,  KEY_X);
-    input_key_redefine(E_G_KEY_PAUSE,   KEY_SPACE);
-    input_key_redefine(E_G_KEY_EXIT,    KEY_ESC);
-    input_key_redefine(E_G_KEY_ENTER,   KEY_ENTER);
-    input_key_redefine(E_G_KEY_D,       KEY_D);
-    input_key_redefine(E_G_KEY_S,       KEY_S);
-    input_key_redefine(E_G_KEY_I,       KEY_I);
-
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
@@ -1242,9 +1231,15 @@ static void game_load_config()
         MY_TRACE_FLAG("Config file doesn't exist. Creating with default values\n");
         
         //default values
-        gameConfig.lang         = E_LANG_ENG;    
-        gameConfig.sfxVolume    = 255;
-        gameConfig.musicVolume  = 255;
+        gameConfig.lang                     = E_LANG_ENG;    
+        gameConfig.sfxVolume                = 255;
+        gameConfig.musicVolume              = 255;
+        gameConfig.gameKeys[E_G_KEY_UP]     = KEY_UP;
+        gameConfig.gameKeys[E_G_KEY_DOWN]   = KEY_DOWN;
+        gameConfig.gameKeys[E_G_KEY_LEFT]   = KEY_LEFT;
+        gameConfig.gameKeys[E_G_KEY_RIGHT]  = KEY_RIGHT;
+        gameConfig.gameKeys[E_G_KEY_JUMP]   = KEY_Z;
+        gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;
 
         game_save_config();        
     }
@@ -1257,6 +1252,8 @@ static void game_load_config()
         fread(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
         fread(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
         fread(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+        for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
+            fread(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
 
         fclose(file);
 
@@ -1267,6 +1264,17 @@ static void game_load_config()
 
         MY_TRACE_FLAG("Config file readed\n");
     }
+
+    //redefine configurable keys
+    for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
+        input_key_redefine(i,      gameConfig.gameKeys[i]);
+    //redefine fixed game keys
+    input_key_redefine(E_G_KEY_PAUSE,   KEY_SPACE);
+    input_key_redefine(E_G_KEY_EXIT,    KEY_ESC);
+    input_key_redefine(E_G_KEY_ENTER,   KEY_ENTER);
+    input_key_redefine(E_G_KEY_D,       KEY_D);
+    input_key_redefine(E_G_KEY_S,       KEY_S);
+    input_key_redefine(E_G_KEY_I,       KEY_I);
 }
 
 //saves game configuration to a file
@@ -1277,6 +1285,8 @@ static void game_save_config()
     fwrite(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
     fwrite(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
     fwrite(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+    for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
+        fwrite(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
 
     fclose(file);
     MY_TRACE_FLAG("Config file saved\n");     
