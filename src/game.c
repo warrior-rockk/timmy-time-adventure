@@ -102,6 +102,7 @@ static void game_load_config();
 static void game_save_config();
 static void game_create_options_menu();
 static void game_process_options_menu();
+static void game_create_controls_menu();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -308,13 +309,7 @@ void game_update()
                     clear_to_color(buffer, 1);
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     
-                    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
-                    for (uint8_t i = 0; i < 6; i++)
-                    {
-                        sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
-                        dialog_add_option(&gameDialog, txtBuffer);    
-                    }
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));    
+                    game_create_controls_menu();
                     
                     dialog_draw(&gameDialog, buffer);
                     gameSeq.step++;
@@ -359,6 +354,7 @@ void game_update()
                         game_save_config();
                     }
                     //restore option text
+                    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
                     sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
                     strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
                     dialog_draw(&gameDialog, buffer); 
@@ -1332,7 +1328,13 @@ static void game_process_options_menu()
 //creates menu redefine controls
 static void game_create_controls_menu()
 {
-    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_CTRL_LEFT), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
+    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
+    for (uint8_t i = 0; i < 6; i++)
+    {
+        sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
+        dialog_add_option(&gameDialog, txtBuffer);    
+    }
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));    
 }
 
 //summary function to update the world level
