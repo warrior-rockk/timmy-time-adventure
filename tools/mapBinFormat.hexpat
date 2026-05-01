@@ -44,6 +44,7 @@ struct mapHeader {
     u16 tiles_X;
     u16 tiles_Y;
     u16 backgroundColor;
+    u16 levelTime;
     u16 tileCount;
     u16 tileColumns;  
     u16 numTilesData;

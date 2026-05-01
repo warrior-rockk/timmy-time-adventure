@@ -106,6 +106,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         map_height = int(root.attrib.get('height'))
         tile_width = int(root.attrib.get('tilewidth'))
         tile_height = int(root.attrib.get('tileheight'))
+        levelTime = get_property_value(root, "time", default=300)
         
         # Find data layer (layer). NOTE: the script takes the first layer founded
         layer = root.find('layer')
@@ -137,6 +138,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         print(f"BackColor: {backColor}")
         print(f"Tile count: {tileCount}")
         print(f"Tile columns: {tileColumns}")
+        print(f"Level time: {levelTime}")
 
         # Decoding the data from Tiled format
         if encoding == 'csv':
@@ -188,6 +190,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
         #   - Map Width                     (uint16) 
         #   - Map Height                    (uint16)
         #   - Map Backcolor                 (uint16)
+        #   - Level Time                    (uint16)
         #   - Tileset tile count            (uint16)
         #   - TIleset tile columns          (uint16)
         #   - Num tiles with data           (uint16)
@@ -204,8 +207,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
         with open(bin_file, 'wb') as f:            
             # Pack the HEADER: 'H' = unsigned short (uint16_t, 2 bytes)
-            # 8 bytes total header
-            header = struct.pack('<HHHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, tileCount, tileColumns, len(tile_data), len(tile_animations))
+            header = struct.pack('<HHHHHHHHHH', tile_width, tile_height, map_width, map_height, backColor, levelTime, tileCount, tileColumns, len(tile_data), len(tile_animations))
             f.write(header)
 
             # Write tiles: 'B' = unsigned char (uint8_t, 1 byte)

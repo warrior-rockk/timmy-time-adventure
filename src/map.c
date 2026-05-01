@@ -17,6 +17,7 @@ struct mapHeader{
     uint16_t map_width;
     uint16_t map_height;
     uint16_t backgroundColor;
+    uint16_t levelTime;
     uint16_t tileCount;
     uint16_t tileColumns;
     uint16_t numTilesWithProperty;
@@ -65,6 +66,7 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
     MY_TRACE_FLAG("\tTile dimensions: %u x %u px\n", mapHeader.tile_width, mapHeader.tile_height);
     MY_TRACE_FLAG("\tMap dimensions: %u x %u tiles\n", mapHeader.map_width, mapHeader.map_height);
     MY_TRACE_FLAG("\tBackground color: %u\n", mapHeader.backgroundColor);
+    MY_TRACE_FLAG("\tLevel time: %u\n", mapHeader.levelTime);
     MY_TRACE_FLAG("\tTile count: %u\n", mapHeader.tileCount);
     MY_TRACE_FLAG("\tTiles with property: %u\n", mapHeader.numTilesWithProperty);
     MY_TRACE_FLAG("\tTiles with animations: %u\n", mapHeader.numTilesWithAnimation);
