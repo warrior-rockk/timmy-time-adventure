@@ -42,6 +42,8 @@ void input_keys_init(uint8_t _numGameKeys);
 void input_keys_destroy();
 //redefine control
 void input_key_redefine(uint8_t keyId, uint8_t keyCode);
+//get defined control id
+uint8_t input_get_defined_key(uint8_t keyId);
 //updates keys state
 void input_keys_update();
 //return true if key is pressed

@@ -60,6 +60,12 @@ RGB *currentPal;                    //current palette setted
 RGB *introPal;                      //pal for intro sequence
 RGB *gamePal;                       //palette of 64 persistent colors for menus/title/hud/player
 
+//game controls string array
+char  *gameControlStrings[E_GAME_KEYS_NUM];
+//char *keyStrings[] = {"","ESC","1","2","3","4","5","6","7","8","9","0","MINUS","PLUS","BACKSPACE","TAB","Q","W","E","R","T","Y","U","I","O","P","L_BRACHET","R_BRACHET","ENTER","CONTROL","A","S","D","F","G","H","J","K","L","SEMICOLON","APOSTROPHE","WAVE","L_SHIFT","BACKSLASH","Z","X","C","V","B","N","M","COMMA","POINT","SLASH","R_SHIFT","PRN_SCR","ALT","SPACE","CAPS_LOCK","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","NUM_LOCK","SCROLL_LOCK","HOME","UP","PGUP","C_MINUS","LEFT","C_CENTER","RIGHT","C_PLUS","END","DOWN","PGDN","INS","DEL","","","","F11","F12","LESS","EQUALS","GREATER","ASTERISK","R_ALT","R_CONTROL","L_ALT","L_CONTROL","MENU","L_WINDOWS","R_WINDOWS"};
+char *keyStrings[] = {"", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","0_PAD","1_PAD","2_PAD","3_PAD","4_PAD","5_PAD","6_PAD","7_PAD","8_PAD","9_PAD","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","ESC","TILDE","MINUS","EQUALS","BACKSPACE","TAB","OPENBRACE","CLOSEBRACE","ENTER","COLON","QUOTE","BACKSLASH","BACKSLASH2","COMMA","STOP","SLASH","SPACE","INSERT","DEL","HOME","END","PGUP","PGDN","LEFT","RIGHT","UP","DOWN","SLASH_PAD","ASTERISK","MINUS_PAD","PLUS_PAD","DEL_PAD","ENTER_PAD"};
+char *keyStringText = ";ESC;1;2;3;4;5;6;7;8;9;0;MINUS;PLUS;BACKSPACE;TAB;Q;W;E;R;T;Y;U;I;O;P;L_BRACHET;R_BRACHET;ENTER;CONTROL;A;S;D;F;G;H;J;K;L;SEMICOLON;APOSTROPHE;WAVE;L_SHIFT;BACKSLASH;Z;X;C;V;B;N;M;COMMA;POINT;SLASH;R_SHIFT;PRN_SCR;ALT;SPACE;CAPS_LOCK;F1;F2;F3;F4;F5;F6;F7;F8;F9;F10;NUM_LOCK;SCROLL_LOCK;HOME;UP;PGUP;C_MINUS;LEFT;C_CENTER;RIGHT;C_PLUS;END;DOWN;PGDN;INS;DEL;;;;F11;F12;LESS;EQUALS;GREATER;ASTERISK;R_ALT;R_CONTROL;L_ALT;L_CONTROL;MENU;L_WINDOWS;R_WINDOWS";
+
 struct hud
 {
     BITMAP *hudImg;
@@ -276,6 +282,10 @@ void game_update()
 
                         switch (gameDialog.optionSelected)
                         {
+                            case 1: //CONTROLS
+                                gameSeq.step++;
+                                dialog_destroy(&gameDialog);
+                            break;
                             case 4: //EXIT
                                 game.state = E_GAME_ST_MAIN_MENU;
                                 gameSeq.step = 0;                                
@@ -292,6 +302,61 @@ void game_update()
                         dialog_destroy(&gameDialog);             
                         clear_to_color(buffer, 1);                      
                     }
+                break;
+                case 2: //draw controls menu
+                    clear_to_color(buffer, 1);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 64, 50}, (tVector){132, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    
+                    char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
+                    for (uint8_t i = 0; i < 6; i++)
+                    {
+                        sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
+                        dialog_add_option(&gameDialog, txtBuffer);    
+                    }
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));    
+                    
+                    dialog_draw(&gameDialog, buffer);
+                    gameSeq.step++;
+                break;
+                case 3: //use controls menu
+                    game_navigation_menu(&gameDialog, buffer);
+
+                    //select key to redefine
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                        
+                        if (gameDialog.optionSelected == 6) //EXIT
+                        {
+                            gameSeq.step = 0;
+                            dialog_destroy(&gameDialog);   
+                        }  
+                        else
+                        {
+                            char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
+                            sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), lang_get_txt(E_TXT_MENU_PRESS_KEY));
+                            strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
+                            dialog_draw(&gameDialog, buffer);
+                            gameSeq.step++;                        
+                        }
+                    }
+
+                    if (input_key_down(E_G_KEY_EXIT))
+                    {
+                        gameSeq.step = 0;
+                        dialog_destroy(&gameDialog);       
+                    }
+                break;
+                case 4: //redefine selected option key (esc = cancels)
+                    clear_keybuf();
+                    uint8_t selectedKey = readkey()>>8;
+                    if (selectedKey != KEY_ESC)
+                    {
+                        input_key_redefine(gameDialog.optionSelected, selectedKey);
+                    }
+                    //redraw controls menu
+                    gameSeq.step = 2;
+                    dialog_destroy(&gameDialog);   
                 break;
             }    
         break;
@@ -769,6 +834,15 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+
+    //set game control strings langs
+    gameControlStrings[E_G_KEY_UP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
+    gameControlStrings[E_G_KEY_DOWN] = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
+    gameControlStrings[E_G_KEY_LEFT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
+    gameControlStrings[E_G_KEY_RIGHT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
+    gameControlStrings[E_G_KEY_JUMP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_JUMP));
+    gameControlStrings[E_G_KEY_ACTION] = strdup(lang_get_txt(E_TXT_MENU_CTRL_ACTION));
+    MY_TRACE_FLAG("Up is %s\n", gameControlStrings[E_G_KEY_UP]);
     
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
@@ -1157,6 +1231,7 @@ static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
     return changedValue;
 }
 
+//loads game configuration from file
 static void game_load_config()
 {
     //load config file
@@ -1194,6 +1269,7 @@ static void game_load_config()
     }
 }
 
+//saves game configuration to a file
 static void game_save_config()
 {    
     FILE *file = fopen(CONFIG_FILE, "wb");
@@ -1206,6 +1282,7 @@ static void game_save_config()
     MY_TRACE_FLAG("Config file saved\n");     
 }
 
+//creates menu options
 static void game_create_options_menu()
 {
     dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
@@ -1215,6 +1292,7 @@ static void game_create_options_menu()
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 }
 
+//process menu options
 static void game_process_options_menu()
 {
     switch (gameDialog.optionSelected)
@@ -1237,6 +1315,11 @@ static void game_process_options_menu()
     }
 }
 
+//creates menu redefine controls
+static void game_create_controls_menu()
+{
+    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_CTRL_LEFT), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
+}
 
 //summary function to update the world level
 static void game_update_level()

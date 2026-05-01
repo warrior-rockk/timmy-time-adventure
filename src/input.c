@@ -71,6 +71,11 @@ void input_key_redefine(uint8_t keyId, uint8_t keyCode)
     MY_TRACE_FLAG("Redefine key id %i with code %i\n", keyId, keyCode);
 }
 
+uint8_t input_get_defined_key(uint8_t keyId)
+{
+    return gameKeys[keyId].keyCode;
+}
+
 void input_keys_update()
 {
     _anyKeyPressed = false;

@@ -136,6 +136,13 @@ enum E_GAME_TEXTS
     E_TXT_HUD_LIFE,
     E_TXT_HUD_SCORE,
     E_TXT_HUD_TIME,
+    E_TXT_MENU_CTRL_UP,
+    E_TXT_MENU_CTRL_DOWN,
+    E_TXT_MENU_CTRL_LEFT,
+    E_TXT_MENU_CTRL_RIGHT,
+    E_TXT_MENU_CTRL_JUMP,
+    E_TXT_MENU_CTRL_ACTION,
+    E_TXT_MENU_PRESS_KEY,
     
     E_TXT_NUM,
 };
@@ -208,7 +215,7 @@ typedef struct
     #define DEBUG_TRACE_CREATE_ENTITIES     0
     #define DEBUG_TRACE_ENTITIES            0
     #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE //E_GAME_ST_LOAD_LEVEL
     typedef struct
     {
         uint8_t showDebugInfo; 
