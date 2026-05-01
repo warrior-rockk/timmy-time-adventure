@@ -401,7 +401,14 @@ void game_update()
             if (game.time <= 0)
                 game.loseLive = true;
             else if (clock_tick_1sec_get())
+            {
                 game.time--;
+                //speed up music on 10 seconds left
+                if (game.time == GAME_HURRY_TIME_LEFT)
+                    music_set_tempo(GAME_HURRY_MUSIC_TEMPO);
+                if (game.time <= GAME_HURRY_TIME_LEFT)
+                    sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE);
+            }
             
             if (input_key_down(E_G_KEY_PAUSE))
                 game.state = E_GAME_ST_PAUSE_LEVEL;
@@ -417,34 +424,7 @@ void game_update()
                     game.state = E_GAME_ST_INIT_LEVEL;
                 
                 if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
-                    game.state = E_GAME_ST_COMPLETE_LEVEL;
-                
-                if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
-                {
-                    //TODO: make midi tempo funcion with this and union with uint32_t
-                    /* union DoubleToBytes {
-                        double valor;
-                        uint8_t bytes[sizeof(double)];
-                    };
-
-                    int main() {
-                        union DoubleToBytes d2b;
-                        d2b.valor = 12345.6789;
-
-                        // Ahora d2b.bytes ya contiene los datos
-                        // Puedes acceder a d2b.bytes[0], d2b.bytes[1], etc.
-                    }; */
-
-                    uint8_t msg[6];
-                    msg[0] = 0xFF;
-                    msg[1] = 0x51;
-                    msg[2] = 0x03;
-                    //60000 / tempo = 
-                    msg[3] = 0x05;
-                    msg[4] = 0x14;
-                    msg[5] = 0xC8;
-                    midi_out(msg, 6);
-                }
+                    game.state = E_GAME_ST_COMPLETE_LEVEL;    
             #endif
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
@@ -1103,7 +1083,7 @@ void game_hud_draw()
     //update time
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_TIME))
     {
-        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= 10 && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
     }
 
     //reset refresh flags

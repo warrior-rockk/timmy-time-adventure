@@ -24,6 +24,11 @@ static tSfx *sfx;
 //init sample to allocate voices
 SAMPLE *initSfx;
 
+union uMidiTempo {
+    uint32_t value;
+    uint8_t bytes[sizeof(uint32_t)];
+};
+
 int sound_init()
 {
     switch(soundMode)
@@ -131,6 +136,27 @@ void music_set_volume(uint8_t volume)
 {
     set_hardware_volume(-1, volume);
     set_volume(-1, volume);
+}
+
+void music_set_tempo(uint8_t tempo)
+{
+    union uMidiTempo midiTempo;
+    
+    //calculate uSeconds based on tempo
+    midiTempo.value = (60000 / tempo) * 1000;
+    
+    //compose midi msg
+    uint8_t msg[6];
+    msg[0] = 0xFF;  //custom midi msg
+    msg[1] = 0x51;  //set tempo command
+    msg[2] = 0x03;  //tempo num bytes
+    //tempo value from union
+    msg[3] = midiTempo.bytes[2];
+    msg[4] = midiTempo.bytes[1];
+    msg[5] = midiTempo.bytes[0];
+    
+    //send midi msg
+    midi_out(msg, 6);
 }
 
 void sfx_init(SAMPLE *initSample, uint8_t numVoices)

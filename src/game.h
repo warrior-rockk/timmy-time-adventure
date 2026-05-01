@@ -51,6 +51,8 @@
 #endif
 #define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
 #define GAME_INIT_LEVEL_DELAY   100     //time delay on start level
+#define GAME_HURRY_TIME_LEFT    10      //time left to hurry up (time on red, speed up music...)
+#define GAME_HURRY_MUSIC_TEMPO  160     //tempo of music when time running out
 
 //HUD defines
 #define HUD_POSITION_Y          166
