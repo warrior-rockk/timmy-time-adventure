@@ -342,3 +342,8 @@ int16_t map_snap_y_to_tile(tEntity *entity)
 {
     return (entity->pos.y + (entity->size.y >> 1)) + (mapHeader.tile_height >> 1) - ((entity->pos.y + (entity->size.y >> 1)) % mapHeader.tile_height) - (entity->size.y >> 1);
 }
+
+uint8_t map_get_level_time()
+{
+    return mapHeader.levelTime;
+}

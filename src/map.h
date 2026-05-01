@@ -52,10 +52,15 @@ enum E_TILE_PROPERTY
 void map_load(char *mapFile, BITMAP *tileset, tVector screenSize);
 //unload the map and free resources
 void map_unload();
+
 //get the dimensions of the map (on tiles)
 tVector map_get_dimensions();
+//get level time
+uint8_t map_get_level_time();
+
 //draw the current map
 void map_draw(BITMAP *buffer, bool frontLayer);
+
 //checks if position exists on tile maps
 uint16_t map_tile_exists(tVector checkPosition);
 //gets map tile property

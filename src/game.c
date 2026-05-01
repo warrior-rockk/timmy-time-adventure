@@ -338,8 +338,8 @@ void game_update()
                     game.life       = GAME_INI_LIFE;            
                     game.loseLive   = false;            
                     game.viewMap    = true;
-                    //TODO: reload level time from map
-                    game.time = 300;
+                    //init level time from map
+                    game.time = map_get_level_time();
 
                     entities_init();
                     //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(entity_get_player_id())->pos.x, entity_get(entity_get_player_id())->pos.y);
@@ -910,9 +910,7 @@ static void game_load_level(uint8_t numLevel)
     
     //TODO: read scroll mode from map
     game.scrollMode = E_SCROLL_BY_WINDOW_Y_MODE;
-    //TODO: read level time from map
-    game.time = 300;
-
+    
     //calculate scroll dimensions based on map dimensions
     tVector mapDimension = map_get_dimensions();
     mapDimension.x = mapDimension.x - GAME_W;
@@ -923,7 +921,6 @@ static void game_load_level(uint8_t numLevel)
     
     //load music level
     gameMusic = (MIDI *)levelDAT[levelData[numLevel].musicFileIndex].dat;
-    
 }
 
 void game_destroy()
