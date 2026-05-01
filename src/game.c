@@ -511,6 +511,7 @@ void game_update()
                     
                     game_create_options_menu();
                     
+                    game_draw_level();
                     dialog_draw(&gameDialog, worldScreen);
                     gameSeq.step++;
                 break;
