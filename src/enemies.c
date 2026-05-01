@@ -112,7 +112,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){71, 64};
             entity->size.x = 30;
-            entity->size.y = 20;                                      
+            entity->size.y = 16;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, RAPTOR2_BMP);

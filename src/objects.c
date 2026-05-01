@@ -383,8 +383,14 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
     {
         case E_CHECKPOINT_OBJECT_TYPE:
             //if the object is in scroll range, sets the initial position of the player for checkpoint spawn
-            entity_get(entity_get_player_id())->initPos = this->pos;
-            entity_get(entity_get_player_id())->initDir = this->dir;            
+            tEntity *player = entity_get(entity_get_player_id());
+
+            if ( (player->pos.x >= this->pos.x && this->dir == E_ENT_DIR_RIGHT) ||
+                 (player->pos.x <= this->pos.x && this->dir == E_ENT_DIR_LEFT))
+            {
+                player->initPos = this->pos;
+                player->initDir = this->dir;            
+            }
         break;
         case E_END_OBJECT_TYPE:
             //if collision with player
