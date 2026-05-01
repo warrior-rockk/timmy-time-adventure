@@ -487,7 +487,7 @@ void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
 void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy definitions
-    #define PIRANHA_DEFAULT_WAIT_TIME   150
+    #define PIRANHA_DEFAULT_WAIT_TIME   100
     #define PIRANHA_VEL_Y               -4
     #define PIRANHA_VEL_X               0.8
 
