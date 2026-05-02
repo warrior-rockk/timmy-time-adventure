@@ -10,15 +10,15 @@
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
-- [ ] Redefine controls
 - [ ] Platform objects
 - [ ] PC Speaker effects?
 - [ ] Intro
 - [ ] Title screen
-- [ ] Menus and options
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Change background color and fade to do sunset?
+- [X] Menus and options
+- [X] Redefine controls
 - [X] Camera shake
 - [X] Destroy dialog (not system)
 - [X] Translation text

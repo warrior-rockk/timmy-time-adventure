@@ -52,8 +52,8 @@
 	+--EXIT TO DOS: exit game
 
 ## Retropolis impressions
-* Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse
-* Too difficult the perodayctile jump
+* Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse (OK)
+* Too difficult the perodayctile jump (OK)
 * Less time to pick a stone (OK)
 * Too much friction and inertia (OK = 0.92 to 0.88)
 * Bug on time when repeat game overs (OK)

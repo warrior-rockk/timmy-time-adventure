@@ -103,6 +103,7 @@ static void game_save_config();
 static void game_create_options_menu();
 static void game_process_options_menu();
 static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
+static void game_create_options_play_menu();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -450,12 +451,7 @@ void game_update()
                     game_pause_sound();
             
                     //create play menu dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, 40}, (tVector){100, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE));
-                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_DOS));
-                    
+                    game_create_options_play_menu();
                     dialog_draw(&gameDialog, worldScreen);
 
                     gameSeq.step++;
@@ -511,7 +507,7 @@ void game_update()
                     
                     game_create_options_menu();
                     
-                    game_draw_level();
+                    //game_draw_level();
                     dialog_draw(&gameDialog, worldScreen);
                     gameSeq.step++;
                 break;
@@ -1264,6 +1260,16 @@ static void game_create_options_menu()
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 }
 
+//creates play menu options
+static void game_create_options_play_menu()
+{
+    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, 40}, (tVector){100, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE));
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_DOS));
+}
+
 //process menu options
 static void game_process_options_menu()
 {
@@ -1319,6 +1325,12 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                 if (gameDialog.optionSelected == 6) //EXIT
                 {
                     gameSeq.step = stepReturn;
+                    if (stepReturn == 2)
+                    {
+                        game_draw_level();
+                        game_create_options_play_menu();
+                        dialog_draw(&gameDialog, drawBuffer);
+                    }
                     dialog_destroy(&gameDialog);   
                 }  
                 else
@@ -1334,6 +1346,12 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
             if (input_key_down(E_G_KEY_EXIT))
             {
                 gameSeq.step = stepReturn;
+                if (stepReturn == 2)
+                {
+                    game_draw_level();
+                    game_create_options_play_menu();
+                    dialog_draw(&gameDialog, drawBuffer);
+                }
                 dialog_destroy(&gameDialog);       
             }
         break;
