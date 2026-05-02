@@ -62,9 +62,7 @@ RGB *gamePal;                       //palette of 64 persistent colors for menus/
 
 //game controls string array
 char  *gameControlStrings[E_GAME_KEYS_NUM];
-//char *keyStrings[] = {"","ESC","1","2","3","4","5","6","7","8","9","0","MINUS","PLUS","BACKSPACE","TAB","Q","W","E","R","T","Y","U","I","O","P","L_BRACHET","R_BRACHET","ENTER","CONTROL","A","S","D","F","G","H","J","K","L","SEMICOLON","APOSTROPHE","WAVE","L_SHIFT","BACKSLASH","Z","X","C","V","B","N","M","COMMA","POINT","SLASH","R_SHIFT","PRN_SCR","ALT","SPACE","CAPS_LOCK","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","NUM_LOCK","SCROLL_LOCK","HOME","UP","PGUP","C_MINUS","LEFT","C_CENTER","RIGHT","C_PLUS","END","DOWN","PGDN","INS","DEL","","","","F11","F12","LESS","EQUALS","GREATER","ASTERISK","R_ALT","R_CONTROL","L_ALT","L_CONTROL","MENU","L_WINDOWS","R_WINDOWS"};
 char *keyStrings[] = {"", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","0_PAD","1_PAD","2_PAD","3_PAD","4_PAD","5_PAD","6_PAD","7_PAD","8_PAD","9_PAD","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","ESC","TILDE","MINUS","EQUALS","BACKSPACE","TAB","OPENBRACE","CLOSEBRACE","ENTER","COLON","QUOTE","BACKSLASH","BACKSLASH2","COMMA","STOP","SLASH","SPACE","INSERT","DEL","HOME","END","PGUP","PGDN","LEFT","RIGHT","UP","DOWN","SLASH_PAD","ASTERISK","MINUS_PAD","PLUS_PAD","DEL_PAD","ENTER_PAD"};
-char *keyStringText = ";ESC;1;2;3;4;5;6;7;8;9;0;MINUS;PLUS;BACKSPACE;TAB;Q;W;E;R;T;Y;U;I;O;P;L_BRACHET;R_BRACHET;ENTER;CONTROL;A;S;D;F;G;H;J;K;L;SEMICOLON;APOSTROPHE;WAVE;L_SHIFT;BACKSLASH;Z;X;C;V;B;N;M;COMMA;POINT;SLASH;R_SHIFT;PRN_SCR;ALT;SPACE;CAPS_LOCK;F1;F2;F3;F4;F5;F6;F7;F8;F9;F10;NUM_LOCK;SCROLL_LOCK;HOME;UP;PGUP;C_MINUS;LEFT;C_CENTER;RIGHT;C_PLUS;END;DOWN;PGDN;INS;DEL;;;;F11;F12;LESS;EQUALS;GREATER;ASTERISK;R_ALT;R_CONTROL;L_ALT;L_CONTROL;MENU;L_WINDOWS;R_WINDOWS";
 
 struct hud
 {
@@ -104,6 +102,7 @@ static void game_create_options_menu();
 static void game_process_options_menu();
 static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
 static void game_create_options_play_menu();
+static void game_load_control_strings();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -781,15 +780,6 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
-
-    //set game control strings langs
-    gameControlStrings[E_G_KEY_UP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
-    gameControlStrings[E_G_KEY_DOWN] = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
-    gameControlStrings[E_G_KEY_LEFT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
-    gameControlStrings[E_G_KEY_RIGHT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
-    gameControlStrings[E_G_KEY_JUMP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_JUMP));
-    gameControlStrings[E_G_KEY_ACTION] = strdup(lang_get_txt(E_TXT_MENU_CTRL_ACTION));
-    MY_TRACE_FLAG("Up is %s\n", gameControlStrings[E_G_KEY_UP]);
     
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
@@ -974,6 +964,12 @@ void game_destroy()
     //destroy game data index
     MY_TRACE_FLAG("\tDestroying gameDataIndex\n");
     destroy_dat_index(gameDataIndex);
+
+    //destroy bitmaps
+    MY_TRACE_FLAG("\tDestroying bitmaps\n");
+    destroy_bitmap(hud.hudImg);
+    destroy_bitmap(worldScreen);
+    destroy_bitmap(buffer);
 
     MY_TRACE_FLAG("\tDestroying input key system\n");
     input_keys_destroy();
@@ -1233,6 +1229,8 @@ static void game_load_config()
     input_key_redefine(E_G_KEY_D,       KEY_D);
     input_key_redefine(E_G_KEY_S,       KEY_S);
     input_key_redefine(E_G_KEY_I,       KEY_I);
+    //load string of controls of current language
+    game_load_control_strings();
 }
 
 //saves game configuration to a file
@@ -1277,6 +1275,7 @@ static void game_process_options_menu()
     {
         case 0: //lang                                
             lang_set(gameConfig.lang);
+            game_load_control_strings();
             game_save_config();
             //redraw dialog
             dialog_destroy(&gameDialog);
@@ -1390,4 +1389,15 @@ static void game_draw_level()
     entities_draw(worldScreen);
     map_draw(worldScreen, true);
     game_hud_draw();
+}
+
+static void game_load_control_strings()
+{
+    //set game control strings langs
+    gameControlStrings[E_G_KEY_UP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
+    gameControlStrings[E_G_KEY_DOWN] = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
+    gameControlStrings[E_G_KEY_LEFT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
+    gameControlStrings[E_G_KEY_RIGHT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
+    gameControlStrings[E_G_KEY_JUMP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_JUMP));
+    gameControlStrings[E_G_KEY_ACTION] = strdup(lang_get_txt(E_TXT_MENU_CTRL_ACTION));
 }

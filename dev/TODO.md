@@ -3,7 +3,6 @@
 
 # Engine
 - [ ] Review debug keys on different translation units
-- [ ] Count down when time's up (sound)
 - [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?
 - [ ] Debug teleport to next checkpoint? or mouse change position?
@@ -17,6 +16,7 @@
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Change background color and fade to do sunset?
+- [X] Count down when time's up (sound)
 - [X] Menus and options
 - [X] Redefine controls
 - [X] Camera shake
