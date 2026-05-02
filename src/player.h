@@ -66,6 +66,7 @@
 #define ANIM_PLY_MOVE_STAIRS        70, 71, 20, ANIM_LOOP
 #define ANIM_PLY_IDLE_WAIT          72, 83, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_ATTACK        85, 88, 5, ANIM_ONCE
+#define ANIM_PLY_ON_EDGE            95, 97, 10, ANIM_PING_PONG
 
 enum ePlayerState
 {

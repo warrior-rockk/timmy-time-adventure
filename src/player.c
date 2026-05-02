@@ -628,7 +628,14 @@ static void player_update_animations(tEntity *player)
                     idleCounter = 0;    
             }
             else
-                play_animation(&player->anim, ANIM_PLY_BREATH);            
+            {
+                //check if on edge (xor)
+                if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_R), E_TILE_PROP_NO_SOLID) ^
+                    CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_L), E_TILE_PROP_NO_SOLID))
+                    play_animation(&player->anim, ANIM_PLY_ON_EDGE);
+                else    
+                    play_animation(&player->anim, ANIM_PLY_BREATH);            
+            }
         break;
         case ST_PLAYER_RUN:
             if (playerFlags.picked)

@@ -47,7 +47,7 @@
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 
 # Player
-- [ ] Animation on edge
+- [X] Animation on edge
 - [X] Idle special animation when no control
 - [X] Slide crouched
 - [X] Better jump velocities/gravity
