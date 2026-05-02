@@ -250,10 +250,6 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
                     !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && 
                     !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)     && 
                     !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL);
-                    //TODO: no scroll collision?
-                    /*  ||
-                    tileProperty == NO_SCROLL_L ||
-                    tileProperty == NO_SCROLL_R;*/
         break;
         case E_COLLISION_DIR_UP: 
             return (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID) && !CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && !CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && !CHECK_FLAG(tileProperty, E_TILE_PROP_STAIR)) ||
@@ -267,12 +263,6 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
                     CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
                     (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0) ||
                     (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y >= 0);
-                    //TODO: rest of collisions
-                    /*||
-                    tileProperty == NO_SCROLL_L ||
-                    tileProperty == NO_SCROLL_R ||
-                    (tileMap[posY][posX].tileCode == SOLID_ON_FALL && ( idEntity.this.vY>0 || isType(idEntity,TYPE player)) )||
-                    (tileMap[posY][posX].tileCode == TOP_STAIRS && (idEntity.this.vY>0 || isType(idEntity,TYPE player)) );*/
         break;
         default:
             return 0;
