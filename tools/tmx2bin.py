@@ -15,10 +15,10 @@ import os
 #define entity classes (order define entity create game order)
 entity_classes = {
      "trigger"  : 0,
-     "player"   : 1,
-     "object"   : 2,
-     "enemy"    : 3,
-     "platform" : 4,     
+     "platform" : 1,     
+     "player"   : 2,
+     "object"   : 3,
+     "enemy"    : 4,     
 }
 #define entity player types
 player_ent_types = {
@@ -35,6 +35,7 @@ object_ent_types = {
     "item"          : 5,
     "stopScroll"    : 6,
     "rock3"         : 7,
+    "wagon"         : 8,
 }
 #define entity enemies types
 enemy_ent_types = {
@@ -53,7 +54,7 @@ enemy_ent_types = {
 
 }
 #define array of lists of entity types
-ent_types = [object_ent_types, player_ent_types, object_ent_types, enemy_ent_types]
+ent_types = [object_ent_types, object_ent_types, player_ent_types, object_ent_types, enemy_ent_types]
 
 def get_custom_properties(element):
     """Get custom properties and returns on dictionary."""

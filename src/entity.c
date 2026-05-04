@@ -175,7 +175,8 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_destroy  = &player_destroy;
             break;
             case E_ENT_CLASS_OBJECT:
-            case E_ENT_CLASS_TRIGGER:                   
+            case E_ENT_CLASS_TRIGGER:       
+            case E_ENT_CLASS_PLATFORM:            
                 entityList[newEntity].properties      = 0x00;
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
