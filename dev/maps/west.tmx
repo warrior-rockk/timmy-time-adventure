@@ -377,7 +377,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="16" y="96" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="288" y="240" width="16" height="32"/>
   <object id="11" name="rock3" type="object" x="864" y="112" width="16" height="16"/>
   <object id="12" name="rock3" type="object" x="80" y="112" width="21" height="16"/>
   <object id="3" template="enemies/cowboy.tx" type="enemy" x="187" y="88"/>
@@ -412,6 +412,6 @@
    </properties>
   </object>
   <object id="23" name="rock3" type="object" x="1408" y="64" width="16" height="16"/>
-  <object id="25" template="platforms/wagon.tx" type="object" x="496" y="240"/>
+  <object id="25" template="platforms/wagon.tx" type="object" x="498" y="249" width="36" height="27"/>
  </objectgroup>
 </map>

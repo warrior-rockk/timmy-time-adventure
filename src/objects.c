@@ -141,8 +141,8 @@ void object_create(tEntity *entity)
         case E_WAGON_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
             entity->img = objectResources[E_WAGON_OBJECT_TYPE];
-            entity->spriteSize = (tVector){36, 34};
-            entity->size = (tVector){36, 34};             
+            entity->spriteSize = (tVector){36, 27};
+            entity->size = (tVector){36, 27};             
             collision_create_entity_points(entity);                  
         break;
         default:
@@ -445,7 +445,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 {
-    ;
+    this->anim.frame = 0;
 }
 
 void object_trace(tEntity *this)
