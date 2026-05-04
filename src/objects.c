@@ -463,8 +463,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
         case E_WAGON_ST_MOVE:
             this->fixVel.x = itofix(1);
             entity_get(entity_get_player_id())->fixPos.x = this->fixPos.x + itofix(this->size.x >> 1);
-            entity_get(entity_get_player_id())->fixPos.y = this->fixPos.y - itofix(this->size.y >> 1);
-            entity_get(entity_get_player_id())->ground = true;
+            //entity_get(entity_get_player_id())->fixPos.y = this->fixPos.y - itofix(this->size.y >> 1);
+            //entity_get(entity_get_player_id())->ground = true;
         break;
     }
     
