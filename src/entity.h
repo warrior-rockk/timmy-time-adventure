@@ -30,10 +30,10 @@
 enum E_ENTITY_CLASS
 {
     E_ENT_CLASS_TRIGGER,    //trigger has priority order from player    
+    E_ENT_CLASS_PLATFORM,   //platfrom has priority order from player
     E_ENT_CLASS_PLAYER,
     E_ENT_CLASS_OBJECT,
-    E_ENT_CLASS_ENEMY,
-    E_ENT_CLASS_PLATFORM,   //platfrom has priority order from player
+    E_ENT_CLASS_ENEMY,    
 };
 
 enum E_ENTITY_PROPERTIES
