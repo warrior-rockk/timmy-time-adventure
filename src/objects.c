@@ -142,8 +142,9 @@ void object_create(tEntity *entity)
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
             entity->img = objectResources[E_WAGON_OBJECT_TYPE];
             entity->spriteSize = (tVector){36, 27};
-            entity->size = (tVector){36, 27};       
-            entity->properties =  E_ENT_PROP_PHYSICS_ON;
+            entity->size = (tVector){36, 27>>1};
+            entity->axis = E_ENT_AXIS_DOWN;       
+            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE;
             collision_create_entity_points(entity);                  
         break;
         default:
@@ -462,7 +463,9 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_WAGON_ST_MOVE:
             this->fixVel.x = itofix(1);
-            entity_get(entity_get_player_id())->fixPos.x = this->fixPos.x + itofix(this->size.x >> 1);
+            fixed nextPosX = this->fixPos.x + this->fixVel.x;
+            
+            entity_get(entity_get_player_id())->fixPos.x += (nextPosX - this->fixPos.x); // + itofix(this->size.x >> 1);
             //entity_get(entity_get_player_id())->fixPos.y = this->fixPos.y - itofix(this->size.y >> 1);
             //entity_get(entity_get_player_id())->ground = true;
         break;
