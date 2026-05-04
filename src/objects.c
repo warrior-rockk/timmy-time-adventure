@@ -138,6 +138,13 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
+        case E_WAGON_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
+            entity->img = objectResources[E_WAGON_OBJECT_TYPE];
+            entity->spriteSize = (tVector){36, 34};
+            entity->size = (tVector){36, 34};             
+            collision_create_entity_points(entity);                  
+        break;
         default:
             abort_on_error("Object entity type not valid");
         break;
@@ -166,6 +173,9 @@ void object_update(tEntity *entity)
         break;
         case E_ITEM_OBJECT_TYPE:
             object_item_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_WAGON_OBJECT_TYPE:
+            object_wagon_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -431,6 +441,11 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
     }
+}
+
+void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    ;
 }
 
 void object_trace(tEntity *this)
