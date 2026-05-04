@@ -142,7 +142,8 @@ void object_create(tEntity *entity)
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
             entity->img = objectResources[E_WAGON_OBJECT_TYPE];
             entity->spriteSize = (tVector){36, 27};
-            entity->size = (tVector){36, 27};             
+            entity->size = (tVector){36, 27};       
+            entity->properties =  E_ENT_PROP_PHYSICS_ON;
             collision_create_entity_points(entity);                  
         break;
         default:
@@ -445,7 +446,28 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 {
+    //object states
+    enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
+
     this->anim.frame = 0;
+
+    switch (this->state)
+    {
+        case E_WAGON_ST_IDLE:
+            //if collision with player
+            if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            {
+                this->state++;
+            }
+        break;
+        case E_WAGON_ST_MOVE:
+            this->fixVel.x = itofix(1);
+            entity_get(entity_get_player_id())->fixPos.x = this->fixPos.x + itofix(this->size.x >> 1);
+            entity_get(entity_get_player_id())->fixPos.y = this->fixPos.y - itofix(this->size.y >> 1);
+            entity_get(entity_get_player_id())->ground = true;
+        break;
+    }
+    
 }
 
 void object_trace(tEntity *this)
