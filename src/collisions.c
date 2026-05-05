@@ -21,6 +21,7 @@ BITMAP *collisionMapSlope45;                //collision map of a 45º slope
 BITMAP *collisionMapSlope135;               //collision map of a 135º slope
 BITMAP *collisionMapSolidOnFall;            //collision map of solid only on fall
 DATAFILE_INDEX *collisionDataFileIndex;
+static int16_t playerPlatformId;            //id of the platform entity that player stands
 
 //inits collision system
 void collision_system_init()
@@ -38,6 +39,9 @@ void collision_system_init()
     collisionMapSlope135    = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE135_BMP);
     collisionMapSlope45     = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE45_BMP);
     collisionMapSolidOnFall = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);
+
+    //reset player platform entity id
+    playerPlatformId = -1;
 
     MY_TRACE_FLAG("Initialized collision system\n");
 }
@@ -721,6 +725,15 @@ uint16_t collision_get_tile_property(tEntity *entity, uint16_t pointNum)
         return E_TILE_PROP_NO_SOLID;
     else
         return tileProperty;
+}
+
+void collision_set_player_platform_id(int16_t entityPlatformId)
+{
+    playerPlatformId = entityPlatformId;
+}
+int16_t collision_get_player_platform_id()
+{
+    return playerPlatformId;
 }
 
 //funcion que engloba la gestion de las fisicas de un proceso

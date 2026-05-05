@@ -113,4 +113,8 @@ uint16_t collision_get_tile_property(tEntity *entity, uint16_t pointNum);
 //function to apply the direction of the collision to an entity
 void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 
+//sets the id of the entity of platform player. -1 to reset
+void collision_set_player_platform_id(int16_t entityPlatformId);
+//returns the entity id of the player platform. -1 if player not in platform
+int16_t collision_get_player_platform_id();
 #endif

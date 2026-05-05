@@ -477,7 +477,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.x = itofix(0);    
 
             //if collision with player
-            if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            //if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            if (collision_get_player_platform_id() == this->id)
             {
                 this->state++;
             }
@@ -490,12 +491,15 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 
             //calculate next wagon integer position (entity update do this)
             int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
-            
+            int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+
             //only move player if collided
-            if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            //if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            if (collision_get_player_platform_id() == this->id)
             {
                 //adds to player x position the integer part of platform delta movement
-                entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);                
+                entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
+                entity_get(entity_get_player_id())->fixPos.y += itofix(nextPosY - this->pos.y);                
             }
 
             play_animation(&this->anim, ANIM_WAGON_MOVE);

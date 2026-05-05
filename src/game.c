@@ -341,6 +341,7 @@ void game_update()
                     game.life       = GAME_INI_LIFE;            
                     game.loseLive   = false;            
                     game.viewMap    = true;
+                    collision_set_player_platform_id(-1);
                     //init level time from map
                     game.time = map_get_level_time();
 

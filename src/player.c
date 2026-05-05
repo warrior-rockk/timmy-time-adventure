@@ -376,6 +376,7 @@ static void player_update_collisions(tEntity *player)
     uint8_t colDir = 0;
     player->ground = false;
     objectForPickID = 0;
+    collision_set_player_platform_id(-1);
 
     //check all the entity collision points with tilemap     
     for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
@@ -434,6 +435,13 @@ static void player_update_collisions(tEntity *player)
                             collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);
                     }
                     
+                    //if entity is platform and collision on above
+                    if (checkEntity->entClass == E_ENT_CLASS_PLATFORM && colDir == E_COLLISION_DIR_DOWN && player->ground)
+                    {
+                        //sets platform entity id
+                        collision_set_player_platform_id(checkEntity->id);
+                    }
+                        
                     //check horizontal collision with entity
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_HORIZONTALAXIS);
 
