@@ -427,6 +427,6 @@
    </properties>
   </object>
   <object id="23" name="rock3" type="object" x="1408" y="64" width="16" height="16"/>
-  <object id="25" template="platforms/wagon.tx" type="platform" x="48" y="453" width="16" height="12"/>
+  <object id="25" template="platforms/wagon.tx" type="platform" x="48" y="453"/>
  </objectgroup>
 </map>
