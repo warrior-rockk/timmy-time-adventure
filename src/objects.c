@@ -449,12 +449,14 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define WAGON_VELOCITY      0.8
+    #define WAGON_VELOCITY      0.9
 
     //object states
     enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
 
-    this->anim.frame = 0;
+    //object animations
+    #define ANIM_WAGON_IDLE   0,   0, 10,  ANIM_ONCE
+    #define ANIM_WAGON_MOVE   0,   3, 10,  ANIM_LOOP
 
     //terrain collisions
     uint8_t colDir = 0;
@@ -479,6 +481,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 this->state++;
             }
+
+            play_animation(&this->anim, ANIM_WAGON_IDLE);
         break;
         case E_WAGON_ST_MOVE:
             //apply linear wagon velocity
@@ -493,6 +497,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
                 //adds to player x position the integer part of platform delta movement
                 entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);                
             }
+
+            play_animation(&this->anim, ANIM_WAGON_MOVE);
         break;
     }    
 }
