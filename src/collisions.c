@@ -306,6 +306,9 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         //deactivate down collision points if entity on slope               
         entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = !onSlope135;
         entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled = !onSlope45;
+        //deactiva up collision points too (useful for wagon)
+        entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_UP].enabled = !onSlope135;
+        entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_UP].enabled = !onSlope45;
     #endif
     
     //check if collision point is horizontal

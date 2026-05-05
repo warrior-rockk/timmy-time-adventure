@@ -141,11 +141,12 @@ void object_create(tEntity *entity)
         case E_WAGON_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
             entity->img = objectResources[E_WAGON_OBJECT_TYPE];
-            entity->spriteSize = (tVector){36, 27};
-            entity->size = (tVector){36, 27>>1};
-            entity->axis = E_ENT_AXIS_DOWN;       
-            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE;
-            collision_create_entity_points(entity);                  
+            entity->spriteSize = (tVector){36, 27};            
+            entity->size = (tVector){16, 12};                                     
+            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE;            
+            entity->axis = E_ENT_AXIS_DOWN;
+            collision_create_entity_points(entity);
+            
         break;
         default:
             abort_on_error("Object entity type not valid");
@@ -454,6 +455,18 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
 
     this->anim.frame = 0;
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+    }
 
     switch (this->state)
     {
