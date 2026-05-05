@@ -463,14 +463,16 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
         case E_WAGON_ST_MOVE:
-            this->fixVel.x = ftofix(1);
+            //apply linear wagon velocity
+            this->fixVel.x = ftofix(0.8);
+            //calculate next wagon integer position (entity update do this)
+            int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
             
-            int16_t nextPosX = fixtoi(this->fixPos.x + this->fixVel.x);
-            
-            //only move player if collision (normal platform)
+            //only move player if collided
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
-                entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
+                //adds to player x position the integer part of platform delta movement
+                entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);                
             }
         break;
     }
