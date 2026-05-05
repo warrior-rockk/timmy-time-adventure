@@ -447,6 +447,9 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 {
+    //object defines
+    #define WAGON_VELOCITY      0.8
+
     //object states
     enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
 
@@ -455,7 +458,9 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->state)
     {
         case E_WAGON_ST_IDLE:
+            //reset velocity
             this->fixVel.x = itofix(0);    
+
             //if collision with player
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
@@ -464,7 +469,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_WAGON_ST_MOVE:
             //apply linear wagon velocity
-            this->fixVel.x = ftofix(0.8);
+            this->fixVel.x = ftofix(WAGON_VELOCITY);
+
             //calculate next wagon integer position (entity update do this)
             int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
             
@@ -475,8 +481,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
                 entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);                
             }
         break;
-    }
-    
+    }    
 }
 
 void object_trace(tEntity *this)
