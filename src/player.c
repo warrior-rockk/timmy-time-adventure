@@ -639,8 +639,9 @@ static void player_update_animations(tEntity *player)
             else
             {
                 //check if on edge (xor)
-                if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_R), E_TILE_PROP_NO_SOLID) ^
-                    CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_L), E_TILE_PROP_NO_SOLID))
+                if ((CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_R), E_TILE_PROP_NO_SOLID) ^
+                    CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_L), E_TILE_PROP_NO_SOLID)) 
+                    && collision_get_player_platform_id() == -1)
                     play_animation(&player->anim, ANIM_PLY_ON_EDGE);
                 else    
                     play_animation(&player->anim, ANIM_PLY_BREATH);            
