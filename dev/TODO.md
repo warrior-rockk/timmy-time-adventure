@@ -1,5 +1,6 @@
 # Bugs
 - [ ] Possible bug when realloc objects or enemies with different local data?
+- [ ] On play menu, no select sound when exit from controls menu
 
 # Engine
 - [ ] Review debug keys on different translation units
