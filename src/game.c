@@ -1112,21 +1112,25 @@ void game_hud_draw()
     hud.refresh = 0x00;
 }
 
+//pauses all sfx voices except game voice
 static void game_pause_sound()
 {
     for (uint8_t i = 0; i < E_SFX_NUM_VOICES; i++)
     {
-        sfx_pause(i);
+        if (i != E_SFX_GAME_VOICE)
+            sfx_pause(i);
     }
 
     music_pause();
 }
 
+//resumes all sfx voices except game voice
 static void game_resume_sound()
 {
     for (uint8_t i = 0; i < E_SFX_NUM_VOICES; i++)
     {
-        sfx_resume(i);
+        if (i != E_SFX_GAME_VOICE)
+            sfx_resume(i);
     }
 
     music_resume();
