@@ -40,12 +40,14 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_ANIMATION       = 0x0004,       //Tile has animation
     E_TILE_PROP_SLOPE_45        = 0x0008,       //Tile is slope 45º
     E_TILE_PROP_SLOPE_135       = 0x0010,       //Tile is slope 135º
-    E_TILE_PROP_SPARE1          = 0x0020,       //Spare
-    E_TILE_PROP_SPARE2          = 0x0040,       //Spare
+    E_TILE_PROP_SLOPE_25        = 0x0020,       //Tile is slope 25º
+    E_TILE_PROP_SLOPE_152       = 0x0040,       //Tile is slope 152º
     E_TILE_PROP_TOP_STAIR       = 0x0080,       //Tile is top of stairs
     E_TILE_PROP_STAIR           = 0x0100,       //Tile is stairs
     E_TILE_PROP_SOLID_ON_FALL   = 0x0200,       //Tile only solid falling into
     E_TILE_PROP_HURT            = 0x0400,       //Tile hurts player
+    E_TILE_PROP_SLOPE_25_2      = 0x0800,       //Tile is slope 25º
+    E_TILE_PROP_SLOPE_152_2     = 0x1000,       //Tile is slope 152º
 };
 
 //loads a map level and creates level entities

@@ -62,27 +62,6 @@
             "valuesAsFlags": true
         },
         {
-            "color": "#ffa0a0a4",
-            "drawFill": true,
-            "id": 1,
-            "members": [
-                {
-                    "name": "property",
-                    "propertyType": "tileProperties",
-                    "type": "int",
-                    "value": 0
-                }
-            ],
-            "name": "tile",
-            "type": "class",
-            "useAs": [
-                "property",
-                "tile",
-                "tileset",
-                "project"
-            ]
-        },
-        {
             "id": 2,
             "name": "tileProperties",
             "storageType": "int",
@@ -93,12 +72,14 @@
                 "ANIMATION",
                 "SLOPE_45",
                 "SLOPE_135",
-                "SPARE1",
-                "SPARE2",
+                "SLOPE_25",
+                "SLOPE_152",
                 "TOP_STAIR",
                 "STAIR",
                 "SOLID_ON_FALL",
-                "HURT"
+                "HURT",
+                "SLOPE_25_2",
+                "SLOPE_152_2"
             ],
             "valuesAsFlags": true
         }

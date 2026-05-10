@@ -85,6 +85,16 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
+  <tile id="78">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="2048"/>
+   </properties>
+  </tile>
+  <tile id="79">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="32"/>
+   </properties>
+  </tile>
   <tile id="89">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
@@ -254,7 +264,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="16" y="96" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="16" y="272" width="16" height="32"/>
   <object id="12" name="rock3" type="object" x="96" y="112" width="21" height="16"/>
   <object id="3" name="cowboy" type="enemy" x="271.419" y="87.2796" width="18" height="40">
    <properties>
