@@ -164,7 +164,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EAGLE_BMP);
             entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
             entity->spriteSize = (tVector){32, 34};                          
-            entity->size = (tVector){20, 18};      
+            entity->size = (tVector){18, 12};      
             collision_create_entity_points(entity);              
         break;        
         case E_TUMBLE_ENEMY_TYPE:
@@ -715,8 +715,8 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     //enemy definitions
     #define EAGLE_PATROL_VELOCITY     0.8
     #define EAGLE_PATROL_RANGE        50
-    #define EAGLE_PLAYER_RANGE        45
-    #define EAGLE_ATTACK_VEL_Y        1.6
+    #define EAGLE_PLAYER_RANGE        55
+    #define EAGLE_ATTACK_VEL_Y        1.2
     #define EAGLE_ATTACK_MAX_VEL_X    2
     
     //enemy animations
@@ -815,7 +815,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
 void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy defines
-    #define TUMBLE_VELOCITY     2.2
+    #define TUMBLE_VELOCITY     1.6
 
     //enemy animations
     #define ANIM_TUMBLE_ROLL   0,   7, 10,  ANIM_LOOP
