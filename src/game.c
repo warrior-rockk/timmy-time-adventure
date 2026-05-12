@@ -192,11 +192,12 @@ void game_update()
                     clear_to_color(buffer, 1);                    
                     game.fadeIn = true;
                     gameSeq.step++;      
-                    draw_sprite(buffer, load_dat_bmp_indexed(gameDataIndex, TITLE_BMP), 30, 20);              
-                case 1:
-                    //textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
-                    //textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
                     
+                    //draw title logo
+                    BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
+                    destroy_bitmap(title);   
+                case 1:
                     if (input_any_key_pressed())
                     {
                         if (input_key_press(E_G_KEY_EXIT))
@@ -206,7 +207,6 @@ void game_update()
                         else
                         {
                             game.state = E_GAME_ST_MAIN_MENU;
-                            clear_to_color(buffer, 1);
                         }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
@@ -217,8 +217,12 @@ void game_update()
         case E_GAME_ST_MAIN_MENU:
             switch (gameSeq.step)
             {
-                case 0:                    
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
+                case 0: //create main menu dialog 
+                    //draw title logo
+                    BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
+                    destroy_bitmap(title);   
+
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     TRACE("size x: %i\n", gameDialog.rect.size.x);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
@@ -229,7 +233,7 @@ void game_update()
                     
                     gameSeq.step++;
                 break;
-                case 1:
+                case 1: //process main menu dialog
                     game_navigation_menu(&gameDialog, buffer);
 
                     if (input_key_down(E_G_KEY_ENTER))
