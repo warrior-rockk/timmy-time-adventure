@@ -451,7 +451,8 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define WAGON_VELOCITY      0.9
+    #define WAGON_VELOCITY          0.9
+    #define WAGON_SOUND_CADENCE     20
 
     //object states
     enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
@@ -478,8 +479,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             //reset velocity
             this->fixVel.x = itofix(0);    
 
-            //if collision with player
-            //if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            //if player on this platform            
             if (collision_get_player_platform_id() == this->id)
             {
                 this->state++;                
@@ -496,7 +496,6 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
 
             //only move player if collided
-            //if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             if (collision_get_player_platform_id() == this->id)
             {
                 //adds to player x position the integer part of platform delta movement
@@ -505,7 +504,9 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             play_animation(&this->anim, ANIM_WAGON_MOVE);
-            if (clock_counter_check(20) && this->ground)
+
+            //play wagon sound
+            if (clock_counter_check(WAGON_SOUND_CADENCE) && this->ground)
                 sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
 
         break;
