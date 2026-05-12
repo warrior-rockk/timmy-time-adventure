@@ -117,14 +117,14 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                             return dist;
                         }
                     }
-                    if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25))
+                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25))
                     {
                         if (getpixel(collisionMapSlope25, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
-                    if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25_2))
+                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25_2))
                     {
                         if (getpixel(collisionMapSlope25_2, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
@@ -212,11 +212,11 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                     {
                         colPixel = getpixel(collisionMapSlope135, (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25))
+                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25))
                     {
                         colPixel = getpixel(collisionMapSlope25, (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25_2))
+                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25_2))
                     {
                         colPixel = getpixel(collisionMapSlope25_2, (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
