@@ -191,10 +191,11 @@ void game_update()
                     currentPal = gamePal;
                     clear_to_color(buffer, 1);                    
                     game.fadeIn = true;
-                    gameSeq.step++;                    
+                    gameSeq.step++;      
+                    draw_sprite(buffer, load_dat_bmp_indexed(gameDataIndex, TITLE_BMP), 30, 20);              
                 case 1:
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
+                    //textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_TITLE), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);
+                    //textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 20 + 16, WHITE_COLOR, BLACK_COLOR);
                     
                     if (input_any_key_pressed())
                     {
