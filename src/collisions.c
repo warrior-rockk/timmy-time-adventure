@@ -17,16 +17,10 @@
 
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
-BITMAP *collisionMapSlope45;                //collision map of a 45º slope
-BITMAP *collisionMapSlope135;               //collision map of a 135º slope
-
-BITMAP *collisionMapSlope25;               //collision map of a 135º slope
-BITMAP *collisionMapSlope25_2;               //collision map of a 135º slope
-
-
-BITMAP *collisionMapSolidOnFall;            //collision map of solid only on fall
-DATAFILE_INDEX *collisionDataFileIndex;
 static int16_t playerPlatformId;            //id of the platform entity that player stands
+
+DATAFILE_INDEX *collisionDataFileIndex;
+BITMAP *collisionMaps[E_COL_MAP_NUM];       //collision bitmap maps
 
 //inits collision system
 void collision_system_init()
@@ -40,13 +34,12 @@ void collision_system_init()
     //create data file index
     collisionDataFileIndex = create_dat_index("coll.dat");
 
-    //load special tile collision map
-    collisionMapSlope135    = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE135_BMP);
-    collisionMapSlope45     = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE45_BMP);
-    collisionMapSolidOnFall = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);
-
-    collisionMapSlope25    = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_1_BMP);
-    collisionMapSlope25_2  = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_2_BMP);
+    //load special tile collision map    ;
+    collisionMaps[E_COL_MAP_SLOPE_45]       = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE45_BMP);
+    collisionMaps[E_COL_MAP_SLOPE_25_1]     = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_1_BMP);
+    collisionMaps[E_COL_MAP_SLOPE_25_2]     = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_2_BMP);
+    collisionMaps[E_COL_MAP_SLOPE_135]      = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE135_BMP);
+    collisionMaps[E_COL_MAP_SOLID_ON_FALL]  = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);    
 
     //reset player platform entity id
     playerPlatformId = -1;
@@ -63,12 +56,10 @@ void collision_system_destroy()
     //clear num entities collision points
     numEntitiesColPoints = 0;
     //free resources
-    destroy_bitmap(collisionMapSlope135);
-    destroy_bitmap(collisionMapSlope45);
-    destroy_bitmap(collisionMapSolidOnFall);
-
-    destroy_bitmap(collisionMapSlope25);
-    destroy_bitmap(collisionMapSlope25_2);
+    for (uint8_t i = 0; i < E_COL_MAP_NUM; i++)
+    {
+        destroy_bitmap(collisionMaps[i]);
+    }
 
     destroy_dat_index(collisionDataFileIndex);
 
@@ -105,35 +96,35 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                 {
                     if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_45))
                     {
-                        if (getpixel(collisionMapSlope45, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_135))
                     {
-                        if (getpixel(collisionMapSlope135, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25))
                     {
-                        if (getpixel(collisionMapSlope25, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25_2))
                     {
-                        if (getpixel(collisionMapSlope25_2, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SOLID_ON_FALL))
                     {
-                        if (getpixel(collisionMapSolidOnFall, (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
@@ -206,23 +197,23 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                 {
                     if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_45))
                     {
-                        colPixel = getpixel(collisionMapSlope45, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_135))
                     {
-                        colPixel = getpixel(collisionMapSlope135, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25))
                     {
-                        colPixel = getpixel(collisionMapSlope25, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25_2))
                     {
-                        colPixel = getpixel(collisionMapSlope25_2, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SOLID_ON_FALL))
                     {
-                        colPixel = getpixel(collisionMapSolidOnFall, (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
                     else
                     {                        

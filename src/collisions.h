@@ -66,6 +66,20 @@ enum E_CHECK_PROCESS_MODE{
     E_CHECK_PROCESS_INFOONLY,			
 };
 
+//collision maps
+enum E_COLLISION_MAPS
+{
+    E_COL_MAP_SLOPE_45,
+    E_COL_MAP_SLOPE_135,
+    E_COL_MAP_SLOPE_25_1,
+    E_COL_MAP_SLOPE_25_2,
+    E_COL_MAP_SLOPE_152_1,
+    E_COL_MAP_SLOPE_152_2,
+    E_COL_MAP_SOLID_ON_FALL,
+
+    E_COL_MAP_NUM,
+};
+
 //collision point
 typedef struct
 {
