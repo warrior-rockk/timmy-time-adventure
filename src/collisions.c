@@ -39,6 +39,8 @@ void collision_system_init()
     collisionMaps[E_COL_MAP_SLOPE_25_1]     = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_1_BMP);
     collisionMaps[E_COL_MAP_SLOPE_25_2]     = load_dat_bmp_indexed(collisionDataFileIndex, SLO25_2_BMP);
     collisionMaps[E_COL_MAP_SLOPE_135]      = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE135_BMP);
+    collisionMaps[E_COL_MAP_SLOPE_152_1]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_1_BMP);
+    collisionMaps[E_COL_MAP_SLOPE_152_2]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_2_BMP);
     collisionMaps[E_COL_MAP_SOLID_ON_FALL]  = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);    
 
     //reset player platform entity id
@@ -87,42 +89,59 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
             {
                 return dist;
             }
+            
+            //get tile property
+            uint16_t tileProperty = map_get_tile_property(linePath->start);
 
             //check if tile is solid
-            if (!CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_NO_SOLID))
+            if (!CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID))
             {
 				//check tile property to count as collision or not
-				if (collision_check_by_direction(entity, colDirCode, map_get_tile_property(linePath->start)))
-                {
-                    if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_45))
+				if (collision_check_by_direction(entity, colDirCode, tileProperty))
+                {                    
+                    if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45))
                     {
                         if (getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_135))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135))
                     {
                         if (getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25))
                     {
                         if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SLOPE_25_2))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2))
                     {
                         if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
                             return dist;
                         }
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(map_get_tile_property(linePath->start), E_TILE_PROP_SOLID_ON_FALL))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152))
+                    {
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        {
+                            return dist;
+                        }
+                    }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152_2))
+                    {
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        {
+                            return dist;
+                        }
+                    }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL))
                     {
                         if (getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
                         {
@@ -185,33 +204,44 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
         //check if tile exists on path position and position visible on scroll (only for player)
         if (map_tile_exists(checkPosition) && (scroll_position_on_region(checkPosition) || entity->id != entity_get_player_id()))
         {   
+            //get tile property
+            uint16_t tileProperty = map_get_tile_property(checkPosition);
+
             //check if tile is not solid
-            if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_NO_SOLID))
+            if (CHECK_FLAG(tileProperty, E_TILE_PROP_NO_SOLID))
             {
                 colPixel = 0;                
             }
             else
             {                
                 //check tile property to count as collision or not
-                if (collision_check_by_direction(entity, colCode, map_get_tile_property(checkPosition)))
+                if (collision_check_by_direction(entity, colCode, tileProperty))
                 {
-                    if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_45))
+                    if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_135))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SLOPE_25_2))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
-                    else if (CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(map_get_tile_property(checkPosition), E_TILE_PROP_SOLID_ON_FALL))
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152))
+                    {
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                    }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152_2))
+                    {
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                    }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (checkPosition.x % 16), (checkPosition.y % 16));                        
                     }
@@ -290,7 +320,9 @@ bool collision_check_by_direction(tEntity *entity, uint8_t colDirCode, uint16_t 
                     CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135)     ||
                     CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45)      ||
                     CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25)      ||
-                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2)      ||
+                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2)    ||
+                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152)     ||
+                    CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152_2)   ||
                     (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) && entity->fixVel.y >= 0) ||
                     (CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL) && entity->fixVel.y >= 0);
         break;
@@ -339,7 +371,15 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
 
         onSlope135 = CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_135)
                 ||
-                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_135);
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_135)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_152)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_152)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_152_2)
+                ||
+                CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].offset.y}), E_TILE_PROP_SLOPE_152_2);
 
         //deactivate down collision points if entity on slope               
         entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled = !onSlope135;

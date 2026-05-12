@@ -90,7 +90,7 @@
   </tile>
   <tile id="66">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="4096"/>
+    <property name="property" type="int" propertytype="tileProperties" value="64"/>
    </properties>
   </tile>
   <tile id="67">
@@ -105,7 +105,7 @@
   </tile>
   <tile id="77">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="64"/>
+    <property name="property" type="int" propertytype="tileProperties" value="4096"/>
    </properties>
   </tile>
   <tile id="78">
