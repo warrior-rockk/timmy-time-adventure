@@ -11,6 +11,7 @@
 #include "collisions.h"
 #include "sound.h"
 #include "resources.h"
+#include "timer.h"
 
 #include "data/odata.h"
 
@@ -34,8 +35,9 @@ void object_system_init()
     objectDataFileIndex = create_dat_index("objects.dat");
 
     //load object sfx
-    objectSfx[E_SFX_OBJECT_FULL_LIFE]  = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
-    objectSfx[E_SFX_OBJECT_EXTRA_LIVE] = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
+    objectSfx[E_SFX_OBJECT_FULL_LIFE]   = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
+    objectSfx[E_SFX_OBJECT_EXTRA_LIVE]  = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
+    objectSfx[E_SFX_WAGON]              = load_dat_wav_indexed(objectDataFileIndex, WAGON_WAV);
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -480,7 +482,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             //if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             if (collision_get_player_platform_id() == this->id)
             {
-                this->state++;
+                this->state++;                
             }
 
             play_animation(&this->anim, ANIM_WAGON_IDLE);
@@ -503,6 +505,9 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             play_animation(&this->anim, ANIM_WAGON_MOVE);
+            if (clock_counter_check(20) && this->ground)
+                sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
+
         break;
     }    
 }

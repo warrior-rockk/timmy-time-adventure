@@ -43,7 +43,8 @@ typedef struct
 enum E_OBJECT_SFX
 {
     E_SFX_OBJECT_FULL_LIFE,
-    E_SFX_OBJECT_EXTRA_LIVE,        
+    E_SFX_OBJECT_EXTRA_LIVE,   
+    E_SFX_WAGON,     
     E_SFX_OBJECT_NUM,
 };
 

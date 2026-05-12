@@ -7,3 +7,4 @@
 #define WAGON_BMP                     	6   	//BMP 
 #define LIVE_WAV                      	7   	//SAMP
 #define POWERUP_WAV                   	8   	//SAMP
+#define WAGON_WAV                     	9   	//SAMP
