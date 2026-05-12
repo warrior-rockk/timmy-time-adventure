@@ -109,14 +109,14 @@ void enemy_create(tEntity *entity)
     {
         case E_PTERO_ENEMY_TYPE:            
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PTERO_BMP);
-            entity->img = enemyResources[E_PTERO_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){71, 64};
             entity->size.x = 30;
             entity->size.y = 16;                                      
         break;
         case E_RAPTOR_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, RAPTOR2_BMP);
-            entity->img = enemyResources[E_RAPTOR_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){72, 44};                          
             entity->size = (tVector){46, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
@@ -125,7 +125,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_TRICE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TRICE_BMP);
-            entity->img = enemyResources[E_TRICE_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){48, 34};                          
             entity->size = (tVector){40, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
@@ -134,48 +134,48 @@ void enemy_create(tEntity *entity)
         break;
         case E_SPIDER_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SPIDER_BMP);
-            entity->img = enemyResources[E_SPIDER_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){20, 29};                          
             entity->size = (tVector){16, 16};        
             collision_create_entity_points(entity);              
         break;        
         case E_PIRANHA_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PIRANHA_BMP);
-            entity->img = enemyResources[E_PIRANHA_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){42, 33};                          
             entity->size = (tVector){32, 32};                    
         break;
         case E_COWBOY_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, COWBOY_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SHOOT], enemyDataFileIndex, SHOOT_WAV);
-            entity->img = enemyResources[E_COWBOY_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){50, 45};                          
             entity->size = (tVector){18, 40};        
             entity->axis = E_ENT_AXIS_DOWN;                        
         break;
         case E_BULLET_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BULLET_BMP);
-            entity->img = enemyResources[E_BULLET_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){2, 2};                          
             entity->size = (tVector){2, 2};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break;
         case E_EAGLE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EAGLE_BMP);
-            entity->img = enemyResources[E_EAGLE_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){32, 34};                          
             entity->size = (tVector){18, 12};      
             collision_create_entity_points(entity);              
         break;        
         case E_TUMBLE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TUMBLE_BMP);
-            entity->img = enemyResources[E_TUMBLE_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){30, 29};                          
             entity->size = (tVector){30, 29};                  
         break;
         case E_SCORPION_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
-            entity->img = enemyResources[E_SCORPION_ENEMY_TYPE]; 
+            entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){30, 23};                          
             entity->size = (tVector){24, 16};      
             entity->axis = E_ENT_AXIS_DOWN;
@@ -196,6 +196,13 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break; 
+        case E_BAT_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BAT_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){44, 41};                          
+            entity->size = (tVector){32, 32};      
+            collision_create_entity_points(entity);              
+        break;        
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -252,6 +259,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_AXE_ENEMY_TYPE:            
             enemy_axe_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+        break;
+        case E_BAT_ENEMY_TYPE:            
+            enemy_bat_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
         break;
         default:
         break;
@@ -984,68 +994,43 @@ void enemy_axe_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-//TEMPLATE FOR ENEMY
-/*
-void enemy_template_update(tEntity *this, tEnemyLocalData *local)
+void enemy_bat_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy defines
-    #define RAPTOR_RANGE_PATROL     50
-    #define RAPTOR_PLAYER_RANGE     20
-    
+    #define BAT_VELOCITY     1.6
+
     //enemy animations
-    #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
-    #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
-    #define ANIM_RAPTOR_DEAD   7,   9,  15, ANIM_ONCE
+    #define ANIM_BAT_FLY    0,   4, 10,  ANIM_LOOP
+    #define ANIM_BAT_DEAD   5,   7, 20,  ANIM_ONCE
 
     //enemy states
-    enum E_RAPTOR_ENEMY_STATES{E_RAPTOR_ST_IDLE, E_RAPTOR_ST_MOVING, E_RAPTOR_ATTACK, E_RAPTOR_HURT};   
+    enum E_BAT_ENEMY_STATES{E_BAT_ST_FLY, E_BAT_ST_HURT};
+    
+    if (this->signal == E_ENT_SIGNAL_AWAKE)
+    {
+        this->signal = E_ENT_SIGNAL_NONE;
+        this->pos = this->initPos;
+    }
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_RAPTOR_HURT;
+        this->state = E_BAT_ST_HURT;
 
     switch (this->state)
     {
-        case E_RAPTOR_ST_IDLE:
-            this->fixVel.x = itofix(1);
-            this->state++;
-        break;
-        case E_RAPTOR_ST_MOVING:    //basic terrain collision
-            uint8_t colDir = 0;
-            this->ground = false;
-            //fixed movement
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? itofix(-1) : itofix(1);
-            
-            //check all the entity collision points    
-            for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
-            {                
-                //check collision tile for collision point
-                colDir = collision_check_tile(this, i);        
-                //apply collision direction
-                collision_apply_dir(this, colDir);        
-                //change direction on collision
-                if (colDir == E_COLLISION_DIR_LEFT)
-                    this->dir = E_ENT_DIR_RIGHT;
-                if (colDir == E_COLLISION_DIR_RIGHT)
-                    this->dir = E_ENT_DIR_LEFT;
+        case E_BAT_ST_FLY:            
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-BAT_VELOCITY) : ftofix(BAT_VELOCITY);
 
-                if (!colDir)
-                {
-                    if (this->pos.x > this->initPos.x + RAPTOR_RANGE_PATROL || this->pos.x < this->initPos.x - RAPTOR_RANGE_PATROL)
-                        colDir = colDir ? 0 : 1;
-                }
-            }            
-            
-            play_animation(&this->anim, ANIM_RAPTOR_WALK);
-        break;      
-        case E_RAPTOR_HURT:
-            this->fixVel.x = 0;
-            
-            if (play_animation(&this->anim, ANIM_RAPTOR_DEAD))
+            play_animation(&this->anim, ANIM_BAT_FLY);
+
+            if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
             {
-                this->dead = true;    
-                this->signal = E_ENT_SIGNAL_NONE;
+                this->dead = true;
             }
         break;
+        case E_BAT_ST_HURT:
+            enemy_dead(this, ANIM_BAT_DEAD);            
+        break;
     }       
-}*/
+}
+

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="288" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="51">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="288" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="52">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -336,5 +336,10 @@
   <object id="48" template="triggers/stopScroll.tx" x="1040" y="128"/>
   <object id="49" template="triggers/stopScroll.tx" x="1936" y="144"/>
   <object id="50" template="platforms/wagon.tx" x="144" y="288"/>
+  <object id="51" name="bat" type="enemy" x="352" y="224" width="32" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
