@@ -22,6 +22,26 @@
             "valuesAsFlags": false
         },
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 7,
+            "members": [
+                {
+                    "name": "dir",
+                    "propertyType": "dir",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "enemy",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
             "id": 4,
             "name": "entityProperties",
             "storageType": "int",
@@ -49,6 +69,54 @@
             "valuesAsFlags": false
         },
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 8,
+            "members": [
+            ],
+            "name": "object",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 10,
+            "members": [
+            ],
+            "name": "platform",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 9,
+            "members": [
+                {
+                    "name": "dir",
+                    "propertyType": "dir",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "player",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
             "id": 6,
             "name": "stopScroll",
             "storageType": "int",
@@ -60,6 +128,48 @@
                 "NO_SCROLL_UP"
             ],
             "valuesAsFlags": true
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 12,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 2
+                }
+            ],
+            "name": "Tile_FRONT",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 11,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 1
+                }
+            ],
+            "name": "Tile_NO_SOLID",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
         },
         {
             "id": 2,
@@ -86,20 +196,21 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
-            "id": 7,
+            "id": 13,
             "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 128
+                }
             ],
-            "name": "enemy",
+            "name": "Tile_TOP_STAIR",
             "type": "class",
             "useAs": [
                 "property",
-                "map",
-                "layer",
-                "object",
                 "tile",
                 "tileset",
-                "wangcolor",
-                "wangset",
                 "project"
             ]
         }
