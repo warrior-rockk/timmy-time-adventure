@@ -200,7 +200,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BAT_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){44, 41};                          
-            entity->size = (tVector){32, 32};      
+            entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);              
         break;        
         default:
