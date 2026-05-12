@@ -287,7 +287,7 @@ void enemy_init(tEntity *entity)
 //=========================================================================
 
 //Enemy patrol: moves around a X range
-void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
+static void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
 {
     //linear movement
     entity->fixVel.x = entity->dir == E_ENT_DIR_LEFT ? -velocity : velocity;            
@@ -297,6 +297,18 @@ void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
         entity->dir = !entity->dir;
 }
 
+//Enemy fixed move: moves enemy and dead when exit screen
+static void enemy_fixed_move(tEntity *this, fixed velocity)
+{
+    this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-velocity) : ftofix(velocity);
+
+    if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
+    {
+        this->dead = true;
+    }
+}
+
+//Do enemy dead
 void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_t mode)
 {
     //stop enemy
@@ -321,6 +333,8 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
 }
 
 //=========================================================================
+
+//ENEMIES CODE
 
 void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
 {
@@ -842,14 +856,9 @@ void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
     switch (this->state)
     {
         case E_TUMBLE_ST_ROLL:            
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-TUMBLE_VELOCITY) : ftofix(TUMBLE_VELOCITY);
+            enemy_fixed_move(this, TUMBLE_VELOCITY);
 
             play_animation(&this->anim, ANIM_TUMBLE_ROLL);
-
-            if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
-            {
-                this->dead = true;
-            }
         break;
     }       
 }
@@ -1019,14 +1028,9 @@ void enemy_bat_update(tEntity *this, tEnemyLocalData *local)
     switch (this->state)
     {
         case E_BAT_ST_FLY:            
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-BAT_VELOCITY) : ftofix(BAT_VELOCITY);
+            enemy_fixed_move(this, BAT_VELOCITY);
 
             play_animation(&this->anim, ANIM_BAT_FLY);
-
-            if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
-            {
-                this->dead = true;
-            }
         break;
         case E_BAT_ST_HURT:
             enemy_dead(this, ANIM_BAT_DEAD);            
