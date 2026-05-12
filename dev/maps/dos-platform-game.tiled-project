@@ -141,7 +141,7 @@
                     "value": 2
                 }
             ],
-            "name": "Tile_FRONT",
+            "name": "tile_FRONT",
             "type": "class",
             "useAs": [
                 "property",
@@ -162,7 +162,49 @@
                     "value": 1
                 }
             ],
-            "name": "Tile_NO_SOLID",
+            "name": "tile_NO_SOLID",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 14,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 256
+                }
+            ],
+            "name": "tile_STAIR",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 13,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 128
+                }
+            ],
+            "name": "tile_TOP_STAIR",
             "type": "class",
             "useAs": [
                 "property",
@@ -192,27 +234,6 @@
                 "SLOPE_152_2"
             ],
             "valuesAsFlags": true
-        },
-        {
-            "color": "#ffa0a0a4",
-            "drawFill": true,
-            "id": 13,
-            "members": [
-                {
-                    "name": "property",
-                    "propertyType": "tileProperties",
-                    "type": "int",
-                    "value": 128
-                }
-            ],
-            "name": "Tile_TOP_STAIR",
-            "type": "class",
-            "useAs": [
-                "property",
-                "tile",
-                "tileset",
-                "project"
-            ]
         }
     ]
 }
