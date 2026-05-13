@@ -59,10 +59,11 @@
 #define HUD_POSITION_X          40
 
 //score points
-#define SCORE_POINT_TIME_LEFT   1
-#define SCORE_POINT_HURT_ENEMY  10
-#define SCORE_POINT_EXTRA_LIFE  500
-#define SCORE_OVERFLOW          65000
+#define SCORE_POINT_TIME_LEFT   1       //score for each time level second left
+#define SCORE_POINT_HURT_ENEMY  10      //score when hurt enemy
+#define SCORE_POINT_FULL_LIFE   50      //score when pick full life item but the life is full
+#define SCORE_POINT_EXTRA_LIFE  500     //score needed to get extra life
+#define SCORE_OVERFLOW          65000   //overflow score
 
 //game states
 enum E_GAME_STATE

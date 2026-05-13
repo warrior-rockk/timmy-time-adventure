@@ -380,7 +380,11 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
                     //if collision with player
                     if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
                     {
-                        game.life = GAME_INI_LIFE;
+                        if (game.life < GAME_INI_LIFE)
+                            game.life = GAME_INI_LIFE;
+                        else
+                            game.score += SCORE_POINT_FULL_LIFE;
+
                         sfx_play(objectSfx[E_SFX_OBJECT_FULL_LIFE], E_SFX_OBJECT_VOICE);
                         this->dead = true;
                     }
