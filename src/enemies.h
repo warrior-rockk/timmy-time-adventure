@@ -35,6 +35,7 @@ enum E_ENEMY_SFX
 {
     E_SFX_ENEMY_DEAD,    
     E_SFX_ENEMY_SHOOT,
+    E_SFX_ENEMY_AXE,
     E_SFX_ENEMY_NUM,
 };
 
