@@ -826,7 +826,7 @@ void game_init()
     //initialize game flags
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
     #ifdef DEBUGMODE
-        game.actualLevel    = E_GAME_LEVEL_WEST;
+        game.actualLevel    = DEBUG_INI_GAME_LEVEL;
     #else
         game.actualLevel    = 0;
     #endif
