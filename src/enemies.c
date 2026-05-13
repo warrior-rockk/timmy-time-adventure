@@ -839,10 +839,10 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
 void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy defines
-    #define TUMBLE_VELOCITY     1.6
+    #define TUMBLE_VELOCITY     1.8
 
     //enemy animations
-    #define ANIM_TUMBLE_ROLL   0,   7, 10,  ANIM_LOOP
+    #define ANIM_TUMBLE_ROLL   0,   7, 8,  ANIM_LOOP
 
     //enemy states
     enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};
