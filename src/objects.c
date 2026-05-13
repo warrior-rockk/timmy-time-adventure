@@ -133,7 +133,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[E_ITEM_OBJECT_TYPE];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
-            entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_SPAWN;
+            entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT;
         break;
         case E_STOP_SCROLL_OBJECT_TYPE:            
             entity->img = NULL;
@@ -364,6 +364,8 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
             switch (this->spare)
             {
                 case E_ITEM_EXTRA_LIFE:
+                    SET_FLAG(this->properties, E_ENT_PROP_NO_SPAWN);
+                    
                     //if collision with player
                     if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
                     {
