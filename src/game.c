@@ -223,7 +223,7 @@ void game_update()
                     draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
                     destroy_bitmap(title);   
 
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 100}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 120}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     TRACE("size x: %i\n", gameDialog.rect.size.x);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
