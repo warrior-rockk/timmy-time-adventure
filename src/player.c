@@ -273,19 +273,21 @@ static void player_update_controls(tEntity *player)
             //if not flag jump and not falling
             if (!playerFlags.jump && player->fixVel.y <= 0)
             {
-                //clear flags
-                player->ground = false;
-                playerFlags.attack = false;
+                //if player on ground (rising edge of jump)
+                if (player->ground)
+                {
+                    //play sfx jump
+                    sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE);
+                    //reset flags
+                    playerFlags.attack = false;
+                    player->ground = false;                
+                }
 
                 //apply y acceleration
                 player->fixVel.y += -accelY;
                 //if reached max jump velocity, set flag
                 if (player->fixVel.y < -(maxVelY))
                     playerFlags.jump = true;
-                
-                //play sfx jump
-                if (player->state != ST_PLAYER_JUMP)
-                    sfx_play(playerSfx[SFX_PLAYER_JUMP], E_SFX_PLAYER_VOICE);
             }
         }
         else 
