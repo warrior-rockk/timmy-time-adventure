@@ -150,7 +150,7 @@ void enemy_create(tEntity *entity)
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SHOOT], enemyDataFileIndex, SHOOT_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){50, 45};                          
-            entity->size = (tVector){18, 40};        
+            entity->size = (tVector){18, 32};        
             entity->axis = E_ENT_AXIS_DOWN;                        
         break;
         case E_BULLET_ENEMY_TYPE:
