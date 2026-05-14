@@ -888,6 +888,13 @@ static void game_debug_update()
     {
         debugOptions.invencible = !debugOptions.invencible;
         game.life = 3;
+
+        //recolor life hearts to indicate invencible
+        RGB lifeColor;        
+        lifeColor.r = !debugOptions.invencible ? 255    : 0;
+        lifeColor.g = !debugOptions.invencible ? 0      : 0;
+        lifeColor.b = !debugOptions.invencible ? 0      : 255;        
+        set_color(21, &lifeColor);
     }
     //insert log mark
     if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
