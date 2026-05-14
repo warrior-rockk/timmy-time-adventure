@@ -171,7 +171,8 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TUMBLE_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){30, 29};                          
-            entity->size = (tVector){30, 29};                  
+            entity->size = (tVector){28, 20};                  
+            entity->axis = E_ENT_AXIS_DOWN;
         break;
         case E_SCORPION_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
@@ -840,7 +841,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
 void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy defines
-    #define TUMBLE_VELOCITY     1.8
+    #define TUMBLE_VELOCITY     2.0
 
     //enemy animations
     #define ANIM_TUMBLE_ROLL   0,   7, 8,  ANIM_LOOP
@@ -920,7 +921,7 @@ void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
 void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
 {              
     //enemy definitions
-    #define INDIAN_PLAYER_RANGE     160
+    #define INDIAN_PLAYER_RANGE     100
     #define INDIAN_WAIT_TIME        30
     #define INDIAN_AXE_FRAME_THROW  6
 

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="tumble" type="enemy" width="30" height="29"/>
+ <object name="tumble" type="enemy" width="28" height="20"/>
 </template>
