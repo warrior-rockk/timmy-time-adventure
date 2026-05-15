@@ -655,6 +655,8 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     //enemy definitions
     #define COWBOY_PLAYER_RANGE     160
     #define COWBOY_WAIT_TIME        15
+    #define COWBOY_BULLET_Y_OFFSET  4
+    #define COWBOY_BULLET_X_OFFSET  4
 
     //enemy animations
     #define ANIM_COWBOY_IDLE   0,   0, 10,  ANIM_LOOP
@@ -693,7 +695,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
             }
             if (this->anim.frame == 11 && !local->flag)
             {
-                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 10}, this->dir, this->spare);
+                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_OFFSET}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
                 local->flag = true;
             }
@@ -924,6 +926,7 @@ void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
     #define INDIAN_PLAYER_RANGE     100
     #define INDIAN_WAIT_TIME        30
     #define INDIAN_AXE_FRAME_THROW  6
+    #define INDIAN_AXE_Y_OFFSET     6
 
     //enemy animations
     #define ANIM_INDIAN_IDLE   0,   0, 10,  ANIM_LOOP
@@ -963,7 +966,7 @@ void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
             if (this->anim.frame == INDIAN_AXE_FRAME_THROW && !local->flag)
             {
                 sfx_play(enemySfx[E_SFX_ENEMY_AXE], E_SFX_ENEMY_VOICE);
-                entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - 6}, this->dir, this->spare);
+                entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - INDIAN_AXE_Y_OFFSET}, this->dir, this->spare);
                 local->flag = true;
             }
         break;     
