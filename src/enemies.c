@@ -193,7 +193,7 @@ void enemy_create(tEntity *entity)
         break;       
         case E_INDIAN2_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN2_BMP);
-            //TODO: load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_AXE], enemyDataFileIndex, AXE_WAV);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARROW], enemyDataFileIndex, ARROW_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){56, 52};                          
             entity->size = (tVector){16, 32};      
@@ -1013,7 +1013,7 @@ void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
     //enemy definitions
     #define INDIAN2_PLAYER_RANGE        100
     #define INDIAN2_WAIT_TIME           30
-    #define INDIAN2_ARROW_FRAME_THROW   18
+    #define INDIAN2_ARROW_FRAME_THROW   17
     #define INDIAN2_ARROW_Y_OFFSET      4
 
     //enemy animations
@@ -1053,7 +1053,7 @@ void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
             }
             if (this->anim.frame == INDIAN2_ARROW_FRAME_THROW && !local->flag)
             {
-                sfx_play(enemySfx[E_SFX_ENEMY_AXE], E_SFX_ENEMY_VOICE);
+                sfx_play(enemySfx[E_SFX_ENEMY_ARROW], E_SFX_ENEMY_VOICE);
                 entity_create(E_ENT_CLASS_ENEMY, E_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + INDIAN2_ARROW_Y_OFFSET}, this->dir, this->spare);
                 local->flag = true;
             }
