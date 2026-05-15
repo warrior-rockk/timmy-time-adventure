@@ -52,6 +52,8 @@ enemy_ent_types = {
     "indian"    : 10,
     "axe"       : 11,
     "bat"       : 12,
+    "indian2"   : 13,
+    "arrow"     : 14,
 }
 #define array of lists of entity types
 ent_types = [object_ent_types, object_ent_types, player_ent_types, object_ent_types, enemy_ent_types]
