@@ -195,7 +195,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN2_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARROW], enemyDataFileIndex, ARROW_WAV);
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){56, 52};                          
+            entity->spriteSize = (tVector){56, 51};                          
             entity->size = (tVector){16, 32};      
             entity->axis = E_ENT_AXIS_DOWN;
         break;       
@@ -1014,7 +1014,7 @@ void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
     #define INDIAN2_PLAYER_RANGE        100
     #define INDIAN2_WAIT_TIME           30
     #define INDIAN2_ARROW_FRAME_THROW   17
-    #define INDIAN2_ARROW_Y_OFFSET      4
+    #define INDIAN2_ARROW_Y_OFFSET      14 //4
 
     //enemy animations
     #define ANIM_INDIAN2_IDLE   0,   0, 10,  ANIM_LOOP
