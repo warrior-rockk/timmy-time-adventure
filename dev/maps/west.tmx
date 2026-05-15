@@ -287,7 +287,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="3648" y="112" width="16" height="32"/>
+  <object id="1" name="player1" type="player" x="16" y="96" width="16" height="32"/>
   <object id="12" template="objects/rock3.tx" type="object" x="96" y="112"/>
   <object id="7" template="enemies/eagle.tx" type="enemy" x="512" y="32"/>
   <object id="8" template="enemies/tumble.tx" type="enemy" x="1600.18" y="123.818"/>
