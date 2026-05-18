@@ -144,9 +144,8 @@ void enemy_destroy(tEntity *entity)
 void enemy_create(tEntity *entity)
 {
     
-    tDefaultEnemyLocalData *enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
-    enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
-    
+    //tDefaultEnemyLocalData *enemyLocalData;
+    void *enemyLocalData = NULL;
 
     //set enemy type properties
     switch (entity->entType)
@@ -248,7 +247,8 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){19, 19};                          
             entity->size = (tVector){16, 16};  
-            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;   
+            enemyLocalData = malloc(sizeof(tAxeLocalData));               
         break; 
         case E_ARROW_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARROW_BMP);
@@ -268,6 +268,14 @@ void enemy_create(tEntity *entity)
             abort_on_error("Enemy type entity not valid");
         break;
     }
+
+    //if not local data type assigned
+    if (enemyLocalData == NULL)
+        //allocate default enemy local data
+        enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
+    
+        //adds enemy local data to list
+    enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
 
     //test memory allocation
     MY_ASSERT(enemyDataList);
@@ -322,7 +330,7 @@ void enemy_update(tEntity *entity)
             enemy_indian2_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_AXE_ENEMY_TYPE:            
-            enemy_axe_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+            enemy_axe_update(entity, (tAxeLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_ARROW_ENEMY_TYPE:            
             enemy_arrow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
@@ -1120,7 +1128,7 @@ void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
     }       
 }
 
-void enemy_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
+void enemy_axe_update(tEntity *this, tAxeLocalData *local)
 {              
     //enemy defines
     #define AXE_VELOCITY     4.0
@@ -1138,6 +1146,9 @@ void enemy_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY);
 
             play_animation(&this->anim, ANIM_AXE_TURN);
+            //TEST
+            local->cx = ftofix(0.8);
+            MY_TRACE_FLAG("Local axe: %f\n", fixtof(local->cx));
         break;
     }       
 }

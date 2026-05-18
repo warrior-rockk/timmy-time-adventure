@@ -101,7 +101,7 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local);
-void enemy_axe_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_axe_update(tEntity *this, tAxeLocalData *local);
 void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif
