@@ -1152,4 +1152,4 @@ void enemy_bat_update(tEntity *this, tEnemyLocalData *local)
         break;
     }       
 }
-
+//EOF
