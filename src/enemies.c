@@ -18,19 +18,18 @@
 #define TRACE_FLAG  "[ENEMY]"
 
 uint16_t numEnemyInstances;        //num of enemy instances
-static void *enemyDataList;        //list of enemy local data
+tEnemyLocalData *enemyDataList;        //list of enemy local data
 BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
 SAMPLE *enemySfx[E_SFX_ENEMY_NUM];
 DATAFILE_INDEX *enemyDataFileIndex;
 
 void enemy_system_init()
 {
-    //empty enemy list
-    free(enemyDataList);
+    //initialize array to NULL
     enemyDataList = NULL;
     //set number of entities
-    numEnemyInstances = 0;     
-
+    numEnemyInstances = 0;
+    
     //create data file index
     enemyDataFileIndex = create_dat_index("enemies.dat");
 
@@ -71,13 +70,76 @@ void enemy_system_destroy()
     MY_TRACE_FLAG("Destroyed enemy system\n");
 }
 
+// --- FUNCIÓN PARA AGREGAR Y AMPLIAR EL ARRAY ---
+// Recibe el puntero al array por referencia (puntero doble) para poder modificarlo con realloc
+tEnemyLocalData* enemy_add_to_list(tEnemyLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
+    int newSize = *listSize + 1;
+    
+    // Intentamos realojar la memoria para un elemento más
+    tEnemyLocalData *temp = realloc(array, newSize * sizeof(tEnemyLocalData));
+    
+    if (temp == NULL) {
+        abort_on_error("Can't assign memory for enemies entities\n");
+        return array; // Devolvemos el array original sin cambios
+    }
+    
+    // Realloc tuvo éxito, actualizamos el puntero del array
+    array = temp;
+    
+    // Guardamos los metadatos y el puntero en la nueva última posición
+    array[*listSize].structureType = localDataType;
+    array[*listSize].data = data;
+    
+    // Incrementamos el contador de elementos
+    (*listSize)++;
+    
+    return array;
+}
+
+// Función de eliminación (Compacta el array y además reduce su tamaño en memoria)
+tEnemyLocalData* enemy_delete_from_list(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
+    if (enemyIndex < 0 || enemyIndex >= *listSize) {
+        abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        return array;
+    }
+
+    //printf("Eliminando elemento en la posición [%d]...\n", enemyIndex);
+
+    // 2. Desplazamos los elementos para no dejar huecos
+    int elementos_a_mover = *listSize - enemyIndex - 1;
+    if (elementos_a_mover > 0) {
+        memmove(&array[enemyIndex], 
+                &array[enemyIndex + 1], 
+                elementos_a_mover * sizeof(tEnemyLocalData));
+    }
+
+    // 3. Decrementamos el tamaño
+    (*listSize)--;
+
+    // 4. Reducimos el espacio físico en memoria del array principal
+    if (*listSize > 0) {
+        tEnemyLocalData *temp = realloc(array, (*listSize) * sizeof(tEnemyLocalData));
+        if (temp != NULL) {
+            array = temp;
+        }
+    } else {
+        // Si ya no quedan elementos, liberamos el array por completo
+        free(array);
+        array = NULL;
+    }
+
+    return array;
+}
+
 void enemy_destroy(tEntity *entity)
 {
+    enemyDataList = enemy_delete_from_list(enemyDataList, &numEnemyInstances, entity->entInstance);
+    /*
     uint16_t enemyIndex;
     enemyIndex = entity->entInstance;
     
     //copies last enemy to deleted enemy position
-    ((tEnemyLocalData*)enemyDataList)[enemyIndex] = ((tEnemyLocalData*)enemyDataList)[numEnemyInstances - 1];
+    ((tDefaultEnemyLocalData*)enemyDataList)[enemyIndex] = ((tDefaultEnemyLocalData*)enemyDataList)[numEnemyInstances - 1];
     
     //decrement entity number
     numEnemyInstances--;
@@ -90,19 +152,24 @@ void enemy_destroy(tEntity *entity)
     else
         //reallocates the array with decremented entity number    
         //TODO: this is incorrect when entities has different local data structure
-        enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));     
-    
-    MY_TRACE_FLAG("Destroyed enemy instance:%i\n", enemyIndex);
+        enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tDefaultEnemyLocalData));     
+    */
+
+    MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
 void enemy_create(tEntity *entity)
 {
+    tDefaultEnemyLocalData *enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
+    enemyDataList = enemy_add_to_list(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
+    
+    /*
     //inc num instances
     numEnemyInstances++;
-
     //allocate memory for enemy
-    enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tEnemyLocalData));            
+    enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tDefaultEnemyLocalData));            
+    */
 
     //set enemy type properties
     switch (entity->entType)
@@ -238,53 +305,53 @@ void enemy_create(tEntity *entity)
 
 //calls specified enemy type update function
 void enemy_update(tEntity *entity)
-{       
+{      
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            
-            enemy_ptero_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_ptero_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         case E_RAPTOR_ENEMY_TYPE:            
-            enemy_raptor_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_raptor_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         case E_SPIDER_ENEMY_TYPE:            
-            enemy_spider_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_spider_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_PIRANHA_ENEMY_TYPE:            
-            enemy_piranha_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_piranha_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_COWBOY_ENEMY_TYPE:            
-            enemy_cowboy_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_cowboy_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_BULLET_ENEMY_TYPE:            
-            enemy_bullet_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_bullet_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_EAGLE_ENEMY_TYPE:            
-            enemy_eagle_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_eagle_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_TUMBLE_ENEMY_TYPE:            
-            enemy_tumble_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_tumble_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_TRICE_ENEMY_TYPE:            
-            enemy_trice_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_trice_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_SCORPION_ENEMY_TYPE:            
-            enemy_scorpion_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_scorpion_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_INDIAN_ENEMY_TYPE:            
-            enemy_indian_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_indian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_INDIAN2_ENEMY_TYPE:            
-            enemy_indian2_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_indian2_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_AXE_ENEMY_TYPE:            
-            enemy_axe_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_axe_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_ARROW_ENEMY_TYPE:            
-            enemy_arrow_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_arrow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_BAT_ENEMY_TYPE:            
-            enemy_bat_update(entity, &((tEnemyLocalData*)enemyDataList)[entity->entInstance]);
+            enemy_bat_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -298,9 +365,9 @@ void enemy_init(tEntity *entity)
 {   
     switch (entity->entType)
     {        
-        default:
-            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].flag = 0;
-            ((tEnemyLocalData*)enemyDataList)[entity->entInstance].timer = 0;
+        default:            
+            ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
+            ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;            
         break;
     }
 }
@@ -359,7 +426,7 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
 
 //ENEMIES CODE
 
-void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
+void enemy_ptero_update(tEntity *this, tDefaultEnemyLocalData *local)
 {
     //enemy defines
     #define PTERO_VELOCITY                  0.4
@@ -396,7 +463,7 @@ void enemy_ptero_update(tEntity *this, tEnemyLocalData *local)
     }
 }
 
-void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
+void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define RAPTOR_VELOCITY         0.6
     #define RAPTOR_RANGE_PATROL     50
@@ -461,7 +528,7 @@ void enemy_raptor_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
+void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define TRICE_WALK_VELOCITY     0.4
     #define TRICE_RUN_VELOCITY      1.2
@@ -531,7 +598,7 @@ void enemy_trice_update(tEntity *this, tEnemyLocalData *local)
     }
 }
 
-void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
+void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define PIRANHA_DEFAULT_WAIT_TIME   100
@@ -593,7 +660,7 @@ void enemy_piranha_update(tEntity *this, tEnemyLocalData *local)
 }
 
 
-void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
+void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define SPIDER_VELOCITY     0.6
@@ -671,7 +738,7 @@ void enemy_spider_update(tEntity *this, tEnemyLocalData *local)
     }
 }
 
-void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
+void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define COWBOY_PLAYER_RANGE     160
@@ -738,7 +805,7 @@ void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_bullet_update(tEntity *this, tEnemyLocalData *local)
+void enemy_bullet_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define BULLET_VELOCITY     4.0
@@ -759,7 +826,7 @@ void enemy_bullet_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
+void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define EAGLE_PATROL_VELOCITY     0.8
@@ -861,7 +928,7 @@ void enemy_eagle_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_tumble_update(tEntity *this, tEnemyLocalData *local)
+void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define TUMBLE_VELOCITY     2.0
@@ -893,7 +960,7 @@ void enemy_trace(tEntity *this)
     MY_TRACE_FLAG("Enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
 }
 
-void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
+void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define SCORPION_VELOCITY         0.6
     #define SCORPION_RANGE_PATROL     50
@@ -941,7 +1008,7 @@ void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
+void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN_PLAYER_RANGE     100
@@ -1008,7 +1075,7 @@ void enemy_indian_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
+void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN2_PLAYER_RANGE        100
@@ -1033,7 +1100,7 @@ void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
     switch (this->state)
     {
         case E_INDIAN2_ST_IDLE:        
-            local->flag = false;    
+            //local->flag = false;    
             //get player instance
             player = entity_get(entity_get_player_id());            
             
@@ -1075,7 +1142,7 @@ void enemy_indian2_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_axe_update(tEntity *this, tEnemyLocalData *local)
+void enemy_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define AXE_VELOCITY     4.0
@@ -1097,7 +1164,7 @@ void enemy_axe_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_arrow_update(tEntity *this, tEnemyLocalData *local)
+void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define ARROW_VELOCITY     4.0
@@ -1118,7 +1185,7 @@ void enemy_arrow_update(tEntity *this, tEnemyLocalData *local)
     }       
 }
 
-void enemy_bat_update(tEntity *this, tEnemyLocalData *local)
+void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
     #define BAT_VELOCITY     1.6
@@ -1152,4 +1219,4 @@ void enemy_bat_update(tEntity *this, tEnemyLocalData *local)
         break;
     }       
 }
-//EOF
+

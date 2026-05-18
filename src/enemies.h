@@ -42,11 +42,31 @@ enum E_ENEMY_SFX
     E_SFX_ENEMY_NUM,
 };
 
+//types of local data structures
+enum E_ENEMY_LOCAL_DATA
+{
+    E_ENEMY_DEFAULT_LOCAL_DATA,
+    E_ENEMY_AXE_LOCAL_DATA,
+};
+
 //global enemy local data struct
 typedef struct 
 {
     uint16_t flag;
     uint16_t timer;
+} tDefaultEnemyLocalData;
+
+typedef struct {
+    fixed cx, cy;      
+    fixed x, y;        
+    int angle;         
+    int step;
+    int active; 
+} tAxeLocalData;
+
+typedef struct {
+    uint8_t structureType;
+    void *data;
 } tEnemyLocalData;
 
 //debug trace entity enemy info
@@ -66,20 +86,20 @@ void enemy_update(tEntity *entity);
 void enemy_destroy(tEntity *entity);
 
 //custom update function for particular entity
-void enemy_ptero_update(tEntity *this, tEnemyLocalData *local);
-void enemy_raptor_update(tEntity *this, tEnemyLocalData *local);
-void enemy_spider_update(tEntity *this, tEnemyLocalData *local);
-void enemy_piranha_update(tEntity *this, tEnemyLocalData *local);
-void enemy_trice_update(tEntity *this, tEnemyLocalData *local);
+void enemy_ptero_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local);
 
-void enemy_cowboy_update(tEntity *this, tEnemyLocalData *local);
-void enemy_eagle_update(tEntity *this, tEnemyLocalData *local);
-void enemy_bullet_update(tEntity *this, tEnemyLocalData *local);
-void enemy_tumble_update(tEntity *this, tEnemyLocalData *local);
-void enemy_scorpion_update(tEntity *this, tEnemyLocalData *local);
-void enemy_indian_update(tEntity *this, tEnemyLocalData *local);
-void enemy_indian2_update(tEntity *this, tEnemyLocalData *local);
-void enemy_axe_update(tEntity *this, tEnemyLocalData *local);
-void enemy_arrow_update(tEntity *this, tEnemyLocalData *local);
-void enemy_bat_update(tEntity *this, tEnemyLocalData *local);
+void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_bullet_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_axe_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif
