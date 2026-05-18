@@ -49,13 +49,14 @@ enum E_ENEMY_LOCAL_DATA
     E_ENEMY_AXE_LOCAL_DATA,
 };
 
-//global enemy local data struct
+//default enemy local data struct
 typedef struct 
 {
     uint16_t flag;
     uint16_t timer;
 } tDefaultEnemyLocalData;
 
+//axe enemy local data struct
 typedef struct {
     fixed cx, cy;      
     fixed x, y;        
@@ -64,9 +65,10 @@ typedef struct {
     int active; 
 } tAxeLocalData;
 
+//local metadata structure
 typedef struct {
-    uint8_t structureType;
-    void *data;
+    uint8_t structureType;  //stores the type of the structure (need for realloc)
+    void *data;             //pointer to the local data structure
 } tEnemyLocalData;
 
 //debug trace entity enemy info

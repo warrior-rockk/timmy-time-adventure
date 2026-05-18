@@ -17,11 +17,11 @@
 
 #define TRACE_FLAG  "[ENEMY]"
 
-uint16_t numEnemyInstances;        //num of enemy instances
-tEnemyLocalData *enemyDataList;        //list of enemy local data
-BITMAP *enemyResources[E_ENEMIES_TYPE_NUM];
-SAMPLE *enemySfx[E_SFX_ENEMY_NUM];
-DATAFILE_INDEX *enemyDataFileIndex;
+uint16_t numEnemyInstances;                 //num of enemy instances
+tEnemyLocalData *enemyDataList;             //list of enemy local data
+BITMAP *enemyResources[E_ENEMIES_TYPE_NUM]; //enemy gfx resources
+SAMPLE *enemySfx[E_SFX_ENEMY_NUM];          //enemy sfx resources
+DATAFILE_INDEX *enemyDataFileIndex;         //enemy datafile index
 
 void enemy_system_init()
 {
@@ -44,8 +44,10 @@ void enemy_system_destroy()
     //empty enemy list
     free(enemyDataList);
     enemyDataList = NULL;
+
     //set number of entities
     numEnemyInstances = 0;   
+
     //free samples
     for (uint8_t i = 0; i < E_SFX_ENEMY_NUM; i++)
     {
@@ -55,6 +57,7 @@ void enemy_system_destroy()
             enemySfx[i] = NULL;
         }
     }
+
     //free resources
     for (uint8_t i = 0; i < E_ENEMIES_TYPE_NUM; i++)
     {
@@ -70,60 +73,59 @@ void enemy_system_destroy()
     MY_TRACE_FLAG("Destroyed enemy system\n");
 }
 
-// --- FUNCIÓN PARA AGREGAR Y AMPLIAR EL ARRAY ---
-// Recibe el puntero al array por referencia (puntero doble) para poder modificarlo con realloc
-tEnemyLocalData* enemy_add_to_list(tEnemyLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
+//function to add enemy to local enemy data. Returns the new array and increments the size counter
+tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
     int newSize = *listSize + 1;
     
-    // Intentamos realojar la memoria para un elemento más
+    //allocates one more element
     tEnemyLocalData *temp = realloc(array, newSize * sizeof(tEnemyLocalData));
     
+    //check allocation
     if (temp == NULL) {
         abort_on_error("Can't assign memory for enemies entities\n");
-        return array; // Devolvemos el array original sin cambios
+        return array;
     }
     
-    // Realloc tuvo éxito, actualizamos el puntero del array
+    //realloc checked. Assign to original array
     array = temp;
     
-    // Guardamos los metadatos y el puntero en la nueva última posición
+    //store the metadata and pointer
     array[*listSize].structureType = localDataType;
     array[*listSize].data = data;
     
-    // Incrementamos el contador de elementos
+    //increment size counter
     (*listSize)++;
     
     return array;
 }
 
-// Función de eliminación (Compacta el array y además reduce su tamaño en memoria)
-tEnemyLocalData* enemy_delete_from_list(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
+//function to delete enemy local data from array. Compacts array and reduces his memory size
+tEnemyLocalData* enemy_data_del(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
+    //check enemy index bounds
     if (enemyIndex < 0 || enemyIndex >= *listSize) {
         abort_on_error("Enemy index %d out of range\n", enemyIndex);
         return array;
     }
 
-    //printf("Eliminando elemento en la posición [%d]...\n", enemyIndex);
-
-    // 2. Desplazamos los elementos para no dejar huecos
-    int elementos_a_mover = *listSize - enemyIndex - 1;
-    if (elementos_a_mover > 0) {
+    //move elements to prevent holes
+    int16_t elementsToMove = *listSize - enemyIndex - 1;
+    if (elementsToMove > 0) {
         memmove(&array[enemyIndex], 
                 &array[enemyIndex + 1], 
-                elementos_a_mover * sizeof(tEnemyLocalData));
+                elementsToMove * sizeof(tEnemyLocalData));
     }
 
-    // 3. Decrementamos el tamaño
+    //decrease list size
     (*listSize)--;
 
-    // 4. Reducimos el espacio físico en memoria del array principal
+    //reduces memory space on array
     if (*listSize > 0) {
         tEnemyLocalData *temp = realloc(array, (*listSize) * sizeof(tEnemyLocalData));
         if (temp != NULL) {
             array = temp;
         }
     } else {
-        // Si ya no quedan elementos, liberamos el array por completo
+        //if not elements left, free the array
         free(array);
         array = NULL;
     }
@@ -133,43 +135,18 @@ tEnemyLocalData* enemy_delete_from_list(tEnemyLocalData *array, uint16_t *listSi
 
 void enemy_destroy(tEntity *entity)
 {
-    enemyDataList = enemy_delete_from_list(enemyDataList, &numEnemyInstances, entity->entInstance);
-    /*
-    uint16_t enemyIndex;
-    enemyIndex = entity->entInstance;
+    enemyDataList = enemy_data_del(enemyDataList, &numEnemyInstances, entity->entInstance);
     
-    //copies last enemy to deleted enemy position
-    ((tDefaultEnemyLocalData*)enemyDataList)[enemyIndex] = ((tDefaultEnemyLocalData*)enemyDataList)[numEnemyInstances - 1];
-    
-    //decrement entity number
-    numEnemyInstances--;
-    if (numEnemyInstances == 0)
-    {
-        //free entity list
-        free(enemyDataList);
-        enemyDataList = NULL;
-    }
-    else
-        //reallocates the array with decremented entity number    
-        //TODO: this is incorrect when entities has different local data structure
-        enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tDefaultEnemyLocalData));     
-    */
-
     MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
 void enemy_create(tEntity *entity)
 {
-    tDefaultEnemyLocalData *enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
-    enemyDataList = enemy_add_to_list(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
     
-    /*
-    //inc num instances
-    numEnemyInstances++;
-    //allocate memory for enemy
-    enemyDataList = realloc(enemyDataList, numEnemyInstances * sizeof(tDefaultEnemyLocalData));            
-    */
+    tDefaultEnemyLocalData *enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
+    enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
+    
 
     //set enemy type properties
     switch (entity->entType)
@@ -1100,7 +1077,8 @@ void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
     switch (this->state)
     {
         case E_INDIAN2_ST_IDLE:        
-            //local->flag = false;    
+            //reset flag
+            local->flag = false;    
             //get player instance
             player = entity_get(entity_get_player_id());            
             
