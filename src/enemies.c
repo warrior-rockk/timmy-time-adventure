@@ -237,7 +237,7 @@ void enemy_create(tEntity *entity)
             collision_create_entity_points(entity);              
         break;
         case E_INDIAN_AXE_ENEMY_TYPE:
-            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_BMP);
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_A_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_AXE], enemyDataFileIndex, AXE_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){47, 47};                          
@@ -245,7 +245,7 @@ void enemy_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_DOWN;
         break;       
         case E_INDIAN_BOW_ENEMY_TYPE:
-            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN2_BMP);
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_B_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARROW], enemyDataFileIndex, ARROW_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){56, 51};                          
