@@ -74,7 +74,7 @@ void enemy_system_destroy()
 }
 
 //function to add enemy to local enemy data. Returns the new array and increments the size counter
-tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
+static tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
     int newSize = *listSize + 1;
     
     //allocates one more element
@@ -99,80 +99,42 @@ tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSize, uint
     return array;
 }
 
-//function to delete enemy local data from array. Compacts array and reduces his memory size
-tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
-    //check enemy index bounds
-    if (enemyIndex < 0 || enemyIndex >= *listSize) {
-        abort_on_error("Enemy index %d out of range\n", enemyIndex);
-        return array;
-    }
-
-    //move elements to prevent holes
-    int16_t elementsToMove = *listSize - enemyIndex - 1;
-    if (elementsToMove > 0) {
-        memmove(&array[enemyIndex], 
-                &array[enemyIndex + 1], 
-                elementsToMove * sizeof(tEnemyLocalData));
-    }
-
-    //decrease list size
-    (*listSize)--;
-
-    //reduces memory space on array
-    if (*listSize > 0) {
-        tEnemyLocalData *temp = realloc(array, (*listSize) * sizeof(tEnemyLocalData));
-        if (temp != NULL) {
-            array = temp;
-        }
-    } else {
-        //if not elements left, free the array
-        free(array);
-        array = NULL;
-    }
-
-    return array;
-}
-
-// --- SOLUCIÓN 3: ELIMINACIÓN MEDIANTE SWAP & POP ---
-tEnemyLocalData* enemy_data_remove2(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex, tEntity *entity) {
+//function to delete enemy local data from array with swap and pop (last array position moves to removed element)
+static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
     //check enemy index bounds
     if (enemyIndex < 0 || enemyIndex >= *listSize) {
         abort_on_error("Enemy index %d out of range\n", enemyIndex);
         return array;
     }
     
-    MY_TRACE_FLAG("\n[Borrado] Solicitado borrar índice [%d]\n", enemyIndex);
+    //get last index
+    int16_t last_index = *listSize - 1;
 
-    int last_index = *listSize - 1;
-
-    // 2. Si el elemento a borrar NO es el último, hacemos el "Swap"
+    //if element isn't last, make the swap
     if (enemyIndex != last_index) {
-        // Copiamos los metadatos del último elemento directamente en el hueco
+        //copy data from last element to remove element position
         array[enemyIndex] = array[last_index];
 
-        // ACTUALIZACIÓN CRUCIAL: Le avisamos al elemento movido de su nueva posición
-        //ESTO NO VALE. TENGO QUE ASOCIARLE AL ULTIMO ELEMENTO DEL ARRAY DE ENEMIGOS EL ENT_INSTAANCE DE ENEMYINDEX
-        entity->entInstance = enemyIndex;
-        /*if (array[enemyIndex].tipo == TIPO_A) {
-            EstructuraA *estA = (EstructuraA *)array[enemyIndex].puntero_datos;
-            estA->indice_en_array = indice_a_borrar; // <-- Ahora vive en el hueco
-        } else if (array[enemyIndex].tipo == TIPO_B) {
-            EstructuraB *estB = (EstructuraB *)array[enemyIndex].puntero_datos;
-            estB->indice_en_array = enemyIndex; // <-- Ahora vive en el hueco
-        }*/
-        MY_TRACE_FLAG("  -> El elemento que estaba en [%d] se movió al índice [%d] y su struct fue actualizada.\n", last_index, enemyIndex);
-    } else {
-        MY_TRACE_FLAG("  -> Como era el último elemento, no hace falta mover nada.\n");
+        //get the entity of last index enemy index (we need to update his instace number)
+        tEntity *lastEnemyEntity = entity_get_by_instance(E_ENT_CLASS_ENEMY, last_index);
+        if (lastEnemyEntity == NULL)
+            abort_on_error("Can't find enemy entity with entity instance: %i\n", last_index);
+        
+        //updates instance number
+        lastEnemyEntity->entInstance = enemyIndex;    
     }
 
-    // 3. Reducimos el tamaño de la lista ("Pop")
+    //decrease the size counter (pop)
     (*listSize)--;
 
-    // 4. Reducimos el espacio físico en memoria del array
-    if (*listSize > 0) {
+    //reduces memory space of the array
+    if (*listSize > 0) 
+    {
         tEnemyLocalData *temp = realloc(array, (*listSize) * sizeof(tEnemyLocalData));
         if (temp != NULL) array = temp;
-    } else {
+    } 
+    else 
+    {
         free(array);
         array = NULL;
     }
@@ -182,8 +144,9 @@ tEnemyLocalData* enemy_data_remove2(tEnemyLocalData *array, uint16_t *listSize, 
 
 void enemy_destroy(tEntity *entity)
 {
-    enemyDataList = enemy_data_remove2(enemyDataList, &numEnemyInstances, entity->entInstance, entity);
-    
+    //remove enemy instance from list
+    enemyDataList = enemy_data_remove(enemyDataList, &numEnemyInstances, entity->entInstance);
+
     MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
 }
 

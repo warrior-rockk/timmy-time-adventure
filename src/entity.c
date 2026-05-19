@@ -228,6 +228,18 @@ tEntity* entity_get(uint16_t numEntity)
         return NULL;
 }
 
+//function to return a entity by his entity class and instance. NULL if not found
+tEntity* entity_get_by_instance(uint8_t entityClass, uint16_t entityInstance)
+{
+    for (uint16_t i = 0; i < numEntities; i++)
+    {
+        if (entityList[i].entClass == entityClass && entityList[i].entInstance == entityInstance)
+            return &entityList[i];
+    }
+
+    return NULL;
+}
+
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {    

@@ -132,6 +132,8 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
 void entity_update_vel_pos(tEntity *entity);
 //returns entity based on entity number
 tEntity* entity_get(uint16_t numEntity);
+//function to return a entity by his entity class and instance. NULL if not found
+tEntity* entity_get_by_instance(uint8_t entityClass, uint16_t entityInstance);
 //blink entity
 void entity_blink(tEntity *entity);
 //returns the center position x of an entity
