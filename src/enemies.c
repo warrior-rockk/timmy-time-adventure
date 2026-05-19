@@ -133,9 +133,56 @@ tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *listSize, u
     return array;
 }
 
+// --- SOLUCIÓN 3: ELIMINACIÓN MEDIANTE SWAP & POP ---
+tEnemyLocalData* enemy_data_remove2(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex, tEntity *entity) {
+    //check enemy index bounds
+    if (enemyIndex < 0 || enemyIndex >= *listSize) {
+        abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        return array;
+    }
+    
+    MY_TRACE_FLAG("\n[Borrado] Solicitado borrar índice [%d]\n", enemyIndex);
+
+    int last_index = *listSize - 1;
+
+    // 2. Si el elemento a borrar NO es el último, hacemos el "Swap"
+    if (enemyIndex != last_index) {
+        // Copiamos los metadatos del último elemento directamente en el hueco
+        array[enemyIndex] = array[last_index];
+
+        // ACTUALIZACIÓN CRUCIAL: Le avisamos al elemento movido de su nueva posición
+        //ESTO NO VALE. TENGO QUE ASOCIARLE AL ULTIMO ELEMENTO DEL ARRAY DE ENEMIGOS EL ENT_INSTAANCE DE ENEMYINDEX
+        entity->entInstance = enemyIndex;
+        /*if (array[enemyIndex].tipo == TIPO_A) {
+            EstructuraA *estA = (EstructuraA *)array[enemyIndex].puntero_datos;
+            estA->indice_en_array = indice_a_borrar; // <-- Ahora vive en el hueco
+        } else if (array[enemyIndex].tipo == TIPO_B) {
+            EstructuraB *estB = (EstructuraB *)array[enemyIndex].puntero_datos;
+            estB->indice_en_array = enemyIndex; // <-- Ahora vive en el hueco
+        }*/
+        MY_TRACE_FLAG("  -> El elemento que estaba en [%d] se movió al índice [%d] y su struct fue actualizada.\n", last_index, enemyIndex);
+    } else {
+        MY_TRACE_FLAG("  -> Como era el último elemento, no hace falta mover nada.\n");
+    }
+
+    // 3. Reducimos el tamaño de la lista ("Pop")
+    (*listSize)--;
+
+    // 4. Reducimos el espacio físico en memoria del array
+    if (*listSize > 0) {
+        tEnemyLocalData *temp = realloc(array, (*listSize) * sizeof(tEnemyLocalData));
+        if (temp != NULL) array = temp;
+    } else {
+        free(array);
+        array = NULL;
+    }
+
+    return array;
+}
+
 void enemy_destroy(tEntity *entity)
 {
-    enemyDataList = enemy_data_remove(enemyDataList, &numEnemyInstances, entity->entInstance);
+    enemyDataList = enemy_data_remove2(enemyDataList, &numEnemyInstances, entity->entInstance, entity);
     
     MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
 }
