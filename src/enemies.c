@@ -1032,7 +1032,7 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
             play_animation(&this->anim, ANIM_INDIAN_AXE_IDLE);
 
             player = entity_get(entity_get_player_id());
-            
+
             if (local->timer > INDIAN_AXE_INIT_WAIT)
             {
                 local->timer = 0;
@@ -1095,7 +1095,7 @@ void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy animations
     #define ANIM_INDIAN_BOW_IDLE   0,   0, 10,  ANIM_LOOP
     #define ANIM_INDIAN_BOW_SHOOT  9,   20, 5,  ANIM_ONCE
-    #define ANIM_INDIAN_BOW_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_INDIAN_BOW_DEAD   21,  27, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_INDIAN_BOW_ENEMY_STATES{E_INDIAN_BOW_ST_IDLE, E_INDIAN_BOW_ST_SHOOT, E_INDIAN_BOW_ST_WAIT, E_INDIAN_BOW_ST_HURT};   
