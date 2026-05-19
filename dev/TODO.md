@@ -1,7 +1,7 @@
 # Bugs
-- [ ] Possible bug when realloc objects or enemies with different local data?
 
 # Engine
+- [ ] Do the same system as enemies instance list add/remove on objects?
 - [ ] Review debug keys on different translation units
 - [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?
