@@ -1006,7 +1006,8 @@ void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
-    #define INDIAN_PLAYER_RANGE     100
+    #define INDIAN_PLAYER_RANGE     120
+    #define INDIAN_INIT_WAIT        500
     #define INDIAN_WAIT_TIME        30
     #define INDIAN_AXE_FRAME_THROW  6
     #define INDIAN_AXE_Y_OFFSET     6
@@ -1017,7 +1018,7 @@ void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_INDIAN_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_INDIAN_ENEMY_STATES{E_INDIAN_ST_IDLE, E_INDIAN_ST_SHOOT, E_INDIAN_ST_WAIT, E_INDIAN_ST_HURT};   
+    enum E_INDIAN_ENEMY_STATES{E_INDIAN_ST_INIT_WAIT, E_INDIAN_ST_IDLE, E_INDIAN_ST_SHOOT, E_INDIAN_ST_WAIT, E_INDIAN_ST_HURT};   
 
     tEntity *player;
 
@@ -1027,6 +1028,17 @@ void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
 
     switch (this->state)
     {
+        case E_INDIAN_ST_INIT_WAIT:
+            play_animation(&this->anim, ANIM_INDIAN_IDLE);
+
+            if (local->timer > INDIAN_INIT_WAIT)
+            {
+                local->timer = 0;
+                this->state = E_INDIAN_ST_IDLE;
+            }
+            else
+                local->timer += clock_tick_get();
+        break;
         case E_INDIAN_ST_IDLE:        
             local->flag = false;    
             //get player instance
@@ -1141,7 +1153,7 @@ void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_axe_update(tEntity *this, tAxeLocalData *local)
 {              
     //enemy defines
-    #define AXE_VELOCITY    3.6     //velocity of horizontal movement
+    #define AXE_VELOCITY    3.2     //velocity of horizontal movement
     #define AXE_RADIUS      12      //radius distance from the center axis
     #define AXE_ROTATION    18      //rotation velocity around center axis rotation
 
