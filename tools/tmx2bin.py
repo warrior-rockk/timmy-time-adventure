@@ -39,21 +39,21 @@ object_ent_types = {
 }
 #define entity enemies types
 enemy_ent_types = {
-    "ptero"     : 0,
-    "raptor"    : 1,
-    "spider"    : 2,
-    "piranha"   : 3,
-    "cowboy"    : 4,
-    "eagle"     : 5,
-    "bullet"    : 6,
-    "tumble"    : 7,
-    "trice"     : 8,
-    "scorpion"  : 9,
-    "indian"    : 10,
-    "axe"       : 11,
-    "bat"       : 12,
-    "indian2"   : 13,
-    "arrow"     : 14,
+    "ptero"         : 0,
+    "raptor"        : 1,
+    "spider"        : 2,
+    "piranha"       : 3,
+    "cowboy"        : 4,
+    "eagle"         : 5,
+    "bullet"        : 6,
+    "tumble"        : 7,
+    "trice"         : 8,
+    "scorpion"      : 9,
+    "indian_axe"    : 10,
+    "axe"           : 11,
+    "bat"           : 12,
+    "indian_bow"    : 13,
+    "arrow"         : 14,
 }
 #define array of lists of entity types
 ent_types = [object_ent_types, object_ent_types, player_ent_types, object_ent_types, enemy_ent_types]

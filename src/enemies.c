@@ -1007,7 +1007,7 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN_AXE_PLAYER_RANGE     120
-    #define INDIAN_AXE_INIT_WAIT        500
+    #define INDIAN_AXE_INIT_WAIT        50
     #define INDIAN_AXE_WAIT_TIME        30
     #define INDIAN_AXE_AXE_FRAME_THROW  6
     #define INDIAN_AXE_AXE_Y_OFFSET     6
@@ -1031,12 +1031,14 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_INDIAN_AXE_ST_INIT_WAIT:
             play_animation(&this->anim, ANIM_INDIAN_AXE_IDLE);
 
+            player = entity_get(entity_get_player_id());
+            
             if (local->timer > INDIAN_AXE_INIT_WAIT)
             {
                 local->timer = 0;
                 this->state = E_INDIAN_AXE_ST_IDLE;
             }
-            else
+            else if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN_AXE_PLAYER_RANGE))
                 local->timer += clock_tick_get();
         break;
         case E_INDIAN_AXE_ST_IDLE:        

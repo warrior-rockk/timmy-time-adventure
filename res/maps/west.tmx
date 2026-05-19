@@ -210,16 +210,8 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
-  <tile id="110" type="tile_NO_SOLID">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
-  <tile id="111" type="tile_NO_SOLID">
-   <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1"/>
-   </properties>
-  </tile>
+  <tile id="110" type="tile_NO_SOLID"/>
+  <tile id="111" type="tile_NO_SOLID"/>
   <tile id="114">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="128"/>
@@ -294,22 +286,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="16" y="96" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
+  <object id="1" name="player1" type="player" x="16" y="96" width="16" height="32"/>
   <object id="12" name="rock3" type="object" x="96" y="112" width="21" height="16"/>
   <object id="7" name="eagle" type="enemy" x="512" y="32" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="8" name="tumble" type="enemy" x="1600.18" y="123.818" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
+  <object id="8" name="tumble" type="enemy" x="1600.18" y="123.818" width="28" height="20"/>
   <object id="29" name="eagle" type="enemy" x="1008" y="16" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
@@ -320,11 +304,7 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="33" name="tumble" type="enemy" x="3120" y="92" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
+  <object id="33" name="tumble" type="enemy" x="3120" y="92" width="28" height="20"/>
   <object id="37" name="eagle" type="enemy" x="2368" y="16" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
@@ -382,17 +362,17 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="53" name="indian" type="enemy" x="272" y="96" width="16" height="32">
+  <object id="53" name="indian_axe" type="enemy" x="272" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="64" name="indian2" type="enemy" x="176" y="96" width="16" height="32">
+  <object id="64" name="indian_bow" type="enemy" x="400" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="54" name="indian" type="enemy" x="720" y="64" width="16" height="32">
+  <object id="54" name="indian_axe" type="enemy" x="720" y="64" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
@@ -412,25 +392,9 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="60" name="tumble" type="enemy" x="1824" y="123.5" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="61" name="tumble" type="enemy" x="3265" y="91.5" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="62" name="tumble" type="enemy" x="3408" y="91" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
-  <object id="63" name="tumble" type="enemy" x="3552" y="91.5" width="28" height="20">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
+  <object id="60" name="tumble" type="enemy" x="1824" y="123.5" width="28" height="20"/>
+  <object id="61" name="tumble" type="enemy" x="3265" y="91.5" width="28" height="20"/>
+  <object id="62" name="tumble" type="enemy" x="3408" y="91" width="28" height="20"/>
+  <object id="63" name="tumble" type="enemy" x="3552" y="91.5" width="28" height="20"/>
  </objectgroup>
 </map>
