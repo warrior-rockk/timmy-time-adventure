@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="indian" type="enemy" width="16" height="32">
+ <object name="indian_bow" type="enemy" width="16" height="32">
   <properties>
    <property name="dir" type="int" propertytype="dir" value="0"/>
   </properties>
