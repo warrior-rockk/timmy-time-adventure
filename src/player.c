@@ -63,7 +63,7 @@ static uint8_t objectForPickID = 0;         //actual frame object collision id
 static uint8_t memObjectforPickID = 0;      //save actual object collision id
 static uint8_t objectPickedID = 0;          //id to entity object picked
 static uint16_t pickingCounter = 0;         //counter delay to pick object when collided
-static uint8_t idleCounter = 0;             //counter to idle animation
+static uint8_t playeridleCounter = 0;             //counter to idle animation
 SAMPLE *playerSfx[SFX_PLAYER_NUM];          //player sfx array
 
 //local functions declarations
@@ -107,6 +107,7 @@ void player_init(tEntity *player)
     //initialize player vars    
     player->ground = false;
     playerInvincible = 0;
+    playeridleCounter = 0;
     memset(&playerFlags, 0, sizeof(playerFlags));
     
     //initialize state
@@ -494,7 +495,7 @@ static void player_update_state(tEntity *player)
 {
     //reset flags
     playerFlags.disableMove = false;
-    idleCounter =  player->state != ST_PLAYER_IDLE ? 0 : idleCounter;
+    playeridleCounter =  player->state != ST_PLAYER_IDLE ? 0 : playeridleCounter;
     player->noGravity = playerFlags.onStairs; //TODO: move this
     
     //picking objects
@@ -614,7 +615,7 @@ static void player_update_state(tEntity *player)
     else
     {
         player->state = ST_PLAYER_IDLE;
-        idleCounter += clock_tick_1sec_get();        
+        playeridleCounter += clock_tick_1sec_get();        
     }
 }
 
@@ -633,10 +634,10 @@ static void player_update_animations(tEntity *player)
                 else
                     play_animation(&player->anim, ANIM_PLY_GET_CROUCH);            
             }
-            else if (idleCounter >= PLAYER_IDLE_WAIT_TIME)
+            else if (playeridleCounter >= PLAYER_IDLE_WAIT_TIME)
             {
                 if (play_animation(&player->anim, ANIM_PLY_IDLE_WAIT))
-                    idleCounter = 0;    
+                    playeridleCounter = 0;    
             }
             else
             {
