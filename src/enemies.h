@@ -58,8 +58,9 @@ typedef struct
 
 //axe enemy local data struct
 typedef struct {
-    fixed cx, cy;          
-    int angle;             
+    fixed cx;       //center axis x position
+    fixed cy;       //center axis y position    
+    int angle;      //angle of axe rotation       
 } tAxeLocalData;
 
 //local metadata structure

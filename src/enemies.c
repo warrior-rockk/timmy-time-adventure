@@ -1141,7 +1141,9 @@ void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_axe_update(tEntity *this, tAxeLocalData *local)
 {              
     //enemy defines
-    #define AXE_VELOCITY     4.0
+    #define AXE_VELOCITY    3.6     //velocity of horizontal movement
+    #define AXE_RADIUS      12      //radius distance from the center axis
+    #define AXE_ROTATION    18      //rotation velocity around center axis rotation
 
     //enemy animations
     #define ANIM_AXE_IDLE   0,   0, 10,  ANIM_LOOP
@@ -1153,6 +1155,7 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
     switch (this->state)
     {
         case E_AXE_ST_INIT:        
+            //set initial values
             local->cx = this->fixPos.x;
             local->cy = this->fixPos.y;
             local->angle = 0;       
@@ -1162,30 +1165,21 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
             this->state++;
         break;
         case E_AXE_ST_MOVE:      
-            //horizonal movement of centre
+            //horizonal movement of center axis
             local->cx += this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY); 
     
-
-            // 2. Cálculo de la órbita
-            // fixsin y fixcos devuelven un valor fixed entre -1 y 1.
-            // El radio también debe estar en formato fixed.
-            fixed radio = itofix(10);
+            //convert radius to fixed
+            fixed radio = itofix(AXE_RADIUS);
             
-            // fmul multiplica dos números fixed (importante no usar * normal)
+            //calculate the orbit
             this->fixPos.x = local->cx + fmul(radio, fixcos(itofix(local->angle)));
             this->fixPos.y = local->cy + fmul(radio, fixsin(itofix(local->angle)));
 
-            // 3. Rotación
-            // Al ser un int que usamos de 0 a 255, Allegro ignora los bits superiores
-            // permitiendo que el ángulo de la vuelta solo.
-            local->angle = (local->angle + 6) & 255;
+            //calculate rotation. As integer using only 0 to 255, ignore the upper bits
+            //allowing to angle reset to zero automatic
+            local->angle = (local->angle + AXE_ROTATION) & 255;
         
-
-
-            //this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY);
-
             play_animation(&this->anim, ANIM_AXE_TURN);   
-            //entity_trace(this);         
         break;
     }       
 }
