@@ -231,7 +231,9 @@ tEntity* entity_get(uint16_t numEntity)
 //function to return a entity by his entity class and instance. NULL if not found
 tEntity* entity_get_by_instance(uint8_t entityClass, uint16_t entityInstance)
 {
-    for (uint16_t i = 0; i < numEntities; i++)
+    //optimized running the list of entities backwards because the use of this function
+    //is when remove a element from list and there's more probability to found on last positions
+    for (uint16_t i = numEntities; i > 0; i--)
     {
         if (entityList[i].entClass == entityClass && entityList[i].entInstance == entityInstance)
             return &entityList[i];
