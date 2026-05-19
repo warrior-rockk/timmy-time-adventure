@@ -100,7 +100,7 @@ tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSize, uint
 }
 
 //function to delete enemy local data from array. Compacts array and reduces his memory size
-tEnemyLocalData* enemy_data_del(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
+tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
     //check enemy index bounds
     if (enemyIndex < 0 || enemyIndex >= *listSize) {
         abort_on_error("Enemy index %d out of range\n", enemyIndex);
@@ -135,7 +135,7 @@ tEnemyLocalData* enemy_data_del(tEnemyLocalData *array, uint16_t *listSize, uint
 
 void enemy_destroy(tEntity *entity)
 {
-    enemyDataList = enemy_data_del(enemyDataList, &numEnemyInstances, entity->entInstance);
+    enemyDataList = enemy_data_remove(enemyDataList, &numEnemyInstances, entity->entInstance);
     
     MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
 }
@@ -274,7 +274,7 @@ void enemy_create(tEntity *entity)
         //allocate default enemy local data
         enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
     
-        //adds enemy local data to list
+    //adds enemy local data to list
     enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
 
     //test memory allocation
@@ -349,7 +349,7 @@ void enemy_update(tEntity *entity)
 void enemy_init(tEntity *entity)
 {   
     switch (entity->entType)
-    {        
+    {   
         default:            
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;            
@@ -1138,17 +1138,44 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
     #define ANIM_AXE_TURN   0,   2, 10,  ANIM_LOOP
 
     //enemy states
-    enum E_AXE_ENEMY_STATES{E_AXE_ST_IDLE};   
+    enum E_AXE_ENEMY_STATES{E_AXE_ST_INIT, E_AXE_ST_MOVE};   
 
     switch (this->state)
     {
-        case E_AXE_ST_IDLE:            
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY);
+        case E_AXE_ST_INIT:        
+            local->cx = this->fixPos.x;
+            local->cy = this->fixPos.y;
+            local->angle = 0;       
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;
+            
+            this->state++;
+        break;
+        case E_AXE_ST_MOVE:      
+            //horizonal movement of centre
+            local->cx += this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY); 
+    
 
-            play_animation(&this->anim, ANIM_AXE_TURN);
-            //TEST
-            local->cx = ftofix(0.8);
-            MY_TRACE_FLAG("Local axe: %f\n", fixtof(local->cx));
+            // 2. Cálculo de la órbita
+            // fixsin y fixcos devuelven un valor fixed entre -1 y 1.
+            // El radio también debe estar en formato fixed.
+            fixed radio = itofix(10);
+            
+            // fmul multiplica dos números fixed (importante no usar * normal)
+            this->fixPos.x = local->cx + fmul(radio, fixcos(itofix(local->angle)));
+            this->fixPos.y = local->cy + fmul(radio, fixsin(itofix(local->angle)));
+
+            // 3. Rotación
+            // Al ser un int que usamos de 0 a 255, Allegro ignora los bits superiores
+            // permitiendo que el ángulo de la vuelta solo.
+            local->angle = (local->angle + 6) & 255;
+        
+
+
+            //this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-AXE_VELOCITY) : ftofix(AXE_VELOCITY);
+
+            play_animation(&this->anim, ANIM_AXE_TURN);   
+            //entity_trace(this);         
         break;
     }       
 }
