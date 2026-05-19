@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="288" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="70">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="288" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#badedd" nextlayerid="5" nextobjectid="71">
  <properties>
   <property name="time" type="int" value="200"/>
  </properties>
@@ -293,12 +293,12 @@
    </properties>
   </object>
   <object id="8" name="tumble" type="enemy" x="1600.18" y="123.818" width="28" height="20"/>
-  <object id="29" name="eagle" type="enemy" x="1008" y="16" width="20" height="18">
+  <object id="29" name="eagle" type="enemy" x="976" y="16" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="30" name="eagle" type="enemy" x="928" y="48" width="20" height="18">
+  <object id="30" name="eagle" type="enemy" x="896" y="48" width="20" height="18">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -376,7 +376,7 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="60" name="tumble" type="enemy" x="1824" y="123.5" width="28" height="20"/>
+  <object id="60" name="tumble" type="enemy" x="1811.46" y="121.519" width="28" height="20"/>
   <object id="61" name="tumble" type="enemy" x="3265" y="91.5" width="28" height="20"/>
   <object id="62" name="tumble" type="enemy" x="3408" y="91" width="28" height="20"/>
   <object id="63" name="tumble" type="enemy" x="3552" y="91.5" width="28" height="20"/>
@@ -385,7 +385,7 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="67" name="indian_axe" type="enemy" x="2192" y="48" width="16" height="32">
+  <object id="67" name="indian_axe" type="enemy" x="2256" y="112" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
@@ -395,6 +395,6 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="69" name="rock3" type="object" x="2736" y="128" width="21" height="16"/>
+  <object id="70" name="rock3" type="object" x="2784" y="128" width="21" height="16"/>
  </objectgroup>
 </map>
