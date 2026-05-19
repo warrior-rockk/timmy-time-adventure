@@ -25,10 +25,10 @@ enum E_ENEMY_TYPE
     E_TUMBLE_ENEMY_TYPE,
     E_TRICE_ENEMY_TYPE,
     E_SCORPION_ENEMY_TYPE,
-    E_INDIAN_ENEMY_TYPE,
+    E_INDIAN_AXE_ENEMY_TYPE,
     E_AXE_ENEMY_TYPE,
     E_BAT_ENEMY_TYPE,
-    E_INDIAN2_ENEMY_TYPE,
+    E_INDIAN_BOW_ENEMY_TYPE,
     E_ARROW_ENEMY_TYPE,
     E_ENEMIES_TYPE_NUM,
 };
@@ -97,8 +97,8 @@ void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_bullet_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local);
-void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local);
-void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_axe_update(tEntity *this, tAxeLocalData *local);
 void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local);

@@ -236,7 +236,7 @@ void enemy_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_HURT;
             collision_create_entity_points(entity);              
         break;
-        case E_INDIAN_ENEMY_TYPE:
+        case E_INDIAN_AXE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_AXE], enemyDataFileIndex, AXE_WAV);
             entity->img = enemyResources[entity->entType]; 
@@ -244,7 +244,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 32};      
             entity->axis = E_ENT_AXIS_DOWN;
         break;       
-        case E_INDIAN2_ENEMY_TYPE:
+        case E_INDIAN_BOW_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN2_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARROW], enemyDataFileIndex, ARROW_WAV);
             entity->img = enemyResources[entity->entType]; 
@@ -333,11 +333,11 @@ void enemy_update(tEntity *entity)
         case E_SCORPION_ENEMY_TYPE:            
             enemy_scorpion_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
-        case E_INDIAN_ENEMY_TYPE:            
-            enemy_indian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        case E_INDIAN_AXE_ENEMY_TYPE:            
+            enemy_indian_axe_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
-        case E_INDIAN2_ENEMY_TYPE:            
-            enemy_indian2_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        case E_INDIAN_BOW_ENEMY_TYPE:            
+            enemy_indian_bow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_AXE_ENEMY_TYPE:            
             enemy_axe_update(entity, (tAxeLocalData*)enemyDataList[entity->entInstance].data);
@@ -1003,43 +1003,43 @@ void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local)
     }       
 }
 
-void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
+void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
-    #define INDIAN_PLAYER_RANGE     120
-    #define INDIAN_INIT_WAIT        500
-    #define INDIAN_WAIT_TIME        30
-    #define INDIAN_AXE_FRAME_THROW  6
-    #define INDIAN_AXE_Y_OFFSET     6
+    #define INDIAN_AXE_PLAYER_RANGE     120
+    #define INDIAN_AXE_INIT_WAIT        500
+    #define INDIAN_AXE_WAIT_TIME        30
+    #define INDIAN_AXE_AXE_FRAME_THROW  6
+    #define INDIAN_AXE_AXE_Y_OFFSET     6
 
     //enemy animations
-    #define ANIM_INDIAN_IDLE   0,   0, 10,  ANIM_LOOP
-    #define ANIM_INDIAN_SHOOT  5,   8, 20,  ANIM_ONCE
-    #define ANIM_INDIAN_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_INDIAN_AXE_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_INDIAN_AXE_SHOOT  5,   8, 20,  ANIM_ONCE
+    #define ANIM_INDIAN_AXE_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_INDIAN_ENEMY_STATES{E_INDIAN_ST_INIT_WAIT, E_INDIAN_ST_IDLE, E_INDIAN_ST_SHOOT, E_INDIAN_ST_WAIT, E_INDIAN_ST_HURT};   
+    enum E_INDIAN_AXE_ENEMY_STATES{E_INDIAN_AXE_ST_INIT_WAIT, E_INDIAN_AXE_ST_IDLE, E_INDIAN_AXE_ST_SHOOT, E_INDIAN_AXE_ST_WAIT, E_INDIAN_AXE_ST_HURT};   
 
     tEntity *player;
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_INDIAN_ST_HURT;
+        this->state = E_INDIAN_AXE_ST_HURT;
 
     switch (this->state)
     {
-        case E_INDIAN_ST_INIT_WAIT:
-            play_animation(&this->anim, ANIM_INDIAN_IDLE);
+        case E_INDIAN_AXE_ST_INIT_WAIT:
+            play_animation(&this->anim, ANIM_INDIAN_AXE_IDLE);
 
-            if (local->timer > INDIAN_INIT_WAIT)
+            if (local->timer > INDIAN_AXE_INIT_WAIT)
             {
                 local->timer = 0;
-                this->state = E_INDIAN_ST_IDLE;
+                this->state = E_INDIAN_AXE_ST_IDLE;
             }
             else
                 local->timer += clock_tick_get();
         break;
-        case E_INDIAN_ST_IDLE:        
+        case E_INDIAN_AXE_ST_IDLE:        
             local->flag = false;    
             //get player instance
             player = entity_get(entity_get_player_id());            
@@ -1048,65 +1048,65 @@ void enemy_indian_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
 
             //shoot in player range
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN_PLAYER_RANGE))
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN_AXE_PLAYER_RANGE))
                 this->state++;
 
-            play_animation(&this->anim, ANIM_INDIAN_IDLE);
+            play_animation(&this->anim, ANIM_INDIAN_AXE_IDLE);
         break;
-        case E_INDIAN_ST_SHOOT:            
-            if (play_animation(&this->anim, ANIM_INDIAN_SHOOT))
+        case E_INDIAN_AXE_ST_SHOOT:            
+            if (play_animation(&this->anim, ANIM_INDIAN_AXE_SHOOT))
             {
                 this->state++;      
             }
-            if (this->anim.frame == INDIAN_AXE_FRAME_THROW && !local->flag)
+            if (this->anim.frame == INDIAN_AXE_AXE_FRAME_THROW && !local->flag)
             {
                 sfx_play(enemySfx[E_SFX_ENEMY_AXE], E_SFX_ENEMY_VOICE);
-                entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - INDIAN_AXE_Y_OFFSET}, this->dir, this->spare);
+                entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - INDIAN_AXE_AXE_Y_OFFSET}, this->dir, this->spare);
                 local->flag = true;
             }
         break;     
-        case E_INDIAN_ST_WAIT:
-            if (local->timer > INDIAN_WAIT_TIME)
+        case E_INDIAN_AXE_ST_WAIT:
+            if (local->timer > INDIAN_AXE_WAIT_TIME)
             {
                 local->timer = 0;
-                this->state = E_INDIAN_ST_IDLE;
+                this->state = E_INDIAN_AXE_ST_IDLE;
             }
             else
                 local->timer += clock_tick_get();
 
-            play_animation(&this->anim, ANIM_INDIAN_IDLE); 
+            play_animation(&this->anim, ANIM_INDIAN_AXE_IDLE); 
         break;   
-        case E_INDIAN_ST_HURT:
-            enemy_dead(this, ANIM_INDIAN_DEAD);            
+        case E_INDIAN_AXE_ST_HURT:
+            enemy_dead(this, ANIM_INDIAN_AXE_DEAD);            
         break;
     }       
 }
 
-void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
+void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
-    #define INDIAN2_PLAYER_RANGE        100
-    #define INDIAN2_WAIT_TIME           30
-    #define INDIAN2_ARROW_FRAME_THROW   17
-    #define INDIAN2_ARROW_Y_OFFSET      4
+    #define INDIAN_BOW_PLAYER_RANGE        100
+    #define INDIAN_BOW_WAIT_TIME           30
+    #define INDIAN_BOW_ARROW_FRAME_THROW   17
+    #define INDIAN_BOW_ARROW_Y_OFFSET      4
 
     //enemy animations
-    #define ANIM_INDIAN2_IDLE   0,   0, 10,  ANIM_LOOP
-    #define ANIM_INDIAN2_SHOOT  9,   20, 5,  ANIM_ONCE
-    #define ANIM_INDIAN2_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_INDIAN_BOW_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_INDIAN_BOW_SHOOT  9,   20, 5,  ANIM_ONCE
+    #define ANIM_INDIAN_BOW_DEAD   9,  15, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_INDIAN2_ENEMY_STATES{E_INDIAN2_ST_IDLE, E_INDIAN2_ST_SHOOT, E_INDIAN2_ST_WAIT, E_INDIAN2_ST_HURT};   
+    enum E_INDIAN_BOW_ENEMY_STATES{E_INDIAN_BOW_ST_IDLE, E_INDIAN_BOW_ST_SHOOT, E_INDIAN_BOW_ST_WAIT, E_INDIAN_BOW_ST_HURT};   
 
     tEntity *player;
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_INDIAN2_ST_HURT;
+        this->state = E_INDIAN_BOW_ST_HURT;
 
     switch (this->state)
     {
-        case E_INDIAN2_ST_IDLE:        
+        case E_INDIAN_BOW_ST_IDLE:        
             //reset flag
             local->flag = false;    
             //get player instance
@@ -1116,36 +1116,36 @@ void enemy_indian2_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->dir = player->pos.x < this->pos.x ? E_ENT_DIR_LEFT : E_ENT_DIR_RIGHT;
 
             //shoot in player range
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN2_PLAYER_RANGE))
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, INDIAN_BOW_PLAYER_RANGE))
                 this->state++;
 
-            play_animation(&this->anim, ANIM_INDIAN2_IDLE);
+            play_animation(&this->anim, ANIM_INDIAN_BOW_IDLE);
         break;
-        case E_INDIAN2_ST_SHOOT:            
-            if (play_animation(&this->anim, ANIM_INDIAN2_SHOOT))
+        case E_INDIAN_BOW_ST_SHOOT:            
+            if (play_animation(&this->anim, ANIM_INDIAN_BOW_SHOOT))
             {
                 this->state++;      
             }
-            if (this->anim.frame == INDIAN2_ARROW_FRAME_THROW && !local->flag)
+            if (this->anim.frame == INDIAN_BOW_ARROW_FRAME_THROW && !local->flag)
             {
                 sfx_play(enemySfx[E_SFX_ENEMY_ARROW], E_SFX_ENEMY_VOICE);
-                entity_create(E_ENT_CLASS_ENEMY, E_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + INDIAN2_ARROW_Y_OFFSET}, this->dir, this->spare);
+                entity_create(E_ENT_CLASS_ENEMY, E_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + INDIAN_BOW_ARROW_Y_OFFSET}, this->dir, this->spare);
                 local->flag = true;
             }
         break;     
-        case E_INDIAN2_ST_WAIT:
-            if (local->timer > INDIAN2_WAIT_TIME)
+        case E_INDIAN_BOW_ST_WAIT:
+            if (local->timer > INDIAN_BOW_WAIT_TIME)
             {
                 local->timer = 0;
-                this->state = E_INDIAN2_ST_IDLE;
+                this->state = E_INDIAN_BOW_ST_IDLE;
             }
             else
                 local->timer += clock_tick_get();
 
-            play_animation(&this->anim, ANIM_INDIAN2_IDLE); 
+            play_animation(&this->anim, ANIM_INDIAN_BOW_IDLE); 
         break;   
-        case E_INDIAN2_ST_HURT:
-            enemy_dead(this, ANIM_INDIAN2_DEAD);            
+        case E_INDIAN_BOW_ST_HURT:
+            enemy_dead(this, ANIM_INDIAN_BOW_DEAD);            
         break;
     }       
 }
