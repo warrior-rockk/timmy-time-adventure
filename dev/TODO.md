@@ -47,6 +47,7 @@
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 
 # Player
+- [ ] Change life icon on hurt/die
 - [X] Animation on edge
 - [X] Idle special animation when no control
 - [X] Slide crouched

@@ -1011,7 +1011,7 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define INDIAN_AXE_WAIT_TIME        30
     #define INDIAN_AXE_AXE_FRAME_THROW  6
     #define INDIAN_AXE_AXE_Y_OFFSET     6
-
+    
     //enemy animations
     #define ANIM_INDIAN_AXE_IDLE   0,   0, 10,  ANIM_LOOP
     #define ANIM_INDIAN_AXE_SHOOT  5,   8, 20,  ANIM_ONCE
