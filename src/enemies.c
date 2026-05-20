@@ -226,6 +226,8 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){30, 29};                          
             entity->size = (tVector){28, 20};                  
             entity->axis = E_ENT_AXIS_DOWN;
+            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            collision_create_entity_points(entity);
         break;
         case E_SCORPION_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
@@ -938,6 +940,18 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         this->signal = E_ENT_SIGNAL_NONE;
         this->pos = this->initPos;
+    }
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
     }
 
     switch (this->state)
