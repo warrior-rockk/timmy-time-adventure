@@ -252,22 +252,22 @@
   </tile>
   <tile id="121" type="tile_FRONT">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="514"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="122" type="tile_FRONT">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="514"/>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
   <tile id="123" type="tile_FRONT">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+    <property name="property" type="int" propertytype="tileProperties" value="514"/>
    </properties>
   </tile>
   <tile id="124" type="tile_FRONT">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+    <property name="property" type="int" propertytype="tileProperties" value="514"/>
    </properties>
   </tile>
   <tile id="125">

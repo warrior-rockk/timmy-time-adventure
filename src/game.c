@@ -138,7 +138,7 @@ void game_update()
                     textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
 
                     gameMusic = load_dat_midi_indexed(gameDataIndex, WARCOM_MID);
-                    music_play(gameMusic, 0);
+                    music_play(gameMusic, false);
                                         
                     gameSeq.step++;
                 break;
@@ -167,7 +167,7 @@ void game_update()
                     destroy_bitmap(logo);   
                                         
                     gameMusic = load_dat_midi_indexed(gameDataIndex, DOSCLUB_MID);
-                    music_play(gameMusic, 0);
+                    music_play(gameMusic, false);
                     
                     gameSeq.step++;
                 break;
@@ -361,7 +361,7 @@ void game_update()
                     game_update_level();
                     //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     
-                    music_play(gameMusic, -1);
+                    music_play(gameMusic, true);
                     
                     gameSeq.step++;
                 break;                

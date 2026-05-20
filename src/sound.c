@@ -63,7 +63,7 @@ enum E_SOUND_MODES sound_get_mode()
     return soundMode;
 }
 
-void music_play(MIDI *midiFile, int loop)
+void music_play(MIDI *midiFile, bool loop)
 {
     //stop actual music
     music_stop();
