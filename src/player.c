@@ -505,6 +505,7 @@ static void player_update_state(tEntity *player)
         if (pickingCounter >= PLAYER_PICKING_TIME)
         {
             playerFlags.picking = true;
+            playerFlags.attack = false;
             memObjectforPickID = objectForPickID;
         }
         else
