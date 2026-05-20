@@ -23,6 +23,7 @@ enum E_OBJECT_TYPE
     E_STOP_SCROLL_OBJECT_TYPE,
     E_ROCK_3_OBJECT_TYPE,
     E_WAGON_OBJECT_TYPE,
+    E_DYNAMITE_OBJECT_TYPE,
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -72,6 +73,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
 //special trigger objects (checkpoints, end level, stop scroll...)
 void object_trigger_update(tEntity *this, tSolidObjectLocalData *objData);
-
+//platform wagon
 void object_wagon_update(tEntity *this, tSolidObjectLocalData *objData);
+//dynamite object
+void object_dynamite_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

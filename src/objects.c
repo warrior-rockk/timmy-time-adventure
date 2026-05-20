@@ -89,27 +89,27 @@ void object_create(tEntity *entity)
     {
         case E_ROCK_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK_BMP);
-            entity->img = objectResources[E_ROCK_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
             collision_create_entity_points(entity);                  
         break;
         case E_ROCK_2_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK2_BMP);
-            entity->img = objectResources[E_ROCK_2_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);                    
         case E_ROCK_3_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK3_BMP);
-            entity->img = objectResources[E_ROCK_3_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){17, 16};
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);     
         break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
-            entity->img = objectResources[E_EGG_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){21, 16};
             entity->size = (tVector){21, 16};      
             collision_create_entity_points(entity);                    
@@ -117,7 +117,7 @@ void object_create(tEntity *entity)
         break;
         case E_END_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
-            entity->img = objectResources[E_END_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){8, 8};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
@@ -129,7 +129,7 @@ void object_create(tEntity *entity)
         break;
         case E_ITEM_OBJECT_TYPE:         
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ITEMS_BMP);
-            entity->img = objectResources[E_ITEM_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT;
@@ -141,13 +141,19 @@ void object_create(tEntity *entity)
         break;
         case E_WAGON_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
-            entity->img = objectResources[E_WAGON_OBJECT_TYPE];
+            entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
             entity->size = (tVector){16, 12};                                     
             entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
-            collision_create_entity_points(entity);
-            
+            collision_create_entity_points(entity);            
+        break;
+        case E_DYNAMITE_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, DYNAMITE_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 21};
+            entity->size = (tVector){16, 21};             
+            collision_create_entity_points(entity);                  
         break;
         default:
             abort_on_error("Object entity type not valid");
@@ -180,6 +186,9 @@ void object_update(tEntity *entity)
         break;
         case E_WAGON_OBJECT_TYPE:
             object_wagon_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_DYNAMITE_OBJECT_TYPE:
+            object_dynamite_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -516,6 +525,131 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 
         break;
     }    
+}
+
+void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define DYNAMITE_THROW_VEL_X       2
+    #define DYNAMITE_THROW_VEL_Y       -2
+    #define DYNAMITE_PICKED_OFFSET_Y   20
+    #define DYNAMITE_PICKED_OFFSET_X   1
+
+    //object states
+    enum E_DYNAMITE_OBJECT_STATES{E_DYNAMITE_ST_IDLE, E_DYNAMITE_ST_PICKED, E_DYNAMITE_ST_THROWING, E_DYNAMITE_ST_BREAK};
+    
+    if (this->signal == E_ENT_SIGNAL_HURT)
+    {
+        this->state = E_DYNAMITE_ST_BREAK;
+        this->signal = 0;
+    }
+
+    switch (this->state)
+    {
+        case E_DYNAMITE_ST_IDLE:
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;
+
+            if (this->signal == E_ENT_SIGNAL_PICKING)
+                this->state = E_DYNAMITE_ST_PICKED;           
+        break;
+        case E_DYNAMITE_ST_PICKED:
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            SET_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
+            
+            //position the object relative to player
+            tEntity *playerEnt = entity_get(entity_get_player_id());
+            this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x + itofix(DYNAMITE_PICKED_OFFSET_X) : playerEnt->fixPos.x - itofix(DYNAMITE_PICKED_OFFSET_X);
+            this->fixPos.y  = playerEnt->fixPos.y - itofix(DYNAMITE_PICKED_OFFSET_Y);
+            
+            //check if receive throw signal
+            if (this->signal == E_ENT_SIGNAL_THROW)
+            {
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+                SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                //set throw velocities
+                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-DYNAMITE_THROW_VEL_X) : itofix(DYNAMITE_THROW_VEL_X);
+                this->fixVel.y = itofix(DYNAMITE_THROW_VEL_Y);
+                this->ground = false;
+                
+                this->state = E_DYNAMITE_ST_THROWING;
+            }
+        break;
+        case E_DYNAMITE_ST_THROWING:                        
+            uint8_t colDir;
+            this->ground = false;
+            //check all the entity collision points    
+            for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+            {                
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);
+                if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    //apply collision direction
+                    collision_apply_dir(this, colDir, E_COLLISION_BOUNCE_SOFT);                        
+                else
+                {
+                    if (colDir)
+                        this->state = E_DYNAMITE_ST_BREAK;
+                }
+            }
+            
+            //check entities collisions            
+            uint8_t numEntities = entities_get_num();
+            tEntity *checkEntity;
+            for (uint8_t i = 0; i < numEntities; i++)
+            {
+                checkEntity = entity_get(i);
+                if (checkEntity->id != this->id && checkEntity->id != entity_get_player_id() && !checkEntity->dead)
+                {
+                    switch (checkEntity->entClass)
+                    {
+                        case E_ENT_CLASS_OBJECT:
+                            colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
+                            if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
+                            else
+                            {
+                                if (colDir)
+                                    this->state = E_DYNAMITE_ST_BREAK;       
+                            }
+                        break;
+                        case E_ENT_CLASS_ENEMY:
+                            colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                            if (colDir)
+                            {
+                                //send signal to entity
+                                checkEntity->signal = E_ENT_SIGNAL_HURT;                                
+                                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                                    //change state
+                                    this->state = E_DYNAMITE_ST_BREAK;                                 
+                            }
+                        break;
+                    }            
+                }
+            }
+
+            if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
+                this->state = E_DYNAMITE_ST_IDLE;
+        break;
+        case E_DYNAMITE_ST_BREAK:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                            
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
+            //play break animation
+            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            {
+                //put object to sleep
+                //this->sleep = true;                
+                this->dead = true;
+            }
+        break;
+    }
 }
 
 void object_trace(tEntity *this)

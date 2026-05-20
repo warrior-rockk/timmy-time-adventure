@@ -36,6 +36,7 @@ object_ent_types = {
     "stopScroll"    : 6,
     "rock3"         : 7,
     "wagon"         : 8,
+    "dynamite"      : 9,
 }
 #define entity enemies types
 enemy_ent_types = {
