@@ -153,6 +153,27 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 18,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 1024
+                }
+            ],
+            "name": "tile_HURT",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 11,
             "members": [
                 {
