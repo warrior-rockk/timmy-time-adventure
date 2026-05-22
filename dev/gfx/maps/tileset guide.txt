@@ -20,3 +20,11 @@ Extend map:
 	-Details: highly detailed
 	-32x32
 	-Use selection tool to select painting area (select area to extend)
+
+Extend map create mockups:
+	-Create canvas 256x256
+	-Compose a tilemap with the tiles which want to expand (not necessary all the image size)
+	-Create S-XL image (pro)
+	-Set style and reference the composition
+	-Put a description (example: cavern platform game tiles)
+	-Generate several options
