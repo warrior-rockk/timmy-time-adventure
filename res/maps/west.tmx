@@ -896,7 +896,7 @@
   </object>
   <object id="90" name="cowboy" type="enemy" x="4816" y="240" width="18" height="32">
    <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
  </objectgroup>

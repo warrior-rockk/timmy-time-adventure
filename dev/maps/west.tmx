@@ -443,7 +443,7 @@
   <object id="89" template="enemies/bat.tx" x="4560" y="224"/>
   <object id="90" template="enemies/cowboy.tx" x="4816" y="240">
    <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
  </objectgroup>
