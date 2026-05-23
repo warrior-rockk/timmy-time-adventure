@@ -347,3 +347,8 @@ uint8_t map_get_level_time()
 {
     return mapHeader.levelTime;
 }
+
+void map_change_background_color(uint8_t color)
+{
+    mapHeader.backgroundColor = color;
+}

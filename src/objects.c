@@ -12,6 +12,7 @@
 #include "sound.h"
 #include "resources.h"
 #include "timer.h"
+#include "map.h"
 
 #include "data/odata.h"
 
@@ -139,6 +140,11 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
+        case E_BACKCOLOR_OBJECT_TYPE:            
+            entity->img = NULL;
+            entity->size = (tVector){16, 16};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
         case E_WAGON_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
             entity->img = objectResources[entity->entType];
@@ -179,6 +185,7 @@ void object_update(tEntity *entity)
         case E_END_OBJECT_TYPE:
         case E_CHECKPOINT_OBJECT_TYPE:
         case E_STOP_SCROLL_OBJECT_TYPE:
+        case E_BACKCOLOR_OBJECT_TYPE:
             object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
@@ -458,6 +465,9 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y);
                 //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);                
             }
+        break;
+        case E_BACKCOLOR_OBJECT_TYPE:
+            map_change_background_color(this->spare);
         break;
     }
 }

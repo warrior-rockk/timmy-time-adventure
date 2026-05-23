@@ -37,6 +37,8 @@ object_ent_types = {
     "rock3"         : 7,
     "wagon"         : 8,
     "dynamite"      : 9,
+    "backColor"     : 10,
+
 }
 #define entity enemies types
 enemy_ent_types = {

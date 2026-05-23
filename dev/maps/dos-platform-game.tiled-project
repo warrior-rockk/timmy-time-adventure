@@ -318,6 +318,20 @@
                 "SLOPE_152_2"
             ],
             "valuesAsFlags": true
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 19,
+            "members": [
+            ],
+            "name": "trigger",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
         }
     ]
 }
