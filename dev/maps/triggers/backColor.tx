@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="backColor" type="trigger" width="16" height="16">
+  <properties>
+   <property name="spare" type="int" value="76"/>
+  </properties>
+ </object>
+</template>
