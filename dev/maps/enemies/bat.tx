@@ -2,7 +2,7 @@
 <template>
  <object name="bat" type="enemy" width="16" height="16">
   <properties>
-   <property name="dir" type="int" propertytype="dir" value="0"/>
+   <property name="dir" type="int" propertytype="dir" value="1"/>
   </properties>
  </object>
 </template>
