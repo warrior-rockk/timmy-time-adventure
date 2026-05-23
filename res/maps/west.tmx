@@ -225,6 +225,11 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
+  <tile id="108" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
   <tile id="110" type="tile_NO_SOLID">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
@@ -661,7 +666,7 @@
  <objectgroup id="2" name="entities">
   <object id="1" name="player1" type="player" x="5056" y="112" width="16" height="32">
    <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
   <object id="7" name="eagle" type="enemy" x="512" y="32" width="20" height="18">
