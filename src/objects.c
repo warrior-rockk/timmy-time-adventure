@@ -675,8 +675,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define BRIDGE_WAIT_TO_FALL     50
-    #define BRIDGE_FALL_VEL_Y       1.0
+    #define BRIDGE_WAIT_TO_FALL     20
+    #define BRIDGE_FALL_VEL_Y       2
     
     //object states
     enum E_BRIDGE_OBJECT_STATES{E_BRIDGE_ST_IDLE, E_BRIDGE_ST_FALL};
@@ -708,6 +708,18 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_BRIDGE_ST_FALL:
             this->fixVel.y = ftofix(BRIDGE_FALL_VEL_Y);
+            
+            //calculate next integer position (entity update do this)
+            //int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+            int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+
+            //only move player if collided
+            if (collision_get_player_platform_id() == this->id)
+            {
+                //adds to player x position the integer part of platform delta movement
+                //entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
+                entity_get(entity_get_player_id())->fixPos.y += itofix(nextPosY - this->pos.y);                
+            }
         break;
     }
 }
