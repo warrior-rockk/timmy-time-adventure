@@ -209,6 +209,10 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         //call create function pointer of entity
         if (entityList[newEntity].entity_create) 
             entityList[newEntity].entity_create(&entityList[newEntity]);
+
+        //call init function pointer of entity
+        if (entityList[newEntity].entity_init) 
+            entityList[newEntity].entity_init(&entityList[newEntity]);
         
         return newEntity;
     }
@@ -308,6 +312,8 @@ void entities_init()
         else
             entity_init(i);
     }   
+
+    MY_TRACE_FLAG("All entities initialized\n");
 }
 
 //function to update entities

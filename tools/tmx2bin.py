@@ -38,8 +38,9 @@ object_ent_types = {
     "wagon"         : 8,
     "dynamite"      : 9,
     "backColor"     : 10,
-
+    "bridge"        : 11,
 }
+
 #define entity enemies types
 enemy_ent_types = {
     "ptero"         : 0,

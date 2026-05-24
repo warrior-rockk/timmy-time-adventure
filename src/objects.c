@@ -161,6 +161,13 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 21};             
             collision_create_entity_points(entity);                  
         break;
+        case E_BRIDGE_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, BRIDGE_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};            
+            entity->size = (tVector){16, 16};                                     
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+        break;
         default:
             abort_on_error("Object entity type not valid");
         break;
@@ -196,6 +203,9 @@ void object_update(tEntity *entity)
         break;
         case E_DYNAMITE_OBJECT_TYPE:
             object_dynamite_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_BRIDGE_OBJECT_TYPE:
+            object_bridge_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -658,6 +668,45 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 //this->sleep = true;                
                 this->dead = true;
             }
+        break;
+    }
+}
+
+void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define BRIDGE_WAIT_TO_FALL     50
+    #define BRIDGE_FALL_VEL_Y       1.8
+    
+    //object states
+    enum E_BRIDGE_OBJECT_STATES{E_BRIDGE_ST_IDLE, E_BRIDGE_ST_FALL};
+
+    this->anim.frame = 0;
+
+    switch (this->state)
+    {
+        case E_BRIDGE_ST_IDLE:
+            this->fixVel.y = 0;
+
+            //if player on this platform            
+            if (collision_get_player_platform_id() == this->id)
+                local->flag = true;
+
+            if (local->flag)
+            {
+                if (local->timer >= BRIDGE_WAIT_TO_FALL)
+                {
+                    this->state++;
+                    local->timer = 0;
+                }
+                else
+                {    
+                    local->timer += clock_tick_get();
+                }
+            }
+        break;
+        case E_BRIDGE_ST_FALL:
+            this->fixVel.y = ftofix(BRIDGE_FALL_VEL_Y);
         break;
     }
 }
