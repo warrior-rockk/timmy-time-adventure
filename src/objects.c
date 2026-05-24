@@ -676,7 +676,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
     #define BRIDGE_WAIT_TO_FALL     50
-    #define BRIDGE_FALL_VEL_Y       1.8
+    #define BRIDGE_FALL_VEL_Y       1.0
     
     //object states
     enum E_BRIDGE_OBJECT_STATES{E_BRIDGE_ST_IDLE, E_BRIDGE_ST_FALL};
@@ -698,6 +698,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
                 {
                     this->state++;
                     local->timer = 0;
+                    local->flag = 0;
                 }
                 else
                 {    
