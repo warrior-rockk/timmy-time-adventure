@@ -92,7 +92,9 @@ void scroll_update(tVector cameraTarget)
     //reset stop scroll flags
     memset(&scroll.stopScroll, 0, sizeof(scroll.stopScroll));
     
-    //show_debug("scFy: %.2f scPY: %i scTY: %i", fixtof(scroll.fixPos.y), scroll.pos.y, scroll.target.y);
+    #if DEBUG_SCROLL
+    show_debug("scFy: %.2f scPY: %i scTY: %i", fixtof(scroll.fixPos.y), scroll.pos.y, scroll.target.y);
+    #endif
     //show_debug("scVY: %.2f", fixtof(scroll.fixVel.y));
     //show_debug("wX: %i, wY: %i, lX:%i lY:%i", scroll.window.x, scroll.window.y, scroll.limit.x, scroll.limit.y);    
 }
@@ -137,7 +139,9 @@ static void scroll_update_x(tVector cameraTarget, bool init)
     //MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, scroll.stopScroll.left);
 
     //scroll.pos.x = (int16_t)clamp(scroll.pos.x, game.stopScrollLeft, game.stopScrollRight - scroll.window.x);
+    #if DEBUG_SCROLL
     show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
+    #endif
 
     //limit scroll position
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
@@ -209,8 +213,9 @@ static void scroll_update_y(tVector cameraTarget, bool init)
             }
         break;
     }
-
-    //show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
+    #if DEBUG_SCROLL
+    show_debug("StopScrollDown %i, StopScrollUp %i", scroll.stopScroll.down, scroll.stopScroll.up);
+    #endif
     //limit scroll position
     scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y); 
     //add shake value

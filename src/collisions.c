@@ -81,7 +81,7 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
     do
     {		
 		//if tile exists on path point position
-        if (map_tile_exists(linePath->start))
+        if (map_tile_exists(linePath->start) && (scroll_position_on_region(linePath->start) || entity->id != entity_get_player_id()))
         {
 			//check collision with scroll stopped
             if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="97">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="99">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -361,7 +361,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="5056" y="112" width="16" height="32">
+  <object id="1" name="player1" type="player" x="4016" y="176" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -454,5 +454,10 @@
   </object>
   <object id="95" template="enemies/cowboy.tx" x="4400" y="240"/>
   <object id="96" template="enemies/bat.tx" x="3936" y="192"/>
+  <object id="98" template="triggers/stopScroll.tx" x="4080" y="160">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="8"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

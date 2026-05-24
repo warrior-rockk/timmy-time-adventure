@@ -1,7 +1,6 @@
 # Bugs
 
 # Engine
-- [ ] Collision with top invisible tiles? it's not fixed??
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?
