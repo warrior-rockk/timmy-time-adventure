@@ -162,7 +162,8 @@ void object_create(tEntity *entity)
             load_entity_wav_resources(&objectSfx[E_SFX_EXPLOSION_COUNTER], objectDataFileIndex, COUNTER_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 21};
-            entity->size = (tVector){16, 21};             
+            entity->size = (tVector){16, 16};
+            entity->axis = E_ENT_AXIS_DOWN;             
             collision_create_entity_points(entity);    
             entity->properties =  E_ENT_PROP_NO_BREAKABLE;                          
         break;

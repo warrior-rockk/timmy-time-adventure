@@ -861,7 +861,7 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="81" name="dynamite" type="object" x="2225" y="266.5" width="16" height="21"/>
+  <object id="81" name="dynamite" type="object" x="2224" y="272" width="16" height="16"/>
   <object id="82" name="scorpion" type="enemy" x="3664" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
