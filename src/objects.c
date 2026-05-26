@@ -769,9 +769,6 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 
 void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
 {
-    //object defines
-    //#define BRIDGE_WAIT_TO_FALL     20
-    
     //object animations
     #define ANIM_ROCK_EXPLOSION     1,   2, 10,  ANIM_ONCE
 
@@ -783,7 +780,8 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
         case E_ROCK_EXPLOSION_ST_IDLE:
             this->anim.frame = 0;
             
-            if (in_range_vector(this->pos, objectExplosion, (tVector){(4*16), (4*16)}))
+            //check if there's some explosion on object range position
+            if (in_range_vector(this->pos, objectExplosion, (tVector){(DYNAMITE_TILE_RANGE_X * 16), (DYNAMITE_TILE_RANGE_X * 16)}))
                 this->state++;
         break; 
         case E_ROCK_EXPLOSION_ST_EXPLOSION:
