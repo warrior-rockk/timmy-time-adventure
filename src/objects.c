@@ -571,7 +571,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
     #define DYNAMITE_PICKED_OFFSET_Y   20
     #define DYNAMITE_PICKED_OFFSET_X   1
 
-    #define DYNAMITE_TIMER_EXPLOSION        300
+    #define DYNAMITE_TIMER_EXPLOSION        4 //seconds 300
     
     //object animations
     #define ANIM_DYNAMITE_IDLE          0,   0, 10,  ANIM_LOOP
@@ -588,16 +588,13 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 
     if (local->flag && this->state != E_DYNAMITE_ST_BREAK)
     {        
-        if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
+        if (local->timer < DYNAMITE_TIMER_EXPLOSION)        
         {
-            this->state = E_DYNAMITE_ST_BREAK;
-            sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);
-        }
-        else
-        {
-            local->timer += clock_tick_get();
             if (clock_tick_1sec_get())
+            {
+                local->timer++;                
                 sfx_play(objectSfx[E_SFX_EXPLOSION_COUNTER], E_SFX_OBJECT_VOICE);
+            }
         }
     }
 
@@ -611,7 +608,15 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
 
             if (this->signal == E_ENT_SIGNAL_PICKING)
-                this->state = E_DYNAMITE_ST_PICKED;           
+                this->state = E_DYNAMITE_ST_PICKED;  
+            else
+            {
+            if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
+                {
+                    this->state = E_DYNAMITE_ST_BREAK;
+                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);                    
+                }         
+            }
         break;
         case E_DYNAMITE_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
@@ -636,6 +641,15 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 this->ground = false;
                 
                 this->state = E_DYNAMITE_ST_THROWING;
+            }
+            else
+            {
+                if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
+                {
+                    this->state = E_DYNAMITE_ST_BREAK;
+                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);
+                    playerEnt->signal = E_ENT_SIGNAL_HURT;
+                }
             }
         break;
         case E_DYNAMITE_ST_THROWING:                        

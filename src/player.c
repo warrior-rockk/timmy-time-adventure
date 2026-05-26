@@ -533,6 +533,13 @@ static void player_update_state(tEntity *player)
     //invincible flag
     playerInvincible = playerInvincible > 0 ? playerInvincible - clock_tick_get() : 0;
     
+    //receive hurt signal by another entity
+    if (player->signal == E_ENT_SIGNAL_HURT && !playerInvincible)
+    {
+        playerFlags.hurt = true;
+        player->signal = 0;
+    }
+
     //set the state (priority order)
     if (playerFlags.dead)
     {
