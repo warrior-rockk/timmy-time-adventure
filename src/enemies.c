@@ -738,18 +738,20 @@ void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
-    #define COWBOY_PLAYER_RANGE     160
-    #define COWBOY_WAIT_TIME        15
-    #define COWBOY_BULLET_Y_OFFSET  4
-    #define COWBOY_BULLET_X_OFFSET  4
+    #define COWBOY_PLAYER_RANGE             160
+    #define COWBOY_WAIT_TIME                15
+    #define COWBOY_BULLET_Y_OFFSET          4   
+    #define COWBOY_BULLET_Y_CROUCH_OFFSET   14
+    #define COWBOY_BULLET_X_OFFSET          4
 
     //enemy animations
-    #define ANIM_COWBOY_IDLE   0,   0, 10,  ANIM_LOOP
-    #define ANIM_COWBOY_SHOOT  1,   16, 5,  ANIM_ONCE
-    #define ANIM_COWBOY_DEAD   17,  24, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_COWBOY_IDLE            0,   0, 10,  ANIM_LOOP
+    #define ANIM_COWBOY_SHOOT           1,   16, 5,  ANIM_ONCE
+    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 5,  ANIM_ONCE
+    #define ANIM_COWBOY_DEAD            17,  24, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
+    enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_SHOOT_CROUCH, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
 
     tEntity *player;
 
@@ -769,18 +771,32 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
 
             //shoot in player range
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, COWBOY_PLAYER_RANGE))
-                this->state++;
-
+            {
+                this->state = E_COWBOY_ST_SHOOT_CROUCH;
+            }
+            
             play_animation(&this->anim, ANIM_COWBOY_IDLE);
         break;
         case E_COWBOY_ST_SHOOT:            
             if (play_animation(&this->anim, ANIM_COWBOY_SHOOT))
             {
-                this->state++;      
+                this->state = E_COWBOY_ST_WAIT;      
             }
             if (this->anim.frame == 11 && !local->flag)
             {
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_OFFSET}, this->dir, this->spare);
+                sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
+                local->flag = true;
+            }
+        break;     
+        case E_COWBOY_ST_SHOOT_CROUCH:            
+            if (play_animation(&this->anim, ANIM_COWBOY_SHOOT_CROUCH))
+            {
+                this->state = E_COWBOY_ST_WAIT;      
+            }
+            if (this->anim.frame == 30 && !local->flag)
+            {
+                entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_CROUCH_OFFSET}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
                 local->flag = true;
             }
