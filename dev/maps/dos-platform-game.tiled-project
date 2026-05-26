@@ -11,6 +11,17 @@
     ],
     "propertyTypes": [
         {
+            "id": 20,
+            "name": "cowboySpare",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "SHOOT_NORMAL",
+                "SHOOT_CROUCH"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "id": 3,
             "name": "dir",
             "storageType": "int",

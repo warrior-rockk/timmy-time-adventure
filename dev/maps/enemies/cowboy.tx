@@ -3,6 +3,7 @@
  <object name="cowboy" type="enemy" width="18" height="32">
   <properties>
    <property name="dir" type="int" propertytype="dir" value="0"/>
+   <property name="spare" type="int" propertytype="cowboySpare" value="1"/>
   </properties>
  </object>
 </template>

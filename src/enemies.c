@@ -12,6 +12,7 @@
 #include "collisions.h"
 #include "sound.h"
 #include "resources.h"
+#include "player.h"
 
 #include "data/edata.h"
 
@@ -745,10 +746,10 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define COWBOY_BULLET_X_OFFSET          4
 
     //enemy animations
-    #define ANIM_COWBOY_IDLE            0,   0, 10,  ANIM_LOOP
-    #define ANIM_COWBOY_SHOOT           1,   16, 5,  ANIM_ONCE
-    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 5,  ANIM_PING_PONG_ONCE
-    #define ANIM_COWBOY_DEAD            17,  24, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_COWBOY_IDLE            0,   0, 10, ANIM_LOOP
+    #define ANIM_COWBOY_SHOOT           1,   16, 5, ANIM_ONCE
+    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 6, ANIM_PING_PONG_ONCE
+    #define ANIM_COWBOY_DEAD            17,  24,    ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_SHOOT_CROUCH, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
@@ -772,7 +773,11 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
             //shoot in player range
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, COWBOY_PLAYER_RANGE))
             {
-                this->state = E_COWBOY_ST_SHOOT_CROUCH;
+                //if spare!=0, shoot crouch if player crouch
+                if (player->size.y == PLAYER_SIZE_H_CROUCH && this->spare)
+                    this->state = E_COWBOY_ST_SHOOT_CROUCH;
+                else
+                    this->state = E_COWBOY_ST_SHOOT;
             }
 
             play_animation(&this->anim, ANIM_COWBOY_IDLE);
