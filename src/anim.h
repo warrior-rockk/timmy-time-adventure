@@ -8,16 +8,18 @@
 #define H_ANIM
 
 //animation modes
-#define ANIM_LOOP       0
-#define ANIM_ONCE       1
-#define ANIM_PING_PONG  2
+#define ANIM_LOOP               0
+#define ANIM_ONCE               1
+#define ANIM_PING_PONG          2
+#define ANIM_PING_PONG_ONCE     3
 
 typedef struct
 {
     int16_t frame;
     int16_t lastFrame;
     int16_t frameTime;
-    bool reverse;
+    uint8_t reverse : 1;
+    uint8_t pingPongComplete : 1;
 } tAnimation;
 
 typedef struct 

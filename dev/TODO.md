@@ -19,6 +19,7 @@
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Background color fade to do sunset?
+- [X] Animation: implement PING_PONG_ONCE
 - [X] Count down when time's up (sound)
 - [X] Menus and options
 - [X] Redefine controls

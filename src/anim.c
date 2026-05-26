@@ -20,6 +20,7 @@ bool play_animation(tAnimation *animation, uint8_t startFrame, uint8_t endFrame,
         animation->lastFrame = startFrame;
         animation->frameTime = 0;
         animation->reverse = false;
+        animation->pingPongComplete = false;
     }
                 
     //reset frame time on frame change
@@ -41,8 +42,17 @@ bool play_animation(tAnimation *animation, uint8_t startFrame, uint8_t endFrame,
         //if not last frame
         if (animation->frame < endFrame)
         {
-            if (animation->frame == startFrame && mode == ANIM_PING_PONG)
-                animation->reverse = false;
+            if (animation->frame == startFrame) 
+            {
+                if (mode == ANIM_PING_PONG)
+                    animation->reverse = false;
+                else if (mode == ANIM_PING_PONG_ONCE)
+                {
+                    animation->reverse = false;
+                    if (animation->pingPongComplete)
+                        animFinished = true;
+                } 
+            }
 
             //next frame
             if (!animation->reverse)
@@ -59,9 +69,17 @@ bool play_animation(tAnimation *animation, uint8_t startFrame, uint8_t endFrame,
         else if (mode == ANIM_PING_PONG)
         {
             //reverse animation
-            animation->reverse = true;
+            animation->reverse = true;            
             animation->frame -=1;
             animFinished = true;
+        }
+        else if (mode == ANIM_PING_PONG_ONCE)
+        {
+            //reverse animation
+            animation->reverse = true;       
+            //store ping pong completed once
+            animation->pingPongComplete = true;     
+            animation->frame -=1;            
         }
         else
            animFinished = true;

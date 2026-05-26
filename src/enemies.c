@@ -747,7 +747,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy animations
     #define ANIM_COWBOY_IDLE            0,   0, 10,  ANIM_LOOP
     #define ANIM_COWBOY_SHOOT           1,   16, 5,  ANIM_ONCE
-    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 5,  ANIM_ONCE
+    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 5,  ANIM_PING_PONG_ONCE
     #define ANIM_COWBOY_DEAD            17,  24, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
@@ -774,7 +774,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
             {
                 this->state = E_COWBOY_ST_SHOOT_CROUCH;
             }
-            
+
             play_animation(&this->anim, ANIM_COWBOY_IDLE);
         break;
         case E_COWBOY_ST_SHOOT:            
