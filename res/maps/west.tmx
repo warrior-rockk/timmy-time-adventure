@@ -699,7 +699,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="3904" y="208" width="16" height="32">
+  <object id="1" name="player1" type="player" x="4176" y="208" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -905,7 +905,7 @@
   <object id="90" name="cowboy" type="enemy" x="4816" y="240" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="0"/>
+    <property name="spare" type="int" propertytype="cowboySpare" value="1"/>
    </properties>
   </object>
   <object id="92" name="backColor" type="trigger" x="5104" y="288" width="16" height="16">

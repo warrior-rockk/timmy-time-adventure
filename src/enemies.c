@@ -748,7 +748,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy animations
     #define ANIM_COWBOY_IDLE            0,   0, 10, ANIM_LOOP
     #define ANIM_COWBOY_SHOOT           1,   16, 5, ANIM_ONCE
-    #define ANIM_COWBOY_SHOOT_CROUCH    24,  31, 6, ANIM_PING_PONG_ONCE
+    #define ANIM_COWBOY_SHOOT_CROUCH    24,  32, 6, ANIM_PING_PONG_ONCE
     #define ANIM_COWBOY_DEAD            17,  24,    ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
@@ -799,7 +799,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
             {
                 this->state = E_COWBOY_ST_WAIT;      
             }
-            if (this->anim.frame == 30 && !local->flag)
+            if (this->anim.frame == 31 && !local->flag)
             {
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_CROUCH_OFFSET}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
