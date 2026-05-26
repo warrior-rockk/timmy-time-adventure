@@ -159,6 +159,7 @@ void object_create(tEntity *entity)
         case E_DYNAMITE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, DYNAMITE_BMP);
             load_entity_wav_resources(&objectSfx[E_SFX_EXPLOSION], objectDataFileIndex, EXPLO_WAV);
+            load_entity_wav_resources(&objectSfx[E_SFX_EXPLOSION_COUNTER], objectDataFileIndex, COUNTER_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 21};             
@@ -570,8 +571,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
     #define DYNAMITE_PICKED_OFFSET_Y   20
     #define DYNAMITE_PICKED_OFFSET_X   1
 
-    #define DYNAMITE_TIMER_EXPLOSION    300
-
+    #define DYNAMITE_TIMER_EXPLOSION        300
+    
     //object animations
     #define ANIM_DYNAMITE_IDLE          0,   0, 10,  ANIM_LOOP
     #define ANIM_DYNAMITE_EXPLOSION     1,   2, 10,  ANIM_ONCE
@@ -593,7 +594,11 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);
         }
         else
+        {
             local->timer += clock_tick_get();
+            if (clock_tick_1sec_get())
+                sfx_play(objectSfx[E_SFX_EXPLOSION_COUNTER], E_SFX_OBJECT_VOICE);
+        }
     }
 
     switch (this->state)
