@@ -268,8 +268,6 @@ void object_destroy(tEntity *entity)
 void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define SOLID_THROW_VEL_X       2
-    #define SOLID_THROW_VEL_Y       -2
     #define SOLID_PICKED_OFFSET_Y   20
     #define SOLID_PICKED_OFFSET_X   1
 
@@ -309,8 +307,16 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 //set throw velocities
-                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-SOLID_THROW_VEL_X) : itofix(SOLID_THROW_VEL_X);
-                this->fixVel.y = itofix(SOLID_THROW_VEL_Y);
+                if (this->signal == E_ENT_SIGNAL_THROW)
+                {
+                    this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(OBJECT_THROW_VEL_X) : itofix(OBJECT_THROW_VEL_X);
+                    this->fixVel.y = OBJECT_THROW_VEL_Y;
+                }
+                else
+                {
+                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(16) : itofix(16);        
+                }
+                
                 this->ground = false;
                 
                 this->state = E_SOLID_ST_THROWING;
@@ -566,8 +572,6 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define DYNAMITE_THROW_VEL_X        2
-    #define DYNAMITE_THROW_VEL_Y       -2
     #define DYNAMITE_PICKED_OFFSET_Y   20
     #define DYNAMITE_PICKED_OFFSET_X    1
     #define DYNAMITE_TILE_RANGE_X       4
@@ -638,15 +642,23 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixPos.y  = playerEnt->fixPos.y - itofix(DYNAMITE_PICKED_OFFSET_Y);
             
             //check if receive throw signal
-            if (this->signal == E_ENT_SIGNAL_THROW)
+            if (this->signal == E_ENT_SIGNAL_THROW || this->signal == E_ENT_SIGNAL_SHORT_THROW)
             {
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
-                //set throw velocities
-                this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? itofix(-DYNAMITE_THROW_VEL_X) : itofix(DYNAMITE_THROW_VEL_X);
-                this->fixVel.y = itofix(DYNAMITE_THROW_VEL_Y);
-                this->ground = false;
                 
+                //set throw velocities
+                if (this->signal == E_ENT_SIGNAL_THROW)
+                {
+                    this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(OBJECT_THROW_VEL_X) : itofix(OBJECT_THROW_VEL_X);
+                    this->fixVel.y = OBJECT_THROW_VEL_Y;
+                }
+                else
+                {
+                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(16) : itofix(16);        
+                }
+                
+                this->ground = false;
                 this->state = E_DYNAMITE_ST_THROWING;
             }
         break;

@@ -319,7 +319,8 @@ static void player_update_controls(tEntity *player)
         else if (playerFlags.picked && objectPickedID)
         {            
             playerFlags.throwing = true;
-            entity_get(objectPickedID)->signal = E_ENT_SIGNAL_THROW;            
+            //send signal of throw or short throw
+            entity_get(objectPickedID)->signal = input_key_press(E_G_KEY_DOWN) ? E_ENT_SIGNAL_SHORT_THROW: E_ENT_SIGNAL_THROW;            
             objectPickedID = 0;
             //reset flags
             playerFlags.picked = false;  

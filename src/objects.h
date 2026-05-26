@@ -9,6 +9,11 @@
 
 #include "entity.h"
 
+//general object defines
+#define OBJECT_THROW_VEL_X          2
+#define OBJECT_THROW_VEL_Y          -2
+
+//general object animations
 #define ANIM_OBJECT_BREAK                1,  2, 10, ANIM_ONCE
 
 //object types

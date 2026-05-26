@@ -2,8 +2,6 @@
 
 # Engine
 
-- [ ] Refactor dynamite and rock explosion
-- [ ] Short object throw with key?
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?
