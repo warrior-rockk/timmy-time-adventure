@@ -158,6 +158,7 @@ void object_create(tEntity *entity)
         break;
         case E_DYNAMITE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, DYNAMITE_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_EXPLOSION], objectDataFileIndex, EXPLO_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 21};             
@@ -584,10 +585,13 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
         this->signal = 0;
     }
 
-    if (local->flag)
+    if (local->flag && this->state != E_DYNAMITE_ST_BREAK)
     {        
         if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
+        {
             this->state = E_DYNAMITE_ST_BREAK;
+            sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);
+        }
         else
             local->timer += clock_tick_get();
     }
