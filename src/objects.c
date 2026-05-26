@@ -233,8 +233,8 @@ void object_init(tEntity *entity)
     switch (entity->entType)
     {        
         default:
-            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
-            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].flag = 0;        
+            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
+            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
         break;        
     }
 }
@@ -687,12 +687,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             //play break animation
             if (play_animation(&this->anim, ANIM_DYNAMITE_EXPLOSION))
             {
-                //put object to sleep
-                //this->sleep = true;                
                 this->dead = true;
-                objectExplosion = (tVector){0, 0};
-                //local->flag = 0;
-                //local->timer = 0;
+                objectExplosion = (tVector){0, 0};                
             }
         break;
     }
