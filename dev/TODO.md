@@ -2,6 +2,7 @@
 
 # Engine
 
+- [ ] Refactor dynamite and rock explosion
 - [ ] Short object throw with key?
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
