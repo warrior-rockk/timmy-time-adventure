@@ -18,13 +18,13 @@
 
 #define TRACE_FLAG  "[OBJECT]"
 
-uint16_t numObjectInstances;        //num of object instances
-static void *objectDataList;        //list of object local data
-BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
-SAMPLE *objectSfx[E_SFX_OBJECT_NUM];
-DATAFILE_INDEX *objectDataFileIndex;
+uint16_t numObjectInstances;                    //num of object instances
+static void *objectDataList;                    //list of object local data
+tVector objectExplosion;                        //position of a object explosion (dynamite...)
+BITMAP *objectResources[E_OBJECTS_TYPE_NUM];    //array of objects gfx resources
+SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
+DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
 
-tVector objectExplosion;
 
 void object_system_init()
 {
@@ -566,30 +566,45 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define DYNAMITE_THROW_VEL_X       2
+    #define DYNAMITE_THROW_VEL_X        2
     #define DYNAMITE_THROW_VEL_Y       -2
     #define DYNAMITE_PICKED_OFFSET_Y   20
-    #define DYNAMITE_PICKED_OFFSET_X   1
-
-    #define DYNAMITE_TIMER_EXPLOSION        4 //seconds 300
+    #define DYNAMITE_PICKED_OFFSET_X    1
+    #define DYNAMITE_TILE_RANGE_X       4
+    #define DYNAMITE_TILE_RANGE_Y       4
+    #define DYNAMITE_TIMER_EXPLOSION    4 //seconds
     
     //object animations
     #define ANIM_DYNAMITE_IDLE          0,   0, 10,  ANIM_LOOP
     #define ANIM_DYNAMITE_EXPLOSION     1,   2, 10,  ANIM_ONCE
 
     //object states
-    enum E_DYNAMITE_OBJECT_STATES{E_DYNAMITE_ST_IDLE, E_DYNAMITE_ST_PICKED, E_DYNAMITE_ST_THROWING, E_DYNAMITE_ST_BREAK};
+    enum E_DYNAMITE_OBJECT_STATES{E_DYNAMITE_ST_IDLE, E_DYNAMITE_ST_PICKED, E_DYNAMITE_ST_THROWING, E_DYNAMITE_ST_EXPLODE};
     
+    //get player entity
+    tEntity *playerEnt = entity_get(entity_get_player_id());
+
     if (this->signal == E_ENT_SIGNAL_HURT)
     {
-        this->state = E_DYNAMITE_ST_BREAK;
+        this->state = E_DYNAMITE_ST_EXPLODE;
         this->signal = 0;
     }
 
-    if (local->flag && this->state != E_DYNAMITE_ST_BREAK)
+    //if picked dynamite
+    if (local->flag && this->state != E_DYNAMITE_ST_EXPLODE)
     {        
-        if (local->timer < DYNAMITE_TIMER_EXPLOSION)        
+        if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
         {
+            //explode dynamite
+            this->state = E_DYNAMITE_ST_EXPLODE;
+            sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);  
+            //hurt player if on explosion region
+            if (in_range_vector(playerEnt->pos, this->pos, (tVector){(DYNAMITE_TILE_RANGE_X * 16), (DYNAMITE_TILE_RANGE_X * 16)}))
+                playerEnt->signal = E_ENT_SIGNAL_HURT;
+        } 
+        else
+        {
+            //add timer and play counter sfx
             if (clock_tick_1sec_get())
             {
                 local->timer++;                
@@ -609,18 +624,6 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 
             if (this->signal == E_ENT_SIGNAL_PICKING)
                 this->state = E_DYNAMITE_ST_PICKED;  
-            else
-            {
-            if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
-                {
-                    this->state = E_DYNAMITE_ST_BREAK;
-                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);  
-                    
-                    tEntity *playerEnt = entity_get(entity_get_player_id());
-                    if (in_range_vector(playerEnt->pos, this->pos, (tVector){(4*16), (4*16)}))
-                        playerEnt->signal = E_ENT_SIGNAL_HURT;
-                }         
-            }
         break;
         case E_DYNAMITE_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
@@ -646,15 +649,6 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 
                 this->state = E_DYNAMITE_ST_THROWING;
             }
-            else
-            {
-                if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
-                {
-                    this->state = E_DYNAMITE_ST_BREAK;
-                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);
-                    playerEnt->signal = E_ENT_SIGNAL_HURT;
-                }
-            }
         break;
         case E_DYNAMITE_ST_THROWING:                        
             uint8_t colDir;
@@ -670,7 +664,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 else
                 {
                     if (colDir)
-                        this->state = E_DYNAMITE_ST_BREAK;
+                        this->state = E_DYNAMITE_ST_EXPLODE;
                 }
             }
             
@@ -691,7 +685,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                             else
                             {
                                 if (colDir)
-                                    this->state = E_DYNAMITE_ST_BREAK;       
+                                    this->state = E_DYNAMITE_ST_EXPLODE;       
                             }
                         break;
                     }            
@@ -701,7 +695,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
                 this->state = E_DYNAMITE_ST_IDLE;
         break;
-        case E_DYNAMITE_ST_BREAK:
+        case E_DYNAMITE_ST_EXPLODE:
             //stop object
             this->fixVel.x = 0;
             this->fixVel.y = 0;                                            
