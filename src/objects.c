@@ -614,7 +614,11 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
                 {
                     this->state = E_DYNAMITE_ST_BREAK;
-                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);                    
+                    sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);  
+                    
+                    tEntity *playerEnt = entity_get(entity_get_player_id());
+                    if (in_range_vector(playerEnt->pos, this->pos, (tVector){(4*16), (4*16)}))
+                        playerEnt->signal = E_ENT_SIGNAL_HURT;
                 }         
             }
         break;
