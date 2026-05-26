@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="132">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="133">
  <properties>
   <property name="time" type="int" value="200"/>
  </properties>
@@ -699,7 +699,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="2272" y="256" width="16" height="32">
+  <object id="1" name="player1" type="player" x="2192" y="256" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -794,19 +794,19 @@
   <object id="56" name="cowboy" type="enemy" x="4256" y="96" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="0"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="57" name="cowboy" type="enemy" x="4464" y="96" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="0"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="77" name="cowboy" type="enemy" x="4640" y="96" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="0"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="60" name="tumble" type="enemy" x="1811.46" y="121.519" width="28" height="20">
@@ -905,7 +905,7 @@
   <object id="90" name="cowboy" type="enemy" x="4816" y="240" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="1"/>
+    <property name="spare" type="int" value="1"/>
    </properties>
   </object>
   <object id="92" name="backColor" type="trigger" x="5104" y="288" width="16" height="16">
@@ -921,7 +921,7 @@
   <object id="95" name="cowboy" type="enemy" x="4400" y="240" width="18" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="cowboySpare" value="1"/>
+    <property name="spare" type="int" value="1"/>
    </properties>
   </object>
   <object id="96" name="bat" type="enemy" x="3936" y="192" width="16" height="16">

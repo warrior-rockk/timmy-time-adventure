@@ -56,8 +56,7 @@ bool in_range(int value, int target, int offset)
 
 bool in_range_vector(tVector value, tVector target, tVector offset)
 {
-    return (value.x <= (target.x + offset.x) && value.x >= (target.x - offset.x)) &&
-           (value.y <= (target.y + offset.y) && value.y >= (target.y - offset.y));
+    return in_range(value.x, target.x, offset.x) && in_range(value.y, target.y, offset.y);
 }
 
 //function to abort program with critical error
