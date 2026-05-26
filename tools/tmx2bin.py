@@ -39,6 +39,7 @@ object_ent_types = {
     "dynamite"      : 9,
     "backColor"     : 10,
     "bridge"        : 11,
+    "rock-explosion": 12,
 }
 
 #define entity enemies types

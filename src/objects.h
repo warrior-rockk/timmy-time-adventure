@@ -26,6 +26,7 @@ enum E_OBJECT_TYPE
     E_DYNAMITE_OBJECT_TYPE,
     E_BACKCOLOR_OBJECT_TYPE,
     E_BRIDGE_OBJECT_TYPE,
+    E_ROCK_EXPLOSION_OBJECT_TYPE,
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -81,4 +82,6 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_dynamite_update(tEntity *this, tSolidObjectLocalData *objData);
 //platform bridge
 void object_bridge_update(tEntity *this, tSolidObjectLocalData *objData);
+//explosion rock
+void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

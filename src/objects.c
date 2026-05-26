@@ -24,6 +24,8 @@ BITMAP *objectResources[E_OBJECTS_TYPE_NUM];
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];
 DATAFILE_INDEX *objectDataFileIndex;
 
+tVector objectExplosion;
+
 void object_system_init()
 {
     //empty object list
@@ -159,7 +161,8 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 21};             
-            collision_create_entity_points(entity);                  
+            collision_create_entity_points(entity);    
+            entity->properties =  E_ENT_PROP_NO_BREAKABLE;                          
         break;
         case E_BRIDGE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, BRIDGE_BMP);
@@ -167,6 +170,14 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};            
             entity->size = (tVector){16, 16};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+        break;
+        case E_ROCK_EXPLOSION_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCKEX_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};             
+            collision_create_entity_points(entity); 
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                 
         break;
         default:
             abort_on_error("Object entity type not valid");
@@ -207,6 +218,9 @@ void object_update(tEntity *entity)
         case E_BRIDGE_OBJECT_TYPE:
             object_bridge_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
+        case E_ROCK_EXPLOSION_OBJECT_TYPE:
+            object_rock_explosion_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -220,8 +234,8 @@ void object_init(tEntity *entity)
     {        
         default:
             ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].timer = 0;
-            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].flag = 0;
-        break;
+            ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1].flag = 0;        
+        break;        
     }
 }
 
@@ -555,6 +569,12 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
     #define DYNAMITE_PICKED_OFFSET_Y   20
     #define DYNAMITE_PICKED_OFFSET_X   1
 
+    #define DYNAMITE_TIMER_EXPLOSION    300
+
+    //object animations
+    #define ANIM_DYNAMITE_IDLE          0,   0, 10,  ANIM_LOOP
+    #define ANIM_DYNAMITE_EXPLOSION     1,   2, 10,  ANIM_ONCE
+
     //object states
     enum E_DYNAMITE_OBJECT_STATES{E_DYNAMITE_ST_IDLE, E_DYNAMITE_ST_PICKED, E_DYNAMITE_ST_THROWING, E_DYNAMITE_ST_BREAK};
     
@@ -562,6 +582,14 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
     {
         this->state = E_DYNAMITE_ST_BREAK;
         this->signal = 0;
+    }
+
+    if (local->flag)
+    {        
+        if (local->timer >= DYNAMITE_TIMER_EXPLOSION)
+            this->state = E_DYNAMITE_ST_BREAK;
+        else
+            local->timer += clock_tick_get();
     }
 
     switch (this->state)
@@ -580,6 +608,9 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             SET_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
             
+            //set flag to start explosion counter
+            local->flag = true;
+
             //position the object relative to player
             tEntity *playerEnt = entity_get(entity_get_player_id());
             this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x + itofix(DYNAMITE_PICKED_OFFSET_X) : playerEnt->fixPos.x - itofix(DYNAMITE_PICKED_OFFSET_X);
@@ -636,17 +667,6 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                                     this->state = E_DYNAMITE_ST_BREAK;       
                             }
                         break;
-                        case E_ENT_CLASS_ENEMY:
-                            colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
-                            if (colDir)
-                            {
-                                //send signal to entity
-                                checkEntity->signal = E_ENT_SIGNAL_HURT;                                
-                                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
-                                    //change state
-                                    this->state = E_DYNAMITE_ST_BREAK;                                 
-                            }
-                        break;
                     }            
                 }
             }
@@ -661,12 +681,18 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
+
+            objectExplosion = this->pos;
+
             //play break animation
-            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            if (play_animation(&this->anim, ANIM_DYNAMITE_EXPLOSION))
             {
                 //put object to sleep
                 //this->sleep = true;                
                 this->dead = true;
+                objectExplosion = (tVector){0, 0};
+                //local->flag = 0;
+                //local->timer = 0;
             }
         break;
     }
@@ -721,6 +747,35 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
                 entity_get(entity_get_player_id())->fixPos.y += itofix(nextPosY - this->pos.y);                
             }
         break;
+    }
+}
+
+void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    //#define BRIDGE_WAIT_TO_FALL     20
+    
+    //object animations
+    #define ANIM_ROCK_EXPLOSION     1,   2, 10,  ANIM_ONCE
+
+    //object states
+    enum E_ROCK_EXPLOSION_OBJECT_STATES{E_ROCK_EXPLOSION_ST_IDLE, E_ROCK_EXPLOSION_ST_EXPLOSION};
+
+    switch (this->state)
+    {
+        case E_ROCK_EXPLOSION_ST_IDLE:
+            this->anim.frame = 0;
+            
+            if (in_range_vector(this->pos, objectExplosion, (tVector){(4*16), (4*16)}))
+                this->state++;
+        break; 
+        case E_ROCK_EXPLOSION_ST_EXPLOSION:
+            //play break animation
+            if (play_animation(&this->anim, ANIM_ROCK_EXPLOSION))
+            {
+                this->dead = true;                
+            }    
+        break;       
     }
 }
 
