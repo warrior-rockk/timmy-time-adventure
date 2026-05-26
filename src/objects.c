@@ -40,8 +40,7 @@ void object_system_init()
     //load object sfx
     objectSfx[E_SFX_OBJECT_FULL_LIFE]   = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
     objectSfx[E_SFX_OBJECT_EXTRA_LIVE]  = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
-    objectSfx[E_SFX_WAGON]              = load_dat_wav_indexed(objectDataFileIndex, WAGON_WAV);
-
+    
     MY_TRACE_FLAG("Initialized object system\n");
 }
 
@@ -149,6 +148,7 @@ void object_create(tEntity *entity)
         break;
         case E_WAGON_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, WAGON_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_WAGON], objectDataFileIndex, WAGON_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
             entity->size = (tVector){16, 12};                                     
