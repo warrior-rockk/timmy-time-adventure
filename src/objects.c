@@ -310,7 +310,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->signal == E_ENT_SIGNAL_THROW)
                 {
                     this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(OBJECT_THROW_VEL_X) : itofix(OBJECT_THROW_VEL_X);
-                    this->fixVel.y = OBJECT_THROW_VEL_Y;
+                    this->fixVel.y = itofix(OBJECT_THROW_VEL_Y);
                 }
                 else
                 {
@@ -651,7 +651,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 if (this->signal == E_ENT_SIGNAL_THROW)
                 {
                     this->fixVel.x = playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(OBJECT_THROW_VEL_X) : itofix(OBJECT_THROW_VEL_X);
-                    this->fixVel.y = OBJECT_THROW_VEL_Y;
+                    this->fixVel.y = itofix(OBJECT_THROW_VEL_Y);
                 }
                 else
                 {
