@@ -58,6 +58,10 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
         abort_on_error("Error reading map header\n");
     }
     
+    //check square tile size
+    if (mapHeader.tile_height != mapHeader.tile_width)
+        abort_on_error("Tile size must be square\n");
+
     //set screen limit for draw map (adds 1 tile x and y to screen limit for maps larger than screen)
     screenLimit.x = mapHeader.map_width > (screenSize.x / mapHeader.tile_width) ? (screenSize.x / mapHeader.tile_width) + 1  : screenSize.x / mapHeader.tile_width;
     screenLimit.y =  mapHeader.map_height > (screenSize.y / mapHeader.tile_height) ? (screenSize.y / mapHeader.tile_height) + 1 : screenSize.y / mapHeader.tile_height;
@@ -351,4 +355,9 @@ uint8_t map_get_level_time()
 void map_change_background_color(uint8_t color)
 {
     mapHeader.backgroundColor = color;
+}
+
+uint8_t map_get_tile_size()
+{
+    return mapHeader.tile_height;
 }
