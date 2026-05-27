@@ -64,6 +64,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
+- [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
 - [ ] Simple collisions check on entity update?
 - [ ] Less collision points to entities than player?s
 - [ ] DeltaTime ¿double? Review deltaTime calculation
