@@ -474,7 +474,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             //if collision with player
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
-                game.levelComplete = true;
+                game.levelComplete[game.actualLevel] = true;
             }
 
             this->anim.frame = 0;

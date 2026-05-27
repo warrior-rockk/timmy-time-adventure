@@ -410,7 +410,7 @@ void game_update()
             if (input_key_down(E_G_KEY_PAUSE))
                 game.state = E_GAME_ST_PAUSE_LEVEL;
 
-            if (game.levelComplete)
+            if (game.levelComplete[game.actualLevel])
                 game.state = E_GAME_ST_COMPLETE_LEVEL;
             
             if (input_key_down(E_G_KEY_EXIT))
@@ -642,7 +642,7 @@ void game_update()
                     game_destroy_level();
                     game.actualLevel++;
                     gameSeq.step = 0;          
-                    game.levelComplete = false;          
+                    
                     if (game.actualLevel == E_GAME_NUM_LEVELS)
                         game.state = E_GAME_ST_ENDING;
                     else    
