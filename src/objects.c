@@ -315,7 +315,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 }
                 else
                 {
-                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(16) : itofix(16);        
+                    //if short throw, position the object one tile far
+                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(map_get_tile_size()) : itofix(map_get_tile_size());        
                 }
                 
                 this->ground = false;
@@ -656,7 +657,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
                 }
                 else
                 {
-                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(16) : itofix(16);        
+                    //short throw positions the object 1 tile far 
+                    this->fixPos.x += playerEnt->dir == E_ENT_DIR_LEFT ? -itofix(map_get_tile_size()) : itofix(map_get_tile_size());        
                 }
                 
                 this->ground = false;

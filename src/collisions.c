@@ -101,49 +101,49 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                 {                    
                     if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152_2))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL))
                     {
-                        if (getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (linePath->start.x % 16), (linePath->start.y % 16)) != 0)
+                        if (getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
                         {
                             return dist;
                         }
@@ -219,31 +219,31 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                 {
                     if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_45))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_45], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_135))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_135], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_1], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_25_2))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_25_2], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_1], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_SLOPE_152_2))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SLOPE_152_2], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL))
                     {
-                        colPixel = getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (checkPosition.x % 16), (checkPosition.y % 16));                        
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else
                     {                        

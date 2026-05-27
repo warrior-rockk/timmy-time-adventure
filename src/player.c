@@ -254,7 +254,8 @@ static void player_update_controls(tEntity *player)
                 else if (CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_CENTER_DOWN), E_TILE_PROP_TOP_STAIR))
                 {
 					//position to platform (above tile of the stair)
-                    player->fixPos.y = itofix((((entity_center_y(player) / 16) * 16) + 16) - player->size.y);
+                    uint8_t mapTileSize = map_get_tile_size();
+                    player->fixPos.y = itofix((((entity_center_y(player) / mapTileSize) * mapTileSize) + mapTileSize) - player->size.y);
                     //reset flag
 					playerFlags.onStairs = false;
 				}				
