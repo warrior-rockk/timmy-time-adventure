@@ -182,6 +182,12 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity); 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                 
         break;
+        case E_GAME_OVER_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, GAMEOVER_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){27, 40};
+            entity->size = (tVector){27, 40};                        
+        break;
         default:
             abort_on_error("Object entity type not valid");
         break;
@@ -224,6 +230,8 @@ void object_update(tEntity *entity)
         case E_ROCK_EXPLOSION_OBJECT_TYPE:
             object_rock_explosion_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
+        case E_GAME_OVER_OBJECT_TYPE:
+            object_game_over_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -807,6 +815,15 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
             }    
         break;       
     }
+}
+
+void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object animation
+    #define ANIM_GAME_OVER     0,   9, 10,  ANIM_LOOP
+    
+    play_animation(&this->anim, ANIM_GAME_OVER);    
+    
 }
 
 void object_trace(tEntity *this)

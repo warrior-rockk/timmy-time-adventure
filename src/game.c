@@ -654,27 +654,37 @@ void game_update()
         case E_GAME_ST_GAME_OVER:            
             switch (gameSeq.step)
             {
-                case 0:
+                case 0:                    
                     game_destroy_level();                                                
+
+                    //load pal
+                    currentPal = gamePal;
+                    //put game over text
                     textout_centre_ex(buffer, gameFont, "GAME OVER", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
                                         
-                    //reset scroll values
+                    //prepare systems to create an entity on screen
                     scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_BY_WINDOW_Y_MODE);
                     object_system_init();
-                    entity_system_init();
-                    currentPal = gamePal;
-                    tEntity *playerCry;
-                    playerCry = entity_get(entity_create(E_ENT_CLASS_OBJECT, E_ROCK_OBJECT_TYPE, (tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, 0));
+                    entity_system_init();                   
+                    //create entity of player crying animation
+                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, 0);
                     
-                    game.fadeIn = true;
-                    MY_TRACE_FLAG( "Game Over\n");
+                    game.fadeIn = true;                    
                     gameSeq.step++;
+                    MY_TRACE_FLAG( "Game Over\n");
                 break;
                 case 1:
+                    //update and draw the entity animation
                     entities_update();
                     entities_draw(buffer);
+
+                    //key pressed or timeout
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
+                        //destroy systems
+                        entities_destroy_all();
+                        object_system_destroy();
+
                         game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;

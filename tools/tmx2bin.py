@@ -38,8 +38,9 @@ object_ent_types = {
     "wagon"         : 8,
     "dynamite"      : 9,
     "backColor"     : 10,
-    "bridge"        : 11,
+    "bridge"        : 11,    
     "rock-explosion": 12,
+    "game-over"     : 13,
 }
 
 #define entity enemies types
