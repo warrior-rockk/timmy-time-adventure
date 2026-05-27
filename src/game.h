@@ -42,7 +42,7 @@
 #define GAME_CLOCK_TICK         10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          1       //initial game lives
+#define GAME_INI_LIVES          3       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
@@ -144,7 +144,11 @@ enum E_GAME_TEXTS
     E_TXT_MENU_CTRL_JUMP,
     E_TXT_MENU_CTRL_ACTION,
     E_TXT_MENU_PRESS_KEY,
-    
+    E_TXT_YES,
+    E_TXT_NO,
+    E_TXT_GAME_OVER,
+    E_TXT_CONTINUE_QUESTION,
+
     E_TXT_NUM,
 };
 

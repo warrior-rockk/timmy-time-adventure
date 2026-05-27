@@ -224,7 +224,6 @@ void game_update()
                     destroy_bitmap(title);   
 
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 120}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
-                    TRACE("size x: %i\n", gameDialog.rect.size.x);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
@@ -660,17 +659,18 @@ void game_update()
                     //load pal
                     currentPal = gamePal;
                     //put game over text
-                    textout_centre_ex(buffer, gameFont, "GAME OVER", SCREEN_W>>1, SCREEN_H>>2, WHITE_COLOR, BLACK_COLOR);
-                                        
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
                     //prepare systems to create an entity on screen
                     scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_BY_WINDOW_Y_MODE);
                     object_system_init();
                     entity_system_init();                   
                     //create entity of player crying animation
-                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){(SCREEN_W>>1) - 14, 80}, E_ENT_DIR_RIGHT, 0);
+                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){(SCREEN_W>>1) - 14, 60}, E_ENT_DIR_RIGHT, 0);
                     //update and draw the entity animation
                     entities_update();
                     entities_draw(buffer);
+
+                    
 
                     game.fadeIn = true;                    
                     gameSeq.step++;
@@ -681,20 +681,57 @@ void game_update()
                     entities_update();
                     entities_draw(buffer);
 
-                    //key pressed or timeout
-                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
                     {
-                        //destroy systems
-                        entities_destroy_all();
-                        object_system_destroy();
+                        textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_CONTINUE_QUESTION), SCREEN_W>>1, 138, DIALOG_SEL_TEXT_COLOR, BLACK_COLOR);
+                        //create continue menu
+                        gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 30, 150}, (tVector){60, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
+                        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
+                        dialog_draw(&gameDialog, buffer);
 
-                        game.state = E_GAME_ST_TITLE;
+                        gameSeq.step++;
                         gameSeq.timeCounter = 0;
-                        gameSeq.step = 0;
-                        game.fadeOut = true;
-                    }
+                    }      
                     else
-                        gameSeq.timeCounter += clock_tick_get();
+                        gameSeq.timeCounter += clock_tick_get();                             
+                break;
+                case 2:
+                    //update and draw the entity animation
+                    entities_update();
+                    entities_draw(buffer);
+
+                    game_navigation_menu(&gameDialog, buffer);
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 0: //YES
+                                //destroy systems
+                                entities_destroy_all();
+                                object_system_destroy();
+
+                                game.state = E_GAME_ST_TITLE;
+                                gameSeq.timeCounter = 0;
+                                gameSeq.step = 0;
+                                game.fadeOut = true;
+                                dialog_destroy(&gameDialog);
+                            break;
+                            case 1: //NO
+                                //destroy systems
+                                entities_destroy_all();
+                                object_system_destroy();
+
+                                game.state = E_GAME_ST_TITLE;
+                                gameSeq.timeCounter = 0;
+                                gameSeq.step = 0;
+                                game.fadeOut = true;
+                                dialog_destroy(&gameDialog);
+                            break;                            
+                        }
+                    }                         
                 break;
             }
         break;
