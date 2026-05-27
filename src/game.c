@@ -660,15 +660,18 @@ void game_update()
                     //load pal
                     currentPal = gamePal;
                     //put game over text
-                    textout_centre_ex(buffer, gameFont, "GAME OVER", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "GAME OVER", SCREEN_W>>1, SCREEN_H>>2, WHITE_COLOR, BLACK_COLOR);
                                         
                     //prepare systems to create an entity on screen
                     scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_BY_WINDOW_Y_MODE);
                     object_system_init();
                     entity_system_init();                   
                     //create entity of player crying animation
-                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, 0);
-                    
+                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){(SCREEN_W>>1) - 14, 80}, E_ENT_DIR_RIGHT, 0);
+                    //update and draw the entity animation
+                    entities_update();
+                    entities_draw(buffer);
+
                     game.fadeIn = true;                    
                     gameSeq.step++;
                     MY_TRACE_FLAG( "Game Over\n");

@@ -186,7 +186,7 @@ void object_create(tEntity *entity)
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, GAMEOVER_BMP);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){27, 40};
-            entity->size = (tVector){27, 40};                        
+            entity->size = (tVector){27, 40};                           
         break;
         default:
             abort_on_error("Object entity type not valid");
