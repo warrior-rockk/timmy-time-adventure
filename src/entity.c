@@ -25,7 +25,7 @@ uint8_t playerEntityId = 0;     //id of the player on array of entities
 static void entity_draw(BITMAP *buffer, tEntity *entity)
 {
     tVector scrollPos = scroll_get_position();
-
+        
     if (entity->img)
     {
         int16_t drawX, drawY;
@@ -56,8 +56,8 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
         #endif    
-            if (entity->dir == E_ENT_DIR_RIGHT)   
-                draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                                
+            if (entity->dir == E_ENT_DIR_RIGHT)               
+                draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);              
             else
                 draw_sprite_h_flip(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                        
         #ifdef DEBUGMODE
@@ -155,7 +155,9 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].dead            = false;
         entityList[newEntity].visible         = true;
         entityList[newEntity].noGravity       = false;
+        entityList[newEntity].anim.frame      = 0;
         entityList[newEntity].anim.frameTime  = 0;
+
 
         //if entity class is player, set the player id
         if (entityClass == E_ENT_CLASS_PLAYER)
@@ -201,7 +203,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         #if DEBUG_TRACE_CREATE_ENTITIES
             MY_TRACE_FLAG("Created entity ID:%i Class:%i Type:%i\n", entityList[newEntity].id, entityList[newEntity].entClass, entityList[newEntity].entType);
         #endif
-        
+                
         //check entity properties
         if (CHECK_FLAG(entityList[newEntity].properties, E_ENT_PROP_PHYSICS_ON))     
             collision_create_entity_points(&entityList[newEntity]);
@@ -391,7 +393,7 @@ void entities_update()
             //call entity pointer update function
             if (entityList[i].entity_update)
             {
-                entityList[i].entity_update(&entityList[i]);                          
+                entityList[i].entity_update(&entityList[i]);                     
             }
             
             //update vel and pos
@@ -420,7 +422,9 @@ void entities_draw(BITMAP *buffer)
     {
         //only draws if visible and not sleep
         if (entityList[i].visible && !entityList[i].sleep)
-            entity_draw(buffer, &entityList[i]);
+        {
+            entity_draw(buffer, &entityList[i]);            
+        }
     }    
 }
 

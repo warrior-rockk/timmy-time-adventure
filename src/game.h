@@ -17,7 +17,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1
+#define ALLEGRO_USES_SOUND      0
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -42,7 +42,7 @@
 #define GAME_CLOCK_TICK         10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIVES          1       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
@@ -213,7 +213,7 @@ typedef struct
 
 //options for debug mode
 #ifdef DEBUGMODE
-    #define DEBUG_TRACE_CREATE_ENTITIES     0
+    #define DEBUG_TRACE_CREATE_ENTITIES     1
     #define DEBUG_TRACE_ENTITIES            1
     #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
     #define DEBUG_SCROLL                    0
