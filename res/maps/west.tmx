@@ -978,6 +978,6 @@
     <property name="spare" type="int" value="76"/>
    </properties>
   </object>
-  <object id="133" name="end" type="trigger" x="2032" y="256" width="16" height="16"/>
+  <object id="133" name="endLevel" type="trigger" x="2032" y="256" width="16" height="16"/>
  </objectgroup>
 </map>

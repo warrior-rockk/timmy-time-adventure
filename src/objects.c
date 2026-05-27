@@ -117,7 +117,7 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);                    
             entity->properties = E_ENT_PROP_NO_BREAKABLE;
         break;
-        case E_END_OBJECT_TYPE:            
+        case E_END_LEVEL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
@@ -209,7 +209,7 @@ void object_update(tEntity *entity)
 {   
     switch (entity->entType)
     {
-        case E_END_OBJECT_TYPE:
+        case E_END_LEVEL_OBJECT_TYPE:
         case E_CHECKPOINT_OBJECT_TYPE:
         case E_STOP_SCROLL_OBJECT_TYPE:
         case E_BACKCOLOR_OBJECT_TYPE:
@@ -470,7 +470,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                 player->initDir = this->dir;            
             }
         break;
-        case E_END_OBJECT_TYPE:
+        case E_END_LEVEL_OBJECT_TYPE:
             //if collision with player
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {

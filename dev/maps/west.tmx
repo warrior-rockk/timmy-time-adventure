@@ -503,8 +503,8 @@
   <object id="127" name="rock-explosion" type="object" x="2128" y="256" width="16" height="16"/>
   <object id="128" name="rock-explosion" type="object" x="2112" y="240" width="16" height="16"/>
   <object id="129" name="rock-explosion" type="object" x="2112" y="256" width="16" height="16"/>
-  <object id="130" name="rock-explosion" type="object" x="2112" y="272" width="16" height="16"/>
+  <object id="130" template="objects/rock-explosion.tx" type="object" x="2112" y="272"/>
   <object id="131" template="triggers/backColor.tx" x="2288" y="160"/>
-  <object id="133" template="triggers/end.tx" x="2032" y="256"/>
+  <object id="133" template="triggers/endLevel.tx" x="2032" y="256"/>
  </objectgroup>
 </map>

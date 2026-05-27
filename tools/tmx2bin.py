@@ -30,7 +30,7 @@ object_ent_types = {
     "rock"          : 0,
     "rock2"         : 1,    
     "egg"           : 2,
-    "end"           : 3,
+    "endLevel"      : 3,
     "checkpoint"    : 4,
     "item"          : 5,
     "stopScroll"    : 6,
