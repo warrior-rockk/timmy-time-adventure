@@ -162,12 +162,12 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             total_tiles = len(raw_data) // 4
             tiles = list(struct.unpack(f'<{total_tiles}I', raw_data))
         else:
-            print(f"❌Error: Codificacion format '{encoding}' don't support by this script")
+            print(f"Error: Codificacion format '{encoding}' don't support by this script")
             return
         
         # Check if any tile ID > 255
         if any(t > 255 for t in tiles):
-            print("⚠️¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
+            print("¡WARNING!: some tiles ID are greater than 255 and will be truncated to uint8_t.")
 
         # Iterate each tile that has properties defined
         for tile in tileSet.findall('tile'):
@@ -229,12 +229,12 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             # Write tile animations
             for tile_id, frames in tile_animations.items():                
                 # Write ID tile and how many frames
-                print(f"🖼️ Tile ID {tile_id} has {len(frames)} frames:")
+                print(f" Tile ID {tile_id} has {len(frames)} frames:")
                 f.write(struct.pack('<BB', int(tile_id), len(frames)))
             
                 # Write each frame (tile id and duration)
                 for frame in frames:
-                    print(f"  - 🖼️ Frame TileID: {frame['tileid']} (Duration: {frame['duration']}ms)")
+                    print(f"  -  Frame TileID: {frame['tileid']} (Duration: {frame['duration']}ms)")
                     f.write(struct.pack('<BH', int(frame['tileid']), int(frame['duration'])))
             
             # Search entities layer            
@@ -246,7 +246,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
                 
                 # Get object data
                 # Write: numObjects (H) + list of (x0, y0, dir0)
-                print(f"✅ Processing layer: '{layerName}'")                
+                print(f" Processing layer: '{layerName}'")                
                 
                 # Extract entity data to temporal list
                 objs = obj_group.findall('object')
@@ -281,7 +281,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
 
                 # Write to bin file
                 f.write(struct.pack('<H', len(extracted_entities))) # Write num objects                
-                print(f"📍 Processing {len(extracted_entities)} entities in custom order...")
+                print(f" Processing {len(extracted_entities)} entities in custom order...")
                 for ent in extracted_entities:
                     f.write(struct.pack('<BBHHBH', 
                         ent['class_id'], 
@@ -331,7 +331,7 @@ def parse_tmx_and_write_binary(tmx_file, bin_file):
             if not foundEnemyLayer:
                 f.write(struct.pack('<H', 0)) """
         
-        print(f"✅--- Done ---✅")
+        print(f"--- Done ---")
         print(f"File saved in: {bin_file}")
         print(f"Bytes written: {os.path.getsize(bin_file)}")
 
