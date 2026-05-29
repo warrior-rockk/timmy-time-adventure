@@ -373,7 +373,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="3904" y="208" width="16" height="32">
+  <object id="1" name="player1" type="player" x="3872" y="256" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -582,7 +582,7 @@
   <object id="175" template="triggers/stopScroll.tx" x="4064" y="304"/>
   <object id="176" template="triggers/stopScroll.tx" x="3712" y="304"/>
   <object id="177" template="triggers/stopScroll.tx" x="2352" y="288"/>
-  <object id="178" template="triggers/checkpoint.tx" x="3856" y="256">
+  <object id="178" template="triggers/checkpoint.tx" x="3904" y="208">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
@@ -601,7 +601,7 @@
   <object id="185" template="objects/spike-fall.tx" type="object" x="3536" y="208"/>
   <object id="186" name="spike-fall" type="object" x="3840" y="192" width="16" height="16">
    <properties>
-    <property name="spare" type="int" value="40"/>
+    <property name="spare" type="int" value="52"/>
    </properties>
   </object>
  </objectgroup>

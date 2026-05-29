@@ -170,7 +170,7 @@ void object_create(tEntity *entity)
         break;
         case E_BRIDGE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, BRIDGE_BMP);
-            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};            
             entity->size = (tVector){16, 16};                                     
@@ -192,7 +192,7 @@ void object_create(tEntity *entity)
         break;
         case E_ROCK_FALL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCKFALL_BMP);
-            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 16};      
@@ -202,7 +202,7 @@ void object_create(tEntity *entity)
         break;
         case E_SPIKE_FALL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SPKFALL_BMP);
-            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
@@ -257,7 +257,7 @@ void object_update(tEntity *entity)
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
-            object_rock_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -791,7 +791,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
                 if (local->timer >= BRIDGE_WAIT_TO_FALL)
                 {
                     this->state++;
-                    sfx_play(objectSfx[E_SFX_ROCK_FALL], E_SFX_OBJECT_VOICE);
+                    sfx_play(objectSfx[E_SFX_OBJECT_FALL], E_SFX_OBJECT_VOICE);
                     local->timer = 0;
                     local->flag = 0;
                 }
@@ -847,50 +847,50 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
 }
 
 
-void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
+void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define ROCK_FALL_FALL_VEL_Y       3
-    #define ROCK_FALL_PLAYER_RANGE_X   30
+    #define OBJECT_FALL_FALL_VEL_Y       3
+    #define OBJECT_FALL_PLAYER_RANGE_X   30
     
     //object states
-    enum E_ROCK_FALL_OBJECT_STATES{E_ROCK_FALL_ST_IDLE, E_ROCK_FALL_ST_FALL, E_ROCK_FALL_ST_BREAK};
+    enum E_OBJECT_FALL_OBJECT_STATES{E_OBJECT_FALL_ST_IDLE, E_OBJECT_FALL_ST_FALL, E_OBJECT_FALL_ST_BREAK};
     
     //object animations
-    #define ANIM_ROCK_FALL_BREAK                1,  2, 10, ANIM_ONCE
+    #define ANIM_OBJECT_FALL_BREAK                1,  2, 10, ANIM_ONCE
 
     //get player
     tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
     {
-        case E_ROCK_FALL_ST_IDLE:
+        case E_OBJECT_FALL_ST_IDLE:
             this->fixVel.y = 0;
 
             //check player range            
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->spare != 0 ? this->spare : ROCK_FALL_PLAYER_RANGE_X))
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->spare != 0 ? this->spare : OBJECT_FALL_PLAYER_RANGE_X))
             {
                 this->state++;
-                sfx_play(objectSfx[E_SFX_ROCK_FALL], E_SFX_OBJECT_VOICE);
+                sfx_play(objectSfx[E_SFX_OBJECT_FALL], E_SFX_OBJECT_VOICE);
             }
             
             this->anim.frame = 0;        
         break;
-        case E_ROCK_FALL_ST_FALL:
-            this->fixVel.y = ftofix(ROCK_FALL_FALL_VEL_Y);
+        case E_OBJECT_FALL_ST_FALL:
+            this->fixVel.y = ftofix(OBJECT_FALL_FALL_VEL_Y);
             
             this->ground = false;            
             //check only down point    
             if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
-                this->state = E_ROCK_FALL_ST_BREAK;            
+                this->state = E_OBJECT_FALL_ST_BREAK;            
             else if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
             {
                 //hurt player if collided
                 player->signal = E_ENT_SIGNAL_HURT;
-                this->state = E_ROCK_FALL_ST_BREAK;
+                this->state = E_OBJECT_FALL_ST_BREAK;
             }
         break;
-        case E_ROCK_FALL_ST_BREAK:
+        case E_OBJECT_FALL_ST_BREAK:
             //stop object
             this->fixVel.x = 0;
             this->fixVel.y = 0;                                                        
