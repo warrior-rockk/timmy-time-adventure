@@ -749,7 +749,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_COWBOY_IDLE            0,   0, 10, ANIM_LOOP
     #define ANIM_COWBOY_SHOOT           1,   16, 5, ANIM_ONCE
     #define ANIM_COWBOY_SHOOT_CROUCH    24,  32, 6, ANIM_PING_PONG_ONCE
-    #define ANIM_COWBOY_DEAD            17,  24,    ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_COWBOY_DEAD            17,  23,    ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
     enum E_COWBOY_ENEMY_STATES{E_COWBOY_ST_IDLE, E_COWBOY_ST_SHOOT, E_COWBOY_ST_SHOOT_CROUCH, E_COWBOY_ST_WAIT, E_COWBOY_ST_HURT};   
