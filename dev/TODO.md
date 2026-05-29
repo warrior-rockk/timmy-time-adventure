@@ -2,6 +2,7 @@
 
 # Engine
 
+- [ ] Cowboy incorrect last frame dead animation
 - [ ] Number counter dynamite?
 - [ ] Half Height tile? 8px
 - [ ] Rock fall hurt (mine rock with bridge ceiling)

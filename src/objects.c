@@ -200,6 +200,16 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
+        case E_SPIKE_FALL_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SPKFALL_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};      
+            entity->axis = E_ENT_AXIS_UP;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -246,6 +256,7 @@ void object_update(tEntity *entity)
             object_game_over_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
+        case E_SPIKE_FALL_OBJECT_TYPE:
             object_rock_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
@@ -758,8 +769,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define BRIDGE_WAIT_TO_FALL     18
-    #define BRIDGE_FALL_VEL_Y       2
+    #define BRIDGE_WAIT_TO_FALL     20
+    #define BRIDGE_FALL_VEL_Y       1.8
     
     //object states
     enum E_BRIDGE_OBJECT_STATES{E_BRIDGE_ST_IDLE, E_BRIDGE_ST_FALL};
