@@ -813,7 +813,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 //adds to player x position the integer part of platform delta movement
                 //entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
-                entity_get(entity_get_player_id())->fixPos.y += itofix(nextPosY - this->pos.y);                
+                entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y) + 1); //add 1 to position to ensue player on platform on next frame                
             }
         break;
     }
