@@ -33,6 +33,8 @@ enum E_OBJECT_TYPE
     E_BRIDGE_OBJECT_TYPE,
     E_ROCK_EXPLOSION_OBJECT_TYPE,
     E_GAME_OVER_OBJECT_TYPE,
+    E_ROCK_FALL_OBJECT_TYPE,
+
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -57,6 +59,8 @@ enum E_OBJECT_SFX
     E_SFX_WAGON,     
     E_SFX_EXPLOSION,
     E_SFX_EXPLOSION_COUNTER,
+    E_SFX_ROCK_FALL,
+    
     E_SFX_OBJECT_NUM,
 };
 
@@ -92,6 +96,8 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_bridge_update(tEntity *this, tSolidObjectLocalData *objData);
 //explosion rock
 void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *objData);
+//rock fall
+void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *objData);
 //game over animation
 void object_game_over_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

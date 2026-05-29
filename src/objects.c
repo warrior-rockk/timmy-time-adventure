@@ -101,7 +101,8 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
-            collision_create_entity_points(entity);                    
+            collision_create_entity_points(entity); 
+        break;                   
         case E_ROCK_3_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK3_BMP);
             entity->img = objectResources[entity->entType];
@@ -188,8 +189,18 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){27, 40};
             entity->size = (tVector){27, 40};                           
         break;
+        case E_ROCK_FALL_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCKFALL_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 21};
+            entity->size = (tVector){16, 16};      
+            entity->axis = E_ENT_AXIS_UP;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
+        break;
         default:
-            abort_on_error("Object entity type not valid");
+            abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
     }
     
@@ -232,6 +243,10 @@ void object_update(tEntity *entity)
         break;
         case E_GAME_OVER_OBJECT_TYPE:
             object_game_over_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_ROCK_FALL_OBJECT_TYPE:
+            object_rock_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -814,6 +829,66 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
                 this->dead = true;                
             }    
         break;       
+    }
+}
+
+
+void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define ROCK_FALL_FALL_VEL_Y       3
+    #define ROCK_FALL_PLAYER_RANGE_X   30
+    
+    //object states
+    enum E_ROCK_FALL_OBJECT_STATES{E_ROCK_FALL_ST_IDLE, E_ROCK_FALL_ST_FALL, E_ROCK_FALL_ST_BREAK};
+    
+    //object animations
+    #define ANIM_ROCK_FALL_BREAK                1,  2, 10, ANIM_ONCE
+
+    tEntity *player = entity_get(entity_get_player_id());
+
+    switch (this->state)
+    {
+        case E_ROCK_FALL_ST_IDLE:
+            this->fixVel.y = 0;
+
+            //check player range
+            
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, ROCK_FALL_PLAYER_RANGE_X))
+            {
+                this->state++;
+                sfx_play(objectSfx[E_SFX_ROCK_FALL], E_SFX_OBJECT_VOICE);
+            }
+            
+            this->anim.frame = 0;        
+        break;
+        case E_ROCK_FALL_ST_FALL:
+            this->fixVel.y = ftofix(ROCK_FALL_FALL_VEL_Y);
+            
+            this->ground = false;            
+            //check only down point    
+            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+                this->state = E_ROCK_FALL_ST_BREAK;
+            
+            if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+            {
+                player->signal = E_ENT_SIGNAL_HURT;
+                this->state = E_ROCK_FALL_ST_BREAK;
+            }
+            
+        break;
+        case E_ROCK_FALL_ST_BREAK:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                                        
+            //play break animation
+            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            {
+                //put object to sleep
+                //this->sleep = true;                
+                this->dead = true;
+            }
+        break;
     }
 }
 

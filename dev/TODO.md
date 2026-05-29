@@ -65,6 +65,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
+- [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
 - [ ] Simple collisions check on entity update?
 - [ ] Less collision points to entities than player?s

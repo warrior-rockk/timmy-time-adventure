@@ -74,7 +74,7 @@ void abort_on_error(const char *format, ...)
         allegro_message(buf);
     #else
         MY_TRACE("[ERROR]: %s\n", buf);
-        MY_TRACE("[ERROR]: %s\n", allegro_error);
+        MY_TRACE("[ALLEGRO ERROR]: %s\n", allegro_error);
         allegro_message(buf);
         allegro_message(allegro_error);
     #endif
