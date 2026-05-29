@@ -2,6 +2,8 @@
 
 # Engine
 
+- [ ] Number counter dynamite?
+- [ ] Half Height tile? 8px
 - [ ] Rock fall hurt (mine rock with bridge ceiling)
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished

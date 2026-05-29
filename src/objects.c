@@ -170,6 +170,7 @@ void object_create(tEntity *entity)
         break;
         case E_BRIDGE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, BRIDGE_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_ROCK_FALL], objectDataFileIndex, ROCKFALL_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};            
             entity->size = (tVector){16, 16};                                     
@@ -757,7 +758,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
 void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define BRIDGE_WAIT_TO_FALL     20
+    #define BRIDGE_WAIT_TO_FALL     18
     #define BRIDGE_FALL_VEL_Y       2
     
     //object states
@@ -779,6 +780,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
                 if (local->timer >= BRIDGE_WAIT_TO_FALL)
                 {
                     this->state++;
+                    sfx_play(objectSfx[E_SFX_ROCK_FALL], E_SFX_OBJECT_VOICE);
                     local->timer = 0;
                     local->flag = 0;
                 }
