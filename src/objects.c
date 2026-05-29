@@ -855,7 +855,7 @@ void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
 
             //check player range            
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, ROCK_FALL_PLAYER_RANGE_X))
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->spare != 0 ? this->spare : ROCK_FALL_PLAYER_RANGE_X))
             {
                 this->state++;
                 sfx_play(objectSfx[E_SFX_ROCK_FALL], E_SFX_OBJECT_VOICE);
