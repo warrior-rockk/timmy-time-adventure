@@ -846,6 +846,7 @@ void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
     //object animations
     #define ANIM_ROCK_FALL_BREAK                1,  2, 10, ANIM_ONCE
 
+    //get player
     tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
@@ -853,8 +854,7 @@ void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
         case E_ROCK_FALL_ST_IDLE:
             this->fixVel.y = 0;
 
-            //check player range
-            
+            //check player range            
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, ROCK_FALL_PLAYER_RANGE_X))
             {
                 this->state++;
@@ -869,14 +869,13 @@ void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
             this->ground = false;            
             //check only down point    
             if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
-                this->state = E_ROCK_FALL_ST_BREAK;
-            
-            if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+                this->state = E_ROCK_FALL_ST_BREAK;            
+            else if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
             {
+                //hurt player if collided
                 player->signal = E_ENT_SIGNAL_HURT;
                 this->state = E_ROCK_FALL_ST_BREAK;
             }
-            
         break;
         case E_ROCK_FALL_ST_BREAK:
             //stop object
@@ -885,8 +884,6 @@ void object_rock_fall_update(tEntity *this, tSolidObjectLocalData *local)
             //play break animation
             if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
             {
-                //put object to sleep
-                //this->sleep = true;                
                 this->dead = true;
             }
         break;
