@@ -627,6 +627,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
             //explode dynamite
             this->state = E_DYNAMITE_ST_EXPLODE;
             sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);  
+            scroll_shake_camera();
             //hurt player if on explosion region
             if (in_range_vector(playerEnt->pos, this->pos, (tVector){(DYNAMITE_TILE_RANGE_X * map_get_tile_size()), (DYNAMITE_TILE_RANGE_X * map_get_tile_size())}))
                 playerEnt->signal = E_ENT_SIGNAL_HURT;
