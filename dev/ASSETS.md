@@ -1,5 +1,5 @@
 # Possible titles
-- [ ] Timmy Time Adventure
+- [X] Timmy Time Adventure
 - [ ] Tim Time Adventure
 - [ ] Tim Travel Adventure
 - [ ] Timmy Time Travel
@@ -23,16 +23,23 @@
 - [X] Triceraptor
 
 ## Wild West
-- [ ] Cowboy
-- [ ] Native Indian
-- [ ] Scorpion
-- [ ] Eagle
+- [X] Cowboy
+- [X] Native Indian
+- [X] Scorpion
+- [X] Eagle
+- [X] Bat
+- [X] Tumble 
 
 ## Medieval
 - [ ] Knight
 - [ ] Cocodrile
-- [ ] 
-- [ ] 
+- [ ] Ghost
+
+## Egypt
+
+- [ ] Mummy
+- [ ] Egyptian whip
+- [ ] Yellow scorpion
 
 ## Future
 - [ ] Robot
@@ -46,5 +53,6 @@
 - [ ] Title
 - [ ] Level Select
 - [ ] Jurassic
-- [ ] Wild West
-- [ ] Medieval     
+- [X] Wild West
+- [ ] Medieval
+- [ ] Egypt
