@@ -210,6 +210,14 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
+        case E_BOX_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, BOX_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};             
+            collision_create_entity_points(entity);                  
+            entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;

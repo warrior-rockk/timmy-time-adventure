@@ -43,6 +43,7 @@ object_ent_types = {
     "game-over"     : 13,
     "rock-fall"     : 14,
     "spike-fall"    : 15,
+    "box"           : 16,
 }
 
 #define entity enemies types
