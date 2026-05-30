@@ -58,3 +58,6 @@
 * Too much friction and inertia (OK = 0.92 to 0.88)
 * Bug on time when repeat game overs (OK)
 * reduce collision hitbox on hurt tiles (spikes, lava..) (OK = hit only with center down point)
+
+## Puzzles
+* Use two persistent solid objects to move trought spikes like floor is lava
