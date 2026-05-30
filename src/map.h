@@ -48,6 +48,9 @@ enum E_TILE_PROPERTY
     E_TILE_PROP_HURT            = 0x0400,       //Tile hurts player
     E_TILE_PROP_SLOPE_25_2      = 0x0800,       //Tile is slope 25º
     E_TILE_PROP_SLOPE_152_2     = 0x1000,       //Tile is slope 152º
+    E_TILE_PROP_HALF_TILE       = 0x2000,       //Tile is half height
+    //
+    //
 };
 
 //loads a map level and creates level entities

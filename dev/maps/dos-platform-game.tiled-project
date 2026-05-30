@@ -164,6 +164,27 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 21,
+            "members": [
+                {
+                    "name": "property",
+                    "propertyType": "tileProperties",
+                    "type": "int",
+                    "value": 8192
+                }
+            ],
+            "name": "tile_HALF_TILE",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "tileset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 18,
             "members": [
                 {
@@ -326,7 +347,8 @@
                 "SOLID_ON_FALL",
                 "HURT",
                 "SLOPE_25_2",
-                "SLOPE_152_2"
+                "SLOPE_152_2",
+                "HALF_TILE"
             ],
             "valuesAsFlags": true
         },

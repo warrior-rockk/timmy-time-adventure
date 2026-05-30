@@ -42,6 +42,7 @@ void collision_system_init()
     collisionMaps[E_COL_MAP_SLOPE_152_1]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_1_BMP);
     collisionMaps[E_COL_MAP_SLOPE_152_2]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_2_BMP);
     collisionMaps[E_COL_MAP_SOLID_ON_FALL]  = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);    
+    collisionMaps[E_COL_MAP_HALF_TILE]  = load_dat_bmp_indexed(collisionDataFileIndex, HALFTILE_BMP);    
 
     //reset player platform entity id
     playerPlatformId = -1;
