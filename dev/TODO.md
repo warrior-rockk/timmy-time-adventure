@@ -3,7 +3,7 @@
 # Engine
 
 - [ ] Number counter dynamite?
-- [ ] Half Height tile? 8px
+- [ ] Half Height tile? 8px (SPIKES HURT TILES CAN BE HALF TILE)
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?

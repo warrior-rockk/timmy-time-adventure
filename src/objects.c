@@ -346,7 +346,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixPos.y  = playerEnt->fixPos.y - itofix(SOLID_PICKED_OFFSET_Y);
             
             //check if receive throw signal
-            if (this->signal == E_ENT_SIGNAL_THROW)
+            if (this->signal == E_ENT_SIGNAL_THROW || this->signal == E_ENT_SIGNAL_SHORT_THROW)
             {
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
