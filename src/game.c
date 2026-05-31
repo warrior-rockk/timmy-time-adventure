@@ -897,6 +897,7 @@ void game_init()
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;    
     game.viewMap        = false;
+    memset(&game.levelComplete, 0, sizeof(game.levelComplete));
     hud.refresh         = E_REFRESH_HUD_ALL;
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;

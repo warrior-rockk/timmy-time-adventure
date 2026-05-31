@@ -2,8 +2,8 @@
 
 # Engine
 
+- [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
-- [ ] Half Height tile? 8px (SPIKES HURT TILES CAN BE HALF TILE)
 - [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?
@@ -66,6 +66,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
+- [ ] Refactor collision functions and unified get collision maps
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
 - [ ] Simple collisions check on entity update?
