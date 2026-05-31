@@ -196,7 +196,11 @@
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
-  <tile id="104" type="tile_HURT"/>
+  <tile id="104" type="tile_HURT">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="9216"/>
+   </properties>
+  </tile>
   <tile id="105">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="3"/>

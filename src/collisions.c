@@ -42,7 +42,7 @@ void collision_system_init()
     collisionMaps[E_COL_MAP_SLOPE_152_1]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_1_BMP);
     collisionMaps[E_COL_MAP_SLOPE_152_2]    = load_dat_bmp_indexed(collisionDataFileIndex, SLO152_2_BMP);
     collisionMaps[E_COL_MAP_SOLID_ON_FALL]  = load_dat_bmp_indexed(collisionDataFileIndex, SONFALL_BMP);    
-    collisionMaps[E_COL_MAP_HALF_TILE]  = load_dat_bmp_indexed(collisionDataFileIndex, HALFTILE_BMP);    
+    collisionMaps[E_COL_MAP_HALF_TILE]      = load_dat_bmp_indexed(collisionDataFileIndex, HALFTILE_BMP);    
 
     //reset player platform entity id
     playerPlatformId = -1;
@@ -149,6 +149,13 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
                             return dist;
                         }
                     }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_HALF_TILE))
+                    {
+                        if (getpixel(collisionMaps[E_COL_MAP_HALF_TILE], (linePath->start.x % map_get_tile_size()), (linePath->start.y % map_get_tile_size())) != 0)
+                        {
+                            return dist;
+                        }
+                    }
                     else
                     {                        
                         return dist;
@@ -245,6 +252,10 @@ static fixed collision_check_path_y(tEntity *entity, tFixLinePath *linePath, uin
                     else if (CHECK_FLAG(tileProperty, E_TILE_PROP_TOP_STAIR) || CHECK_FLAG(tileProperty, E_TILE_PROP_SOLID_ON_FALL))
                     {
                         colPixel = getpixel(collisionMaps[E_COL_MAP_SOLID_ON_FALL], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
+                    }
+                    else if (CHECK_FLAG(tileProperty, E_TILE_PROP_HALF_TILE))
+                    {
+                        colPixel = getpixel(collisionMaps[E_COL_MAP_HALF_TILE], (checkPosition.x % map_get_tile_size()), (checkPosition.y % map_get_tile_size()));                        
                     }
                     else
                     {                        
