@@ -153,7 +153,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
             entity->size = (tVector){16, 12};                                     
-            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE;            
+            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
         break;
@@ -594,14 +594,18 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
 
             //calculate next wagon integer position (entity update do this)
             int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
-            int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+            int16_t nextPosY;
+            if (this->ground)
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+            else
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime)));
 
             //only move player if collided
             if (collision_get_player_platform_id() == this->id)
             {
                 //adds to player x position the integer part of platform delta movement
                 entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
-                entity_get(entity_get_player_id())->fixPos.y += itofix(nextPosY - this->pos.y);                
+                entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y));                
             }
 
             play_animation(&this->anim, ANIM_WAGON_MOVE);
