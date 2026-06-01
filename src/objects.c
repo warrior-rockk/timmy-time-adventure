@@ -597,8 +597,9 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             int16_t nextPosY;
             if (this->ground)
                 nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
-            else
-                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime)));
+            else{
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime))) + 1;                
+            }
 
             //only move player if collided
             if (collision_get_player_platform_id() == this->id)
