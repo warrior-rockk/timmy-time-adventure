@@ -25,7 +25,6 @@ BITMAP *objectResources[E_OBJECTS_TYPE_NUM];    //array of objects gfx resources
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
 DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
 
-
 void object_system_init()
 {
     //empty object list
@@ -84,8 +83,8 @@ void object_create(tEntity *entity)
     numObjectInstances++;
 
     //allocate memory for general solid object
-    objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));
-
+    objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData)); 
+    
     //set object properties    
     switch (entity->entType)
     {
@@ -218,6 +217,11 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);                  
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
+        case E_HIDDEN_OBJECT_TYPE:                                                
+            entity->size = (tVector){8, 16};             
+            collision_create_entity_points(entity);                  
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -267,6 +271,8 @@ void object_update(tEntity *entity)
         case E_SPIKE_FALL_OBJECT_TYPE:
             object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
+        case E_HIDDEN_OBJECT_TYPE:
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -276,6 +282,8 @@ void object_update(tEntity *entity)
 //calls specified object type init function
 void object_init(tEntity *entity)
 {   
+    MY_TRACE_FLAG("Init instance %i\n", entity->entInstance);
+
     switch (entity->entType)
     {        
         default:
@@ -562,6 +570,15 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     #define ANIM_WAGON_IDLE   0,   0, 10,  ANIM_ONCE
     #define ANIM_WAGON_MOVE   0,   3, 10,  ANIM_LOOP
 
+    //creation of wagon border object
+    if (!local->flag)
+    {                    
+        //can write on local flag the entity id because when create, the local data array changes is pointer until next frame
+        //instead, save the next instance object number
+        local->flag = numObjectInstances;
+        entity_create(E_ENT_CLASS_OBJECT, E_HIDDEN_OBJECT_TYPE, (tVector){this->pos.x + 18, this->pos.y - 16}, this->dir, this->spare);                                                
+    }
+
     //terrain collisions
     uint8_t colDir = 0;
     this->ground = false;
@@ -583,7 +600,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             //if player on this platform            
             if (collision_get_player_platform_id() == this->id)
             {
-                this->state++;                
+                this->state++;
+                MY_TRACE_FLAG("My instance %i\n", this->entInstance);                                                
             }
 
             play_animation(&this->anim, ANIM_WAGON_IDLE);
@@ -609,6 +627,12 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
                 entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y));                
             }
 
+            //move border object
+            tEntity *hiddenEnt;            
+            hiddenEnt = entity_get_by_instance(E_ENT_CLASS_OBJECT, local->flag);
+            hiddenEnt->fixPos.x = this->fixPos.x + itofix(18);
+            hiddenEnt->fixPos.y = this->fixPos.y - itofix(16);            
+            
             play_animation(&this->anim, ANIM_WAGON_MOVE);
 
             //play wagon sound
