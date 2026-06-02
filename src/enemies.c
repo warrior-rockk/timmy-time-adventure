@@ -104,10 +104,15 @@ static tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSiz
 static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *listSize, uint16_t enemyIndex) {
     //check enemy index bounds
     if (enemyIndex < 0 || enemyIndex >= *listSize) {
-        abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        //abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        MY_TRACE_FLAG("ERROR: Enemy index %d out of range\n", enemyIndex);
         return array;
     }
     
+    //free the allocated data of the enemy to delete    
+    free(array[enemyIndex].data);
+    array[enemyIndex].data = NULL;
+
     //get last index
     int16_t last_index = *listSize - 1;
 
@@ -119,15 +124,13 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         //get the entity of last index enemy index (we need to update his instace number)
         tEntity *lastEnemyEntity = entity_get_by_instance(E_ENT_CLASS_ENEMY, last_index);
         if (lastEnemyEntity == NULL)
-            abort_on_error("Can't find enemy entity with entity instance: %i\n", last_index);
+            abort_on_error("Can't find enemy entity with entity instance: %i\n", last_index);            
         
         //updates instance number
+        MY_TRACE_FLAG("Enemy id %i instance %i moved to instance %i\n", lastEnemyEntity->id, lastEnemyEntity->entInstance, enemyIndex);
         lastEnemyEntity->entInstance = enemyIndex;    
     }
-
-    //free memory of element to delete
-    free(array[enemyIndex].data);
-
+    
     //decrease the size counter (pop)
     (*listSize)--;
 
@@ -148,10 +151,10 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
 
 void enemy_destroy(tEntity *entity)
 {
-    //remove enemy instance from list
-    enemyDataList = enemy_data_remove(enemyDataList, &numEnemyInstances, entity->entInstance);
+    MY_TRACE_FLAG("Destroying enemy id: %i, instance:%i\n", entity->id, entity->entInstance);
 
-    MY_TRACE_FLAG("Destroyed enemy instance:%i\n", entity->entInstance);
+    //remove enemy instance from list
+    enemyDataList = enemy_data_remove(enemyDataList, &numEnemyInstances, entity->entInstance);    
 }
 
 //check enemy entity type to add the local data structure to local data list and increases instances number
@@ -160,6 +163,7 @@ void enemy_create(tEntity *entity)
     
     //tDefaultEnemyLocalData *enemyLocalData;
     void *enemyLocalData = NULL;
+    uint8_t enemyLocalDataType = E_ENEMY_DEFAULT_LOCAL_DATA_TYPE;
 
     //set enemy type properties
     switch (entity->entType)
@@ -264,7 +268,8 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){19, 19};                          
             entity->size = (tVector){16, 16};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;   
-            enemyLocalData = malloc(sizeof(tAxeLocalData));               
+            enemyLocalData = malloc(sizeof(tAxeLocalData));
+            enemyLocalDataType = E_ENEMY_AXE_LOCAL_DATA_TYPE;               
         break; 
         case E_ARROW_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARROW_BMP);
@@ -291,7 +296,7 @@ void enemy_create(tEntity *entity)
         enemyLocalData = malloc(sizeof(tDefaultEnemyLocalData));
     
     //adds enemy local data to list
-    enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, E_ENEMY_DEFAULT_LOCAL_DATA, enemyLocalData);
+    enemyDataList = enemy_data_add(enemyDataList, &numEnemyInstances, enemyLocalDataType, enemyLocalData);
 
     //test memory allocation
     MY_ASSERT(enemyDataList);
@@ -358,7 +363,7 @@ void enemy_update(tEntity *entity)
         break;
     }
 
-    show_debug("Num enemies:%i", numEnemyInstances);
+    //show_debug("Num enemies:%i", numEnemyInstances);
 }
 
 //calls specified enemy type init function

@@ -43,10 +43,10 @@ enum E_ENEMY_SFX
 };
 
 //types of local data structures
-enum E_ENEMY_LOCAL_DATA
+enum E_ENEMY_LOCAL_DATA_TYPE
 {
-    E_ENEMY_DEFAULT_LOCAL_DATA,
-    E_ENEMY_AXE_LOCAL_DATA,
+    E_ENEMY_DEFAULT_LOCAL_DATA_TYPE,
+    E_ENEMY_AXE_LOCAL_DATA_TYPE,
 };
 
 //default enemy local data struct

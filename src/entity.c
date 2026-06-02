@@ -125,8 +125,17 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
     if (numEntities <= ENTITY_MAX_NUM)
     {
         //allocate memory for entity
-        entityList = realloc(entityList, numEntities * sizeof(tEntity));
+        tEntity *tempList = realloc(entityList, numEntities * sizeof(tEntity));
         
+        if (tempList == NULL)
+        {
+            numEntities--;
+            MY_TRACE_FLAG("Error allocating new entity. Num entities: %i\n", numEntities);
+            return 0;
+        }
+        else
+            entityList = tempList;
+
         //test memory allocation
         ASSERT(entityList);
 
