@@ -220,7 +220,7 @@ void object_create(tEntity *entity)
         case E_HIDDEN_OBJECT_TYPE:                                                
             entity->size = (tVector){8, 16};             
             collision_create_entity_points(entity);                  
-            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_AUTO_DESTROY;            
         break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
