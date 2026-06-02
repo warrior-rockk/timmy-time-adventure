@@ -714,7 +714,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="832" y="416" width="16" height="32">
+  <object id="1" name="player1" type="player" x="3200" y="368" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -795,7 +795,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="50" name="wagon" type="platform" x="912.136" y="435.955" width="16" height="12"/>
+  <object id="50" name="wagon" type="platform" x="3248.14" y="387.955" width="16" height="12"/>
   <object id="51" name="bat" type="enemy" x="1296" y="416" width="16" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
@@ -1265,6 +1265,5 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="224" name="dynamite" type="object" x="784" y="432" width="16" height="16"/>
  </objectgroup>
 </map>
