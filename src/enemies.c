@@ -125,6 +125,9 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         lastEnemyEntity->entInstance = enemyIndex;    
     }
 
+    //free memory of element to delete
+    free(array[enemyIndex].data);
+
     //decrease the size counter (pop)
     (*listSize)--;
 
