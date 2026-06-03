@@ -29,6 +29,7 @@ int main()
     //main loop
     do
     {
+        timer_start_frame();
         playTime_update(clock_tick_1sec_get());
 
         #ifdef DEBUGMODE

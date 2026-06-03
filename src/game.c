@@ -111,7 +111,6 @@ static void game_debug_info();
 
 void game_update()
 {   
-    timer_start_frame();
     input_keys_update();
   
     //update state
