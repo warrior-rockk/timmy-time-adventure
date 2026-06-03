@@ -151,7 +151,7 @@ void object_create(tEntity *entity)
             load_entity_wav_resources(&objectSfx[E_SFX_WAGON], objectDataFileIndex, WAGON_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
-            entity->size = (tVector){16, 12};                                     
+            entity->size = (tVector){20, 12};                                     
             entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
