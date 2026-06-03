@@ -377,7 +377,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="3200" y="368" width="16" height="32">
+  <object id="1" name="player1" type="player" x="848" y="416" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -418,7 +418,7 @@
   </object>
   <object id="48" template="triggers/stopScroll.tx" x="1040" y="128"/>
   <object id="49" template="triggers/stopScroll.tx" x="1936" y="144"/>
-  <object id="50" template="platforms/wagon.tx" x="3248.14" y="387.955"/>
+  <object id="50" template="platforms/wagon.tx" x="896.14" y="435.955"/>
   <object id="51" template="enemies/west/bat.tx" type="enemy" x="1296" y="416">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>

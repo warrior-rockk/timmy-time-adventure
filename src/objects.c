@@ -562,8 +562,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     //object defines
     #define WAGON_VELOCITY              0.9
     #define WAGON_SOUND_CADENCE         20
-    #define WAGON_BORDER_OBJ_OFFSET_X   18
-    #define WAGON_BORDER_OBJ_OFFSET_Y   16
+    //#define WAGON_BORDER_OBJ_OFFSET_X   18
+    //#define WAGON_BORDER_OBJ_OFFSET_Y   16
 
     //object states
     enum E_WAGON_OBJECT_STATES{E_WAGON_ST_IDLE, E_WAGON_ST_MOVE};
@@ -602,8 +602,8 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
                 //creation of wagon border object
                 //can write on local flag the entity id because when create, the local data array changes is pointer until next frame
                 //instead, save the next instance object number
-                local->flag = numObjectInstances;
-                entity_create(E_ENT_CLASS_OBJECT, E_HIDDEN_OBJECT_TYPE, (tVector){this->pos.x + WAGON_BORDER_OBJ_OFFSET_X, this->pos.y - WAGON_BORDER_OBJ_OFFSET_Y}, this->dir, this->spare);                                                
+                //local->flag = numObjectInstances;
+                //entity_create(E_ENT_CLASS_OBJECT, E_HIDDEN_OBJECT_TYPE, (tVector){this->pos.x + WAGON_BORDER_OBJ_OFFSET_X, this->pos.y - WAGON_BORDER_OBJ_OFFSET_Y}, this->dir, this->spare);                                                
                 
             }
         break;
@@ -629,6 +629,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             //move border object
+            /*
             tEntity *borderObj;            
             borderObj = entity_get_by_instance(E_ENT_CLASS_OBJECT, local->flag);
             if (borderObj)
@@ -636,6 +637,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
                 borderObj->fixPos.x = this->fixPos.x + itofix(WAGON_BORDER_OBJ_OFFSET_X);
                 borderObj->fixPos.y = this->fixPos.y - itofix(WAGON_BORDER_OBJ_OFFSET_Y);            
             }
+            */
             
             play_animation(&this->anim, ANIM_WAGON_MOVE);
 
