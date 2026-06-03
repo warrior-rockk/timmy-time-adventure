@@ -570,83 +570,79 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     #define ANIM_WAGON_IDLE   0,   0, 10,  ANIM_ONCE
     #define ANIM_WAGON_MOVE   0,   3, 10,  ANIM_LOOP
     
-    //creation of wagon border object
-    if (!local->flag)
-    {                    
-        //can write on local flag the entity id because when create, the local data array changes is pointer until next frame
-        //instead, save the next instance object number
-        local->flag = numObjectInstances;
-        entity_create(E_ENT_CLASS_OBJECT, E_HIDDEN_OBJECT_TYPE, (tVector){this->pos.x + 18, this->pos.y - 16}, this->dir, this->spare);                                                
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
     }
-    else 
+
+    switch (this->state)
     {
-        //terrain collisions
-        uint8_t colDir = 0;
-        this->ground = false;
-        
-        //check all the entity collision points    
-        for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
-        {                
-            //check collision tile for collision point
-            colDir = collision_check_tile(this, i);        
-            //apply collision direction
-            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
-        }
+        case E_WAGON_ST_IDLE:
+            
+            //reset velocity
+            this->fixVel.x = itofix(0);    
 
-        switch (this->state)
-        {
-            case E_WAGON_ST_IDLE:
+            play_animation(&this->anim, ANIM_WAGON_IDLE);
+
+            //if player on this platform            
+            if (collision_get_player_platform_id() == this->id)
+            {
+                this->state++;
+
+                //creation of wagon border object
+                //can write on local flag the entity id because when create, the local data array changes is pointer until next frame
+                //instead, save the next instance object number
+                local->flag = numObjectInstances;
+                entity_create(E_ENT_CLASS_OBJECT, E_HIDDEN_OBJECT_TYPE, (tVector){this->pos.x + 18, this->pos.y - 16}, this->dir, this->spare);                                                
                 
-                //reset velocity
-                this->fixVel.x = itofix(0);    
+            }
+        break;
+        case E_WAGON_ST_MOVE:
+            //apply linear wagon velocity
+            this->fixVel.x = ftofix(WAGON_VELOCITY);
 
-                //if player on this platform            
-                if (collision_get_player_platform_id() == this->id)
-                {
-                    this->state++;
-                }
+            //calculate next wagon integer position (entity update do this)
+            int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+            int16_t nextPosY;
+            if (this->ground)
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+            else{
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime))) + 1;                
+            }
 
-                play_animation(&this->anim, ANIM_WAGON_IDLE);
-                
-            break;
-            case E_WAGON_ST_MOVE:
-                //apply linear wagon velocity
-                this->fixVel.x = ftofix(WAGON_VELOCITY);
+            //only move player if collided
+            if (collision_get_player_platform_id() == this->id)
+            {
+                //adds to player x position the integer part of platform delta movement
+                entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
+                entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y));                
+            }
 
-                //calculate next wagon integer position (entity update do this)
-                int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
-                int16_t nextPosY;
-                if (this->ground)
-                    nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
-                else{
-                    nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime))) + 1;                
-                }
+            //move border object
+            tEntity *hiddenEnt;            
+            hiddenEnt = entity_get_by_instance(E_ENT_CLASS_OBJECT, local->flag);
+            if (hiddenEnt)
+            {
+                hiddenEnt->fixPos.x = this->fixPos.x + itofix(18);
+                hiddenEnt->fixPos.y = this->fixPos.y - itofix(16);            
+            }
+            play_animation(&this->anim, ANIM_WAGON_MOVE);
 
-                //only move player if collided
-                if (collision_get_player_platform_id() == this->id)
-                {
-                    //adds to player x position the integer part of platform delta movement
-                    entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
-                    entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y));                
-                }
+            //play wagon sound
+            if (clock_counter_check(WAGON_SOUND_CADENCE) && this->ground)
+                sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
 
-                //move border object
-                tEntity *hiddenEnt;            
-                hiddenEnt = entity_get_by_instance(E_ENT_CLASS_OBJECT, local->flag);
-                if (hiddenEnt)
-                {
-                    hiddenEnt->fixPos.x = this->fixPos.x + itofix(18);
-                    hiddenEnt->fixPos.y = this->fixPos.y - itofix(16);            
-                }
-                play_animation(&this->anim, ANIM_WAGON_MOVE);
-
-                //play wagon sound
-                if (clock_counter_check(WAGON_SOUND_CADENCE) && this->ground)
-                    sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
-
-            break;
-        }
+        break;
     }
+    
 }
 
 void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
