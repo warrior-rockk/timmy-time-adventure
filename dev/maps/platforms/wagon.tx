@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="wagon" type="platform" width="16" height="12"/>
+ <object name="wagon" type="platform" width="20" height="12"/>
 </template>
