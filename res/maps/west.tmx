@@ -795,7 +795,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="50" name="wagon" type="platform" x="896.14" y="435.955" width="20" height="12"/>
+  <object id="50" name="wagon" type="platform" x="912.249" y="435.48" width="20" height="12"/>
   <object id="51" name="bat" type="enemy" x="1296" y="416" width="16" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
