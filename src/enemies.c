@@ -797,9 +797,10 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             if (this->anim.frame == 11 && !local->flag)
             {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_OFFSET}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
-                local->flag = true;
+                
             }
         break;     
         case E_COWBOY_ST_SHOOT_CROUCH:            
@@ -809,9 +810,9 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             if (this->anim.frame == 31 && !local->flag)
             {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 entity_create(E_ENT_CLASS_ENEMY, E_BULLET_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + COWBOY_BULLET_Y_CROUCH_OFFSET}, this->dir, this->spare);
                 sfx_play(enemySfx[E_SFX_ENEMY_SHOOT], E_SFX_ENEMY_VOICE);
-                local->flag = true;
             }
         break;     
         case E_COWBOY_ST_WAIT:
@@ -1105,9 +1106,9 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             if (this->anim.frame == INDIAN_AXE_AXE_FRAME_THROW && !local->flag)
             {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 sfx_play(enemySfx[E_SFX_ENEMY_AXE], E_SFX_ENEMY_VOICE);
                 entity_create(E_ENT_CLASS_ENEMY, E_AXE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y - INDIAN_AXE_AXE_Y_OFFSET}, this->dir, this->spare);
-                local->flag = true;
             }
         break;     
         case E_INDIAN_AXE_ST_WAIT:
@@ -1173,9 +1174,9 @@ void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             if (this->anim.frame == INDIAN_BOW_ARROW_FRAME_THROW && !local->flag)
             {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 sfx_play(enemySfx[E_SFX_ENEMY_ARROW], E_SFX_ENEMY_VOICE);
                 entity_create(E_ENT_CLASS_ENEMY, E_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + INDIAN_BOW_ARROW_Y_OFFSET}, this->dir, this->spare);
-                local->flag = true;
             }
         break;     
         case E_INDIAN_BOW_ST_WAIT:
