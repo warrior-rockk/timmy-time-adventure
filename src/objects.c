@@ -821,6 +821,13 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
 
     this->anim.frame = 0;
 
+    if (this->signal == E_ENT_SIGNAL_AWAKE)
+    {
+        this->signal = E_ENT_SIGNAL_NONE;
+        this->pos = this->initPos;
+        this->state = 0;
+    }
+
     switch (this->state)
     {
         case E_BRIDGE_ST_IDLE:
