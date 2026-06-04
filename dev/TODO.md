@@ -1,8 +1,10 @@
 # Bugs
 
+- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this?
+
 # Engine
 
-- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this?
+- [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
 - [ ] Continue menu with player animation crying?
