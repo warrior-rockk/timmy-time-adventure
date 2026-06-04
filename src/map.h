@@ -61,7 +61,7 @@ void map_unload();
 //get the dimensions of the map (on tiles)
 tVector map_get_dimensions();
 //get level time
-uint8_t map_get_level_time();
+uint16_t map_get_level_time();
 //get map tile size
 uint8_t map_get_tile_size();
 

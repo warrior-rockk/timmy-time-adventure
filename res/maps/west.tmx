@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="228">
  <properties>
-  <property name="time" type="int" value="200"/>
+  <property name="time" type="int" value="300"/>
  </properties>
  <tileset firstgid="1" name="west" tilewidth="16" tileheight="16" tilecount="240" columns="10">
   <image source="../../dev/gfx/maps/wild-west/wildWest-tileset.aseprite" width="160" height="384"/>

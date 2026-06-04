@@ -4,7 +4,7 @@
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
  <properties>
-  <property name="time" type="int" value="200"/>
+  <property name="time" type="int" value="300"/>
  </properties>
  <tileset firstgid="1" name="west" tilewidth="16" tileheight="16" tilecount="240" columns="10">
   <image source="../gfx/maps/wild-west/wildWest-tileset.aseprite" width="160" height="384"/>
