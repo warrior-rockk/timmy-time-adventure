@@ -327,6 +327,28 @@ void game_update()
                         
             game.state = E_GAME_ST_LOAD_LEVEL;            
         break;
+        case E_GAME_ST_SELECT_LEVEL:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game.fadeIn = true;
+                    currentPal  = load_dat_pal_indexed(gameDataIndex, TIMELINE_PAL);
+                    clear(buffer);
+                                        
+                    BITMAP *timeline = load_dat_bmp_indexed(gameDataIndex, TIMELINE_BMP);
+                                        
+                    draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
+                    destroy_bitmap(timeline);   
+
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
+
+                    gameSeq.step++;
+                break;
+                case 1:
+
+                break;
+            }
+        break;
         case E_GAME_ST_LOAD_LEVEL:
             clear_to_color(buffer, BLACK_COLOR);
             

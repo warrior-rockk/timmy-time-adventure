@@ -75,6 +75,7 @@ enum E_GAME_STATE
     E_GAME_ST_MAIN_MENU,
     E_GAME_ST_OPTIONS_MENU,
     E_GAME_ST_INIT,
+    E_GAME_ST_SELECT_LEVEL,
     E_GAME_ST_LOAD_LEVEL,
     E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
@@ -148,6 +149,7 @@ enum E_GAME_TEXTS
     E_TXT_NO,
     E_TXT_GAME_OVER,
     E_TXT_CONTINUE_QUESTION,
+    E_TXT_SELECT_LEVEL,
 
     E_TXT_NUM,
 };
@@ -221,7 +223,7 @@ typedef struct
     #define DEBUG_TRACE_ENTITIES            0
     #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
     #define DEBUG_SCROLL                    0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_SELECT_LEVEL //E_GAME_ST_LOAD_LEVEL
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
     typedef struct
     {
