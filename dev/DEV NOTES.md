@@ -59,11 +59,11 @@
 * Bug on time when repeat game overs (OK)
 * reduce collision hitbox on hurt tiles (spikes, lava..) (OK = hit only with center down point)
 
-* jurassic level: first spikes first gap when falls too small to jump
+* jurassic level: first spikes first gap when falls too small to jump (OK)
 * too difficult first jump with piranha
 * hurt on wagon not back impulse?
 * west: first ceil spikes on mine difficult jump
-* bug: when fall to spikes, no second hurt
+* bug: when fall to spikes, no second hurt (OK: must be solid and half tile)
 * too much inertia!
 * velocyraptor stops on front on you without attacking
 * respawn lives to easy game?
