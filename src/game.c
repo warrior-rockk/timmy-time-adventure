@@ -325,7 +325,7 @@ void game_update()
             game.loseLive       = false;
             game.actualLevel    = 0;     
                         
-            game.state = E_GAME_ST_LOAD_LEVEL;            
+            game.state = E_GAME_ST_SELECT_LEVEL;            
         break;
         case E_GAME_ST_SELECT_LEVEL:
             switch (gameSeq.step)

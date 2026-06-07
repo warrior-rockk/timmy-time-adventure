@@ -51,13 +51,19 @@
 	|--EXIT TO TITLE: exit to tile
 	+--EXIT TO DOS: exit game
 
-## Retropolis impressions
+## Test gameplay
 * Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse (OK)
 * Too difficult the perodayctile jump (OK)
 * Less time to pick a stone (OK)
 * Too much friction and inertia (OK = 0.92 to 0.88)
 * Bug on time when repeat game overs (OK)
 * reduce collision hitbox on hurt tiles (spikes, lava..) (OK = hit only with center down point)
+
+* jurassic level: first spikes first gap when falls too small to jump
+* too difficult first jump with piranha
+* hurt on wagon not back impulse?
+* west: first ceil spikes on mine difficult jump
+* bug: when fall to spikes, no second hurt
 
 ## Puzzles
 * Use two persistent solid objects to move trought spikes like floor is lava
