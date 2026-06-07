@@ -60,7 +60,7 @@
 * reduce collision hitbox on hurt tiles (spikes, lava..) (OK = hit only with center down point)
 
 * jurassic level: first spikes first gap when falls too small to jump (OK)
-* too difficult first jump with piranha
+* too difficult first jump with piranha. Maybe a little more power on lateral jump ¿horizontal acceleration?
 * hurt on wagon not back impulse?
 * west: first ceil spikes on mine difficult jump
 * bug: when fall to spikes, no second hurt (OK: must be solid and half tile)
