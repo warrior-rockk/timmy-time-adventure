@@ -62,7 +62,7 @@
 * jurassic level: first spikes first gap when falls too small to jump (OK)
 * too difficult first jump with piranha. Maybe a little more power on lateral jump ¿horizontal acceleration?
 * hurt on wagon not back impulse?
-* west: first ceil spikes on mine difficult jump
+* west: first ceil spikes on mine difficult jump (OK)
 * bug: when fall to spikes, no second hurt (OK: must be solid and half tile)
 * too much inertia!
 * velocyraptor stops on front on you without attacking
