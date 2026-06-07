@@ -681,15 +681,26 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_1sec_get();    
                 break;
                 case 4:
-                    MY_TRACE_FLAG( "Completed level\n");
+                    game.levelComplete[game.actualLevel] = true;
+                    MY_TRACE_FLAG( "Completed level number: %i\n", game.actualLevel);
                     game_destroy_level();
-                    game.actualLevel++;
+
                     gameSeq.step = 0;          
                     
-                    if (game.actualLevel == E_GAME_NUM_LEVELS)
+                    //check levels completed
+                    uint8_t levelsCompleted = 0;
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS; i++)
+                    {
+                        if (game.levelComplete[i])
+                            levelsCompleted++;
+                    }
+                    MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);
+
+                    //jump to state
+                    if (levelsCompleted == E_GAME_NUM_LEVELS)
                         game.state = E_GAME_ST_ENDING;
                     else    
-                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        game.state = E_GAME_ST_SELECT_LEVEL;
                 break;
             }
         break;
