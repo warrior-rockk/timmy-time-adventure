@@ -64,6 +64,9 @@
 * hurt on wagon not back impulse?
 * west: first ceil spikes on mine difficult jump
 * bug: when fall to spikes, no second hurt
+* too much inertia!
+* velocyraptor stops on front on you without attacking
+* respawn lives to easy game?
 
 ## Puzzles
 * Use two persistent solid objects to move trought spikes like floor is lava
