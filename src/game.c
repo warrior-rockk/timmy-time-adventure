@@ -335,17 +335,39 @@ void game_update()
                     currentPal  = load_dat_pal_indexed(gameDataIndex, TIMELINE_PAL);
                     clear(buffer);
                                         
-                    BITMAP *timeline = load_dat_bmp_indexed(gameDataIndex, TIMELINE_BMP);
-                                        
+                    BITMAP *timeline = load_dat_bmp_indexed(gameDataIndex, TIMELINE_BMP);               
                     draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
                     destroy_bitmap(timeline);   
 
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
+
+                    //draw select levelcursor
+                    BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
+                    draw_sprite(buffer, cursor, 50 + (68 * game.actualLevel), 130);    
+                    destroy_bitmap(cursor);   
 
                     gameSeq.step++;
                 break;
                 case 1:
-
+                    if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 1)
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
+                        game.actualLevel++;
+                        gameSeq.step--;
+                    }
+                    if (input_key_down(E_G_KEY_LEFT) && game.actualLevel > 0)
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
+                        game.actualLevel--;
+                        gameSeq.step--;
+                    }
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                        gameSeq.step = 0;
+                        game.state = E_GAME_ST_LOAD_LEVEL;
+                        game.fadeOut = true;
+                    }
                 break;
             }
         break;

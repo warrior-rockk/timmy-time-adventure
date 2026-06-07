@@ -93,10 +93,10 @@ enum E_GAME_STATE
 enum E_GAME_LEVELS
 {            
     E_GAME_LEVEL_JURASSIC,    
-    E_GAME_LEVEL_WEST,
-                    
+    E_GAME_LEVEL_EGYPT,
     E_GAME_LEVEL_MEDIEVAL,
-    E_GAME_LEVEL_TEST,    
+    E_GAME_LEVEL_WEST,               
+    //E_GAME_LEVEL_TEST,    
     E_GAME_NUM_LEVELS,
 };
 
@@ -224,7 +224,7 @@ typedef struct
     #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
     #define DEBUG_SCROLL                    0
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_SELECT_LEVEL //E_GAME_ST_LOAD_LEVEL
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
+    #define DEBUG_INI_GAME_LEVEL            0 //E_GAME_LEVEL_WEST
     typedef struct
     {
         uint8_t showDebugInfo; 
