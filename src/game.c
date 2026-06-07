@@ -361,7 +361,7 @@ void game_update()
                         game.actualLevel--;
                         gameSeq.step--;
                     }
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) && !game.levelComplete[game.actualLevel])
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         gameSeq.step = 0;
@@ -931,8 +931,13 @@ void game_init()
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
     #ifdef DEBUGMODE
         game.actualLevel    = DEBUG_INI_GAME_LEVEL;
+        memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+        //temporal until starting make level
+        game.levelComplete[E_GAME_LEVEL_EGYPT] = true;
+        game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
     #else
         game.actualLevel    = 0;
+        memset(&game.levelComplete, 0, sizeof(game.levelComplete));
     #endif
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
@@ -940,7 +945,6 @@ void game_init()
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;    
     game.viewMap        = false;
-    memset(&game.levelComplete, 0, sizeof(game.levelComplete));
     hud.refresh         = E_REFRESH_HUD_ALL;
     gameSeq.step = 0;
     gameSeq.timeCounter = 0;
