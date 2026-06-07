@@ -368,6 +368,12 @@ void game_update()
                         game.state = E_GAME_ST_LOAD_LEVEL;
                         game.fadeOut = true;
                     }
+                    if (input_key_down(E_G_KEY_EXIT))
+                    {
+                        gameSeq.step = 0;
+                        game.state = E_GAME_ST_TITLE;
+                        game.fadeOut = true;
+                    }
                 break;
             }
         break;
