@@ -80,6 +80,6 @@
  <objectgroup id="2" name="entities">
   <object id="1" template="objects/player1.tx" x="16" y="96"/>
   <object id="2" name="egyptian" type="enemy" x="176" y="96" width="32" height="32"/>
-  <object id="3" template="triggers/endLevel.tx" x="368" y="32"/>
+  <object id="3" template="triggers/endLevel.tx" type="object" x="368" y="32"/>
  </objectgroup>
 </map>

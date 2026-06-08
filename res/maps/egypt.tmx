@@ -221,6 +221,6 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="3" name="endLevel" type="trigger" x="368" y="32" width="16" height="16"/>
+  <object id="3" name="endLevel" type="object" x="368" y="32" width="16" height="16"/>
  </objectgroup>
 </map>
