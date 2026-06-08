@@ -285,6 +285,15 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);              
         break;        
+        case E_EGYPTIAN_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EGYPTIAN_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){65, 50};                          
+            entity->size = (tVector){40, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -358,6 +367,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_BAT_ENEMY_TYPE:            
             enemy_bat_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_EGYPTIAN_ENEMY_TYPE:            
+            enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -1298,3 +1310,67 @@ void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
     }       
 }
 
+void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define EGYPTIAN_VELOCITY         0.6
+    #define EGYPTIAN_RANGE_PATROL     50
+    #define EGYPTIAN_PLAYER_RANGE     20
+    
+    //enemy animations
+    #define ANIM_EGYPTIAN_WALK   7,   12,  10, ANIM_LOOP
+    #define ANIM_EGYPTIAN_ATACK  1,   6,  10, ANIM_LOOP
+    #define ANIM_EGYPTIAN_DEAD   13,   19,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_EGYPTIAN_ENEMY_STATES{E_EGYPTIAN_ST_IDLE, E_EGYPTIAN_ST_MOVING, E_EGYPTIAN_ST_ATTACK, E_EGYPTIAN_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_EGYPTIAN_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
+
+    switch (this->state)
+    {
+        case E_EGYPTIAN_ST_IDLE:            
+            this->state++;
+        break;
+        case E_EGYPTIAN_ST_MOVING:            
+            enemy_patrol_ia(this, ftofix(EGYPTIAN_VELOCITY), EGYPTIAN_RANGE_PATROL);
+            
+            //check range of player
+            player = entity_get(entity_get_player_id());
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EGYPTIAN_PLAYER_RANGE))
+                this->state = E_EGYPTIAN_ST_ATTACK;
+
+            play_animation(&this->anim, ANIM_EGYPTIAN_WALK);
+        break;     
+        case E_EGYPTIAN_ST_ATTACK:
+            //check range of player
+            player = entity_get(entity_get_player_id());
+            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EGYPTIAN_PLAYER_RANGE))
+                this->state = E_EGYPTIAN_ST_MOVING;
+
+            play_animation(&this->anim, ANIM_EGYPTIAN_ATACK); 
+        break;   
+        case E_EGYPTIAN_ST_HURT:
+            enemy_dead(this, ANIM_EGYPTIAN_DEAD);            
+        break;
+    }       
+}
