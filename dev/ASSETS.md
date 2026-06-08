@@ -40,6 +40,7 @@
 - [ ] Mummy
 - [ ] Egyptian whip
 - [ ] Yellow scorpion
+- [ ] Beetle
 
 ## Future
 - [ ] Robot
