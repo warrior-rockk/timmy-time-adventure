@@ -31,6 +31,7 @@
 #include "data/judata.h"
 #include "data/wedata.h"
 #include "data/medata.h"
+#include "data/egydata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -925,6 +926,12 @@ void game_init()
     levelData[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
     levelData[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE2_MID;
 
+    levelData[E_GAME_LEVEL_EGYPT].mapFile           = "egypt.bin";
+    levelData[E_GAME_LEVEL_EGYPT].dataFile          = "egypt.dat";
+    levelData[E_GAME_LEVEL_EGYPT].tileFileIndex     = EGYPT_BMP;
+    levelData[E_GAME_LEVEL_EGYPT].palFileIndex      = EGYPT_PAL;
+    levelData[E_GAME_LEVEL_EGYPT].musicFileIndex    = EGYPT_MID;
+    
     levelData[E_GAME_LEVEL_WEST].mapFile            = "west.bin";
     levelData[E_GAME_LEVEL_WEST].dataFile           = "west.dat";
     levelData[E_GAME_LEVEL_WEST].tileFileIndex      = WEST_BMP;
@@ -954,7 +961,7 @@ void game_init()
         game.actualLevel    = DEBUG_INI_GAME_LEVEL;
         memset(&game.levelComplete, 0, sizeof(game.levelComplete));
         //temporal until starting make level
-        game.levelComplete[E_GAME_LEVEL_EGYPT] = true;
+        //game.levelComplete[E_GAME_LEVEL_EGYPT] = true;
         game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
     #else
         game.actualLevel    = 0;

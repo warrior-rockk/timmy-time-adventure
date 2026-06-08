@@ -625,6 +625,5 @@
    </properties>
   </object>
   <object id="91" template="enemies/jurassic/ptero.tx" x="1568" y="80"/>
-  <object id="92" template="triggers/endLevel.tx" x="64" y="112"/>
  </objectgroup>
 </map>

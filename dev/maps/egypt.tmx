@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="32" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+ <editorsettings>
+  <export target="../../res/maps/egypt.tmx" format="tmx"/>
+ </editorsettings>
+ <tileset firstgid="1" name="egypt" tilewidth="16" tileheight="16" tilecount="100" columns="10">
+  <image source="../gfx/maps/egypt/egypt-tiles.aseprite" width="160" height="160"/>
+ </tileset>
+ <layer id="1" name="tiles" width="32" height="10">
+  <properties>
+   <property name="backColor" type="int" value="40"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,15,16,14,15,16,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,14,15,16,14,15,16,0,0,0,0,0,0,0,0,0,
+1,2,3,1,2,3,4,1,1,1,1,2,3,4,2,3,4,1,1,1,1,2,3,4,1,1,2,3,4,2,3,4,
+5,6,5,6,7,8,9,6,5,5,5,5,5,6,7,8,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="1" template="objects/player1.tx" x="16" y="96"/>
+ </objectgroup>
+</map>

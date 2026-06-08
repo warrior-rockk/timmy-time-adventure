@@ -687,6 +687,5 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="92" name="endLevel" type="trigger" x="64" y="112" width="16" height="16"/>
  </objectgroup>
 </map>
