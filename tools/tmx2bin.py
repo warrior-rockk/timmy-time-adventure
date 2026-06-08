@@ -44,6 +44,8 @@ object_ent_types = {
     "rock-fall"     : 14,
     "spike-fall"    : 15,
     "box"           : 16,
+    "hidden"        : 17,
+    "quick-sand"    : 18,
 }
 
 #define entity enemies types

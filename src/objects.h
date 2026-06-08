@@ -37,6 +37,7 @@ enum E_OBJECT_TYPE
     E_SPIKE_FALL_OBJECT_TYPE,
     E_BOX_OBJECT_TYPE,
     E_HIDDEN_OBJECT_TYPE,
+    E_QUICKSAND_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -103,4 +104,6 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *objData)
 void object_fall_update(tEntity *this, tSolidObjectLocalData *objData);
 //game over animation
 void object_game_over_update(tEntity *this, tSolidObjectLocalData *objData);
+//platform quicksand
+void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

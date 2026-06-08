@@ -222,6 +222,12 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);                  
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_AUTO_DESTROY;            
         break;
+        case E_QUICKSAND_OBJECT_TYPE:            
+            entity->size = (tVector){96, 32};                                     
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+            entity->axis = E_ENT_AXIS_DOWN;
+            collision_create_entity_points(entity);            
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -272,6 +278,9 @@ void object_update(tEntity *entity)
             object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_HIDDEN_OBJECT_TYPE:
+        break;
+        case E_QUICKSAND_OBJECT_TYPE:
+            object_quick_sand_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -954,6 +963,52 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
     }
+}
+
+void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define QUICK_SAND_VELOCITY              0.36
+    
+    //object states
+    enum E_QUICKSAND_OBJECT_STATES{E_QUICKSAND_ST_IDLE, E_QUICKSAND_ST_MOVE};
+
+    switch (this->state)
+    {
+        case E_QUICKSAND_ST_IDLE:
+            
+            //reset velocity
+            this->fixVel.y = itofix(0);    
+
+
+            //if player on this platform            
+            if (collision_get_player_platform_id() == this->id)
+            {
+                this->state++;                
+            }
+        break;
+        case E_QUICKSAND_ST_MOVE:
+            //only move player if collided
+            if (collision_get_player_platform_id() == this->id)
+            {
+                //apply linear wagon velocity
+                this->fixVel.y = ftofix(QUICK_SAND_VELOCITY);
+
+                //calculate next wagon integer position (entity update do this)
+                int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+
+                //adds to player x position the integer part of platform delta movement
+                entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y) + 1);
+            }
+            else{
+                this->fixVel.y = -ftofix(QUICK_SAND_VELOCITY);
+                if (this->pos.y <= this->initPos.y)
+                    this->state = E_QUICKSAND_ST_IDLE;
+                
+            }
+        break;
+    }
+    
 }
 
 void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
