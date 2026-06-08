@@ -120,7 +120,7 @@ void object_create(tEntity *entity)
         case E_END_LEVEL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
             entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){16, 16};
+            entity->spriteSize = (tVector){27, 27};
             entity->size = (tVector){8, 8};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
@@ -514,13 +514,15 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
         case E_END_LEVEL_OBJECT_TYPE:
+            #define END_LEVEL_ANIM  0,   7,  14, ANIM_LOOP
+
             //if collision with player
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
                 game.levelComplete[game.actualLevel] = true;
             }
 
-            this->anim.frame = 0;
+            play_animation(&this->anim, END_LEVEL_ANIM);
         break;
         //stop scroll trigger
         case E_STOP_SCROLL_OBJECT_TYPE:
