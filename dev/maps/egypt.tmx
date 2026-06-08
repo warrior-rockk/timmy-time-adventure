@@ -62,7 +62,7 @@
  </tileset>
  <layer id="1" name="tiles" width="64" height="10">
   <properties>
-   <property name="backColor" type="int" value="40"/>
+   <property name="backColor" type="int" value="243"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,125,122,123,25,22,23,24,23,24,23,25,23,24,10,
