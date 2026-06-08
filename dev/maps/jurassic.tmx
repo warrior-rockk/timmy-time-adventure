@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="92">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="93">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -625,5 +625,6 @@
    </properties>
   </object>
   <object id="91" template="enemies/jurassic/ptero.tx" x="1568" y="80"/>
+  <object id="92" template="triggers/endLevel.tx" x="64" y="112"/>
  </objectgroup>
 </map>

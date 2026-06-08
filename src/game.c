@@ -531,6 +531,8 @@ void game_update()
                             break;
                             case 2: //EXIT TO TITLE
                                 game_destroy_level();
+                                //clear completed levels
+                                memset(&game.levelComplete, 0, sizeof(game.levelComplete));
                                 game.fadeOut = true;
                                 game.state = E_GAME_ST_TITLE;
                                 
@@ -686,8 +688,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_1sec_get();    
                 break;
-                case 4:
-                    game.levelComplete[game.actualLevel] = true;
+                case 4:                    
                     MY_TRACE_FLAG( "Completed level number: %i\n", game.actualLevel);
                     game_destroy_level();
 
@@ -768,21 +769,24 @@ void game_update()
 
                         switch (gameDialog.optionSelected)
                         {
-                            case 0: //YES
+                            case 0: //CONTINUE: YES
                                 //destroy systems
                                 entities_destroy_all();
                                 object_system_destroy();
 
-                                game.state = E_GAME_ST_TITLE;
+                                game.state = E_GAME_ST_SELECT_LEVEL;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
                                 dialog_destroy(&gameDialog);
                             break;
-                            case 1: //NO
+                            case 1: //CONTINUE: NO
                                 //destroy systems
                                 entities_destroy_all();
                                 object_system_destroy();
+
+                                //clear completed levels
+                                memset(&game.levelComplete, 0, sizeof(game.levelComplete));
 
                                 game.state = E_GAME_ST_TITLE;
                                 gameSeq.timeCounter = 0;
