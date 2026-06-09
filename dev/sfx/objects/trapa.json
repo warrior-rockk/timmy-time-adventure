@@ -23,7 +23,7 @@
   "p_lpf_resonance": 0.11625173895296062,
   "p_hpf_freq": 0.387,
   "p_hpf_ramp": 0.041856877490177975,
-  "sound_vol": 0.245,
+  "sound_vol": 0.267,
   "sample_rate": 22050,
   "sample_size": 8,
   "p_vib_delay": -0.1129254201610804
