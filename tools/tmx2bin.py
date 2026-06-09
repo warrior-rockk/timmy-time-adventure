@@ -47,6 +47,7 @@ object_ent_types = {
     "hidden"        : 17,
     "quick-sand"    : 18,
     "trap-arrow"    : 19,
+    "egypt-symbol"  : 20,
 }
 
 #define entity enemies types

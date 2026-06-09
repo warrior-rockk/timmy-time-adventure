@@ -33,6 +33,18 @@
             "valuesAsFlags": false
         },
         {
+            "id": 22,
+            "name": "egypt_symbol",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "CROSS_SYMBOL",
+                "EYE_SYMBOL",
+                "BETTLE_SYMBOL"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 7,

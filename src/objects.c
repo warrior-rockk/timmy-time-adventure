@@ -236,6 +236,14 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};                          
             entity->size = (tVector){16, 16};                     
         break;
+        case E_EGYPT_SYMBOL_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SYMBOL1_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};         
+            entity->properties = E_ENT_PROP_NO_BREAKABLE;    
+            collision_create_entity_points(entity);                  
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -362,7 +370,10 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
 
             if (this->signal == E_ENT_SIGNAL_PICKING)
-                this->state = E_SOLID_ST_PICKED;           
+                this->state = E_SOLID_ST_PICKED;    
+                
+            if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+                this->anim.frame = this->spare;
         break;
         case E_SOLID_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);

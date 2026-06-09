@@ -39,6 +39,7 @@ enum E_OBJECT_TYPE
     E_HIDDEN_OBJECT_TYPE,
     E_QUICKSAND_OBJECT_TYPE,
     E_TRAP_ARROW_OBJECT_TYPE,
+    E_EGYPT_SYMBOL_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -110,4 +111,6 @@ void object_game_over_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *objData);
 //trap arrow
 void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *objData);
+//egypt symbol
+void object_egypt_symbol_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif
