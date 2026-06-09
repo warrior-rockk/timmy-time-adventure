@@ -53,6 +53,11 @@
 - [ ] Intro 
 - [ ] Title
 - [ ] Level Select
+- [ ] Game Over
+- [ ] Lose Live
+- [ ] End Level
+- [ ] Ending
+
 - [ ] Jurassic
 - [X] Wild West
 - [ ] Medieval
