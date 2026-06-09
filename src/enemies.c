@@ -294,6 +294,12 @@ void enemy_create(tEntity *entity)
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
         break;
+        case E_TRAP_ARROW_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ETRAPA_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){13, 5};                          
+            entity->size = (tVector){13, 5};                     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -363,6 +369,7 @@ void enemy_update(tEntity *entity)
             enemy_axe_update(entity, (tAxeLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_ARROW_ENEMY_TYPE:            
+        case E_TRAP_ARROW_ENEMY_TYPE:
             enemy_arrow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_BAT_ENEMY_TYPE:            
@@ -370,7 +377,7 @@ void enemy_update(tEntity *entity)
         break;
         case E_EGYPTIAN_ENEMY_TYPE:            
             enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
-        break;
+        break;        
         default:
         break;
     }

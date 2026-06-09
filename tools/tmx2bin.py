@@ -46,6 +46,7 @@ object_ent_types = {
     "box"           : 16,
     "hidden"        : 17,
     "quick-sand"    : 18,
+    "trap-arrow"    : 19,
 }
 
 #define entity enemies types
@@ -66,6 +67,7 @@ enemy_ent_types = {
     "indian_bow"    : 13,
     "arrow"         : 14,
     "egyptian"      : 15,
+    "trap-arrow"    : 16,
 }
 
 #define array of lists of entity types

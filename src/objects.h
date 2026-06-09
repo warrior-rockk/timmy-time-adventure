@@ -38,6 +38,7 @@ enum E_OBJECT_TYPE
     E_BOX_OBJECT_TYPE,
     E_HIDDEN_OBJECT_TYPE,
     E_QUICKSAND_OBJECT_TYPE,
+    E_TRAP_ARROW_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -64,6 +65,7 @@ enum E_OBJECT_SFX
     E_SFX_EXPLOSION,
     E_SFX_EXPLOSION_COUNTER,
     E_SFX_OBJECT_FALL,
+    E_SFX_OBJECT_ARROW,
     
     E_SFX_OBJECT_NUM,
 };
@@ -106,4 +108,6 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_game_over_update(tEntity *this, tSolidObjectLocalData *objData);
 //platform quicksand
 void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *objData);
+//trap arrow
+void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

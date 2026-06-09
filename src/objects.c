@@ -13,6 +13,7 @@
 #include "resources.h"
 #include "timer.h"
 #include "map.h"
+#include "enemies.h"
 
 #include "data/odata.h"
 
@@ -228,6 +229,13 @@ void object_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
         break;
+        case E_TRAP_ARROW_OBJECT_TYPE:
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, OTRAPA_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_ARROW], objectDataFileIndex, TRAPA_WAV);
+            entity->img = objectResources[entity->entType]; 
+            entity->spriteSize = (tVector){16, 16};                          
+            entity->size = (tVector){16, 16};                     
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -282,6 +290,9 @@ void object_update(tEntity *entity)
         case E_QUICKSAND_OBJECT_TYPE:
             object_quick_sand_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
+        case E_TRAP_ARROW_OBJECT_TYPE:
+            object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;        
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -1005,6 +1016,49 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
                 //return to idle when reach position
                 if (this->pos.y <= this->initPos.y)
                     this->state = E_QUICKSAND_ST_IDLE;     
+            }
+        break;
+    }    
+}
+
+void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define TRAP_ARROW_TIMER    200   
+
+    //object animations
+    #define ANIM_TRAP_ARROW_IDLE_FRAME   0
+    #define ANIM_TRAP_ARROW_SHOOT        1,   1, 20,  ANIM_ONCE
+    
+    //object states
+    enum E_TRAP_ARROW_OBJECT_STATES{E_TRAP_ARROW_ST_IDLE, E_TRAP_ARROW_ST_SHOOT};
+
+    switch (this->state)
+    {
+        case E_TRAP_ARROW_ST_IDLE:
+            if (local->timer >= TRAP_ARROW_TIMER)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else 
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_TRAP_ARROW_IDLE_FRAME;
+
+        break;
+        case E_TRAP_ARROW_ST_SHOOT:
+            if (!local->flag)
+            {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
+                sfx_play(objectSfx[E_SFX_OBJECT_ARROW], E_SFX_OBJECT_VOICE);
+                entity_create(E_ENT_CLASS_ENEMY, E_TRAP_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 8}, this->dir, this->spare);
+            }
+
+            if (play_animation(&this->anim, ANIM_TRAP_ARROW_SHOOT))
+            {
+                this->state--;
             }
         break;
     }    
