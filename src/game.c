@@ -46,6 +46,7 @@ uint8_t gameExit = false;           //flag to exit to main
 BITMAP *buffer;                     //screen buffer
 BITMAP *worldScreen;                //map window buffer
 FONT *gameFont;                     //game font
+FONT *gameBigFont;                  //game big font
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
 DATAFILE_INDEX *gameDataIndex; 
@@ -340,7 +341,7 @@ void game_update()
                     draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
                     destroy_bitmap(timeline);   
 
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameBigFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
 
                     //draw select levelcursor
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
@@ -721,7 +722,7 @@ void game_update()
                     //load pal
                     currentPal = gamePal;
                     //put game over text
-                    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameBigFont, lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
                     //prepare systems to create an entity on screen
                     scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_BY_WINDOW_Y_MODE);
                     object_system_init();
@@ -879,8 +880,9 @@ void game_init()
     set_palette(currentPal);
     
     //loads game font 
-    gameFont = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
-    
+    gameFont    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
+    gameBigFont = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT4_BMP));
+
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
     clear(buffer);
@@ -1102,6 +1104,7 @@ void game_destroy()
     //free fonts
     MY_TRACE_FLAG("\tDestroying font\n");
     destroy_font(gameFont);
+    destroy_font(gameBigFont);
     gameFont = NULL;
     
     //free samples
