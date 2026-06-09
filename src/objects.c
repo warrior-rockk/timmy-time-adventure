@@ -978,8 +978,7 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
         case E_QUICKSAND_ST_IDLE:
             
             //reset velocity
-            this->fixVel.y = itofix(0);    
-
+            this->fixVel.y = itofix(0); 
 
             //if player on this platform            
             if (collision_get_player_platform_id() == this->id)
@@ -991,24 +990,24 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
             //only move player if collided
             if (collision_get_player_platform_id() == this->id)
             {
-                //apply linear wagon velocity
+                //apply linear velocity
                 this->fixVel.y = ftofix(QUICK_SAND_VELOCITY);
 
-                //calculate next wagon integer position (entity update do this)
+                //calculate next integer position (entity update do this)
                 int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
 
                 //adds to player x position the integer part of platform delta movement
                 entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y) + 1);
             }
             else{
+                //restore platform position
                 this->fixVel.y = -ftofix(QUICK_SAND_VELOCITY);
+                //return to idle when reach position
                 if (this->pos.y <= this->initPos.y)
-                    this->state = E_QUICKSAND_ST_IDLE;
-                
+                    this->state = E_QUICKSAND_ST_IDLE;     
             }
         break;
-    }
-    
+    }    
 }
 
 void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
