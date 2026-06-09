@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="112" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="5">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="112" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="6">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -16,7 +16,11 @@
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
-  <tile id="44" type="tile_FRONT"/>
+  <tile id="44" type="tile_FRONT">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
   <tile id="45" type="tile_FRONT"/>
   <tile id="46" type="tile_FRONT">
    <properties>
@@ -28,8 +32,18 @@
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
    </properties>
   </tile>
-  <tile id="54" type="tile_FRONT"/>
-  <tile id="55" type="tile_FRONT"/>
+  <tile id="50" type="tile_FRONT"/>
+  <tile id="51" type="tile_FRONT"/>
+  <tile id="54" type="tile_FRONT">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="2"/>
+   </properties>
+  </tile>
+  <tile id="55" type="tile_FRONT">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="3"/>
+   </properties>
+  </tile>
   <tile id="68" type="tile_NO_SOLID">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
@@ -133,6 +147,6 @@
  <objectgroup id="2" name="entities">
   <object id="1" template="objects/player1.tx" x="544" y="96"/>
   <object id="2" name="egyptian" type="enemy" x="400" y="96" width="32" height="32"/>
-  <object id="4" name="quick-sand" type="platform" x="592" y="128" width="96" height="32"/>
+  <object id="4" name="quick-sand" type="platform" x="576" y="128" width="128" height="32"/>
  </objectgroup>
 </map>
