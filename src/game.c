@@ -345,7 +345,7 @@ void game_update()
 
                     //draw select levelcursor
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
-                    draw_sprite(buffer, cursor, 50 + (68 * game.actualLevel), 130);    
+                    draw_sprite(buffer, cursor, 47 + (69 * game.actualLevel), 130);    
                     destroy_bitmap(cursor);   
 
                     gameSeq.step++;
