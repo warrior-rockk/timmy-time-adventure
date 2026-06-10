@@ -510,6 +510,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                     }
                 }
             }
+            this->state = E_SOLID_ST_IDLE;
         break;
     }
 }
