@@ -631,7 +631,7 @@
   </object>
   <object id="187" template="enemies/west/bat.tx" x="2672" y="224"/>
   <object id="188" template="enemies/west/cowboy.tx" x="2480" y="192"/>
-  <object id="191" name="box" type="object" x="1424" y="288" width="16" height="16"/>
+  <object id="191" template="objects/box.tx" type="object" x="1424" y="288"/>
   <object id="192" template="enemies/west/bat.tx" x="1264" y="272"/>
   <object id="193" template="enemies/west/bat.tx" x="1088" y="272"/>
   <object id="194" template="triggers/backColor.tx" x="784" y="352"/>

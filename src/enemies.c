@@ -299,6 +299,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){13, 5};                          
             entity->size = (tVector){13, 5};                     
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
         default:
             abort_on_error("Enemy type entity not valid");

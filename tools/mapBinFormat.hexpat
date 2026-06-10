@@ -3,10 +3,10 @@
 enum E_ENTITY_CLASS : u8
 {
     E_ENT_CLASS_TRIGGER,
+    E_ENT_CLASS_PLATFORM,
     E_ENT_CLASS_PLAYER,
     E_ENT_CLASS_OBJECT,
-    E_ENT_CLASS_ENEMY,
-    E_ENT_CLASS_PLATFORM,
+    E_ENT_CLASS_ENEMY,    
 };
 
 enum E_OBJECT_TYPE : u8
@@ -77,6 +77,7 @@ struct entity {
     match (class)
     {
         (E_ENTITY_CLASS::E_ENT_CLASS_PLAYER): u8 type;
+        (E_ENTITY_CLASS::E_ENT_CLASS_PLATFORM): E_OBJECT_TYPE type;
         (E_ENTITY_CLASS::E_ENT_CLASS_TRIGGER): E_OBJECT_TYPE type;
         (E_ENTITY_CLASS::E_ENT_CLASS_OBJECT): E_OBJECT_TYPE type;
         (E_ENTITY_CLASS::E_ENT_CLASS_ENEMY): E_ENEMY_TYPE type;        

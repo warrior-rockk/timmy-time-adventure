@@ -241,8 +241,8 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};         
-            entity->properties = E_ENT_PROP_NO_BREAKABLE;    
-            collision_create_entity_points(entity);                  
+            collision_create_entity_points(entity);        
+            entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
@@ -374,6 +374,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 
             if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
                 this->anim.frame = this->spare;
+                
         break;
         case E_SOLID_ST_PICKED:
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
@@ -406,7 +407,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 this->state = E_SOLID_ST_THROWING;
             }
         break;
-        case E_SOLID_ST_THROWING:                        
+        case E_SOLID_ST_THROWING:       
             uint8_t colDir;
             this->ground = false;
             //check all the entity collision points    
@@ -1060,16 +1061,17 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
 
         break;
         case E_TRAP_ARROW_ST_SHOOT:
+            //TODO: after entity create must not modify any entity structure data in case pointer moves!            
+            if (play_animation(&this->anim, ANIM_TRAP_ARROW_SHOOT))
+            {
+                this->state--;
+            }    
+            
             if (!local->flag)
             {
                 local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 sfx_play(objectSfx[E_SFX_OBJECT_ARROW], E_SFX_OBJECT_VOICE);
                 entity_create(E_ENT_CLASS_ENEMY, E_TRAP_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 8}, this->dir, this->spare);
-            }
-
-            if (play_animation(&this->anim, ANIM_TRAP_ARROW_SHOOT))
-            {
-                this->state--;
             }
         break;
     }    

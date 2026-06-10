@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="144" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="8">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="144" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="9">
  <tileset firstgid="1" name="egypt" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/egypt/egypt-tiles.aseprite" width="160" height="320"/>
   <tile id="25" type="tile_SLOPE_135">
@@ -169,7 +169,7 @@
   </tile>
   <tile id="115" type="tile_NO_SOLID">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="4"/>
+    <property name="property" type="int" propertytype="tileProperties" value="5"/>
    </properties>
   </tile>
   <tile id="116" type="tile_NO_SOLID">
