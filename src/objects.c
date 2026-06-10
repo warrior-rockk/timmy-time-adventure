@@ -218,10 +218,10 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);                  
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
-        case E_HIDDEN_OBJECT_TYPE:                                                
-            entity->size = (tVector){8, 16};             
-            collision_create_entity_points(entity);                  
-            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_AUTO_DESTROY;            
+        case E_HIDDEN_OBJECT_TYPE:
+        case E_SYMBOL_HOLE_OBJECT_TYPE:                                                
+            entity->size = (tVector){16, 16};                         
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
         break;
         case E_QUICKSAND_OBJECT_TYPE:            
             entity->size = (tVector){128, 32};                                     
@@ -293,14 +293,14 @@ void object_update(tEntity *entity)
         case E_SPIKE_FALL_OBJECT_TYPE:
             object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
-        case E_HIDDEN_OBJECT_TYPE:
-        break;
         case E_QUICKSAND_OBJECT_TYPE:
             object_quick_sand_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
             object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;        
+        case E_SYMBOL_HOLE_OBJECT_TYPE:
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -352,7 +352,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
     #define SOLID_PICKED_OFFSET_X   1
 
     //object states
-    enum E_SOLID_OBJECT_STATES{E_SOLID_ST_IDLE, E_SOLID_ST_PICKED, E_SOLID_ST_THROWING, E_SOLID_ST_BREAK};
+    enum E_SOLID_OBJECT_STATES{E_SOLID_ST_IDLE, E_SOLID_ST_PICKED, E_SOLID_ST_THROWING, E_SOLID_ST_BREAK, E_SOLID_ST_CHECK_PUZZLE};
     
     if (this->signal == E_ENT_SIGNAL_HURT)
     {
@@ -461,7 +461,12 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
-                this->state = E_SOLID_ST_IDLE;
+            {
+                if (this->entType != E_EGYPT_SYMBOL_OBJECT_TYPE)
+                    this->state = E_SOLID_ST_IDLE;
+                else
+                    this->state = E_SOLID_ST_CHECK_PUZZLE;
+            }
         break;
         case E_SOLID_ST_BREAK:
             //stop object
@@ -476,6 +481,34 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 //put object to sleep
                 //this->sleep = true;                
                 this->dead = true;
+            }
+        break;
+        case E_SOLID_ST_CHECK_PUZZLE:
+            //check entities collisions
+            numEntities = entities_get_num();            
+            for (uint8_t i = 0; i < numEntities; i++)
+            {
+                //get entity to check
+                checkEntity = entity_get(i);
+                
+                //if the entity is not the player and it's not dead
+                if (checkEntity->id != this->id && !checkEntity->dead)
+                {
+                    //check entity class
+                    if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE)
+                    {                        
+                        //check collision with entity
+                        colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                        //if collided
+                        if (colDir)
+                        {
+                            if (this->spare == checkEntity->spare)
+                            {
+                                HALT;
+                            }
+                        }
+                    }
+                }
             }
         break;
     }
