@@ -420,6 +420,7 @@ static void player_update_collisions(tEntity *player)
                 //objects
                 case E_ENT_CLASS_OBJECT:
                 case E_ENT_CLASS_PLATFORM:
+                case E_ENT_CLASS_TRIGGER:
                     //check vertical collision with entity
                     colDir = collision_check_entity(player, checkEntity, E_CHECK_PROCESS_VERTICALAXIS);
                     //if collided

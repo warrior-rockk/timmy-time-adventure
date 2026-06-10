@@ -4,6 +4,7 @@
 
 # Engine
 
+- [ ] Check possible problems to add player and solid object availability to check collision with triggers
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
 - [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT

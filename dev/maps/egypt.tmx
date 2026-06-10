@@ -6,6 +6,9 @@
  <tileset firstgid="1" name="egypt" tilewidth="16" tileheight="16" tilecount="220" columns="10">
   <image source="../gfx/maps/egypt/egypt-tiles.aseprite" width="160" height="352"/>
   <tile id="25" type="tile_SLOPE_135"/>
+  <tile id="30" type="tile_NO_SOLID"/>
+  <tile id="31" type="tile_NO_SOLID"/>
+  <tile id="32" type="tile_NO_SOLID"/>
   <tile id="35" type="tile_NO_SOLID">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="3"/>
@@ -178,17 +181,17 @@
     <property name="spare" type="int" propertytype="egypt_symbol" value="2"/>
    </properties>
   </object>
-  <object id="11" name="symbol-hole" type="object" x="1952.18" y="143.455" width="16" height="16">
+  <object id="11" name="symbol-hole" type="trigger" x="1952" y="144" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="0"/>
    </properties>
   </object>
-  <object id="12" name="symbol-hole" type="object" x="2016" y="144" width="16" height="16">
+  <object id="12" name="symbol-hole" type="trigger" x="2016" y="144" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="1"/>
    </properties>
   </object>
-  <object id="13" name="symbol-hole" type="object" x="2080" y="144" width="16" height="16">
+  <object id="13" name="symbol-hole" type="trigger" x="2080" y="144" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="2"/>
    </properties>

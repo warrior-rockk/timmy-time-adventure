@@ -218,10 +218,9 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);                  
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
-        case E_HIDDEN_OBJECT_TYPE:
-        case E_SYMBOL_HOLE_OBJECT_TYPE:                                                
+        case E_HIDDEN_OBJECT_TYPE:        
             entity->size = (tVector){16, 16};                         
-            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+            entity->properties = E_ENT_PROP_NO_COLLISION;            
         break;
         case E_QUICKSAND_OBJECT_TYPE:            
             entity->size = (tVector){128, 32};                                     
@@ -243,6 +242,11 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};         
             collision_create_entity_points(entity);        
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
+        break;
+        case E_SYMBOL_HOLE_OBJECT_TYPE:                              
+            entity->size = (tVector){16, 16};                         
+            entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_NO_PICKABLE;                              
+            collision_create_entity_points(entity);        
         break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
@@ -269,6 +273,7 @@ void object_update(tEntity *entity)
         case E_CHECKPOINT_OBJECT_TYPE:
         case E_STOP_SCROLL_OBJECT_TYPE:
         case E_BACKCOLOR_OBJECT_TYPE:
+        case E_SYMBOL_HOLE_OBJECT_TYPE:
             object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
@@ -298,9 +303,7 @@ void object_update(tEntity *entity)
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
             object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
-        break;        
-        case E_SYMBOL_HOLE_OBJECT_TYPE:
-        break;
+        break;                
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -436,6 +439,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                     switch (checkEntity->entClass)
                     {
                         case E_ENT_CLASS_OBJECT:
+                        case E_ENT_CLASS_PLATFORM:
+                        case E_ENT_CLASS_TRIGGER:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
                             if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                                 collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
@@ -461,12 +466,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
-            {
-                if (this->entType != E_EGYPT_SYMBOL_OBJECT_TYPE)
-                    this->state = E_SOLID_ST_IDLE;
-                else
-                    this->state = E_SOLID_ST_CHECK_PUZZLE;
-            }
+                this->state = E_SOLID_ST_IDLE;            
         break;
         case E_SOLID_ST_BREAK:
             //stop object
@@ -482,36 +482,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                 //this->sleep = true;                
                 this->dead = true;
             }
-        break;
-        case E_SOLID_ST_CHECK_PUZZLE:
-            //check entities collisions
-            numEntities = entities_get_num();            
-            for (uint8_t i = 0; i < numEntities; i++)
-            {
-                //get entity to check
-                checkEntity = entity_get(i);
-                
-                //if the entity is not the player and it's not dead
-                if (checkEntity->id != this->id && !checkEntity->dead)
-                {
-                    //check entity class
-                    if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE)
-                    {                        
-                        //check collision with entity
-                        colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
-                        //if collided
-                        if (colDir)
-                        {
-                            if (this->spare == checkEntity->spare)
-                            {
-                                HALT;
-                            }
-                        }
-                    }
-                }
-            }
-            this->state = E_SOLID_ST_IDLE;
-        break;
+        break;        
     }
 }
 
@@ -621,6 +592,33 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_BACKCOLOR_OBJECT_TYPE:
             map_change_background_color(this->spare);
+        break;
+        case E_SYMBOL_HOLE_OBJECT_TYPE:
+            //check entities collisions                   
+            for (uint8_t i = 0; i < entities_get_num(); i++)
+            {
+                //get entity to check
+                tEntity *checkEntity = entity_get(i);
+                
+                //if the entity is not the player and it's not dead
+                if (checkEntity->id != this->id && !checkEntity->dead)
+                {
+                    //check entity class
+                    if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+                    {                        
+                        //check collision with entity
+                        uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                        //if collided
+                        if (colDir)
+                        {
+                            if (this->spare == checkEntity->spare)
+                            {
+                                HALT;
+                            }
+                        }
+                    }
+                }
+            }
         break;
     }
 }
