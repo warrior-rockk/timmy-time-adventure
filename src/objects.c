@@ -330,7 +330,12 @@ void object_init(tEntity *entity)
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
             for (uint8_t i; i < 7; i++)
+            {
                 map_change_tile((tVector){134, 7 - i}, 17, 0x00);    
+            }
+            egyptPuzzle[0] = 0;
+            egyptPuzzle[1] = 0;
+            egyptPuzzle[2] = 0;
         break;
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
@@ -403,6 +408,10 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixPos.x = playerEnt->dir ? playerEnt->fixPos.x + itofix(SOLID_PICKED_OFFSET_X) : playerEnt->fixPos.x - itofix(SOLID_PICKED_OFFSET_X);
             this->fixPos.y  = playerEnt->fixPos.y - itofix(SOLID_PICKED_OFFSET_Y);
             
+            //reset puzzle data
+            if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+                 egyptPuzzle[this->spare] = 0;
+
             //check if receive throw signal
             if (this->signal == E_ENT_SIGNAL_THROW || this->signal == E_ENT_SIGNAL_SHORT_THROW)
             {
@@ -458,7 +467,16 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                         case E_ENT_CLASS_TRIGGER:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
                             if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                            {
+                                if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE && colDir)
+                                {
+                                    if (this->spare == checkEntity->spare)
+                                        egyptPuzzle[this->spare] = 1;                            
+                                    else
+                                        egyptPuzzle[this->spare] = -1;
+                                }
                                 collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
+                            }
                             else
                             {
                                 if (colDir)
@@ -612,33 +630,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             switch (this->state)
             {
                 case 0:
-                    egyptPuzzle[this->spare] = 0;    
-                    //check entities collisions                   
-                    for (uint8_t i = 0; i < entities_get_num(); i++)
-                    {
-                        //get entity to check
-                        tEntity *checkEntity = entity_get(i);                            
-
-                        //if the entity is not the player and it's not dead
-                        if (checkEntity->id != this->id && !checkEntity->dead)
-                        {
-                            //check entity class
-                            if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
-                            {                        
-                                //check collision with entity
-                                uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
-                                //if collided
-                                if (colDir)
-                                {
-                                    if (this->spare == checkEntity->spare)
-                                        egyptPuzzle[this->spare] = 1;                            
-                                    else
-                                        egyptPuzzle[this->spare] = -1;
-                                }
-                            }
-                        }
-                    }
-
+                    show_debug("puzzle %i:%i", this->spare,egyptPuzzle[this->spare]);
                     //check puzzle completed
                     if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
                     {
