@@ -332,9 +332,7 @@ void object_init(tEntity *entity)
             {
                 map_change_tile((tVector){PUZZLE_START_DOOR_X_TILE, PUZZLE_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
             }
-            egyptPuzzle[0] = 0;
-            egyptPuzzle[1] = 0;
-            egyptPuzzle[2] = 0;
+            memset(&egyptPuzzle, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle));
         break;
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
