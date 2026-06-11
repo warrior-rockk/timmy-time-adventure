@@ -21,10 +21,12 @@
 
 uint16_t numObjectInstances;                    //num of object instances
 static void *objectDataList;                    //list of object local data
-tVector objectExplosion;                        //position of a object explosion (dynamite...)
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];    //array of objects gfx resources
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
 DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
+
+tVector objectExplosion;                        //position of a object explosion (dynamite...)
+int8_t egyptPuzzle[3];
 
 void object_system_init()
 {
@@ -41,6 +43,10 @@ void object_system_init()
     objectSfx[E_SFX_OBJECT_FULL_LIFE]   = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
     objectSfx[E_SFX_OBJECT_EXTRA_LIVE]  = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
     
+    egyptPuzzle[0] = 0;
+    egyptPuzzle[1] = 0;
+    egyptPuzzle[2] = 0;
+
     MY_TRACE_FLAG("Initialized object system\n");
 }
 
@@ -598,8 +604,8 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             for (uint8_t i = 0; i < entities_get_num(); i++)
             {
                 //get entity to check
-                tEntity *checkEntity = entity_get(i);
-                
+                tEntity *checkEntity = entity_get(i);                            
+
                 //if the entity is not the player and it's not dead
                 if (checkEntity->id != this->id && !checkEntity->dead)
                 {
@@ -612,13 +618,24 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                         if (colDir)
                         {
                             if (this->spare == checkEntity->spare)
-                            {
-                                HALT;
-                            }
+                                egyptPuzzle[this->spare] = 1;                            
+                            else
+                                egyptPuzzle[this->spare] = -1;
+                        }
+
+                        //check puzzle completed
+                        if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
+                        {
+                            HALT;
+                        }
+                        else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
+                        {
+                            MY_TRACE_MARK;
                         }
                     }
                 }
             }
+
         break;
     }
 }
