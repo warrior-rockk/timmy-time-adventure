@@ -627,14 +627,17 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             map_change_background_color(this->spare);
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:
+            //object states
+            enum E_WAGON_OBJECT_STATES{E_SYMBOL_HOLE_ST_IDLE, E_SYMBOL_HOLE_ST_ERROR, E_SYMBOL_HOLE_ST_OK, E_SYMBOL_HOLE_ST_OPEN_DOOR};    
+            
             switch (this->state)
             {
-                case 0:
+                case E_SYMBOL_HOLE_ST_IDLE:
                     show_debug("puzzle %i:%i", this->spare,egyptPuzzle[this->spare]);
                     //check puzzle completed
                     if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
                     {
-                        this->state = 2;    
+                        this->state = E_SYMBOL_HOLE_ST_OK;    
                         sfx_play(objectSfx[E_SFX_PUZZLE_OK], E_SFX_OBJECT_VOICE);                    
                     }
                     else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
@@ -644,7 +647,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                         this->state++;
                     }
                 break;
-                case 1:
+                case E_SYMBOL_HOLE_ST_ERROR:
                     bool collided = false;
 
                     //check entities collisions                   
@@ -671,9 +674,9 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     }
 
                     if (!collided)                    
-                        this->state--;
+                        this->state = E_SYMBOL_HOLE_ST_IDLE;
                 break;
-                case 2:
+                case E_SYMBOL_HOLE_ST_OK:
                     if (local->timer >= 80)
                     {
                         local->timer = 0;
@@ -682,7 +685,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     else
                         local->timer += clock_tick_get();
                 break;
-                case 3:
+                case E_SYMBOL_HOLE_ST_OPEN_DOOR:
                     if (clock_counter_check(20))
                     {
                         sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
@@ -692,8 +695,6 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 
                     if (local->timer >= 7)
                         this->state++;
-                break;
-                case 4:
                 break;
             }
         break;
