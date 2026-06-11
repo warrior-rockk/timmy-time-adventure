@@ -250,6 +250,7 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:                              
+            load_entity_wav_resources(&objectSfx[E_SFX_PUZZLE_NO], objectDataFileIndex, PUZZLENO_WAV);    
             entity->size = (tVector){16, 16};                         
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_NO_PICKABLE;                              
             collision_create_entity_points(entity);        
@@ -600,42 +601,78 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             map_change_background_color(this->spare);
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:
-            //check entities collisions                   
-            for (uint8_t i = 0; i < entities_get_num(); i++)
+            switch (this->state)
             {
-                //get entity to check
-                tEntity *checkEntity = entity_get(i);                            
+                case 0:
+                    egyptPuzzle[this->spare] = 0;    
+                    //check entities collisions                   
+                    for (uint8_t i = 0; i < entities_get_num(); i++)
+                    {
+                        //get entity to check
+                        tEntity *checkEntity = entity_get(i);                            
 
-                //if the entity is not the player and it's not dead
-                if (checkEntity->id != this->id && !checkEntity->dead)
-                {
-                    //check entity class
-                    if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
-                    {                        
-                        //check collision with entity
-                        uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
-                        //if collided
-                        if (colDir)
+                        //if the entity is not the player and it's not dead
+                        if (checkEntity->id != this->id && !checkEntity->dead)
                         {
-                            if (this->spare == checkEntity->spare)
-                                egyptPuzzle[this->spare] = 1;                            
-                            else
-                                egyptPuzzle[this->spare] = -1;
-                        }
-
-                        //check puzzle completed
-                        if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
-                        {
-                            HALT;
-                        }
-                        else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
-                        {
-                            MY_TRACE_MARK;
+                            //check entity class
+                            if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+                            {                        
+                                //check collision with entity
+                                uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                                //if collided
+                                if (colDir)
+                                {
+                                    if (this->spare == checkEntity->spare)
+                                        egyptPuzzle[this->spare] = 1;                            
+                                    else
+                                        egyptPuzzle[this->spare] = -1;
+                                }
+                            }
                         }
                     }
-                }
-            }
 
+                    //check puzzle completed
+                    if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
+                    {
+                        HALT;
+                    }
+                    else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
+                    {                                    
+                        sfx_play(objectSfx[E_SFX_PUZZLE_NO], E_SFX_OBJECT_VOICE);                                    
+                        scroll_shake_camera();                                    
+                        this->state++;
+                    }
+                break;
+                case 1:
+                    bool collided = false;
+
+                    //check entities collisions                   
+                    for (uint8_t i = 0; i < entities_get_num(); i++)
+                    {
+                        //get entity to check
+                        tEntity *checkEntity = entity_get(i);                            
+
+                        //if the entity is not the player and it's not dead
+                        if (checkEntity->id != this->id && !checkEntity->dead)
+                        {
+                            //check entity class
+                            if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+                            {                        
+                                //check collision with entity
+                                uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
+                                //if collided
+                                if (colDir)
+                                {
+                                    collided = true;
+                                }
+                            }
+                        }    
+                    }
+
+                    if (!collided)
+                        this->state--;
+                break;
+            }
         break;
     }
 }
