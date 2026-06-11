@@ -377,7 +377,7 @@ void enemy_update(tEntity *entity)
             enemy_bat_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_EGYPTIAN_ENEMY_TYPE:            
-            enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+            //enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         default:
         break;

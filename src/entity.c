@@ -44,6 +44,14 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
                 drawX = entity->pos.x - ((entity->spriteSize.x - entity->size.x) >>1);
                 drawY = entity->pos.y;
             break;
+            case E_ENT_AXIS_LEFT_DOWN:
+                drawX = entity->pos.x;
+                drawY = entity->pos.y - ((entity->spriteSize.y - entity->size.y) );
+            break;
+            case E_ENT_AXIS_RIGHT_DOWN:
+                drawX = (entity->pos.x + entity->size.x) - (entity->spriteSize.x );
+                drawY = entity->pos.y - ((entity->spriteSize.y - entity->size.y) );
+            break;
             case E_ENT_AXIS_CENTER:
             default:
                 drawX = entity->pos.x - ((entity->spriteSize.x - entity->size.x) >>1);

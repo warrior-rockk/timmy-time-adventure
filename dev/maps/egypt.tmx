@@ -131,6 +131,18 @@
   <tile id="167" type="tile_NO_SOLID"/>
   <tile id="168" type="tile_NO_SOLID"/>
   <tile id="169" type="tile_NO_SOLID"/>
+  <tile id="183" type="tile_NO_SOLID"/>
+  <tile id="184" type="tile_NO_SOLID"/>
+  <tile id="185" type="tile_NO_SOLID"/>
+  <tile id="186" type="tile_NO_SOLID"/>
+  <tile id="187" type="tile_NO_SOLID"/>
+  <tile id="188" type="tile_NO_SOLID"/>
+  <tile id="193" type="tile_NO_SOLID"/>
+  <tile id="194" type="tile_NO_SOLID"/>
+  <tile id="195" type="tile_NO_SOLID"/>
+  <tile id="196" type="tile_NO_SOLID"/>
+  <tile id="197" type="tile_NO_SOLID"/>
+  <tile id="198" type="tile_NO_SOLID"/>
   <tile id="200" type="tile_NO_SOLID"/>
   <tile id="201" type="tile_NO_SOLID"/>
   <tile id="202" type="tile_NO_SOLID"/>
@@ -162,7 +174,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="1920" y="96"/>
+  <object id="1" template="objects/player1.tx" x="352" y="96"/>
   <object id="2" name="egyptian" type="enemy" x="400" y="96" width="32" height="32"/>
   <object id="4" name="quick-sand" type="platform" x="576" y="128" width="128" height="32"/>
   <object id="6" template="enemies/egypt/trap-arrow.tx" type="object" x="1728" y="112"/>

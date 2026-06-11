@@ -61,6 +61,10 @@ enum E_ENTITY_AXIS
     E_ENT_AXIS_CENTER,
     E_ENT_AXIS_UP,
     E_ENT_AXIS_DOWN,
+    E_ENT_AXIS_LEFT,
+    E_ENT_AXIS_RIGHT,
+    E_ENT_AXIS_LEFT_DOWN,
+    E_ENT_AXIS_RIGHT_DOWN,
 };
 
 //entities signals

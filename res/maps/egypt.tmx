@@ -359,6 +359,66 @@
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
    </properties>
   </tile>
+  <tile id="183" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="184" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="185" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="186" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="187" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="188" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="193" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="194" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="195" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="196" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="197" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
+  <tile id="198" type="tile_NO_SOLID">
+   <properties>
+    <property name="property" type="int" propertytype="tileProperties" value="1"/>
+   </properties>
+  </tile>
   <tile id="200" type="tile_NO_SOLID">
    <properties>
     <property name="property" type="int" propertytype="tileProperties" value="1"/>
@@ -438,7 +498,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="1920" y="96" width="16" height="32">
+  <object id="1" name="player1" type="player" x="352" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
