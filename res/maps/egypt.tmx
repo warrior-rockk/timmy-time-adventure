@@ -438,7 +438,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="1680" y="96" width="16" height="32">
+  <object id="1" name="player1" type="player" x="1920" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -454,17 +454,17 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="7" name="egypt-symbol" type="object" x="1824" y="112" width="16" height="16">
+  <object id="7" name="egypt-symbol" type="object" x="1984" y="112" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="0"/>
    </properties>
   </object>
-  <object id="9" name="egypt-symbol" type="object" x="1856" y="112" width="16" height="16">
+  <object id="9" name="egypt-symbol" type="object" x="2112" y="112" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="1"/>
    </properties>
   </object>
-  <object id="10" name="egypt-symbol" type="object" x="1888" y="112" width="16" height="16">
+  <object id="10" name="egypt-symbol" type="object" x="2048" y="112" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="2"/>
    </properties>

@@ -78,4 +78,6 @@ int16_t map_snap_x_to_tile(tEntity *entity);
 int16_t map_snap_y_to_tile(tEntity *entity);
 //change map background color
 void map_change_background_color(uint8_t color);
+//change map tile
+void map_change_tile(tVector tilePosition, uint8_t tileId, uint16_t tileProperty);
 #endif

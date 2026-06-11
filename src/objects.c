@@ -634,7 +634,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     //check puzzle completed
                     if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
                     {
-                        HALT;
+                        this->state = 2;
                     }
                     else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
                     {                                    
@@ -671,6 +671,25 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
 
                     if (!collided)
                         this->state--;
+                break;
+                case 2:
+                    /*switch (local->timer)
+                    {
+                        case 0:                         
+                            map_change_tile((tVector){134,7}, 131, E_TILE_PROP_NO_SOLID);
+                        break;
+                        case 1:                        
+                            map_change_tile((tVector){134,6}, 131, E_TILE_PROP_NO_SOLID);
+                        break;                        
+                        case 2:
+                            map_change_tile((tVector){134,5}, 131, E_TILE_PROP_NO_SOLID);
+                        break;
+                    }*/
+                    map_change_tile((tVector){134, 7 - local->timer}, 131, E_TILE_PROP_NO_SOLID);
+                    local->timer += clock_tick_1sec_get(); 
+                    
+                    if (local->timer >= 6)
+                        this->dead = true;                   
                 break;
             }
         break;

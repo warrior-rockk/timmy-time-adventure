@@ -1027,7 +1027,7 @@ static void game_debug_update()
     {
         debugOptions.invencible = !debugOptions.invencible;
         game.life = 3;
-
+        
         //recolor life hearts to indicate invencible
         RGB lifeColor;        
         lifeColor.r = !debugOptions.invencible ? 255    : 0;

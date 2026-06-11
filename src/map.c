@@ -361,3 +361,9 @@ uint8_t map_get_tile_size()
 {
     return mapHeader.tile_height;
 }
+
+void map_change_tile(tVector tilePosition, uint8_t tileId, uint16_t tileProperty)
+{
+    map[(tilePosition.y * mapHeader.map_width) + tilePosition.x].tileId = tileId;
+    map[(tilePosition.y * mapHeader.map_width) + tilePosition.x].tileProperty = tileProperty;
+}
