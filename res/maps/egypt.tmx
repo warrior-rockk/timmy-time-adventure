@@ -459,12 +459,12 @@
     <property name="spare" type="int" propertytype="egypt_symbol" value="0"/>
    </properties>
   </object>
-  <object id="9" name="egypt-symbol" type="object" x="2112" y="112" width="16" height="16">
+  <object id="9" name="egypt-symbol" type="object" x="2048" y="112" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="1"/>
    </properties>
   </object>
-  <object id="10" name="egypt-symbol" type="object" x="2048" y="112" width="16" height="16">
+  <object id="10" name="egypt-symbol" type="object" x="2112" y="112" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="egypt_symbol" value="2"/>
    </properties>

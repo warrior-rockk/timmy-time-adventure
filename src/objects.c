@@ -250,7 +250,9 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:                              
+            load_entity_wav_resources(&objectSfx[E_SFX_WAGON], objectDataFileIndex, WAGON_WAV);    
             load_entity_wav_resources(&objectSfx[E_SFX_PUZZLE_NO], objectDataFileIndex, PUZZLENO_WAV);    
+            load_entity_wav_resources(&objectSfx[E_SFX_PUZZLE_OK], objectDataFileIndex, PUZZLEOK_WAV);    
             entity->size = (tVector){16, 16};                         
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_NO_PICKABLE;                              
             collision_create_entity_points(entity);        
@@ -323,7 +325,13 @@ void object_init(tEntity *entity)
     MY_TRACE_FLAG("Init instance %i\n", entity->entInstance);
 
     switch (entity->entType)
-    {        
+    {       
+        case E_SYMBOL_HOLE_OBJECT_TYPE:
+            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
+            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
+            for (uint8_t i; i < 7; i++)
+                map_change_tile((tVector){134, 7 - i}, 17, 0x00);    
+        break;
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
@@ -634,7 +642,8 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     //check puzzle completed
                     if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
                     {
-                        this->state = 2;
+                        this->state = 2;    
+                        sfx_play(objectSfx[E_SFX_PUZZLE_OK], E_SFX_OBJECT_VOICE);                    
                     }
                     else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
                     {                                    
@@ -669,27 +678,30 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                         }    
                     }
 
-                    if (!collided)
+                    if (!collided)                    
                         this->state--;
                 break;
                 case 2:
-                    /*switch (local->timer)
+                    if (local->timer >= 80)
                     {
-                        case 0:                         
-                            map_change_tile((tVector){134,7}, 131, E_TILE_PROP_NO_SOLID);
-                        break;
-                        case 1:                        
-                            map_change_tile((tVector){134,6}, 131, E_TILE_PROP_NO_SOLID);
-                        break;                        
-                        case 2:
-                            map_change_tile((tVector){134,5}, 131, E_TILE_PROP_NO_SOLID);
-                        break;
-                    }*/
-                    map_change_tile((tVector){134, 7 - local->timer}, 131, E_TILE_PROP_NO_SOLID);
-                    local->timer += clock_tick_1sec_get(); 
-                    
-                    if (local->timer >= 6)
-                        this->dead = true;                   
+                        local->timer = 0;
+                        this->state++;
+                    }
+                    else
+                        local->timer += clock_tick_get();
+                break;
+                case 3:
+                    if (clock_counter_check(20))
+                    {
+                        sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
+                        map_change_tile((tVector){134, 7 - local->timer}, 131, E_TILE_PROP_NO_SOLID);
+                        local->timer++;
+                    }
+
+                    if (local->timer >= 7)
+                        this->state++;
+                break;
+                case 4:
                 break;
             }
         break;
