@@ -85,9 +85,9 @@ enum E_OBJECT_SFX
 //status of egypt symbols puzzle
 enum E_EGYPT_SYMBOLS_STATUS
 {
-    E_EGYPT_SYMBOL_STATUS_INIT  = 0,
-    E_EGYPT_SYMBOL_STATUS_OK    = 1,
-    E_EGYPT_SYMBOL_STATUS_NO    = -1,    
+    E_EGYPT_SYMBOL_STATUS_INIT      = 0,
+    E_EGYPT_SYMBOL_STATUS_OK        = 1,
+    E_EGYPT_SYMBOL_STATUS_NOT_OK    = -1,    
 };
 
 //debug trace entity object info

@@ -474,7 +474,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                                     if (this->spare == checkEntity->spare)
                                         egyptPuzzle[this->spare] = E_EGYPT_SYMBOL_STATUS_OK;                            
                                     else
-                                        egyptPuzzle[this->spare] = E_EGYPT_SYMBOL_STATUS_NO;
+                                        egyptPuzzle[this->spare] = E_EGYPT_SYMBOL_STATUS_NOT_OK;
                                 }                                
                             }
                             else
@@ -637,21 +637,32 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             switch (this->state)
             {
                 case E_SYMBOL_HOLE_ST_IDLE:
-                    show_debug("puzzle %i:%i", this->spare,egyptPuzzle[this->spare]);
+                    //show_debug("puzzle %i:%i", this->spare,egyptPuzzle[this->spare]);
+                    uint8_t symbolsOK = 0;
+                    uint8_t symbolsUsed = 0;                    
+                    //check status of symbols
+                    for (uint8_t i = 0; i < PUZZLE_SYMBOL_NUM; i++)
+                    {
+                        if (egyptPuzzle[i] != E_EGYPT_SYMBOL_STATUS_INIT)
+                            symbolsUsed++;
+                        if (egyptPuzzle[i] == E_EGYPT_SYMBOL_STATUS_OK)                        
+                            symbolsOK++;                            
+                    }                    
                     //check puzzle completed
-                    if (egyptPuzzle[0] == E_EGYPT_SYMBOL_STATUS_OK && egyptPuzzle[1] == E_EGYPT_SYMBOL_STATUS_OK && egyptPuzzle[2] == E_EGYPT_SYMBOL_STATUS_OK)
+                    if (symbolsOK == PUZZLE_SYMBOL_NUM)
                     {
                         this->state = E_SYMBOL_HOLE_ST_OK;    
                         sfx_play(objectSfx[E_SFX_PUZZLE_OK], E_SFX_OBJECT_VOICE);                    
                     }
-                    else if (egyptPuzzle[0] != E_EGYPT_SYMBOL_STATUS_INIT && egyptPuzzle[1] != E_EGYPT_SYMBOL_STATUS_INIT && egyptPuzzle[2] != E_EGYPT_SYMBOL_STATUS_INIT)
+                    else if (symbolsUsed == PUZZLE_SYMBOL_NUM)
                     {                                    
                         sfx_play(objectSfx[E_SFX_PUZZLE_NO], E_SFX_OBJECT_VOICE);                                    
                         scroll_shake_camera();          
-                        //reinit the incorrect combinations                          
-                        egyptPuzzle[0] = egyptPuzzle[0] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
-                        egyptPuzzle[1] = egyptPuzzle[1] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
-                        egyptPuzzle[2] = egyptPuzzle[2] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
+                        //reinit the incorrect combinations
+                        for (uint8_t i = 0; i < PUZZLE_SYMBOL_NUM; i++)
+                        {                         
+                            egyptPuzzle[i] = egyptPuzzle[i] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
+                        }
                     }
                 break;                
                 case E_SYMBOL_HOLE_ST_OK:
