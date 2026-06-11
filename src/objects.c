@@ -628,8 +628,8 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:
             //object states
-            enum E_WAGON_OBJECT_STATES{E_SYMBOL_HOLE_ST_IDLE, E_SYMBOL_HOLE_ST_ERROR, E_SYMBOL_HOLE_ST_OK, E_SYMBOL_HOLE_ST_OPEN_DOOR};    
-            
+            enum E_WAGON_OBJECT_STATES{E_SYMBOL_HOLE_ST_IDLE, E_SYMBOL_HOLE_ST_OK, E_SYMBOL_HOLE_ST_OPEN_DOOR};    
+
             switch (this->state)
             {
                 case E_SYMBOL_HOLE_ST_IDLE:
@@ -644,38 +644,11 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                     {                                    
                         sfx_play(objectSfx[E_SFX_PUZZLE_NO], E_SFX_OBJECT_VOICE);                                    
                         scroll_shake_camera();                                    
-                        this->state++;
+                        egyptPuzzle[0] = egyptPuzzle[0] == 1 ? 1 : 0;
+                        egyptPuzzle[1] = egyptPuzzle[1] == 1 ? 1 : 0;
+                        egyptPuzzle[2] = egyptPuzzle[2] == 1 ? 1 : 0;
                     }
-                break;
-                case E_SYMBOL_HOLE_ST_ERROR:
-                    bool collided = false;
-
-                    //check entities collisions                   
-                    for (uint8_t i = 0; i < entities_get_num(); i++)
-                    {
-                        //get entity to check
-                        tEntity *checkEntity = entity_get(i);                            
-
-                        //if the entity is not the player and it's not dead
-                        if (checkEntity->id != this->id && !checkEntity->dead)
-                        {
-                            //check entity class
-                            if (checkEntity->entClass == E_ENT_CLASS_OBJECT && checkEntity->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
-                            {                        
-                                //check collision with entity
-                                uint8_t colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_INFOONLY);
-                                //if collided
-                                if (colDir)
-                                {
-                                    collided = true;
-                                }
-                            }
-                        }    
-                    }
-
-                    if (!collided)                    
-                        this->state = E_SYMBOL_HOLE_ST_IDLE;
-                break;
+                break;                
                 case E_SYMBOL_HOLE_ST_OK:
                     if (local->timer >= 80)
                     {
