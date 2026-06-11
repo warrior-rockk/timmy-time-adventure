@@ -16,6 +16,14 @@
 //general object animations
 #define ANIM_OBJECT_BREAK                1,  2, 10, ANIM_ONCE
 
+//egypt puzzle definitions
+#define PUZZLE_NUM_DOOR_TILES       7
+#define PUZZLE_START_DOOR_X_TILE    134
+#define PUZZLE_START_DOOR_Y_TILE    7
+#define PUZZLE_DOOR_TILE_ID         17
+#define PUZZLE_NO_DOOR_TILE_ID      131
+#define PUZZLE_SYMBOL_NUM           3
+
 //object types
 enum E_OBJECT_TYPE
 {
@@ -72,6 +80,14 @@ enum E_OBJECT_SFX
     E_SFX_PUZZLE_OK,
     
     E_SFX_OBJECT_NUM,
+};
+
+//status of egypt symbols puzzle
+enum E_EGYPT_SYMBOLS_STATUS
+{
+    E_EGYPT_SYMBOL_STATUS_INIT  = 0,
+    E_EGYPT_SYMBOL_STATUS_OK    = 1,
+    E_EGYPT_SYMBOL_STATUS_NO    = -1,    
 };
 
 //debug trace entity object info

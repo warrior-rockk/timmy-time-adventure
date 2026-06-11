@@ -26,7 +26,7 @@ SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
 DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
 
 tVector objectExplosion;                        //position of a object explosion (dynamite...)
-int8_t egyptPuzzle[3];
+int8_t egyptPuzzle[PUZZLE_SYMBOL_NUM];          //array of combinations of egypt symbols (puzzle)
 
 void object_system_init()
 {
@@ -39,13 +39,12 @@ void object_system_init()
     //create data file index
     objectDataFileIndex = create_dat_index("objects.dat");
 
-    //load object sfx
+    //load general object sfx
     objectSfx[E_SFX_OBJECT_FULL_LIFE]   = load_dat_wav_indexed(objectDataFileIndex, POWERUP_WAV);
     objectSfx[E_SFX_OBJECT_EXTRA_LIVE]  = load_dat_wav_indexed(objectDataFileIndex, LIVE_WAV);
     
-    egyptPuzzle[0] = 0;
-    egyptPuzzle[1] = 0;
-    egyptPuzzle[2] = 0;
+    //reset puzzle array
+    memset(&egyptPuzzle, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle));    
 
     MY_TRACE_FLAG("Initialized object system\n");
 }
@@ -329,9 +328,9 @@ void object_init(tEntity *entity)
         case E_SYMBOL_HOLE_OBJECT_TYPE:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
-            for (uint8_t i; i < 7; i++)
+            for (uint8_t i; i < PUZZLE_NUM_DOOR_TILES; i++)
             {
-                map_change_tile((tVector){134, 7 - i}, 17, 0x00);    
+                map_change_tile((tVector){PUZZLE_START_DOOR_X_TILE, PUZZLE_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
             }
             egyptPuzzle[0] = 0;
             egyptPuzzle[1] = 0;
@@ -468,14 +467,17 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
                             if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                             {
+                                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
+
+                                //if the collision is between egypt symbol and a symbol hole object
                                 if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE && colDir)
                                 {
+                                    //check if combination is correct
                                     if (this->spare == checkEntity->spare)
-                                        egyptPuzzle[this->spare] = 1;                            
+                                        egyptPuzzle[this->spare] = E_EGYPT_SYMBOL_STATUS_OK;                            
                                     else
-                                        egyptPuzzle[this->spare] = -1;
-                                }
-                                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
+                                        egyptPuzzle[this->spare] = E_EGYPT_SYMBOL_STATUS_NO;
+                                }                                
                             }
                             else
                             {
@@ -627,30 +629,35 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             map_change_background_color(this->spare);
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:
+            //object definitions
+            #define SYMBOL_HOLE_CORRECT_DELAY       80
+            #define SYMBOL_HOLE_OPEN_DOOR_CADENCE   20
+        
             //object states
-            enum E_WAGON_OBJECT_STATES{E_SYMBOL_HOLE_ST_IDLE, E_SYMBOL_HOLE_ST_OK, E_SYMBOL_HOLE_ST_OPEN_DOOR};    
+            enum E_SYMBOL_HOLE_OBJECT_STATES{E_SYMBOL_HOLE_ST_IDLE, E_SYMBOL_HOLE_ST_OK, E_SYMBOL_HOLE_ST_OPEN_DOOR};    
 
             switch (this->state)
             {
                 case E_SYMBOL_HOLE_ST_IDLE:
                     show_debug("puzzle %i:%i", this->spare,egyptPuzzle[this->spare]);
                     //check puzzle completed
-                    if (egyptPuzzle[0] == 1 && egyptPuzzle[1] == 1 && egyptPuzzle[2] == 1)
+                    if (egyptPuzzle[0] == E_EGYPT_SYMBOL_STATUS_OK && egyptPuzzle[1] == E_EGYPT_SYMBOL_STATUS_OK && egyptPuzzle[2] == E_EGYPT_SYMBOL_STATUS_OK)
                     {
                         this->state = E_SYMBOL_HOLE_ST_OK;    
                         sfx_play(objectSfx[E_SFX_PUZZLE_OK], E_SFX_OBJECT_VOICE);                    
                     }
-                    else if (egyptPuzzle[0] != 0 && egyptPuzzle[1] != 0 && egyptPuzzle[2] != 0)
+                    else if (egyptPuzzle[0] != E_EGYPT_SYMBOL_STATUS_INIT && egyptPuzzle[1] != E_EGYPT_SYMBOL_STATUS_INIT && egyptPuzzle[2] != E_EGYPT_SYMBOL_STATUS_INIT)
                     {                                    
                         sfx_play(objectSfx[E_SFX_PUZZLE_NO], E_SFX_OBJECT_VOICE);                                    
-                        scroll_shake_camera();                                    
-                        egyptPuzzle[0] = egyptPuzzle[0] == 1 ? 1 : 0;
-                        egyptPuzzle[1] = egyptPuzzle[1] == 1 ? 1 : 0;
-                        egyptPuzzle[2] = egyptPuzzle[2] == 1 ? 1 : 0;
+                        scroll_shake_camera();          
+                        //reinit the incorrect combinations                          
+                        egyptPuzzle[0] = egyptPuzzle[0] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
+                        egyptPuzzle[1] = egyptPuzzle[1] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
+                        egyptPuzzle[2] = egyptPuzzle[2] == E_EGYPT_SYMBOL_STATUS_OK ? E_EGYPT_SYMBOL_STATUS_OK : E_EGYPT_SYMBOL_STATUS_INIT;
                     }
                 break;                
                 case E_SYMBOL_HOLE_ST_OK:
-                    if (local->timer >= 80)
+                    if (local->timer >= SYMBOL_HOLE_CORRECT_DELAY)
                     {
                         local->timer = 0;
                         this->state++;
@@ -659,15 +666,15 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                         local->timer += clock_tick_get();
                 break;
                 case E_SYMBOL_HOLE_ST_OPEN_DOOR:
-                    if (clock_counter_check(20))
+                    if (clock_counter_check(SYMBOL_HOLE_OPEN_DOOR_CADENCE))
                     {
                         sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
-                        map_change_tile((tVector){134, 7 - local->timer}, 131, E_TILE_PROP_NO_SOLID);
+                        map_change_tile((tVector){PUZZLE_START_DOOR_X_TILE, PUZZLE_START_DOOR_Y_TILE - local->timer}, PUZZLE_NO_DOOR_TILE_ID, E_TILE_PROP_NO_SOLID);
                         local->timer++;
                     }
 
-                    if (local->timer >= 7)
-                        this->state++;
+                    if (local->timer >= PUZZLE_NUM_DOOR_TILES)
+                        this->state++;  //go to state not defined (do nothing)
                 break;
             }
         break;
