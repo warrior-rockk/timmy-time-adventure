@@ -1,0 +1,47 @@
+{
+  "group_id": null,
+  "states": [
+    {
+      "character": {
+        "id": "45b577c9-4e83-40dd-9063-2cd4afa55d21",
+        "name": "beetle insect side view",
+        "prompt": "beetle insect side view",
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "side",
+        "created_at": "2026-06-10T08:26:19.923715+00:00"
+      },
+      "folder": "beetle_insect_side_view",
+      "frames": {
+        "rotations": {
+          "south": "beetle_insect_side_view/rotations/south.png",
+          "south-east": "beetle_insect_side_view/rotations/south-east.png",
+          "east": "beetle_insect_side_view/rotations/east.png",
+          "north-east": "beetle_insect_side_view/rotations/north-east.png",
+          "north": "beetle_insect_side_view/rotations/north.png",
+          "north-west": "beetle_insect_side_view/rotations/north-west.png",
+          "west": "beetle_insect_side_view/rotations/west.png",
+          "south-west": "beetle_insect_side_view/rotations/south-west.png"
+        },
+        "animations": {
+          "The_beetle_scuttles_forward_across_the_frame_with": {
+            "east": [
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_000.png",
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_001.png",
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_002.png",
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_003.png",
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_004.png",
+              "beetle_insect_side_view/animations/The_beetle_scuttles_forward_across_the_frame_with/east/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.0",
+  "export_date": "2026-06-12T12:40:47.298987"
+}

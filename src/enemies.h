@@ -32,6 +32,7 @@ enum E_ENEMY_TYPE
     E_ARROW_ENEMY_TYPE,
     E_EGYPTIAN_ENEMY_TYPE,
     E_TRAP_ARROW_ENEMY_TYPE,
+    E_BEETLE_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -107,4 +108,5 @@ void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local);
 
 void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif

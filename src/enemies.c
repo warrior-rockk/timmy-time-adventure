@@ -302,6 +302,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){13, 5};                     
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
+        case E_BEETLE_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BEETLE_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){32, 18};                          
+            entity->size = (tVector){26, 16};      
+            entity->axis = E_ENT_AXIS_DOWN;            
+            collision_create_entity_points(entity);              
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -358,7 +366,7 @@ void enemy_update(tEntity *entity)
         case E_TRICE_ENEMY_TYPE:            
             enemy_trice_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
-        case E_SCORPION_ENEMY_TYPE:            
+        case E_SCORPION_ENEMY_TYPE:          
             enemy_scorpion_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_INDIAN_AXE_ENEMY_TYPE:            
@@ -380,6 +388,9 @@ void enemy_update(tEntity *entity)
         case E_EGYPTIAN_ENEMY_TYPE:            
             enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
+        case E_BEETLE_ENEMY_TYPE:          
+            enemy_beetle_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
         default:
         break;
     }
@@ -726,8 +737,7 @@ void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
             if (colDir == E_COLLISION_DIR_DOWN)
             {
                 this->state++;
-                local->flag = this->pos.y - this->initPos.y;
-                MY_TRACE_FLAG("flag: %i\n", local->flag);
+                local->flag = this->pos.y - this->initPos.y;                
             }
         break;      
         case E_SPIDER_ST_MOVING_2:
@@ -1398,6 +1408,54 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;   
         case E_EGYPTIAN_ST_HURT:
             enemy_dead(this, ANIM_EGYPTIAN_DEAD);            
+        break;
+    }       
+}
+
+void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define BEETLE_VELOCITY         0.9
+    #define BEETLE_RANGE_PATROL     50
+    
+    //enemy animations
+    #define ANIM_BEETLE_WALK   1,   6,  6, ANIM_LOOP
+    #define ANIM_BEETLE_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_BEETLE_ENEMY_STATES{E_BEETLE_ST_IDLE, E_BEETLE_ST_MOVING, E_BEETLE_ST_HURT};   
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_BEETLE_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
+
+    switch (this->state)
+    {
+        case E_BEETLE_ST_IDLE:            
+            this->state++;
+        break;
+        case E_BEETLE_ST_MOVING:            
+            enemy_patrol_ia(this, ftofix(BEETLE_VELOCITY), BEETLE_RANGE_PATROL);
+            
+            play_animation(&this->anim, ANIM_BEETLE_WALK);
+        break;     
+        case E_BEETLE_ST_HURT:
+            enemy_dead(this, ANIM_BEETLE_DEAD);            
         break;
     }       
 }
