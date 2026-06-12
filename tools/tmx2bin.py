@@ -71,6 +71,7 @@ enemy_ent_types = {
     "egyptian"      : 15,
     "trap-arrow"    : 16,
     "beetle"        : 17,
+    "mummy"         : 18,
 }
 
 #define array of lists of entity types

@@ -313,6 +313,15 @@ void enemy_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_DOWN;            
             collision_create_entity_points(entity);              
         break;
+        case E_MUMMY_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, MUMMY_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){57, 49};                          
+            entity->size = (tVector){48, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -393,6 +402,9 @@ void enemy_update(tEntity *entity)
         break;        
         case E_BEETLE_ENEMY_TYPE:          
             enemy_beetle_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_MUMMY_ENEMY_TYPE:          
+            enemy_mummy_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -1459,6 +1471,61 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;     
         case E_BEETLE_ST_HURT:
             enemy_dead(this, ANIM_BEETLE_DEAD);            
+        break;
+    }       
+}
+
+void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define MUMMY_VELOCITY         0.4
+    #define MUMMY_RANGE_PATROL     50
+    #define MUMMY_PLAYER_RANGE     10
+    
+    //enemy animations
+    #define ANIM_MUMMY_WALK     1,   9,  10, ANIM_LOOP
+    #define ANIM_MUMMY_ATTACK   10,  18, 6, ANIM_LOOP
+    #define ANIM_MUMMY_DEAD     0,   0,  60, ANIM_ONCE
+
+    //enemy states
+    enum E_MUMMY_ENEMY_STATES{E_MUMMY_ST_IDLE, E_MUMMY_ST_MOVING, E_MUMMY_ST_HURT};   
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_MUMMY_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
+
+    switch (this->state)
+    {
+        case E_MUMMY_ST_IDLE:            
+            this->state++;
+        break;
+        case E_MUMMY_ST_MOVING:            
+            enemy_patrol_ia(this, ftofix(MUMMY_VELOCITY), MUMMY_RANGE_PATROL);
+            
+            //check range of player
+            tEntity *player = entity_get(entity_get_player_id());
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+                play_animation(&this->anim, ANIM_MUMMY_ATTACK);
+            else
+                play_animation(&this->anim, ANIM_MUMMY_WALK);
+        break;     
+        case E_MUMMY_ST_HURT:
+            enemy_dead(this, ANIM_MUMMY_DEAD);            
         break;
     }       
 }
