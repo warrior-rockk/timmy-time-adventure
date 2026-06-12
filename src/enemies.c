@@ -1419,7 +1419,7 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
     
     //enemy animations
     #define ANIM_BEETLE_WALK   1,   6,  6, ANIM_LOOP
-    #define ANIM_BEETLE_DEAD   0,   0,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_BEETLE_DEAD   0,   0,  60, ANIM_ONCE
 
     //enemy states
     enum E_BEETLE_ENEMY_STATES{E_BEETLE_ST_IDLE, E_BEETLE_ST_MOVING, E_BEETLE_ST_HURT};   
