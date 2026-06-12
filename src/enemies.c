@@ -238,7 +238,10 @@ void enemy_create(tEntity *entity)
             collision_create_entity_points(entity);
         break;
         case E_SCORPION_ENEMY_TYPE:
-            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
+            if (entity->spare == 0)
+                load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORPION_BMP);
+            else
+                load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORRED_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){30, 23};                          
             entity->size = (tVector){24, 16};      

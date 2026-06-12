@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="scorpion" type="enemy" width="24" height="16">
+  <properties>
+   <property name="dir" type="int" propertytype="dir" value="1"/>
+   <property name="spare" type="int" propertytype="scorpion" value="1"/>
+  </properties>
+ </object>
+</template>

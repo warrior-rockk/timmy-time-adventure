@@ -140,6 +140,17 @@
             ]
         },
         {
+            "id": 23,
+            "name": "scorpion",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "YELLOW_WILD_WEST",
+                "RED_EGYPT"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "id": 6,
             "name": "stopScroll",
             "storageType": "int",

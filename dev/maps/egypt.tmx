@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="144" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="22">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="144" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="23">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -239,6 +239,12 @@
   <object id="21" template="triggers/stopScroll.tx" x="1792" y="80">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
+   </properties>
+  </object>
+  <object id="22" template="enemies/west/scorpion.tx" x="1600" y="112">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" propertytype="scorpion" value="1"/>
    </properties>
   </object>
  </objectgroup>
