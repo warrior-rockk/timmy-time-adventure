@@ -81,17 +81,17 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
     //run path line searching pixel collision
     do
     {		
-		//if tile exists on path point position
+		//check collision with scroll stopped (this must to be checked before check if exists on scroll region)
+        if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
+            ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
+        {
+            return dist;
+        }
+
+        //if tile exists on path point position
         if (map_tile_exists(linePath->start) && (scroll_position_on_region(linePath->start) || entity->id != entity_get_player_id()))
         {
-			//check collision with scroll stopped
-            if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
-                ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
-            {
-                return dist;
-            }
-            
-            //get tile property
+		   //get tile property
             uint16_t tileProperty = map_get_tile_property(linePath->start);
 
             //check if tile is solid
