@@ -417,7 +417,11 @@
   <object id="30" template="enemies/west/eagle.tx" type="enemy" x="896" y="48"/>
   <object id="33" template="enemies/west/tumble.tx" type="enemy" x="3136" y="91.3333"/>
   <object id="37" template="enemies/west/eagle.tx" x="2368" y="16"/>
-  <object id="38" template="enemies/west/scorpion.tx" x="2672" y="128"/>
+  <object id="38" template="enemies/west/scorpion.tx" x="2672" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
+   </properties>
+  </object>
   <object id="39" template="objects/rock3.tx" x="2400" y="128"/>
   <object id="40" template="objects/item.tx" x="1360" y="16">
    <properties>
@@ -425,7 +429,11 @@
    </properties>
   </object>
   <object id="41" template="triggers/checkpoint.tx" x="2736" y="112"/>
-  <object id="42" template="enemies/west/scorpion.tx" type="enemy" x="4752" y="128"/>
+  <object id="42" template="enemies/west/scorpion.tx" type="enemy" x="4752" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
+   </properties>
+  </object>
   <object id="43" name="scorpion" type="enemy" x="4928" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
@@ -478,16 +486,26 @@
   <object id="74" template="objects/item.tx" x="2320" y="64"/>
   <object id="75" template="objects/item.tx" x="512" y="0"/>
   <object id="81" template="objects/dynamite.tx" type="object" x="2065" y="272"/>
-  <object id="82" template="enemies/west/scorpion.tx" x="3664" y="128"/>
+  <object id="82" template="enemies/west/scorpion.tx" x="3664" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
+   </properties>
+  </object>
   <object id="83" template="enemies/west/scorpion.tx" x="3760" y="128">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
-  <object id="84" template="enemies/west/scorpion.tx" x="3872" y="128"/>
+  <object id="84" template="enemies/west/scorpion.tx" x="3872" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
+   </properties>
+  </object>
   <object id="85" template="enemies/west/scorpion.tx" x="4016" y="128">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="86" template="objects/item.tx" x="3840" y="16">

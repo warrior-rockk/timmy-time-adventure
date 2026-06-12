@@ -797,6 +797,7 @@
   <object id="38" name="scorpion" type="enemy" x="2672" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="39" name="rock3" type="object" x="2400" y="128" width="16" height="16"/>
@@ -813,6 +814,7 @@
   <object id="42" name="scorpion" type="enemy" x="4752" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="43" name="scorpion" type="enemy" x="4928" y="128" width="24" height="16">
@@ -925,21 +927,25 @@
   <object id="82" name="scorpion" type="enemy" x="3664" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="83" name="scorpion" type="enemy" x="3760" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="84" name="scorpion" type="enemy" x="3872" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="85" name="scorpion" type="enemy" x="4016" y="128" width="24" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" propertytype="scorpion" value="0"/>
    </properties>
   </object>
   <object id="86" name="item" type="object" x="3840" y="16" width="16" height="16">
