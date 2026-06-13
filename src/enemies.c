@@ -311,6 +311,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){32, 18};                          
             entity->size = (tVector){26, 16};      
             entity->axis = E_ENT_AXIS_DOWN;            
+            entity->properties = E_ENT_PROP_PHYSICS_ON;
             collision_create_entity_points(entity);              
         break;
         case E_MUMMY_ENEMY_TYPE:
@@ -1429,19 +1430,59 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define BEETLE_VELOCITY         0.9
-    #define BEETLE_RANGE_PATROL     50
+    #define BEETLE_VELOCITY                 0.9
+    #define BEETLE_RANGE_PATROL             50
+    #define BEETLE_PLAYER_RANGE             40
+    #define BEETLE_JUMP_VEL_X               2
+    #define BEETLE_JUMP_VEL_Y               3
+    #define BEETLE_JUMP_HIGH_VEL_Y          4.6
+    #define BEETLE_PLAYER_JUMP_DETECTION    2
     
     //enemy animations
+    #define ANIM_BEETLE_IDLE   1,   1,  6, ANIM_LOOP
     #define ANIM_BEETLE_WALK   1,   6,  6, ANIM_LOOP
     #define ANIM_BEETLE_DEAD   0,   0,  60, ANIM_ONCE
 
     //enemy states
-    enum E_BEETLE_ENEMY_STATES{E_BEETLE_ST_IDLE, E_BEETLE_ST_MOVING, E_BEETLE_ST_HURT};   
+    enum E_BEETLE_ENEMY_STATES{E_BEETLE_ST_IDLE, E_BEETLE_ST_MOVING, E_BEETLE_ST_JUMP, E_BEETLE_ST_HURT};   
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_BEETLE_ST_HURT;
+    
+    switch (this->state)
+    {
+        case E_BEETLE_ST_IDLE:            
+            this->state++;
+            play_animation(&this->anim, ANIM_BEETLE_IDLE);
+        break;
+        case E_BEETLE_ST_MOVING:            
+            enemy_patrol_ia(this, ftofix(BEETLE_VELOCITY), BEETLE_RANGE_PATROL);
+
+            //check range of player for jump
+            tEntity *player = entity_get(entity_get_player_id());
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, BEETLE_PLAYER_RANGE))
+            {
+                //jump higher if player jump
+                if (player->fixVel.y < -ftofix(BEETLE_PLAYER_JUMP_DETECTION))
+                    this->fixVel.y = -ftofix(BEETLE_JUMP_HIGH_VEL_Y);
+                else
+                    this->fixVel.y = -ftofix(BEETLE_JUMP_VEL_Y);
+                this->fixVel.x = this->dir ? ftofix(BEETLE_JUMP_VEL_X) : -ftofix(BEETLE_JUMP_VEL_X);
+                this->ground = false;
+                this->state = E_BEETLE_ST_JUMP;
+            }
+            
+            play_animation(&this->anim, ANIM_BEETLE_WALK);
+        break;     
+        case E_BEETLE_ST_JUMP:
+            if (this->ground)
+                this->state = E_BEETLE_ST_MOVING;
+        break;
+        case E_BEETLE_ST_HURT:
+            enemy_dead(this, ANIM_BEETLE_DEAD);            
+        break;
+    }
     
     //terrain collisions
     uint8_t colDir = 0;
@@ -1458,21 +1499,6 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
         if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
             this->dir = !this->dir;
     }
-
-    switch (this->state)
-    {
-        case E_BEETLE_ST_IDLE:            
-            this->state++;
-        break;
-        case E_BEETLE_ST_MOVING:            
-            enemy_patrol_ia(this, ftofix(BEETLE_VELOCITY), BEETLE_RANGE_PATROL);
-            
-            play_animation(&this->anim, ANIM_BEETLE_WALK);
-        break;     
-        case E_BEETLE_ST_HURT:
-            enemy_dead(this, ANIM_BEETLE_DEAD);            
-        break;
-    }       
 }
 
 void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
