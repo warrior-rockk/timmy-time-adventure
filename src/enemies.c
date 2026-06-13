@@ -457,7 +457,8 @@ void enemy_dead(tEntity *entity, int startFrame, int endFrame, int speed, uint8_
 {
     //stop enemy
     entity->fixVel.x = 0;
-    entity->fixVel.y = 0;
+    if (!CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
+        entity->fixVel.y = 0;
     //blink
     entity_blink(entity);
     //play dead sfx
