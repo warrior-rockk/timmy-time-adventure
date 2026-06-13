@@ -317,7 +317,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, MUMMY_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){57, 49};                          
-            entity->size = (tVector){48, 32};
+            entity->size = (tVector){32, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
@@ -1478,8 +1478,9 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define MUMMY_VELOCITY         0.4
+    #define MUMMY_FAST_VELOCITY    0.8
     #define MUMMY_RANGE_PATROL     50
-    #define MUMMY_PLAYER_RANGE     10
+    #define MUMMY_PLAYER_RANGE     30
     
     //enemy animations
     #define ANIM_MUMMY_WALK     1,   9,  10, ANIM_LOOP
@@ -1515,14 +1516,18 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->state++;
         break;
         case E_MUMMY_ST_MOVING:            
-            enemy_patrol_ia(this, ftofix(MUMMY_VELOCITY), MUMMY_RANGE_PATROL);
-            
             //check range of player
             tEntity *player = entity_get(entity_get_player_id());
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+            {
+                enemy_patrol_ia(this, ftofix(MUMMY_FAST_VELOCITY), MUMMY_RANGE_PATROL);
                 play_animation(&this->anim, ANIM_MUMMY_ATTACK);
+            }
             else
+            {
+                enemy_patrol_ia(this, ftofix(MUMMY_VELOCITY), MUMMY_RANGE_PATROL);
                 play_animation(&this->anim, ANIM_MUMMY_WALK);
+            }
         break;     
         case E_MUMMY_ST_HURT:
             enemy_dead(this, ANIM_MUMMY_DEAD);            
