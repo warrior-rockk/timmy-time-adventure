@@ -34,6 +34,7 @@ enum E_ENEMY_TYPE
     E_TRAP_ARROW_ENEMY_TYPE,
     E_BEETLE_ENEMY_TYPE,
     E_MUMMY_ENEMY_TYPE,
+    E_HITBOX_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -91,6 +92,8 @@ void enemy_update(tEntity *entity);
 void enemy_destroy(tEntity *entity);
 
 //custom update function for particular entity
+void enemy_hitbox_update(tEntity *this, tDefaultEnemyLocalData *local);
+
 void enemy_ptero_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local);

@@ -289,11 +289,10 @@ void enemy_create(tEntity *entity)
             collision_create_entity_points(entity);              
         break;        
         case E_EGYPTIAN_ENEMY_TYPE:
-            #define EGYPTIAN_X_SIZE  32
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EGYPTIAN_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){65, 50};                          
-            entity->size = (tVector){EGYPTIAN_X_SIZE, 32};
+            entity->size = (tVector){20, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
@@ -322,6 +321,10 @@ void enemy_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
+        break;
+        case E_HITBOX_ENEMY_TYPE:
+            entity->size = (tVector){16, 16};
+            entity->properties = E_ENT_PROP_AUTO_DESTROY;
         break;
         default:
             abort_on_error("Enemy type entity not valid");
@@ -406,6 +409,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_MUMMY_ENEMY_TYPE:          
             enemy_mummy_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_HITBOX_ENEMY_TYPE:
+            enemy_hitbox_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -1348,11 +1354,13 @@ void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define EGYPTIAN_VELOCITY         0.6
-    #define EGYPTIAN_RANGE_PATROL     50
-    #define EGYPTIAN_PLAYER_RANGE     20
-    #define EGYPTIAN_ATTACK_X_SIZE    60
-    #define EGYPTIAN_ATTACK_FRAME     4
+    #define EGYPTIAN_VELOCITY                   0.6
+    #define EGYPTIAN_RANGE_PATROL               50
+    #define EGYPTIAN_PLAYER_RANGE               20
+    #define EGYPTIAN_ATTACK_FRAME               4
+    #define EGYPTIAN_HITBOX_X_OFFSET_LEFT       22
+    #define EGYPTIAN_HITBOX_X_OFFSET_RIGHT      6
+    #define EGYPTIAN_HITBOX_DURATION            20
     
     //enemy animations
     #define ANIM_EGYPTIAN_WALK   7,   12,  10, ANIM_LOOP
@@ -1390,6 +1398,8 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->state++;
         break;
         case E_EGYPTIAN_ST_MOVING:            
+            local->flag = false;
+
             enemy_patrol_ia(this, ftofix(EGYPTIAN_VELOCITY), EGYPTIAN_RANGE_PATROL);
             
             //check range of player
@@ -1402,23 +1412,21 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_EGYPTIAN_ST_ATTACK:
             if (this->anim.frame == EGYPTIAN_ATTACK_FRAME)
             {
-                if (this->size.x == EGYPTIAN_X_SIZE)
+                if (!local->flag)
                 {
-                    this->size.x = EGYPTIAN_ATTACK_X_SIZE;
-                    this->fixPos.x = this->fixPos.x - itofix((EGYPTIAN_ATTACK_X_SIZE - EGYPTIAN_X_SIZE) * !this->dir);
-                    //recalculate collision points
-                    collision_set_collision_points(this, collision_get_point_index_by_entId(this->id));
-                }                
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -EGYPTIAN_HITBOX_X_OFFSET_LEFT : this->size.x + EGYPTIAN_HITBOX_X_OFFSET_RIGHT; 
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, EGYPTIAN_HITBOX_DURATION);
+                }               
             }
+            else
+                local->flag = false;
+
             //check range of player
             player = entity_get(entity_get_player_id());
             if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EGYPTIAN_PLAYER_RANGE))
             {
                 this->state = E_EGYPTIAN_ST_MOVING;
-                
-                //restore size
-                this->size.x = EGYPTIAN_X_SIZE;                                            
-                collision_set_collision_points(this, collision_get_point_index_by_entId(this->id));
             }
 
             play_animation(&this->anim, ANIM_EGYPTIAN_ATACK); 
@@ -1558,6 +1566,23 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;     
         case E_MUMMY_ST_HURT:
             enemy_dead(this, ANIM_MUMMY_DEAD);            
+        break;
+    }       
+}
+
+void enemy_hitbox_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    //enemy states
+    enum E_HITBOX_ENEMY_STATES{E_HITBOX_ST_IDLE};   
+
+    switch (this->state)
+    {
+        case E_HITBOX_ST_IDLE:         
+            //hitbox lives the spare time   
+            if (local->timer >= this->spare)
+                this->dead = true;
+            else
+                local->timer += clock_tick_get();
         break;
     }       
 }

@@ -196,7 +196,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="2528" y="272"/>
+  <object id="1" template="objects/player1.tx" x="16" y="256"/>
   <object id="2" template="enemies/egypt/egyptian.tx" type="enemy" x="96" y="256"/>
   <object id="4" name="quick-sand" type="platform" x="576" y="288" width="128" height="32"/>
   <object id="6" template="enemies/egypt/trap-arrow.tx" type="object" x="1728" y="272"/>
