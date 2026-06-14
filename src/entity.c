@@ -352,8 +352,13 @@ void entities_update()
         //check dead flag
         if (entityList[i].dead)            
         {
+            //if autodestroy, destroy on dead
+            if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
+            {
+                entity_destroy(i);                    
+            }
             //reset dead flag if object out of region of initial position
-            if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}))
+            else if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}))
             {
                 entityList[i].sleep = true;
                 //if the entity doesn't is persistent, init the entity
