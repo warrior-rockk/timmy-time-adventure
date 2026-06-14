@@ -19,7 +19,7 @@
 //egypt puzzle definitions
 #define PUZZLE_NUM_DOOR_TILES       7
 #define PUZZLE_START_DOOR_X_TILE    134
-#define PUZZLE_START_DOOR_Y_TILE    7
+#define PUZZLE_START_DOOR_Y_TILE    17
 #define PUZZLE_DOOR_TILE_ID         17
 #define PUZZLE_NO_DOOR_TILE_ID      131
 #define PUZZLE_SYMBOL_NUM           3
