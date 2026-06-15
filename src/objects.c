@@ -115,6 +115,13 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             collision_create_entity_points(entity);     
         break;
+        case E_ROCK_4_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK4_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};      
+            collision_create_entity_points(entity);     
+        break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
             entity->img = objectResources[entity->entType];
@@ -328,10 +335,11 @@ void object_init(tEntity *entity)
         case E_SYMBOL_HOLE_OBJECT_TYPE:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
-            for (uint8_t i; i < PUZZLE_NUM_DOOR_TILES; i++)
+            //TODO: restore this when map finished
+            /*for (uint8_t i; i < PUZZLE_NUM_DOOR_TILES; i++)
             {
                 map_change_tile((tVector){PUZZLE_START_DOOR_X_TILE, PUZZLE_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
-            }
+            }*/
             memset(&egyptPuzzle, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle));
         break;
         default:

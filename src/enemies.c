@@ -1469,7 +1469,7 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define BEETLE_PLAYER_RANGE             40
     #define BEETLE_JUMP_VEL_X               2
     #define BEETLE_JUMP_VEL_Y               3
-    #define BEETLE_JUMP_HIGH_VEL_Y          4.6
+    #define BEETLE_JUMP_HIGH_VEL_Y          5
     #define BEETLE_PLAYER_JUMP_DETECTION    2
     
     //enemy animations
