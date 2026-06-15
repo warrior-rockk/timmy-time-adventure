@@ -1379,7 +1379,7 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define EGYPTIAN_VELOCITY                   0.6
     #define EGYPTIAN_RANGE_PATROL               50
-    #define EGYPTIAN_PLAYER_RANGE               20
+    #define EGYPTIAN_PLAYER_RANGE               30
     #define EGYPTIAN_ATTACK_FRAME               4
     #define EGYPTIAN_HITBOX_X_OFFSET_LEFT       22
     #define EGYPTIAN_HITBOX_X_OFFSET_RIGHT      6
@@ -1423,14 +1423,20 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_EGYPTIAN_ST_MOVING:            
             local->flag = false;
 
-            enemy_patrol_ia(this, ftofix(EGYPTIAN_VELOCITY), EGYPTIAN_RANGE_PATROL);
+            if (this->spare)
+            {
+                enemy_patrol_ia(this, ftofix(EGYPTIAN_VELOCITY), EGYPTIAN_RANGE_PATROL);
+                play_animation(&this->anim, ANIM_EGYPTIAN_WALK);
+            }
+            else
+                this->anim.frame = 0;
             
             //check range of player
             player = entity_get(entity_get_player_id());
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EGYPTIAN_PLAYER_RANGE))
                 this->state = E_EGYPTIAN_ST_ATTACK;
 
-            play_animation(&this->anim, ANIM_EGYPTIAN_WALK);
+            
         break;     
         case E_EGYPTIAN_ST_ATTACK:
             if (this->anim.frame == EGYPTIAN_ATTACK_FRAME)

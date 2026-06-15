@@ -45,6 +45,17 @@
             "valuesAsFlags": false
         },
         {
+            "id": 24,
+            "name": "egyptianSpare",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "NO_PATROL",
+                "PATROL"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 7,

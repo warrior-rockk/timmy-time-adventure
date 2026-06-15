@@ -282,6 +282,10 @@
   </object>
   <object id="30" template="objects/item.tx" x="16" y="272"/>
   <object id="33" template="enemies/egypt/egyptian.tx" x="960" y="256"/>
-  <object id="34" template="enemies/egypt/egyptian.tx" x="1232" y="256"/>
+  <object id="34" template="enemies/egypt/egyptian.tx" x="1232" y="256">
+   <properties>
+    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
