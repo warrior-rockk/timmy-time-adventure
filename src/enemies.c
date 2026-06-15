@@ -526,13 +526,17 @@ void enemy_ptero_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define RAPTOR_VELOCITY         0.6
-    #define RAPTOR_RANGE_PATROL     50
-    #define RAPTOR_PLAYER_RANGE     20
+    #define RAPTOR_VELOCITY                     0.6
+    #define RAPTOR_RANGE_PATROL                 50
+    #define RAPTOR_PLAYER_RANGE                 20
+    #define RAPTOR_HITBOX_X_OFFSET_LEFT         19
+    #define RAPTOR_HITBOX_X_OFFSET_RIGHT        3
+    #define RAPTOR_HITBOX_DURATION              20
+    #define RAPTOR_HITBOX_FRAME                 3
     
     //enemy animations
     #define ANIM_RAPTOR_WALK   4,   6,  10, ANIM_PING_PONG
-    #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG
+    #define ANIM_RAPTOR_ATACK  0,   3,  10, ANIM_PING_PONG_ONCE
     #define ANIM_RAPTOR_DEAD   7,   9,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
@@ -566,6 +570,8 @@ void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->state++;
         break;
         case E_RAPTOR_ST_MOVING:            
+            local->flag = false;    
+            
             enemy_patrol_ia(this, ftofix(RAPTOR_VELOCITY), RAPTOR_RANGE_PATROL);
             
             //check range of player
@@ -576,12 +582,20 @@ void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local)
             play_animation(&this->anim, ANIM_RAPTOR_WALK);
         break;     
         case E_RAPTOR_ST_ATTACK:
-            //check range of player
-            player = entity_get(entity_get_player_id());
-            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, RAPTOR_PLAYER_RANGE))
+            if (this->anim.frame == RAPTOR_HITBOX_FRAME)
+            {
+                if (!local->flag)
+                {
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -RAPTOR_HITBOX_X_OFFSET_LEFT : this->size.x + RAPTOR_HITBOX_X_OFFSET_RIGHT; 
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, RAPTOR_HITBOX_DURATION);
+                }               
+            }
+            
+            if (play_animation(&this->anim, ANIM_RAPTOR_ATACK))
+            {
                 this->state = E_RAPTOR_ST_MOVING;
-
-            play_animation(&this->anim, ANIM_RAPTOR_ATACK); 
+            }
         break;   
         case E_RAPTOR_ST_HURT:
             enemy_dead(this, ANIM_RAPTOR_DEAD);            
