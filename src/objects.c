@@ -228,7 +228,7 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_COLLISION;            
         break;
         case E_QUICKSAND_OBJECT_TYPE:            
-            entity->size = (tVector){128, 32};                                     
+            entity->size = (tVector){entity->spare, 32};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
