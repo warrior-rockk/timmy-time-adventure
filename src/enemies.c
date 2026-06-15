@@ -1364,7 +1364,7 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
     
     //enemy animations
     #define ANIM_EGYPTIAN_WALK   7,   12,  10, ANIM_LOOP
-    #define ANIM_EGYPTIAN_ATACK  1,   6,  10, ANIM_LOOP
+    #define ANIM_EGYPTIAN_ATACK  1,   6,  10, ANIM_ONCE
     #define ANIM_EGYPTIAN_DEAD   13,   19,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
@@ -1422,14 +1422,10 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
             else
                 local->flag = false;
 
-            //check range of player
-            player = entity_get(entity_get_player_id());
-            if (!in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, EGYPTIAN_PLAYER_RANGE))
+            if (play_animation(&this->anim, ANIM_EGYPTIAN_ATACK))
             {
                 this->state = E_EGYPTIAN_ST_MOVING;
             }
-
-            play_animation(&this->anim, ANIM_EGYPTIAN_ATACK); 
         break;   
         case E_EGYPTIAN_ST_HURT:
             enemy_dead(this, ANIM_EGYPTIAN_DEAD);            
