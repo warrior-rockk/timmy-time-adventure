@@ -326,6 +326,12 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};
             entity->properties = E_ENT_PROP_AUTO_DESTROY;
         break;
+        case E_VULTURE_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, VULTURE_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){33, 30};                          
+            entity->size = (tVector){20, 16};                  
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -412,6 +418,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_HITBOX_ENEMY_TYPE:
             enemy_hitbox_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_VULTURE_ENEMY_TYPE:
+            enemy_vulture_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -1593,6 +1602,52 @@ void enemy_hitbox_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->dead = true;
             else
                 local->timer += clock_tick_get();
+        break;
+    }       
+}
+
+void enemy_vulture_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define VULTURE_PATROL_VELOCITY     0.8
+    #define VULTURE_PATROL_RANGE        50
+        
+    //enemy animations
+    #define ANIM_VULTURE_FLY     0,   6, 10,  ANIM_LOOP
+    #define ANIM_VULTURE_TURN    8,  10, 5, ANIM_ONCE
+    #define ANIM_VULTURE_HURT    7,  7, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_VULTURE_ENEMY_STATES{E_VULTURE_ST_IDLE, E_VULTURE_ST_FLY, E_VULTURE_ST_TURN, E_VULTURE_ST_HURT};   
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_VULTURE_ST_HURT;
+
+    switch (this->state)
+    {
+        case E_VULTURE_ST_IDLE:
+            //use local flag to store direction
+            local->flag = this->dir;
+            this->state++;
+        break;
+        case E_VULTURE_ST_FLY:        
+            enemy_patrol_ia(this, ftofix(VULTURE_PATROL_VELOCITY), VULTURE_PATROL_RANGE);
+            //if direction changes, do turn animation
+            if (this->dir != local->flag)
+                this->state = E_VULTURE_ST_TURN;
+
+            play_animation(&this->anim, ANIM_VULTURE_FLY);
+        break;                
+        case E_VULTURE_ST_TURN:
+            //set the new direction
+            local->flag = this->dir;
+            //play turn animation
+            if (play_animation(&this->anim, ANIM_VULTURE_TURN))
+                this->state = E_VULTURE_ST_FLY;
+        break;
+        case E_VULTURE_ST_HURT:
+            enemy_dead(this, ANIM_VULTURE_HURT);            
         break;
     }       
 }

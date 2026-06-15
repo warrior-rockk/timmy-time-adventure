@@ -1,0 +1,61 @@
+{
+  "group_id": null,
+  "states": [
+    {
+      "character": {
+        "id": "c9c09609-0d85-41bb-b091-ffa6507bffc1",
+        "name": "vulture flying with his wing extended",
+        "prompt": "vulture flying with his wing extended",
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "side",
+        "created_at": "2026-06-15T09:43:36.864889+00:00"
+      },
+      "folder": "vulture_flying_with_his_wing_extended",
+      "frames": {
+        "rotations": {
+          "south": "vulture_flying_with_his_wing_extended/rotations/south.png",
+          "south-east": "vulture_flying_with_his_wing_extended/rotations/south-east.png",
+          "east": "vulture_flying_with_his_wing_extended/rotations/east.png",
+          "north-east": "vulture_flying_with_his_wing_extended/rotations/north-east.png",
+          "north": "vulture_flying_with_his_wing_extended/rotations/north.png",
+          "north-west": "vulture_flying_with_his_wing_extended/rotations/north-west.png",
+          "west": "vulture_flying_with_his_wing_extended/rotations/west.png",
+          "south-west": "vulture_flying_with_his_wing_extended/rotations/south-west.png"
+        },
+        "animations": {
+          "Flying_moving_his_wings": {
+            "west": [
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_000.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_001.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_002.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_003.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_004.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_005.png",
+              "vulture_flying_with_his_wing_extended/animations/Flying_moving_his_wings/west/frame_006.png"
+            ]
+          },
+          "vulure_flying_getting_hurt_close_his_eyes_open_his": {
+            "west": [
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_000.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_001.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_002.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_003.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_004.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_005.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_006.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_007.png",
+              "vulture_flying_with_his_wing_extended/animations/vulure_flying_getting_hurt_close_his_eyes_open_his/west/frame_008.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.0",
+  "export_date": "2026-06-15T10:05:05.950898"
+}
