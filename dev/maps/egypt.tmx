@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="49">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="50">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -370,7 +370,7 @@
    </properties>
   </object>
   <object id="40" template="enemies/egypt/vulture.tx" x="2112" y="240"/>
-  <object id="42" name="rock4" type="object" x="1792" y="240" width="16" height="16"/>
+  <object id="42" template="objects/rock4.tx" type="object" x="1792" y="240"/>
   <object id="43" template="enemies/egypt/vulture.tx" x="2608" y="192"/>
   <object id="46" template="objects/item.tx" x="2080" y="288">
    <properties>
@@ -378,5 +378,6 @@
    </properties>
   </object>
   <object id="48" template="enemies/egypt/egyptian.tx" x="3024" y="208"/>
+  <object id="49" template="objects/rock4.tx" x="2880" y="272"/>
  </objectgroup>
 </map>
