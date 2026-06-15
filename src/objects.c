@@ -1098,7 +1098,7 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
 void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define QUICK_SAND_VELOCITY              0.36
+    #define QUICK_SAND_VELOCITY              0.6 //0.36
     
     //object states
     enum E_QUICKSAND_OBJECT_STATES{E_QUICKSAND_ST_IDLE, E_QUICKSAND_ST_MOVE};
