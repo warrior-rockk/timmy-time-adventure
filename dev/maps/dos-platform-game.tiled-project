@@ -138,7 +138,9 @@
             "values": [
                 "MOVE_X",
                 "MOVE_Y",
-                "WAIT_PLAYER"
+                "WAIT_PLAYER",
+                "MOVE_X_PATROL",
+                "MOVE_Y_PATROL"
             ],
             "valuesAsFlags": false
         },

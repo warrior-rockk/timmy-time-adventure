@@ -1246,8 +1246,14 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
         case E_PLATFORM_ST_MOVE:            
             int16_t nextPos;
 
+            if (this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL)
+            {
+                if ((!local->flag && this->pos.x > (this->initPos.x + 48)) || (local->flag && this->pos.x < (this->initPos.x - 48)))
+                    local->flag = !local->flag;
+            }
+
             //apply linear velocity
-            if (this->spare == E_PLATFORM_TYPE_MOVE_X)
+            if (this->spare == E_PLATFORM_TYPE_MOVE_X || this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL)
             {
                 this->fixVel.x = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
@@ -1256,7 +1262,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
             }
-            else
+            else if (this->spare == E_PLATFORM_TYPE_MOVE_Y || this->spare == E_PLATFORM_TYPE_MOVE_Y_PATROL)
             {
                 this->fixVel.y = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
