@@ -291,7 +291,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="3776" y="368"/>
+  <object id="1" template="objects/player1.tx" x="3472" y="224"/>
   <object id="4" template="platforms/quick-sand.tx" type="platform" x="1456" y="448" width="288" height="32">
    <properties>
     <property name="spare" type="int" value="288"/>
@@ -424,12 +424,12 @@
   <object id="54" template="platforms/egypt-platform.tx" type="platform" x="3360" y="256"/>
   <object id="56" template="platforms/egypt-platform.tx" type="platform" x="3104" y="256">
    <properties>
-    <property name="dir" type="int" propertytype="platform_type" value="3"/>
+    <property name="dir" type="int" propertytype="platform_type" value="5"/>
    </properties>
   </object>
-  <object id="57" template="platforms/egypt-platform.tx" type="platform" x="2992" y="240">
+  <object id="57" template="platforms/egypt-platform.tx" type="platform" x="3008" y="240">
    <properties>
-    <property name="dir" type="int" propertytype="platform_type" value="3"/>
+    <property name="dir" type="int" propertytype="platform_type" value="4"/>
    </properties>
   </object>
   <object id="55" template="enemies/egypt/scorpion-red.tx" x="3248" y="240"/>
