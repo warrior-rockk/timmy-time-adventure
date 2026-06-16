@@ -131,6 +131,18 @@
             ]
         },
         {
+            "id": 25,
+            "name": "platform_type",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "MOVE_X",
+                "MOVE_Y",
+                "WAIT_PLAYER"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 9,

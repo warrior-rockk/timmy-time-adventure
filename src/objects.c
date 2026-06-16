@@ -266,8 +266,8 @@ void object_create(tEntity *entity)
         case E_EGYPT_PLATFORM_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGYPTPLA_BMP);    
             entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){48, 16};
-            entity->size = (tVector){48, 16};                                     
+            entity->spriteSize = (tVector){32, 16};
+            entity->size = (tVector){32, 16};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                        
             collision_create_entity_points(entity);            
         break;
