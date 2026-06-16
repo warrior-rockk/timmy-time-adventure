@@ -888,9 +888,10 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
    </properties>
   </object>
-  <object id="54" name="egypt-platform" type="platform" x="3376" y="256" width="32" height="16">
+  <object id="54" name="egypt-platform" type="platform" x="3360" y="256" width="32" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="platform_type" value="0"/>
+    <property name="dir" type="int" propertytype="platform_type" value="0"/>
+    <property name="spare" type="int" value="32"/>
    </properties>
   </object>
  </objectgroup>

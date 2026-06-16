@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="egypt-platform" type="platform" width="32" height="16">
+  <properties>
+   <property name="dir" type="int" propertytype="platform_type" value="0"/>
+   <property name="spare" type="int" value="32"/>
+  </properties>
+ </object>
+</template>
