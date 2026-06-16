@@ -273,6 +273,16 @@ void object_create(tEntity *entity)
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
             collision_create_entity_points(entity);            
         break;
+        case E_SPIKE_TRAP_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SPKTRAP_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){32, 24};
+            entity->size = (tVector){32, 24};      
+            entity->axis = E_ENT_AXIS_UP;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -321,6 +331,7 @@ void object_update(tEntity *entity)
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
+        case E_SPIKE_TRAP_OBJECT_TYPE:
             object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_QUICKSAND_OBJECT_TYPE:
@@ -1059,7 +1070,7 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
     #define OBJECT_FALL_PLAYER_RANGE_X   30
     
     //object states
-    enum E_OBJECT_FALL_OBJECT_STATES{E_OBJECT_FALL_ST_IDLE, E_OBJECT_FALL_ST_FALL, E_OBJECT_FALL_ST_BREAK};
+    enum E_OBJECT_FALL_OBJECT_STATES{E_OBJECT_FALL_ST_IDLE, E_OBJECT_FALL_ST_FALL, E_OBJECT_FALL_ST_BREAK, E_OBJECT_FALL_ST_STILL};
     
     //object animations
     #define ANIM_OBJECT_FALL_BREAK                1,  2, 10, ANIM_ONCE
@@ -1087,12 +1098,18 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
             this->ground = false;            
             //check only down point    
             if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
-                this->state = E_OBJECT_FALL_ST_BREAK;            
+            {
+                if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    this->state = E_OBJECT_FALL_ST_STILL;
+                else
+                    this->state = E_OBJECT_FALL_ST_BREAK;            
+            }
             else if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
             {
                 //hurt player if collided
                 player->signal = E_ENT_SIGNAL_HURT;
-                this->state = E_OBJECT_FALL_ST_BREAK;
+                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    this->state = E_OBJECT_FALL_ST_BREAK;
             }
         break;
         case E_OBJECT_FALL_ST_BREAK:
@@ -1104,6 +1121,11 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 this->dead = true;
             }
+        break;
+        case E_OBJECT_FALL_ST_STILL:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                                        
         break;
     }
 }

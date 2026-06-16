@@ -51,6 +51,7 @@ object_ent_types = {
     "symbol-hole"   : 21,
     "rock4"         : 22,
     "egypt-platform": 23,
+    "spike-trap"    : 24,
 }
 
 #define entity enemies types
