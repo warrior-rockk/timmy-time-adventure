@@ -263,6 +263,14 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_NO_PICKABLE;                              
             collision_create_entity_points(entity);        
         break;
+        case E_EGYPT_PLATFORM_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGYPTPLA_BMP);    
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){48, 16};
+            entity->size = (tVector){48, 16};                                     
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                        
+            collision_create_entity_points(entity);            
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -319,6 +327,9 @@ void object_update(tEntity *entity)
         case E_TRAP_ARROW_OBJECT_TYPE:
             object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;                
+        case E_EGYPT_PLATFORM_OBJECT_TYPE:
+            object_platform_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -1191,6 +1202,69 @@ void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
     
     play_animation(&this->anim, ANIM_GAME_OVER);    
     
+}
+
+void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define PLATFORM_VELOCITY              0.6
+    
+    //object states
+    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE};
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            local->flag = !local->flag;
+    }
+
+    switch (this->state)
+    {
+        case E_PLATFORM_ST_IDLE:
+            
+            //reset velocity
+            this->fixVel.y = itofix(0); 
+
+            //if player on this platform  or not wait player platform type          
+            if (collision_get_player_platform_id() == this->id || this->spare != E_PLATFORM_TYPE_WAIT_PLAYER)
+            {
+                this->state++;                
+            }
+        break;
+        case E_PLATFORM_ST_MOVE:            
+            int16_t nextPos;
+
+            //apply linear velocity
+            if (this->spare == E_PLATFORM_TYPE_MOVE_X)
+            {
+                this->fixVel.x = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement                
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
+            }
+            else
+            {
+                this->fixVel.y = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
+            }
+        break;
+    }    
 }
 
 void object_trace(tEntity *this)

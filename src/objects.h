@@ -50,6 +50,7 @@ enum E_OBJECT_TYPE
     E_EGYPT_SYMBOL_OBJECT_TYPE,
     E_SYMBOL_HOLE_OBJECT_TYPE,
     E_ROCK_4_OBJECT_TYPE,
+    E_EGYPT_PLATFORM_OBJECT_TYPE,
     
     E_OBJECTS_TYPE_NUM,
 };
@@ -89,6 +90,14 @@ enum E_EGYPT_SYMBOLS_STATUS
     E_EGYPT_SYMBOL_STATUS_INIT      = 0,
     E_EGYPT_SYMBOL_STATUS_OK        = 1,
     E_EGYPT_SYMBOL_STATUS_NOT_OK    = -1,    
+};
+
+//types of platforms
+enum E_PLATFORM_TYPES
+{
+    E_PLATFORM_TYPE_MOVE_X,
+    E_PLATFORM_TYPE_MOVE_Y,
+    E_PLATFORM_TYPE_WAIT_PLAYER,
 };
 
 //debug trace entity object info
@@ -133,4 +142,6 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *objData);
 //egypt symbol puzzle hole
 void object_symbol_hole_update(tEntity *this, tSolidObjectLocalData *objData);
+//general platform object
+void object_platform_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif
