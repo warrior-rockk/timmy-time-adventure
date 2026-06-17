@@ -1427,6 +1427,8 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 //hurt player if collided
                 player->signal = E_ENT_SIGNAL_HURT;
+                //to prevent lance crush player, disable collision
+                SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             }
 
             if ((this->pos.y <= (this->initPos.y - this->size.y) && !this->dir) ||
@@ -1442,10 +1444,15 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0; 
             this->fixPos.y = this->dir ? itofix(this->initPos.y + this->size.y) : itofix(this->initPos.y - this->size.y);
 
+            //restore collision when player touch ground after hurt
+            if (player->ground)
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+
             if (local->timer >= LANCE_WAIT_RETURN)
             {
                 this->state++;
                 local->timer = 0;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             }
             else
                 local->timer += clock_tick_get();
