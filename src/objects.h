@@ -17,12 +17,16 @@
 #define ANIM_OBJECT_BREAK                1,  2, 10, ANIM_ONCE
 
 //egypt puzzle definitions
-#define PUZZLE_NUM_DOOR_TILES       7
-#define PUZZLE_START_DOOR_X_TILE    134
-#define PUZZLE_START_DOOR_Y_TILE    17
-#define PUZZLE_DOOR_TILE_ID         17
+#define PUZZLE1_NUM_DOOR_TILES      8
+#define PUZZLE1_START_DOOR_X_TILE   226
+#define PUZZLE1_START_DOOR_Y_TILE   18
+#define PUZZLE2_NUM_DOOR_TILES      7
+#define PUZZLE2_START_DOOR_X_TILE   134
+#define PUZZLE2_START_DOOR_Y_TILE   17
+#define PUZZLE2_SYMBOL_NUM          3
+#define PUZZLE_DOOR_TILE_ID         34
 #define PUZZLE_NO_DOOR_TILE_ID      131
-#define PUZZLE_SYMBOL_NUM           3
+
 
 //object types
 enum E_OBJECT_TYPE

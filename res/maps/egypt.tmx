@@ -703,7 +703,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="2896" y="224" width="16" height="32">
+  <object id="1" name="player1" type="player" x="3792" y="368" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -872,7 +872,7 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
    </properties>
   </object>
-  <object id="53" name="egyptian" type="enemy" x="3664" y="272" width="32" height="32">
+  <object id="53" name="egyptian" type="enemy" x="3712" y="272" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
@@ -936,12 +936,14 @@
   </object>
   <object id="65" name="egypt-symbol" type="object" x="3824" y="288" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="egypt_symbol" value="1"/>
    </properties>
   </object>
   <object id="66" name="symbol-hole" type="trigger" x="3648" y="304" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="egypt_symbol" value="0"/>
+    <property name="dir" type="int" value="1"/>
+    <property name="spare" type="int" propertytype="egypt_symbol" value="1"/>
    </properties>
   </object>
  </objectgroup>
