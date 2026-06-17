@@ -278,7 +278,7 @@ void object_create(tEntity *entity)
             load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){32, 24};
-            entity->size = (tVector){32, 24};      
+            entity->size = (tVector){32, 8};      
             entity->axis = E_ENT_AXIS_UP;       
             collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
