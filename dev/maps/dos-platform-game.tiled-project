@@ -103,6 +103,17 @@
             "valuesAsFlags": false
         },
         {
+            "id": 26,
+            "name": "lanceDir",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "DIR_UP",
+                "DIR_DOWN"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 8,

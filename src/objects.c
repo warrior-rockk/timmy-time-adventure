@@ -1406,7 +1406,7 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
             this->fixPos = vector2fixvector(this->initPos);
 
-            if (local->timer >= LANCE_WAIT_MOVE)
+            if (local->timer >= this->spare)
             {
                 this->state++;
                 local->timer = 0;
@@ -1414,10 +1414,10 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             else
                 local->timer += clock_tick_get();
 
-            this->anim.frame = 0;
+            this->anim.frame = this->dir;
         break;
         case E_LANCE_ST_MOVE:
-            this->fixVel.y = ftofix(LANCE_MOVE_VEL_Y);
+            this->fixVel.y = this->dir ? -ftofix(LANCE_MOVE_VEL_Y) : ftofix(LANCE_MOVE_VEL_Y);
             
             if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
             {
@@ -1425,14 +1425,16 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
                 player->signal = E_ENT_SIGNAL_HURT;
             }
 
-            if (this->pos.y <= this->initPos.y - this->size.y)
+            if ((this->pos.y <= (this->initPos.y - this->size.y) && !this->dir) ||
+                (this->pos.y >= (this->initPos.y + this->size.y) && this->dir))
+
                 this->state++;
         break;
         case E_LANCE_ST_WAIT:
             //stop object
             this->fixVel.x = 0;
             this->fixVel.y = 0; 
-            this->fixPos.y = itofix(this->initPos.y - this->size.y);
+            this->fixPos.y = this->dir ? itofix(this->initPos.y + this->size.y) : itofix(this->initPos.y - this->size.y);
 
             if (local->timer >= LANCE_WAIT_RETURN)
             {
@@ -1444,9 +1446,10 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
 
         break;
         case E_LANCE_ST_RETURN:
-            this->fixVel.y = ftofix(LANCE_RETURN_VEL_Y);
+            this->fixVel.y = this->dir ? -ftofix(LANCE_RETURN_VEL_Y) : ftofix(LANCE_RETURN_VEL_Y);
             
-            if (this->pos.y >= this->initPos.y)
+            if ((this->pos.y >= this->initPos.y && !this->dir) ||
+                (this->pos.y <= this->initPos.y && this->dir))
                 this->state = E_LANCE_ST_IDLE;
         break;
     }
