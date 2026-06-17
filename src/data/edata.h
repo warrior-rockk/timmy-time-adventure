@@ -23,3 +23,4 @@
 #define AXE_WAV                       	22  	//SAMP
 #define DEAD_WAV                      	23  	//SAMP
 #define SHOOT_WAV                     	24  	//SAMP
+#define WIP_WAV                       	25  	//SAMP

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="spike-trap" type="platform" width="32" height="8">
+  <properties>
+   <property name="spare" type="int" value="40"/>
+  </properties>
+ </object>
+</template>

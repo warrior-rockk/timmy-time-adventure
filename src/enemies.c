@@ -290,6 +290,7 @@ void enemy_create(tEntity *entity)
         break;        
         case E_EGYPTIAN_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EGYPTIAN_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_WIP], enemyDataFileIndex, WIP_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){65, 50};                          
             entity->size = (tVector){20, 32};
@@ -1447,6 +1448,7 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local)
                 {
                     local->flag = true;
                     int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -EGYPTIAN_HITBOX_X_OFFSET_LEFT : this->size.x + EGYPTIAN_HITBOX_X_OFFSET_RIGHT; 
+                    sfx_play(enemySfx[E_SFX_ENEMY_WIP], E_SFX_ENEMY_VOICE);
                     entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, EGYPTIAN_HITBOX_DURATION);
                 }               
             }
