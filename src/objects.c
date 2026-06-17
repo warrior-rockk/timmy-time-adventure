@@ -286,12 +286,11 @@ void object_create(tEntity *entity)
         break;
         case E_LANCE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, LANCE_BMP);
-            //load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            load_entity_wav_resources(&objectSfx[E_SFX_LANCE], objectDataFileIndex, LANCE_WAV);            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){8, 48};
             entity->size = (tVector){8, 48};      
             entity->axis = E_ENT_AXIS_UP;       
-            collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_BREAKABLE;
         break;
         default:
@@ -1389,7 +1388,6 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     //object defines
     #define LANCE_MOVE_VEL_Y       -4.2
     #define LANCE_RETURN_VEL_Y     0.6
-    #define LANCE_WAIT_MOVE        200
     #define LANCE_WAIT_RETURN      200 
     
     //object states
@@ -1427,8 +1425,10 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
 
             if ((this->pos.y <= (this->initPos.y - this->size.y) && !this->dir) ||
                 (this->pos.y >= (this->initPos.y + this->size.y) && this->dir))
-
+            {
+                sfx_play(objectSfx[E_SFX_LANCE], E_SFX_OBJECT_VOICE);
                 this->state++;
+            }
         break;
         case E_LANCE_ST_WAIT:
             //stop object

@@ -86,6 +86,7 @@ enum E_OBJECT_SFX
     E_SFX_OBJECT_ARROW,
     E_SFX_PUZZLE_NO,
     E_SFX_PUZZLE_OK,
+    E_SFX_LANCE,
     
     E_SFX_OBJECT_NUM,
 };
