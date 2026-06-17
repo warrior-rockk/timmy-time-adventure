@@ -1388,7 +1388,8 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     //object defines
     #define LANCE_MOVE_VEL_Y       -4.2
     #define LANCE_RETURN_VEL_Y     0.6
-    #define LANCE_WAIT_RETURN      200 
+    #define LANCE_DEFAULT_WAIT     200
+    #define LANCE_WAIT_RETURN      200
     
     //object states
     enum E_LANCE_OBJECT_STATES{E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
@@ -1404,10 +1405,15 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
             this->fixPos = vector2fixvector(this->initPos);
 
-            if (local->timer >= this->spare)
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+
+            if ((local->timer >= this->spare && !local->flag) ||
+                (local->timer >= LANCE_DEFAULT_WAIT && local->flag))
             {
                 this->state++;
                 local->timer = 0;
+                local->flag = true;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             }
             else
                 local->timer += clock_tick_get();
