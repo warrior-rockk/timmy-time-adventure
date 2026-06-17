@@ -176,3 +176,13 @@ void inc_frame_counter()
 {
     frameCounter++;
 }
+
+tFixVector vector2fixvector(tVector vector)
+{
+    tFixVector result;
+
+    result.x = itofix(vector.x);
+    result.y = itofix(vector.y);
+
+    return result;
+}

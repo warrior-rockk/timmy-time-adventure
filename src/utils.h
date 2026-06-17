@@ -116,4 +116,6 @@ uint8_t playTime_get_minutes();
 uint16_t get_frame_counter();
 //increments frame counter (put on game loop cycle)
 void inc_frame_counter();
+//converts tVector to tFixVector
+tFixVector vector2fixvector(tVector vector);
 #endif

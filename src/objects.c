@@ -1078,6 +1078,14 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
     //get player
     tEntity *player = entity_get(entity_get_player_id());
 
+    if (this->signal == E_ENT_SIGNAL_AWAKE)
+    {
+        this->signal = E_ENT_SIGNAL_NONE;
+        this->pos = this->initPos;
+        this->fixPos = vector2fixvector(this->pos);
+        this->state = 0;        
+    }
+
     switch (this->state)
     {
         case E_OBJECT_FALL_ST_IDLE:
