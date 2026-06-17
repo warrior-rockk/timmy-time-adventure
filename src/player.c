@@ -628,7 +628,7 @@ static void player_update_state(tEntity *player)
     else
     {
         player->state = ST_PLAYER_IDLE;
-        playeridleCounter += clock_tick_1sec_get();        
+                
     }
 }
 
@@ -659,8 +659,11 @@ static void player_update_animations(tEntity *player)
                     CHECK_FLAG(collision_get_tile_property(player, E_COLPOINT_DOWN_L), E_TILE_PROP_NO_SOLID)) 
                     && collision_get_player_platform_id() == -1)
                     play_animation(&player->anim, ANIM_PLY_ON_EDGE);
-                else    
-                    play_animation(&player->anim, ANIM_PLY_BREATH);            
+                else
+                {
+                    play_animation(&player->anim, ANIM_PLY_BREATH);  
+                    playeridleCounter += clock_tick_1sec_get();          
+                }
             }
         break;
         case ST_PLAYER_RUN:
