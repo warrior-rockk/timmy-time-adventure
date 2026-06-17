@@ -1047,6 +1047,7 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         this->signal = E_ENT_SIGNAL_NONE;
         this->pos = this->initPos;
+        this->fixPos = vector2fixvector(this->pos);
     }
 
     //terrain collisions
@@ -1356,6 +1357,7 @@ void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         this->signal = E_ENT_SIGNAL_NONE;
         this->pos = this->initPos;
+        this->fixPos = vector2fixvector(this->pos);
     }
 
     //hurt signal

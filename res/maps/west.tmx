@@ -759,7 +759,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="32" y="64" width="16" height="32">
+  <object id="1" name="player1" type="player" x="4208" y="208" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
