@@ -1389,13 +1389,12 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     //object defines
     #define LANCE_MOVE_VEL_Y       -4.2
     #define LANCE_RETURN_VEL_Y     0.6
+    #define LANCE_WAIT_MOVE        200
+    #define LANCE_WAIT_RETURN      200 
     
     //object states
     enum E_LANCE_OBJECT_STATES{E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
     
-    //object animations
-    #define ANIM_LANCE_BREAK                1,  2, 10, ANIM_ONCE
-
     //get player
     tEntity *player = entity_get(entity_get_player_id());
 
@@ -1407,7 +1406,7 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0;
             this->fixPos = vector2fixvector(this->initPos);
 
-            if (local->timer >= 200)
+            if (local->timer >= LANCE_WAIT_MOVE)
             {
                 this->state++;
                 local->timer = 0;
@@ -1435,7 +1434,7 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             this->fixVel.y = 0; 
             this->fixPos.y = itofix(this->initPos.y - this->size.y);
 
-            if (local->timer >= 200)
+            if (local->timer >= LANCE_WAIT_RETURN)
             {
                 this->state++;
                 local->timer = 0;
