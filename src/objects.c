@@ -284,6 +284,16 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
         break;
+        case E_LANCE_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, LANCE_BMP);
+            //load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){8, 48};
+            entity->size = (tVector){8, 48};      
+            entity->axis = E_ENT_AXIS_UP;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_BREAKABLE;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -343,6 +353,9 @@ void object_update(tEntity *entity)
         break;                
         case E_EGYPT_PLATFORM_OBJECT_TYPE:
             object_platform_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_LANCE_OBJECT_TYPE:
+            object_lance_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -1370,6 +1383,76 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
         break;
     }    
 }
+
+void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define LANCE_MOVE_VEL_Y       -4.2
+    #define LANCE_RETURN_VEL_Y     0.6
+    
+    //object states
+    enum E_LANCE_OBJECT_STATES{E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
+    
+    //object animations
+    #define ANIM_LANCE_BREAK                1,  2, 10, ANIM_ONCE
+
+    //get player
+    tEntity *player = entity_get(entity_get_player_id());
+
+    switch (this->state)
+    {
+        case E_LANCE_ST_IDLE:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;
+            this->fixPos = vector2fixvector(this->initPos);
+
+            if (local->timer >= 200)
+            {
+                this->state++;
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+
+            this->anim.frame = 0;
+        break;
+        case E_LANCE_ST_MOVE:
+            this->fixVel.y = ftofix(LANCE_MOVE_VEL_Y);
+            
+            if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+            {
+                //hurt player if collided
+                player->signal = E_ENT_SIGNAL_HURT;
+            }
+
+            if (this->pos.y <= this->initPos.y - this->size.y)
+                this->state++;
+        break;
+        case E_LANCE_ST_WAIT:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0; 
+            this->fixPos.y = itofix(this->initPos.y - this->size.y);
+
+            if (local->timer >= 200)
+            {
+                this->state++;
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+
+        break;
+        case E_LANCE_ST_RETURN:
+            this->fixVel.y = ftofix(LANCE_RETURN_VEL_Y);
+            
+            if (this->pos.y >= this->initPos.y)
+                this->state = E_LANCE_ST_IDLE;
+        break;
+    }
+}
+
 
 void object_trace(tEntity *this)
 {

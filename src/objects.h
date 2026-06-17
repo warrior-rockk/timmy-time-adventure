@@ -56,7 +56,8 @@ enum E_OBJECT_TYPE
     E_ROCK_4_OBJECT_TYPE,
     E_EGYPT_PLATFORM_OBJECT_TYPE,
     E_SPIKE_TRAP_OBJECT_TYPE,
-    
+    E_LANCE_OBJECT_TYPE,
+
     E_OBJECTS_TYPE_NUM,
 };
 
@@ -153,4 +154,6 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_symbol_hole_update(tEntity *this, tSolidObjectLocalData *objData);
 //general platform object
 void object_platform_update(tEntity *this, tSolidObjectLocalData *objData);
+//lance object
+void object_lance_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif
