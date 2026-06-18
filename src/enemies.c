@@ -318,7 +318,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, MUMMY_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){57, 49};                          
-            entity->size = (tVector){32, 32};
+            entity->size = (tVector){16, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
@@ -1541,22 +1541,25 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define MUMMY_VELOCITY         0.4
-    #define MUMMY_FAST_VELOCITY    0.8
-    #define MUMMY_RANGE_PATROL     50
-    #define MUMMY_PLAYER_RANGE     30
+    #define MUMMY_VELOCITY          1.6    
+    #define MUMMY_PLAYER_RANGE      100
+    #define MUMMY_WAIT_TIME         60
+    
     
     //enemy animations
-    #define ANIM_MUMMY_WALK     1,   9,  10, ANIM_LOOP
-    #define ANIM_MUMMY_ATTACK   10,  18, 6, ANIM_LOOP
+    #define ANIM_MUMMY_IDLE     3,  18, 10, ANIM_PING_PONG
+    #define ANIM_MUMMY_WALK     1,   9,  4, ANIM_LOOP       
     #define ANIM_MUMMY_DEAD     0,   0,  60, ANIM_ONCE
 
+
     //enemy states
-    enum E_MUMMY_ENEMY_STATES{E_MUMMY_ST_IDLE, E_MUMMY_ST_MOVING, E_MUMMY_ST_HURT};   
+    enum E_MUMMY_ENEMY_STATES{E_MUMMY_ST_IDLE, E_MUMMY_ST_MOVING, E_MUMMY_ST_WAIT, E_MUMMY_ST_HURT};   
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_MUMMY_ST_HURT;
+
+    tEntity *player = entity_get(entity_get_player_id());
     
     //terrain collisions
     uint8_t colDir = 0;
@@ -1576,27 +1579,49 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
 
     switch (this->state)
     {
-        case E_MUMMY_ST_IDLE:            
-            this->state++;
-        break;
-        case E_MUMMY_ST_MOVING:            
-            //check range of player
-            tEntity *player = entity_get(entity_get_player_id());
+        case E_MUMMY_ST_IDLE:                        
+            this->dir = !player->dir;
+            //check range of player            
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
             {
-                enemy_patrol_ia(this, ftofix(MUMMY_FAST_VELOCITY), MUMMY_RANGE_PATROL);
-                play_animation(&this->anim, ANIM_MUMMY_ATTACK);
+                this->state++;            
+                local->flag = player->pos.x;                        
+            }
+            
+            play_animation(&this->anim, ANIM_MUMMY_IDLE);
+            
+        break;
+        case E_MUMMY_ST_MOVING:            
+            if ((this->dir && this->pos.x >= local->flag) ||
+                (!this->dir && this->pos.x <= local->flag))
+            {
+                this->state++;      
+                this->fixVel.x = 0;                              
             }
             else
             {
-                enemy_patrol_ia(this, ftofix(MUMMY_VELOCITY), MUMMY_RANGE_PATROL);
-                play_animation(&this->anim, ANIM_MUMMY_WALK);
-            }
+                this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -ftofix(MUMMY_VELOCITY) : ftofix(MUMMY_VELOCITY);
+            }            
+
+            play_animation(&this->anim, ANIM_MUMMY_WALK);            
         break;     
+        case E_MUMMY_ST_WAIT:
+            this->dir = !player->dir;    
+            if (local->timer >= MUMMY_WAIT_TIME)
+            {
+                this->state = E_MUMMY_ST_IDLE;
+                local->timer = 0;
+            }
+            else   
+                local->timer += clock_tick_get();
+
+            play_animation(&this->anim, ANIM_MUMMY_IDLE);
+        break;
         case E_MUMMY_ST_HURT:
             enemy_dead(this, ANIM_MUMMY_DEAD);            
-        break;
-    }       
+        break;        
+    }   
+    show_debug("state %i", this->state);    
 }
 
 void enemy_hitbox_update(tEntity *this, tDefaultEnemyLocalData *local)

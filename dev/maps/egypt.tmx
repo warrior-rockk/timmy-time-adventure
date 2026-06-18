@@ -309,7 +309,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="1696" y="240"/>
+  <object id="1" template="objects/player1.tx" x="1120" y="240"/>
   <object id="4" template="platforms/quick-sand.tx" type="platform" x="1456" y="448" width="288" height="32">
    <properties>
     <property name="spare" type="int" value="288"/>
@@ -540,6 +540,6 @@
    </properties>
   </object>
   <object id="78" template="enemies/egypt/scorpion-red.tx" x="1264" y="256"/>
-  <object id="79" template="enemies/egypt/mummy.tx" x="976" y="240"/>
+  <object id="79" template="enemies/egypt/mummy.tx" x="976" y="240" width="16" height="32"/>
  </objectgroup>
 </map>
