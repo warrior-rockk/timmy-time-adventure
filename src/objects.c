@@ -1390,7 +1390,8 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     #define LANCE_RETURN_VEL_Y     0.6
     #define LANCE_DEFAULT_WAIT     200
     #define LANCE_WAIT_RETURN      200
-    
+    #define LANCE_SHOW_TIP_Y       4 
+
     //object states
     enum E_LANCE_OBJECT_STATES{E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
     
@@ -1403,7 +1404,8 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
             //stop object
             this->fixVel.x = 0;
             this->fixVel.y = 0;
-            this->fixPos = vector2fixvector(this->initPos);
+            //show tip of lance
+            this->fixPos.y = this->dir ? itofix(this->initPos.y + LANCE_SHOW_TIP_Y) : itofix(this->initPos.y - LANCE_SHOW_TIP_Y);
 
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
 
@@ -1414,6 +1416,7 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
                 local->timer = 0;
                 local->flag = true;
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+                this->fixPos = vector2fixvector(this->initPos);
             }
             else
                 local->timer += clock_tick_get();
@@ -1461,8 +1464,8 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
         case E_LANCE_ST_RETURN:
             this->fixVel.y = this->dir ? -ftofix(LANCE_RETURN_VEL_Y) : ftofix(LANCE_RETURN_VEL_Y);
             
-            if ((this->pos.y >= this->initPos.y && !this->dir) ||
-                (this->pos.y <= this->initPos.y && this->dir))
+            if ((this->pos.y >= this->initPos.y - LANCE_SHOW_TIP_Y && !this->dir) ||
+                (this->pos.y <= this->initPos.y + LANCE_SHOW_TIP_Y && this->dir))
                 this->state = E_LANCE_ST_IDLE;
         break;
     }
