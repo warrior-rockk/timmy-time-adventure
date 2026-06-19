@@ -1,6 +1,6 @@
 # Bugs
 
-- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this?
+- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 
 # Engine
 
@@ -10,7 +10,6 @@
 - [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
-- [ ] Continue menu with player animation crying?
 - [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?
 - [ ] Review debug keys on different translation units
@@ -20,13 +19,14 @@
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
-- [ ] Platform objects
 - [ ] PC Speaker effects?
 - [ ] Intro
 - [ ] Title screen
 - [ ] Tutorial
 - [ ] Loading screens? test on 86box
 - [ ] Background color fade to do sunset?
+- [X] Platform objects
+- [X] Continue menu with player animation crying?
 - [X] Animation: implement PING_PONG_ONCE
 - [X] Count down when time's up (sound)
 - [X] Menus and options
@@ -57,6 +57,7 @@
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
+- [ ] Possible spare channel for simultaneous sfx played?
 
 # Player
 - [ ] Change life icon on hurt/die
@@ -72,6 +73,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
+- [ ] All assets of levels named the same? (tiles, palette, map, music...)
 - [ ] Refactor collision functions and unified get collision maps
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
