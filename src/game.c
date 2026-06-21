@@ -1083,7 +1083,7 @@ static void game_load_level(uint8_t numLevel)
     map_load(levelData[numLevel].mapFile, (BITMAP *)levelDAT[levelData[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
-    game.scrollMode = E_SCROLL_BY_WINDOW_Y_MODE;
+    game.scrollMode =  E_SCROLL_BY_WINDOW_Y_MODE;
     
     //calculate scroll dimensions based on map dimensions
     tVector mapDimension = map_get_dimensions();

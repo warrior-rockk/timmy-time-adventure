@@ -1245,7 +1245,7 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
 void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define TRAP_ARROW_TIMER    200   
+    #define TRAP_ARROW_DEFAULT_TIMER    200   
 
     //object animations
     #define ANIM_TRAP_ARROW_IDLE_FRAME   0
@@ -1257,7 +1257,10 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->state)
     {
         case E_TRAP_ARROW_ST_IDLE:
-            if (local->timer >= TRAP_ARROW_TIMER)
+            if (this->spare == 0)  
+                this->spare = TRAP_ARROW_DEFAULT_TIMER;
+
+            if (local->timer >= this->spare)
             {
                 this->state++;                
                 local->timer = 0;
