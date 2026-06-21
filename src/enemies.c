@@ -1546,7 +1546,7 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define MUMMY_WAIT_TIME         60
     
     //enemy animations
-    #define ANIM_MUMMY_IDLE     3,  18, 10, ANIM_PING_PONG
+    #define ANIM_MUMMY_IDLE     13,  18, 14, ANIM_LOOP
     #define ANIM_MUMMY_WALK     1,   9,  4, ANIM_LOOP       
     #define ANIM_MUMMY_DEAD     11,   11,  60, ANIM_ONCE
 
