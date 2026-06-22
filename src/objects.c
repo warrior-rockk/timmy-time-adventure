@@ -375,7 +375,7 @@ void object_init(tEntity *entity)
     MY_TRACE_FLAG("Init instance %i\n", entity->entInstance);
 
     switch (entity->entType)
-    {       
+    {      
         case E_SYMBOL_HOLE_OBJECT_TYPE:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
@@ -397,7 +397,7 @@ void object_init(tEntity *entity)
                 }*/            
                 memset(&egyptPuzzle2, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle2));
             }
-        break;
+        break;    
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
