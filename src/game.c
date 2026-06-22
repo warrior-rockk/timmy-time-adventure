@@ -499,6 +499,8 @@ void game_update()
                     //reinit scroll and update-draw level
                     scroll_init(entity_get(entity_get_player_id())->pos);
                     game_update_level();
+                    scroll_init(entity_get(entity_get_player_id())->pos);
+                    game_update_level();
                     game_draw_level();
                 }
             }
