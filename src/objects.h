@@ -60,6 +60,7 @@ enum E_OBJECT_TYPE
     E_SCROLLMODE_OBJECT_TYPE,
     E_DOOR_IN_OBJECT_TYPE,
     E_DOOR_OUT_OBJECT_TYPE,
+    E_SPIKE_TRAP_2_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -160,4 +161,6 @@ void object_symbol_hole_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_platform_update(tEntity *this, tSolidObjectLocalData *objData);
 //lance object
 void object_lance_update(tEntity *this, tSolidObjectLocalData *objData);
+//spike trap 2
+void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *objData);
 #endif

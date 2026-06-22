@@ -297,6 +297,16 @@ void object_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_UP;       
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_BREAKABLE;
         break;
+        case E_SPIKE_TRAP_2_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SPKTRAP2_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 22};
+            entity->size = (tVector){16, 16};      
+            entity->axis = E_ENT_AXIS_UP;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -362,6 +372,9 @@ void object_update(tEntity *entity)
         break;
         case E_LANCE_OBJECT_TYPE:
             object_lance_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_SPIKE_TRAP_2_OBJECT_TYPE:
+            object_spike_trap_2_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -1500,6 +1513,72 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
+void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define SPIKE_TRAP_2_CADENCE          200
+        
+    //object states
+    enum E_SPIKE_TRAP_2_OBJECT_STATES{E_SPIKE_TRAP_2_ST_IDLE, E_SPIKE_TRAP_2_ST_MOVE, E_SPIKE_TRAP_2_ST_BREAK, E_SPIKE_TRAP_2_ST_STILL};
+    
+    //object animations
+    #define ANIM_SPIKE_TRAP_2_BREAK                1,  2, 10, ANIM_ONCE
+
+    //get player
+    tEntity *player = entity_get(entity_get_player_id());   
+
+    switch (this->state)
+    {
+        case E_SPIKE_TRAP_2_ST_IDLE:
+            if (local->timer >= SPIKE_TRAP_2_CADENCE)
+            {
+                local->timer = 0;
+                this->state++;
+            }
+            else
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = 0;        
+        break;
+        case E_SPIKE_TRAP_2_ST_MOVE:
+            this->fixPos.y += itofix(16);
+            
+            this->ground = false;            
+            //check only down point    
+            /*if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            {
+                if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    this->state = E_SPIKE_TRAP_2_ST_STILL;
+                else
+                    this->state = E_SPIKE_TRAP_2_ST_BREAK;            
+            }
+            else*/ if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+            {
+                //hurt player if collided
+                player->signal = E_ENT_SIGNAL_HURT;
+                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
+                    this->state = E_SPIKE_TRAP_2_ST_BREAK;
+            }
+
+            this->state = E_SPIKE_TRAP_2_ST_IDLE;
+        break;
+        case E_SPIKE_TRAP_2_ST_BREAK:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                                        
+            //play break animation
+            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            {
+                this->dead = true;
+            }
+        break;
+        case E_SPIKE_TRAP_2_ST_STILL:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                                        
+        break;
+    }
+}
 
 void object_trace(tEntity *this)
 {
