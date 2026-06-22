@@ -121,8 +121,8 @@ static void scroll_update_x(tVector cameraTarget, bool init)
     switch (scroll.mode)    
     {
         //continuous follow camera
-        case E_SCROLL_NORMAL_MODE:
-        case E_SCROLL_BY_WINDOW_Y_MODE:
+        case E_SCROLL_MODE_ALL_MOVE:
+        case E_SCROLL_MODE_BY_WINDOW_Y_ONLY:
             if (cameraTarget.x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
                 scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
             else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
@@ -155,15 +155,15 @@ static void scroll_update_y(tVector cameraTarget, bool init)
     switch (scroll.mode)
     {
         //continuous follow camera: sets scroll position y to center cameraTarget +/- offset
-        case E_SCROLL_NORMAL_MODE:
+        case E_SCROLL_MODE_ALL_MOVE:
             if (cameraTarget.y > (scroll.window.y >> 1) + scroll.pos.y + SCROLL_OFFSET_Y)
                 scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) - SCROLL_OFFSET_Y;
             else if (cameraTarget.y < (scroll.window.y >> 1) + scroll.pos.y - SCROLL_OFFSET_Y)
                 scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) + SCROLL_OFFSET_Y;        
         break;
         //moves the scroll only when change the size of scroll window +/- range
-        case E_SCROLL_BY_WINDOW_MODE:
-        case E_SCROLL_BY_WINDOW_Y_MODE:
+        case E_SCROLL_MODE_BY_WINDOW:
+        case E_SCROLL_MODE_BY_WINDOW_Y_ONLY:
             //if not shaking
             if (!scroll.cameraShake)
             {

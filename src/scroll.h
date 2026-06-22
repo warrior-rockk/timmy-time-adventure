@@ -24,10 +24,10 @@
 //scroll modes
 enum E_SCROLL_MODE
 {
-    E_SCROLL_NONE_MODE,             //no scroll
-    E_SCROLL_NORMAL_MODE,           //continuous follow camera
-    E_SCROLL_BY_WINDOW_MODE,        //continuous follow camera adjusting to scroll window screen
-    E_SCROLL_BY_WINDOW_Y_MODE,      //continuous follow camera adjusting only Y to scroll window screen
+    E_SCROLL_MODE_NONE,             //no scroll
+    E_SCROLL_MODE_ALL_MOVE,         //continuous follow camera
+    E_SCROLL_MODE_BY_WINDOW,        //continuous follow camera adjusting to scroll window screen
+    E_SCROLL_MODE_BY_WINDOW_Y_ONLY, //continuous follow camera adjusting only Y to scroll window screen
 };
 
 //scroll movements on by Window mode

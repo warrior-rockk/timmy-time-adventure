@@ -724,7 +724,7 @@ void game_update()
                     //put game over text
                     textout_centre_ex(buffer, gameBigFont, lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
                     //prepare systems to create an entity on screen
-                    scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_BY_WINDOW_Y_MODE);
+                    scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_MODE_BY_WINDOW_Y_ONLY);
                     object_system_init();
                     entity_system_init();                   
                     //create entity of player crying animation
@@ -1083,7 +1083,7 @@ static void game_load_level(uint8_t numLevel)
     map_load(levelData[numLevel].mapFile, (BITMAP *)levelDAT[levelData[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
     
     //TODO: read scroll mode from map
-    game.scrollMode =  E_SCROLL_BY_WINDOW_Y_MODE;
+    game.scrollMode =  E_SCROLL_MODE_BY_WINDOW_Y_ONLY;
     
     //calculate scroll dimensions based on map dimensions
     tVector mapDimension = map_get_dimensions();
