@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="door-in" type="trigger" width="16" height="32">
+  <properties>
+   <property name="spare" type="int" value="1"/>
+  </properties>
+ </object>
+</template>

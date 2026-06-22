@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="97">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="99">
  <tileset firstgid="1" name="egypt" tilewidth="16" tileheight="16" tilecount="240" columns="10">
   <image source="../../dev/gfx/maps/egypt/egypt-tiles.aseprite" width="160" height="384"/>
   <tile id="10" type="tile_FRONT">
@@ -1174,7 +1174,12 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="89" name="scroll-mode" type="trigger" x="112" y="432" width="16" height="16">
+  <object id="97" name="stopScroll" type="trigger" x="240" y="400" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
+   </properties>
+  </object>
+  <object id="89" name="scroll-mode" type="trigger" x="112" y="560" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="scroll_modes" value="1"/>
    </properties>
@@ -1188,6 +1193,11 @@
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="98" name="checkpoint" type="trigger" x="32" y="592" width="16" height="30">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
  </objectgroup>
