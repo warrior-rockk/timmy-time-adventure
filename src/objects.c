@@ -1516,66 +1516,48 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
 void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define SPIKE_TRAP_2_CADENCE          200
-        
-    //object states
-    enum E_SPIKE_TRAP_2_OBJECT_STATES{E_SPIKE_TRAP_2_ST_IDLE, E_SPIKE_TRAP_2_ST_MOVE, E_SPIKE_TRAP_2_ST_BREAK, E_SPIKE_TRAP_2_ST_STILL};
-    
-    //object animations
-    #define ANIM_SPIKE_TRAP_2_BREAK                1,  2, 10, ANIM_ONCE
+    #define SPIKE_TRAP_2_CADENCE          120
+    #define SPIKE_TRAP_2_Y_MOVE           16
 
+    //object states
+    enum E_SPIKE_TRAP_2_OBJECT_STATES{E_SPIKE_TRAP_2_ST_IDLE, E_SPIKE_TRAP_2_ST_MOVE, E_SPIKE_TRAP_2_ST_STOP};
+    
     //get player
     tEntity *player = entity_get(entity_get_player_id());   
 
     switch (this->state)
     {
         case E_SPIKE_TRAP_2_ST_IDLE:
-            if (local->timer >= SPIKE_TRAP_2_CADENCE)
+            if (clock_counter_check(SPIKE_TRAP_2_CADENCE))
             {
-                local->timer = 0;
                 this->state++;
             }
-            else
-                local->timer += clock_tick_get();
+
+            //check only down point    
+            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            {
+                    this->state = E_SPIKE_TRAP_2_ST_STOP;
+                
+            }
+            if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+            {
+                //hurt player if collided
+                player->signal = E_ENT_SIGNAL_HURT;
+            }
             
             this->anim.frame = 0;        
         break;
         case E_SPIKE_TRAP_2_ST_MOVE:
-            this->fixPos.y += itofix(16);
-            
-            this->ground = false;            
-            //check only down point    
-            /*if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
-            {
-                if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
-                    this->state = E_SPIKE_TRAP_2_ST_STILL;
-                else
-                    this->state = E_SPIKE_TRAP_2_ST_BREAK;            
-            }
-            else*/ if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
+            this->fixPos.y += itofix(SPIKE_TRAP_2_Y_MOVE);
+            this->state = E_SPIKE_TRAP_2_ST_IDLE;
+            sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
+        break;
+        case E_SPIKE_TRAP_2_ST_STOP:
+            if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))
             {
                 //hurt player if collided
                 player->signal = E_ENT_SIGNAL_HURT;
-                if (!CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
-                    this->state = E_SPIKE_TRAP_2_ST_BREAK;
-            }
-
-            this->state = E_SPIKE_TRAP_2_ST_IDLE;
-        break;
-        case E_SPIKE_TRAP_2_ST_BREAK:
-            //stop object
-            this->fixVel.x = 0;
-            this->fixVel.y = 0;                                                        
-            //play break animation
-            if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
-            {
-                this->dead = true;
-            }
-        break;
-        case E_SPIKE_TRAP_2_ST_STILL:
-            //stop object
-            this->fixVel.x = 0;
-            this->fixVel.y = 0;                                                        
+            }    
         break;
     }
 }
