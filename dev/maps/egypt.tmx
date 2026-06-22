@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="95">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="97">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -324,7 +324,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="528" y="256"/>
+  <object id="1" template="objects/player1.tx" x="592" y="256"/>
   <object id="4" template="platforms/quick-sand.tx" type="platform" x="1712" y="608" width="288" height="32">
    <properties>
     <property name="spare" type="int" value="288"/>
@@ -571,13 +571,24 @@
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
+  <object id="96" template="triggers/stopScroll.tx" x="240" y="560">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
+   </properties>
+  </object>
   <object id="89" name="scroll-mode" type="trigger" x="112" y="432" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="scroll_modes" value="1"/>
    </properties>
   </object>
-  <object id="93" name="door" type="trigger" x="688" y="256" width="16" height="32">
+  <object id="93" name="door-in" type="trigger" x="688" y="256" width="16" height="32">
    <properties>
+    <property name="spare" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="95" name="door-out" type="trigger" x="32" y="592" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="1"/>
    </properties>
   </object>

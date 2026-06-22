@@ -470,8 +470,7 @@ void game_update()
             if (game.doorId != 0)
             {
                 game.fadeOut = true;
-                game.state = E_GAME_ST_MOVE_TO_DOOR;
-                game.doorId = 0;
+                game.state = E_GAME_ST_MOVE_TO_DOOR;                
             }
 
             #ifdef DEBUGMODE
@@ -483,8 +482,30 @@ void game_update()
             #endif
         break;
         case E_GAME_ST_MOVE_TO_DOOR:
+            //search door-out id                     
+            tEntity *searchEntity;
+            for (uint8_t i = 0; i < entities_get_num(); i++)
+            {
+                searchEntity = entity_get(i);
+                //if it's door out object with spare equal to door-id
+                if (searchEntity->entClass == E_ENT_CLASS_TRIGGER && searchEntity->entType == E_DOOR_OUT_OBJECT_TYPE && searchEntity->spare == game.doorId)
+                {
+                    //set player to door position and stops
+                    tEntity *player = entity_get(entity_get_player_id());
+                    player->fixPos = searchEntity->fixPos;
+                    player->pos = searchEntity->pos;
+                    player->fixVel = (tFixVector){0, 0};
+                    player->dir = searchEntity->dir;
+                    //reinit scroll and update-draw level
+                    scroll_init(entity_get(entity_get_player_id())->pos);
+                    game_update_level();
+                    game_draw_level();
+                }
+            }
+            //return to play
             game.fadeIn = true;
             game.state = E_GAME_ST_PLAY_LEVEL;
+            game.doorId = 0;
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
             switch (gameSeq.step)

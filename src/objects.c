@@ -140,7 +140,8 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
         case E_CHECKPOINT_OBJECT_TYPE: 
-        case E_DOOR_OBJECT_TYPE:           
+        case E_DOOR_IN_OBJECT_TYPE:       
+        case E_DOOR_OUT_OBJECT_TYPE:       
             entity->img = NULL;
             entity->size = (tVector){16, 36};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
@@ -323,7 +324,8 @@ void object_update(tEntity *entity)
         case E_BACKCOLOR_OBJECT_TYPE:
         case E_SYMBOL_HOLE_OBJECT_TYPE:
         case E_SCROLLMODE_OBJECT_TYPE:
-        case E_DOOR_OBJECT_TYPE:
+        case E_DOOR_IN_OBJECT_TYPE:
+        case E_DOOR_OUT_OBJECT_TYPE:
             object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
@@ -697,7 +699,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         case E_SCROLLMODE_OBJECT_TYPE:
             scroll_set_scroll_mode(this->spare);            
         break;
-        case E_DOOR_OBJECT_TYPE:
+        case E_DOOR_IN_OBJECT_TYPE:
             //if collision with player and press UP
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY) && input_key_down(E_G_KEY_UP))
             {
