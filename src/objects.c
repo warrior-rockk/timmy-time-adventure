@@ -150,7 +150,8 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT;
         break;
-        case E_STOP_SCROLL_OBJECT_TYPE:            
+        case E_STOP_SCROLL_OBJECT_TYPE:
+        case E_SCROLLMODE_OBJECT_TYPE:            
             entity->img = NULL;
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
@@ -319,6 +320,7 @@ void object_update(tEntity *entity)
         case E_STOP_SCROLL_OBJECT_TYPE:
         case E_BACKCOLOR_OBJECT_TYPE:
         case E_SYMBOL_HOLE_OBJECT_TYPE:
+        case E_SCROLLMODE_OBJECT_TYPE:
             object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
@@ -689,6 +691,9 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
         case E_BACKCOLOR_OBJECT_TYPE:
             map_change_background_color(this->spare);
         break;
+        case E_SCROLLMODE_OBJECT_TYPE:
+            scroll_set_scroll_mode(this->spare);            
+        break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:
             //object definitions
             #define SYMBOL_HOLE_CORRECT_DELAY       80
@@ -775,7 +780,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
                         if (local->timer >= PUZZLE2_NUM_DOOR_TILES)
                             this->state++;  //go to state not defined (do nothing)
                     }
-                break;
+                break;                
             }
         break;
     }

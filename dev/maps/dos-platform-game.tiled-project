@@ -189,6 +189,19 @@
             "valuesAsFlags": false
         },
         {
+            "id": 27,
+            "name": "scroll_modes",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "E_SCROLL_MODE_NONE",
+                "E_SCROLL_MODE_ALL_MOVE",
+                "E_SCROLL_MODE_BY_WINDOW",
+                "E_SCROLL_MODE_BY_WINDOW_Y_ONLY"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "id": 6,
             "name": "stopScroll",
             "storageType": "int",

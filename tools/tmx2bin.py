@@ -53,6 +53,7 @@ object_ent_types = {
     "egypt-platform": 23,
     "spike-trap"    : 24,
     "lance"         : 25,
+    "scroll-mode"   : 26,
 }
 
 #define entity enemies types

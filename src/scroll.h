@@ -82,6 +82,8 @@ tVector scroll_get_position();
 void scroll_stop_scroll(uint8_t dir, int16_t value);
 //get stop scroll values for a stop scroll direction (left, right, down or up)
 int16_t scroll_get_stop_scroll(uint8_t dir);
-
+//function to shake screen camera
 void scroll_shake_camera();
+//sets the scroll mode
+void scroll_set_scroll_mode(uint8_t mode);
 #endif

@@ -272,3 +272,8 @@ void scroll_shake_camera()
 {
     scroll.cameraShake = true;
 }
+
+void scroll_set_scroll_mode(uint8_t mode)
+{
+    scroll.mode = mode;
+}
