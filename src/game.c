@@ -467,6 +467,13 @@ void game_update()
             if (input_key_down(E_G_KEY_EXIT))
                     game.state = E_GAME_ST_PLAY_MENU;            
             
+            if (game.doorId != 0)
+            {
+                game.fadeOut = true;
+                game.state = E_GAME_ST_MOVE_TO_DOOR;
+                game.doorId = 0;
+            }
+
             #ifdef DEBUGMODE
                 if (key[KEY_R] && (key_shifts & KB_CTRL_FLAG))
                     game.state = E_GAME_ST_INIT_LEVEL;
@@ -474,6 +481,10 @@ void game_update()
                 if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
                     game.state = E_GAME_ST_COMPLETE_LEVEL;    
             #endif
+        break;
+        case E_GAME_ST_MOVE_TO_DOOR:
+            game.fadeIn = true;
+            game.state = E_GAME_ST_PLAY_LEVEL;
         break;
         case E_GAME_ST_PAUSE_LEVEL:            
             switch (gameSeq.step)
@@ -976,8 +987,9 @@ void game_init()
     game.fadeOut        = true;    
     game.viewMap        = false;
     hud.refresh         = E_REFRESH_HUD_ALL;
-    gameSeq.step = 0;
+    gameSeq.step        = 0;
     gameSeq.timeCounter = 0;
+    game.doorId         = 0;
 
     //load game config
     game_load_config();

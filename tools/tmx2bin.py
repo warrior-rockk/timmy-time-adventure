@@ -54,6 +54,7 @@ object_ent_types = {
     "spike-trap"    : 24,
     "lance"         : 25,
     "scroll-mode"   : 26,
+    "door"          : 27,
 }
 
 #define entity enemies types

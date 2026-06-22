@@ -79,6 +79,7 @@ enum E_GAME_STATE
     E_GAME_ST_LOAD_LEVEL,
     E_GAME_ST_INIT_LEVEL,
     E_GAME_ST_PLAY_LEVEL,
+    E_GAME_ST_MOVE_TO_DOOR,
     E_GAME_ST_PAUSE_LEVEL,
     E_GAME_ST_PLAY_MENU,
     E_GAME_ST_LOSE_LIVE,
@@ -215,6 +216,7 @@ typedef struct
     uint8_t viewMap;
     uint8_t scrollMode;
     uint8_t levelComplete[E_GAME_NUM_LEVELS];
+    uint8_t doorId;
 } tGame;
 
 //options for debug mode
