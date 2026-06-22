@@ -1269,15 +1269,24 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
     #define ANIM_TRAP_ARROW_SHOOT        1,   1, 20,  ANIM_ONCE
     
     //object states
-    enum E_TRAP_ARROW_OBJECT_STATES{E_TRAP_ARROW_ST_IDLE, E_TRAP_ARROW_ST_SHOOT};
+    enum E_TRAP_ARROW_OBJECT_STATES{E_TRAP_ARROW_INIT_DELAY, E_TRAP_ARROW_ST_IDLE, E_TRAP_ARROW_ST_SHOOT};
 
     switch (this->state)
     {
-        case E_TRAP_ARROW_ST_IDLE:
-            if (this->spare == 0)  
-                this->spare = TRAP_ARROW_DEFAULT_TIMER;
-
+        case E_TRAP_ARROW_INIT_DELAY:            
             if (local->timer >= this->spare)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else 
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_TRAP_ARROW_IDLE_FRAME;
+        break;
+        case E_TRAP_ARROW_ST_IDLE:            
+            if (local->timer >= TRAP_ARROW_DEFAULT_TIMER)
             {
                 this->state++;                
                 local->timer = 0;
