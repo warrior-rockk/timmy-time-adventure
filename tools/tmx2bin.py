@@ -82,6 +82,7 @@ enemy_ent_types = {
     "mummy"         : 18,
     "hitbox"        : 19,
     "vulture"       : 20,
+    "anubis"        : 21,
 }
 
 #define array of lists of entity types

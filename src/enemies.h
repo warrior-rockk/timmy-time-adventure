@@ -36,6 +36,7 @@ enum E_ENEMY_TYPE
     E_MUMMY_ENEMY_TYPE,
     E_HITBOX_ENEMY_TYPE,
     E_VULTURE_ENEMY_TYPE,
+    E_ANUBIS_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -118,4 +119,5 @@ void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_vulture_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif

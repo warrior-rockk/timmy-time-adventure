@@ -333,6 +333,14 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){33, 30};                          
             entity->size = (tVector){20, 16};                  
         break;
+        case E_ANUBIS_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ANUBIS_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_WIP], enemyDataFileIndex, WIP_WAV);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){57, 44};                          
+            entity->size = (tVector){20, 32};
+            entity->axis = E_ENT_AXIS_DOWN;              
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -408,7 +416,7 @@ void enemy_update(tEntity *entity)
         case E_BAT_ENEMY_TYPE:            
             enemy_bat_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
-        case E_EGYPTIAN_ENEMY_TYPE:            
+        case E_EGYPTIAN_ENEMY_TYPE:             
             enemy_egyptian_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         case E_BEETLE_ENEMY_TYPE:          
@@ -423,6 +431,9 @@ void enemy_update(tEntity *entity)
         case E_VULTURE_ENEMY_TYPE:
             enemy_vulture_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
+        case E_ANUBIS_ENEMY_TYPE:             
+            enemy_anubis_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;        
         default:
         break;
     }
@@ -1694,6 +1705,84 @@ void enemy_vulture_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;
         case E_VULTURE_ST_HURT:
             enemy_dead(this, ANIM_VULTURE_HURT);            
+        break;
+    }       
+}
+
+void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define ANUBIS_PLAYER_RANGE               50
+    #define ANUBIS_ATTACK_FRAME               6
+    #define ANUBIS_HITBOX_X_OFFSET_LEFT       22
+    #define ANUBIS_HITBOX_X_OFFSET_RIGHT      6
+    #define ANUBIS_HITBOX_DURATION            20
+    #define ANUBIS_WAIT_ATTACK                50
+    
+    //enemy animations
+    #define ANIM_ANUBIS_IDLE   0,   0,  10, ANIM_LOOP
+    #define ANIM_ANUBIS_ATACK  1,   7,  8, ANIM_PING_PONG_ONCE    
+    #define ANIM_ANUBIS_DEAD   8,   15,  8, ANIM_ONCE
+
+    //enemy states
+    enum E_ANUBIS_ENEMY_STATES{E_ANUBIS_ST_IDLE, E_ANUBIS_ST_ATTACK, E_ANUBIS_ST_WAIT, E_ANUBIS_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_ANUBIS_ST_HURT;    
+    
+    switch (this->state)
+    {
+        case E_ANUBIS_ST_IDLE:                        
+            this->dir = E_ENT_DIR_LEFT;    
+            
+            //check range of player
+            player = entity_get(entity_get_player_id());
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, ANUBIS_PLAYER_RANGE))
+                this->state = E_ANUBIS_ST_ATTACK;
+
+            play_animation(&this->anim, ANIM_ANUBIS_IDLE);
+        break;        
+        case E_ANUBIS_ST_ATTACK:
+            if (this->anim.frame >= ANUBIS_ATTACK_FRAME)
+                SET_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+
+            player = entity_get(entity_get_player_id());
+            this->dir = player->pos.x > this->pos.x;
+
+            if (this->anim.frame == ANUBIS_ATTACK_FRAME)
+            {
+                if (!local->flag)
+                {
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -ANUBIS_HITBOX_X_OFFSET_LEFT : this->size.x + ANUBIS_HITBOX_X_OFFSET_RIGHT; 
+                    sfx_play(enemySfx[E_SFX_ENEMY_WIP], E_SFX_ENEMY_VOICE);
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, ANUBIS_HITBOX_DURATION);
+                }               
+            }
+            else
+                local->flag = false;
+
+            if (play_animation(&this->anim, ANIM_ANUBIS_ATACK))
+            {
+                this->state = E_ANUBIS_ST_WAIT;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+            }
+        break;   
+        case E_ANUBIS_ST_WAIT:        
+            if (local->timer >= ANUBIS_WAIT_ATTACK)
+            {
+                this->state = E_ANUBIS_ST_IDLE;                
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+            
+            play_animation(&this->anim, ANIM_ANUBIS_IDLE);
+        break;
+        case E_ANUBIS_ST_HURT:
+            enemy_dead(this, ANIM_ANUBIS_DEAD);            
         break;
     }       
 }
