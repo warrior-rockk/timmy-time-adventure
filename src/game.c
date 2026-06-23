@@ -409,6 +409,7 @@ void game_update()
                     game_hud_init();                    
 
                     game_update_level();
+                    entities_update();  //second update after update scroll
                     //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     
                     music_play(gameMusic, true);
@@ -501,6 +502,7 @@ void game_update()
                     game_update_level();
                     scroll_init(entity_get(entity_get_player_id())->pos);
                     game_update_level();
+                    entities_update();  //second update after update scroll
                     game_draw_level();
                 }
             }
