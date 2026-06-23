@@ -344,8 +344,8 @@ void enemy_create(tEntity *entity)
         case E_TRAP_FIRE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREBALL_BMP);
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){32, 18};                          
-            entity->size = (tVector){32, 16};                     
+            entity->spriteSize = (tVector){28, 15};                          
+            entity->size = (tVector){28, 15};                     
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
         default:
