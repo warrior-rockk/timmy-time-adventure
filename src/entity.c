@@ -279,6 +279,9 @@ void entity_destroy(uint16_t entityIndex)
 
     //copies last entity to deleted entity position
     entityList[entityIndex] = entityList[numEntities - 1];
+    //update id
+    entityList[entityIndex].id = entityIndex;
+
     //decrement entity number
     numEntities--;
     if (numEntities == 0)
@@ -349,6 +352,10 @@ void entities_update()
 
     for (uint8_t i = 0; i < numEntities; i++)
     {
+        //check id
+        if (entityList[i].id != i)
+	        abort_on_error("ERROR: entity id %i on position array %i\n", entityList[i].id, i);
+
         //check dead flag
         if (entityList[i].dead)            
         {

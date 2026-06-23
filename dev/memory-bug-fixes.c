@@ -1,7 +1,3 @@
-entity_destroy:
-
-//update id
-entityList[entityIndex].id = entityIndex;
 
 entity_update:
 if (entityList[i].id != i)
