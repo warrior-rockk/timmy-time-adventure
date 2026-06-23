@@ -411,11 +411,10 @@ void object_init(tEntity *entity)
             }
             else
             {
-                //TODO: restore this when map finished
-                /*for (uint8_t i; i < PUZZLE2_NUM_DOOR_TILES; i++)
+                for (uint8_t i; i < PUZZLE2_NUM_DOOR_TILES; i++)
                 {
                     map_change_tile((tVector){PUZZLE2_START_DOOR_X_TILE, PUZZLE2_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
-                }*/            
+                }            
                 memset(&egyptPuzzle2, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle2));
             }
         break;    
