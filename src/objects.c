@@ -1340,7 +1340,9 @@ void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
 void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
 {
     //object defines
-    #define PLATFORM_VELOCITY              0.6
+    #define PLATFORM_VELOCITY               0.6
+    #define PLATFORM_MOVE_TILES_X           3 * 16
+    #define PLATFORM_MOVE_TILES_Y           5 * 16
     
     //object states
     enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE};
@@ -1356,9 +1358,23 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
         //apply collision direction
         collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
         
-        //change direction if horizontal collision
-        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
-            local->flag = !local->flag;
+        switch (this->spare)
+        {
+            case E_PLATFORM_TYPE_MOVE_X_INI_LEFT:
+            case E_PLATFORM_TYPE_MOVE_X_INI_RIGHT:
+            case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT:
+            case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT:
+                //change direction if horizontal collision
+                if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+                    local->flag = !local->flag;
+            break;
+            case E_PLATFORM_TYPE_MOVE_Y:
+            case E_PLATFORM_TYPE_MOVE_Y_PATROL:
+                //change direction if vertical collision
+                if (colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN)
+                    local->flag = !local->flag;
+            break;
+        }        
     }
 
     switch (this->state)
@@ -1390,9 +1406,16 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
         case E_PLATFORM_ST_MOVE:            
             int16_t nextPos;
 
+            //horizontal patrol
             if (this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT || this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT)
             {
-                if ((!local->flag && this->pos.x > (this->initPos.x + 48)) || (local->flag && this->pos.x < (this->initPos.x - 48)))
+                if ((!local->flag && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (local->flag && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
+                    local->flag = !local->flag;
+            }
+            //vertical patrol
+            if (this->spare == E_PLATFORM_TYPE_MOVE_Y_PATROL)
+            {
+                if ((!local->flag && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (local->flag && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
                     local->flag = !local->flag;
             }
 
