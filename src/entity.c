@@ -277,11 +277,16 @@ void entity_destroy(uint16_t entityIndex)
         entityList[entityIndex].entity_destroy(&entityList[entityIndex]);         
     }
 
+    //save entity instance
+    uint8_t prevEntInstance = entityList[entityIndex].entInstance;
     //copies last entity to deleted entity position
-    entityList[entityIndex] = entityList[numEntities - 1];
+    entityList[entityIndex] = entityList[numEntities - 1];    
     //update id
     entityList[entityIndex].id = entityIndex;
-
+    //update instance number
+    entityList[entityIndex].entInstance = prevEntInstance;
+    MY_TRACE_FLAG("Before movement position %i id %i instance %i\n", entityIndex, entityList[entityIndex].id, entityList[entityIndex].entInstance);
+    
     //decrement entity number
     numEntities--;
     if (numEntities == 0)
@@ -291,9 +296,12 @@ void entity_destroy(uint16_t entityIndex)
         entityList = NULL;
     }
     else
+    {
         //reallocates the array with decremented entity number    
-        entityList = realloc(entityList, numEntities * sizeof(tEntity));
-    
+        MY_TRACE_FLAG("Trying to reallocate\n");
+        entityList = realloc(entityList, numEntities * sizeof(tEntity));        
+    }
+
     MY_TRACE_FLAG("Destroyed entity ID:%i\n", entityIndex);
 }
 

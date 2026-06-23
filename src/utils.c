@@ -73,7 +73,7 @@ void abort_on_error(const char *format, ...)
     #ifndef DEBUGMODE
         allegro_message(buf);
     #else
-        MY_TRACE("[ERROR]: %s\n", buf);
+        MY_TRACE("(%i)[ERROR]: %s\n", get_frame_counter(), buf);
         MY_TRACE("[ALLEGRO ERROR]: %s\n", allegro_error);
         allegro_message(buf);
         allegro_message(allegro_error);

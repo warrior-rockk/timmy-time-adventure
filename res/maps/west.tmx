@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="229">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="244">
  <properties>
   <property name="time" type="int" value="350"/>
  </properties>
@@ -849,6 +849,81 @@
    </properties>
   </object>
   <object id="64" name="indian_bow" type="enemy" x="272" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="229" name="indian_bow" type="enemy" x="176" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="230" name="indian_bow" type="enemy" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="231" name="indian_bow" type="enemy" x="112" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="232" name="indian_bow" type="enemy" x="144" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="233" name="indian_bow" type="enemy" x="96" y="48" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="234" name="indian_bow" type="enemy" x="128" y="48" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="235" name="indian_bow" type="enemy" x="160" y="48" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="236" name="indian_bow" type="enemy" x="112" y="0" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="237" name="indian_bow" type="enemy" x="144" y="0" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="238" name="indian_bow" type="enemy" x="208" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="239" name="indian_bow" type="enemy" x="48" y="96" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="240" name="indian_bow" type="enemy" x="64" y="48" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="241" name="indian_bow" type="enemy" x="192" y="48" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="242" name="indian_bow" type="enemy" x="80" y="0" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+   </properties>
+  </object>
+  <object id="243" name="indian_bow" type="enemy" x="176" y="0" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>

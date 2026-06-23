@@ -1,8 +1,3 @@
-
-entity_update:
-if (entityList[i].id != i)
-	MY_TRACE_FLAG("ERROR: entity id %i on position array %i\n", entityList[i].id, i);
-
 object_destroy:
 	update object instance number   
     TODO: what happens with platform or trigger?? 

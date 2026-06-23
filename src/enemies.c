@@ -115,12 +115,15 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
 
     //get last index
     int16_t last_index = *listSize - 1;
-
+    MY_TRACE_FLAG("enemyIndex %i last_index %i numEnemyinstances %i\n", enemyIndex, last_index, numEnemyInstances);
     //if element isn't last, make the swap
     if (enemyIndex != last_index) {
         //copy data from last element to remove element position
         array[enemyIndex] = array[last_index];
 
+        MY_TRACE_FLAG("Copied Enemy index %i to %i\n", last_index , enemyIndex);
+        
+        /*
         //get the entity of last index enemy index (we need to update his instace number)
         tEntity *lastEnemyEntity = entity_get_by_instance(E_ENT_CLASS_ENEMY, last_index);
         if (lastEnemyEntity == NULL)
@@ -128,7 +131,7 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         
         //updates instance number
         MY_TRACE_FLAG("Enemy id %i instance %i moved to instance %i\n", lastEnemyEntity->id, lastEnemyEntity->entInstance, enemyIndex);
-        lastEnemyEntity->entInstance = enemyIndex;    
+        lastEnemyEntity->entInstance = enemyIndex;    */
     }
     
     //decrease the size counter (pop)
@@ -145,6 +148,8 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         free(array);
         array = NULL;
     }
+
+    MY_TRACE_FLAG("Num enemy instances after destroy: %i\n", *listSize);
 
     return array;
 }
