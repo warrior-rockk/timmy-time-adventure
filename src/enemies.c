@@ -341,6 +341,13 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){20, 32};
             entity->axis = E_ENT_AXIS_DOWN;              
         break;
+        case E_TRAP_FIRE_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREBALL_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){32, 18};                          
+            entity->size = (tVector){32, 16};                     
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -411,6 +418,7 @@ void enemy_update(tEntity *entity)
         break;
         case E_ARROW_ENEMY_TYPE:            
         case E_TRAP_ARROW_ENEMY_TYPE:
+        case E_TRAP_FIRE_ENEMY_TYPE:
             enemy_arrow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_BAT_ENEMY_TYPE:            
@@ -1339,6 +1347,7 @@ void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_ARROW_IDLE   0,   0, 10,  ANIM_LOOP
+    #define ANIM_FIREBALL     0,   2, 10, ANIM_LOOP
     
     //enemy states
     enum E_ARROW_ENEMY_STATES{E_ARROW_ST_IDLE};   
@@ -1348,7 +1357,10 @@ void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_ARROW_ST_IDLE:            
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-ARROW_VELOCITY) : ftofix(ARROW_VELOCITY);
 
-            play_animation(&this->anim, ANIM_ARROW_IDLE);
+            if (this->entType == E_TRAP_FIRE_ENEMY_TYPE)
+                play_animation(&this->anim, ANIM_FIREBALL);
+            else
+                play_animation(&this->anim, ANIM_ARROW_IDLE);
         break;
     }       
 }

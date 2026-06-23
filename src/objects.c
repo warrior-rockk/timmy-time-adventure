@@ -307,6 +307,13 @@ void object_create(tEntity *entity)
             collision_create_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
         break;
+        case E_TRAP_FIRE_OBJECT_TYPE:
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, OTRAPA_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_ARROW], objectDataFileIndex, TRAPA_WAV);
+            entity->img = objectResources[entity->entType]; 
+            entity->spriteSize = (tVector){16, 16};                          
+            entity->size = (tVector){16, 16};                     
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -365,6 +372,7 @@ void object_update(tEntity *entity)
             object_quick_sand_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
+        case E_TRAP_FIRE_OBJECT_TYPE:
             object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;                
         case E_EGYPT_PLATFORM_OBJECT_TYPE:
@@ -1322,7 +1330,16 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
                 sfx_play(objectSfx[E_SFX_OBJECT_ARROW], E_SFX_OBJECT_VOICE);
-                entity_create(E_ENT_CLASS_ENEMY, E_TRAP_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 8}, this->dir, this->spare);
+                switch (this->entType)
+                {
+                    case E_TRAP_ARROW_OBJECT_TYPE:
+                        entity_create(E_ENT_CLASS_ENEMY, E_TRAP_ARROW_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 8}, this->dir, this->spare);
+                    break;
+                    case E_TRAP_FIRE_OBJECT_TYPE:
+                        entity_create(E_ENT_CLASS_ENEMY, E_TRAP_FIRE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 0}, this->dir, this->spare);
+                    break;
+                }
+                
             }
         break;
     }    

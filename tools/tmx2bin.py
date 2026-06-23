@@ -57,6 +57,7 @@ object_ent_types = {
     "door-in"       : 27,
     "door-out"      : 28,
     "spike-trap2"   : 29,
+    "trap-fire"     : 30,
 }
 
 #define entity enemies types
@@ -83,6 +84,7 @@ enemy_ent_types = {
     "hitbox"        : 19,
     "vulture"       : 20,
     "anubis"        : 21,
+    "trap-fire"     : 22,
 }
 
 #define array of lists of entity types
