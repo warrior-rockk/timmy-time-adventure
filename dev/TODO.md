@@ -5,6 +5,7 @@
 
 # Engine
 
+- [ ] Modify lance delay as trap-arrow
 - [ ] Secret areas?
 - [ ] Cheat codes?
 - [ ] Light the symbol puzzle when object it's above
