@@ -1300,7 +1300,7 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
                 local->timer = 0;
                 local->flag = false;
             }
-            else 
+            else if (scroll_position_on_region(this->pos))
                 local->timer += clock_tick_get();
             
             this->anim.frame = ANIM_TRAP_ARROW_IDLE_FRAME;
@@ -1567,7 +1567,7 @@ void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->state)
     {
         case E_SPIKE_TRAP_2_ST_IDLE:
-            if (clock_counter_check(SPIKE_TRAP_2_CADENCE))
+            if (clock_counter_check(SPIKE_TRAP_2_CADENCE) && (scroll_position_on_region(this->pos)))
             {
                 this->state++;
             }

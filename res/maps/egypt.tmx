@@ -961,7 +961,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="448" y="576" width="16" height="32">
+  <object id="1" name="player1" type="player" x="560" y="432" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
