@@ -72,3 +72,6 @@
 * Use two persistent solid objects to move trought spikes like floor is lava
 * Egypt: some kind of puzzle with buttons and eyes symbol closes... (bring eye, bettle, symbol object and throw on each piece to unlock area)
 * Egypt: more traps
+
+## Debug objdump
+`..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`

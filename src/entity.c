@@ -26,7 +26,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
 {
     tVector scrollPos = scroll_get_position();
         
-    if (entity->img)
+    if (entity->img != NULL)
     {
         int16_t drawX, drawY;
         
@@ -79,6 +79,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
         #ifdef DEBUGMODE
         }
         #endif
+
+        //need to destroy bitmap each time
+        destroy_bitmap(entitySprite);
     }
     
     #ifdef DEBUGMODE        
@@ -103,10 +106,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
                 }
             }            
         }
-    #endif
-
-    //need to destroy bitmap each time
-    destroy_bitmap(entitySprite);
+    #endif    
 }
 
 //public functions
