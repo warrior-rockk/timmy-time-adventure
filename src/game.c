@@ -452,6 +452,11 @@ void game_update()
             else if (clock_tick_1sec_get())
             {
                 game.time--;
+                #ifdef DEBUGMODE
+                    #if DEBUG_NO_LEVEL_TIME
+                        game.time++;
+                    #endif
+                #endif
                 //speed up music on 10 seconds left
                 if (game.time == GAME_HURRY_TIME_LEFT)
                     music_set_tempo(GAME_HURRY_MUSIC_TEMPO);
@@ -568,14 +573,14 @@ void game_update()
                                 dialog_destroy(&gameDialog);
                             break;
                             case 2: //EXIT TO TITLE
-                                game_destroy_level();
+                                game_destroy_level();                                
                                 //clear completed levels
                                 memset(&game.levelComplete, 0, sizeof(game.levelComplete));
                                 game.fadeOut = true;
                                 game.state = E_GAME_ST_TITLE;
                                 
-                                gameSeq.step = 0;
-                                dialog_destroy(&gameDialog);                                
+                                gameSeq.step = 0;                               
+                                dialog_destroy(&gameDialog); 
                             break;
                             case 3: //EXIT TO DOS
                                 game.state = E_GAME_ST_EXIT;
