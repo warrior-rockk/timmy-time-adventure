@@ -299,14 +299,21 @@ void map_draw(BITMAP *buffer, bool frontLayer)
                         tilesOnFrontLayer = true;
                     else 
                     {
-                        //check if tile animation 
-                        if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
-                            //draw tile animation frame                            
-                            draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                                                
+                        if (buffer != NULL)
+                        {
+                            //check if tile animation 
+                            if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
+                                //draw tile animation frame                            
+                                draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                                                
+                            else
+                            {
+                                //draw tile id
+                                draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                            }
+                        }
                         else
                         {
-                            //draw tile id
-                            draw_sprite(buffer, tiles[tile->tileId - 1], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                        
+                            abort_on_error("map: buffer pointer null\n");
                         }
                     }
                 }

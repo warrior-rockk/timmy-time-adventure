@@ -69,19 +69,27 @@ tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSele
 
 void dialog_destroy(tDialog *dialog)
 {
+    if (dialog == NULL)
+        return;
+
     //free container bitmap
-    if (dialog->drawContainer)
+    if (dialog->drawContainer != NULL)
     {
-        destroy_bitmap(dialog->drawContainer);        
+        destroy_bitmap(dialog->drawContainer);
+        dialog->drawContainer = NULL;
     }
+
     //free allocated memory for options
-    if (dialog->option)
+    if (dialog->option != NULL)
+    {
         free(dialog->option);
+        dialog->option = NULL; 
+    }
 }
 
 void dialog_add_option(tDialog *dialog, const char *optionText)
 {
-    ASSERT(strlen(optionText) <= DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(optionText) < DIALOG_MAX_OPTION_LENGTH);
     
     //allocates option memory
     dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
@@ -113,8 +121,8 @@ void dialog_add_option(tDialog *dialog, const char *optionText)
 
 void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t *value)
 {
-    ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
-    ASSERT(strlen(strValues) <= DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(textOptions) < DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(strValues) < DIALOG_MAX_OPTION_LENGTH);
 
     //allocates option memory
     dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
@@ -154,7 +162,7 @@ void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char
 
 void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t minValue, int16_t maxValue, uint8_t *value, uint8_t inc)
 {
-    ASSERT(strlen(textOptions) <= DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(textOptions) < DIALOG_MAX_OPTION_LENGTH);
     
     //allocates option memory
     dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));
@@ -187,7 +195,7 @@ void dialog_add_num_option(tDialog *dialog, const char *textOptions, int16_t min
 
 void dialog_add_text(tDialog *dialog, const char *text)
 {
-    ASSERT(strlen(text) <= DIALOG_MAX_OPTION_LENGTH);
+    ASSERT(strlen(text) < DIALOG_MAX_OPTION_LENGTH);
     
     //allocates option memory
     dialog->option  = realloc(dialog->option, (dialog->numOptions + 1) * sizeof(tDialogOption));

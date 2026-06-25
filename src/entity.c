@@ -30,9 +30,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
     {
         int16_t drawX, drawY;
         
-        //assign current frame sub-bitmap of entity        
+        //assign current frame sub-bitmap of entity 
         entitySprite = create_sub_bitmap(entity->img, entity->anim.frame * entity->spriteSize.x, 0, entity->spriteSize.x, entity->spriteSize.y);
-
+        
         //check alignment axis
         switch (entity->axis)
         {
@@ -64,10 +64,18 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
         if (debugOptions.showDebugInfo == DEBUG_SHOW_ALL_LAYER || !debugOptions.showDebugInfo)
         {
         #endif    
-            if (entity->dir == E_ENT_DIR_RIGHT)               
-                draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);              
+            if (buffer != NULL && entitySprite != NULL)
+            {
+                if (entity->dir == E_ENT_DIR_RIGHT)               
+                    draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);              
+                else
+                    draw_sprite_h_flip(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                                        
+            }
             else
-                draw_sprite_h_flip(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                        
+            {
+                if (buffer == NULL) abort_on_error("buffer pointer is null\n");
+                if (entitySprite == NULL) abort_on_error("entity sprite pointer is null\n");
+            }
         #ifdef DEBUGMODE
         }
         #endif
@@ -96,6 +104,9 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
             }            
         }
     #endif
+
+    //need to destroy bitmap each time
+    destroy_bitmap(entitySprite);
 }
 
 //public functions
@@ -285,7 +296,7 @@ void entity_destroy(uint16_t entityIndex)
     entityList[entityIndex].id = entityIndex;
     //update instance number
     entityList[entityIndex].entInstance = prevEntInstance;
-    MY_TRACE_FLAG("Before movement position %i id %i instance %i\n", entityIndex, entityList[entityIndex].id, entityList[entityIndex].entInstance);
+    //MY_TRACE_FLAG("Before movement position %i id %i instance %i\n", entityIndex, entityList[entityIndex].id, entityList[entityIndex].entInstance);
     
     //decrement entity number
     numEntities--;
@@ -298,8 +309,7 @@ void entity_destroy(uint16_t entityIndex)
     else
     {
         //reallocates the array with decremented entity number    
-        MY_TRACE_FLAG("Trying to reallocate\n");
-        entityList = realloc(entityList, numEntities * sizeof(tEntity));        
+        entityList = realloc(entityList, numEntities * sizeof(tEntity));          
     }
 
     MY_TRACE_FLAG("Destroyed entity ID:%i\n", entityIndex);
@@ -439,9 +449,13 @@ void entities_update()
             //trace debug
             #ifdef DEBUGMODE
                 #if DEBUG_TRACE_ENTITIES
+                    
                     if (entityList[i].state != entityList[i].prevState)
+                    {
                         //TRACE("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
                         MY_TRACE_FLAG("Entity %i changes from state %i to state %i\n", i, entityList[i].prevState, entityList[i].state);
+                        
+                    }                
                 #endif
             #endif
         }
@@ -475,7 +489,6 @@ void entities_destroy_all()
         entity_destroy(i);
     }    
     //free current draw entity sprite
-    free(entitySprite);
     entitySprite = NULL;
 }
 
