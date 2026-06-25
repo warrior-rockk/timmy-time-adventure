@@ -115,13 +115,13 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
 
     //get last index
     int16_t last_index = *listSize - 1;
-    MY_TRACE_FLAG("enemyIndex %i last_index %i numEnemyinstances %i\n", enemyIndex, last_index, numEnemyInstances);
+    //MY_TRACE_FLAG("enemyIndex %i last_index %i numEnemyinstances %i\n", enemyIndex, last_index, numEnemyInstances);
     //if element isn't last, make the swap
     if (enemyIndex != last_index) {
         //copy data from last element to remove element position
         array[enemyIndex] = array[last_index];
 
-        MY_TRACE_FLAG("Copied Enemy index %i to %i\n", last_index , enemyIndex);
+        //MY_TRACE_FLAG("Copied Enemy index %i to %i\n", last_index , enemyIndex);
         
         /*
         //get the entity of last index enemy index (we need to update his instace number)
@@ -149,7 +149,7 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         array = NULL;
     }
 
-    MY_TRACE_FLAG("Num enemy instances after destroy: %i\n", *listSize);
+    //MY_TRACE_FLAG("Num enemy instances after destroy: %i\n", *listSize);
 
     return array;
 }

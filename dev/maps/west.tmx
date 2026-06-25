@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="244">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="272">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -457,22 +457,7 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="64" template="enemies/west/indian_bow.tx" type="enemy" x="272" y="96"/>
-  <object id="229" template="enemies/west/indian_bow.tx" type="enemy" x="176" y="96"/>
-  <object id="230" template="enemies/west/indian_bow.tx" type="enemy" x="80" y="96"/>
-  <object id="231" template="enemies/west/indian_bow.tx" type="enemy" x="112" y="96"/>
-  <object id="232" template="enemies/west/indian_bow.tx" type="enemy" x="144" y="96"/>
-  <object id="233" template="enemies/west/indian_bow.tx" type="enemy" x="96" y="48"/>
-  <object id="234" template="enemies/west/indian_bow.tx" type="enemy" x="128" y="48"/>
-  <object id="235" template="enemies/west/indian_bow.tx" type="enemy" x="160" y="48"/>
-  <object id="236" template="enemies/west/indian_bow.tx" type="enemy" x="112" y="0"/>
-  <object id="237" template="enemies/west/indian_bow.tx" type="enemy" x="144" y="0"/>
-  <object id="238" template="enemies/west/indian_bow.tx" type="enemy" x="208" y="96"/>
-  <object id="239" template="enemies/west/indian_bow.tx" type="enemy" x="48" y="96"/>
-  <object id="240" template="enemies/west/indian_bow.tx" type="enemy" x="64" y="48"/>
-  <object id="241" template="enemies/west/indian_bow.tx" type="enemy" x="192" y="48"/>
-  <object id="242" template="enemies/west/indian_bow.tx" type="enemy" x="80" y="0"/>
-  <object id="243" template="enemies/west/indian_bow.tx" type="enemy" x="176" y="0"/>
+  <object id="249" template="enemies/west/indian_bow.tx" type="enemy" x="288" y="96"/>
   <object id="56" template="enemies/west/cowboy.tx" x="4256" y="96" width="18" height="32">
    <properties>
     <property name="spare" type="int" value="0"/>
