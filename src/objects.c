@@ -137,15 +137,15 @@ void object_create(tEntity *entity)
             {
                 case 0:
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
-                    entity->spriteSize = (tVector){27, 27};
+                    entity->spriteSize = (tVector){20, 25};
                 break;
                 case 1:
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END1_BMP);
-                    entity->spriteSize = (tVector){24, 25};
+                    entity->spriteSize = (tVector){30, 27};
                 break;
                 case 2:
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END2_BMP);
-                    entity->spriteSize = (tVector){25, 26};
+                    entity->spriteSize = (tVector){25, 23};
                 break;
                 case 3:
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END3_BMP);

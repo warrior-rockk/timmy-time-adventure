@@ -4,7 +4,6 @@
 
 # Engine
 
-- [ ] different end level objects
 - [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?

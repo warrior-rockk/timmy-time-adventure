@@ -1284,7 +1284,11 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="204" name="endLevel" type="object" x="5072" y="416" width="16" height="16"/>
+  <object id="204" name="endLevel" type="object" x="5072" y="416" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="endType" value="2"/>
+   </properties>
+  </object>
   <object id="205" name="wagon" type="platform" x="4625.33" y="402.667" width="20" height="12"/>
   <object id="206" name="wagon" type="platform" x="4336.67" y="402.667" width="20" height="12"/>
   <object id="207" name="item" type="object" x="1808" y="352" width="16" height="16">

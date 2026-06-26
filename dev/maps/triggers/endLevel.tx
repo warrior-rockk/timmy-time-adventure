@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="endLevel" type="object" width="16" height="16"/>
+ <object name="endLevel" type="object" width="16" height="16">
+  <properties>
+   <property name="spare" type="int" propertytype="endType" value="0"/>
+  </properties>
+ </object>
 </template>

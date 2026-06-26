@@ -729,7 +729,11 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="204" template="triggers/endLevel.tx" x="5072" y="416"/>
+  <object id="204" template="triggers/endLevel.tx" x="5072" y="416">
+   <properties>
+    <property name="spare" type="int" propertytype="endType" value="2"/>
+   </properties>
+  </object>
   <object id="205" template="platforms/wagon.tx" x="4625.33" y="402.667"/>
   <object id="206" template="platforms/wagon.tx" x="4336.67" y="402.667"/>
   <object id="207" template="objects/item.tx" x="1808" y="352"/>

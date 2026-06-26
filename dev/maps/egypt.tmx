@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="223">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="226">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -896,9 +896,9 @@
     <property name="spare" type="int" value="6"/>
    </properties>
   </object>
-  <object id="176" template="triggers/endLevel.tx" x="3776" y="224">
+  <object id="176" template="triggers/endLevel.tx" x="3776" y="240">
    <properties>
-    <property name="spare" type="int" value="3"/>
+    <property name="spare" type="int" propertytype="endType" value="1"/>
    </properties>
   </object>
   <object id="177" template="platforms/egypt-platform.tx" x="2928" y="144" width="48" height="16">

@@ -56,6 +56,19 @@
             "valuesAsFlags": false
         },
         {
+            "id": 28,
+            "name": "endType",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "END_0",
+                "END_1",
+                "END_2",
+                "END_3"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 7,
