@@ -676,8 +676,8 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    scroll_update(entity_get(entity_get_player_id())->pos);                    
-                    entities_draw(worldScreen);
+                    //scroll_update(entity_get(entity_get_player_id())->pos);                    
+                    //entities_draw(worldScreen);
 
                     music_stop(gameMusic);
 
