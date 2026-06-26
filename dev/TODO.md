@@ -7,7 +7,6 @@
 - [ ] different end level objects
 - [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
-- [ ] camera scroll platform id?
 - [ ] Secret areas?
 - [ ] Cheat codes?
 - [ ] Light the symbol puzzle when object it's above
