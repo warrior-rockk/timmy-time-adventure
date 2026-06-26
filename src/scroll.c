@@ -156,10 +156,22 @@ static void scroll_update_y(tVector cameraTarget, bool init)
     {
         //continuous follow camera: sets scroll position y to center cameraTarget +/- offset
         case E_SCROLL_MODE_ALL_MOVE:
-            if (cameraTarget.y > (scroll.window.y >> 1) + scroll.pos.y + SCROLL_OFFSET_Y)
+            if (cameraTarget.y > (scroll.window.y >> 1) + scroll.pos.y + SCROLL_OFFSET_Y) 
                 scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) - SCROLL_OFFSET_Y;
             else if (cameraTarget.y < (scroll.window.y >> 1) + scroll.pos.y - SCROLL_OFFSET_Y)
-                scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) + SCROLL_OFFSET_Y;        
+                scroll.pos.y = cameraTarget.y - (scroll.window.y >> 1) + SCROLL_OFFSET_Y;    
+            
+            //check stop scroll
+            if (scroll.stopScroll.down)
+            {
+                if (scroll.pos.y > scroll.stopScroll.down - scroll.window.y)
+                    scroll.pos.y = scroll.stopScroll.down - scroll.window.y;
+            }
+            if (scroll.stopScroll.up)
+            {
+                if (scroll.pos.y < scroll.stopScroll.up)
+                    scroll.pos.y = scroll.stopScroll.up;
+            }
         break;
         //moves the scroll only when change the size of scroll window +/- range
         case E_SCROLL_MODE_BY_WINDOW:
