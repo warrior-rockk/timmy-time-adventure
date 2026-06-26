@@ -898,7 +898,7 @@
   </object>
   <object id="176" template="triggers/endLevel.tx" x="3776" y="224">
    <properties>
-    <property name="spare" type="int" value="2"/>
+    <property name="spare" type="int" value="3"/>
    </properties>
   </object>
   <object id="177" template="platforms/egypt-platform.tx" x="2928" y="144" width="48" height="16">

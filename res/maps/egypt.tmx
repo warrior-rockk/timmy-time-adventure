@@ -1652,7 +1652,7 @@
   </object>
   <object id="176" name="endLevel" type="object" x="3776" y="224" width="16" height="16">
    <properties>
-    <property name="spare" type="int" value="2"/>
+    <property name="spare" type="int" value="3"/>
    </properties>
   </object>
   <object id="177" name="egypt-platform" type="platform" x="2928" y="144" width="48" height="16">

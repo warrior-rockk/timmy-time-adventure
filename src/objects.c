@@ -147,6 +147,10 @@ void object_create(tEntity *entity)
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END2_BMP);
                     entity->spriteSize = (tVector){25, 26};
                 break;
+                case 3:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END3_BMP);
+                    entity->spriteSize = (tVector){20, 27};
+                break;
             }            
             entity->img = objectResources[entity->entType];            
             entity->size = (tVector){8, 8};      
