@@ -896,7 +896,11 @@
     <property name="spare" type="int" value="6"/>
    </properties>
   </object>
-  <object id="176" template="triggers/endLevel.tx" x="3776" y="224"/>
+  <object id="176" template="triggers/endLevel.tx" x="3776" y="224">
+   <properties>
+    <property name="spare" type="int" value="2"/>
+   </properties>
+  </object>
   <object id="177" template="platforms/egypt-platform.tx" x="2928" y="144" width="48" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platform_type" value="6"/>
@@ -998,6 +1002,6 @@
    </properties>
   </object>
   <object id="221" template="triggers/stopScroll.tx" x="400" y="480"/>
-  <object id="222" template="triggers/debug-start.tx" x="3088" y="256"/>
+  <object id="222" template="triggers/debug-start.tx" x="3712" y="256"/>
  </objectgroup>
 </map>

@@ -133,9 +133,22 @@ void object_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_END_LEVEL_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
-            entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){27, 27};
+            switch (entity->spare)
+            {
+                case 0:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END_BMP);
+                    entity->spriteSize = (tVector){27, 27};
+                break;
+                case 1:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END1_BMP);
+                    entity->spriteSize = (tVector){24, 25};
+                break;
+                case 2:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, END2_BMP);
+                    entity->spriteSize = (tVector){25, 26};
+                break;
+            }            
+            entity->img = objectResources[entity->entType];            
             entity->size = (tVector){8, 8};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
