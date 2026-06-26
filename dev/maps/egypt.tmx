@@ -229,6 +229,7 @@
   <tile id="148" type="tile_SOLID_ON_FALL"/>
   <tile id="149" type="tile_NO_SOLID"/>
   <tile id="150" type="tile_NO_SOLID"/>
+  <tile id="152" type="tile_NO_SOLID"/>
   <tile id="154" type="tile_NO_SOLID"/>
   <tile id="155" type="tile_NO_SOLID"/>
   <tile id="156" type="tile_NO_SOLID"/>
@@ -579,37 +580,37 @@
   <object id="69" name="lance" type="object" x="2512" y="416" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="0"/>
-    <property name="spare" type="int" value="200"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="71" name="lance" type="object" x="2352" y="416" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="0"/>
-    <property name="spare" type="int" value="200"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="74" name="lance" type="object" x="2176" y="416" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="0"/>
-    <property name="spare" type="int" value="200"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
   </object>
   <object id="70" name="lance" type="object" x="2432" y="320" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="1"/>
-    <property name="spare" type="int" value="600"/>
+    <property name="spare" type="int" value="150"/>
    </properties>
   </object>
   <object id="72" name="lance" type="object" x="2272" y="320" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="1"/>
-    <property name="spare" type="int" value="600"/>
+    <property name="spare" type="int" value="150"/>
    </properties>
   </object>
   <object id="73" name="lance" type="object" x="2096" y="320" width="8" height="48">
    <properties>
     <property name="dir" type="int" propertytype="lanceDir" value="1"/>
-    <property name="spare" type="int" value="600"/>
+    <property name="spare" type="int" value="150"/>
    </properties>
   </object>
   <object id="75" template="enemies/egypt/egyptian.tx" x="3664" y="528">
@@ -970,6 +971,6 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
-  <object id="213" template="triggers/debug-start.tx" type="object" x="2544" y="384"/>
+  <object id="213" template="triggers/debug-start.tx" type="object" x="2720" y="384"/>
  </objectgroup>
 </map>

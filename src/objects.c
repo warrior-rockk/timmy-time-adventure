@@ -1488,13 +1488,28 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     #define LANCE_SHOW_TIP_Y       4 
 
     //object states
-    enum E_LANCE_OBJECT_STATES{E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
+    enum E_LANCE_OBJECT_STATES{E_LANCE_ST_INIT_DELAY, E_LANCE_ST_IDLE, E_LANCE_ST_MOVE, E_LANCE_ST_WAIT, E_LANCE_ST_RETURN};
     
     //get player
     tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
     {
+        case E_LANCE_ST_INIT_DELAY:
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            //show tip of lance
+            this->fixPos.y = this->dir ? itofix(this->initPos.y + LANCE_SHOW_TIP_Y) : itofix(this->initPos.y - LANCE_SHOW_TIP_Y);    
+            this->anim.frame = this->dir;
+            
+            //wait spare time
+            if (local->timer >= this->spare)
+            {
+                this->state++;                
+                local->timer = 0;                
+            }
+            else if (scroll_position_on_region(this->pos))
+                local->timer += clock_tick_get();
+        break;
         case E_LANCE_ST_IDLE:
             //stop object
             this->fixVel.x = 0;
@@ -1504,12 +1519,10 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
 
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
 
-            if ((local->timer >= this->spare && !local->flag) ||
-                (local->timer >= LANCE_DEFAULT_WAIT && local->flag))
+            if (local->timer >= LANCE_DEFAULT_WAIT)
             {
                 this->state++;
                 local->timer = 0;
-                local->flag = true;
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->fixPos = vector2fixvector(this->initPos);
             }
