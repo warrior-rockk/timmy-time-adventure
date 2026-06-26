@@ -428,6 +428,10 @@ static void player_update_collisions(tEntity *player)
                     //if collided
                     if (colDir)
                     {
+                        //reset jump if head collision
+                        if (colDir == E_COLLISION_DIR_UP)
+                            playerFlags.jump = true;
+
                         //if collision dir down and attacking and object breakable
                         if (colDir == E_COLLISION_DIR_DOWN && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_BREAKABLE) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT)
                         {
