@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="checkpoint" type="trigger" width="16" height="30">
+ <object name="checkpoint" type="trigger" width="16" height="32">
   <properties>
    <property name="dir" type="int" propertytype="dir" value="1"/>
   </properties>

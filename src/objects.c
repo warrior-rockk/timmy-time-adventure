@@ -161,7 +161,7 @@ void object_create(tEntity *entity)
         case E_DOOR_IN_OBJECT_TYPE:       
         case E_DOOR_OUT_OBJECT_TYPE:                    
             entity->img = NULL;
-            entity->size = (tVector){16, 36};      
+            entity->size = (tVector){16, 32};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
         case E_ITEM_OBJECT_TYPE:         
