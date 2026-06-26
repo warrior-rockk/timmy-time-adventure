@@ -150,6 +150,7 @@ void player_update(tEntity *player)
     player_update_animations(player);
 
     #ifdef DEBUGMODE
+        //show_debug("for pick %i picked %i", objectForPickID, objectPickedID);
         #if DEBUG_TRACE_ENTITIES
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
@@ -453,7 +454,7 @@ static void player_update_collisions(tEntity *player)
 
                     //if lateral collision, check if is object pickable and on lower position to the player                    
                     if ((colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT) && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_PICKABLE) 
-                         && !playerFlags.picked && checkEntity->pos.y >= player->pos.y)                        
+                         && !playerFlags.picked && checkEntity->pos.y >= player->pos.y && !playerFlags.throwing)                        
                             objectForPickID = checkEntity->id;                                             
                     
                     //adjust collision position (object solid)
@@ -501,6 +502,13 @@ static void player_update_state(tEntity *player)
     playeridleCounter =  player->state != ST_PLAYER_IDLE ? 0 : playeridleCounter;
     player->noGravity = playerFlags.onStairs; //TODO: move this
     
+    //prevent double picking bug
+    if (playerFlags.picked && objectPickedID == 0)
+    { 
+        playerFlags.picked = false;
+        playerFlags.picking = false;
+    }
+
     //picking objects
     if (objectForPickID != 0)
     {
