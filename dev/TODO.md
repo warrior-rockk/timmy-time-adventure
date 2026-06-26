@@ -1,6 +1,9 @@
 # Bugs
 
 - [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
+- [ ] Slow down fps coming from fade out/in
+- [ ] Pick object already picked??
+- [ ] Bug jump repeat with collision up after reached jump max force
 
 # Engine
 
