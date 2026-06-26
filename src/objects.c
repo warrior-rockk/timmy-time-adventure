@@ -141,7 +141,7 @@ void object_create(tEntity *entity)
         break;
         case E_CHECKPOINT_OBJECT_TYPE: 
         case E_DOOR_IN_OBJECT_TYPE:       
-        case E_DOOR_OUT_OBJECT_TYPE:       
+        case E_DOOR_OUT_OBJECT_TYPE:                    
             entity->img = NULL;
             entity->size = (tVector){16, 36};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
@@ -314,6 +314,11 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};                          
             entity->size = (tVector){16, 16};                     
         break;
+        case E_DEBUG_START_OBJECT_TYPE:
+            entity->img = NULL;
+            entity->size = (tVector){16, 32};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;                        
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -335,6 +340,8 @@ void object_update(tEntity *entity)
 {   
     switch (entity->entType)
     {
+        case E_DEBUG_START_OBJECT_TYPE:
+        break;
         case E_END_LEVEL_OBJECT_TYPE:
         case E_CHECKPOINT_OBJECT_TYPE:
         case E_STOP_SCROLL_OBJECT_TYPE:
@@ -342,7 +349,7 @@ void object_update(tEntity *entity)
         case E_SYMBOL_HOLE_OBJECT_TYPE:
         case E_SCROLLMODE_OBJECT_TYPE:
         case E_DOOR_IN_OBJECT_TYPE:
-        case E_DOOR_OUT_OBJECT_TYPE:
+        case E_DOOR_OUT_OBJECT_TYPE:                
             object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_ITEM_OBJECT_TYPE:
@@ -418,6 +425,13 @@ void object_init(tEntity *entity)
                 memset(&egyptPuzzle2, E_EGYPT_SYMBOL_STATUS_INIT, sizeof(egyptPuzzle2));
             }
         break;    
+        case E_DEBUG_START_OBJECT_TYPE:
+            #if DEBUGMODE
+                //set player init position
+                entity_get(entity_get_player_id())->initPos = entity->pos;
+                entity_get(entity_get_player_id())->initDir = entity->dir;
+            #endif
+        break;
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        

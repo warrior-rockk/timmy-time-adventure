@@ -58,6 +58,7 @@ object_ent_types = {
     "door-out"      : 28,
     "spike-trap2"   : 29,
     "trap-fire"     : 30,
+    "debug-start"   : 31,
 }
 
 #define entity enemies types

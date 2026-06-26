@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="scroll-mode" type="trigger" width="16" height="16">
+ <object name="scroll-mode" type="object" width="16" height="16">
   <properties>
    <property name="spare" type="int" propertytype="scroll_modes" value="1"/>
   </properties>
