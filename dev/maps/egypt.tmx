@@ -370,7 +370,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" template="objects/player1.tx" x="2048" y="256"/>
+  <object id="1" template="objects/player1.tx" x="416" y="576"/>
   <object id="4" template="platforms/quick-sand.tx" type="platform" x="1712" y="609" width="288" height="32">
    <properties>
     <property name="spare" type="int" value="288"/>
@@ -997,7 +997,7 @@
    </properties>
   </object>
   <object id="221" template="triggers/stopScroll.tx" x="400" y="480"/>
-  <object id="226" template="triggers/scroll-mode.tx" type="trigger" x="2112" y="208">
+  <object id="226" template="triggers/scroll-mode.tx" type="object" x="2112" y="208">
    <properties>
     <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
    </properties>

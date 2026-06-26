@@ -4,7 +4,6 @@
 - [ ] Slow down fps coming from fade out/in
 - [ ] Pick object already picked?? (prevented but review for better code?)
 - [ ] Bug jump repeat with collision up after reached jump max force
-- [ ] Bug when return from scroll move all to checkpoint
 
 # Engine
 

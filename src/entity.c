@@ -420,6 +420,7 @@ void entities_update()
             //if is player, lose live (fall on edges)
             game.loseLive = true;
             MY_TRACE_FLAG("Lose player live because out region\n");            
+            MY_TRACE_FLAG("player pos %i,%i scroll pos %i, %i", entityList[i].pos.x, entityList[i].pos.y, scroll_get_position().x, scroll_get_position().y);
         }        
         else
         {

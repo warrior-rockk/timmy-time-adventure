@@ -151,6 +151,7 @@ void player_update(tEntity *player)
 
     #ifdef DEBUGMODE
         //show_debug("for pick %i picked %i", objectForPickID, objectPickedID);
+        //show_debug("Init pos %i,%i", player->initPos.x, player->initPos.y);
         #if DEBUG_TRACE_ENTITIES
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);

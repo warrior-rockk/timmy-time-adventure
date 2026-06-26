@@ -397,6 +397,7 @@ void game_update()
                     game.loseLive   = false;            
                     game.viewMap    = true;
                     collision_set_player_platform_id(-1);
+                    scroll_set_scroll_mode(GAME_DEFAULT_SCROLL_MODE);
                     //init level time from map
                     game.time = map_get_level_time();
 
