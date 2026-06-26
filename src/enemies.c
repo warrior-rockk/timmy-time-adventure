@@ -1732,6 +1732,7 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANUBIS_ATTACK_FRAME               6
     #define ANUBIS_HITBOX_X_OFFSET_LEFT       22
     #define ANUBIS_HITBOX_X_OFFSET_RIGHT      6
+    #define ANUBIS_HITBOX_Y_OFFSET            4
     #define ANUBIS_HITBOX_DURATION            20
     #define ANUBIS_WAIT_ATTACK                50
     
@@ -1775,7 +1776,7 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
                     local->flag = true;
                     int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -ANUBIS_HITBOX_X_OFFSET_LEFT : this->size.x + ANUBIS_HITBOX_X_OFFSET_RIGHT; 
                     sfx_play(enemySfx[E_SFX_ENEMY_WIP], E_SFX_ENEMY_VOICE);
-                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, ANUBIS_HITBOX_DURATION);
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y + ANUBIS_HITBOX_Y_OFFSET}, this->dir, ANUBIS_HITBOX_DURATION);
                 }               
             }
             else

@@ -998,6 +998,6 @@
    </properties>
   </object>
   <object id="221" template="triggers/stopScroll.tx" x="400" y="480"/>
-  <object id="222" template="triggers/debug-start.tx" x="3536" y="256"/>
+  <object id="222" template="triggers/debug-start.tx" x="3088" y="256"/>
  </objectgroup>
 </map>

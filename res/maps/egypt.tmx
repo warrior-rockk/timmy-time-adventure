@@ -1778,7 +1778,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="222" name="debug-start" type="object" x="3536" y="256" width="16" height="32">
+  <object id="222" name="debug-start" type="object" x="3088" y="256" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>

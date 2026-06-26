@@ -6,7 +6,6 @@
 
 - [ ] different end level objects
 - [ ] mark level as completed on map
-- [ ] lance anubis centered
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] camera scroll platform id?
 - [ ] Secret areas?
