@@ -1732,7 +1732,7 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANUBIS_ATTACK_FRAME               6
     #define ANUBIS_HITBOX_X_OFFSET_LEFT       22
     #define ANUBIS_HITBOX_X_OFFSET_RIGHT      6
-    #define ANUBIS_HITBOX_Y_OFFSET            4
+    #define ANUBIS_HITBOX_Y_OFFSET            6
     #define ANUBIS_HITBOX_DURATION            20
     #define ANUBIS_WAIT_ATTACK                50
     
