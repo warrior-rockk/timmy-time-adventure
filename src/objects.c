@@ -152,6 +152,7 @@ void object_create(tEntity *entity)
                     entity->spriteSize = (tVector){20, 27};
                 break;
             }            
+            load_entity_wav_resources(&objectSfx[E_SFX_END_OBJECT], objectDataFileIndex, END_WAV);
             entity->img = objectResources[entity->entType];            
             entity->size = (tVector){8, 8};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
@@ -711,6 +712,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
                 game.levelComplete[game.actualLevel] = true;
+                sfx_play(objectSfx[E_SFX_END_OBJECT], E_SFX_OBJECT_VOICE);
             }
 
             play_animation(&this->anim, END_LEVEL_ANIM);
