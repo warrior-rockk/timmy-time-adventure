@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="symbol-hole" type="trigger" width="16" height="16">
+  <properties>
+   <property name="spare" type="int" propertytype="egypt_symbol" value="0"/>
+  </properties>
+ </object>
+</template>

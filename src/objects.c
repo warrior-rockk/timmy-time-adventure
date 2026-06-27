@@ -272,6 +272,7 @@ void object_create(tEntity *entity)
         break;
         case E_EGYPT_SYMBOL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SYMBOL1_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_SYMBOL], objectDataFileIndex, SYMBOL_WAV);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};         
@@ -508,7 +509,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             if (this->signal == E_ENT_SIGNAL_PICKING)
                 this->state = E_SOLID_ST_PICKED;    
                 
-            if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+            if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && this->anim.frame < PUZZLE2_SYMBOL_NUM)
                 this->anim.frame = this->spare;
                 
         break;
@@ -523,7 +524,10 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             
             //reset puzzle data
             if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE)
+            {
                  egyptPuzzle2[this->spare] = 0;
+                 this->anim.frame = this->spare;
+            }
 
             //check if receive throw signal
             if (this->signal == E_ENT_SIGNAL_THROW || this->signal == E_ENT_SIGNAL_SHORT_THROW)
@@ -597,6 +601,8 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                                         else
                                             egyptPuzzle2[this->spare] = E_EGYPT_SYMBOL_STATUS_NOT_OK;
                                     }
+                                    //highlight symbol
+                                    this->anim.frame = this->spare + PUZZLE2_SYMBOL_NUM;
                                 }                                
                             }
                             else
@@ -621,7 +627,12 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
             }
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
+            {
                 this->state = E_SOLID_ST_IDLE;            
+                //if egypt symbol, play sound if it's on hole    
+                if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && this->anim.frame >= PUZZLE2_SYMBOL_NUM)
+                    sfx_play(objectSfx[E_SFX_SYMBOL], E_SFX_OBJECT_VOICE);
+            }
         break;
         case E_SOLID_ST_BREAK:
             //stop object

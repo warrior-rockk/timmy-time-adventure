@@ -94,6 +94,7 @@ enum E_OBJECT_SFX
     E_SFX_PUZZLE_OK,
     E_SFX_LANCE,
     E_SFX_END_OBJECT,
+    E_SFX_SYMBOL,
     
     E_SFX_OBJECT_NUM,
 };

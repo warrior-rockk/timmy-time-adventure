@@ -10,7 +10,6 @@
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
 - [ ] Cheat codes?
-- [ ] Light the symbol puzzle when object it's above
 - [ ] No need to check player on objects that hurt. Use a entity property OBJECT_HURT?
 - [ ] Check possible problems to add player and solid object availability to check collision with triggers
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
