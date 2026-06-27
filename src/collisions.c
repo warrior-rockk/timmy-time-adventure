@@ -511,7 +511,10 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                         entity->fixPos.y = entity->fixPos.y + distColY;                    
                 }                
             #endif
-        }        
+        } 
+        //int16_t intPosY = fixtoi(entity->fixPos.y);
+        //entity->fixPos.y = itofix(intPosY);
+
     }
     
     //returns collision direction

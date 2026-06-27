@@ -72,6 +72,7 @@ static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
 static void player_update_animations(tEntity *player);
 static void player_update_size(tEntity *player);
+static void player_trace(tEntity *player);
 
 void player_create(tEntity *player)
 {
@@ -150,19 +151,13 @@ void player_update(tEntity *player)
     player_update_animations(player);
 
     #ifdef DEBUGMODE
-        //show_debug("for pick %i picked %i", objectForPickID, objectPickedID);
-        //show_debug("Init pos %i,%i", player->initPos.x, player->initPos.y);
         #if DEBUG_TRACE_ENTITIES
             if (player->state != player->prevState)
                 TRACE("Player changes from state %i to state %i\n", player->prevState, player->state);
         #endif
-        //show_debug( "p.vX: %f", fixtof(player->fixVel.x));
-        //show_debug( "p.vY: %f", fixtof(player->fixVel.y));
-        //show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
-        show_debug( "p.x: %d, p.y: %d", player->pos.x, player->pos.y);   
-        //show_debug( "crouched: %i", playerFlags.crouched);     
-        //show_debug("Property: %i", map_get_tile_property((tVector){1442,71}));
-        //show_debug("Test: %i", CHECK_FLAG(map_get_tile_property((tVector){1442,71}), 256));
+        #if DEBUG_TRACE_PLAYER
+            player_trace(player);
+        #endif
     #endif
 }
 
@@ -775,4 +770,17 @@ static void player_update_animations(tEntity *player)
         entity_blink(player);
     else
         player->visible = true;
+}
+
+static void player_trace(tEntity *player)
+{
+    show_debug( "p.X: %i,p.Y: %i", player->pos.x, player->pos.y);
+    show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
+    show_debug( "p.vX: %f,p.vY: %f", fixtof(player->fixVel.x),fixtof(player->fixVel.y));
+    
+    //show_debug( "crouched: %i", playerFlags.crouched);     
+    //show_debug("Property: %i", map_get_tile_property((tVector){1442,71}));
+    //show_debug("Test: %i", CHECK_FLAG(map_get_tile_property((tVector){1442,71}), 256));
+    //show_debug("for pick %i picked %i", objectForPickID, objectPickedID);
+    //show_debug("Init pos %i,%i", player->initPos.x, player->initPos.y);
 }
