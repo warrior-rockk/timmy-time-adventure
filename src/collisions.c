@@ -479,6 +479,9 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                     if (distColY > 0)
                         entity->fixPos.y = entity->fixPos.y - (distColY - itofix(1));
                 #endif
+
+                //remove decimal part
+                entity->fixPos.y = itofix(fixtoi(entity->fixPos.y));
             }                                 
             
             //up collision
@@ -512,9 +515,6 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 }                
             #endif
         } 
-        //int16_t intPosY = fixtoi(entity->fixPos.y);
-        //entity->fixPos.y = itofix(intPosY);
-
     }
     
     //returns collision direction
