@@ -481,7 +481,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 #endif
 
                 //remove decimal part
-                entity->fixPos.y = itofix(fixtoi(entity->fixPos.y));
+                //entity->fixPos.y = itofix(fixtoi(entity->fixPos.y));
             }                                 
             
             //up collision
