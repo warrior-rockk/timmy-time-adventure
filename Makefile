@@ -68,7 +68,7 @@ OBJ_FILES 		= $(patsubst $(SRC_DIR)/%.${SRC_EXT}, $(OBJ_DIR)/%.o, $(C_FILES))
 #map resources
 BIN_FILES 		= $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(BUILD_DIR)bin/%.bin, $(TMX_FILES))
 #dat resources
-DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/coll.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat ${BUILD_DIR}bin/egypt.dat
+DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/coll.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat ${BUILD_DIR}bin/egypt.dat ${BUILD_DIR}bin/tutorial.dat
 
 #resource targets
 maps: $(BIN_FILES)
@@ -117,6 +117,9 @@ ${BUILD_DIR}bin/medieval.dat: $(wildcard ${RESOURCES_DIR}levels/medieval/*)
 
 ${BUILD_DIR}bin/egypt.dat: $(wildcard ${RESOURCES_DIR}levels/egypt/*)
 	${DAT} create $@ --bmp ${RESOURCES_DIR}levels/egypt/*.bmp --wav ${RESOURCES_DIR}levels/egypt/*.wav --midi ${RESOURCES_DIR}levels/egypt/*.mid --pal-bmp ${RESOURCES_DIR}levels/egypt/*.pal --h ${SRC_DIR}/data/egydata.h
+
+${BUILD_DIR}bin/tutorial.dat: $(wildcard ${RESOURCES_DIR}levels/tutorial/*)
+	${DAT} create $@ --bmp ${RESOURCES_DIR}levels/tutorial/*.bmp --wav ${RESOURCES_DIR}levels/tutorial/*.wav --midi ${RESOURCES_DIR}levels/tutorial/*.mid --pal-bmp ${RESOURCES_DIR}levels/tutorial/*.pal --h ${SRC_DIR}/data/tutdata.h
 
 # Convert .tmx to .bin
 ${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/

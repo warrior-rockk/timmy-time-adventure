@@ -32,6 +32,7 @@
 #include "data/wedata.h"
 #include "data/medata.h"
 #include "data/egydata.h"
+#include "data/tutdata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -387,7 +388,10 @@ void game_update()
 
             game_load_level(game.actualLevel);
             
-            game.state = E_GAME_ST_INIT_LEVEL;
+            if (game.actualLevel != E_GAME_LEVEL_TUTORIAL)
+                game.state = E_GAME_ST_INIT_LEVEL;
+            else
+                game.state = E_GAME_ST_TUTORIAL;
         break;        
         case E_GAME_ST_INIT_LEVEL:
             switch (gameSeq.step)
@@ -411,6 +415,7 @@ void game_update()
 
                     game_update_level();
                     entities_update();  //second update after update scroll
+                    game_hud_update();
                     //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     
                     music_play(gameMusic, true);
@@ -428,16 +433,48 @@ void game_update()
                     }
                     else
                     {
-                        game_draw_level();      
+                        game_draw_level();  
+                        game_hud_draw();    
                         gameSeq.timeCounter += clock_tick_get();
                     }
                 break;                
             }
         break;
+        case E_GAME_ST_TUTORIAL:
+        switch (gameSeq.step)
+            {
+                case 0: //Init tutorial
+                    game.life       = GAME_INI_LIFE;            
+                    game.loseLive   = false;            
+                    game.viewMap    = true;
+                    collision_set_player_platform_id(-1);
+                    scroll_set_scroll_mode(GAME_DEFAULT_SCROLL_MODE);
+                    //init level time from map
+                    game.time = map_get_level_time();
+
+                    entities_init();
+                    scroll_init(entity_get(entity_get_player_id())->pos);
+                    
+                    game_update_level();
+                    
+                    music_play(gameMusic, true);
+                    
+                    gameSeq.step++;
+                break;                
+                case 1: //play tutorial
+                    game.fadeIn = true;
+
+                    game_update_level();
+                    game_draw_level();
+                break;                
+            }
+        break;
         case E_GAME_ST_PLAY_LEVEL:            
             game_update_level();
+            game_hud_update();
 
             game_draw_level();
+            game_hud_draw();
 
             //check game lose life
             if (game.loseLive)
@@ -509,7 +546,10 @@ void game_update()
                     scroll_init(entity_get(entity_get_player_id())->pos);
                     game_update_level();
                     entities_update();  //second update after update scroll
+                    game_hud_update();
+
                     game_draw_level();
+                    game_hud_draw();
                 }
             }
             //return to play
@@ -632,6 +672,7 @@ void game_update()
                                 dialog_destroy(&gameDialog);             
                                 clear_to_color(worldScreen, BLACK_COLOR); 
                                 game_draw_level();
+                                game_hud_draw();
                             break;
                         }
                     }
@@ -642,6 +683,7 @@ void game_update()
                         dialog_destroy(&gameDialog);             
                         clear_to_color(worldScreen, BLACK_COLOR); 
                         game_draw_level();
+                        game_hud_draw();
                     }
                 break;
                 case 10:    //draw controls menu
@@ -964,6 +1006,12 @@ void game_init()
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
 
     //initialize levels data    
+    levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
+    levelData[E_GAME_LEVEL_TUTORIAL].dataFile       = "tutorial.dat";
+    levelData[E_GAME_LEVEL_TUTORIAL].tileFileIndex  = TUTORIAL_BMP;
+    levelData[E_GAME_LEVEL_TUTORIAL].palFileIndex   = TUTORIAL_PAL;
+    levelData[E_GAME_LEVEL_TUTORIAL].musicFileIndex = TUTORIAL_MID;
+    
     levelData[E_GAME_LEVEL_JURASSIC].mapFile        = "jurassic.bin";
     levelData[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
     levelData[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
@@ -1531,6 +1579,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                     if (stepReturn == 2)
                     {
                         game_draw_level();
+                        game_hud_draw();
                         game_create_options_play_menu();
                         dialog_draw(&gameDialog, drawBuffer);
                     }
@@ -1552,6 +1601,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                 if (stepReturn == 2)
                 {
                     game_draw_level();
+                    game_hud_draw();
                     game_create_options_play_menu();
                     dialog_draw(&gameDialog, drawBuffer);
                 }
@@ -1583,7 +1633,6 @@ static void game_update_level()
 {
     entities_update();
     scroll_update(entity_get(entity_get_player_id())->pos);        
-    game_hud_update();
 }
 
 //summary function to draw the world level
@@ -1592,7 +1641,6 @@ static void game_draw_level()
     map_draw(worldScreen, false);
     entities_draw(worldScreen);
     map_draw(worldScreen, true);
-    game_hud_draw();
 }
 
 static void game_load_control_strings()

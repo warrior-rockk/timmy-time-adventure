@@ -17,7 +17,7 @@
 #define ALLEGRO_USES_TIMER      1
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1
+#define ALLEGRO_USES_SOUND      0
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -75,6 +75,7 @@ enum E_GAME_STATE
     E_GAME_ST_TITLE,
     E_GAME_ST_MAIN_MENU,
     E_GAME_ST_OPTIONS_MENU,
+    E_GAME_ST_TUTORIAL,
     E_GAME_ST_INIT,
     E_GAME_ST_SELECT_LEVEL,
     E_GAME_ST_LOAD_LEVEL,
@@ -94,6 +95,7 @@ enum E_GAME_STATE
 //game levels
 enum E_GAME_LEVELS
 {            
+    E_GAME_LEVEL_TUTORIAL,
     E_GAME_LEVEL_JURASSIC,    
     E_GAME_LEVEL_EGYPT,
     E_GAME_LEVEL_MEDIEVAL,
@@ -229,7 +231,7 @@ typedef struct
     #define DEBUG_NO_LEVEL_TIME             0
     #define DEBUG_TRACE_PLAYER              1
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_TUTORIAL
     typedef struct
     {
         uint8_t showDebugInfo; 

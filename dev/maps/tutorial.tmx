@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="7">
+ <editorsettings>
+  <export target="../../res/maps/tutorial.tmx" format="tmx"/>
+ </editorsettings>
+ <properties>
+  <property name="time" type="int" value="0"/>
+ </properties>
+ <tileset firstgid="1" name="tutorial" tilewidth="16" tileheight="16" tilecount="30" columns="6">
+  <image source="../gfx/maps/tutorial/tsheet.bmp" width="96" height="80"/>
+  <tile id="6" type="tile_NO_SOLID"/>
+ </tileset>
+ <layer id="1" name="tiles" width="16" height="10">
+  <properties>
+   <property name="backColor" type="int" value="149"/>
+  </properties>
+  <data encoding="csv">
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,7,7,7,7,7,7,7,7,7,7,7,7,7,7,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="1" template="objects/player1.tx" x="32" y="112"/>
+ </objectgroup>
+</map>
