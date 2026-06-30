@@ -28,13 +28,11 @@ player_ent_types = {
 #define entity object types
 object_ent_types = [
     "solid",         
-    "rock2",             
     "egg",           
     "endLevel",      
     "checkpoint",    
     "item",          
     "stopScroll",    
-    "rock3",         
     "wagon",        
     "dynamite",      
     "backColor",
@@ -49,7 +47,6 @@ object_ent_types = [
     "trap-arrow",
     "egypt-symbol",
     "symbol-hole",
-    "rock4",
     "egypt-platform",
     "spike-trap",
     "lance",
