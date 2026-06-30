@@ -110,12 +110,12 @@ enum E_GAME_STATE
 //game levels
 enum E_GAME_LEVELS
 {            
-    E_GAME_LEVEL_TUTORIAL,
     E_GAME_LEVEL_JURASSIC,    
     E_GAME_LEVEL_EGYPT,
     E_GAME_LEVEL_MEDIEVAL,
     E_GAME_LEVEL_WEST,               
-    //E_GAME_LEVEL_TEST,    
+    E_GAME_LEVEL_TUTORIAL,
+
     E_GAME_NUM_LEVELS,
 };
 
@@ -234,7 +234,7 @@ typedef struct
     uint8_t fadeState;
     uint8_t viewMap;
     uint8_t scrollMode;
-    uint8_t levelComplete[E_GAME_NUM_LEVELS];
+    uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
     uint8_t doorId;
 } tGame;
 

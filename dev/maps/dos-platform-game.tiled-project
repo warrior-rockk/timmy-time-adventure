@@ -132,11 +132,11 @@
             "storageType": "int",
             "type": "enum",
             "values": [
-                "TUTORIAL",
                 "JURASSIC",
                 "EGYPT",
                 "MEDIEVAL",
-                "WEST"
+                "WEST",
+                "TUTORIAL"
             ],
             "valuesAsFlags": false
         },

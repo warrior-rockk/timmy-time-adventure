@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="130">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="130">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -432,23 +432,23 @@
   <object id="1" template="objects/player1.tx" type="player" x="160" y="96"/>
   <object id="7" template="objects/solid.tx" type="object" x="672" y="32">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="26" template="objects/solid.tx" type="object" x="976" y="112">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="27" template="objects/egg.tx" type="object" x="960" y="112"/>
   <object id="28" template="objects/solid.tx" type="object" x="960" y="96">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="13" template="objects/solid.tx" type="object" x="1776" y="112">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="36" template="triggers/checkpoint.tx" type="object" x="1824" y="48"/>
@@ -464,12 +464,12 @@
   </object>
   <object id="44" template="objects/solid.tx" type="object" x="2320" y="256">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="45" template="objects/solid.tx" type="object" x="2128" y="224">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="47" name="item" type="object" x="2144" y="224" width="16" height="16">
@@ -479,7 +479,7 @@
   </object>
   <object id="46" template="objects/solid.tx" type="object" x="2144" y="208">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="1"/>
+    <property name="spare" type="int" propertytype="levels" value="0"/>
    </properties>
   </object>
   <object id="50" template="triggers/endLevel.tx" type="object" x="3776" y="64"/>

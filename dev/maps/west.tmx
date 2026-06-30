@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="273">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="273">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -440,7 +440,7 @@
   </object>
   <object id="39" template="objects/solid.tx" x="2400" y="128">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="4"/>
+    <property name="spare" type="int" propertytype="levels" value="3"/>
    </properties>
   </object>
   <object id="40" template="objects/item.tx" x="1360" y="16">
@@ -503,12 +503,12 @@
   <object id="72" template="enemies/west/indian_bow.tx" x="1904" y="112"/>
   <object id="73" template="objects/solid.tx" x="4384" y="112">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="4"/>
+    <property name="spare" type="int" propertytype="levels" value="3"/>
    </properties>
   </object>
   <object id="76" template="objects/solid.tx" x="4560" y="112">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="4"/>
+    <property name="spare" type="int" propertytype="levels" value="3"/>
    </properties>
   </object>
   <object id="74" template="objects/item.tx" x="2320" y="64"/>

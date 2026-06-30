@@ -328,7 +328,7 @@ void game_update()
             game.loseLive       = false;
             game.actualLevel    = 0;     
                         
-            game.state = E_GAME_ST_SELECT_LEVEL;            
+            game.state = E_GAME_ST_TUTORIAL;            
         break;
         case E_GAME_ST_SELECT_LEVEL:
             switch (gameSeq.step)
@@ -352,7 +352,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1: //handle selection
-                    if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 1)
+                    if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 2)
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
                         game.actualLevel++;
@@ -520,6 +520,7 @@ void game_update()
                 case 3: //jump state
                     game_destroy_level();
                     gameSeq.step = 0;
+                    game.actualLevel = 0;
                     game.state = E_GAME_ST_SELECT_LEVEL;
                 break;       
             }
@@ -837,7 +838,7 @@ void game_update()
                     
                     //check levels completed
                     uint8_t levelsCompleted = 0;
-                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS; i++)
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
                     {
                         if (game.levelComplete[i])
                             levelsCompleted++;
@@ -845,7 +846,7 @@ void game_update()
                     MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);
 
                     //jump to state
-                    if (levelsCompleted == E_GAME_NUM_LEVELS)
+                    if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
                         game.state = E_GAME_ST_ENDING;
                     else    
                         game.state = E_GAME_ST_SELECT_LEVEL;
