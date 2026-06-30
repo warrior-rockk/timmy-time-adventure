@@ -27,7 +27,7 @@ player_ent_types = {
 }
 #define entity object types
 object_ent_types = {
-    "rock"          : 0,
+    "solid"         : 0,
     "rock2"         : 1,    
     "egg"           : 2,
     "endLevel"      : 3,

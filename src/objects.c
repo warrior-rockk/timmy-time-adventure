@@ -96,33 +96,27 @@ void object_create(tEntity *entity)
     //set object properties    
     switch (entity->entType)
     {
-        case E_ROCK_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK_BMP);
+        case E_SOLID_OBJECT_TYPE:            
+            switch (entity->spare)
+            {
+                case E_GAME_LEVEL_TUTORIAL:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK5_BMP);
+                    entity->properties = E_ENT_PROP_NO_BREAKABLE;
+                break;
+                case E_GAME_LEVEL_JURASSIC:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK_BMP);
+                break;
+                case E_GAME_LEVEL_WEST:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK3_BMP);
+                break;
+                case E_GAME_LEVEL_EGYPT:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK4_BMP);
+                break;
+            }            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
             collision_create_entity_points(entity);                  
-        break;
-        case E_ROCK_2_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK2_BMP);
-            entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){16, 16};
-            entity->size = (tVector){16, 16};      
-            collision_create_entity_points(entity); 
-        break;                   
-        case E_ROCK_3_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK3_BMP);
-            entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){17, 16};
-            entity->size = (tVector){16, 16};      
-            collision_create_entity_points(entity);     
-        break;
-        case E_ROCK_4_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK4_BMP);
-            entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){16, 16};
-            entity->size = (tVector){16, 16};      
-            collision_create_entity_points(entity);     
         break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
