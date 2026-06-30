@@ -328,3 +328,8 @@ bool input_log_play_finished()
 {
     return inputLoggerStatus.finished;
 }
+
+uint16_t input_log_get_frame()
+{
+    return inputLoggerStatus.frameCounter;
+}

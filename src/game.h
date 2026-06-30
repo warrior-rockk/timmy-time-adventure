@@ -59,6 +59,12 @@
 #define HUD_POSITION_Y          166
 #define HUD_POSITION_X          40
 
+//tutorial defines
+#define TUTORIAL_TXT_POSITION_X     SCREEN_W>>1
+#define TUTORIAL_TXT_POSITION_Y     166
+#define TUTORIAL_TXT_MAX_LENGTH     20
+#define TUTORIAL_INI_FRAME          0
+
 //score points
 #define SCORE_POINT_TIME_LEFT   1       //score for each time level second left
 #define SCORE_POINT_HURT_ENEMY  10      //score when hurt enemy
@@ -154,6 +160,7 @@ enum E_GAME_TEXTS
     E_TXT_GAME_OVER,
     E_TXT_CONTINUE_QUESTION,
     E_TXT_SELECT_LEVEL,
+    E_TXT_TUTORIAL_1,
 
     E_TXT_NUM,
 };

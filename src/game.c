@@ -440,8 +440,8 @@ void game_update()
                 break;                
             }
         break;
-        case E_GAME_ST_TUTORIAL:
-        switch (gameSeq.step)
+        case E_GAME_ST_TUTORIAL:            
+            switch (gameSeq.step)
             {
                 case 0: //Init tutorial
                     game.life       = GAME_INI_LIFE;            
@@ -459,10 +459,53 @@ void game_update()
                     
                     music_play(gameMusic, true);
                     
+                    //start tutorial record
+                    input_log_play("tutorial.rec");
+                    //input_log_record("tutorial.rec");
                     gameSeq.step++;
                 break;                
                 case 1: //play tutorial
-                    game.fadeIn = true;
+                    game.fadeIn = true;                    
+                    switch (input_log_get_frame())
+                    {
+                        case TUTORIAL_INI_FRAME + 0 ... TUTORIAL_INI_FRAME + 10:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "HOW TO PLAY");
+                        break;
+                        case TUTORIAL_INI_FRAME + 100:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "MOVE WITH %s AND %s", keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 300:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "JUMP WITH %s", keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 500:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "CROUCH WITH %s", keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 800:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "ATTACK WHEN JUMP AND PRESSING %s", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 1600:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "TAKE OBJECT WITH %s", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 2000:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "THROW OBJECT WITH %s", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 2500:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "PRESS %s FOR SHORT THROW OBJECT", keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                        break;
+                        case TUTORIAL_INI_FRAME + 3000:
+                            rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                            textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "ENTER DOORS WITH %s", keyStrings[input_get_defined_key(E_G_KEY_UP)]);
+                        break;
+                    }
+                    
 
                     game_update_level();
                     game_draw_level();
@@ -1131,14 +1174,14 @@ static void game_debug_update()
         MY_TRACE_MARK;
 
     //record demo
-    if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
-        input_log_record("demo.rec");
+    if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
+        input_log_record("tutorial.rec");
     //stop recording demo
-    if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
+    if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
         input_log_stop();
     //play recorded demo
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
-        input_log_play("demo.rec");
+        input_log_play("tutorial.rec");
 
     //trace state          
     if (game.state != game.prevState)

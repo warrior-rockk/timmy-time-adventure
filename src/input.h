@@ -10,7 +10,7 @@
 #include "allegro.h"
 #include <stdbool.h>
 
-#define INPUT_LOG_MAX_EVENTS        1000    //max record frames to store
+#define INPUT_LOG_MAX_EVENTS        50000   //max record frames to store (max uint16_t: 65535)
 #define INPUT_END_RECORD_CODE       128     //end record code
 
 //key state flags
@@ -67,4 +67,6 @@ bool input_log_recording();
 bool input_log_playing();
 //checks if play input log file is finished
 bool input_log_play_finished();
+//return play frame position of input log
+uint16_t input_log_get_frame();
 #endif
