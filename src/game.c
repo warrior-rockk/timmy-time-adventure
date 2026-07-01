@@ -1095,10 +1095,6 @@ void game_init()
     levelData[E_GAME_LEVEL_MEDIEVAL].palFileIndex   = MEDIEVAL_PAL;
     levelData[E_GAME_LEVEL_MEDIEVAL].musicFileIndex = MEDIEVAL_MID;
 
-    //levelData[E_GAME_LEVEL_TEST].mapFile          = "res/maps/level00.bin";
-    //levelData[E_GAME_LEVEL_TEST].tileFile         = "res/tiles/tsheet.bmp";
-    //levelData[E_GAME_LEVEL_TEST].musicFile        = NULL;            
-    
     //set inital game state
     #ifdef DEBUGMODE
         game.state      = DEBUG_INI_GAME_STATE;
@@ -1108,16 +1104,13 @@ void game_init()
     
     //initialize game flags
     game.prevState      = E_GAME_ST_LOAD_LEVEL;
+    game.actualLevel    = 0;
     #ifdef DEBUGMODE
-        game.actualLevel    = DEBUG_INI_GAME_LEVEL;
-        memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-        //temporal until starting make level
-        //game.levelComplete[E_GAME_LEVEL_EGYPT] = true;
-        game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
-    #else
-        game.actualLevel    = 0;
-        memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+        game.actualLevel    = DEBUG_INI_GAME_LEVEL;        
     #endif
+    memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+    //temporal until starting make level        
+    game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
