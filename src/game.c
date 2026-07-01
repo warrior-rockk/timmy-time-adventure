@@ -135,7 +135,7 @@ void game_update()
                     
                     BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, WARCOM_BMP);
                     
-                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
+                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1) + 20, (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);
                     
                     textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
