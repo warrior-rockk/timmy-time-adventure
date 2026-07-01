@@ -326,9 +326,9 @@ void game_update()
             game.life           = GAME_INI_LIFE;
             game.score          = 0;
             game.loseLive       = false;
-            game.actualLevel    = 0;     
+            game.actualLevel    = E_GAME_LEVEL_TUTORIAL;     
                         
-            game.state = E_GAME_ST_TUTORIAL;            
+            game.state = E_GAME_ST_LOAD_LEVEL;            
         break;
         case E_GAME_ST_SELECT_LEVEL:
             switch (gameSeq.step)
@@ -456,7 +456,7 @@ void game_update()
                     scroll_init(entity_get(entity_get_player_id())->pos);
                     
                     game_update_level();
-                    
+                    game_draw_level(); 
                     music_play(gameMusic, true);
                     //start tutorial record
                     input_log_play("tutorial.rec");
@@ -465,7 +465,7 @@ void game_update()
                     gameSeq.step++;
                 break;                
                 case 1: //play tutorial
-                    if (input_log_play_finished())
+                    if (input_log_play_finished() || input_key_down(E_G_KEY_EXIT))
                         gameSeq.step++;
                     else
                     {               
@@ -517,7 +517,7 @@ void game_update()
                     game.fadeOut = true;
                     gameSeq.step++;
                 break;      
-                case 3: //jump state
+                case 3: //jump to new state
                     game_destroy_level();
                     gameSeq.step = 0;
                     game.actualLevel = 0;
