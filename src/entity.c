@@ -377,6 +377,10 @@ void entities_update()
         //check dead flag
         if (entityList[i].dead)            
         {
+            #ifdef DEBUGMODE 
+                entityCounter.deads++; 
+            #endif
+
             //if autodestroy, destroy on dead
             if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))
             {
@@ -386,15 +390,13 @@ void entities_update()
             else if (!scroll_rect_on_region((tRectangle){entityList[i].initPos, entityList[i].size}))
             {
                 entityList[i].sleep = true;
+                #ifdef DEBUGMODE 
+                    entityCounter.sleeps++; 
+                #endif
                 //if the entity doesn't is persistent, init the entity
                 if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
                     entity_init(i);  
-            }            
-            #ifdef DEBUGMODE 
-                entityCounter.deads++; 
-                entityCounter.sleeps++; 
-                entityList[i].sleep = true;
-            #endif
+            }                        
         }
         //check entity (non-player) out of region (and no persistent property)
         else if (!scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size}) && entityList[i].id != entity_get_player_id() && !CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
@@ -472,8 +474,8 @@ void entities_draw(BITMAP *buffer)
 {
     for (int i=numEntities - 1; i >= 0; i--)
     {
-        //only draws if visible and not sleep
-        if (entityList[i].visible && !entityList[i].sleep)
+        //only draws if visible and not sleep or dead
+        if (entityList[i].visible && !entityList[i].sleep && !entityList[i].dead)
         {
             entity_draw(buffer, &entityList[i]);            
         }
