@@ -43,6 +43,7 @@
 
 double deltaTime;                   //deltaTime
 uint8_t gameExit = false;           //flag to exit to main
+bool firstRun = false;              //flag to set if first run (to show language selection menu)
 
 BITMAP *buffer;                     //screen buffer
 BITMAP *worldScreen;                //map window buffer
@@ -176,7 +177,10 @@ void game_update()
                 case 1:
                     if (music_get_pos() < 0 || input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_TITLE;
+                        if (firstRun)
+                            game.state = E_GAME_ST_FIRST_RUN_MENU;
+                        else
+                            game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;                        
                         game.fadeOut = true;
@@ -186,12 +190,49 @@ void game_update()
                 break;
             }
         break;
+        case E_GAME_ST_FIRST_RUN_MENU:
+            switch (gameSeq.step)
+            {
+                case 0: //create init language menu                    
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 40, 50}, (tVector){80, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    
+                    dialog_add_option(&gameDialog, "ENGLISH");
+                    dialog_add_option(&gameDialog, "ESPAÑOL");
+
+                    clear_to_color(buffer, BLACK_COLOR);
+                    dialog_draw(&gameDialog, buffer);
+                    
+                    game.fadeIn = true;
+                    gameSeq.step++;                 
+                break;
+                case 1: 
+                    //process init menu
+                    game_navigation_menu(&gameDialog, buffer);
+
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                        
+                        //sets selected lang
+                        gameConfig.lang = gameDialog.optionSelected;
+                        lang_set(gameConfig.lang);
+                        game_load_control_strings();
+                        game_save_config();
+                        
+                        game.state = E_GAME_ST_TITLE;
+                        game.fadeOut = true;
+                        gameSeq.step = 0;
+                        dialog_destroy(&gameDialog);                                                
+                    }                 
+                break;                
+            }
+        break;
         case E_GAME_ST_TITLE:
             switch (gameSeq.step)
             {
                 case 0:                  
                     currentPal = gamePal;
-                    clear_to_color(buffer, 1);                    
+                    clear_to_color(buffer, BLACK_COLOR);                    
                     game.fadeIn = true;
                     gameSeq.step++;      
                     
@@ -1500,6 +1541,9 @@ static void game_load_config()
         gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;
 
         game_save_config();        
+
+        //set first run flag
+        firstRun = true;
     }
     else
     {

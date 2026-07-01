@@ -8,7 +8,6 @@
 # Engine
 
 - [ ] Translate keyStrings
-- [ ] Initial lang select menu
 - [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
