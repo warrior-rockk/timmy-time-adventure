@@ -423,7 +423,7 @@ void object_init(tEntity *entity)
             //check puzzle
             if (entity->dir)
             {
-                for (uint8_t i; i < PUZZLE1_NUM_DOOR_TILES; i++)
+                for (uint8_t i = 0; i < PUZZLE1_NUM_DOOR_TILES; i++)
                 {
                     map_change_tile((tVector){PUZZLE1_START_DOOR_X_TILE, PUZZLE1_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
                 }
@@ -431,7 +431,7 @@ void object_init(tEntity *entity)
             }
             else
             {
-                for (uint8_t i; i < PUZZLE2_NUM_DOOR_TILES; i++)
+                for (uint8_t i = 0; i < PUZZLE2_NUM_DOOR_TILES; i++)
                 {
                     map_change_tile((tVector){PUZZLE2_START_DOOR_X_TILE, PUZZLE2_START_DOOR_Y_TILE - i}, PUZZLE_DOOR_TILE_ID, 0x00);    
                 }            

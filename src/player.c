@@ -72,7 +72,9 @@ static void player_update_collisions(tEntity *player);
 static void player_update_state(tEntity *player);
 static void player_update_animations(tEntity *player);
 static void player_update_size(tEntity *player);
+#ifdef DEBUGMODE
 static void player_trace(tEntity *player);
+#endif
 
 void player_create(tEntity *player)
 {
@@ -772,6 +774,7 @@ static void player_update_animations(tEntity *player)
         player->visible = true;
 }
 
+#ifdef DEBUGMODE
 static void player_trace(tEntity *player)
 {
     show_debug( "p.X: %i,p.Y: %i", player->pos.x, player->pos.y);
@@ -784,3 +787,4 @@ static void player_trace(tEntity *player)
     //show_debug("for pick %i picked %i", objectForPickID, objectPickedID);
     //show_debug("Init pos %i,%i", player->initPos.x, player->initPos.y);
 }
+#endif
