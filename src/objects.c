@@ -582,7 +582,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
                                 collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
 
                                 //if the collision is between egypt symbol and a symbol hole object
-                                if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE && colDir)
+                                if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_SYMBOL_HOLE_OBJECT_TYPE && colDir && this->ground && abs(this->fixVel.x) < ftofix(0.1))
                                 {
                                     //check number of puzzle
                                     if (this->dir)

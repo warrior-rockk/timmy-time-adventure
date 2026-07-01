@@ -3,11 +3,11 @@
 - [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 - [ ] Slow down fps coming from fade out/in
 - [ ] Pick object already picked?? (prevented but review for better code?)
-- [ ] Bug on highlight egypt symbol when touch hole but moves off
 - [ ] Prevent object throwed push player to ground
 
 # Engine
 
+- [ ] Translate keyStrings
 - [ ] Initial lang select menu
 - [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
