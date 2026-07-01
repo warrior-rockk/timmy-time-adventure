@@ -241,7 +241,7 @@ void game_update()
                     draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
                     destroy_bitmap(title);   
                 case 1:
-                    if (input_any_key_pressed())
+                    /*if (input_any_key_pressed())
                     {
                         if (input_key_press(E_G_KEY_EXIT))
                         {
@@ -253,7 +253,10 @@ void game_update()
                         }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
-                    }
+                    }*/
+                    game.state = E_GAME_ST_MAIN_MENU;
+                    gameSeq.timeCounter = 0;
+                    gameSeq.step = 0;
                 break;
             }
         break;
