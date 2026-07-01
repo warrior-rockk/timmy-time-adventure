@@ -184,7 +184,6 @@ void game_update()
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;                        
                         game.fadeOut = true;
-                        currentPal = gamePal;
                         music_stop();
                     }                    
                 break;
@@ -228,25 +227,47 @@ void game_update()
             }
         break;
         case E_GAME_ST_INTRO:
+            BITMAP *intro;
             switch (gameSeq.step)
             {
                 case 0: 
                     game.fadeIn = true;
                     
                     clear_to_color(buffer, BLACK_COLOR);
-                    BITMAP *intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP);
-                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), (SCREEN_H>>1) - (intro->h>>1));    
+                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP);
+                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameFont, "One upon a night...", SCREEN_W>>1, 130, WHITE_COLOR, BLACK_COLOR);
-                    
+                    textout_centre_ex(buffer, gameFont, "Once upon a night, a boy works on his dream project:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "build a TIME MACHINE", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
+
                     gameSeq.step++;
                 break;
-                case 1:
+                case 2: 
+                    game.fadeIn = true;
                     
+                    clear_to_color(buffer, BLACK_COLOR);
+                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO2_BMP);
+                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
+                    destroy_bitmap(intro);
+
+                    textout_centre_ex(buffer, gameFont, "He worked hard until finally acomplished:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont, "The machine is finished!!", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
+
+                    gameSeq.step++;
                 break;
                 default:
+                    if (input_any_key_pressed())
+                    {
+                        gameSeq.step++;    
+                        game.fadeOut = true;
+                    }
+                break;
+                case 4:
+                    gameSeq.step = 0;
                     game.state = E_GAME_ST_TITLE;
+                    currentPal = gamePal;
+                    game.fadeOut = true;
                 break;
             }
         break;
