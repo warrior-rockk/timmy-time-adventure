@@ -1656,7 +1656,8 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
             
             for (uint8_t i = 0; i < 6; i++)
             {
-                sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
+                //%-8s:%-10s
+                sprintf(txtBuffer, "%s: %-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + i), keyStrings[input_get_defined_key(E_G_KEY_UP + i)]);
                 dialog_add_option(&gameDialog, txtBuffer);    
             }
             dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT)); 
@@ -1687,7 +1688,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                 else
                 {
                     char txtBuffer[DIALOG_MAX_OPTION_LENGTH];
-                    sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), lang_get_txt(E_TXT_MENU_PRESS_KEY));
+                    sprintf(txtBuffer, "%s: %-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), lang_get_txt(E_TXT_MENU_PRESS_KEY));
                     strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
                     dialog_draw(&gameDialog, drawBuffer);
                     gameSeq.step++;                        
@@ -1718,7 +1719,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                 game_save_config();
             }
             //restore option text
-            sprintf(txtBuffer, "%-8s%-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
+            sprintf(txtBuffer, "%s: %-10s",lang_get_txt(E_TXT_MENU_CTRL_UP + gameDialog.optionSelected), keyStrings[input_get_defined_key(E_G_KEY_UP + gameDialog.optionSelected)]);
             strcpy(gameDialog.option[gameDialog.optionSelected].text, txtBuffer);
             dialog_draw(&gameDialog, drawBuffer); 
             input_keys_update();
@@ -1745,10 +1746,15 @@ static void game_draw_level()
 static void game_load_control_strings()
 {
     //set game control strings langs
-    gameControlStrings[E_G_KEY_UP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
-    gameControlStrings[E_G_KEY_DOWN] = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
-    gameControlStrings[E_G_KEY_LEFT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
-    gameControlStrings[E_G_KEY_RIGHT] = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
-    gameControlStrings[E_G_KEY_JUMP] = strdup(lang_get_txt(E_TXT_MENU_CTRL_JUMP));
-    gameControlStrings[E_G_KEY_ACTION] = strdup(lang_get_txt(E_TXT_MENU_CTRL_ACTION));
+    gameControlStrings[E_G_KEY_UP]      = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
+    gameControlStrings[E_G_KEY_DOWN]    = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
+    gameControlStrings[E_G_KEY_LEFT]    = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
+    gameControlStrings[E_G_KEY_RIGHT]   = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
+    gameControlStrings[E_G_KEY_JUMP]    = strdup(lang_get_txt(E_TXT_MENU_CTRL_JUMP));
+    gameControlStrings[E_G_KEY_ACTION]  = strdup(lang_get_txt(E_TXT_MENU_CTRL_ACTION));
+
+    keyStrings[KEY_LEFT]                = strdup(lang_get_txt(E_TXT_MENU_CTRL_LEFT));
+    keyStrings[KEY_RIGHT]               = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
+    keyStrings[KEY_UP]                  = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
+    keyStrings[KEY_DOWN]                = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
 }
