@@ -207,6 +207,7 @@ void enemy_create(tEntity *entity)
         break;        
         case E_PIRANHA_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PIRANHA_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SPLASH], enemyDataFileIndex, SPLASH_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){42, 33};                          
             entity->size = (tVector){32, 32};                    
@@ -746,7 +747,8 @@ void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local)
             //waits spare delay
             if (local->timer >= this->spare) 
             {                
-                this->state = E_PIRANHA_ST_JUMP;                
+                this->state = E_PIRANHA_ST_JUMP;     
+                sfx_play(enemySfx[E_SFX_ENEMY_SPLASH], E_SFX_ENEMY_VOICE);           
                 SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->fixVel.y = ftofix(PIRANHA_VEL_Y);
