@@ -465,8 +465,11 @@ void game_update()
                     gameSeq.step++;
                 break;                
                 case 1: //play tutorial
-                    if (input_log_play_finished() || input_key_down(E_G_KEY_EXIT))
+                    if (input_log_play_finished() || key[KEY_ESC])
+                    {
                         gameSeq.step++;
+                        input_log_stop();
+                    }
                     else
                     {               
                         switch (input_log_get_frame())
