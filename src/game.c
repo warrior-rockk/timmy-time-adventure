@@ -476,39 +476,39 @@ void game_update()
                         {
                             case TUTORIAL_INI_FRAME ... TUTORIAL_INI_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "HOW TO PLAY");
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_WELCOME));
                             break;
                             case TUTORIAL_MSG_1_FRAME ... TUTORIAL_MSG_1_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "MOVE WITH %s AND %s", keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_MOVE), keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
                             break;
                             case TUTORIAL_MSG_2_FRAME ... TUTORIAL_MSG_2_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "JUMP WITH %s", keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_JUMP), keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
                             break;
                             case TUTORIAL_MSG_3_FRAME ... TUTORIAL_MSG_3_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "CROUCH WITH %s", keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_CROUCH), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_4_FRAME ... TUTORIAL_MSG_4_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "ATTACK WITH %s WHEN JUMPING", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_ATTACK), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_5_FRAME ... TUTORIAL_MSG_5_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "TAKE OBJECT WITH %s", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_TAKE), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_6_FRAME ... TUTORIAL_MSG_6_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "THROW OBJECT WITH %s", keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_7_FRAME ... TUTORIAL_MSG_7_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "PRESS %s FOR SHORT THROW OBJECT", keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_8_FRAME ... TUTORIAL_MSG_8_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, "ENTER DOORS WITH %s", keyStrings[input_get_defined_key(E_G_KEY_UP)]);
+                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_DOOR), keyStrings[input_get_defined_key(E_G_KEY_UP)]);
                             break;
                         }
                     }
