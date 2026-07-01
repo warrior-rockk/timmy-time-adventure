@@ -180,7 +180,7 @@ void game_update()
                         if (firstRun)
                             game.state = E_GAME_ST_FIRST_RUN_MENU;
                         else
-                            game.state = E_GAME_ST_TITLE;
+                            game.state = E_GAME_ST_INTRO;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;                        
                         game.fadeOut = true;
@@ -219,12 +219,35 @@ void game_update()
                         game_load_control_strings();
                         game_save_config();
                         
-                        game.state = E_GAME_ST_TITLE;
+                        game.state = E_GAME_ST_INTRO;
                         game.fadeOut = true;
                         gameSeq.step = 0;
                         dialog_destroy(&gameDialog);                                                
                     }                 
                 break;                
+            }
+        break;
+        case E_GAME_ST_INTRO:
+            switch (gameSeq.step)
+            {
+                case 0: 
+                    game.fadeIn = true;
+                    
+                    clear_to_color(buffer, BLACK_COLOR);
+                    BITMAP *intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP);
+                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), (SCREEN_H>>1) - (intro->h>>1));    
+                    destroy_bitmap(intro);
+
+                    textout_centre_ex(buffer, gameFont, "One upon a night...", SCREEN_W>>1, 130, WHITE_COLOR, BLACK_COLOR);
+                    
+                    gameSeq.step++;
+                break;
+                case 1:
+                    
+                break;
+                default:
+                    game.state = E_GAME_ST_TITLE;
+                break;
             }
         break;
         case E_GAME_ST_TITLE:
