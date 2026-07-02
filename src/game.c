@@ -1114,9 +1114,9 @@ void game_init()
     set_palette(currentPal);
     
     //loads game font 
-    gameFont        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
-    gameBigFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT4_BMP));
-    gameMidFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT4_BMP));
+    gameFont        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
+    gameBigFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
+    gameMidFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
 
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
