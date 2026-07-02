@@ -49,6 +49,7 @@ BITMAP *buffer;                     //screen buffer
 BITMAP *worldScreen;                //map window buffer
 FONT *gameFont;                     //game font
 FONT *gameBigFont;                  //game big font
+FONT *gameMidFont;                      //game mid font
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
 DATAFILE_INDEX *gameDataIndex; 
@@ -238,9 +239,11 @@ void game_update()
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameFont, "Once upon a night, a boy works on his dream project:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "build a TIME MACHINE", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
-
+                    textout_centre_ex(buffer, gameMidFont, "Late at night, a boy works", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameMidFont, "on his dream project...", SCREEN_W>>1, 140 + gameMidFont->height, WHITE_COLOR, BLACK_COLOR);
+                    //textout_centre_ex(buffer, gameMidFont, "Once upon a night, \na boy works on his dream project:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    //textout_centre_ex(buffer, gameMidFont, "build a TIME MACHINE", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
+                    
                     gameSeq.step++;
                 break;
                 case 2: 
@@ -1111,8 +1114,9 @@ void game_init()
     set_palette(currentPal);
     
     //loads game font 
-    gameFont    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
-    gameBigFont = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT4_BMP));
+    gameFont        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT4_BMP));
+    gameBigFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT4_BMP));
+    gameMidFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT4_BMP));
 
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
