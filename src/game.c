@@ -26,6 +26,7 @@
 #include "resources.h"
 #include "interface.h"
 #include "lang.h"
+#include "text.h"
 
 #include "data/gdata.h"
 #include "data/judata.h"
@@ -237,8 +238,10 @@ void game_update()
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "Late at night, a boy works", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "on his dream project...", SCREEN_W>>1, 140 + gameFont[E_GAME_FONT_MID]->height, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Late at night, a boy works\non his dream project...", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    
+                    //textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "Late at night, a boy works", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    //textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "on his dream project...", SCREEN_W>>1, 140 + gameFont[E_GAME_FONT_MID]->height, WHITE_COLOR, BLACK_COLOR);
                     //textout_centre_ex(buffer, gameMidFont, "Once upon a night, \na boy works on his dream project:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                     //textout_centre_ex(buffer, gameMidFont, "build a TIME MACHINE", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
                     

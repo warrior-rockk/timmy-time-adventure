@@ -7,7 +7,6 @@
 
 # Engine
 
-- [ ] function to divide lines of text?
 - [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
