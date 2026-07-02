@@ -227,6 +227,16 @@ enum E_GAME_SFX
     E_SFX_GAME_NUM,
 };
 
+//game fonts
+enum E_GAME_FONTS
+{
+    E_GAME_FONT,
+    E_GAME_FONT_BIG,
+    E_GAME_FONT_MID,
+
+    E_GAME_NUM_FONTS,
+};
+
 //game data
 typedef struct
 {

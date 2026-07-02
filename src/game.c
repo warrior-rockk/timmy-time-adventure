@@ -47,9 +47,7 @@ bool firstRun = false;              //flag to set if first run (to show language
 
 BITMAP *buffer;                     //screen buffer
 BITMAP *worldScreen;                //map window buffer
-FONT *gameFont;                     //game font
-FONT *gameBigFont;                  //game big font
-FONT *gameMidFont;                      //game mid font
+FONT *gameFont[E_GAME_NUM_FONTS];   //game font array
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
 DATAFILE_INDEX *gameDataIndex; 
@@ -139,7 +137,7 @@ void game_update()
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1) + 20, (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);
                     
-                    textout_centre_ex(buffer, gameFont, "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
 
                     gameMusic = load_dat_midi_indexed(gameDataIndex, WARCOM_MID);
                     music_play(gameMusic, false);
@@ -239,8 +237,8 @@ void game_update()
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameMidFont, "Late at night, a boy works", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameMidFont, "on his dream project...", SCREEN_W>>1, 140 + gameMidFont->height, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "Late at night, a boy works", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_MID], "on his dream project...", SCREEN_W>>1, 140 + gameFont[E_GAME_FONT_MID]->height, WHITE_COLOR, BLACK_COLOR);
                     //textout_centre_ex(buffer, gameMidFont, "Once upon a night, \na boy works on his dream project:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                     //textout_centre_ex(buffer, gameMidFont, "build a TIME MACHINE", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
                     
@@ -254,8 +252,8 @@ void game_update()
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameFont, "He worked hard until finally acomplished:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont, "The machine is finished!!", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "He worked hard until finally acomplished:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "The machine is finished!!", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
 
                     gameSeq.step++;
                 break;
@@ -433,7 +431,7 @@ void game_update()
                     draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
                     destroy_bitmap(timeline);   
 
-                    textout_centre_ex(buffer, gameBigFont, lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
 
                     //draw select levelcursor
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
@@ -567,39 +565,39 @@ void game_update()
                         {
                             case TUTORIAL_INI_FRAME ... TUTORIAL_INI_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_WELCOME));
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_WELCOME));
                             break;
                             case TUTORIAL_MSG_1_FRAME ... TUTORIAL_MSG_1_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_MOVE), keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_MOVE), keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
                             break;
                             case TUTORIAL_MSG_2_FRAME ... TUTORIAL_MSG_2_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_JUMP), keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_JUMP), keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
                             break;
                             case TUTORIAL_MSG_3_FRAME ... TUTORIAL_MSG_3_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_CROUCH), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_CROUCH), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_4_FRAME ... TUTORIAL_MSG_4_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_ATTACK), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_ATTACK), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_5_FRAME ... TUTORIAL_MSG_5_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_TAKE), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_TAKE), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_6_FRAME ... TUTORIAL_MSG_6_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_7_FRAME ... TUTORIAL_MSG_7_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_8_FRAME ... TUTORIAL_MSG_8_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont, TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_DOOR), keyStrings[input_get_defined_key(E_G_KEY_UP)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_DOOR), keyStrings[input_get_defined_key(E_G_KEY_UP)]);
                             break;
                         }
                     }
@@ -956,7 +954,7 @@ void game_update()
                     //load pal
                     currentPal = gamePal;
                     //put game over text
-                    textout_centre_ex(buffer, gameBigFont, lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
                     //prepare systems to create an entity on screen
                     scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_MODE_BY_WINDOW_Y_ONLY);
                     object_system_init();
@@ -980,7 +978,7 @@ void game_update()
 
                     if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
                     {
-                        textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_CONTINUE_QUESTION), SCREEN_W>>1, 138, DIALOG_SEL_TEXT_COLOR, BLACK_COLOR);
+                        textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_CONTINUE_QUESTION), SCREEN_W>>1, 138, DIALOG_SEL_TEXT_COLOR, BLACK_COLOR);
                         //create continue menu
                         gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 30, 150}, (tVector){60, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                         dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
@@ -1039,7 +1037,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    textout_centre_ex(buffer, gameFont, "CONGRATULATIONS!", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "CONGRATULATIONS!", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
                     gameSeq.step++;
@@ -1113,10 +1111,10 @@ void game_init()
     currentPal = introPal;
     set_palette(currentPal);
     
-    //loads game font 
-    gameFont        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
-    gameBigFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
-    gameMidFont     = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
+    //loads game fonts
+    gameFont[E_GAME_FONT]        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
+    gameFont[E_GAME_FONT_BIG]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
+    gameFont[E_GAME_FONT_MID]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
 
     //initialize buffer screen
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -1141,7 +1139,7 @@ void game_init()
     lang_init(E_NUM_LANGS, E_TXT_NUM);
     entity_system_init();
     collision_system_init();
-    interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont);
+    interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont[E_GAME_FONT]);
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
     input_keys_init(E_GAME_KEYS_NUM);    
 
@@ -1337,10 +1335,15 @@ void game_destroy()
     MY_TRACE_FLAG("Destroying game\n");
     
     //free fonts
-    MY_TRACE_FLAG("\tDestroying font\n");
-    destroy_font(gameFont);
-    destroy_font(gameBigFont);
-    gameFont = NULL;
+    MY_TRACE_FLAG("\tDestroying fonts\n");
+    for (uint8_t i = 0; i < E_GAME_NUM_FONTS; i++)
+    {
+        if (gameFont[i])
+        {
+            destroy_font(gameFont[i]);
+            gameFont[i] = NULL;
+        }
+    }
     
     //free samples
     MY_TRACE_FLAG("\tDestroying game sfx\n");
@@ -1403,12 +1406,12 @@ void game_hud_init()
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 99, HUD_POSITION_Y + 5);
 
-    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_LIVES),   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
-    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_LIFE),    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
-    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_SCORE),   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
-    textout_centre_ex(buffer, gameFont, lang_get_txt(E_TXT_HUD_TIME),    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HUD_LIVES),   HUD_POSITION_X + 22, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HUD_LIFE),    HUD_POSITION_X + 90, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HUD_SCORE),   HUD_POSITION_X + 160, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
+    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HUD_TIME),    HUD_POSITION_X + 220, HUD_POSITION_Y - 7, WHITE_COLOR, 1);
 
-    textout_centre_ex(buffer, gameFont, "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, WHITE_COLOR, -1);
+    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "X",   HUD_POSITION_X + 23, HUD_POSITION_Y + 5, WHITE_COLOR, -1);
 
     hud.refresh = E_REFRESH_HUD_ALL;
 }
@@ -1456,7 +1459,7 @@ void game_hud_draw()
     //update lives
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_LIVES))
     {
-        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
+        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
     }
 
     //update life
@@ -1490,13 +1493,13 @@ void game_hud_draw()
     //update score
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_SCORE))
     {
-        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04u", game.score);
+        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04u", game.score);
     }
 
     //update time
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_TIME))
     {
-        textprintf_centre_ex(buffer, gameFont, HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
     }
 
     //reset refresh flags
