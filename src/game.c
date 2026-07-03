@@ -240,7 +240,7 @@ void game_update()
 
                     //text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Late at night, a boy works\non his dream project...", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                     
-                    text_marquee_init("Late at night, a boy works\non his dream project...", SCREEN_W>>1, 140);
+                    text_marquee_init("Late at night, a boy works\non his dream project...", 40, 140);
                                         
                     gameSeq.step++;
                 break;
@@ -252,15 +252,12 @@ void game_update()
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "He worked hard until finally acomplished:", SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "The machine is finished!!", SCREEN_W>>1, 150, WHITE_COLOR, BLACK_COLOR);
+                    text_marquee_init("He worked hard until finally acomplished\nThe machine is finished!", 40, 140);
 
                     gameSeq.step++;
                 break;
                 default:
-                    text_marquee_draw(buffer, gameFont[E_GAME_FONT_MID], WHITE_COLOR, BLACK_COLOR, 10);
-
-                    if (input_any_key_pressed())
+                    if (input_any_key_pressed() || text_marquee_draw(buffer, gameFont[E_GAME_FONT_MID], WHITE_COLOR, BLACK_COLOR, 10))
                     {
                         gameSeq.step++;    
                         game.fadeOut = true;

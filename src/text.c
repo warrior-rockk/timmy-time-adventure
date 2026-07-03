@@ -12,6 +12,7 @@
 char marqueeTxt[300];
 uint16_t marqueeX, marqueeY;
 uint16_t marqueeActualPos = 0;
+int16_t marqueeActualX = 0;
 uint16_t marqueeTime = 0;
 
 void text_multiline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uint16_t y, uint8_t fontColor, uint8_t backColor)
@@ -49,19 +50,34 @@ void text_marquee_init(char *text, uint16_t x, uint16_t y)
     marqueeX = x;
     marqueeY = y;
     marqueeActualPos = 0;
+    marqueeActualX   = 0;
     marqueeTime = 0;
 }
 
-void text_marquee_draw(BITMAP *buffer, FONT *font, uint8_t fontColor, uint8_t backColor, uint16_t speed)
+uint8_t text_marquee_draw(BITMAP *buffer, FONT *font, uint8_t fontColor, uint8_t backColor, uint16_t speed)
 {
-    if (marqueeTime >= speed)
+    if (marqueeActualPos < strlen(marqueeTxt))
     {
-        char letter[2];
-        sprintf(letter, "%c", marqueeTxt[marqueeActualPos]);    
-        text_multiline_draw(buffer, font, letter, marqueeX + (marqueeActualPos * 8), marqueeY, fontColor, backColor);
-        marqueeActualPos++;
-        marqueeTime = 0;
+        if (marqueeTime >= speed)
+        {
+            char letter[2];
+            sprintf(letter, "%c", marqueeTxt[marqueeActualPos]);    
+            if (letter[0] == '\n')
+            {
+                marqueeY += text_height(font);
+                marqueeActualX = 0;
+            }
+
+            text_multiline_draw(buffer, font, letter, marqueeX + (marqueeActualX * 8), marqueeY, fontColor, backColor);
+            marqueeActualPos++;
+            marqueeActualX++;
+            marqueeTime = 0;
+        }
+        else
+            marqueeTime += clock_tick_get();
+
+        return 0;
     }
     else
-        marqueeTime += clock_tick_get();
+        return 1;
 }
