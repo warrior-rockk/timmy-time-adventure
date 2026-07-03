@@ -354,6 +354,12 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){28, 15};                     
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
+        case E_GHOST_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, GHOST_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){102, 65};                          
+            entity->size = (tVector){32, 32};                     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -448,6 +454,9 @@ void enemy_update(tEntity *entity)
         case E_ANUBIS_ENEMY_TYPE:             
             enemy_anubis_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
+        case E_GHOST_ENEMY_TYPE:             
+            enemy_ghost_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
         default:
         break;
     }
@@ -1804,5 +1813,38 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_ANUBIS_ST_HURT:
             enemy_dead(this, ANIM_ANUBIS_DEAD);            
         break;
+    }       
+}
+
+void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define GHOST_PATROL_VELOCITY     0.8
+    #define GHOST_PATROL_RANGE        50
+        
+    //enemy animations
+    #define ANIM_GHOST_APPEAR        0,   3, 10,  ANIM_ONCE
+    #define ANIM_GHOST_DISAPPEAR     0,   3, 10,  ANIM_ONCE
+    #define ANIM_GHOST_FLY           4,   7, 10,  ANIM_LOOP
+    
+    //enemy states
+    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_FLY, E_GHOST_ST_TURN, E_GHOST_ST_HURT};   
+
+    switch (this->state)
+    {
+        case E_GHOST_ST_IDLE:
+            //use local flag to store direction
+            //local->flag = this->dir;
+            //this->state++;
+            play_animation(&this->anim, ANIM_GHOST_APPEAR);
+        break;
+        case E_GHOST_ST_FLY:        
+            enemy_patrol_ia(this, ftofix(GHOST_PATROL_VELOCITY), GHOST_PATROL_RANGE);
+            //if direction changes, do turn animation
+            if (this->dir != local->flag)
+                this->state = E_GHOST_ST_TURN;
+
+            play_animation(&this->anim, ANIM_GHOST_FLY);
+        break;                
     }       
 }
