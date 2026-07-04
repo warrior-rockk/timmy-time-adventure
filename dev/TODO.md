@@ -7,7 +7,6 @@
 
 # Engine
 
-- [ ] mark level as completed on map
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
 - [ ] Cheat codes?
@@ -17,7 +16,6 @@
 - [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
-- [ ] Level selection/acomplished
 - [ ] Do the same system as enemies instance list add/remove on objects?
 - [ ] Review debug keys on different translation units
 - [ ] Unload game resources? unload interface system?
