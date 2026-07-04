@@ -441,6 +441,15 @@ void game_update()
                     draw_sprite(buffer, ring, 32 + (69 * game.actualLevel), 78);    
                     destroy_bitmap(ring);   
 
+                    //draw complete levels ring
+                    BITMAP *completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS; i++)
+                    {
+                        if (game.levelComplete[i])
+                            draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
+                    }
+                    destroy_bitmap(completeRing);   
+
                     gameSeq.step++;
                 break;
                 case 1: //handle selection
@@ -673,7 +682,7 @@ void game_update()
                     game.state = E_GAME_ST_INIT_LEVEL;
                 
                 if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
-                    game.state = E_GAME_ST_COMPLETE_LEVEL;    
+                    game.levelComplete[game.actualLevel] = true;
             #endif
         break;
         case E_GAME_ST_MOVE_TO_DOOR:
