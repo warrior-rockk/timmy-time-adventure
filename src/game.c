@@ -107,6 +107,7 @@ static void game_process_options_menu();
 static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
 static void game_create_options_play_menu();
 static void game_load_control_strings();
+static void game_init_flags();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -775,8 +776,7 @@ void game_update()
                             break;
                             case 2: //EXIT TO TITLE
                                 game_destroy_level();                                
-                                //clear completed levels
-                                memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+                                game_init_flags();
                                 game.fadeOut = true;
                                 game.state = E_GAME_ST_TITLE;
                                 
@@ -1031,9 +1031,7 @@ void game_update()
                                 entities_destroy_all();
                                 object_system_destroy();
 
-                                //clear completed levels
-                                memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-
+                                game_init_flags();
                                 game.state = E_GAME_ST_TITLE;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
@@ -1058,6 +1056,7 @@ void game_update()
                     if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
                     {
                         game.state = E_GAME_ST_TITLE;
+                        game_init_flags();
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = true;
@@ -1106,6 +1105,25 @@ static void game_destroy_level()
     clear_to_color(worldScreen, BLACK_COLOR);
     clear_to_color(buffer, BLACK_COLOR);   
     game.viewMap = false;
+}
+
+static void game_init_flags()
+{
+    game.actualLevel    = 0;
+    #ifdef DEBUGMODE
+        game.actualLevel    = DEBUG_INI_GAME_LEVEL;        
+    #endif
+    memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+    //TODO: temporal until starting make level        
+    #ifndef DEBUGMODE
+        game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
+    #endif
+    game.lives          = GAME_INI_LIVES;
+    game.life           = GAME_INI_LIFE;
+    game.score          = 0;
+    game.viewMap        = false;
+    hud.refresh         = E_REFRESH_HUD_ALL;
+    game.doorId         = 0;
 }
 
 void game_init()
@@ -1205,27 +1223,11 @@ void game_init()
     #endif
     
     //initialize game flags
-    game.prevState      = E_GAME_ST_LOAD_LEVEL;
-    game.actualLevel    = 0;
-    #ifdef DEBUGMODE
-        game.actualLevel    = DEBUG_INI_GAME_LEVEL;        
-    #endif
-    memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    //TODO: temporal until starting make level        
-    #ifndef DEBUGMODE
-        game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
-    #endif
-    game.lives          = GAME_INI_LIVES;
-    game.life           = GAME_INI_LIFE;
-    game.score          = 0;
+    game_init_flags();
+    game.prevState      = 255;
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;    
-    game.viewMap        = false;
-    hud.refresh         = E_REFRESH_HUD_ALL;
-    gameSeq.step        = 0;
-    gameSeq.timeCounter = 0;
-    game.doorId         = 0;
-
+    
     //load game config
     game_load_config();
 }
