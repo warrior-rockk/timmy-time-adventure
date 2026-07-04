@@ -432,10 +432,14 @@ void game_update()
 
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
 
-                    //draw select levelcursor
+                    //draw select levelcursor and ring
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
                     draw_sprite(buffer, cursor, 47 + (69 * game.actualLevel), 130);    
                     destroy_bitmap(cursor);   
+
+                    BITMAP *ring = load_dat_bmp_indexed(gameDataIndex, RING_BMP);               
+                    draw_sprite(buffer, ring, 32 + (69 * game.actualLevel), 78);    
+                    destroy_bitmap(ring);   
 
                     gameSeq.step++;
                 break;

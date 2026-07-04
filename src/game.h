@@ -265,7 +265,7 @@ typedef struct
     #define DEBUG_SCROLL                    0
     #define DEBUG_NO_LEVEL_TIME             0
     #define DEBUG_TRACE_PLAYER              1
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_SELECT_LEVEL //    E_GAME_ST_LOAD_LEVEL
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_MEDIEVAL
     typedef struct
     {
