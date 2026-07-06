@@ -1819,32 +1819,73 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
-    #define GHOST_PATROL_VELOCITY     0.8
-    #define GHOST_PATROL_RANGE        50
+    #define GHOST_VELOCITY            1.4
+    #define GHOST_PLAYER_RANGE        50
+    #define GHOST_WAIT_TIME           200
         
     //enemy animations
     #define ANIM_GHOST_APPEAR        0,   3, 10,  ANIM_ONCE
-    #define ANIM_GHOST_DISAPPEAR     0,   3, 10,  ANIM_ONCE
     #define ANIM_GHOST_FLY           4,   7, 10,  ANIM_LOOP
+    #define ANIM_GHOST_DISAPPEAR     8,   11, 10,  ANIM_ONCE
     
     //enemy states
-    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_FLY, E_GHOST_ST_TURN, E_GHOST_ST_HURT};   
+    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_APPEAR, E_GHOST_ST_FLY, E_GHOST_ST_DISSAPEAR, E_GHOST_ST_WAIT};   
+
+    tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
     {
         case E_GHOST_ST_IDLE:
-            //use local flag to store direction
-            //local->flag = this->dir;
-            //this->state++;
-            play_animation(&this->anim, ANIM_GHOST_APPEAR);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            //check range of player            
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+            {
+                this->state++;
+                this->visible = true;            
+                
+            }
+            else
+                this->visible = false;
+            
         break;
-        case E_GHOST_ST_FLY:        
-            enemy_patrol_ia(this, ftofix(GHOST_PATROL_VELOCITY), GHOST_PATROL_RANGE);
-            //if direction changes, do turn animation
-            if (this->dir != local->flag)
-                this->state = E_GHOST_ST_TURN;
+        case E_GHOST_ST_APPEAR:
+            if (play_animation(&this->anim, ANIM_GHOST_APPEAR))
+            {
+                this->state++;
+                local->flag = player->pos.x;  
+                this->dir = player->pos.x > this->pos.x;                      
+            }
+        break;
+        case E_GHOST_ST_FLY:     
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);   
+            if ((this->dir && this->pos.x >= local->flag) ||
+                (!this->dir && this->pos.x <= local->flag))
+            {
+                this->state++;      
+                this->fixVel.x = 0;                              
+            }
+            else
+            {
+                this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -ftofix(GHOST_VELOCITY) : ftofix(GHOST_VELOCITY);
+            }
 
             play_animation(&this->anim, ANIM_GHOST_FLY);
-        break;                
+        break;         
+        case E_GHOST_ST_DISSAPEAR:
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            if (play_animation(&this->anim, ANIM_GHOST_DISAPPEAR))
+                this->state++;
+        break;       
+        case E_GHOST_ST_WAIT:
+            this->visible = false;
+            if (local->timer >= GHOST_WAIT_TIME)
+            {
+                this->state = E_GHOST_ST_IDLE;
+                local->timer = 0;
+                this->state = E_GHOST_ST_IDLE;
+            }
+            else   
+                local->timer += clock_tick_get();
+        break;
     }       
 }
