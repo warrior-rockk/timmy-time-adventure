@@ -28,4 +28,5 @@
 #define DEAD_WAV                      	27  	//SAMP
 #define SHOOT_WAV                     	28  	//SAMP
 #define SPLASH_WAV                    	29  	//SAMP
-#define WIP_WAV                       	30  	//SAMP
+#define SWORD_WAV                     	30  	//SAMP
+#define WIP_WAV                       	31  	//SAMP

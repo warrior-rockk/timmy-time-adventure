@@ -362,7 +362,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_KNIGHT_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, KNIGHT_BMP);
-            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_WIP], enemyDataFileIndex, WIP_WAV);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){59, 49};                          
             entity->size = (tVector){20, 32};
@@ -1976,7 +1976,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
                 {
                     local->flag = true;
                     int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -KNIGHT_HITBOX_X_OFFSET_LEFT : this->size.x + KNIGHT_HITBOX_X_OFFSET_RIGHT; 
-                    sfx_play(enemySfx[E_SFX_ENEMY_WIP], E_SFX_ENEMY_VOICE);
+                    sfx_play(enemySfx[E_SFX_ENEMY_SWORD], E_SFX_ENEMY_VOICE);
                     entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, KNIGHT_HITBOX_DURATION);
                 }               
             }
