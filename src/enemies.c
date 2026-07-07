@@ -360,6 +360,16 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){102, 65};                          
             entity->size = (tVector){32, 32};                     
         break;
+        case E_KNIGHT_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, KNIGHT_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_WIP], enemyDataFileIndex, WIP_WAV);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){59, 49};                          
+            entity->size = (tVector){20, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -456,6 +466,9 @@ void enemy_update(tEntity *entity)
         break;        
         case E_GHOST_ENEMY_TYPE:             
             enemy_ghost_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_KNIGHT_ENEMY_TYPE:             
+            enemy_knight_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -1886,6 +1899,106 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             else   
                 local->timer += clock_tick_get();
+        break;
+    }       
+}
+
+void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define KNIGHT_VELOCITY                   0.6
+    #define KNIGHT_RANGE_PATROL               50
+    #define KNIGHT_PLAYER_RANGE               30
+    #define KNIGHT_ATTACK_FRAME               4
+    #define KNIGHT_HITBOX_X_OFFSET_LEFT       22
+    #define KNIGHT_HITBOX_X_OFFSET_RIGHT      6
+    #define KNIGHT_HITBOX_DURATION            20
+    
+    //enemy animations
+    #define ANIM_KNIGHT_WALK   0,   7,  10, ANIM_LOOP
+    //#define ANIM_KNIGHT_ATACK  32,   40,  10, ANIM_ONCE
+    #define ANIM_KNIGHT_ATACK  24,   31,  6, ANIM_ONCE
+    #define ANIM_KNIGHT_BLOCK   8,   15,  5, ANIM_ONCE
+    #define ANIM_KNIGHT_DEAD   16,   23,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+
+    //enemy states
+    enum E_KNIGHT_ENEMY_STATES{E_KNIGHT_ST_IDLE, E_KNIGHT_ST_MOVING, E_KNIGHT_ST_ATTACK, E_KNIGHT_ST_BLOCK, E_KNIGHT_ST_HURT};   
+
+    tEntity *player = entity_get(entity_get_player_id());
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_KNIGHT_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
+
+    switch (this->state)
+    {
+        case E_KNIGHT_ST_IDLE:            
+            this->state++;
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+        break;
+        case E_KNIGHT_ST_MOVING:            
+            local->flag = false;
+
+            if (this->spare)
+            {
+                enemy_patrol_ia(this, ftofix(KNIGHT_VELOCITY), KNIGHT_RANGE_PATROL);
+                play_animation(&this->anim, ANIM_KNIGHT_WALK);
+            }
+            else
+                this->anim.frame = 0;
+            
+            //check range of player
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, KNIGHT_PLAYER_RANGE))
+                this->state = E_KNIGHT_ST_ATTACK;
+
+            
+        break;     
+        case E_KNIGHT_ST_ATTACK:
+            if (this->anim.frame == KNIGHT_ATTACK_FRAME)
+            {
+                if (!local->flag)
+                {
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -KNIGHT_HITBOX_X_OFFSET_LEFT : this->size.x + KNIGHT_HITBOX_X_OFFSET_RIGHT; 
+                    sfx_play(enemySfx[E_SFX_ENEMY_WIP], E_SFX_ENEMY_VOICE);
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, KNIGHT_HITBOX_DURATION);
+                }               
+            }
+            else{
+                local->flag = false;
+                if (player->fixVel.y < 0)
+                    this->state = E_KNIGHT_ST_BLOCK;
+            }                
+
+            if (play_animation(&this->anim, ANIM_KNIGHT_ATACK))
+            {
+                this->state = E_KNIGHT_ST_MOVING;
+            }
+        break;   
+        case E_KNIGHT_ST_BLOCK:
+            SET_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+            if (play_animation(&this->anim, ANIM_KNIGHT_BLOCK))
+            {
+                this->state = E_KNIGHT_ST_IDLE;
+            }
+        break;
+        case E_KNIGHT_ST_HURT:
+            enemy_dead(this, ANIM_KNIGHT_DEAD);            
         break;
     }       
 }
