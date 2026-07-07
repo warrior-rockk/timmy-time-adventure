@@ -1906,9 +1906,9 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define KNIGHT_VELOCITY                   0.6
-    #define KNIGHT_RANGE_PATROL               50
-    #define KNIGHT_PLAYER_RANGE               30
-    #define KNIGHT_ATTACK_FRAME               4
+    #define KNIGHT_RANGE_PATROL               50    
+    #define KNIGHT_PLAYER_RANGE               50
+    #define KNIGHT_ATTACK_FRAME               29
     #define KNIGHT_HITBOX_X_OFFSET_LEFT       22
     #define KNIGHT_HITBOX_X_OFFSET_RIGHT      6
     #define KNIGHT_HITBOX_DURATION            20
@@ -1916,9 +1916,9 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy animations
     #define ANIM_KNIGHT_WALK   0,   7,  10, ANIM_LOOP
     //#define ANIM_KNIGHT_ATACK  32,   40,  10, ANIM_ONCE
-    #define ANIM_KNIGHT_ATACK  24,   31,  6, ANIM_ONCE
+    #define ANIM_KNIGHT_ATACK  24,   31,  8, ANIM_ONCE
     #define ANIM_KNIGHT_BLOCK   8,   15,  5, ANIM_ONCE
-    #define ANIM_KNIGHT_DEAD   16,   23,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_KNIGHT_DEAD   16,   23,  10, ANIM_ONCE
 
     //enemy states
     enum E_KNIGHT_ENEMY_STATES{E_KNIGHT_ST_IDLE, E_KNIGHT_ST_MOVING, E_KNIGHT_ST_ATTACK, E_KNIGHT_ST_BLOCK, E_KNIGHT_ST_HURT};   
@@ -1950,6 +1950,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_KNIGHT_ST_IDLE:            
             this->state++;
             CLEAR_FLAG(this->properties, E_ENT_PROP_HURTLESS);
+            this->dir = player->pos.x > this->pos.x;
         break;
         case E_KNIGHT_ST_MOVING:            
             local->flag = false;
@@ -1981,7 +1982,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             else{
                 local->flag = false;
-                if (player->fixVel.y < 0)
+                if (player->fixVel.y < 0 && in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->size.x))
                     this->state = E_KNIGHT_ST_BLOCK;
             }                
 
