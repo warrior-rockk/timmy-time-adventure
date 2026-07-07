@@ -1949,7 +1949,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_KNIGHT_ST_IDLE:            
             this->state++;
-            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+            CLEAR_FLAG(this->properties, E_ENT_PROP_HURTLESS);
         break;
         case E_KNIGHT_ST_MOVING:            
             local->flag = false;
@@ -1991,7 +1991,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
         break;   
         case E_KNIGHT_ST_BLOCK:
-            SET_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+            SET_FLAG(this->properties, E_ENT_PROP_HURTLESS);
             if (play_animation(&this->anim, ANIM_KNIGHT_BLOCK))
             {
                 this->state = E_KNIGHT_ST_IDLE;

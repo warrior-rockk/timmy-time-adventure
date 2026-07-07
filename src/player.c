@@ -476,12 +476,17 @@ static void player_update_collisions(tEntity *player)
                             //if collision down and attacking
                             if ((colDir == E_COLLISION_DIR_DOWN || player->pos.y < checkEntity->pos.y) && playerFlags.attack && checkEntity->signal != E_ENT_SIGNAL_HURT && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_HURT))
                             {
-                                //send signal to entity
-                                checkEntity->signal = E_ENT_SIGNAL_HURT;  
                                 //set bounce velocity
                                 player->fixVel.y = itofix(PLAYER_ATTACK_BOUNCE_VEL);
-                                //shake camera when kill enemy
-                                scroll_shake_camera();
+                                if (!CHECK_FLAG(checkEntity->properties, E_ENT_PROP_HURTLESS))
+                                {
+                                    //send signal to entity
+                                    checkEntity->signal = E_ENT_SIGNAL_HURT;                                  
+                                    //shake camera when kill enemy
+                                    scroll_shake_camera();
+                                }
+                                else
+                                    sfx_play(playerSfx[SFX_PLAYER_BOUNCE], E_SFX_PLAYER_VOICE);                                
                             } 
                             //if not attacking (hurt player)
                             else if (checkEntity->signal != E_ENT_SIGNAL_HURT && !playerFlags.hurt && !playerInvincible)
