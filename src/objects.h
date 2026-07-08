@@ -108,13 +108,18 @@ enum E_EGYPT_SYMBOLS_STATUS
 //types of platforms
 enum E_PLATFORM_TYPES
 {
-    E_PLATFORM_TYPE_MOVE_X_INI_LEFT,
-    E_PLATFORM_TYPE_MOVE_X_INI_RIGHT,
-    E_PLATFORM_TYPE_MOVE_Y,
-    E_PLATFORM_TYPE_WAIT_PLAYER,
-    E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT,
-    E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT,
-    E_PLATFORM_TYPE_MOVE_Y_PATROL,
+    E_PLATFORM_TYPE_MOVE_PATROL       = 0x01,     //moves on dir axis platform x num of tiles and change direction on collision
+    E_PLATFORM_TYPE_MOVE_DISAPPEAR    = 0x02,     //moves on dir axis platform on dir without collision until disappear
+    E_PLATFORM_TYPE_WAIT_PLAYER       = 0x04,     //flag for wait the player before move
+};
+
+//movement direction of platforms
+enum E_PLATFORM_MOVE_DIR
+{
+    E_PLATFORM_DIR_LEFT,
+    E_PLATFORM_DIR_RIGHT,
+    E_PLATFORM_DIR_UP,
+    E_PLATFORM_DIR_DOWN,
 };
 
 //debug trace entity object info

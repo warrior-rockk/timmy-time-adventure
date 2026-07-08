@@ -2,8 +2,8 @@
 <template>
  <object name="egypt-platform" type="platform" width="32" height="16">
   <properties>
-   <property name="dir" type="int" propertytype="platform_type" value="0"/>
-   <property name="spare" type="int" value="32"/>
+   <property name="dir" type="int" propertytype="platformDir" value="0"/>
+   <property name="spare" type="int" propertytype="platform_type" value="1"/>
   </properties>
  </object>
 </template>

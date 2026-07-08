@@ -174,13 +174,22 @@
             "storageType": "int",
             "type": "enum",
             "values": [
-                "MOVE_X_INI_LEFT",
-                "MOVE_X_INI_RIGHT",
-                "MOVE_Y",
-                "MOVE_WAIT_PLAYER",
-                "MOVE_X_PATROL_INI_LEFT",
-                "MOVE_X_PATROL_INI_RIGHT",
-                "MOVE_Y_PATROL"
+                "MOVE_PATROL",
+                "MOVE_DISAPPEAR",
+                "WAIT_PLAYER_FLAG"
+            ],
+            "valuesAsFlags": true
+        },
+        {
+            "id": 30,
+            "name": "platformDir",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "LEFT",
+                "RIGHT",
+                "DOWN",
+                "UP"
             ],
             "valuesAsFlags": false
         },

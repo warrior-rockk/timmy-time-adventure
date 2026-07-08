@@ -284,10 +284,8 @@ void object_create(tEntity *entity)
         case E_EGYPT_PLATFORM_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGYPTPLA_BMP);    
             entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){entity->spare, 16};
-            entity->size = (tVector){entity->spare, 16};                                     
-            entity->spare = entity->dir;
-            entity->dir = E_ENT_DIR_LEFT;
+            entity->spriteSize = (tVector){32, 16};
+            entity->size = (tVector){32, 16};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
             collision_create_entity_points(entity);            
         break;
@@ -1412,34 +1410,34 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
     //object states
     enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE};
 
-    //terrain collisions
-    uint8_t colDir = 0;
-    this->ground = false;
-    //check all the entity collision points    
-    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
-    {                
-        //check collision tile for collision point
-        colDir = collision_check_tile(this, i);        
-        //apply collision direction
-        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
-        
-        switch (this->spare)
-        {
-            case E_PLATFORM_TYPE_MOVE_X_INI_LEFT:
-            case E_PLATFORM_TYPE_MOVE_X_INI_RIGHT:
-            case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT:
-            case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT:
+    if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL))
+    {
+        //terrain collisions
+        uint8_t colDir = 0;
+        this->ground = false;
+        //check all the entity collision points    
+        for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+        {                
+            //check collision tile for collision point
+            colDir = collision_check_tile(this, i);        
+            //apply collision direction
+            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+            
+            //change direction on collision
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
+            {            
                 //change direction if horizontal collision
                 if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
                     local->flag = !local->flag;
-            break;
-            case E_PLATFORM_TYPE_MOVE_Y:
-            case E_PLATFORM_TYPE_MOVE_Y_PATROL:
+            }
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
+            {            
                 //change direction if vertical collision
+                //TODO: fix this because two collision points inverts flag twice
                 if ((colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN) && i == E_COLPOINT_DOWN_L)
                     local->flag = !local->flag;
-            break;
-        }        
+            }                    
+        }
     }
 
     switch (this->state)
@@ -1449,21 +1447,8 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             //reset velocity
             this->fixVel.y = itofix(0); 
 
-            //set dir
-            switch (this->spare)
-            {
-                case E_PLATFORM_TYPE_MOVE_X_INI_LEFT:
-                case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT:
-                    this->dir = E_ENT_DIR_LEFT;
-                break;
-                case E_PLATFORM_TYPE_MOVE_X_INI_RIGHT:
-                case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT:
-                    this->dir = E_ENT_DIR_RIGHT;
-                break;
-            }
-
             //if player on this platform  or not wait player platform type          
-            if (collision_get_player_platform_id() == this->id || this->spare != E_PLATFORM_TYPE_WAIT_PLAYER)
+            if (collision_get_player_platform_id() == this->id || !CHECK_FLAG(this->spare, E_PLATFORM_TYPE_WAIT_PLAYER))
             {
                 this->state++;                
             }
@@ -1472,42 +1457,38 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             int16_t nextPos;
 
             //horizontal patrol
-            if (this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT || this->spare == E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT)
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
             {
                 if ((!local->flag && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (local->flag && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
                     local->flag = !local->flag;
             }
             //vertical patrol
-            if (this->spare == E_PLATFORM_TYPE_MOVE_Y_PATROL)
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {
                 if ((!local->flag && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (local->flag && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
                     local->flag = !local->flag;
             }
 
             //apply linear velocity
-            switch (this->spare)
+            //horizontal
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
             {
-                case E_PLATFORM_TYPE_MOVE_X_INI_LEFT:
-                case E_PLATFORM_TYPE_MOVE_X_INI_RIGHT:
-                case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_LEFT:
-                case E_PLATFORM_TYPE_MOVE_X_PATROL_INI_RIGHT:
-                    this->fixVel.x = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
-                    //calculate next integer position (entity update do this)
-                    nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
-                    //adds to player x position the integer part of platform delta movement                
-                    if (collision_get_player_platform_id() == this->id)            
-                        entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
-                break;
-            
-                case E_PLATFORM_TYPE_MOVE_Y:
-                case E_PLATFORM_TYPE_MOVE_Y_PATROL:
-                    this->fixVel.y = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
-                    //calculate next integer position (entity update do this)
-                    nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
-                    //adds to player x position the integer part of platform delta movement
-                    if (collision_get_player_platform_id() == this->id)            
-                        entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
-                break;
+                this->fixVel.x = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement                
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
+            }
+            //vertical
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
+            {
+                this->fixVel.y = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
             }
         break;
     }    
