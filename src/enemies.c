@@ -358,7 +358,10 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, GHOST_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){102, 65};                          
-            entity->size = (tVector){32, 32};                     
+            entity->size = (tVector){20, 32};       
+            entity->axis = E_ENT_AXIS_UP;   
+            if (entity->spare) //patrol?
+                collision_create_entity_points(entity);
         break;
         case E_KNIGHT_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, KNIGHT_BMP);
@@ -1846,8 +1849,10 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define GHOST_VELOCITY            1.4
+    #define GHOST_PATROL_VELOCITY     0.8
     #define GHOST_PLAYER_RANGE        50
     #define GHOST_WAIT_TIME           200
+    #define GHOST_PATROL_RANGE        100
         
     //enemy animations
     #define ANIM_GHOST_APPEAR        0,   3, 10,  ANIM_ONCE
@@ -1855,24 +1860,30 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_GHOST_DISAPPEAR     8,   11, 10,  ANIM_ONCE
     
     //enemy states
-    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_APPEAR, E_GHOST_ST_FLY, E_GHOST_ST_DISSAPEAR, E_GHOST_ST_WAIT};   
+    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_APPEAR, E_GHOST_ST_FLY, E_GHOST_ST_DISSAPEAR, E_GHOST_ST_WAIT, E_GHOST_ST_PATROL};   
 
     tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
     {
         case E_GHOST_ST_IDLE:
-            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
-            //check range of player            
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+            if (this->spare)    //patrol?
             {
-                this->state++;
-                this->visible = true;            
-                
+                this->state = E_GHOST_ST_PATROL;
             }
             else
-                this->visible = false;
-            
+            {
+                SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+                //check range of player            
+                if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+                {
+                    this->state++;
+                    this->visible = true;            
+                    
+                }
+                else
+                    this->visible = false;
+            }
         break;
         case E_GHOST_ST_APPEAR:
             if (play_animation(&this->anim, ANIM_GHOST_APPEAR))
@@ -1912,6 +1923,11 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             else   
                 local->timer += clock_tick_get();
+        break;
+        case E_GHOST_ST_PATROL:
+            enemy_patrol_ia(this, ftofix(GHOST_PATROL_VELOCITY), GHOST_PATROL_RANGE);
+                                    
+            play_animation(&this->anim, ANIM_GHOST_FLY);
         break;
     }       
 }
