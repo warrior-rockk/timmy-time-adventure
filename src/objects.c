@@ -91,8 +91,15 @@ void object_create(tEntity *entity)
     numObjectInstances++;
 
     //allocate memory for general solid object
-    objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData)); 
-    
+    switch (entity->entType)
+    {
+        case E_MEDIEVAL_PATH_TYPE:
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tPathPlatformLocalData)); 
+        break;
+        default:
+            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData)); 
+        break;
+    }
     //set object properties    
     switch (entity->entType)
     {
@@ -338,6 +345,13 @@ void object_create(tEntity *entity)
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
             collision_create_entity_points(entity);            
         break;
+        case E_MEDIEVAL_PATH_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, MEDPLAT_BMP);    
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){32, 16};
+            entity->size = (tVector){32, 16};                                                 
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                                    
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -411,6 +425,9 @@ void object_update(tEntity *entity)
         case E_SPIKE_TRAP_2_OBJECT_TYPE:
             object_spike_trap_2_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
+        case E_MEDIEVAL_PATH_TYPE:
+            object_path_platform_update(entity, &((tPathPlatformLocalData*)objectDataList)[entity->entInstance]);
+        break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
@@ -451,6 +468,11 @@ void object_init(tEntity *entity)
                 entity_get(entity_get_player_id())->initPos = entity->pos;
                 entity_get(entity_get_player_id())->initDir = entity->dir;
             #endif
+        break;
+        case E_MEDIEVAL_PATH_TYPE:
+            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].currentPoint = 0;
+            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].pathPos.x = 0;
+            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].pathPos.y = 0;
         break;
         default:
             ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
@@ -1644,6 +1666,44 @@ void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local)
             }    
         break;
     }
+}
+
+void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
+{
+    //object defines
+    #define PLATFORM_VELOCITY               0.6
+    
+    //object states
+    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE_TO_POINT};
+
+    switch (this->state)
+    {
+        case E_PLATFORM_ST_IDLE:
+            
+            //reset velocity
+            this->fixVel.y = itofix(0); 
+
+            //wait for player
+            if (collision_get_player_platform_id() == this->id)
+            {
+                //get the first path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
+                uint8_t numEntities = entities_get_num();
+                tEntity *checkEntity;
+                for (uint8_t i = 0; i < numEntities; i++)
+                {
+                    checkEntity = entity_get(i);
+                    if (checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
+                    {
+                        //TODO: i need a custom local type with x and y positions
+                        local->pathPos.x = checkEntity->pos.x;
+                        local->pathPos.x = checkEntity->pos.y;
+                    }
+                }
+
+                this->state++;                
+            }
+        break;        
+    }    
 }
 
 void object_trace(tEntity *this)

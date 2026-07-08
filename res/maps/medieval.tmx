@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="36">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="39">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -715,11 +715,31 @@
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
-  <object id="33" name="medieval-platform" type="platform" x="2208" y="240" width="32" height="16">
+  <object id="33" name="medieval-path" type="platform" x="2208" y="240" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="0"/>
-    <property name="spare" type="int" propertytype="platform_type" value="6"/>
+    <property name="spare" type="int" value="0"/>
    </properties>
+  </object>
+  <object id="36" name="path" type="platform" x="2080" y="240">
+   <properties>
+    <property name="dir" type="int" value="0"/>
+    <property name="spare" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="37" x="2080" y="320">
+   <properties>
+    <property name="dir" type="int" value="1"/>
+    <property name="spare" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="38" x="2032" y="320">
+   <properties>
+    <property name="dir" type="int" value="2"/>
+    <property name="spare" type="int" value="0"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
 </map>

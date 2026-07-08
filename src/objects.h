@@ -61,6 +61,8 @@ enum E_OBJECT_TYPE
     E_TRAP_FIRE_OBJECT_TYPE,
     E_DEBUG_START_OBJECT_TYPE,
     E_MEDIEVAL_PLATFORM_TYPE,
+    E_MEDIEVAL_PATH_TYPE,
+    E_PATH_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -73,11 +75,19 @@ enum E_ITEMS_TYPE
     E_ITEMS_NUM,
 };
 
+//default object local data
 typedef struct 
 {
     uint16_t timer;  
     int16_t flag;  
 } tSolidObjectLocalData;
+
+//path platform object data
+typedef struct 
+{
+    uint8_t currentPoint;
+    tVector pathPos;    
+} tPathPlatformLocalData;
 
 enum E_OBJECT_SFX
 {
@@ -170,4 +180,6 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *objData);
 void object_lance_update(tEntity *this, tSolidObjectLocalData *objData);
 //spike trap 2
 void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *objData);
+//path platform object
+void object_path_platform_update(tEntity *this, tPathPlatformLocalData *objData);
 #endif
