@@ -55,7 +55,8 @@ object_ent_types = [
     "door-out",
     "spike-trap2",
     "trap-fire",
-    "debug-start"   
+    "debug-start",
+    "medieval-platform",
 ]
 object_ent_types = {name: index for index, name in enumerate(object_ent_types)}
 

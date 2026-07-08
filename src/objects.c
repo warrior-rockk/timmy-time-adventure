@@ -332,6 +332,16 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 32};      
             entity->properties = E_ENT_PROP_NO_COLLISION;                        
         break;
+        case E_MEDIEVAL_PLATFORM_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, MEDPLAT_BMP);    
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){entity->spare, 16};
+            entity->size = (tVector){entity->spare, 16};                                     
+            entity->spare = entity->dir;
+            entity->dir = E_ENT_DIR_LEFT;
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
+            collision_create_entity_points(entity);            
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -396,6 +406,7 @@ void object_update(tEntity *entity)
             object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;                
         case E_EGYPT_PLATFORM_OBJECT_TYPE:
+        case E_MEDIEVAL_PLATFORM_TYPE:
             object_platform_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
         break;
         case E_LANCE_OBJECT_TYPE:
@@ -1425,7 +1436,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             case E_PLATFORM_TYPE_MOVE_Y:
             case E_PLATFORM_TYPE_MOVE_Y_PATROL:
                 //change direction if vertical collision
-                if (colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN)
+                if ((colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN) && i == E_COLPOINT_DOWN_L)
                     local->flag = !local->flag;
             break;
         }        
