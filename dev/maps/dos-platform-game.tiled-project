@@ -176,7 +176,7 @@
             "values": [
                 "MOVE_X_INI_LEFT",
                 "MOVE_X_INI_RIGHT",
-                "MOVE_X",
+                "MOVE_Y",
                 "MOVE_WAIT_PLAYER",
                 "MOVE_X_PATROL_INI_LEFT",
                 "MOVE_X_PATROL_INI_RIGHT",
