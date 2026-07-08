@@ -1427,14 +1427,14 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             {            
                 //change direction if horizontal collision
                 if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
-                    local->flag = !local->flag;
+                    this->dir = !this->dir;
             }
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {            
                 //change direction if vertical collision
                 //TODO: fix this because two collision points inverts flag twice
                 if ((colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN) && i == E_COLPOINT_DOWN_L)
-                    local->flag = !local->flag;
+                    this->dir = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP : (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
             }                    
         }
     }
@@ -1460,14 +1460,14 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             {
                 if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
                 {
-                    if ((!local->flag && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (local->flag && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
-                        local->flag = !local->flag;
+                    if ((!this->dir && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (this->dir && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
+                        this->dir = !this->dir;
                 }
                 //vertical patrol
                 if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
                 {
-                    if ((!local->flag && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (local->flag && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
-                        local->flag = !local->flag;
+                    if ((this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
+                        this->dir = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP : (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
                 }
             }
 
@@ -1475,7 +1475,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             //horizontal
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
             {
-                this->fixVel.x = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
                 //adds to player x position the integer part of platform delta movement                
@@ -1485,7 +1485,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             //vertical
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {
-                this->fixVel.y = local->flag ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                this->fixVel.y = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
                 //adds to player x position the integer part of platform delta movement

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="34">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="36">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -660,9 +660,14 @@
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
-  <object id="15" name="stopScroll" type="trigger" x="2304" y="240" width="16" height="16">
+  <object id="34" name="stopScroll" type="trigger" x="2048" y="176" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+   </properties>
+  </object>
+  <object id="15" name="stopScroll" type="trigger" x="2304" y="240" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="21" name="stopScroll" type="trigger" x="2304" y="80" width="16" height="16">
@@ -700,7 +705,7 @@
   </object>
   <object id="30" name="medieval-platform" type="platform" x="2208" y="176" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="dir" type="int" propertytype="platformDir" value="0"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
