@@ -7,6 +7,7 @@
 
 # Engine
 
+- [ ] player dead by collision crush
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
 - [ ] Cheat codes?
