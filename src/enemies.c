@@ -370,6 +370,16 @@ void enemy_create(tEntity *entity)
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
         break;
+        case E_SKELETON_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SKELETON_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){64, 50};                          
+            entity->size = (tVector){20, 32};
+            entity->axis = E_ENT_AXIS_DOWN;  
+            SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
+            collision_create_entity_points(entity);     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -469,6 +479,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_KNIGHT_ENEMY_TYPE:             
             enemy_knight_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_SKELETON_ENEMY_TYPE:             
+            enemy_skeleton_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -2002,4 +2015,117 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             enemy_dead(this, ANIM_KNIGHT_DEAD);            
         break;
     }       
+}
+
+void enemy_skeleton_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define SKELETON_VELOCITY                   0.6
+    #define SKELETON_RANGE_PATROL               50    
+    #define SKELETON_PLAYER_RANGE               50
+    #define SKELETON_ATTACK_FRAME               15
+    #define SKELETON_HITBOX_X_OFFSET_LEFT       22
+    #define SKELETON_HITBOX_X_OFFSET_RIGHT      6
+    #define SKELETON_HITBOX_DURATION            20
+    #define SKELETON_JUMP_VEL                   4.6
+    
+    //enemy animations
+    #define ANIM_SKELETON_WALK   1,   9,  6, ANIM_LOOP
+    #define ANIM_SKELETON_ATACK  10,   17,  8, ANIM_ONCE
+    #define ANIM_SKELETON_JUMP   26,   39,  5, ANIM_ONCE
+    #define ANIM_SKELETON_DEAD   18,   25,  10, ANIM_ONCE
+
+    //enemy states
+    enum E_SKELETON_ENEMY_STATES{E_SKELETON_ST_IDLE, E_SKELETON_ST_MOVING, E_SKELETON_ST_ATTACK, E_SKELETON_ST_JUMP, E_SKELETON_ST_HURT};   
+
+    tEntity *player = entity_get(entity_get_player_id());
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_SKELETON_ST_HURT;
+    
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
+
+    switch (this->state)
+    {
+        case E_SKELETON_ST_IDLE:            
+            this->state++;
+            this->dir = player->pos.x > this->pos.x;
+        break;
+        case E_SKELETON_ST_MOVING:            
+            local->flag = false;
+
+            if (this->spare)
+            {
+                enemy_patrol_ia(this, ftofix(SKELETON_VELOCITY), SKELETON_RANGE_PATROL);
+                play_animation(&this->anim, ANIM_SKELETON_WALK);
+            }
+            else
+                this->anim.frame = 0;
+            
+            //check range of player for attack
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, SKELETON_PLAYER_RANGE))
+                this->state = E_SKELETON_ST_ATTACK;
+            
+            //check player jump for jump
+            if (player->fixVel.y < 0 && in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->size.x))
+            {
+                this->ground = false;
+                this->fixVel.y = -ftofix(SKELETON_JUMP_VEL);
+                this->state = E_SKELETON_ST_JUMP;
+            }            
+        break;     
+        case E_SKELETON_ST_ATTACK:
+            if (play_animation(&this->anim, ANIM_SKELETON_ATACK))
+            {
+                this->state = E_SKELETON_ST_MOVING;
+            }    
+            
+            //attack
+            if (this->anim.frame == SKELETON_ATTACK_FRAME)
+            {
+                if (!local->flag)
+                {
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -SKELETON_HITBOX_X_OFFSET_LEFT : this->size.x + SKELETON_HITBOX_X_OFFSET_RIGHT; 
+                    sfx_play(enemySfx[E_SFX_ENEMY_SWORD], E_SFX_ENEMY_VOICE);
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y}, this->dir, SKELETON_HITBOX_DURATION);
+                }               
+            }
+            else
+            {
+                local->flag = false;
+                //check player jump for jump
+                if (player->fixVel.y < 0 && in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->size.x))
+                {
+                    this->ground = false;
+                    this->fixVel.y = -ftofix(SKELETON_JUMP_VEL);
+                    this->state = E_SKELETON_ST_JUMP;
+                }
+            } 
+        break;   
+        case E_SKELETON_ST_JUMP:
+            if (this->ground)
+            {
+                this->state = E_SKELETON_ST_IDLE;
+            }
+            play_animation(&this->anim, ANIM_SKELETON_JUMP);
+        break;
+        case E_SKELETON_ST_HURT:
+            enemy_dead(this, ANIM_SKELETON_DEAD);            
+        break;
+    }
 }
