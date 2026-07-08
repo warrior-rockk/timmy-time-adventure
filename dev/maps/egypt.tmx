@@ -1037,6 +1037,5 @@
     <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
    </properties>
   </object>
-  <object id="237" template="triggers/debug-start.tx" x="2880" y="112"/>
  </objectgroup>
 </map>
