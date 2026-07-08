@@ -333,10 +333,8 @@ void object_create(tEntity *entity)
         case E_MEDIEVAL_PLATFORM_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, MEDPLAT_BMP);    
             entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){entity->spare, 16};
-            entity->size = (tVector){entity->spare, 16};                                     
-            entity->spare = entity->dir;
-            entity->dir = E_ENT_DIR_LEFT;
+            entity->spriteSize = (tVector){32, 16};
+            entity->size = (tVector){32, 16};                                                 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
             collision_create_entity_points(entity);            
         break;
@@ -1410,6 +1408,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
     //object states
     enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE};
 
+    //only check collisions on move patrol
     if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL))
     {
         //terrain collisions
@@ -1457,16 +1456,19 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             int16_t nextPos;
 
             //horizontal patrol
-            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
+            if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL))
             {
-                if ((!local->flag && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (local->flag && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
-                    local->flag = !local->flag;
-            }
-            //vertical patrol
-            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
-            {
-                if ((!local->flag && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (local->flag && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
-                    local->flag = !local->flag;
+                if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
+                {
+                    if ((!local->flag && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (local->flag && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
+                        local->flag = !local->flag;
+                }
+                //vertical patrol
+                if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
+                {
+                    if ((!local->flag && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (local->flag && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
+                        local->flag = !local->flag;
+                }
             }
 
             //apply linear velocity

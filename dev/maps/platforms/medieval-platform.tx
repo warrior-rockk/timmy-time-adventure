@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="medieval-platform" type="platform" width="32" height="16">
+  <properties>
+   <property name="dir" type="int" propertytype="platformDir" value="2"/>
+   <property name="spare" type="int" propertytype="platform_type" value="6"/>
+  </properties>
+ </object>
+</template>
