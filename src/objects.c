@@ -1679,7 +1679,10 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
 {
     //object defines
     #define PLATFORM_VELOCITY               0.6
-    
+    #ifdef DEBUGMODE
+        #define DEBUG_PLATFORM_PATH         0
+    #endif
+
     //object states
     enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_GET_POINT, E_PLATFORM_ST_MOVE_TO_POINT};
 
@@ -1702,37 +1705,43 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
             this->fixVel.x = itofix(0); 
             this->fixVel.y = itofix(0);         
             
-            //get the first path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
-                uint8_t numEntities = entities_get_num();
-                tEntity *checkEntity;
-                for (uint8_t i = 0; i < numEntities; i++)
+            //get the next path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
+            uint8_t numEntities = entities_get_num();
+            tEntity *checkEntity;
+            for (uint8_t i = 0; i < numEntities; i++)
+            {
+                checkEntity = entity_get(i);
+                if (checkEntity->entClass == E_ENT_CLASS_PLATFORM && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
                 {
-                    checkEntity = entity_get(i);
-                    if (checkEntity->entClass == E_ENT_CLASS_PLATFORM && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
-                    {
-                        //TODO: i need a custom local type with x and y positions
-                        local->pathPos.x = checkEntity->pos.x;
-                        local->pathPos.y = checkEntity->pos.y;
-                        if (this->pos.x > checkEntity->pos.x) 
-                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT;
-                        else if (this->pos.x < checkEntity->pos.x) 
-                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT;
-                        else if (this->pos.y < checkEntity->pos.y) 
-                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
-                        else if (this->pos.y > checkEntity->pos.y) 
-                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP;
-                    }
+                    //save the actual point position
+                    local->pathPos.x = checkEntity->pos.x;
+                    local->pathPos.y = checkEntity->pos.y;
+                    //check point direction (don't allow diagonal movement)
+                    if (this->pos.x > checkEntity->pos.x) 
+                        this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT;
+                    else if (this->pos.x < checkEntity->pos.x) 
+                        this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT;
+                    else if (this->pos.y < checkEntity->pos.y) 
+                        this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
+                    else if (this->pos.y > checkEntity->pos.y) 
+                        this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP;
                 }
+            }
+            this->state++;
+
+            #if DEBUG_PLATFORM_PATH
                 MY_TRACE_FLAG("Path checkpoint x: %i y: %i dir: %i\n", local->pathPos.x, local->pathPos.y, this->dir);
-                this->state++;
+            #endif                
         break;   
         case E_PLATFORM_ST_MOVE_TO_POINT:
-            //apply linear velocity
-            int16_t nextPos;
+            int16_t nextPos;    
+            
             //horizontal
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
             {
+                //apply linear velocity
                 this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
+                
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
                 //adds to player x position the integer part of platform delta movement                
@@ -1742,14 +1751,17 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
             //vertical
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {
+                //apply linear velocity
                 this->fixVel.y = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
+                
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
                 //adds to player x position the integer part of platform delta movement
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
             }
-
+            
+            //check reach position
             switch(this->dir)
             {
                 case E_PLATFORM_DIR_LEFT:
@@ -1758,8 +1770,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->fixPos.x = itofix(local->pathPos.x);
                         this->fixVel.x = itofix(0);
                         local->currentPoint++;
-                        this->state = E_PLATFORM_ST_GET_POINT;
-                        
+                        this->state = E_PLATFORM_ST_GET_POINT;                        
                     }
                 break;
                 case E_PLATFORM_DIR_RIGHT:
@@ -1769,7 +1780,6 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->fixVel.x = itofix(0);
                         local->currentPoint++;
                         this->state = E_PLATFORM_ST_GET_POINT;
-
                     }
                 break;
                 case (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN:
@@ -1779,7 +1789,6 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->fixVel.y = itofix(0);
                         local->currentPoint++;
                         this->state = E_PLATFORM_ST_GET_POINT;
-
                     }
                 break;
                 case (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP:
@@ -1789,13 +1798,14 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->fixVel.y = itofix(0);
                         local->currentPoint++;
                         this->state = E_PLATFORM_ST_GET_POINT;
-
                     }
                 break;
             }
         break;
     }    
-    show_debug("Num: %i Path x: %i y: %i\n", local->currentPoint, local->pathPos.x, local->pathPos.y);
+    #if DEBUG_PLATFORM_PATH
+        show_debug("Num: %i Path x: %i y: %i\n", local->currentPoint, local->pathPos.x, local->pathPos.y);
+    #endif
 }
 
 void object_trace(tEntity *this)
