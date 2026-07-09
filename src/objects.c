@@ -350,7 +350,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                                 
-            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                                    
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE; // | E_ENT_PROP_PERSISTENT;                                    
         break;
         case E_PATH_OBJECT_TYPE:
             entity->size = (tVector){8, 8};
