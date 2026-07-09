@@ -100,8 +100,8 @@ typedef struct tEntity
     uint8_t entClass;           //entity class
     uint8_t entInstance;        //entity instance of type
     uint16_t properties;        //entity properties
-    enum E_ENTITY_DIR initDir;  //entity initial direction
-    enum E_ENTITY_DIR dir;      //entity direction
+    uint8_t initDir;            //entity initial direction
+    uint8_t dir;                //entity direction
     uint8_t signal;             //entity signal to comunicate between entities
     bool dead;                  //dead flag: no entity update and no entity draw
     //bool freeze;              //freeze flag: no entity update

@@ -352,6 +352,10 @@ void object_create(tEntity *entity)
             entity->size = (tVector){32, 16};                                                 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                                    
         break;
+        case E_PATH_OBJECT_TYPE:
+            entity->size = (tVector){8, 8};
+            entity->properties = E_ENT_PROP_NO_COLLISION;                                                 
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -427,6 +431,8 @@ void object_update(tEntity *entity)
         break;
         case E_MEDIEVAL_PATH_TYPE:
             object_path_platform_update(entity, &((tPathPlatformLocalData*)objectDataList)[entity->entInstance]);
+        break;
+        case E_PATH_OBJECT_TYPE:
         break;
         default:
             object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
@@ -1674,35 +1680,115 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
     #define PLATFORM_VELOCITY               0.6
     
     //object states
-    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE_TO_POINT};
+    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_GET_POINT, E_PLATFORM_ST_MOVE_TO_POINT};
 
     switch (this->state)
     {
         case E_PLATFORM_ST_IDLE:
             
             //reset velocity
+            this->fixVel.x = itofix(0); 
             this->fixVel.y = itofix(0); 
 
             //wait for player
             if (collision_get_player_platform_id() == this->id)
             {
-                //get the first path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
+                this->state++;                
+            }
+        break;     
+        case E_PLATFORM_ST_GET_POINT:
+            //reset velocity
+            this->fixVel.x = itofix(0); 
+            this->fixVel.y = itofix(0);         
+            
+            //get the first path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
                 uint8_t numEntities = entities_get_num();
                 tEntity *checkEntity;
                 for (uint8_t i = 0; i < numEntities; i++)
                 {
                     checkEntity = entity_get(i);
-                    if (checkEntity->entClass == E_ENT_CLASS_TRIGGER && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
+                    if (checkEntity->entClass == E_ENT_CLASS_PLATFORM && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
                     {
                         //TODO: i need a custom local type with x and y positions
                         local->pathPos.x = checkEntity->pos.x;
-                        local->pathPos.x = checkEntity->pos.y;
+                        local->pathPos.y = checkEntity->pos.y;
+                        if (this->pos.x > checkEntity->pos.x) 
+                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT;
+                        else if (this->pos.x < checkEntity->pos.x) 
+                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT;
+                        else if (this->pos.y < checkEntity->pos.y) 
+                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP;
+                        else if (this->pos.y > checkEntity->pos.y) 
+                            this->dir = (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
                     }
                 }
-
-                this->state++;                
+                MY_TRACE_FLAG("Path checkpoint x: %i y: %i\n", local->pathPos.x, local->pathPos.y);
+                this->state++;
+        break;   
+        case E_PLATFORM_ST_MOVE_TO_POINT:
+            //apply linear velocity
+            int16_t nextPos;
+            //horizontal
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
+            {
+                this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement                
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
             }
-        break;        
+            //vertical
+            if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
+            {
+                this->fixVel.y = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? -ftofix(PLATFORM_VELOCITY) : ftofix(PLATFORM_VELOCITY);
+                //calculate next integer position (entity update do this)
+                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                //adds to player x position the integer part of platform delta movement
+                if (collision_get_player_platform_id() == this->id)            
+                    entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
+            }
+
+            switch(this->dir)
+            {
+                case E_PLATFORM_DIR_LEFT:
+                    if (this->pos.x <= local->pathPos.x)
+                    {
+                        this->pos.x = local->pathPos.x;
+                        local->currentPoint++;
+                        this->state = E_PLATFORM_ST_GET_POINT;
+                        
+                    }
+                break;
+                case E_PLATFORM_DIR_RIGHT:
+                    if (this->pos.x >= local->pathPos.x)
+                    {
+                        this->pos.x = local->pathPos.x;
+                        local->currentPoint++;
+                        this->state = E_PLATFORM_ST_GET_POINT;
+
+                    }
+                break;
+                case (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN:
+                    if (this->pos.y >= local->pathPos.y)
+                    {
+                        this->pos.y = local->pathPos.y;
+                        local->currentPoint++;
+                        this->state = E_PLATFORM_ST_GET_POINT;
+
+                    }
+                break;
+                case (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP:
+                    if (this->pos.y <= local->pathPos.y)
+                    {
+                        this->pos.y = local->pathPos.y;
+                        local->currentPoint++;
+                        this->state = E_PLATFORM_ST_GET_POINT;
+
+                    }
+                break;
+            }
+        break;
     }    
 }
 
