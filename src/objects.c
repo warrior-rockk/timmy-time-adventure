@@ -1464,9 +1464,11 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {            
                 //change direction if vertical collision
-                //TODO: fix this because two collision points inverts flag twice
-                if ((colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN) && i == E_COLPOINT_DOWN_L)
+                if (colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN)
+                {
                     this->dir = this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN ? (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP : (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN;
+                    break;
+                }
             }                    
         }
     }
@@ -1487,12 +1489,13 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
         case E_PLATFORM_ST_MOVE:            
             int16_t nextPos;
 
-            //horizontal patrol
-            if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL))
+            
+            if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL) && colDir == E_COLLISION_DIR_NONE)
             {
+                //horizontal patrol
                 if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_LEFT || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_RIGHT)
                 {
-                    if ((!this->dir && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (this->dir && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
+                    if ((this->dir && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (!this->dir && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
                         this->dir = !this->dir;
                 }
                 //vertical patrol
