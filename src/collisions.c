@@ -553,6 +553,37 @@ void collision_create_entity_points(tEntity *entity)
         abort_on_error("ERROR: Reached max. number of entities collision points\n");        
 }
 
+void collision_create_min_entity_points(tEntity *entity)
+{	
+    //inc number on entities with collision points
+    numEntitiesColPoints++;
+    
+    if (numEntitiesColPoints <= ENTITY_MAX_NUM_COLLISION_POINTS)
+    {
+        //allocate memory for entity collision points
+        entColPointsList = realloc(entColPointsList, numEntitiesColPoints * sizeof(tEntColPoints));
+        
+        //test memory allocation
+        ASSERT(entColPointsList);
+
+        //initialize new entity collision point data
+        uint16_t newEntityColPoints = numEntitiesColPoints - 1;
+
+        //set entity id
+        entColPointsList[newEntityColPoints].entId = entity->id;
+        
+        //set collision points
+        collision_set_min_collision_points(entity, newEntityColPoints);
+
+        #if DEBUG_TRACE_COLL_POINTS_ARRAY
+            MY_TRACE_FLAG("Created entity id: %i collision points on position: %d\n", entity->id, newEntityColPoints);
+            MY_TRACE_FLAG("Total of entity collision points: %d\n", numEntitiesColPoints);
+        #endif
+    }
+    else
+        abort_on_error("ERROR: Reached max. number of entities collision points\n");        
+}
+
 void collision_set_collision_points(tEntity *entity, uint8_t colPointIndex)
 {
     //precalculate positions offsets for collision points
@@ -611,6 +642,40 @@ void collision_set_collision_points(tEntity *entity, uint8_t colPointIndex)
         entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
         entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].colCode       = E_COLLISION_DIR_CENTER;
         entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].enabled       = false; //<- false by default
+}
+
+void collision_set_min_collision_points(tEntity *entity, uint8_t colPointIndex)
+{
+    //precalculate positions offsets for collision points
+        //uint8_t halfImgWidth    = entity->img->w>>1;
+        uint8_t halfSizeX       = entity->size.x>>1;
+        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_DOWN].enabled        = false;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_LEFT_DOWN].enabled         = false;        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_DOWN_R].enabled            = false;        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_DOWN_L].enabled            = false;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_UP_L].enabled              = false;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER].enabled            = false; 
+
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].offset.x 		    = entity->size.x; 
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].offset.y 		    = entity->size.y >> 1;  
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].colCode 	        = E_COLLISION_DIR_RIGHT;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_RIGHT_UP].enabled 	        = true;
+        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_LEFT_UP].offset.x 		    = 0; //halfImgWidth - halfSizeX + 1;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_LEFT_UP].offset.y 		    = entity->size.y >> 1;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_LEFT_UP].colCode           = E_COLLISION_DIR_LEFT;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_LEFT_UP].enabled           = true;
+        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_UP_R].offset.x 		        = halfSizeX;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_UP_R].offset.y 		        = 0;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_UP_R].colCode              = E_COLLISION_DIR_UP;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_UP_R].enabled              = true;
+        
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x 		= halfSizeX;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y 		= entity->size.y;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].colCode       = E_COLLISION_DIR_DOWN;
+        entColPointsList[colPointIndex].colPoint[E_COLPOINT_CENTER_DOWN].enabled       = true; 
 }
 
 void collision_disable_points_except(uint16_t entityId, uint8_t numPoint)

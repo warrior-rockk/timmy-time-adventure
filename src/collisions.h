@@ -103,10 +103,14 @@ void collision_system_destroy();
 
 //function to create entity collision points for an entity
 void collision_create_entity_points(tEntity *entity);
+//function to create a minimun entity collision points for an entity
+void collision_create_min_entity_points(tEntity *entity);
 //function to destroy entity collision points by id
 void collision_destroy_entity_points(uint16_t entityId);
 //function to set the position of collision points
 void collision_set_collision_points(tEntity *entity, uint8_t colPointIndex);
+//function to set the minimum position of collision points
+void collision_set_min_collision_points(tEntity *entity, uint8_t colPointIndex);
 //function to get a collision point
 tColPoint* collision_get_ent_collision_point(tEntity *entity, uint8_t numPoint);
 //gets collision point list index by entity id (-1 if not found)

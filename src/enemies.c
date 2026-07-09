@@ -383,6 +383,15 @@ void enemy_create(tEntity *entity)
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
             collision_create_entity_points(entity);     
         break;
+        case E_SPIKE_BALL_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SPKBALL_BMP);            
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){22, 21};                          
+            entity->size = (tVector){16, 16};
+            entity->axis = E_ENT_AXIS_CENTER;  
+            SET_FLAG(entity->properties, E_ENT_PROP_NO_HURT);     
+            collision_create_entity_points(entity);     
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -485,6 +494,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_SKELETON_ENEMY_TYPE:             
             enemy_skeleton_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_SPIKE_BALL_ENEMY_TYPE:             
+            enemy_spike_ball_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -2142,6 +2154,24 @@ void enemy_skeleton_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;
         case E_SKELETON_ST_HURT:
             enemy_dead(this, ANIM_SKELETON_DEAD);            
+        break;
+    }
+}
+
+void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
+{
+    //enemy defines
+    #define SPIKE_BALL_VELOCITY                  0.4
+    #define SPIKE_BALL_DEFAULT_RANGE_PATROL      20
+
+    //enemy states
+    enum E_SPIKE_BALL_ENEMY_STATE{E_SPIKE_BALL_ST_MOVE};
+
+    //check state
+    switch (this->state)
+    {
+        case E_SPIKE_BALL_ST_MOVE:
+            enemy_patrol_ia(this, ftofix(SPIKE_BALL_VELOCITY), this->spare != 0 ? this->spare : SPIKE_BALL_DEFAULT_RANGE_PATROL);
         break;
     }
 }

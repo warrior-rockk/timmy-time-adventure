@@ -343,7 +343,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                                 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
-            collision_create_entity_points(entity);            
+            collision_create_min_entity_points(entity);            
         break;
         case E_MEDIEVAL_PATH_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, MEDPLAT_BMP);    
@@ -1438,10 +1438,10 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
     enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_MOVE};
 
     //only check collisions on move patrol
+    uint8_t colDir = 0;
     if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL))
     {
         //terrain collisions
-        uint8_t colDir = 0;
         this->ground = false;
         //check all the entity collision points    
         for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
@@ -1456,7 +1456,10 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             {            
                 //change direction if horizontal collision
                 if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+                {
                     this->dir = !this->dir;
+                    break;
+                }
             }
             if (this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_DOWN || this->dir == (enum E_ENTITY_DIR)E_PLATFORM_DIR_UP)
             {            
