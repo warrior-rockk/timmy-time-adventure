@@ -7,6 +7,8 @@
 
 # Engine
 
+- [ ] adjust scroll threshold to prevent scroll movement when crouch
+- [ ] volume up all midi tracks
 - [ ] player dead by collision crush
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
