@@ -1476,7 +1476,6 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
     switch (this->state)
     {
         case E_PLATFORM_ST_IDLE:
-            
             //reset velocity
             this->fixVel.y = itofix(0); 
 
@@ -1487,9 +1486,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
         case E_PLATFORM_ST_MOVE:            
-            int16_t nextPos;
-
-            
+            //check patrol mmovement to change direction
             if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL) && colDir == E_COLLISION_DIR_NONE)
             {
                 //horizontal patrol
@@ -1506,7 +1503,9 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
                 }
             }
 
-            //apply linear velocity
+            //apply linear movement
+            int16_t nextPos;
+            
             //horizontal
             if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
             {
