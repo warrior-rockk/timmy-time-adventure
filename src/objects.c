@@ -293,7 +293,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                     
-            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_FLIP;                        
             collision_create_entity_points(entity);            
         break;
         case E_SPIKE_TRAP_OBJECT_TYPE:            
@@ -342,7 +342,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                                 
-            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;                        
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_FLIP;                        
             collision_create_min_entity_points(entity);            
         break;
         case E_MEDIEVAL_PATH_TYPE:            
@@ -350,7 +350,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                                 
-            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE; // | E_ENT_PROP_PERSISTENT;                                    
+            entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE  | E_ENT_PROP_NO_FLIP;
         break;
         case E_PATH_OBJECT_TYPE:
             entity->size = (tVector){8, 8};

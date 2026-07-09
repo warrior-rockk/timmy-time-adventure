@@ -47,6 +47,7 @@ enum E_ENTITY_PROPERTIES
     E_ENT_PROP_NO_HURT          = 0x40,     //player can't hurt, but enemy entity can hurt player
     E_ENT_PROP_NO_SPAWN         = 0x80,     //entity doesn't spawn when dead (one pick items)
     E_ENT_PROP_HURTLESS         = 0x100,    //enemy entity can't hurt player and player can't hurt entity
+    E_ENT_PROP_NO_FLIP          = 0x200,    //don't flip entity on draw based on direction
 };
 
 //entities direction (for drawing)

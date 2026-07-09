@@ -66,7 +66,7 @@ static void entity_draw(BITMAP *buffer, tEntity *entity)
         #endif    
             if (buffer != NULL && entitySprite != NULL)
             {
-                if (entity->dir == E_ENT_DIR_RIGHT)               
+                if (entity->dir == E_ENT_DIR_RIGHT || CHECK_FLAG(entity->properties, E_ENT_PROP_NO_FLIP))               
                     draw_sprite(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);              
                 else
                     draw_sprite_h_flip(buffer, entitySprite, drawX - scrollPos.x, drawY - scrollPos.y);                                        
