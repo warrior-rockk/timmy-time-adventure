@@ -12,6 +12,8 @@
 //scroll definitions
 #define SCROLL_OFFSET_X             0   //Offset X target position to follow camera
 #define SCROLL_OFFSET_Y             14  //Offset Y target position to follow camera
+#define SCROLL_CAMERA_X_OFFSET      0   //Offset X camera position
+#define SCROLL_CAMERA_Y_OFFSET      16  //Offset Y camera position
 #define SCROLL_BY_WINDOW_RANGE      16  //Range to scroll by window
 #define SCROLL_BY_WINDOW_VEL_Y      12  //Scroll velocity Y moving by window
 

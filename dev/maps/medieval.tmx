@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="42">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="44">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -232,7 +232,7 @@
   <object id="13" template="triggers/debug-start.tx" x="2064" y="0"/>
   <object id="14" template="triggers/stopScroll.tx" x="2304" y="416">
    <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="26" template="triggers/stopScroll.tx" x="2048" y="64">
@@ -241,6 +241,11 @@
    </properties>
   </object>
   <object id="34" template="triggers/stopScroll.tx" x="2048" y="240">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+   </properties>
+  </object>
+  <object id="43" template="triggers/stopScroll.tx" x="2048" y="368">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
@@ -269,6 +274,11 @@
    </properties>
   </object>
   <object id="30" template="platforms/medieval-platform.tx" x="2208" y="176">
+   <properties>
+    <property name="dir" type="int" propertytype="platformDir" value="0"/>
+   </properties>
+  </object>
+  <object id="42" template="platforms/medieval-platform.tx" x="2224" y="384">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="0"/>
    </properties>

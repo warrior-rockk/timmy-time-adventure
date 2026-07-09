@@ -83,6 +83,10 @@ static void scroll_update_shake()
 
 void scroll_update(tVector cameraTarget)
 {
+    //apply camera position offset
+    cameraTarget.x += SCROLL_CAMERA_X_OFFSET;
+    cameraTarget.y += SCROLL_CAMERA_Y_OFFSET;
+    
     scroll_update_shake();
 
     scroll_update_x(cameraTarget, false);
