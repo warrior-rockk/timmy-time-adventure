@@ -1689,7 +1689,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
     #endif
 
     //object states
-    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_GET_POINT, E_PLATFORM_ST_MOVE_TO_POINT};
+    enum E_PLATFORM_OBJECT_STATES{E_PLATFORM_ST_IDLE, E_PLATFORM_ST_GET_POINT, E_PLATFORM_ST_MOVE_TO_POINT, E_PLATFORM_ST_STOP};
 
     switch (this->state)
     {
@@ -1713,11 +1713,13 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
             //get the next path point (spare is the platform id and flag is current point number (checking with path dir attribute))                
             uint8_t numEntities = entities_get_num();
             tEntity *checkEntity;
+            bool foundPoint = false;
             for (uint8_t i = 0; i < numEntities; i++)
             {
                 checkEntity = entity_get(i);
                 if (checkEntity->entClass == E_ENT_CLASS_PLATFORM && checkEntity->entType == E_PATH_OBJECT_TYPE && checkEntity->spare == this->spare && checkEntity->dir == local->currentPoint)
                 {
+                    foundPoint = true;
                     //save the actual point position
                     local->pathPos.x = checkEntity->pos.x;
                     local->pathPos.y = checkEntity->pos.y;
@@ -1732,7 +1734,11 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->dir = E_PLATFORM_DIR_UP;
                 }
             }
-            this->state++;
+
+            if (foundPoint)
+                this->state++;
+            else
+                this->state = E_PLATFORM_ST_STOP;
 
             #if DEBUG_PLATFORM_PATH
                 MY_TRACE_FLAG("Path checkpoint x: %i y: %i dir: %i\n", local->pathPos.x, local->pathPos.y, this->dir);
@@ -1806,6 +1812,8 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                     }
                 break;
             }
+        break;
+        case E_PLATFORM_ST_STOP:
         break;
     }    
     #if DEBUG_PLATFORM_PATH

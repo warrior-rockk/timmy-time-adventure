@@ -389,7 +389,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){22, 21};                          
             entity->size = (tVector){16, 16};
             entity->axis = E_ENT_AXIS_CENTER;  
-            SET_FLAG(entity->properties, E_ENT_PROP_NO_HURT);     
+            entity->properties = E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_FLIP;     
             collision_create_entity_points(entity);     
         break;
         default:
@@ -2162,7 +2162,7 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
 {
     //enemy defines
     #define SPIKE_BALL_VELOCITY                  0.4
-    #define SPIKE_BALL_DEFAULT_RANGE_PATROL      20
+    #define SPIKE_BALL_DEFAULT_RANGE_PATROL      50
 
     //enemy states
     enum E_SPIKE_BALL_ENEMY_STATE{E_SPIKE_BALL_ST_MOVE};
