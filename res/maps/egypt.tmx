@@ -1195,13 +1195,13 @@
   <object id="56" name="egypt-platform" type="platform" x="3360" y="416" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="0"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="57" name="egypt-platform" type="platform" x="3264" y="400" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="55" name="scorpion" type="enemy" x="3504" y="400" width="24" height="16">
@@ -1450,31 +1450,31 @@
   <object id="117" name="egypt-platform" type="platform" x="992" y="288" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="0"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="120" name="egypt-platform" type="platform" x="1328" y="288" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="121" name="egypt-platform" type="platform" x="1408" y="240" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="0"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="118" name="egypt-platform" type="platform" x="1072" y="240" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="119" name="egypt-platform" type="platform" x="1232" y="256" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="0"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="122" name="stopScroll" type="trigger" x="1184" y="160" width="16" height="16">
@@ -1689,7 +1689,7 @@
   <object id="177" name="egypt-platform" type="platform" x="2944" y="144" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="2"/>
-    <property name="spare" type="int" propertytype="platform_type" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="181" name="anubis" type="enemy" x="2784" y="112" width="20" height="32">

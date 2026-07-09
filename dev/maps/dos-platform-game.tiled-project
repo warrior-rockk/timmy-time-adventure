@@ -176,7 +176,8 @@
             "values": [
                 "MOVE_PATROL",
                 "MOVE_DISAPPEAR",
-                "WAIT_PLAYER_FLAG"
+                "WAIT_PLAYER_FLAG",
+                "TILE_RANGE"
             ],
             "valuesAsFlags": true
         },

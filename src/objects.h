@@ -121,6 +121,7 @@ enum E_PLATFORM_TYPES
     E_PLATFORM_TYPE_MOVE_PATROL       = 0x01,     //moves on dir axis platform x num of tiles and change direction on collision
     E_PLATFORM_TYPE_MOVE_DISAPPEAR    = 0x02,     //moves on dir axis platform on dir without collision until disappear
     E_PLATFORM_TYPE_WAIT_PLAYER       = 0x04,     //flag for wait the player before move
+    E_PLATFORM_TYPE_TILE_RANGE        = 0x08,     //patrol range moves to fixed tile range
 };
 
 //movement direction of platforms

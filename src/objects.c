@@ -1486,8 +1486,8 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
             }
         break;
         case E_PLATFORM_ST_MOVE:            
-            //check patrol mmovement to change direction
-            if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL) && colDir == E_COLLISION_DIR_NONE)
+            //check patrol tile range to change direction
+            if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_TILE_RANGE) && CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL) && colDir == E_COLLISION_DIR_NONE)
             {
                 //horizontal patrol
                 if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
@@ -1505,7 +1505,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
 
             //apply linear movement
             int16_t nextPos;
-            
+
             //horizontal
             if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
             {

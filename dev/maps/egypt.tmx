@@ -536,10 +536,15 @@
    </properties>
   </object>
   <object id="54" template="platforms/egypt-platform.tx" type="platform" x="3616" y="416"/>
-  <object id="56" template="platforms/egypt-platform.tx" type="platform" x="3360" y="416"/>
+  <object id="56" template="platforms/egypt-platform.tx" type="platform" x="3360" y="416">
+   <properties>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
+   </properties>
+  </object>
   <object id="57" template="platforms/egypt-platform.tx" type="platform" x="3264" y="400">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="55" template="enemies/egypt/scorpion-red.tx" x="3504" y="400"/>
@@ -722,19 +727,33 @@
     <property name="spare" type="int" propertytype="stopScroll" value="4"/>
    </properties>
   </object>
-  <object id="117" template="platforms/egypt-platform.tx" x="992" y="288"/>
+  <object id="117" template="platforms/egypt-platform.tx" x="992" y="288">
+   <properties>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
+   </properties>
+  </object>
   <object id="120" template="platforms/egypt-platform.tx" x="1328" y="288">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
-  <object id="121" template="platforms/egypt-platform.tx" x="1408" y="240"/>
+  <object id="121" template="platforms/egypt-platform.tx" x="1408" y="240">
+   <properties>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
+   </properties>
+  </object>
   <object id="118" template="platforms/egypt-platform.tx" x="1072" y="240">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
-  <object id="119" template="platforms/egypt-platform.tx" x="1232" y="256"/>
+  <object id="119" template="platforms/egypt-platform.tx" x="1232" y="256">
+   <properties>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
+   </properties>
+  </object>
   <object id="122" template="triggers/stopScroll.tx" x="1184" y="160">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
@@ -910,6 +929,7 @@
   <object id="177" template="platforms/egypt-platform.tx" x="2944" y="144" width="32" height="16">
    <properties>
     <property name="dir" type="int" propertytype="platformDir" value="2"/>
+    <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
   <object id="181" template="enemies/egypt/anubis.tx" x="2784" y="112"/>
