@@ -219,7 +219,7 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
    </properties>
   </object>
-  <object id="13" template="triggers/debug-start.tx" x="2224" y="64"/>
+  <object id="13" template="triggers/debug-start.tx" x="2064" y="0"/>
   <object id="14" template="triggers/stopScroll.tx" x="2304" y="416">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
@@ -230,7 +230,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
   </object>
-  <object id="34" template="triggers/stopScroll.tx" x="2048" y="176">
+  <object id="34" template="triggers/stopScroll.tx" x="2048" y="240">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="1"/>
    </properties>
@@ -273,21 +273,21 @@
     <property name="spare" type="int" value="0"/>
    </properties>
   </object>
-  <object id="36" name="path" type="platform" x="2080" y="240">
+  <object id="36" name="path" type="platform" x="2064" y="240">
    <properties>
     <property name="dir" type="int" value="0"/>
     <property name="spare" type="int" value="0"/>
    </properties>
    <point/>
   </object>
-  <object id="37" name="path" type="platform" x="2080" y="320">
+  <object id="37" name="path" type="platform" x="2064" y="320">
    <properties>
     <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" value="0"/>
    </properties>
    <point/>
   </object>
-  <object id="38" name="path" type="platform" x="2032" y="320">
+  <object id="38" name="path" type="platform" x="1984" y="320">
    <properties>
     <property name="dir" type="int" value="2"/>
     <property name="spare" type="int" value="0"/>

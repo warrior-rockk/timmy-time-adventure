@@ -128,8 +128,8 @@ enum E_PLATFORM_MOVE_DIR
 {
     E_PLATFORM_DIR_LEFT,
     E_PLATFORM_DIR_RIGHT,
-    E_PLATFORM_DIR_UP,
     E_PLATFORM_DIR_DOWN,
+    E_PLATFORM_DIR_UP,
 };
 
 //debug trace entity object info
