@@ -8,14 +8,12 @@
 # Engine
 
 - [ ] freeze entities during dead animation?
-- [ ] exit to dos doesn't do destroy level??
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] volume up all midi tracks
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
 - [ ] Cheat codes?
 - [ ] No need to check player on objects that hurt. Use a entity property OBJECT_HURT?
-- [ ] Check possible problems to add player and solid object availability to check collision with triggers
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
 - [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT

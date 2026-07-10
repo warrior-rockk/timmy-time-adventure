@@ -784,6 +784,7 @@ void game_update()
                                 dialog_destroy(&gameDialog); 
                             break;
                             case 3: //EXIT TO DOS
+                                game_destroy_level(); 
                                 game.state = E_GAME_ST_EXIT;
                                 game.fadeOut = true;
 
