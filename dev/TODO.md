@@ -4,6 +4,7 @@
 - [ ] Slow down fps coming from fade out/in
 - [ ] Pick object already picked?? (prevented but review for better code?)
 - [ ] Prevent object throwed push player to ground
+- [ ] SIgbrt deleting medieval enemies (i think the problem is local data objects. Do the same system as enemies)
 
 # Engine
 
