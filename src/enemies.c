@@ -2193,7 +2193,7 @@ void enemy_skeleton_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
 {
     //enemy defines
-    #define SPIKE_BALL_VELOCITY                  0.4
+    #define SPIKE_BALL_VELOCITY                  0.6
     #define SPIKE_BALL_DEFAULT_RANGE_PATROL      50
 
     //enemy states

@@ -7,10 +7,10 @@
 
 # Engine
 
+- [ ] freeze entities during dead animation?
 - [ ] exit to dos doesn't do destroy level??
-- [ ] adjust scroll threshold to prevent scroll movement when crouch
+- [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] volume up all midi tracks
-- [ ] player dead by collision crush
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Secret areas?
 - [ ] Cheat codes?

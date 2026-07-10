@@ -788,6 +788,5 @@
    </properties>
   </object>
   <object id="227" template="triggers/checkpoint.tx" x="832" y="416"/>
-  <object id="273" template="triggers/debug-start.tx" x="880" y="416"/>
  </objectgroup>
 </map>

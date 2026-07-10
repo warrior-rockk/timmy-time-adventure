@@ -464,7 +464,9 @@ static void player_update_collisions(tEntity *player)
                     //check player crushed between object and terrain
                     if (colDir)
                     {                    
-                        if (!map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->pos.y >> 4)}) || !map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + player->size.y - (player->pos.y >> 4)}))
+                        //show_debug("tile check x %i y %i", player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6));
+                        //show_debug("TILE CODE %i", map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}));
+                        if (!map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}) || !map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y - (player->size.y / 6))}))
                             playerFlags.dead = true;
                     }
                     
