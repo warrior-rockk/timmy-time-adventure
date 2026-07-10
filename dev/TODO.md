@@ -7,6 +7,7 @@
 
 # Engine
 
+- [ ] cannon must be object
 - [ ] freeze entities during dead animation?
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] volume up all midi tracks
@@ -79,7 +80,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
-- [ ] All assets of levels named the same? (tiles, palette, map, music...)
+- [ ] Maybe it's not necessary the structure type on local metadata on objects and enemies because i don't do any specified free on each type. (maybe global add and remove function?)
 - [ ] Refactor collision functions and unified get collision maps
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame

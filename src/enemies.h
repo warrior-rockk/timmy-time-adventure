@@ -42,6 +42,7 @@ enum E_ENEMY_TYPE
     E_KNIGHT_ENEMY_TYPE,
     E_SKELETON_ENEMY_TYPE,
     E_SPIKE_BALL_ENEMY_TYPE,
+    E_CANNON_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -132,4 +133,5 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_skeleton_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_cannon_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif

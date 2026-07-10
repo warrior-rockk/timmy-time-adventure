@@ -91,7 +91,9 @@ enemy_ent_types = [
     "knight"        ,
     "skeleton"      ,
     "spike-ball"    ,
+    "cannon"        ,
 ]
+
 enemy_ent_types = {name: index for index, name in enumerate(enemy_ent_types)}
 
 #define array of lists of entity types

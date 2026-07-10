@@ -420,6 +420,14 @@ void enemy_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_FLIP;     
             collision_create_entity_points(entity);     
         break;
+        case E_CANNON_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, CANNON_BMP);            
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){58, 58};                          
+            entity->size = (tVector){58, 32};
+            entity->axis = E_ENT_AXIS_DOWN;                          
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -529,6 +537,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_SPIKE_BALL_ENEMY_TYPE:             
             enemy_spike_ball_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;
+        case E_CANNON_ENEMY_TYPE:             
+            enemy_cannon_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         default:
         break;
@@ -2206,4 +2217,63 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
             enemy_patrol_ia(this, ftofix(SPIKE_BALL_VELOCITY), this->spare != 0 ? this->spare : SPIKE_BALL_DEFAULT_RANGE_PATROL);
         break;
     }
+}
+
+void enemy_cannon_update(tEntity *this, tDefaultEnemyLocalData *local)
+{
+    //object defines
+    #define CANNON_DEFAULT_TIMER    200   
+
+    //object animations
+    #define ANIM_CANNON_IDLE_FRAME   0
+    #define ANIM_CANNON_SHOOT        0,   8, 6,  ANIM_ONCE
+    
+    //object states
+    enum E_CANNON_OBJECT_STATES{E_CANNON_INIT_DELAY, E_CANNON_ST_IDLE, E_CANNON_ST_SHOOT};
+
+    switch (this->state)
+    {
+        case E_CANNON_INIT_DELAY:            
+            if (local->timer >= this->spare)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else if (scroll_position_on_region(this->pos))
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_CANNON_IDLE_FRAME;
+        break;
+        case E_CANNON_ST_IDLE:            
+            if (local->timer >= CANNON_DEFAULT_TIMER)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else 
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_CANNON_IDLE_FRAME;
+
+        break;
+        case E_CANNON_ST_SHOOT:
+            //TODO: after entity create must not modify any entity structure data in case pointer moves!            
+            if (play_animation(&this->anim, ANIM_CANNON_SHOOT))
+            {
+                this->state--;
+            }    
+            
+            if (!local->flag)
+            {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
+                //sfx_play(objectSfx[E_SFX_OBJECT_ARROW], E_SFX_OBJECT_VOICE);
+                
+                entity_create(E_ENT_CLASS_ENEMY, E_TRAP_FIRE_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 0}, this->dir, this->spare);
+                
+                
+            }
+        break;
+    }    
 }
