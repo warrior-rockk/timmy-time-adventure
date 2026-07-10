@@ -457,7 +457,14 @@ static void player_update_collisions(tEntity *player)
                     //if lateral collision, check if is object pickable and on lower position to the player                    
                     if ((colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT) && !CHECK_FLAG(checkEntity->properties, E_ENT_PROP_NO_PICKABLE) 
                          && !playerFlags.picked && checkEntity->pos.y >= player->pos.y && !playerFlags.throwing)                        
-                            objectForPickID = checkEntity->id;                                             
+                            objectForPickID = checkEntity->id;      
+                    
+                    //check player crushed between object and terrain
+                    if (colDir)
+                    {                    
+                        if (!map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->pos.y >> 4)}) || !map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + player->size.y - (player->pos.y >> 4)}))
+                            playerFlags.dead = true;
+                    }
                     
                     //adjust collision position (object solid)
                     collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
