@@ -4,10 +4,10 @@
 - [ ] Slow down fps coming from fade out/in
 - [ ] Pick object already picked?? (prevented but review for better code?)
 - [ ] Prevent object throwed push player to ground
-- [ ] SIgbrt deleting medieval enemies (i think the problem is local data objects. Do the same system as enemies)
 
 # Engine
 
+- [ ] exit to dos doesn't do destroy level??
 - [ ] adjust scroll threshold to prevent scroll movement when crouch
 - [ ] volume up all midi tracks
 - [ ] player dead by collision crush
@@ -20,7 +20,6 @@
 - [ ] Dead enemies with dynamite explosion?
 - [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
-- [ ] Do the same system as enemies instance list add/remove on objects?
 - [ ] Review debug keys on different translation units
 - [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?

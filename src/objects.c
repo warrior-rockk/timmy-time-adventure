@@ -21,7 +21,7 @@
 #define TRACE_FLAG  "[OBJECT]"
 
 uint16_t numObjectInstances;                    //num of object instances
-static void *objectDataList;                    //list of object local data
+tObjectLocalData *objectDataList;               //list of object local data
 BITMAP *objectResources[E_OBJECTS_TYPE_NUM];    //array of objects gfx resources
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
 DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
@@ -33,7 +33,7 @@ int8_t egyptPuzzle2[PUZZLE2_SYMBOL_NUM];         //array of combinations of egyp
 void object_system_init()
 {
     //empty object list
-    free(objectDataList);
+    //free(objectDataList);
     objectDataList = NULL;
     //set number of entities
     numObjectInstances = 0;    
@@ -84,22 +84,109 @@ void object_system_destroy()
     MY_TRACE_FLAG("Destroyed object system\n");
 }
 
+//function to add object to local enemy data. Returns the new array and increments the size counter
+static tObjectLocalData* object_data_add(tObjectLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
+    int newSize = *listSize + 1;
+    
+    //allocates one more element
+    tObjectLocalData *temp = realloc(array, newSize * sizeof(tObjectLocalData));
+    
+    //check allocation
+    if (temp == NULL) {
+        abort_on_error("Can't assign memory for object entities\n");
+        return array;
+    }
+    
+    //realloc checked. Assign to original array
+    array = temp;
+    
+    //store the metadata and pointer
+    array[*listSize].structureType = localDataType;
+    array[*listSize].data = data;
+    
+    #if DEBUG_LOCAL_DATA_MEMORY
+        switch(array[*listSize].structureType)
+        {
+            case E_OBJECT_DEFAULT_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Allocating default object local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[*listSize].data);
+            break;
+            case E_OBJECT_PATH_PLATFORM_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Allocating path platform object local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[*listSize].data);            
+            break;
+        }
+    #endif
+
+    //increment size counter
+    (*listSize)++;
+    
+    return array;
+}
+
+//function to delete object local data from array with swap and pop (last array position moves to removed element)
+static tObjectLocalData* object_data_remove(tObjectLocalData *array, uint16_t *listSize, uint16_t objectIndex) {
+    //check object index bounds
+    if (objectIndex < 0 || objectIndex >= *listSize) {
+        //abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        MY_TRACE_FLAG("ERROR: object index %d out of range\n", objectIndex);
+        return array;
+    }
+    
+    #if DEBUG_LOCAL_DATA_MEMORY
+        switch(array[objectIndex].structureType)
+        {
+            case E_OBJECT_DEFAULT_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Deallocating default object local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[objectIndex].data);
+            break;
+            case E_OBJECT_PATH_PLATFORM_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Deallocating path platform object local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[objectIndex].data);                
+            break;
+        }
+    #endif
+
+    //free the allocated data of the enemy to delete    
+    free(array[objectIndex].data);
+    array[objectIndex].data = NULL;
+    
+    //get last index
+    int16_t last_index = *listSize - 1;
+    //MY_TRACE_FLAG("objectIndex %i last_index %i numObjectinstances %i\n", objectIndex, last_index, numObjectInstances);
+    //if element isn't last, make the swap
+    if (objectIndex != last_index) {
+        //copy data from last element to remove element position
+        array[objectIndex] = array[last_index];
+        //MY_TRACE_FLAG("Copied object index %i to %i\n", last_index , objectIndex);        
+    }
+    
+    //decrease the size counter (pop)
+    (*listSize)--;
+
+    //reduces memory space of the array
+    if (*listSize > 0) 
+    {
+        tObjectLocalData *temp = realloc(array, (*listSize) * sizeof(tObjectLocalData));
+        if (temp != NULL) array = temp;
+    } 
+    else 
+    {
+        free(array);
+        array = NULL;
+    }
+
+    MY_TRACE_FLAG("Num object instances after destroy: %i\n", *listSize);
+
+    return array;
+}
+
 //check object entity type to add the local data structure to local data list and increases instances number
 void object_create(tEntity *entity)
 {
-    //inc num instances
-    numObjectInstances++;
+    void *objectLocalData = NULL;
+    uint8_t objectLocalDataType = E_OBJECT_DEFAULT_LOCAL_DATA_TYPE;
 
-    //allocate memory for general solid object
-    switch (entity->entType)
-    {
-        case E_MEDIEVAL_PATH_TYPE:
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tPathPlatformLocalData)); 
-        break;
-        default:
-            objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData)); 
-        break;
-    }
     //set object properties    
     switch (entity->entType)
     {
@@ -351,6 +438,9 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                                 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE  | E_ENT_PROP_NO_FLIP;
+            //custom local data
+            objectLocalData = malloc(sizeof(tPathPlatformLocalData));
+            objectLocalDataType = E_OBJECT_PATH_PLATFORM_LOCAL_DATA_TYPE;
         break;
         case E_PATH_OBJECT_TYPE:
             entity->size = (tVector){8, 8};
@@ -361,6 +451,14 @@ void object_create(tEntity *entity)
         break;
     }
     
+    //if not custom local data type assigned
+    if (objectLocalData == NULL)
+        //allocate default enemy local data
+        objectLocalData = malloc(sizeof(tSolidObjectLocalData));
+    
+    //adds enemy local data to list
+    objectDataList = object_data_add(objectDataList, &numObjectInstances, objectLocalDataType, objectLocalData);
+
     //test memory allocation
     MY_ASSERT(objectDataList);
 
@@ -375,6 +473,10 @@ void object_create(tEntity *entity)
 //calls specified object type update function
 void object_update(tEntity *entity)
 {   
+    #if DEBUG_LOCAL_DATA_MEMORY
+        MY_TRACE_FLAG("UPDATE Memory address of data %p\n", objectDataList[entity->entInstance].data);
+    #endif
+
     switch (entity->entType)
     {
         case E_DEBUG_START_OBJECT_TYPE:
@@ -387,55 +489,55 @@ void object_update(tEntity *entity)
         case E_SCROLLMODE_OBJECT_TYPE:
         case E_DOOR_IN_OBJECT_TYPE:
         case E_DOOR_OUT_OBJECT_TYPE:                
-            object_trigger_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_trigger_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);           
         break;
         case E_ITEM_OBJECT_TYPE:
-            object_item_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_item_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_WAGON_OBJECT_TYPE:
-            object_wagon_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_wagon_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_DYNAMITE_OBJECT_TYPE:
-            object_dynamite_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_dynamite_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_BRIDGE_OBJECT_TYPE:
-            object_bridge_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_bridge_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_ROCK_EXPLOSION_OBJECT_TYPE:
-            object_rock_explosion_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_rock_explosion_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_GAME_OVER_OBJECT_TYPE:
-            object_game_over_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_game_over_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
         case E_SPIKE_TRAP_OBJECT_TYPE:
-            object_fall_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_fall_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_QUICKSAND_OBJECT_TYPE:
-            object_quick_sand_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_quick_sand_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
         case E_TRAP_FIRE_OBJECT_TYPE:
-            object_trap_arrow_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_trap_arrow_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;                
         case E_EGYPT_PLATFORM_OBJECT_TYPE:
         case E_MEDIEVAL_PLATFORM_TYPE:
-            object_platform_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_platform_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_LANCE_OBJECT_TYPE:
-            object_lance_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_lance_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_SPIKE_TRAP_2_OBJECT_TYPE:
-            object_spike_trap_2_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_spike_trap_2_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_MEDIEVAL_PATH_TYPE:
-            object_path_platform_update(entity, &((tPathPlatformLocalData*)objectDataList)[entity->entInstance]);
+            object_path_platform_update(entity, (tPathPlatformLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_PATH_OBJECT_TYPE:
         break;
         default:
-            object_solid_update(entity, &((tSolidObjectLocalData*)objectDataList)[entity->entInstance]);
+            object_solid_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
     }
 }
@@ -448,8 +550,9 @@ void object_init(tEntity *entity)
     switch (entity->entType)
     {      
         case E_SYMBOL_HOLE_OBJECT_TYPE:
-            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
-            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
+            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
+            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;
+
             //check puzzle
             if (entity->dir)
             {
@@ -476,40 +579,23 @@ void object_init(tEntity *entity)
             #endif
         break;
         case E_MEDIEVAL_PATH_TYPE:
-            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].currentPoint = 0;
-            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].pathPos.x = 0;
-            ((tPathPlatformLocalData*)objectDataList)[entity->entInstance].pathPos.y = 0;
+            ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->currentPoint = 0;
+            ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.x = 0;
+            ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.y = 0;
         break;
-        default:
-            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].timer = 0;
-            ((tSolidObjectLocalData*)objectDataList)[entity->entInstance].flag = 0;        
+        default:            
+            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
+            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;    
         break;        
     }
 }
 
 void object_destroy(tEntity *entity)
 {
-    uint16_t objectIndex;
-    objectIndex = entity->entInstance;
-    
-    //copies last enemy to deleted enemy position
-    //TODO: fix that! not all objects uses this data type!
-    ((tSolidObjectLocalData*)objectDataList)[objectIndex] = ((tSolidObjectLocalData*)objectDataList)[numObjectInstances - 1];
-    
-    //decrement entity number
-    numObjectInstances--;
-    if (numObjectInstances == 0)
-    {
-        //free entity list
-        free(objectDataList);
-        objectDataList = NULL;
-    }
-    else
-        //reallocates the array with decremented entity number    
-        //TODO: this is incorrect when entities has different local data structure
-        objectDataList = realloc(objectDataList, numObjectInstances * sizeof(tSolidObjectLocalData));     
+    MY_TRACE_FLAG("Destroying object id: %i, instance:%i\n", entity->id, entity->entInstance);
 
-    MY_TRACE_FLAG("Destroyed object instance:%i\n", objectIndex);
+    //remove object instance from list
+    objectDataList = object_data_remove(objectDataList, &numObjectInstances, entity->entInstance);        
 }
 
 void object_solid_update(tEntity *this, tSolidObjectLocalData *local)

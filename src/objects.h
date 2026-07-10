@@ -67,6 +67,13 @@ enum E_OBJECT_TYPE
     E_OBJECTS_TYPE_NUM,
 };
 
+//types of object local data structures
+enum E_OBJECT_LOCAL_DATA_TYPE
+{
+    E_OBJECT_DEFAULT_LOCAL_DATA_TYPE,
+    E_OBJECT_PATH_PLATFORM_LOCAL_DATA_TYPE,
+};
+
 //item type uses spare to set type
 enum E_ITEMS_TYPE
 {
@@ -88,6 +95,12 @@ typedef struct
     uint8_t currentPoint;
     tVector pathPos;    
 } tPathPlatformLocalData;
+
+//object local metadata structure
+typedef struct {
+    uint8_t structureType;  //stores the type of the structure (need for realloc)
+    void *data;             //pointer to the local data structure
+} tObjectLocalData;
 
 enum E_OBJECT_SFX
 {
@@ -152,35 +165,35 @@ void object_destroy(tEntity *entity);
 //custom update function for objects
 
 //object solid (pickable or not and breakable or not)
-void object_solid_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_solid_update(tEntity *this, tSolidObjectLocalData *local);
 //items object (extra live, full life)
-void object_item_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_item_update(tEntity *this, tSolidObjectLocalData *local);
 //special trigger objects (checkpoints, end level, stop scroll...)
-void object_trigger_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_trigger_update(tEntity *this, tSolidObjectLocalData *local);
 //platform wagon
-void object_wagon_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_wagon_update(tEntity *this, tSolidObjectLocalData *local);
 //dynamite object
-void object_dynamite_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local);
 //platform bridge
-void object_bridge_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_bridge_update(tEntity *this, tSolidObjectLocalData *local);
 //explosion rock
-void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local);
 //object fall
-void object_fall_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_fall_update(tEntity *this, tSolidObjectLocalData *local);
 //game over animation
-void object_game_over_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_game_over_update(tEntity *this, tSolidObjectLocalData *local);
 //platform quicksand
-void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local);
 //trap arrow
-void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local);
 //egypt symbol puzzle hole
-void object_symbol_hole_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_symbol_hole_update(tEntity *this, tSolidObjectLocalData *local);
 //general platform object
-void object_platform_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_platform_update(tEntity *this, tSolidObjectLocalData *local);
 //lance object
-void object_lance_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_lance_update(tEntity *this, tSolidObjectLocalData *local);
 //spike trap 2
-void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *objData);
+void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local);
 //path platform object
-void object_path_platform_update(tEntity *this, tPathPlatformLocalData *objData);
+void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local);
 #endif

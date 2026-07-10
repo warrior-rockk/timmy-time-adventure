@@ -211,8 +211,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
                 entityList[newEntity].entity_create   = &object_create;
                 entityList[newEntity].entity_init     = &object_init;
                 entityList[newEntity].entity_update   = &object_update;
-                entityList[newEntity].entity_destroy  = &object_destroy;
-                entityList[newEntity].entity_destroy  = NULL;
+                entityList[newEntity].entity_destroy  = &object_destroy;                
                 entityList[newEntity].axis            = E_ENT_AXIS_CENTER;
             break;
             case E_ENT_CLASS_ENEMY:                   
@@ -279,6 +278,8 @@ tEntity* entity_get_by_instance(uint8_t entityClass, uint16_t entityInstance)
 //function to destroy entity by index entity number
 void entity_destroy(uint16_t entityIndex)
 {    
+    MY_TRACE_FLAG("Destroying entity ID:%i\n", entityIndex);
+
     //free entity collision point memory
     collision_destroy_entity_points(entityList[entityIndex].id);
 
@@ -287,6 +288,8 @@ void entity_destroy(uint16_t entityIndex)
     {
         entityList[entityIndex].entity_destroy(&entityList[entityIndex]);         
     }
+    else
+        MY_TRACE_FLAG("ERROR: entity id %i no pointer to destroy\n", entityIndex);
 
     //save entity instance
     uint8_t prevEntInstance = entityList[entityIndex].entInstance;

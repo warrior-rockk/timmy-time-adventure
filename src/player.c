@@ -119,6 +119,8 @@ void player_init(tEntity *player)
 
 void player_destroy(tEntity *player)
 {
+    MY_TRACE_FLAG("Destroy player on ID: %i\n", player->id);
+
     //free player samples
     for (uint8_t i = 0; i < SFX_PLAYER_NUM; i++)
     {

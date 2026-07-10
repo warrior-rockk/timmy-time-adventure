@@ -94,6 +94,20 @@ static tEnemyLocalData* enemy_data_add(tEnemyLocalData *array, uint16_t *listSiz
     array[*listSize].structureType = localDataType;
     array[*listSize].data = data;
     
+    #if DEBUG_LOCAL_DATA_MEMORY
+        switch(array[*listSize].structureType)
+        {
+            case E_ENEMY_DEFAULT_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Allocating default enemy local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[*listSize].data);
+            break;
+            case E_ENEMY_AXE_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Allocating axel enemy local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[*listSize].data);            
+            break;
+        }
+    #endif
+
     //increment size counter
     (*listSize)++;
     
@@ -109,6 +123,20 @@ static tEnemyLocalData* enemy_data_remove(tEnemyLocalData *array, uint16_t *list
         return array;
     }
     
+    #if DEBUG_LOCAL_DATA_MEMORY
+        switch(array[enemyIndex].structureType)
+        {
+            case E_ENEMY_DEFAULT_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Deallocating default enemy local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[enemyIndex].data);
+            break;
+            case E_ENEMY_AXE_LOCAL_DATA_TYPE:
+                MY_TRACE_FLAG("Deallocating axe enemy local data\n");
+                MY_TRACE_FLAG("Memory address of data %p\n", array[enemyIndex].data);                
+            break;
+        }
+    #endif
+
     //free the allocated data of the enemy to delete    
     free(array[enemyIndex].data);
     array[enemyIndex].data = NULL;
@@ -419,6 +447,10 @@ void enemy_create(tEntity *entity)
 //calls specified enemy type update function
 void enemy_update(tEntity *entity)
 {      
+    #if DEBUG_LOCAL_DATA_MEMORY
+        MY_TRACE_FLAG("Update Memory address of data %p\n", enemyDataList[entity->entInstance].data);
+    #endif
+
     switch (entity->entType)
     {
         case E_PTERO_ENEMY_TYPE:            
