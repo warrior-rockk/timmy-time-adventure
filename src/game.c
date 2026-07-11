@@ -1212,8 +1212,6 @@ void game_init()
     gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
     gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
-    gameSfx[E_SFX_GAME_PLAYER_LOSE]     = load_dat_wav_indexed(gameDataIndex, LOSE_WAV);
-    gameSfx[E_SFX_GAME_END_LEVEL]       = load_dat_wav_indexed(gameDataIndex, END_WAV);
 
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
