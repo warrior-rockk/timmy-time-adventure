@@ -50,7 +50,7 @@
     #define GAME_FADE_SPEED         2       //general game fade speed (1: slowest 64: instantaneous)
 #endif
 #define GAME_DEFAULT_SCROLL_MODE    E_SCROLL_MODE_BY_WINDOW_Y_ONLY
-#define GAME_DEAD_WAIT_TIME     200     //time to wait between player dead and reset/game over
+#define GAME_DEAD_WAIT_TIME     300     //time to wait between player dead and reset/game over
 #define GAME_INIT_LEVEL_DELAY   100     //time delay on start level
 #define GAME_HURRY_TIME_LEFT    10      //time left to hurry up (time on red, speed up music...)
 #define GAME_HURRY_MUSIC_TEMPO  160     //tempo of music when time running out
@@ -224,6 +224,8 @@ enum E_GAME_SFX
     E_SFX_GAME_POINT_END,
     E_SFX_GAME_MENU_NAV,
     E_SFX_GAME_MENU_SELECT,
+    E_SFX_GAME_PLAYER_LOSE,
+    E_SFX_GAME_END_LEVEL,
     E_SFX_GAME_NUM,
 };
 

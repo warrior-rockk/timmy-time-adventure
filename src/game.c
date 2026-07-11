@@ -855,26 +855,35 @@ void game_update()
             }
         break;
         case E_GAME_ST_LOSE_LIVE:
-            entities_draw(worldScreen);
-            
-            //TODO: replace with the duration of dead music
-            if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
+            switch (gameSeq.step)
             {
-                MY_TRACE_FLAG( "Lose live\n");
-                if (game.lives > 0) 
-                {
-                    game.fadeOut = true; 
-                    game.state = E_GAME_ST_INIT_LEVEL;
-                }
-                else
-                {
-                    game.fadeOut = true; 
-                    game.state = E_GAME_ST_GAME_OVER;
-                } 
-                gameSeq.timeCounter = 0;                
+                case 0:
+                    sfx_play(gameSfx[E_SFX_GAME_PLAYER_LOSE], E_SFX_GAME_VOICE);
+                    entities_draw(worldScreen);
+                    gameSeq.step++;
+                break;
+                case 1:
+                    //TODO: replace with the duration of dead music
+                    if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
+                    {
+                        MY_TRACE_FLAG( "Lose live\n");                        
+                        if (game.lives > 0) 
+                        {
+                            game.fadeOut = true; 
+                            game.state = E_GAME_ST_INIT_LEVEL;
+                        }
+                        else
+                        {
+                            game.fadeOut = true; 
+                            game.state = E_GAME_ST_GAME_OVER;
+                        } 
+                        gameSeq.timeCounter = 0;      
+                        gameSeq.step = 0;          
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();            
+                break;
             }
-            else
-                gameSeq.timeCounter += clock_tick_get();            
         break;
         case E_GAME_ST_COMPLETE_LEVEL:
             switch (gameSeq.step)
@@ -884,9 +893,18 @@ void game_update()
                     //entities_draw(worldScreen);
 
                     music_stop(gameMusic);
+                    
+                    if (gameSeq.timeCounter >= 100)
+                    {                
+                        sfx_play(gameSfx[E_SFX_GAME_END_LEVEL], E_SFX_GAME_VOICE);
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;                        
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
 
-                    gameSeq.step++;
-                break;
+                    
+                break;                
                 case 1:
                     //TODO: replace with the duration of complete music
                     if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
@@ -1184,6 +1202,8 @@ void game_init()
     gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
     gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
+    gameSfx[E_SFX_GAME_PLAYER_LOSE]     = load_dat_wav_indexed(gameDataIndex, LOSE_WAV);
+    gameSfx[E_SFX_GAME_END_LEVEL]       = load_dat_wav_indexed(gameDataIndex, END_WAV);
 
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
