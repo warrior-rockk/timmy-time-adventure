@@ -42,7 +42,7 @@
 #define GAME_CLOCK_TICK         10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          3       //initial game lives
+#define GAME_INI_LIVES          6       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)

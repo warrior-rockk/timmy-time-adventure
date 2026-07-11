@@ -379,7 +379,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREBALL_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){28, 15};                          
-            entity->size = (tVector){28, 15};                     
+            entity->size = (tVector){16, 12};                     
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
         case E_GHOST_ENEMY_TYPE:

@@ -445,7 +445,7 @@ void game_update()
 
                     //draw complete levels ring
                     BITMAP *completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
-                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS; i++)
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
                     {
                         if (game.levelComplete[i])
                             draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
