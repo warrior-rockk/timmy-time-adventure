@@ -1550,7 +1550,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
             
             //change direction on collision
-            if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
+            if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
             {            
                 //change direction if horizontal collision
                 if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
@@ -1559,12 +1559,12 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
                     break;
                 }
             }
-            if (this->dir == E_PLATFORM_DIR_DOWN || this->dir == E_PLATFORM_DIR_UP)
+            if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
             {            
                 //change direction if vertical collision
                 if (colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN)
                 {
-                    this->dir = this->dir == E_PLATFORM_DIR_DOWN ? E_PLATFORM_DIR_UP : E_PLATFORM_DIR_DOWN;
+                    this->dir = this->dir == E_ENT_DIR_DOWN ? E_ENT_DIR_UP : E_ENT_DIR_DOWN;
                     break;
                 }
             }                    
@@ -1588,16 +1588,16 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             if (CHECK_FLAG(this->spare,E_PLATFORM_TYPE_TILE_RANGE) && CHECK_FLAG(this->spare,E_PLATFORM_TYPE_MOVE_PATROL) && colDir == E_COLLISION_DIR_NONE)
             {
                 //horizontal patrol
-                if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
+                if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
                 {
                     if ((this->dir && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (!this->dir && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
                         this->dir = !this->dir;
                 }
                 //vertical patrol
-                if (this->dir == E_PLATFORM_DIR_DOWN || this->dir == E_PLATFORM_DIR_UP)
+                if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
                 {
-                    if ((this->dir == E_PLATFORM_DIR_DOWN && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (this->dir == E_PLATFORM_DIR_UP && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
-                        this->dir = this->dir == E_PLATFORM_DIR_DOWN ? E_PLATFORM_DIR_UP : E_PLATFORM_DIR_DOWN;
+                    if ((this->dir == E_ENT_DIR_DOWN && this->pos.y > (this->initPos.y + PLATFORM_MOVE_TILES_Y)) || (this->dir == E_ENT_DIR_UP && this->pos.y < (this->initPos.y - PLATFORM_MOVE_TILES_Y)))
+                        this->dir = this->dir == E_ENT_DIR_DOWN ? E_ENT_DIR_UP : E_ENT_DIR_DOWN;
                 }
             }
 
@@ -1605,7 +1605,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             int16_t nextPos;
 
             //horizontal
-            if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
+            if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
             {
                 this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
@@ -1615,9 +1615,9 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
                     entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
             }
             //vertical
-            if (this->dir == E_PLATFORM_DIR_DOWN || this->dir == E_PLATFORM_DIR_UP)
+            if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
             {
-                this->fixVel.y = this->dir == E_PLATFORM_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
+                this->fixVel.y = this->dir == E_ENT_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
                 //adds to player x position the integer part of platform delta movement
@@ -1823,13 +1823,13 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                     local->pathPos.y = checkEntity->pos.y;
                     //check point direction (don't allow diagonal movement)
                     if (this->pos.x > checkEntity->pos.x) 
-                        this->dir = E_PLATFORM_DIR_LEFT;
+                        this->dir = E_ENT_DIR_LEFT;
                     else if (this->pos.x < checkEntity->pos.x) 
-                        this->dir = E_PLATFORM_DIR_RIGHT;
+                        this->dir = E_ENT_DIR_RIGHT;
                     else if (this->pos.y < checkEntity->pos.y) 
-                        this->dir = E_PLATFORM_DIR_DOWN;
+                        this->dir = E_ENT_DIR_DOWN;
                     else if (this->pos.y > checkEntity->pos.y) 
-                        this->dir = E_PLATFORM_DIR_UP;
+                        this->dir = E_ENT_DIR_UP;
                 }
             }
 
@@ -1846,7 +1846,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
             int16_t nextPos;    
             
             //horizontal
-            if (this->dir == E_PLATFORM_DIR_LEFT || this->dir == E_PLATFORM_DIR_RIGHT)
+            if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
             {
                 //apply linear velocity
                 this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
@@ -1858,10 +1858,10 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                     entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
             }
             //vertical
-            if (this->dir == E_PLATFORM_DIR_DOWN || this->dir == E_PLATFORM_DIR_UP)
+            if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
             {
                 //apply linear velocity
-                this->fixVel.y = this->dir == E_PLATFORM_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
+                this->fixVel.y = this->dir == E_ENT_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 
                 //calculate next integer position (entity update do this)
                 nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
@@ -1873,7 +1873,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
             //check reach position
             switch(this->dir)
             {
-                case E_PLATFORM_DIR_LEFT:
+                case E_ENT_DIR_LEFT:
                     if (this->pos.x <= local->pathPos.x)
                     {
                         this->fixPos.x = itofix(local->pathPos.x);
@@ -1882,7 +1882,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->state = E_PLATFORM_ST_GET_POINT;                        
                     }
                 break;
-                case E_PLATFORM_DIR_RIGHT:
+                case E_ENT_DIR_RIGHT:
                     if (this->pos.x >= local->pathPos.x)
                     {
                         this->fixPos.x = itofix(local->pathPos.x);
@@ -1891,7 +1891,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->state = E_PLATFORM_ST_GET_POINT;
                     }
                 break;
-                case E_PLATFORM_DIR_DOWN:
+                case E_ENT_DIR_DOWN:
                     if (this->pos.y >= local->pathPos.y)
                     {
                         this->fixPos.y = itofix(local->pathPos.y);
@@ -1900,7 +1900,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                         this->state = E_PLATFORM_ST_GET_POINT;
                     }
                 break;
-                case E_PLATFORM_DIR_UP:
+                case E_ENT_DIR_UP:
                     if (this->pos.y <= local->pathPos.y)
                     {
                         this->fixPos.y = itofix(local->pathPos.y);

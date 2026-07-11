@@ -139,15 +139,6 @@ enum E_PLATFORM_TYPES
     E_PLATFORM_TYPE_TILE_RANGE        = 0x08,     //patrol range moves to fixed tile range
 };
 
-//movement direction of platforms
-enum E_PLATFORM_MOVE_DIR
-{
-    E_PLATFORM_DIR_LEFT,
-    E_PLATFORM_DIR_RIGHT,
-    E_PLATFORM_DIR_DOWN,
-    E_PLATFORM_DIR_UP,
-};
-
 //debug trace entity object info
 void object_trace(tEntity *this);
 

@@ -184,19 +184,6 @@
             "valuesAsFlags": true
         },
         {
-            "id": 30,
-            "name": "platformDir",
-            "storageType": "int",
-            "type": "enum",
-            "values": [
-                "LEFT",
-                "RIGHT",
-                "DOWN",
-                "UP"
-            ],
-            "valuesAsFlags": false
-        },
-        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 9,

@@ -285,33 +285,25 @@
    </properties>
   </object>
   <object id="16" template="triggers/scroll-mode.tx" x="2336" y="368"/>
-  <object id="24" template="platforms/medieval-platform.tx" type="platform" x="2064" y="48"/>
+  <object id="24" template="platforms/medieval-platform.tx" type="platform" x="2064" y="48">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="2"/>
+   </properties>
+  </object>
   <object id="27" template="triggers/scroll-mode.tx" x="2160" y="48"/>
-  <object id="28" template="platforms/medieval-platform.tx" x="2208" y="112">
-   <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
-   </properties>
-  </object>
-  <object id="29" template="platforms/medieval-platform.tx" x="2208" y="144">
-   <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
-   </properties>
-  </object>
+  <object id="28" template="platforms/medieval-platform.tx" x="2208" y="112"/>
+  <object id="29" template="platforms/medieval-platform.tx" x="2208" y="144"/>
   <object id="30" template="platforms/medieval-platform.tx" x="2208" y="176">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
   <object id="42" template="platforms/medieval-platform.tx" x="2224" y="384">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="31" template="platforms/medieval-platform.tx" x="2208" y="208">
-   <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
-   </properties>
-  </object>
+  <object id="31" template="platforms/medieval-platform.tx" x="2208" y="208"/>
   <object id="33" template="platforms/medieval-path.tx" type="platform" x="2208" y="240"/>
   <object id="36" template="platforms/path.tx" type="platform" x="2080" y="240"/>
   <object id="37" name="path" type="platform" x="2080" y="336">
@@ -386,7 +378,7 @@
     <property name="spare" type="int" value="2"/>
    </properties>
   </object>
-  <object id="66" name="cannon" type="object" x="1143.45" y="263.727" width="46" height="24"/>
+  <object id="66" template="objects/cannon.tx" type="object" x="1143.45" y="263.727"/>
   <object id="68" template="triggers/stopScroll.tx" type="object" x="1373.45" y="263.227"/>
   <object id="67" template="triggers/stopScroll.tx" x="1024" y="256">
    <properties>
@@ -394,10 +386,6 @@
    </properties>
   </object>
   <object id="69" name="spike-ball" type="enemy" x="1904" y="32" width="16" height="16"/>
-  <object id="70" name="spike-ball" type="enemy" x="1872" y="64" width="16" height="16">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="2"/>
-   </properties>
-  </object>
+  <object id="70" template="enemies/spike-ball.tx" type="enemy" x="1872" y="64"/>
  </objectgroup>
 </map>

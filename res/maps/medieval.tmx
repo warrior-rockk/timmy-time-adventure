@@ -777,7 +777,7 @@
   </object>
   <object id="24" name="medieval-platform" type="platform" x="2064" y="48" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="2"/>
+    <property name="dir" type="int" propertytype="dir" value="2"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
@@ -788,31 +788,31 @@
   </object>
   <object id="28" name="medieval-platform" type="platform" x="2208" y="112" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
   <object id="29" name="medieval-platform" type="platform" x="2208" y="144" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
   <object id="30" name="medieval-platform" type="platform" x="2208" y="176" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
   <object id="42" name="medieval-platform" type="platform" x="2224" y="384" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="0"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
   <object id="31" name="medieval-platform" type="platform" x="2208" y="208" width="32" height="16">
    <properties>
-    <property name="dir" type="int" propertytype="platformDir" value="1"/>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="platform_type" value="6"/>
    </properties>
   </object>
