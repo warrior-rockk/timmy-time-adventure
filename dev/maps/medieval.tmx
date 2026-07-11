@@ -437,6 +437,5 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
    </properties>
   </object>
-  <object id="82" template="triggers/endLevel.tx" x="1936" y="48"/>
  </objectgroup>
 </map>

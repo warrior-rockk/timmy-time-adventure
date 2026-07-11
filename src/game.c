@@ -996,7 +996,9 @@ void game_update()
                     entities_update();
                     entities_draw(buffer);
 
-                    
+                    //play game over music
+                    gameMusic = load_dat_midi_indexed(gameDataIndex, GAMEOVER_MID);
+                    music_play(gameMusic, true);
 
                     game.fadeIn = true;                    
                     gameSeq.step++;
@@ -1031,7 +1033,7 @@ void game_update()
                     if (input_key_down(E_G_KEY_ENTER))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
-
+                        music_stop();
                         switch (gameDialog.optionSelected)
                         {
                             case 0: //CONTINUE: YES

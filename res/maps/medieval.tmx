@@ -998,10 +998,5 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
    </properties>
   </object>
-  <object id="82" name="endLevel" type="object" x="1936" y="48" width="16" height="16">
-   <properties>
-    <property name="spare" type="int" propertytype="endType" value="0"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
