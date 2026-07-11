@@ -7,8 +7,8 @@
 
 # Engine
 
-- [ ] cannon must be object
-- [ ] freeze entities during dead animation?
+- [ ] Respawn extra live item?
+- [ ] freeze entities during dead animation? on crush?
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] volume up all midi tracks
 - [ ] solve balancing on edge direction. Balancing on objects?
