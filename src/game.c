@@ -51,6 +51,7 @@ BITMAP *worldScreen;                //map window buffer
 FONT *gameFont[E_GAME_NUM_FONTS];   //game font array
 SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
 MIDI* gameMusic;                    //current MIDI game music
+MIDI* jingleMusic;                  //jingle MIDI music
 DATAFILE_INDEX *gameDataIndex; 
 tGame game;                         //game structure
 tSequence gameSeq;                  //game sequence
@@ -858,7 +859,11 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    sfx_play(gameSfx[E_SFX_GAME_PLAYER_LOSE], E_SFX_GAME_VOICE);
+                    //sfx_play(gameSfx[E_SFX_GAME_PLAYER_LOSE], E_SFX_GAME_VOICE);
+                    //play game over music
+                    jingleMusic = load_dat_midi_indexed(gameDataIndex, LOSELIVE_MID);
+                    music_play(jingleMusic, false);
+
                     entities_draw(worldScreen);
                     gameSeq.step++;
                 break;
@@ -878,7 +883,8 @@ void game_update()
                             game.state = E_GAME_ST_GAME_OVER;
                         } 
                         gameSeq.timeCounter = 0;      
-                        gameSeq.step = 0;          
+                        gameSeq.step = 0;    
+                        music_stop();      
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();            
