@@ -463,7 +463,7 @@ void object_create(tEntity *entity)
     //if not custom local data type assigned
     if (objectLocalData == NULL)
         //allocate default object local data
-        objectLocalData = malloc(sizeof(tSolidObjectLocalData));
+        objectLocalData = malloc(sizeof(tDefaultObjectLocalData));
     
     //adds object local data to list
     objectDataList = object_data_add(objectDataList, &numObjectInstances, objectLocalDataType, objectLocalData);
@@ -498,47 +498,47 @@ void object_update(tEntity *entity)
         case E_SCROLLMODE_OBJECT_TYPE:
         case E_DOOR_IN_OBJECT_TYPE:
         case E_DOOR_OUT_OBJECT_TYPE:                
-            object_trigger_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);           
+            object_trigger_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);           
         break;
         case E_ITEM_OBJECT_TYPE:
-            object_item_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_item_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_WAGON_OBJECT_TYPE:
-            object_wagon_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_wagon_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_DYNAMITE_OBJECT_TYPE:
-            object_dynamite_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_dynamite_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_BRIDGE_OBJECT_TYPE:
-            object_bridge_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_bridge_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_ROCK_EXPLOSION_OBJECT_TYPE:
-            object_rock_explosion_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_rock_explosion_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_GAME_OVER_OBJECT_TYPE:
-            object_game_over_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_game_over_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
         case E_SPIKE_TRAP_OBJECT_TYPE:
-            object_fall_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_fall_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_QUICKSAND_OBJECT_TYPE:
-            object_quick_sand_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_quick_sand_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
         case E_TRAP_FIRE_OBJECT_TYPE:
-            object_trap_arrow_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_trap_arrow_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;                
         case E_EGYPT_PLATFORM_OBJECT_TYPE:
         case E_MEDIEVAL_PLATFORM_TYPE:
-            object_platform_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_platform_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_LANCE_OBJECT_TYPE:
-            object_lance_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_lance_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_SPIKE_TRAP_2_OBJECT_TYPE:
-            object_spike_trap_2_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_spike_trap_2_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_MEDIEVAL_PATH_TYPE:
             object_path_platform_update(entity, (tPathPlatformLocalData*)objectDataList[entity->entInstance].data);
@@ -546,10 +546,10 @@ void object_update(tEntity *entity)
         case E_PATH_OBJECT_TYPE:
         break;
         case E_CANNON_OBJECT_TYPE:             
-            object_cannon_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_cannon_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         default:
-            object_solid_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
+            object_solid_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
     }
 }
@@ -562,8 +562,8 @@ void object_init(tEntity *entity)
     switch (entity->entType)
     {      
         case E_SYMBOL_HOLE_OBJECT_TYPE:
-            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
-            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;
+            ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
+            ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;
 
             //check puzzle
             if (entity->dir)
@@ -596,8 +596,8 @@ void object_init(tEntity *entity)
             ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.y = 0;
         break;
         default:            
-            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
-            ((tSolidObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;    
+            ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
+            ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;    
         break;        
     }
 }
@@ -610,7 +610,7 @@ void object_destroy(tEntity *entity)
     objectDataList = object_data_remove(objectDataList, &numObjectInstances, entity->entInstance);        
 }
 
-void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
+void object_solid_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define SOLID_PICKED_OFFSET_Y   20
@@ -780,7 +780,7 @@ void object_solid_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_item_update(tEntity *this, tSolidObjectLocalData *local)
+void object_item_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object states
     enum E_ITEM_STATE {E_ITEM_ST_IDLE};
@@ -829,7 +829,7 @@ void object_item_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
+void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     switch (this->entType)
     {
@@ -990,7 +990,7 @@ void object_trigger_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
+void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define WAGON_VELOCITY              0.9
@@ -1083,7 +1083,7 @@ void object_wagon_update(tEntity *this, tSolidObjectLocalData *local)
     
 }
 
-void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
+void object_dynamite_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define DYNAMITE_PICKED_OFFSET_Y   20
@@ -1243,7 +1243,7 @@ void object_dynamite_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
+void object_bridge_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define BRIDGE_WAIT_TO_FALL     20
@@ -1303,7 +1303,7 @@ void object_bridge_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
+void object_rock_explosion_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object animations
     #define ANIM_ROCK_EXPLOSION     1,   2, 10,  ANIM_ONCE
@@ -1331,7 +1331,7 @@ void object_rock_explosion_update(tEntity *this, tSolidObjectLocalData *local)
 }
 
 
-void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
+void object_fall_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define OBJECT_FALL_FALL_VEL_Y       3
@@ -1406,7 +1406,7 @@ void object_fall_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
+void object_quick_sand_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define QUICK_SAND_VELOCITY              0.6 //0.36
@@ -1451,7 +1451,7 @@ void object_quick_sand_update(tEntity *this, tSolidObjectLocalData *local)
     }    
 }
 
-void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
+void object_trap_arrow_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define TRAP_ARROW_DEFAULT_TIMER    200   
@@ -1516,7 +1516,7 @@ void object_trap_arrow_update(tEntity *this, tSolidObjectLocalData *local)
     }    
 }
 
-void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
+void object_game_over_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object animation
     #define ANIM_GAME_OVER     0,   9, 10,  ANIM_LOOP
@@ -1525,7 +1525,7 @@ void object_game_over_update(tEntity *this, tSolidObjectLocalData *local)
     
 }
 
-void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
+void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define PLATFORM_VELOCITY               0.6
@@ -1628,7 +1628,7 @@ void object_platform_update(tEntity *this, tSolidObjectLocalData *local)
     }    
 }
 
-void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
+void object_lance_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define LANCE_MOVE_VEL_Y       -4.2
@@ -1729,7 +1729,7 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local)
     }
 }
 
-void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local)
+void object_spike_trap_2_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define SPIKE_TRAP_2_CADENCE          120
@@ -1919,7 +1919,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
     #endif
 }
 
-void object_cannon_update(tEntity *this, tSolidObjectLocalData *local)
+void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
     #define CANNON_DEFAULT_TIMER    200   
