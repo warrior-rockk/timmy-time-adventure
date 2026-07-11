@@ -902,7 +902,9 @@ void game_update()
                     
                     if (gameSeq.timeCounter >= 100)
                     {                
-                        sfx_play(gameSfx[E_SFX_GAME_END_LEVEL], E_SFX_GAME_VOICE);
+                        //play game over music
+                        jingleMusic = load_dat_midi_indexed(gameDataIndex, END_MID);
+                        music_play(jingleMusic, false);
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
                     }
