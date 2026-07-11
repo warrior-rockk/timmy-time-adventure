@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "7.56/win64" 1783781849 0
+<REAPER_PROJECT 0.1 "7.56/win64" 1783782250 0
   <NOTES 0 2
   >
   RIPPLE 0 0
@@ -19,7 +19,7 @@
   VIDEO_CONFIG 0 0 65792
   PANMODE 3
   PANLAWFLAGS 3
-  CURSOR 0
+  CURSOR 1.72058823529412
   ZOOM 50.47430263272115 0 0
   VZOOMEX 6 0
   USE_REC_CFG 0
@@ -313,12 +313,33 @@
         E 240 81 42 00
         E 0 81 39 00
         E 0 81 45 00
-        E 720 91 3e 7f
+        e 720 e0 7a 42
+        E 0 91 3e 7f
         E 0 91 4a 7f
-        e 0 90 45 7f
-        E 2400 81 3e 00
+        E 0 90 45 7f
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        E 120 e0 32 44
+        E 0 81 3e 00
         E 0 81 4a 00
-        e 0 80 45 00
+        E 0 80 45 00
         E 26880 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
@@ -326,8 +347,8 @@
         IGNTEMPO 0 120 4 4
         SRCCOLOR 2
         EVTFILTER 1 -1 -1 -1 -1 0 0 0 0 -1 -1 -1 -1 0 -1 0 -1 -1
-        VELLANE 129 31 0 0 1
-        CFGEDITVIEW -394.310339 0.098907 51 14 0 -1 0 0 0 0.5
+        VELLANE 128 155 0 0.5 3.815276
+        CFGEDITVIEW 10.298292 0.194207 51 14 0 -1 0 0 0 0.5
         KEYSNAP 0
         TRACKSEL 189
         CFGEDIT 1 1 0 1 0 0 1 1 1 1 1 0.125 0 0 0 0 1 0 0 0 0 0 0 1 0 0.5 0 0 1 64
@@ -396,7 +417,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {92A742C9-20FF-41A9-8089-E754E30EAA45}
       IID 4
       NAME "03-Mid Ch 2-MIDI"
@@ -412,24 +433,44 @@
         E 0 b1 00 79
         E 0 b1 20 00
         E 0 c1 57 00
-        e 0 91 1f 7f
-        e 240 81 1f 00
-        e 240 91 1f 7f
-        e 240 81 1f 00
-        e 720 91 23 7f
-        e 240 81 23 00
-        e 720 91 1f 7f
-        e 240 81 1f 00
-        e 240 91 23 7f
-        e 240 81 23 00
-        e 240 91 1f 7f
-        e 240 81 1f 00
-        e 240 91 21 7f
-        e 240 81 21 00
-        e 240 91 21 7f
-        e 240 81 21 00
-        e 720 91 26 7f
-        e 2400 81 26 00
+        E 0 91 1f 7f
+        E 240 81 1f 00
+        E 240 91 1f 7f
+        E 240 81 1f 00
+        E 720 91 23 7f
+        E 240 81 23 00
+        E 720 91 1f 7f
+        E 240 81 1f 00
+        E 240 91 23 7f
+        E 240 81 23 00
+        E 240 91 1f 7f
+        E 240 81 1f 00
+        E 240 91 21 7f
+        E 240 81 21 00
+        E 240 91 21 7f
+        E 240 81 21 00
+        e 720 e0 7a 42
+        E 0 91 26 7f
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        e 120 e0 7a 42
+        e 120 e0 3a 3d
+        e 120 e0 59 42
+        e 120 e0 0c 3e
+        E 120 81 26 00
         E 26880 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
@@ -437,8 +478,8 @@
         IGNTEMPO 0 120 4 4
         SRCCOLOR 3
         EVTFILTER 2 -1 -1 -1 -1 1 0 0 0 -1 -1 -1 -1 0 -1 0 -1 -1
-        VELLANE 131 31 0 0 1
-        CFGEDITVIEW 0 0.103949 83 12 0 -1 0 0 0 0.5
+        VELLANE 128 137 0 0 1
+        CFGEDITVIEW 0 0.194207 83 12 0 -1 0 0 0 0.5
         KEYSNAP 0
         TRACKSEL 189
         CFGEDIT 1 1 0 1 0 0 1 1 2 1 1 0.125 0 0 0 0 1 0 0 0 0 0 0 1 0 0.5 0 0 1 64
@@ -506,7 +547,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {57D55E64-D99E-4D86-AD7B-853D7BDEE506}
       IID 6
       NAME "04-Mid Ch 10-MIDI"
