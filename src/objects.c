@@ -1484,7 +1484,7 @@ void object_trap_arrow_update(tEntity *this, tDefaultObjectLocalData *local)
                 local->timer = 0;
                 local->flag = false;
             }
-            else 
+            else if (scroll_position_on_region(this->pos))
                 local->timer += clock_tick_get();
             
             this->anim.frame = ANIM_TRAP_ARROW_IDLE_FRAME;
