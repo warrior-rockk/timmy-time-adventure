@@ -59,6 +59,7 @@ object_ent_types = [
     "medieval-platform",
     "medieval-path",
     "path",
+    "cannon",
 ]
 object_ent_types = {name: index for index, name in enumerate(object_ent_types)}
 
@@ -90,8 +91,8 @@ enemy_ent_types = [
     "ghost"         ,
     "knight"        ,
     "skeleton"      ,
-    "spike-ball"    ,
-    "cannon"        ,
+    "spike-ball"    ,    
+    "cannon-ball"   ,
 ]
 
 enemy_ent_types = {name: index for index, name in enumerate(enemy_ent_types)}

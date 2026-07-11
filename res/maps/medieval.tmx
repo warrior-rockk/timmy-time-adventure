@@ -925,10 +925,6 @@
     <property name="spare" type="int" value="2"/>
    </properties>
   </object>
-  <object id="66" name="cannon" type="enemy" x="1136" y="256" width="64" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="0"/>
-   </properties>
-  </object>
+  <object id="66" name="cannon" type="object" x="1143.45" y="263.727" width="46" height="24"/>
  </objectgroup>
 </map>

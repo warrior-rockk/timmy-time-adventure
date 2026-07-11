@@ -84,7 +84,7 @@ void object_system_destroy()
     MY_TRACE_FLAG("Destroyed object system\n");
 }
 
-//function to add object to local enemy data. Returns the new array and increments the size counter
+//function to add object to local object data. Returns the new array and increments the size counter
 static tObjectLocalData* object_data_add(tObjectLocalData *array, uint16_t *listSize, uint8_t localDataType, void *data) {
     int newSize = *listSize + 1;
     
@@ -128,7 +128,7 @@ static tObjectLocalData* object_data_add(tObjectLocalData *array, uint16_t *list
 static tObjectLocalData* object_data_remove(tObjectLocalData *array, uint16_t *listSize, uint16_t objectIndex) {
     //check object index bounds
     if (objectIndex < 0 || objectIndex >= *listSize) {
-        //abort_on_error("Enemy index %d out of range\n", enemyIndex);
+        //abort_on_error("Enemy index %d out of range\n", objectIndex);
         MY_TRACE_FLAG("ERROR: object index %d out of range\n", objectIndex);
         return array;
     }
@@ -147,7 +147,7 @@ static tObjectLocalData* object_data_remove(tObjectLocalData *array, uint16_t *l
         }
     #endif
 
-    //free the allocated data of the enemy to delete    
+    //free the allocated data of the object to delete    
     free(array[objectIndex].data);
     array[objectIndex].data = NULL;
     
@@ -446,6 +446,15 @@ void object_create(tEntity *entity)
             entity->size = (tVector){8, 8};
             entity->properties = E_ENT_PROP_NO_COLLISION;                                                 
         break;
+        case E_CANNON_OBJECT_TYPE:
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, CANNON_BMP);            
+            load_entity_wav_resources(&objectSfx[E_SFX_CANNON], objectDataFileIndex, CANNON_WAV);
+            entity->img = objectResources[entity->entType]; 
+            entity->spriteSize = (tVector){50, 58};                          
+            entity->size = (tVector){46, 24};
+            entity->axis = E_ENT_AXIS_DOWN;         
+            entity->properties = E_ENT_PROP_NO_PICKABLE || E_ENT_PROP_NO_BREAKABLE;                 
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -453,10 +462,10 @@ void object_create(tEntity *entity)
     
     //if not custom local data type assigned
     if (objectLocalData == NULL)
-        //allocate default enemy local data
+        //allocate default object local data
         objectLocalData = malloc(sizeof(tSolidObjectLocalData));
     
-    //adds enemy local data to list
+    //adds object local data to list
     objectDataList = object_data_add(objectDataList, &numObjectInstances, objectLocalDataType, objectLocalData);
 
     //test memory allocation
@@ -535,6 +544,9 @@ void object_update(tEntity *entity)
             object_path_platform_update(entity, (tPathPlatformLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_PATH_OBJECT_TYPE:
+        break;
+        case E_CANNON_OBJECT_TYPE:             
+            object_cannon_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         default:
             object_solid_update(entity, (tSolidObjectLocalData*)objectDataList[entity->entInstance].data);
@@ -1905,6 +1917,62 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
     #if DEBUG_PLATFORM_PATH
         show_debug("Num: %i Path x: %i y: %i\n", local->currentPoint, local->pathPos.x, local->pathPos.y);
     #endif
+}
+
+void object_cannon_update(tEntity *this, tSolidObjectLocalData *local)
+{
+    //object defines
+    #define CANNON_DEFAULT_TIMER    200   
+
+    //object animations
+    #define ANIM_CANNON_IDLE_FRAME   0
+    #define ANIM_CANNON_SHOOT        0,   8, 6,  ANIM_ONCE
+    
+    //object states
+    enum E_CANNON_OBJECT_STATES{E_CANNON_INIT_DELAY, E_CANNON_ST_IDLE, E_CANNON_ST_SHOOT};
+
+    switch (this->state)
+    {
+        case E_CANNON_INIT_DELAY:            
+            if (local->timer >= this->spare)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else if (scroll_position_on_region(this->pos))
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_CANNON_IDLE_FRAME;
+        break;
+        case E_CANNON_ST_IDLE:            
+            if (local->timer >= CANNON_DEFAULT_TIMER)
+            {
+                this->state++;                
+                local->timer = 0;
+                local->flag = false;
+            }
+            else 
+                local->timer += clock_tick_get();
+            
+            this->anim.frame = ANIM_CANNON_IDLE_FRAME;
+
+        break;
+        case E_CANNON_ST_SHOOT:
+            //TODO: after entity create must not modify any entity structure data in case pointer moves!            
+            if (play_animation(&this->anim, ANIM_CANNON_SHOOT))
+            {
+                this->state--;
+            }    
+            
+            if (!local->flag)
+            {
+                local->flag = true; //it's important to set the local flag before entity creation in case pointer moves
+                sfx_play(objectSfx[E_SFX_CANNON], E_SFX_OBJECT_VOICE);                
+                entity_create(E_ENT_CLASS_ENEMY, E_CANNONBALL_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 0}, this->dir, this->spare);
+            }
+        break;
+    }    
 }
 
 void object_trace(tEntity *this)

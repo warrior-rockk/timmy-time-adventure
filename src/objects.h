@@ -63,6 +63,7 @@ enum E_OBJECT_TYPE
     E_MEDIEVAL_PLATFORM_TYPE,
     E_MEDIEVAL_PATH_TYPE,
     E_PATH_OBJECT_TYPE,
+    E_CANNON_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -116,6 +117,7 @@ enum E_OBJECT_SFX
     E_SFX_LANCE,
     E_SFX_END_OBJECT,
     E_SFX_SYMBOL,
+    E_SFX_CANNON,
     
     E_SFX_OBJECT_NUM,
 };
@@ -196,4 +198,6 @@ void object_lance_update(tEntity *this, tSolidObjectLocalData *local);
 void object_spike_trap_2_update(tEntity *this, tSolidObjectLocalData *local);
 //path platform object
 void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local);
+//cannon
+void object_cannon_update(tEntity *this, tSolidObjectLocalData *local);
 #endif
