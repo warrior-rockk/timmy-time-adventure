@@ -43,7 +43,7 @@ enum E_ENEMY_TYPE
     E_SKELETON_ENEMY_TYPE,
     E_SPIKE_BALL_ENEMY_TYPE,
     E_CANNONBALL_ENEMY_TYPE,
-    
+
     E_ENEMIES_TYPE_NUM,
 };
 
@@ -120,7 +120,7 @@ void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_axe_update(tEntity *this, tAxeLocalData *local);
-void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_projectile_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local);
 
 void enemy_egyptian_update(tEntity *this, tDefaultEnemyLocalData *local);

@@ -503,7 +503,7 @@ void enemy_update(tEntity *entity)
         case E_TRAP_ARROW_ENEMY_TYPE:
         case E_TRAP_FIRE_ENEMY_TYPE:
         case E_CANNONBALL_ENEMY_TYPE:
-            enemy_arrow_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+            enemy_projectile_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;
         case E_BAT_ENEMY_TYPE:            
             enemy_bat_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
@@ -1437,22 +1437,22 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
     }       
 }
 
-void enemy_arrow_update(tEntity *this, tDefaultEnemyLocalData *local)
+void enemy_projectile_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
-    #define ARROW_VELOCITY     4.0
+    #define PROJECTILE_VELOCITY     4.0
 
     //enemy animations
     #define ANIM_ARROW_IDLE   0,   0, 10,  ANIM_LOOP
     #define ANIM_FIREBALL     0,   2, 10, ANIM_LOOP
     
     //enemy states
-    enum E_ARROW_ENEMY_STATES{E_ARROW_ST_IDLE};   
+    enum E_PROJECTILE_ENEMY_STATES{E_PROJECTILE_ST_IDLE};   
 
     switch (this->state)
     {
-        case E_ARROW_ST_IDLE:            
-            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-ARROW_VELOCITY) : ftofix(ARROW_VELOCITY);
+        case E_PROJECTILE_ST_IDLE:            
+            this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-PROJECTILE_VELOCITY) : ftofix(PROJECTILE_VELOCITY);
 
             if (this->entType == E_TRAP_FIRE_ENEMY_TYPE)
                 play_animation(&this->anim, ANIM_FIREBALL);
