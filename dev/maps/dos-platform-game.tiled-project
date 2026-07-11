@@ -28,7 +28,9 @@
             "type": "enum",
             "values": [
                 "LEFT",
-                "RIGHT"
+                "RIGHT",
+                "DOWN",
+                "UP"
             ],
             "valuesAsFlags": false
         },

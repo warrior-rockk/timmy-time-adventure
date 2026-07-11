@@ -55,6 +55,8 @@ enum E_ENTITY_DIR
 {
     E_ENT_DIR_LEFT,
     E_ENT_DIR_RIGHT,    
+    E_ENT_DIR_DOWN,
+    E_ENT_DIR_UP,
 };
 
 //entities alignment size axis (for drawing)

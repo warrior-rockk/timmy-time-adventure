@@ -561,15 +561,30 @@ void enemy_init(tEntity *entity)
 //ENEMY IA FUNCTIONS
 //=========================================================================
 
-//Enemy patrol: moves around a X range
+//Enemy patrol: moves around a X or Y range
 static void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_range)
 {
-    //linear movement
-    entity->fixVel.x = entity->dir == E_ENT_DIR_LEFT ? -velocity : velocity;            
+    switch (entity->dir)
+    {
+        case E_ENT_DIR_LEFT:
+        case E_ENT_DIR_RIGHT:        
+            //linear movement
+            entity->fixVel.x = entity->dir == E_ENT_DIR_LEFT ? -velocity : velocity;            
     
-    //change direction on range patrol
-    if ((entity->dir && entity->pos.x > (entity->initPos.x + patrol_range)) || (!entity->dir && entity->pos.x < (entity->initPos.x - patrol_range)))
-        entity->dir = !entity->dir;
+            //change direction on range patrol
+            if ((entity->dir && entity->pos.x > (entity->initPos.x + patrol_range)) || (!entity->dir && entity->pos.x < (entity->initPos.x - patrol_range)))
+                entity->dir = !entity->dir;
+        break;
+        case E_ENT_DIR_DOWN:
+        case E_ENT_DIR_UP:        
+            //linear movement
+            entity->fixVel.y = entity->dir == E_ENT_DIR_UP ? -velocity : velocity;            
+    
+            //change direction on range patrol
+            if ((entity->dir == E_ENT_DIR_DOWN && entity->pos.y > (entity->initPos.y + patrol_range)) || (entity->dir == E_ENT_DIR_UP && entity->pos.y < (entity->initPos.y - patrol_range)))
+                entity->dir = entity->dir == E_ENT_DIR_DOWN ? E_ENT_DIR_UP : E_ENT_DIR_DOWN;
+        break;
+    }
 }
 
 //Enemy fixed move: moves enemy and dead when exit screen
