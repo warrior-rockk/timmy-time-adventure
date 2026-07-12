@@ -822,7 +822,8 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_
                 {
 					colDir =  E_COLLISION_DIR_UP;
 					if (mode != E_CHECK_PROCESS_INFOONLY)
-                        entityA->fixPos.y += oY + entityA->fixVel.y;
+                        ; //not need to adjust position with collision UP. Prevents object throwing sink the player on terrain
+                        //entityA->fixPos.y += oY + entityA->fixVel.y;
                 }    
 				else
                 { 
