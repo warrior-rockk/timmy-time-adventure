@@ -1554,7 +1554,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             {            
                 //change direction if horizontal collision
                 if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
-                {
+                {    
                     this->dir = !this->dir;
                     break;
                 }
@@ -1591,7 +1591,8 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
                 if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
                 {
                     if ((this->dir && this->pos.x > (this->initPos.x + PLATFORM_MOVE_TILES_X)) || (!this->dir && this->pos.x < (this->initPos.x - PLATFORM_MOVE_TILES_X)))
-                        this->dir = !this->dir;
+                        this->dir = !this->dir; 
+                        
                 }
                 //vertical patrol
                 if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
@@ -1625,7 +1626,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
                     entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
             }
         break;
-    }    
+    }
 }
 
 void object_lance_update(tEntity *this, tDefaultObjectLocalData *local)
@@ -1977,5 +1978,5 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 
 void object_trace(tEntity *this)
 {
-    MY_TRACE_FLAG("Object Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
+    entity_trace(this);
 }

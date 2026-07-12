@@ -82,6 +82,7 @@
 - [ ] Cleaunup enemy animations
 
 # Improvements
+- [ ] check collision slopes only on player?
 - [ ] Maybe it's not necessary the structure type on local metadata on objects and enemies because i don't do any specified free on each type. (maybe global add and remove function?)
 - [ ] Refactor collision functions and unified get collision maps
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?

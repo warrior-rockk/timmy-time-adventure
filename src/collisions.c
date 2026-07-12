@@ -414,7 +414,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         distColX = collision_check_path_x(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
         
         //if collision
-        if (distColX >= 0)
+        if (distColX > 0)
         {
             //Right collision
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_RIGHT) 
@@ -454,7 +454,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         distColY = collision_check_path_y(entity, &fColLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
         
         //check if has collided
-        if (distColY >= 0) 
+        if (distColY > 0) 
         {               
             //down collision
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_DOWN && entity->fixVel.y >= 0)

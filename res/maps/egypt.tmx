@@ -1827,10 +1827,5 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="252" name="debug-start" type="object" x="544" y="256" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

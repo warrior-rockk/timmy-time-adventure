@@ -575,7 +575,7 @@ void entity_trace(tEntity *entity)
         MY_TRACE_FLAG("\tEntity Type: %i\n", entity->entType);      
         MY_TRACE_FLAG("\tEntity Class: %i\n", entity->entClass);     
         MY_TRACE_FLAG("\tEntity Instance: %i\n", entity->entInstance);  
-        MY_TRACE_FLAG("\tProperties: %i\n", entity->properties);   
+        MY_TRACE_FLAG("\tProperties: 0x%x\n", entity->properties);   
         MY_TRACE_FLAG("\tInit pos x: %i Init pos y: %i\n", entity->initPos.x, entity->initPos.y);      
         MY_TRACE_FLAG("\tPos x: %i Pos y:%i\n", entity->pos.x , entity->pos.y);          
         MY_TRACE_FLAG("\tFix Pos x: %f Fix Pos y:%f\n", fixtof(entity->fixPos.x), fixtof(entity->fixPos.y));       
