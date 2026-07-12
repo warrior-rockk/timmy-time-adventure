@@ -1979,4 +1979,21 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 void object_trace(tEntity *this)
 {
     entity_trace(this);
+    MY_TRACE_FLAG("Trace object local data:\n");
+    switch (objectDataList[this->entInstance].structureType)
+    {
+        case E_OBJECT_DEFAULT_LOCAL_DATA_TYPE:
+            MY_TRACE_FLAG("\tLocal flag: %i\n", ((tDefaultObjectLocalData*)objectDataList[this->entInstance].data)->flag);      
+            MY_TRACE_FLAG("\tLocal timer: %i\n", ((tDefaultObjectLocalData*)objectDataList[this->entInstance].data)->timer);
+        break;
+        case E_OBJECT_PATH_PLATFORM_LOCAL_DATA_TYPE:
+            MY_TRACE_FLAG("\tLocal currenPoint: %i\n", ((tPathPlatformLocalData*)objectDataList[this->entInstance].data)->currentPoint);      
+            MY_TRACE_FLAG("\tLocal Path x: %i\n", ((tPathPlatformLocalData*)objectDataList[this->entInstance].data)->pathPos.x);
+            MY_TRACE_FLAG("\tLocal Path y: %i\n", ((tPathPlatformLocalData*)objectDataList[this->entInstance].data)->pathPos.y);
+        break;
+        default:
+            MY_TRACE_FLAG("\tERROR: Unknow object local data type\n");
+        break;
+    }
+    MY_TRACE_FLAG("End object local data\n");
 }

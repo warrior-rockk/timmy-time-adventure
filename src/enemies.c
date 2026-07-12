@@ -1204,11 +1204,6 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
     }       
 }
 
-void enemy_trace(tEntity *this)
-{
-    MY_TRACE_FLAG("Enemy Instance: %d\n\tObj Type:%d\n", this->entInstance, this->entType);
-}
-
 void enemy_scorpion_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define SCORPION_VELOCITY         0.6
@@ -2229,4 +2224,26 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
             enemy_patrol_ia(this, ftofix(SPIKE_BALL_VELOCITY), this->spare != 0 ? this->spare : SPIKE_BALL_DEFAULT_RANGE_PATROL);
         break;
     }
+}
+
+void enemy_trace(tEntity *this)
+{
+    entity_trace(this);
+    MY_TRACE_FLAG("Trace enemy local data:\n");
+    switch (enemyDataList[this->entInstance].structureType)
+    {
+        case E_ENEMY_DEFAULT_LOCAL_DATA_TYPE:
+            MY_TRACE_FLAG("\tLocal flag: %i\n", ((tDefaultEnemyLocalData*)enemyDataList[this->entInstance].data)->flag);      
+            MY_TRACE_FLAG("\tLocal timer: %i\n", ((tDefaultEnemyLocalData*)enemyDataList[this->entInstance].data)->timer);
+        break;
+        case E_ENEMY_AXE_LOCAL_DATA_TYPE:
+            MY_TRACE_FLAG("\tLocal angle: %i\n", ((tAxeLocalData*)enemyDataList[this->entInstance].data)->angle);      
+            MY_TRACE_FLAG("\tLocal cx: %f\n", fixtof(((tAxeLocalData*)enemyDataList[this->entInstance].data)->cx));
+            MY_TRACE_FLAG("\tLocal cy: %f\n", fixtof(((tAxeLocalData*)enemyDataList[this->entInstance].data)->cy));
+        break;
+        default:
+            MY_TRACE_FLAG("\tERROR: Unknow enemy local data type\n");
+        break;
+    }
+    MY_TRACE_FLAG("End enemy local data\n");
 }
