@@ -7,7 +7,7 @@
 
 # Engine
 
-- [ ] restart level option menu 
+- [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp
 - [ ] Respawn extra live item?
 - [ ] freeze entities during dead animation? on crush?

@@ -775,7 +775,13 @@ void game_update()
                                 gameSeq.step++;
                                 dialog_destroy(&gameDialog);
                             break;
-                            case 2: //EXIT TO TITLE
+                            case 2: //RESTART LEVEL
+                                game.fadeOut = true; 
+                                gameSeq.step = 0;
+                                game.state = E_GAME_ST_INIT_LEVEL;
+                                dialog_destroy(&gameDialog);    
+                            break;
+                            case 3: //EXIT TO TITLE
                                 game_destroy_level();                                
                                 game_init_flags();
                                 game.fadeOut = true;
@@ -784,7 +790,7 @@ void game_update()
                                 gameSeq.step = 0;                               
                                 dialog_destroy(&gameDialog); 
                             break;
-                            case 3: //EXIT TO DOS
+                            case 4: //EXIT TO DOS
                                 game_destroy_level(); 
                                 game.state = E_GAME_ST_EXIT;
                                 game.fadeOut = true;
@@ -1708,9 +1714,10 @@ static void game_create_options_menu()
 //creates play menu options
 static void game_create_options_play_menu()
 {
-    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, 40}, (tVector){100, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+    gameDialog = dialog_create((tRectangle){(tVector){(GAME_W >> 1) - 50, 40}, (tVector){110, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_RESTART_LEVEL));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_DOS));
 }
