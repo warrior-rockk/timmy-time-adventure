@@ -82,10 +82,14 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
     do
     {		
 		//check collision with scroll stopped (this must to be checked before check if exists on scroll region)
-        if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
-            ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
+        //only check with no persistent entities because may be off-region and doesn't affect the current stop scroll
+        if (!CHECK_FLAG(entity->properties, E_ENT_PROP_PERSISTENT))
         {
-            return dist;
+            if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
+                ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
+            {
+                return dist;
+            }
         }
 
         //if tile exists on path point position
@@ -414,7 +418,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         distColX = collision_check_path_x(entity,&colLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode);
         
         //if collision
-        if (distColX > 0)
+        if (distColX >= 0)
         {
             //Right collision
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_RIGHT) 
@@ -454,7 +458,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         distColY = collision_check_path_y(entity, &fColLinePath, entColPointsList[entIndex].colPoint[pointNum].colCode, E_CHECK_VECTOR_Y_TO_COLLISION);
         
         //check if has collided
-        if (distColY > 0) 
+        if (distColY >= 0) 
         {               
             //down collision
             if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_DOWN && entity->fixVel.y >= 0)
