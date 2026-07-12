@@ -42,31 +42,30 @@
     tDebugOptions debugOptions = {0};   
 #endif
 
-double deltaTime;                   //deltaTime
-uint8_t gameExit = false;           //flag to exit to main
-bool firstRun = false;              //flag to set if first run (to show language selection menu)
+double deltaTime;                           //deltaTime
+uint8_t gameExit = false;                   //flag to exit to main
+bool firstRun = false;                      //flag to set if first run (to show language selection menu)
 
-BITMAP *buffer;                     //screen buffer
-BITMAP *worldScreen;                //map window buffer
-FONT *gameFont[E_GAME_NUM_FONTS];   //game font array
-SAMPLE *gameSfx[E_SFX_GAME_NUM];    //game sfx
-MIDI* gameMusic;                    //current MIDI game music
-MIDI* jingleMusic;                  //jingle MIDI music
-DATAFILE_INDEX *gameDataIndex; 
-tGame game;                         //game structure
-tSequence gameSeq;                  //game sequence
+BITMAP *buffer;                             //screen buffer
+BITMAP *worldScreen;                        //map window buffer
+FONT *gameFont[E_GAME_NUM_FONTS];           //game font array
+SAMPLE *gameSfx[E_SFX_GAME_NUM];            //game sfx
+MIDI* gameMusic;                            //current MIDI game music
+MIDI* jingleMusic;                          //jingle MIDI music
+DATAFILE_INDEX *gameDataIndex;              //game data index
+tGame game;                                 //game structure
+tSequence gameSeq;                          //game sequence
 tLevelData levelData[E_GAME_NUM_LEVELS];    //level data
-DATAFILE *levelDAT;                 //level datafile
-
-tDialog gameDialog;                 //game dialog object
+DATAFILE *levelDAT;                         //level datafile
+tDialog gameDialog;                         //game dialog object
 
 //palettes
-RGB *currentPal;                    //current palette setted
-RGB *introPal;                      //pal for intro sequence
-RGB *gamePal;                       //palette of 64 persistent colors for menus/title/hud/player
+RGB *currentPal;                            //current palette setted
+RGB *introPal;                              //pal for intro sequence
+RGB *gamePal;                               //palette of 64 persistent colors for menus/title/hud/player
 
-BITMAP *titleSpr;
-tAnimation titleAnim;
+BITMAP *gameSprite;                         //general use game sprite (title logo, game over animation...)
+tAnimation animSprite;                      //general animation structure for game sprite
 
 //game controls string array
 char  *gameControlStrings[E_GAME_KEYS_NUM];
@@ -329,14 +328,14 @@ void game_update()
 
                     dialog_draw(&gameDialog, buffer);
 
-                    titleSpr = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                    titleAnim.frame = 0;
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    animSprite.frame = 0;
                     
                     gameSeq.step++;
                 break;
                 case 1: //process main menu dialog
-                    play_animation(&titleAnim, 0, 9, 16, ANIM_LOOP);
-                    game_draw_object((tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, (tVector){197,87}, (tVector){197,87}, E_ENT_AXIS_CENTER, &titleAnim, titleSpr, buffer);
+                    play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
+                    game_draw_object((tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, (tVector){197,87}, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
                 
                     game_navigation_menu(&gameDialog, buffer);
 
