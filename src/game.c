@@ -65,6 +65,9 @@ RGB *currentPal;                    //current palette setted
 RGB *introPal;                      //pal for intro sequence
 RGB *gamePal;                       //palette of 64 persistent colors for menus/title/hud/player
 
+BITMAP *titleSpr;
+tAnimation titleAnim;
+
 //game controls string array
 char  *gameControlStrings[E_GAME_KEYS_NUM];
 char *keyStrings[] = {"", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","0_PAD","1_PAD","2_PAD","3_PAD","4_PAD","5_PAD","6_PAD","7_PAD","8_PAD","9_PAD","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","ESC","TILDE","MINUS","EQUALS","BACKSPACE","TAB","OPENBRACE","CLOSEBRACE","ENTER","COLON","QUOTE","BACKSLASH","BACKSLASH2","COMMA","STOP","SLASH","SPACE","INSERT","DEL","HOME","END","PGUP","PGDN","LEFT","RIGHT","UP","DOWN","SLASH_PAD","ASTERISK","MINUS_PAD","PLUS_PAD","DEL_PAD","ENTER_PAD"};
@@ -109,6 +112,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
 static void game_create_options_play_menu();
 static void game_load_control_strings();
 static void game_init_flags();
+static void game_draw_object(tVector pos, uint8_t dir, tVector spriteSize, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -284,9 +288,10 @@ void game_update()
                     gameSeq.step++;      
                     
                     //draw title logo
-                    BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                    draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
-                    destroy_bitmap(title);   
+                    
+
+                    //draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
+                    //destroy_bitmap(title);   
                 case 1:
                     /*if (input_any_key_pressed())
                     {
@@ -308,13 +313,14 @@ void game_update()
             }
         break;
         case E_GAME_ST_MAIN_MENU:
+            
             switch (gameSeq.step)
             {
                 case 0: //create main menu dialog 
                     //draw title logo
-                    BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                    draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
-                    destroy_bitmap(title);   
+                    //BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    //draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
+                    //destroy_bitmap(title);   
 
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 120}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
@@ -322,10 +328,16 @@ void game_update()
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 
                     dialog_draw(&gameDialog, buffer);
+
+                    titleSpr = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    titleAnim.frame = 0;
                     
                     gameSeq.step++;
                 break;
                 case 1: //process main menu dialog
+                    play_animation(&titleAnim, 0, 9, 16, ANIM_LOOP);
+                    game_draw_object((tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, (tVector){197,87}, (tVector){197,87}, E_ENT_AXIS_CENTER, &titleAnim, titleSpr, buffer);
+                
                     game_navigation_menu(&gameDialog, buffer);
 
                     if (input_key_down(E_G_KEY_ENTER))
@@ -1861,4 +1873,58 @@ static void game_load_control_strings()
     keyStrings[KEY_RIGHT]               = strdup(lang_get_txt(E_TXT_MENU_CTRL_RIGHT));
     keyStrings[KEY_UP]                  = strdup(lang_get_txt(E_TXT_MENU_CTRL_UP));
     keyStrings[KEY_DOWN]                = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
+}
+
+static void game_draw_object(tVector pos, uint8_t dir, tVector spriteSize, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer)
+{
+    if (sprite != NULL)
+    {
+        int16_t drawX, drawY;
+        
+        //assign current frame sub-bitmap of entity 
+        BITMAP *objectSprite = create_sub_bitmap(sprite, anim->frame * spriteSize.x, 0, spriteSize.x, spriteSize.y);
+        
+        //check alignment axis
+        switch (axis)
+        {
+            case E_ENT_AXIS_DOWN:
+                drawX = pos.x - ((spriteSize.x - size.x) >>1);
+                drawY = pos.y - ((spriteSize.y - size.y) );
+            break;
+            case E_ENT_AXIS_UP:
+                drawX = pos.x - ((spriteSize.x - size.x) >>1);
+                drawY = pos.y;
+            break;
+            case E_ENT_AXIS_LEFT_DOWN:
+                drawX = pos.x;
+                drawY = pos.y - ((spriteSize.y - size.y) );
+            break;
+            case E_ENT_AXIS_RIGHT_DOWN:
+                drawX = (pos.x + size.x) - (spriteSize.x );
+                drawY = pos.y - ((spriteSize.y - size.y) );
+            break;
+            case E_ENT_AXIS_CENTER:
+            default:
+                drawX = pos.x - ((spriteSize.x - size.x) >>1);
+                drawY = pos.y - ((spriteSize.y - size.y) >>1);
+            break;
+        }
+        
+        //draw game object
+        if (buffer != NULL && objectSprite != NULL)
+        {
+            if (dir == E_ENT_DIR_RIGHT)               
+                draw_sprite(buffer, objectSprite, drawX, drawY);              
+            else
+                draw_sprite_h_flip(buffer, objectSprite, drawX, drawY);                                        
+        }
+        else
+        {
+            if (buffer == NULL) abort_on_error("buffer pointer is null\n");
+            if (objectSprite == NULL) abort_on_error("entity sprite pointer is null\n");
+        }
+        
+        //need to destroy bitmap each time
+        destroy_bitmap(objectSprite);
+    }
 }
