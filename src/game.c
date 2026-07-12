@@ -277,7 +277,8 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:                  
-                    currentPal = gamePal;
+                    //currentPal = gamePal;
+                    currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
                     clear_to_color(buffer, BLACK_COLOR);                    
                     game.fadeIn = true;
                     gameSeq.step++;      
