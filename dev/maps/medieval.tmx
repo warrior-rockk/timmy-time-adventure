@@ -208,8 +208,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
-  <object id="4" template="triggers/door-in.tx" x="480" y="416"/>
-  <object id="8" template="triggers/door-in.tx" x="463" y="416"/>
+  <object id="4" template="triggers/door-in.tx" x="464" y="416"/>
   <object id="5" template="triggers/door-out.tx" x="544" y="416"/>
   <object id="6" template="enemies/medieval/knight.tx" type="enemy" x="704" y="416"/>
   <object id="84" template="enemies/medieval/knight.tx" type="enemy" x="944" y="416"/>
@@ -399,7 +398,7 @@
     <property name="spare" type="int" value="2"/>
    </properties>
   </object>
-  <object id="61" template="triggers/door-in.tx" x="2096" y="576">
+  <object id="61" template="triggers/door-in.tx" x="2080" y="576">
    <properties>
     <property name="spare" type="int" value="2"/>
    </properties>

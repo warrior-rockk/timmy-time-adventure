@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="257">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="257">
  <properties>
   <property name="time" type="int" value="450"/>
  </properties>
@@ -1399,12 +1399,12 @@
     <property name="spare" type="int" propertytype="scroll_modes" value="1"/>
    </properties>
   </object>
-  <object id="93" name="door-in" type="trigger" x="688" y="256" width="16" height="32">
+  <object id="93" name="door-in" type="trigger" x="672" y="256" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="1"/>
    </properties>
   </object>
-  <object id="95" name="door-out" type="trigger" x="48" y="592" width="16" height="32">
+  <object id="95" name="door-out" type="trigger" x="32" y="592" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="1"/>
@@ -1415,12 +1415,12 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="104" name="door-in" type="trigger" x="208" y="16" width="16" height="32">
+  <object id="104" name="door-in" type="trigger" x="192" y="16" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="2"/>
    </properties>
   </object>
-  <object id="110" name="door-out" type="trigger" x="800" y="256" width="16" height="32">
+  <object id="110" name="door-out" type="trigger" x="784" y="256" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="2"/>
@@ -1503,12 +1503,12 @@
     <property name="spare" type="int" propertytype="scorpion" value="1"/>
    </properties>
   </object>
-  <object id="127" name="door-in" type="trigger" x="1744" y="256" width="16" height="32">
+  <object id="127" name="door-in" type="trigger" x="1728" y="256" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="3"/>
    </properties>
   </object>
-  <object id="128" name="door-out" type="trigger" x="976" y="112" width="16" height="32">
+  <object id="128" name="door-out" type="trigger" x="976" y="112" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="3"/>
@@ -1529,7 +1529,7 @@
     <property name="spare" type="int" propertytype="levels" value="1"/>
    </properties>
   </object>
-  <object id="132" name="solid" type="object" x="816" y="128" width="16" height="16">
+  <object id="132" name="solid" type="object" x="800" y="128" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="levels" value="1"/>
    </properties>
@@ -1603,7 +1603,7 @@
   <object id="155" name="spike-trap2" type="object" x="960" y="0" width="16" height="16"/>
   <object id="156" name="spike-trap2" type="object" x="976" y="0" width="16" height="16"/>
   <object id="157" name="spike-trap2" type="object" x="992" y="0" width="16" height="16"/>
-  <object id="159" name="door-in" type="trigger" x="800" y="112" width="16" height="32">
+  <object id="159" name="door-in" type="trigger" x="800" y="112" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="4"/>
    </properties>
@@ -1613,7 +1613,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="162" name="door-out" type="trigger" x="2080" y="256" width="16" height="32">
+  <object id="162" name="door-out" type="trigger" x="2064" y="256" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="4"/>
@@ -1659,23 +1659,23 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="167" name="door-in" type="trigger" x="2352" y="112" width="16" height="32">
+  <object id="167" name="door-in" type="trigger" x="2336" y="112" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="5"/>
    </properties>
   </object>
-  <object id="168" name="door-out" type="trigger" x="2096" y="112" width="16" height="32">
+  <object id="168" name="door-out" type="trigger" x="2096" y="112" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="5"/>
    </properties>
   </object>
-  <object id="169" name="door-in" type="trigger" x="2096" y="112" width="16" height="32">
+  <object id="169" name="door-in" type="trigger" x="2096" y="112" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="6"/>
    </properties>
   </object>
-  <object id="170" name="door-out" type="trigger" x="2352" y="112" width="16" height="32">
+  <object id="170" name="door-out" type="trigger" x="2336" y="112" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="6"/>
@@ -1697,23 +1697,23 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="182" name="door-out" type="trigger" x="448" y="16" width="16" height="32">
+  <object id="182" name="door-out" type="trigger" x="448" y="16" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="7"/>
    </properties>
   </object>
-  <object id="183" name="door-in" type="trigger" x="304" y="432" width="16" height="32">
+  <object id="183" name="door-in" type="trigger" x="288" y="432" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="8"/>
    </properties>
   </object>
-  <object id="184" name="door-in" type="trigger" x="2832" y="256" width="16" height="32">
+  <object id="184" name="door-in" type="trigger" x="2816" y="256" width="32" height="32">
    <properties>
     <property name="spare" type="int" value="7"/>
    </properties>
   </object>
-  <object id="185" name="door-out" type="trigger" x="2832" y="256" width="16" height="32">
+  <object id="185" name="door-out" type="trigger" x="2816" y="256" width="32" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" value="8"/>

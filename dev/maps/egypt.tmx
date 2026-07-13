@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="257">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="257">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -693,15 +693,15 @@
   </object>
   <object id="89" template="triggers/scroll-mode.tx" type="trigger" x="112" y="560"/>
   <object id="191" template="triggers/scroll-mode.tx" type="trigger" x="368" y="0"/>
-  <object id="93" template="triggers/door-in.tx" type="trigger" x="688" y="256"/>
-  <object id="95" template="triggers/door-out.tx" type="trigger" x="48" y="592"/>
+  <object id="93" template="triggers/door-in.tx" type="trigger" x="672" y="256"/>
+  <object id="95" template="triggers/door-out.tx" type="trigger" x="32" y="592"/>
   <object id="98" template="triggers/checkpoint.tx" x="48" y="591" width="16" height="32"/>
-  <object id="104" template="triggers/door-in.tx" x="208" y="16">
+  <object id="104" template="triggers/door-in.tx" x="192" y="16">
    <properties>
     <property name="spare" type="int" value="2"/>
    </properties>
   </object>
-  <object id="110" template="triggers/door-out.tx" x="800" y="256">
+  <object id="110" template="triggers/door-out.tx" x="784" y="256">
    <properties>
     <property name="spare" type="int" value="2"/>
    </properties>
@@ -763,7 +763,7 @@
   <object id="124" template="triggers/stopScroll.tx" x="1136" y="288"/>
   <object id="125" template="triggers/stopScroll.tx" x="1424" y="288"/>
   <object id="126" template="enemies/egypt/scorpion-red.tx" x="1632" y="272"/>
-  <object id="127" template="triggers/door-in.tx" x="1744" y="256">
+  <object id="127" template="triggers/door-in.tx" x="1728" y="256">
    <properties>
     <property name="spare" type="int" value="3"/>
    </properties>
@@ -788,7 +788,7 @@
     <property name="spare" type="int" propertytype="levels" value="1"/>
    </properties>
   </object>
-  <object id="132" template="objects/solid.tx" x="816" y="128">
+  <object id="132" template="objects/solid.tx" x="800" y="128">
    <properties>
     <property name="spare" type="int" propertytype="levels" value="1"/>
    </properties>
@@ -872,7 +872,7 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="162" template="triggers/door-out.tx" x="2080" y="256">
+  <object id="162" template="triggers/door-out.tx" x="2064" y="256">
    <properties>
     <property name="spare" type="int" value="4"/>
    </properties>
@@ -901,7 +901,7 @@
   <object id="175" template="enemies/egypt/anubis.tx" type="enemy" x="2720" y="208"/>
   <object id="204" template="enemies/egypt/anubis.tx" type="enemy" x="3024" y="256"/>
   <object id="166" template="enemies/egypt/mummy.tx" x="2400" y="112"/>
-  <object id="167" template="triggers/door-in.tx" x="2352" y="112">
+  <object id="167" template="triggers/door-in.tx" x="2336" y="112">
    <properties>
     <property name="spare" type="int" value="5"/>
    </properties>
@@ -916,7 +916,7 @@
     <property name="spare" type="int" value="6"/>
    </properties>
   </object>
-  <object id="170" template="triggers/door-out.tx" x="2352" y="112">
+  <object id="170" template="triggers/door-out.tx" x="2336" y="112">
    <properties>
     <property name="spare" type="int" value="6"/>
    </properties>
@@ -938,17 +938,17 @@
     <property name="spare" type="int" value="7"/>
    </properties>
   </object>
-  <object id="183" template="triggers/door-in.tx" x="304" y="432">
+  <object id="183" template="triggers/door-in.tx" x="288" y="432">
    <properties>
     <property name="spare" type="int" value="8"/>
    </properties>
   </object>
-  <object id="184" template="triggers/door-in.tx" x="2832" y="256">
+  <object id="184" template="triggers/door-in.tx" x="2816" y="256">
    <properties>
     <property name="spare" type="int" value="7"/>
    </properties>
   </object>
-  <object id="185" template="triggers/door-out.tx" x="2832" y="256">
+  <object id="185" template="triggers/door-out.tx" x="2816" y="256">
    <properties>
     <property name="spare" type="int" value="8"/>
    </properties>
