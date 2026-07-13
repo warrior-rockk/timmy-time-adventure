@@ -279,38 +279,27 @@ void game_update()
         case E_GAME_ST_TITLE:
             switch (gameSeq.step)
             {
-                case 0:                  
-                    //currentPal = gamePal;
+                case 0:                                      
                     currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
-                    clear_to_color(buffer, BLACK_COLOR);                    
-                    game.fadeIn = true;
+                    clear_to_color(buffer, BLACK_COLOR);                                        
                     gameSeq.step++;      
                     
-                    //draw title logo
-                    
-
-                    //draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
-                    //destroy_bitmap(title);  
-                    
+                    //play title music
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, TITLE_MID);
                     music_play(jingleMusic, false);
+                    
                 case 1:
-                    /*if (input_any_key_pressed())
+                    if (gameSeq.timeCounter >= 200)
                     {
-                        if (input_key_press(E_G_KEY_EXIT))
-                        {
-                            game.state = E_GAME_ST_EXIT;
-                        }
-                        else
-                        {
-                            game.state = E_GAME_ST_MAIN_MENU;
-                        }
+                        game.state = E_GAME_ST_MAIN_MENU;
                         gameSeq.timeCounter = 0;
-                        gameSeq.step = 0;
-                    }*/
-                    game.state = E_GAME_ST_MAIN_MENU;
-                    gameSeq.timeCounter = 0;
-                    gameSeq.step = 0;
+                        gameSeq.step = 0;    
+                        //load title logo
+                        gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                        animSprite.frame = 0;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -320,9 +309,8 @@ void game_update()
             {
                 case 0: //create main menu dialog 
                     //draw title logo
-                    //BITMAP *title = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                    //draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
-                    //destroy_bitmap(title);   
+                    play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
+                    game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_W >> 1) - 60, 120}, (tVector){120, 0}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
@@ -331,9 +319,8 @@ void game_update()
 
                     dialog_draw(&gameDialog, buffer);
 
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                    animSprite.frame = 0;
                     
+                    game.fadeIn = true;
                     gameSeq.step++;
                 break;
                 case 1: //process main menu dialog
@@ -353,17 +340,20 @@ void game_update()
                                 game.fadeOut = true;
                                 gameSeq.step = 0;
                                 dialog_destroy(&gameDialog);
+                                destroy_bitmap(gameSprite);
                             break;
                             case 1: //OPTIONS
                                 game.state = E_GAME_ST_OPTIONS_MENU;
                                 gameSeq.step = 0;
                                 dialog_destroy(&gameDialog);
+                                destroy_bitmap(gameSprite);
                             break;
                             case 2: //EXIT
                                 game.state = E_GAME_ST_EXIT;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
                                 dialog_destroy(&gameDialog);                                
+                                destroy_bitmap(gameSprite);
                             break;
                         }
                     }
