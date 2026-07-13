@@ -111,7 +111,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
 static void game_create_options_play_menu();
 static void game_load_control_strings();
 static void game_init_flags();
-static void game_draw_object(tVector pos, uint8_t dir, tVector spriteSize, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
+static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -290,7 +290,10 @@ void game_update()
                     
 
                     //draw_sprite(buffer, title, (SCREEN_W>>1) - (title->w>>1), (SCREEN_H>>2) - (title->h>>1));    
-                    //destroy_bitmap(title);   
+                    //destroy_bitmap(title);  
+                    
+                    jingleMusic = load_dat_midi_indexed(gameDataIndex, TITLE_MID);
+                    music_play(jingleMusic, false);
                 case 1:
                     /*if (input_any_key_pressed())
                     {
@@ -335,7 +338,7 @@ void game_update()
                 break;
                 case 1: //process main menu dialog
                     play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
-                    game_draw_object((tVector){SCREEN_W>>1, SCREEN_H>>1}, E_ENT_DIR_RIGHT, (tVector){197,87}, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
+                    game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
                 
                     game_navigation_menu(&gameDialog, buffer);
 
@@ -1874,38 +1877,38 @@ static void game_load_control_strings()
     keyStrings[KEY_DOWN]                = strdup(lang_get_txt(E_TXT_MENU_CTRL_DOWN));
 }
 
-static void game_draw_object(tVector pos, uint8_t dir, tVector spriteSize, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer)
+static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer)
 {
     if (sprite != NULL)
     {
         int16_t drawX, drawY;
         
         //assign current frame sub-bitmap of entity 
-        BITMAP *objectSprite = create_sub_bitmap(sprite, anim->frame * spriteSize.x, 0, spriteSize.x, spriteSize.y);
+        BITMAP *objectSprite = create_sub_bitmap(sprite, anim->frame * size.x, 0, size.x, size.y);
         
         //check alignment axis
         switch (axis)
         {
             case E_ENT_AXIS_DOWN:
-                drawX = pos.x - ((spriteSize.x - size.x) >>1);
-                drawY = pos.y - ((spriteSize.y - size.y) );
+                drawX = pos.x - (size.x >>1);
+                drawY = pos.y - size.y;
             break;
             case E_ENT_AXIS_UP:
-                drawX = pos.x - ((spriteSize.x - size.x) >>1);
+                drawX = pos.x - (size.x >>1);
                 drawY = pos.y;
             break;
             case E_ENT_AXIS_LEFT_DOWN:
                 drawX = pos.x;
-                drawY = pos.y - ((spriteSize.y - size.y) );
+                drawY = pos.y - size.y;
             break;
             case E_ENT_AXIS_RIGHT_DOWN:
-                drawX = (pos.x + size.x) - (spriteSize.x );
-                drawY = pos.y - ((spriteSize.y - size.y) );
+                drawX = (pos.x + size.x);
+                drawY = pos.y - size.y;
             break;
             case E_ENT_AXIS_CENTER:
             default:
-                drawX = pos.x - ((spriteSize.x - size.x) >>1);
-                drawY = pos.y - ((spriteSize.y - size.y) >>1);
+                drawX = pos.x - (size.x >>1);
+                drawY = pos.y - (size.y >>1);
             break;
         }
         
