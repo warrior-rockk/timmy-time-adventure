@@ -361,7 +361,10 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     colDir = 0;
     
     //gets collision point index
-    uint16_t entIndex = collision_get_point_index_by_entId(entity->id);
+    int16_t entIndex = collision_get_point_index_by_entId(entity->id);
+    //check collision point created
+    if (entIndex < 0 )
+        abort_on_error("Entity id %i has no collision point created", entity->id);
 
     //check if collision point is active
     if (!entColPointsList[entIndex].colPoint[pointNum].enabled) 

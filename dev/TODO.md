@@ -8,6 +8,7 @@
 
 # Engine
 
+- [ ] Review entities that can use minimal collision points (note on which points are using for detection in the logic!)
 - [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp
 - [ ] Respawn extra live item?

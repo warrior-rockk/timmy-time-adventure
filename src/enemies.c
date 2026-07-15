@@ -13,6 +13,7 @@
 #include "sound.h"
 #include "resources.h"
 #include "player.h"
+#include "map.h"
 
 #include "data/edata.h"
 
@@ -427,6 +428,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break;
+        case E_FIRE_DROP_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREDROP_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){18, 21};                          
+            entity->size = (tVector){16, 16};  
+            entity->properties = E_ENT_PROP_NO_HURT;     
+            collision_create_entity_points(entity);             
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -537,6 +546,9 @@ void enemy_update(tEntity *entity)
         break;
         case E_SPIKE_BALL_ENEMY_TYPE:             
             enemy_spike_ball_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;        
+        case E_FIRE_DROP_ENEMY_TYPE:             
+            enemy_fire_drop_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         default:
         break;
@@ -2222,6 +2234,81 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_SPIKE_BALL_ST_MOVE:
             enemy_patrol_ia(this, ftofix(SPIKE_BALL_VELOCITY), this->spare != 0 ? this->spare : SPIKE_BALL_DEFAULT_RANGE_PATROL);
+        break;
+    }
+}
+
+void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
+{
+    //object defines
+    #define FIRE_DROP_FALL_VEL_Y       2.6
+    
+    //object states
+    enum E_FIRE_DROP_OBJECT_STATES{E_FIRE_DROP_ST_IDLE, E_FIRE_DROP_ST_FALL, E_FIRE_DROP_ST_BREAK, E_FIRE_DROP_ST_STILL};
+    
+    //object animations
+    //#define ANIM_FIRE_DROP_BREAK                1,  2, 10, ANIM_ONCE
+
+    int16_t x_init_pos[3] = {848, 832, 864};
+
+    /*if (this->signal == E_ENT_SIGNAL_AWAKE)
+    {
+        this->signal = E_ENT_SIGNAL_NONE;
+        this->pos = this->initPos;
+        this->fixPos = vector2fixvector(this->pos);
+        this->state = 0;        
+    }*/
+
+    switch (this->state)
+    {
+        case E_FIRE_DROP_ST_IDLE:
+            this->fixVel.y = 0;
+            this->fixPos.x = itofix(x_init_pos[local->flag]);
+            
+            
+            if (local->timer >= 400)
+            {
+                this->state++;
+                local->timer = 0;
+                //sfx_play(objectSfx[E_SFX_FIRE_DROP], E_SFX_OBJECT_VOICE);
+            }
+            else
+                local->timer += clock_tick_get();
+            
+            this->visible = false;
+        break;
+        case E_FIRE_DROP_ST_FALL:
+            this->anim.frame = 0;
+            this->visible = true;
+
+            this->fixVel.y = ftofix(FIRE_DROP_FALL_VEL_Y);
+            
+            this->ground = false;            
+            //check only down point    
+            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            {
+                enemy_trace(this);
+                map_change_tile((tVector){this->pos.x / 16, (this->pos.y + this->size.y + fixtoi(this->fixVel.y)) / 16}, 58, E_TILE_PROP_NO_SOLID);
+                this->state = E_FIRE_DROP_ST_BREAK;            
+            }            
+        break;
+        case E_FIRE_DROP_ST_BREAK:
+            //stop object
+            this->fixVel.y = 0;      
+            this->visible = false;                                                  
+            //play break animation
+            /*if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            {
+                this->dead = true;
+            }*/
+           this->state = E_FIRE_DROP_ST_IDLE;
+           this->fixPos = vector2fixvector(this->initPos);
+           local->flag++;
+        break;
+        case E_FIRE_DROP_ST_STILL:
+            //stop object
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;                                                        
         break;
     }
 }
