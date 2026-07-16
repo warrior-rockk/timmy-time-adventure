@@ -433,6 +433,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){18, 21};                          
             entity->size = (tVector){16, 16};  
+            entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_NO_HURT;     
             collision_create_entity_points(entity);             
         break;
@@ -2241,15 +2242,21 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
 {
     //object defines
-    #define FIRE_DROP_FALL_VEL_Y       2.6
+    #define FIRE_DROP_FALL_VEL_Y        2.6
+    #define FIRE_DROP_WAIT_FALL         100
+    #define FIRE_DROP_TILE              58
+    #define FIRE_DROP_POSITIONS         24
     
     //object states
     enum E_FIRE_DROP_OBJECT_STATES{E_FIRE_DROP_ST_IDLE, E_FIRE_DROP_ST_FALL, E_FIRE_DROP_ST_BREAK, E_FIRE_DROP_ST_STILL};
     
     //object animations
-    //#define ANIM_FIRE_DROP_BREAK                1,  2, 10, ANIM_ONCE
-
-    int16_t x_init_pos[3] = {848, 832, 864};
+    #define ANIM_FIRE_DROP_BREAK                1,  2, 10, ANIM_ONCE
+    
+    //range: 52 to 59 tile x positions
+    int16_t dropPosX[] = {54, 56, 53, 52, 57, 54, 55, 58, 
+                          59, 55, 56, 57, 54, 58, 56, 52,
+                          54, 56, 53, 52, 57, 54, 55, 58};
 
     /*if (this->signal == E_ENT_SIGNAL_AWAKE)
     {
@@ -2263,10 +2270,10 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_FIRE_DROP_ST_IDLE:
             this->fixVel.y = 0;
-            this->fixPos.x = itofix(x_init_pos[local->flag]);
+            //get the next drop pos
+            this->fixPos.x = itofix(dropPosX[local->flag] * map_get_tile_size());
             
-            
-            if (local->timer >= 400)
+            if (local->timer >= FIRE_DROP_WAIT_FALL)
             {
                 this->state++;
                 local->timer = 0;
@@ -2287,23 +2294,32 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             //check only down point    
             if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
             {
-                enemy_trace(this);
-                map_change_tile((tVector){this->pos.x / 16, (this->pos.y + this->size.y + fixtoi(this->fixVel.y)) / 16}, 58, E_TILE_PROP_NO_SOLID);
+                //enemy_trace(this);
+                int16_t tileX = this->pos.x / map_get_tile_size();
+                int16_t tileY = (this->pos.y + this->size.y + fixtoi(this->fixVel.y)) / map_get_tile_size();
+                map_change_tile((tVector){tileX, tileY}, FIRE_DROP_TILE, E_TILE_PROP_NO_SOLID);
+                this->fixPos.x = itofix(tileX * 16);
+                this->fixPos.y = itofix(tileY * 16);
+                //this->anim.frame = 1;
                 this->state = E_FIRE_DROP_ST_BREAK;            
             }            
         break;
         case E_FIRE_DROP_ST_BREAK:
             //stop object
-            this->fixVel.y = 0;      
-            this->visible = false;                                                  
+            this->fixVel.y = 0;                              
+            this->visible = true;
             //play break animation
-            /*if (play_animation(&this->anim, ANIM_OBJECT_BREAK))
+            if (play_animation(&this->anim, ANIM_FIRE_DROP_BREAK))
             {
-                this->dead = true;
-            }*/
-           this->state = E_FIRE_DROP_ST_IDLE;
-           this->fixPos = vector2fixvector(this->initPos);
-           local->flag++;
+                this->visible = false;                                                  
+                this->state = E_FIRE_DROP_ST_IDLE;
+                this->fixPos = vector2fixvector(this->initPos);
+                //next drop pos
+                if (local->flag < FIRE_DROP_POSITIONS)
+                    local->flag++;
+                else
+                    this->state = E_FIRE_DROP_ST_STILL;   
+            }
         break;
         case E_FIRE_DROP_ST_STILL:
             //stop object
