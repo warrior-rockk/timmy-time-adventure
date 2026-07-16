@@ -561,8 +561,23 @@ void enemy_update(tEntity *entity)
 //calls specified enemy type init function
 void enemy_init(tEntity *entity)
 {   
+    MY_TRACE_FLAG("Init instance %i\n", entity->entInstance);
+
     switch (entity->entType)
     {   
+        case E_FIRE_DROP_ENEMY_TYPE:
+            ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
+            ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;                
+            
+            //we need to restore map tiles
+            for (uint16_t i = 52; i <= 59; i++)            
+            {
+                for (uint16_t j = 5; j <= 9; j++)
+                {
+                    map_change_tile((tVector){i, j}, 57, E_TILE_PROP_SOLID);
+                }
+            }            
+        break;
         default:            
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;            
@@ -2246,7 +2261,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define FIRE_DROP_WAIT_FALL         100
     #define FIRE_DROP_TILE              58
     #define FIRE_DROP_POSITIONS         24
-    
+        
     //object states
     enum E_FIRE_DROP_OBJECT_STATES{E_FIRE_DROP_ST_IDLE, E_FIRE_DROP_ST_FALL, E_FIRE_DROP_ST_BREAK, E_FIRE_DROP_ST_STILL};
     
