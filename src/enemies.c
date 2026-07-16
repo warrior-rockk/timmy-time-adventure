@@ -574,7 +574,7 @@ void enemy_init(tEntity *entity)
             {
                 for (uint16_t j = 5; j <= 9; j++)
                 {
-                    map_change_tile((tVector){i, j}, 57, E_TILE_PROP_SOLID);
+                    map_change_tile((tVector){i, j}, 55 + (rand() % 3), E_TILE_PROP_SOLID);
                 }
             }            
         break;
