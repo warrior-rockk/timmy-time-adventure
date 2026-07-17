@@ -430,6 +430,8 @@ void enemy_create(tEntity *entity)
         break;
         case E_FIRE_DROP_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREDROP_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_FIRE_DROP], enemyDataFileIndex, FIREDROP_WAV);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_FIRE_BREAK], enemyDataFileIndex, FIREBRK_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){18, 21};                          
             entity->size = (tVector){16, 16};  
@@ -2293,7 +2295,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             {
                 this->state++;
                 local->timer = 0;
-                //sfx_play(objectSfx[E_SFX_FIRE_DROP], E_SFX_OBJECT_VOICE);
+                sfx_play(enemySfx[E_SFX_ENEMY_FIRE_DROP], E_SFX_ENEMY_VOICE);
             }
             else
                 local->timer += clock_tick_get();
@@ -2318,7 +2320,8 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->fixPos.x = itofix(tileX * 16);
                 this->fixPos.y = itofix(tileY * 16);
                 //this->anim.frame = 1;
-                this->state = E_FIRE_DROP_ST_BREAK;            
+                this->state = E_FIRE_DROP_ST_BREAK; 
+                sfx_play(enemySfx[E_SFX_ENEMY_FIRE_BREAK], E_SFX_ENEMY_VOICE);           
             }            
         break;
         case E_FIRE_DROP_ST_BREAK:
