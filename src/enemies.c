@@ -2285,6 +2285,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_FIRE_DROP_ST_IDLE:
             this->fixVel.y = 0;
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             //get the next drop pos
             this->fixPos.x = itofix(dropPosX[local->flag] * map_get_tile_size());
             
@@ -2302,6 +2303,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_FIRE_DROP_ST_FALL:
             this->anim.frame = 0;
             this->visible = true;
+            CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
 
             this->fixVel.y = ftofix(FIRE_DROP_FALL_VEL_Y);
             
@@ -2323,6 +2325,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             //stop object
             this->fixVel.y = 0;                              
             this->visible = true;
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             //play break animation
             if (play_animation(&this->anim, ANIM_FIRE_DROP_BREAK))
             {
