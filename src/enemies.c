@@ -575,8 +575,8 @@ void enemy_init(tEntity *entity)
             #define DROP_FIRE_END_X_TILE        59
             #define DROP_FIRE_INIT_Y_TILE       5
             #define DROP_FIRE_END_Y_TILE        9
-            #define DROP_FIRE_INIT_RESTORE_TILE 55
-            #define DROP_FIRE_NUM_RESTORE_TILE  3
+            #define DROP_FIRE_INIT_RESTORE_TILE 175
+            #define DROP_FIRE_NUM_RESTORE_TILE  6
 
             //we need to restore map tiles
             for (uint16_t i = DROP_FIRE_INIT_X_TILE; i <= DROP_FIRE_END_X_TILE; i++)            
