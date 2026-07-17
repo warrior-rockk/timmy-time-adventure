@@ -105,8 +105,9 @@ uint16_t fps_get()
 
 uint16_t clock_tick_get()
 {
-    if (tick)
-        return lastTickCount;
+    if (tick)        
+        //limit the accumulated lastTickCount because on after fades fps drop
+        return lastTickCount < 10 ? lastTickCount : 10;
     else   
         return 0;
 }
