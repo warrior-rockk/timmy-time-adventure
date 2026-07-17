@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="98">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="100">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -460,6 +460,8 @@
   <object id="94" template="enemies/medieval/ghost.tx" x="352" y="544"/>
   <object id="95" template="enemies/medieval/knight.tx" x="1520" y="416"/>
   <object id="96" template="enemies/medieval/ghost.tx" x="624" y="560"/>
-  <object id="97" template="enemies/medieval/knight.tx" x="1040" y="576"/>
+  <object id="97" template="enemies/medieval/knight.tx" x="1168" y="576"/>
+  <object id="98" name="torch-drop" type="object" x="1072" y="544" width="16" height="16"/>
+  <object id="99" template="triggers/debug-start.tx" x="1008" y="576"/>
  </objectgroup>
 </map>

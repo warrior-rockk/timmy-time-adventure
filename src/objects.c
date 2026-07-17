@@ -455,6 +455,16 @@ void object_create(tEntity *entity)
             entity->axis = E_ENT_AXIS_DOWN;         
             entity->properties = E_ENT_PROP_NO_PICKABLE || E_ENT_PROP_NO_BREAKABLE;                 
         break;
+        case E_TORCH_DROP_OBJECT_TYPE:            
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, TORDROP_BMP);
+            load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){16, 16};
+            entity->size = (tVector){16, 16};      
+            entity->axis = E_ENT_AXIS_DOWN;       
+            collision_create_entity_points(entity);
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -521,6 +531,7 @@ void object_update(tEntity *entity)
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
         case E_SPIKE_TRAP_OBJECT_TYPE:
+        case E_TORCH_DROP_OBJECT_TYPE:
             object_fall_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_QUICKSAND_OBJECT_TYPE:
@@ -1342,6 +1353,7 @@ void object_fall_update(tEntity *this, tDefaultObjectLocalData *local)
     
     //object animations
     #define ANIM_OBJECT_FALL_BREAK                1,  2, 10, ANIM_ONCE
+    #define ANIM_OBJECT_FALL_TORCH                0,  3, 10, ANIM_LOOP
 
     //get player
     tEntity *player = entity_get(entity_get_player_id());
@@ -1366,7 +1378,11 @@ void object_fall_update(tEntity *this, tDefaultObjectLocalData *local)
                 sfx_play(objectSfx[E_SFX_OBJECT_FALL], E_SFX_OBJECT_VOICE);
             }
             
-            this->anim.frame = 0;        
+            if (this->entType != E_TORCH_DROP_OBJECT_TYPE)
+                this->anim.frame = 0;        
+            else
+                play_animation(&this->anim, ANIM_OBJECT_FALL_TORCH);
+                
         break;
         case E_OBJECT_FALL_ST_FALL:
             this->fixVel.y = ftofix(OBJECT_FALL_FALL_VEL_Y);

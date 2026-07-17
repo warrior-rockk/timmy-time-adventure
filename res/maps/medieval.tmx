@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="98">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="160" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="100">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -1037,10 +1037,16 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
    </properties>
   </object>
-  <object id="97" name="knight" type="enemy" x="1040" y="576" width="20" height="32">
+  <object id="97" name="knight" type="enemy" x="1168" y="576" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+   </properties>
+  </object>
+  <object id="98" name="torch-drop" type="object" x="1072" y="544" width="16" height="16"/>
+  <object id="99" name="debug-start" type="object" x="1008" y="576" width="16" height="32">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
  </objectgroup>
