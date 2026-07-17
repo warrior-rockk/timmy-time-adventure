@@ -2259,10 +2259,11 @@ void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
 {
     //object defines
-    #define FIRE_DROP_FALL_VEL_Y        2.6
+    #define FIRE_DROP_FALL_VEL_Y        2.6    
     #define FIRE_DROP_WAIT_FALL         100
+    #define FIRE_DROP_WAIT_FALL_OFFSET  40
     #define FIRE_DROP_TILE              58
-    #define FIRE_DROP_POSITIONS         24
+    #define FIRE_DROP_POSITIONS         32
         
     //object states
     enum E_FIRE_DROP_OBJECT_STATES{E_FIRE_DROP_ST_IDLE, E_FIRE_DROP_ST_FALL, E_FIRE_DROP_ST_BREAK, E_FIRE_DROP_ST_STILL};
@@ -2273,7 +2274,8 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     //range: 52 to 59 tile x positions
     int16_t dropPosX[] = {54, 56, 53, 52, 57, 54, 55, 58, 
                           59, 55, 56, 57, 54, 58, 56, 52,
-                          54, 56, 53, 52, 57, 54, 55, 58};
+                          54, 56, 53, 52, 57, 53, 55, 58,
+                          52, 54, 52, 54, 57, 58, 58, 59};
 
     /*if (this->signal == E_ENT_SIGNAL_AWAKE)
     {
@@ -2291,7 +2293,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             //get the next drop pos
             this->fixPos.x = itofix(dropPosX[local->flag] * map_get_tile_size());
             
-            if (local->timer >= FIRE_DROP_WAIT_FALL)
+            if (local->timer >= (local->flag < (FIRE_DROP_POSITIONS >> 1) ? FIRE_DROP_WAIT_FALL : (FIRE_DROP_WAIT_FALL - FIRE_DROP_WAIT_FALL_OFFSET)))
             {
                 this->state++;
                 local->timer = 0;
