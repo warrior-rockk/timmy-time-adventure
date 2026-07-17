@@ -571,12 +571,19 @@ void enemy_init(tEntity *entity)
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;                
             
+            #define DROP_FIRE_INIT_X_TILE       52
+            #define DROP_FIRE_END_X_TILE        59
+            #define DROP_FIRE_INIT_Y_TILE       5
+            #define DROP_FIRE_END_Y_TILE        9
+            #define DROP_FIRE_INIT_RESTORE_TILE 55
+            #define DROP_FIRE_NUM_RESTORE_TILE  3
+
             //we need to restore map tiles
-            for (uint16_t i = 52; i <= 59; i++)            
+            for (uint16_t i = DROP_FIRE_INIT_X_TILE; i <= DROP_FIRE_END_X_TILE; i++)            
             {
-                for (uint16_t j = 5; j <= 9; j++)
+                for (uint16_t j = DROP_FIRE_INIT_Y_TILE; j <= DROP_FIRE_END_Y_TILE; j++)
                 {
-                    map_change_tile((tVector){i, j}, 55 + (rand() % 3), E_TILE_PROP_SOLID);
+                    map_change_tile((tVector){i, j}, DROP_FIRE_INIT_RESTORE_TILE + (rand() % DROP_FIRE_NUM_RESTORE_TILE), E_TILE_PROP_SOLID);
                 }
             }            
         break;
@@ -2277,14 +2284,6 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
                           54, 56, 53, 52, 57, 53, 55, 58,
                           52, 54, 52, 54, 57, 58, 58, 59};
 
-    /*if (this->signal == E_ENT_SIGNAL_AWAKE)
-    {
-        this->signal = E_ENT_SIGNAL_NONE;
-        this->pos = this->initPos;
-        this->fixPos = vector2fixvector(this->pos);
-        this->state = 0;        
-    }*/
-
     switch (this->state)
     {
         case E_FIRE_DROP_ST_IDLE:
@@ -2319,9 +2318,10 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
                 int16_t tileX = this->pos.x / map_get_tile_size();
                 int16_t tileY = (this->pos.y + this->size.y + fixtoi(this->fixVel.y)) / map_get_tile_size();
                 map_change_tile((tVector){tileX, tileY}, FIRE_DROP_TILE, E_TILE_PROP_NO_SOLID);
-                this->fixPos.x = itofix(tileX * 16);
-                this->fixPos.y = itofix(tileY * 16);
-                //this->anim.frame = 1;
+                //reposition animation on tile collided
+                this->fixPos.x = itofix(tileX * map_get_tile_size());
+                this->fixPos.y = itofix(tileY * map_get_tile_size());
+                
                 this->state = E_FIRE_DROP_ST_BREAK; 
                 sfx_play(enemySfx[E_SFX_ENEMY_FIRE_BREAK], E_SFX_ENEMY_VOICE);           
             }            

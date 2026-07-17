@@ -371,7 +371,6 @@ uint8_t map_get_tile_size()
 
 void map_change_tile(tVector tilePosition, uint8_t tileId, uint16_t tileProperty)
 {
-    MY_TRACE_FLAG("x %i y %i\n", tilePosition.x, tilePosition.y);
     map[(tilePosition.y * mapHeader.map_width) + tilePosition.x].tileId = tileId;
     map[(tilePosition.y * mapHeader.map_width) + tilePosition.x].tileProperty = tileProperty;
 }
