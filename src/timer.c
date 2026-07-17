@@ -107,7 +107,7 @@ uint16_t clock_tick_get()
 {
     if (tick)        
         //limit the accumulated lastTickCount because on after fades fps drop
-        return lastTickCount < 10 ? lastTickCount : 10;
+        return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
     else   
         return 0;
 }

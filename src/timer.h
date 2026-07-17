@@ -10,7 +10,8 @@
 #include <stdbool.h>
 #include "allegro.h"
 
-#define DELTA_TIME_LIMIT       6
+#define DELTA_TIME_LIMIT        6
+#define MAX_ACUMULATED_TICKS    10
 
 //inits the timer system specifing game tick duration on ms
 void timer_init(long gameTickDuration);
