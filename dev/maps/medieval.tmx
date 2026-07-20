@@ -549,7 +549,6 @@
   <object id="128" template="triggers/endLevel.tx" x="2736" y="560"/>
   <object id="130" template="enemies/medieval/skeleton.tx" x="160" y="96"/>
   <object id="131" template="enemies/medieval/skeleton.tx" x="544" y="96"/>
-  <object id="132" template="triggers/debug-start.tx" x="32" y="256"/>
   <object id="133" template="triggers/stopScroll.tx" x="1264" y="224">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
