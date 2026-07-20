@@ -571,8 +571,8 @@ void enemy_init(tEntity *entity)
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->flag = 0;
             ((tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data)->timer = 0;                
             
-            #define DROP_FIRE_INIT_X_TILE       52
-            #define DROP_FIRE_END_X_TILE        59
+            #define DROP_FIRE_INIT_X_TILE       164
+            #define DROP_FIRE_END_X_TILE        171
             #define DROP_FIRE_INIT_Y_TILE       5
             #define DROP_FIRE_END_Y_TILE        9
             #define DROP_FIRE_INIT_RESTORE_TILE 175
@@ -2278,11 +2278,11 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     //object animations
     #define ANIM_FIRE_DROP_BREAK                1,  2, 10, ANIM_ONCE
     
-    //range: 52 to 59 tile x positions
-    int16_t dropPosX[] = {54, 56, 53, 52, 57, 54, 55, 58, 
-                          59, 55, 56, 57, 54, 58, 56, 52,
-                          54, 56, 53, 52, 57, 53, 55, 58,
-                          52, 54, 52, 54, 57, 58, 58, 59};
+    //drop X tile offset
+    int16_t dropPosX[] = {2, 4, 1, 0, 5, 2, 3, 6, 
+                          7, 3, 4, 5, 2, 6, 4, 0,
+                          2, 4, 1, 0, 5, 1, 3, 6,
+                          0, 2, 0, 2, 5, 6, 6, 7};
 
     switch (this->state)
     {
@@ -2290,7 +2290,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->fixVel.y = 0;
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             //get the next drop pos
-            this->fixPos.x = itofix(dropPosX[local->flag] * map_get_tile_size());
+            this->fixPos.x = itofix((DROP_FIRE_INIT_X_TILE + dropPosX[local->flag]) * map_get_tile_size());
             
             if (local->timer >= (local->flag < (FIRE_DROP_POSITIONS >> 1) ? FIRE_DROP_WAIT_FALL : (FIRE_DROP_WAIT_FALL - FIRE_DROP_WAIT_FALL_OFFSET)))
             {
