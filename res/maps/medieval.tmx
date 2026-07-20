@@ -1062,7 +1062,7 @@
   </object>
   <object id="102" name="solid" type="object" x="1328" y="512" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="levels" value="0"/>
+    <property name="spare" type="int" propertytype="levels" value="2"/>
    </properties>
   </object>
   <object id="103" name="medieval-platform" type="platform" x="1392" y="544" width="32" height="16">

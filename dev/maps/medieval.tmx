@@ -477,7 +477,11 @@
     <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
    </properties>
   </object>
-  <object id="102" template="objects/solid.tx" x="1328" y="512"/>
+  <object id="102" template="objects/solid.tx" x="1328" y="512">
+   <properties>
+    <property name="spare" type="int" propertytype="levels" value="2"/>
+   </properties>
+  </object>
   <object id="103" template="platforms/medieval-platform.tx" x="1392" y="544">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="2"/>

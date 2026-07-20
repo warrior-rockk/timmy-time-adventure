@@ -206,6 +206,9 @@ void object_create(tEntity *entity)
                 case E_GAME_LEVEL_EGYPT:
                     load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK4_BMP);
                 break;
+                case E_GAME_LEVEL_MEDIEVAL:
+                    load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCK6_BMP);
+                break;
             }            
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
