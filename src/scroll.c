@@ -121,28 +121,47 @@ bool scroll_position_on_region(tVector checkPosition)
 
 static void scroll_update_x(tVector cameraTarget, bool init)
 {
-    //updates X scroll position
-    switch (scroll.mode)    
+    //if init, posiion scroll as normal (cameraTarget)
+    if (init)
     {
-        //continuous follow camera
-        case E_SCROLL_MODE_ALL_MOVE:
-        case E_SCROLL_MODE_BY_WINDOW_Y_ONLY:
-            if (cameraTarget.x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
-                scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
-            else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
-                scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;
-        break;
-        case E_SCROLL_MODE_AUTOSCROLL_X:
-            scroll.fixPos.x += ftofix(0.4);
-            scroll.pos.x = fixtoi(scroll.fixPos.x);
-        break;
+        if (cameraTarget.x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
+            scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
+        else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
+            scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;    
+    }
+    else
+    {
+        //check scroll mode
+        switch (scroll.mode)    
+        {
+            case E_SCROLL_MODE_ALL_MOVE:
+            case E_SCROLL_MODE_BY_WINDOW_Y_ONLY:
+                if (cameraTarget.x > (scroll.window.x >> 1) + scroll.pos.x + SCROLL_OFFSET_X)
+                    scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) - SCROLL_OFFSET_X;
+                else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
+                    scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;
+            break;
+            case E_SCROLL_MODE_AUTOSCROLL_X:
+                scroll.fixPos.x += ftofix(SCROLL_AUTOSCROLL_VEL);
+                scroll.pos.x = fixtoi(scroll.fixPos.x);
+            break;
+        }
     }
     
+    //check stop scroll x right
     if (scroll.pos.x > scroll.stopScroll.right - scroll.window.x && scroll.stopScroll.right)
+    {
         scroll.pos.x = scroll.stopScroll.right - scroll.window.x;
-    
+        //reset fixed part
+        scroll.fixPos.x = itofix(scroll.pos.x);
+    }
+    //check stop scroll x left
     if (scroll.pos.x < scroll.stopScroll.left && scroll.stopScroll.left)
+    {
         scroll.pos.x = scroll.stopScroll.left;
+        //reset fixed part
+        scroll.fixPos.x = itofix(scroll.pos.x);
+    }
 
     //MY_TRACE_FLAG("update x pos.x %i stopScroLeft %i\n", scroll.pos.x, scroll.stopScroll.left);
 
@@ -155,6 +174,10 @@ static void scroll_update_x(tVector cameraTarget, bool init)
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
     //add shake value
     scroll.pos.x += scroll.shakeValue.x;
+
+    //if init, set fixed part
+    if (init)
+        scroll.fixPos.x = itofix(scroll.pos.x);
 }
 
 static void scroll_update_y(tVector cameraTarget, bool init)
@@ -302,4 +325,9 @@ void scroll_shake_camera()
 void scroll_set_scroll_mode(uint8_t mode)
 {
     scroll.mode = mode;
+}
+
+uint8_t scroll_get_scroll_mode()
+{
+    return scroll.mode;
 }

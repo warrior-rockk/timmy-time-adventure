@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="133">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="137">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -1112,11 +1112,6 @@
     <property name="spare" type="int" value="8"/>
    </properties>
   </object>
-  <object id="115" name="scroll-mode" type="object" x="1200" y="208" width="16" height="16">
-   <properties>
-    <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
-   </properties>
-  </object>
   <object id="116" name="torch-drop" type="object" x="816" y="544" width="16" height="16"/>
   <object id="117" name="torch-drop" type="object" x="1504" y="544" width="16" height="16"/>
   <object id="118" name="checkpoint" type="trigger" x="16" y="576" width="16" height="32">
@@ -1175,6 +1170,21 @@
   <object id="132" name="debug-start" type="object" x="32" y="256" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+   </properties>
+  </object>
+  <object id="133" name="stopScroll" type="trigger" x="1264" y="224" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
+   </properties>
+  </object>
+  <object id="135" name="stopScroll" type="trigger" x="272" y="304" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="stopScroll" value="4"/>
+   </properties>
+  </object>
+  <object id="136" name="scroll-mode" type="object" x="2720" y="16" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
    </properties>
   </object>
  </objectgroup>

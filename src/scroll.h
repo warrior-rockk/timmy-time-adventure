@@ -22,6 +22,7 @@
 
 #define SCROLL_SHAKE_VELOCITY       2
 #define SCROLL_SHAKE_DURATION       20
+#define SCROLL_AUTOSCROLL_VEL       0.4
 
 //scroll modes
 enum E_SCROLL_MODE
@@ -91,4 +92,6 @@ int16_t scroll_get_stop_scroll(uint8_t dir);
 void scroll_shake_camera();
 //sets the scroll mode
 void scroll_set_scroll_mode(uint8_t mode);
+//gets scroll mode
+uint8_t scroll_get_scroll_mode();
 #endif
