@@ -124,6 +124,9 @@ bool collision_check_entity_col_points(uint16_t entityId);
 uint8_t collision_check_tile(tEntity *idEntity, uint16_t pointNum);
 //function to check collision between entities
 uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_PROCESS_MODE mode);
+//Function to check collision between entity and AABB (axis aligned bounding box). Mode selects horizontal, vertical or both collisions
+//Position the entityA to edge of collision (if not mode INFOONLY) and returns collision direction or 0 if not collided
+uint8_t collision_check_AABB(tEntity *entityA, tFixVector shapeBPos, tVector shapeBSize, enum E_CHECK_PROCESS_MODE mode);
 //check the tile property to determine the collision behaviour based on colDir (return 1 if collided or 0 no collided)
 bool collision_check_by_direction(tEntity *entity, uint8_t colDir, uint16_t tileProperty);
 //return the property of tile on collision point number

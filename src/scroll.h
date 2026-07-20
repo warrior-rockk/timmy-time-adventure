@@ -30,6 +30,7 @@ enum E_SCROLL_MODE
     E_SCROLL_MODE_ALL_MOVE,         //continuous follow camera
     E_SCROLL_MODE_BY_WINDOW,        //continuous follow camera adjusting to scroll window screen
     E_SCROLL_MODE_BY_WINDOW_Y_ONLY, //continuous follow camera adjusting only Y to scroll window screen
+    E_SCROLL_MODE_AUTOSCROLL_X,     //scroll moves automatically on x coordinate
 };
 
 //scroll movements on by Window mode

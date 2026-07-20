@@ -862,6 +862,86 @@ uint8_t collision_check_entity(tEntity *entityA, tEntity *entityB, enum E_CHECK_
     return colDir;
 }
 
+//Function to check collision between entity and AABB (axis aligned bounding box). Mode selects horizontal, vertical or both collisions
+//Position the entityA to edge of collision (if not mode INFOONLY) and returns collision direction or 0 if not collided
+uint8_t collision_check_AABB(tEntity *entityA, tFixVector shapeBPos, tVector shapeBSize, enum E_CHECK_PROCESS_MODE mode)
+{
+    fixed vcX, vcY, addHW, addHH, oX, oY, hWA, hHA, hWB, hHB;
+    uint8_t colDir = 0;
+
+	//get half of size of entities
+    hWA = itofix(entityA->size.x>>1);
+    hHA = itofix(entityA->size.y>>1);
+    hWB = itofix(shapeBSize.x>>1);
+    hHB = itofix(shapeBSize.y>>1);
+
+	//Obtains the center horizontal position vectors with the velocities
+    if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
+		vcX = (entityA->fixPos.x + hWA + entityA->fixVel.x) - (shapeBPos.x + hWB);
+	else
+		vcX = (entityA->fixPos.x + hWA) - (shapeBPos.x + hWB);
+    //Obtains the center vertical position vectors with the velocities
+	if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_VERTICALAXIS || mode == E_CHECK_PROCESS_INFOONLY )
+		vcY = (entityA->fixPos.y + hHA + entityA->fixVel.y) - (shapeBPos.y + hHB);
+	else
+		vcY = (entityA->fixPos.y + hHA) - (shapeBPos.y + hHB);
+	
+	//add half of size of entities
+	addHW = hWA + hWB;
+	addHH = hHA + hHB;
+	
+    //if the x and y vectors are minus than half of sizes, there's collision
+    if (abs(vcX) < addHW && abs(vcY) < addHH) 
+    {    
+		//calculate the collision direction
+        oX = addHW - abs(vcX);
+        oY = addHH - abs(vcY);
+        
+		if (oX >= oY)
+        { 
+            if (mode==E_CHECK_PROCESS_BOTHAXIS || mode==E_CHECK_PROCESS_VERTICALAXIS || mode==E_CHECK_PROCESS_INFOONLY )
+            {
+                if (vcY > 0) 			
+                {
+					colDir =  E_COLLISION_DIR_UP;
+					if (mode != E_CHECK_PROCESS_INFOONLY)
+                        ; //not need to adjust position with collision UP. Prevents object throwing sink the player on terrain
+                        //entityA->fixPos.y += oY + entityA->fixVel.y;
+                }    
+				else
+                { 
+					colDir = E_COLLISION_DIR_DOWN;	
+					if (mode != E_CHECK_PROCESS_INFOONLY)
+					    entityA->fixPos.y -= oY - entityA->fixVel.y - 1;
+					
+				}
+            }
+        }
+        else
+        {
+			if (mode == E_CHECK_PROCESS_BOTHAXIS || mode == E_CHECK_PROCESS_HORIZONTALAXIS || mode == E_CHECK_PROCESS_INFOONLY)
+			{	
+                if (vcX > 0) 
+                {
+					colDir = E_COLLISION_DIR_LEFT;
+					if (mode != E_CHECK_PROCESS_INFOONLY)
+					    entityA->fixPos.x += oX + entityA->fixVel.x;
+					
+                }
+                else
+                { 
+					colDir = E_COLLISION_DIR_RIGHT;
+					if (mode != E_CHECK_PROCESS_INFOONLY)
+						entityA->fixPos.x -= oX - entityA->fixVel.x;
+				}
+            }
+        }
+	}
+        
+    //returns the collision dir
+    return colDir;
+}
+
 bool collision_check_entity_col_points(uint16_t entityId)
 {
     //find entity id on collision points list

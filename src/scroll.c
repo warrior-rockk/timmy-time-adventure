@@ -132,6 +132,10 @@ static void scroll_update_x(tVector cameraTarget, bool init)
             else if ((cameraTarget.x < (scroll.window.x >> 1) + scroll.pos.x - SCROLL_OFFSET_X))
                 scroll.pos.x = cameraTarget.x - (scroll.window.x >> 1) + SCROLL_OFFSET_X;
         break;
+        case E_SCROLL_MODE_AUTOSCROLL_X:
+            scroll.fixPos.x += ftofix(0.4);
+            scroll.pos.x = fixtoi(scroll.fixPos.x);
+        break;
     }
     
     if (scroll.pos.x > scroll.stopScroll.right - scroll.window.x && scroll.stopScroll.right)
@@ -180,6 +184,7 @@ static void scroll_update_y(tVector cameraTarget, bool init)
         //moves the scroll only when change the size of scroll window +/- range
         case E_SCROLL_MODE_BY_WINDOW:
         case E_SCROLL_MODE_BY_WINDOW_Y_ONLY:
+        case E_SCROLL_MODE_AUTOSCROLL_X:    //on mode autoscroll x, sets window y
             //if not shaking
             if (!scroll.cameraShake)
             {

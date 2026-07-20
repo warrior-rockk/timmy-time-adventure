@@ -223,7 +223,8 @@
                 "E_SCROLL_MODE_NONE",
                 "E_SCROLL_MODE_ALL_MOVE",
                 "E_SCROLL_MODE_BY_WINDOW",
-                "E_SCROLL_MODE_BY_WINDOW_Y_ONLY"
+                "E_SCROLL_MODE_BY_WINDOW_Y_ONLY",
+                "E_SCROLL_MODE_AUTOSCROLL_X"
             ],
             "valuesAsFlags": false
         },
