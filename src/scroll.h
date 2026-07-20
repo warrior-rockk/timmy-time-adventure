@@ -81,6 +81,8 @@ bool scroll_rect_on_region(tRectangle rect);
 bool scroll_position_on_region(tVector checkPosition);
 //returns scroll position
 tVector scroll_get_position();
+//returns scroll fxied position
+tFixVector scroll_get_fix_position();
 //set stop scroll value for a stop scroll direction (left, right, down or up)
 void scroll_stop_scroll(uint8_t dir, int16_t value);
 //get stop scroll values for a stop scroll direction (left, right, down or up)

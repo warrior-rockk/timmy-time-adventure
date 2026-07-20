@@ -248,6 +248,11 @@ tVector scroll_get_position()
     return scroll.pos;
 }
 
+tFixVector scroll_get_fix_position()
+{
+    return scroll.fixPos;
+}
+
 void scroll_stop_scroll(uint8_t dir, int16_t value)
 {
     switch (dir)
