@@ -220,11 +220,11 @@
             "storageType": "int",
             "type": "enum",
             "values": [
-                "E_SCROLL_MODE_NONE",
-                "E_SCROLL_MODE_ALL_MOVE",
-                "E_SCROLL_MODE_BY_WINDOW",
-                "E_SCROLL_MODE_BY_WINDOW_Y_ONLY",
-                "E_SCROLL_MODE_AUTOSCROLL_X"
+                "SCROLL_NONE",
+                "SCROLL_MOVE_ALL",
+                "SCROLL_BY_WINDOW",
+                "SCROLL_BY_WINDOW_Y_ONLY",
+                "SCROLL_AUTOSCROLL_X"
             ],
             "valuesAsFlags": false
         },
