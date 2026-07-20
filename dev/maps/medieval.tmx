@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="128">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="129">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -408,7 +408,7 @@
     <property name="spare" type="int" value="3"/>
    </properties>
   </object>
-  <object id="66" template="enemies/medieval/cannon.tx" type="object" x="184.45" y="101.727"/>
+  <object id="66" template="enemies/medieval/cannon.tx" type="object" x="189.667" y="103.667"/>
   <object id="70" template="enemies/medieval/spike-ball.tx" type="enemy" x="1872" y="80"/>
   <object id="72" template="enemies/medieval/spike-ball.tx" type="enemy" x="1952" y="176"/>
   <object id="73" template="enemies/medieval/spike-ball.tx" type="enemy" x="1872" y="272"/>
@@ -550,6 +550,7 @@
     <property name="spare" type="int" value="9"/>
    </properties>
   </object>
-  <object id="127" template="triggers/debug-start.tx" x="2688" y="16"/>
+  <object id="127" template="triggers/debug-start.tx" x="64" y="96"/>
+  <object id="128" template="triggers/endLevel.tx" x="2736" y="560"/>
  </objectgroup>
 </map>

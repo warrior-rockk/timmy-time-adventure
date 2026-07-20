@@ -426,7 +426,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){16, 16};                          
             entity->size = (tVector){16, 16};  
-            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                              
         break;
         case E_FIRE_DROP_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, FIREDROP_BMP);

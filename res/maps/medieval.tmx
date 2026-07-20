@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="128">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="129">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -934,7 +934,7 @@
     <property name="spare" type="int" value="3"/>
    </properties>
   </object>
-  <object id="66" name="cannon" type="object" x="184.45" y="101.727" width="46" height="24"/>
+  <object id="66" name="cannon" type="object" x="189.667" y="103.667" width="46" height="24"/>
   <object id="70" name="spike-ball" type="enemy" x="1872" y="80" width="16" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="2"/>
@@ -1154,9 +1154,14 @@
     <property name="spare" type="int" value="9"/>
    </properties>
   </object>
-  <object id="127" name="debug-start" type="object" x="2688" y="16" width="16" height="32">
+  <object id="127" name="debug-start" type="object" x="64" y="96" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+   </properties>
+  </object>
+  <object id="128" name="endLevel" type="object" x="2736" y="560" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="endType" value="0"/>
    </properties>
   </object>
  </objectgroup>

@@ -456,7 +456,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){50, 58};                          
             entity->size = (tVector){46, 24};
             entity->axis = E_ENT_AXIS_DOWN;         
-            entity->properties = E_ENT_PROP_NO_PICKABLE || E_ENT_PROP_NO_BREAKABLE;                 
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                             
         break;
         case E_TORCH_DROP_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, TORDROP_BMP);
