@@ -1942,7 +1942,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
 void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
-    #define CANNON_DEFAULT_TIMER    200   
+    #define CANNON_DEFAULT_TIMER    120   
 
     //object animations
     #define ANIM_CANNON_IDLE_FRAME   0
