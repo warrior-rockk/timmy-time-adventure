@@ -514,7 +514,10 @@ static void player_update_collisions(tEntity *player)
 
     //check collision with autoscroll
     tFixVector scrollPosition = scroll_get_fix_position();    
+    //left
     collision_check_AABB(player, scrollPosition, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS);
+    //right
+    collision_check_AABB(player, (tFixVector){scrollPosition.x + itofix(GAME_W - 1), scrollPosition.y}, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS);
 }
 
 static void player_update_state(tEntity *player)
