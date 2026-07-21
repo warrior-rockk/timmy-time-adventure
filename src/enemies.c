@@ -385,6 +385,8 @@ void enemy_create(tEntity *entity)
         break;
         case E_GHOST_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, GHOST_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_GHOST_APPEAR], enemyDataFileIndex, APPEAR_WAV);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_GHOST_DISAPPEAR], enemyDataFileIndex, DAPPEAR_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){102, 65};                          
             entity->size = (tVector){18, 30};       
@@ -1957,8 +1959,8 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    //enemy definitions
     #define GHOST_VELOCITY            1.4
+    //enemy definitions
     #define GHOST_PATROL_VELOCITY     0.8
     #define GHOST_PLAYER_RANGE        100
     #define GHOST_PLAYER_RANGE_CHASE  20
@@ -1993,7 +1995,7 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
                 {
                     this->state++;
                     this->visible = true;            
-                    
+                    sfx_play(enemySfx[E_SFX_ENEMY_GHOST_APPEAR], E_SFX_ENEMY_VOICE);
                 }
                 else
                     this->visible = false;
@@ -2013,7 +2015,8 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
                 (!this->dir && this->pos.x <= local->flag))
             {
                 this->state++;      
-                this->fixVel.x = 0;                              
+                this->fixVel.x = 0;   
+                sfx_play(enemySfx[E_SFX_ENEMY_GHOST_DISAPPEAR], E_SFX_ENEMY_VOICE);                           
             }
             else
             {
