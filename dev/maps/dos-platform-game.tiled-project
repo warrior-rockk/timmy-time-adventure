@@ -107,6 +107,18 @@
             "valuesAsFlags": true
         },
         {
+            "id": 30,
+            "name": "ghostSpare",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "NO_PATROL",
+                "PATROL",
+                "CHASE"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "id": 5,
             "name": "items",
             "storageType": "int",

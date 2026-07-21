@@ -2,7 +2,7 @@
 <template>
  <object name="ghost" type="enemy" width="20" height="32">
   <properties>
-   <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
+   <property name="spare" type="int" propertytype="ghostSpare" value="0"/>
   </properties>
  </object>
 </template>

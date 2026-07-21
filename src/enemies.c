@@ -1949,7 +1949,8 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy definitions
     #define GHOST_VELOCITY            1.4
     #define GHOST_PATROL_VELOCITY     0.8
-    #define GHOST_PLAYER_RANGE        50
+    #define GHOST_PLAYER_RANGE        100
+    #define GHOST_PLAYER_RANGE_CHASE  20
     #define GHOST_WAIT_TIME           140
     #define GHOST_PATROL_RANGE        100
         
@@ -1959,14 +1960,17 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_GHOST_DISAPPEAR     8,   11, 10,  ANIM_ONCE
     
     //enemy states
-    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_APPEAR, E_GHOST_ST_FLY, E_GHOST_ST_DISSAPEAR, E_GHOST_ST_WAIT, E_GHOST_ST_PATROL};   
+    enum E_GHOST_ENEMY_STATES{E_GHOST_ST_IDLE, E_GHOST_ST_APPEAR, E_GHOST_ST_FLY, E_GHOST_ST_DISSAPEAR, E_GHOST_ST_WAIT, E_GHOST_ST_PATROL};  
+    
+    //ghost spare types
+    enum E_GHOST_SPARE{E_GHOST_SPARE_NO_PATROL, E_GHOST_SPARE_PATROL, E_GHOST_SPARE_CHASE};
 
     tEntity *player = entity_get(entity_get_player_id());
 
     switch (this->state)
     {
         case E_GHOST_ST_IDLE:
-            if (this->spare)    //patrol?
+            if (this->spare == E_GHOST_SPARE_PATROL)    //patrol?
             {
                 this->state = E_GHOST_ST_PATROL;
             }
@@ -1974,7 +1978,7 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
             {
                 SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 //check range of player            
-                if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
+                if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->spare == E_GHOST_SPARE_CHASE ? GHOST_PLAYER_RANGE_CHASE : GHOST_PLAYER_RANGE))
                 {
                     this->state++;
                     this->visible = true;            

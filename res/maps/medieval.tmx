@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="149">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="150">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -692,31 +692,31 @@
   <object id="11" name="ghost" type="enemy" x="2416" y="368" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="18" name="ghost" type="enemy" x="2416" y="304" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="19" name="ghost" type="enemy" x="2416" y="224" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="22" name="ghost" type="enemy" x="2416" y="128" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="23" name="ghost" type="enemy" x="2368" y="16" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="14" name="stopScroll" type="trigger" x="2304" y="416" width="16" height="16">
@@ -965,13 +965,13 @@
   <object id="71" name="ghost" type="enemy" x="1888" y="48" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="81" name="ghost" type="enemy" x="1888" y="240" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="1"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
   <object id="86" name="door-in" type="trigger" x="1728" y="416" width="32" height="32">
@@ -1033,13 +1033,13 @@
   <object id="93" name="ghost" type="enemy" x="224.25" y="552" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="0"/>
    </properties>
   </object>
   <object id="94" name="ghost" type="enemy" x="352" y="552.25" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="0"/>
    </properties>
   </object>
   <object id="95" name="knight" type="enemy" x="1520" y="416" width="20" height="32">
@@ -1051,7 +1051,7 @@
   <object id="96" name="ghost" type="enemy" x="624" y="560" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" propertytype="egyptianSpare" value="0"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="0"/>
    </properties>
   </object>
   <object id="97" name="knight" type="enemy" x="1200" y="576" width="20" height="32">
@@ -1223,9 +1223,15 @@
     <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
    </properties>
   </object>
-  <object id="148" name="debug-start" type="object" x="80" y="80" width="16" height="32">
+  <object id="148" name="debug-start" type="object" x="64" y="576" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+   </properties>
+  </object>
+  <object id="149" name="ghost" type="enemy" x="1856" y="565.333" width="18" height="30">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" propertytype="ghostSpare" value="2"/>
    </properties>
   </object>
  </objectgroup>
