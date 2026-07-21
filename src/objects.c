@@ -1991,6 +1991,12 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
                 sfx_play(objectSfx[E_SFX_CANNON], E_SFX_OBJECT_VOICE);                
                 entity_create(E_ENT_CLASS_ENEMY, E_CANNONBALL_ENEMY_TYPE, (tVector){this->pos.x, this->pos.y + 0}, this->dir, this->spare);
             }
+            
+            if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            {
+                //hurt player if collided
+                entity_get(entity_get_player_id())->signal = E_ENT_SIGNAL_HURT;                
+            }
         break;
     }    
 }
