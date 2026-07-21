@@ -387,7 +387,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, GHOST_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){102, 65};                          
-            entity->size = (tVector){20, 32};       
+            entity->size = (tVector){18, 30};       
             entity->axis = E_ENT_AXIS_UP;   
             if (entity->spare) //patrol?
                 collision_create_entity_points(entity);
@@ -1950,7 +1950,7 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define GHOST_VELOCITY            1.4
     #define GHOST_PATROL_VELOCITY     0.8
     #define GHOST_PLAYER_RANGE        50
-    #define GHOST_WAIT_TIME           200
+    #define GHOST_WAIT_TIME           140
     #define GHOST_PATROL_RANGE        100
         
     //enemy animations
