@@ -99,3 +99,9 @@
 - [ ] Save half entity sizes on structure?
 - [ ] For tiles, do the same as entities. Create sub-bitmap from tileSheet on the fly
 - [ ] Collision points on entity structure?
+
+# Next engine gen
+- [ ] Flip tiles
+- [ ] 2 Layer tiles
+- [ ] Tiles with same tile id but different properties
+- [ ] Parallax

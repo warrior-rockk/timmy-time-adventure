@@ -22,7 +22,7 @@
 
 #define SCROLL_SHAKE_VELOCITY       2
 #define SCROLL_SHAKE_DURATION       20
-#define SCROLL_AUTOSCROLL_VEL       0.4
+#define SCROLL_AUTOSCROLL_VEL       0.6
 
 //scroll modes
 enum E_SCROLL_MODE
