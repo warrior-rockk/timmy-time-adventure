@@ -439,6 +439,14 @@ void enemy_create(tEntity *entity)
             entity->properties = E_ENT_PROP_NO_HURT;     
             collision_create_entity_points(entity);             
         break;
+        case E_MEDIEVAL_ARMOUR_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARMOUR_BMP);
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);            
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){51, 46};                          
+            entity->size = (tVector){12, 32};  
+            entity->axis = E_ENT_AXIS_DOWN;
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -552,6 +560,9 @@ void enemy_update(tEntity *entity)
         break;        
         case E_FIRE_DROP_ENEMY_TYPE:             
             enemy_fire_drop_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;        
+        case E_MEDIEVAL_ARMOUR_ENEMY_TYPE:             
+            enemy_medieval_armour_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         default:
         break;
@@ -2354,6 +2365,85 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->fixVel.y = 0;                                                        
         break;
     }
+}
+
+void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    #define ARMOUR_PLAYER_RANGE               50
+    #define ARMOUR_ATTACK_FRAME               6
+    #define ARMOUR_HITBOX_X_OFFSET_LEFT       22
+    #define ARMOUR_HITBOX_X_OFFSET_RIGHT      6
+    #define ARMOUR_HITBOX_Y_OFFSET            6
+    #define ARMOUR_HITBOX_DURATION            20
+    #define ARMOUR_WAIT_ATTACK                50
+    
+    //enemy animations
+    #define ANIM_ARMOUR_IDLE   0,   0,  10, ANIM_LOOP
+    #define ANIM_ARMOUR_ATACK  1,   8,  8, ANIM_PING_PONG_ONCE    
+    #define ANIM_ARMOUR_DEAD   8,   15,  8, ANIM_ONCE
+
+    //enemy states
+    enum E_ARMOUR_ENEMY_STATES{E_ARMOUR_ST_IDLE, E_ARMOUR_ST_ATTACK, E_ARMOUR_ST_WAIT, E_ARMOUR_ST_HURT};   
+
+    tEntity *player;
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)
+        this->state = E_ARMOUR_ST_HURT;    
+    
+    switch (this->state)
+    {
+        case E_ARMOUR_ST_IDLE:                        
+            this->dir = E_ENT_DIR_LEFT;    
+            
+            //check range of player
+            player = entity_get(entity_get_player_id());
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, ARMOUR_PLAYER_RANGE))
+                this->state = E_ARMOUR_ST_ATTACK;
+
+            play_animation(&this->anim, ANIM_ARMOUR_IDLE);
+        break;        
+        case E_ARMOUR_ST_ATTACK:
+            if (this->anim.frame >= ARMOUR_ATTACK_FRAME)
+                SET_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+
+            player = entity_get(entity_get_player_id());
+            this->dir = player->pos.x > this->pos.x;
+
+            if (this->anim.frame == ARMOUR_ATTACK_FRAME)
+            {
+                if (!local->flag)
+                {
+                    local->flag = true;
+                    int16_t hitX = this->dir == E_ENT_DIR_LEFT ? -ARMOUR_HITBOX_X_OFFSET_LEFT : this->size.x + ARMOUR_HITBOX_X_OFFSET_RIGHT; 
+                    sfx_play(enemySfx[E_SFX_ENEMY_SWORD], E_SFX_ENEMY_VOICE);
+                    entity_create(E_ENT_CLASS_ENEMY, E_HITBOX_ENEMY_TYPE, (tVector){this->pos.x + hitX, this->pos.y + ARMOUR_HITBOX_Y_OFFSET}, this->dir, ARMOUR_HITBOX_DURATION);
+                }               
+            }
+            else
+                local->flag = false;
+
+            if (play_animation(&this->anim, ANIM_ARMOUR_ATACK))
+            {
+                this->state = E_ARMOUR_ST_WAIT;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_HURT);
+            }
+        break;   
+        case E_ARMOUR_ST_WAIT:        
+            if (local->timer >= ARMOUR_WAIT_ATTACK)
+            {
+                this->state = E_ARMOUR_ST_IDLE;                
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+            
+            play_animation(&this->anim, ANIM_ARMOUR_IDLE);
+        break;
+        case E_ARMOUR_ST_HURT:
+            enemy_dead(this, ANIM_ARMOUR_DEAD);            
+        break;
+    }       
 }
 
 void enemy_trace(tEntity *this)

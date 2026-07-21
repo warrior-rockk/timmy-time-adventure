@@ -95,6 +95,7 @@ enemy_ent_types = [
     "spike-ball"    ,    
     "cannon-ball"   ,
     "fire-drop"     ,
+    "medieval-armour",
 ]
 
 enemy_ent_types = {name: index for index, name in enumerate(enemy_ent_types)}

@@ -105,3 +105,4 @@
 - [ ] 2 Layer tiles
 - [ ] Tiles with same tile id but different properties
 - [ ] Parallax
+- [ ] Parse sprite dimensions and animations from aseprite json

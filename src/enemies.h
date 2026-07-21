@@ -44,6 +44,7 @@ enum E_ENEMY_TYPE
     E_SPIKE_BALL_ENEMY_TYPE,
     E_CANNONBALL_ENEMY_TYPE,
     E_FIRE_DROP_ENEMY_TYPE,
+    E_MEDIEVAL_ARMOUR_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -138,4 +139,5 @@ void enemy_skeleton_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_spike_ball_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_cannon_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local);
 #endif
