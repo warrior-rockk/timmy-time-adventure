@@ -287,7 +287,7 @@ static void player_update_controls(tEntity *player)
                 }
 
                 //apply y acceleration
-                player->fixVel.y += -accelY;
+                player->fixVel.y += fixmul(-accelY, ftofix(deltaTime));
                 //if reached max jump velocity, set flag
                 if (player->fixVel.y < -(maxVelY))
                     playerFlags.jump = true;

@@ -90,9 +90,8 @@ void timer_end_frame(double *deltaTime)
     //limit delta time
     if (*deltaTime > DELTA_TIME_LIMIT)
         *deltaTime = 1;
-
-    //TODO: deltaTime disable
-    *deltaTime = 1;
+    else if (*deltaTime > 1)
+        *deltaTime = 1.8;
     
     tick = false;
     tick1sec = false;
