@@ -1555,7 +1555,11 @@ void game_hud_draw()
     //update time
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_TIME))
     {
-        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+        #if DEBUG_FPS_ON_CLOCK
+            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", fps_get());
+        #else
+            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
+        #endif
     }
 
     //reset refresh flags
