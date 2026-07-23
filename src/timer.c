@@ -104,16 +104,24 @@ uint16_t fps_get()
 
 uint16_t clock_tick_get()
 {
+    #if ALLEGRO_USES_TIMER
     if (tick)        
         //limit the accumulated lastTickCount because on after fades fps drop
         return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
     else   
         return 0;
+    #else
+        return 1;
+    #endif
 }
 
 bool clock_counter_check(uint16_t time)
 {
-    return ((tickCounter % time) == 0 && tick);
+    #if ALLEGRO_USES_TIMER
+        return ((tickCounter % time) == 0 && tick);
+    #else
+        return 1;
+    #endif
 }
 
 int16_t clock_counter_get()

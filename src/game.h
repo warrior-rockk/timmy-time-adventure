@@ -14,7 +14,7 @@
 #define CONFIG_FILE             "GAME.CFG"
 
 //allegro engine
-#define ALLEGRO_USES_TIMER      1
+#define ALLEGRO_USES_TIMER      0
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
 #define ALLEGRO_USES_SOUND      1
