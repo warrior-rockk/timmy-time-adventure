@@ -6,6 +6,10 @@
 - [ ] PERFORMANCE: egypt level low performance on 86box
 - [ ] PERFORMANCE: with deltaTime, egypt quick sand kills player
 
+# Performance
+- [ ] Draw map: only draw_sprite front tiles. Use blit for backLayer
+- [ ] Draw map: more background color tiles?
+
 # Engine
 
 - [ ] Use fixed for scroll main movements and velocities
