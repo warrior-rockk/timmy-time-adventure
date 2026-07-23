@@ -8,6 +8,8 @@
 #define _H_TIMER_
 
 #include <stdbool.h>
+#include <time.h>
+
 #include "allegro.h"
 
 #define DELTA_TIME_LIMIT        6
@@ -29,4 +31,8 @@ bool clock_tick_1sec_get();
 bool clock_counter_check(uint16_t time);
 //returns clock counter value 
 int16_t clock_counter_get();
+
+void profile_start();
+void profile_end();
+double profile_get_time();
 #endif

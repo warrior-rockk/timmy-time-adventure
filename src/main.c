@@ -5,6 +5,7 @@
 * Warcom Soft. - warrior.rockk@gmail.com
 ********************************************************************/
 #include <stdio.h>
+
 #include "allegro.h"
 
 #include "utils.h"
@@ -30,8 +31,8 @@ int main()
     do
     {
         timer_start_frame();
-        playTime_update(clock_tick_1sec_get());
-
+        playTime_update(clock_tick_1sec_get());        
+        
         #ifdef DEBUGMODE
             if (debugOptions.stepByStep)
             {
@@ -39,13 +40,18 @@ int main()
             }
             else
             {
-                game_update();
-                game_draw();                   
+                profile_start();
+                game_update();                
+                game_draw();    
+                profile_end();              
             }
         #else
             game_update();
             game_draw();
         #endif
+
+        MY_TRACE_FLAG("La funcion tardo %f milisegundos en ejecutarse.\n", profile_get_time() * 1000);
+
     } while (!gameExit);
     
     main_exit();

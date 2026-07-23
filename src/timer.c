@@ -16,6 +16,9 @@ uint8_t tick1SecCount;      //for tick1sec
 uint16_t trace;             //trace video counter for calculate delta time
 uint16_t tickCounter;        //general clock tick counter
 
+uclock_t profileStart, profileEnd;
+double profileTime;
+
 //update fps callback
 static void update_fps(void)
 {
@@ -132,4 +135,17 @@ int16_t clock_counter_get()
 bool clock_tick_1sec_get()
 {
     return tick1sec;
+}
+
+void profile_start()
+{
+    profileStart= uclock();
+}
+void profile_end()
+{
+    profileEnd= uclock();
+}
+double profile_get_time()
+{
+    return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;
 }
