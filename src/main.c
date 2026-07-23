@@ -39,18 +39,18 @@ int main()
                 main_stepByStep();
             }
             else
-            {
-                profile_start();
+            {                
                 game_update();                
-                game_draw();    
-                profile_end();              
+                game_draw();                    
             }
         #else
             game_update();
             game_draw();
         #endif
 
-        MY_TRACE_FLAG("La funcion tardo %f milisegundos en ejecutarse.\n", profile_get_time() * 1000);
+        #if DEBUG_PROFILE
+            MY_TRACE_FLAG("Function measure: %f ms\n", profile_get_time() * 1000);
+        #endif
 
     } while (!gameExit);
     

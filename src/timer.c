@@ -96,6 +96,9 @@ void timer_end_frame(double *deltaTime)
     else if (*deltaTime > 1)
         *deltaTime = 1.8;
     
+    #if DISABLE_DELTATIME
+        *deltaTime = 1;
+    #endif
     tick = false;
     tick1sec = false;
 }

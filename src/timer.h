@@ -12,6 +12,8 @@
 
 #include "allegro.h"
 
+#define DISABLE_DELTATIME       1
+
 #define DELTA_TIME_LIMIT        6
 #define MAX_ACUMULATED_TICKS    10
 

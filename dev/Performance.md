@@ -19,5 +19,30 @@ egypt: 173 ent
 
 why items persistent?
 
-
 860 862
+
+# Profile
+
+## max cpu
+--------
+- gameUpdate  = 1ms
+- gameDraw	= 13,18ms
+
+- total = 14,2258ms = 70fps
+
+## 486@66
+--------
+- gameUpdate:               15,57ms
+    - gameUpdateLevel:          5,64ms
+        - entities_update:          5,64ms     
+    - gameDrawLevel:            9,92ms
+        - mapDraw(back)             8,87ms
+        - mapDraw(front)            0,01ms
+        - entitiesDraw              1,05ms
+
+- gameDraw:	                13,12ms
+    -blit-world-to-buffer       0,6ms
+    -blit-buffer-to-screen      0,9ms
+    -vsync                      11,1ms
+
+- total:                    28,18ms = 35fps
