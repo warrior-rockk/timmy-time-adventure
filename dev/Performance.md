@@ -48,4 +48,8 @@ why items persistent?
 
 # Analisis
 Vsync ensures to sync with monitor trace and limits fps on high cpus but drops down fps on slower cpus because takes 11,1ms on 486@66.
-If remove vsync, works well (sightly slow) on 486 and if adjust with deltaTime, it's near to perfect
+If remove vsync, works well (sightly slow) on 486 and if adjust with deltaTime, it's near to perfect but too fast on faster cpus
+
+Not difference using fixed point, floats or double
+
+Reducing time with blit not front tiles and deltaTime adjustement makes game playable. Continue optimizing the code to reduce ms processing
