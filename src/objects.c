@@ -1439,7 +1439,7 @@ void object_quick_sand_update(tEntity *this, tDefaultObjectLocalData *local)
             
             //reset velocity
             this->fixVel.y = itofix(0); 
-
+            
             //if player on this platform            
             if (collision_get_player_platform_id() == this->id)
             {
@@ -1464,7 +1464,11 @@ void object_quick_sand_update(tEntity *this, tDefaultObjectLocalData *local)
                 this->fixVel.y = -ftofix(QUICK_SAND_VELOCITY);
                 //return to idle when reach position
                 if (this->pos.y <= this->initPos.y)
+                {
+                    this->fixPos = vector2fixvector(this->initPos);
                     this->state = E_QUICKSAND_ST_IDLE;     
+                    this->fixVel.y = 0;
+                }
             }
         break;
     }    
