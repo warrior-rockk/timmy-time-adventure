@@ -31,11 +31,8 @@ bool play_animation(tAnimation *animation, uint8_t startFrame, uint8_t endFrame,
     }
 
     //increment frame time
-    if (clock_tick_get())
-    {
-        animation->frameTime += 1;
-    }
-    
+    animation->frameTime += clock_tick_get();
+        
     //if frame time reached
     if (animation->frameTime >= speed)
     {
