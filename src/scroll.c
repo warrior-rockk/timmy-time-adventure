@@ -75,9 +75,9 @@ static void scroll_update_shake()
             scroll.shakeValue   = (tVector){0, 0};            
             scroll.shakeTimer   = 0;
         }
-        else if (clock_tick_get())
+        else 
             //count shake time
-            scroll.shakeTimer += 1;
+            scroll.shakeTimer += clock_tick_get();
     }
 }
 
