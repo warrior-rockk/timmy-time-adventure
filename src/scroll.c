@@ -319,7 +319,9 @@ int16_t scroll_get_stop_scroll(uint8_t dir)
 
 void scroll_shake_camera()
 {
-    scroll.cameraShake = true;
+    #if SCROLL_SHAKE_ENABLE
+        scroll.cameraShake = true;
+    #endif
 }
 
 void scroll_set_scroll_mode(uint8_t mode)
