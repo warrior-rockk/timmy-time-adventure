@@ -107,11 +107,8 @@ bool play_animation_seq(tAnimation *animation, tAnimFrame *frames, uint8_t numFr
     }
 
     //increment frame time
-    if (clock_tick_get())
-    {
-        animation->frameTime += 1;
-    }
-    
+    animation->frameTime += clock_tick_get();
+        
     //if frame time reached
     if (animation->frameTime >= frames[animation->frame].duration)
     {
