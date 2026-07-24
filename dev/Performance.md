@@ -53,3 +53,5 @@ If remove vsync, works well (sightly slow) on 486 and if adjust with deltaTime, 
 Not difference using fixed point, floats or double
 
 Reducing time with blit not front tiles and deltaTime adjustement makes game playable. Continue optimizing the code to reduce ms processing
+
+Boost performance on release version
