@@ -345,8 +345,7 @@ void game_update()
                             case 1: //OPTIONS
                                 game.state = E_GAME_ST_OPTIONS_MENU;
                                 gameSeq.step = 0;
-                                dialog_destroy(&gameDialog);
-                                destroy_bitmap(gameSprite);
+                                dialog_destroy(&gameDialog);                                
                             break;
                             case 2: //EXIT
                                 game.state = E_GAME_ST_EXIT;
