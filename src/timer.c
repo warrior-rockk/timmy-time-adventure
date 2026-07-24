@@ -6,18 +6,18 @@
 ********************************************************************/
 #include "timer.h"
 
-uint16_t fps;               //fps counter
-uint16_t frameCount;        //count of frames for fps counter
-bool tick;                  //clock tick (set to one 1 frame on update tick time)
-uint16_t tickCount;         //counter for tick
-uint16_t lastTickCount;     //stores how many clocks ticks has been passed since last frame
-bool tick1sec;              //clock 1sec tick (set to one 1 frame on every second)
-uint8_t tick1SecCount;      //for tick1sec
-uint16_t trace;             //trace video counter for calculate delta time
-uint16_t tickCounter;        //general clock tick counter
+uint16_t fps;                       //fps counter
+uint16_t frameCount;                //count of frames for fps counter
+bool tick;                          //clock tick (set to one 1 frame on update tick time)
+uint16_t tickCount;                 //counter for tick
+uint16_t lastTickCount;             //stores how many clocks ticks has been passed since last frame
+bool tick1sec;                      //clock 1sec tick (set to one 1 frame on every second)
+uint8_t tick1SecCount;              //for tick1sec
+uint16_t trace;                     //trace video counter for calculate delta time
+uint16_t tickCounter;               //general clock tick counter
 
-uclock_t profileStart, profileEnd;
-double profileTime;
+uclock_t profileStart, profileEnd;  //profile uClock variables
+double profileTime;                 //profile time counter
 
 //update fps callback
 static void update_fps(void)
@@ -87,18 +87,18 @@ void timer_end_frame(double *deltaTime)
 {
     frameCount++;
 
-    if (trace != retrace_count)
-        *deltaTime = (double)(retrace_count-trace);
+    *deltaTime = (double)(retrace_count-trace);
     
-    //limit delta time
-    if (*deltaTime > DELTA_TIME_LIMIT)
-        *deltaTime = 1;
-    else if (*deltaTime > 1)
-        *deltaTime = 1.8;
+    //deltaTime limits
+    if (*deltaTime < 1)
+        *deltaTime =  1;
+    else if (*deltaTime > DELTA_TIME_LIMIT)
+        *deltaTime =  DELTA_TIME_LIMIT;
     
     #if DISABLE_DELTATIME
         *deltaTime = 1;
     #endif
+    
     tick = false;
     tick1sec = false;
 }
@@ -144,10 +144,12 @@ void profile_start()
 {
     profileStart= uclock();
 }
+
 void profile_end()
 {
     profileEnd= uclock();
 }
+
 double profile_get_time()
 {
     return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;

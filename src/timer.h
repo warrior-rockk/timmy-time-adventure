@@ -12,10 +12,10 @@
 
 #include "allegro.h"
 
-#define DISABLE_DELTATIME       0
+#define DISABLE_DELTATIME       0       //deltaTime always 1 when disable
 
-#define DELTA_TIME_LIMIT        6
-#define MAX_ACUMULATED_TICKS    10
+#define DELTA_TIME_LIMIT        6       //limit deltaTime values
+#define MAX_ACUMULATED_TICKS    10      //limit accumulated game clock ticks
 
 //inits the timer system specifing game tick duration on ms
 void timer_init(long gameTickDuration);
@@ -33,8 +33,10 @@ bool clock_tick_1sec_get();
 bool clock_counter_check(uint16_t time);
 //returns clock counter value 
 int16_t clock_counter_get();
-
+//indicates the start point to profile function time
 void profile_start();
+//indicates the end point to profile function time
 void profile_end();
+//gets the time between profile_start and profile_end
 double profile_get_time();
 #endif
