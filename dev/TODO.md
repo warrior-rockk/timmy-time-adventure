@@ -7,9 +7,11 @@
 # Performance
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [ ] Draw map: more background color tiles?
-
+- [ ] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 # Engine
 
+- [ ] Blink entity on slow machine can visible = false
+- [ ] Egypt trap spike very slow
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] crouched by autoscroll? (memorize terrain/autoscroll collisions and check on objects?)
 - [ ] Review entities that can use minimal collision points (note on which points are using for detection in the logic!)

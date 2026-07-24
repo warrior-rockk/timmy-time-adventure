@@ -52,6 +52,13 @@ If remove vsync, works well (sightly slow) on 486 and if adjust with deltaTime, 
 
 Not difference using fixed point, floats or double
 
+## Blit back tiles instead draw_sprite
 Reducing time with blit not front tiles and deltaTime adjustement makes game playable. Continue optimizing the code to reduce ms processing
 
+## No debug traces
 Boost performance on release version
+
+## Minimal collision points to simple entities
+Only the player needs all collision points. Testing this:
+- 20,5ms  min collision points
+- 24,4ms  all collision points
