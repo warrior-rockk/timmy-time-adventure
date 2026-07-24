@@ -39,6 +39,13 @@ Boost performance on release version
 Only the player needs all collision points. Testing this:
 - 20,5ms  min collision points
 - 24,4ms  all collision points
+- Entities that uses a fixed collision point (need to change to a point enabled on minimal):
+    - spider 
+    - eagle 
+    - firedrop
+
+    - object_fall
+    - spike_trap_2
 
 # Historical improveement
 
