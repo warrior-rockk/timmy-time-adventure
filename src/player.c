@@ -201,7 +201,7 @@ static void player_update_controls(tEntity *player)
 						//snap player on tile
                         player->fixPos.x = itofix(map_snap_x_to_tile(player));
                         //go down stairs
-                        player->fixPos.y += ftofix(PLAYER_STAIRS_VEL_Y);
+                        player->fixPos.y += fixmul(ftofix(PLAYER_STAIRS_VEL_Y), ftofix(deltaTime));
                     }
                     //else, we are on the top of stairs
 					else
@@ -245,7 +245,7 @@ static void player_update_controls(tEntity *player)
 					//snap to tile
                     player->fixPos.x = itofix(map_snap_x_to_tile(player));
 					//going down stairs
-                    player->fixPos.y -= ftofix(PLAYER_STAIRS_VEL_Y);
+                    player->fixPos.y -= fixmul(ftofix(PLAYER_STAIRS_VEL_Y), ftofix(deltaTime));
 					//set flags
 					playerFlags.onStairs = true;
 					//reset flags
