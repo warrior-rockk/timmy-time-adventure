@@ -18,7 +18,7 @@
 #define MAX_ACUMULATED_TICKS    10      //limit accumulated game clock ticks
 
 //inits the timer system specifing game tick duration on ms
-void timer_init(long gameTickDuration);
+void timer_init(long gameTickDuration, bool _useAllegroTimers);
 //indicates to timer the start of game frame to calculate deltaTime
 void timer_start_frame();
 //indicates to end the start of game frame to calculate deltaTime and fps

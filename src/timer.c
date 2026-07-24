@@ -15,7 +15,7 @@ bool tick1sec;                      //clock 1sec tick (set to one 1 frame on eve
 uint8_t tick1SecCount;              //for tick1sec
 uint16_t trace;                     //trace video counter for calculate delta time
 uint16_t tickCounter;               //general clock tick counter
-
+bool useAllegroTimers;
 uclock_t profileStart, profileEnd;  //profile uClock variables
 double profileTime;                 //profile time counter
 
@@ -37,7 +37,7 @@ static void update_tick(void)
 }
 END_OF_FUNCTION(update_tick);
 
-void timer_init(long gameTickDuration)
+void timer_init(long gameTickDuration, bool _useAllegroTimers)
 {
     fps = 0;
     frameCount = 0;
@@ -48,13 +48,18 @@ void timer_init(long gameTickDuration)
     tick = false;
     tick1sec = false;
     tick1SecCount = 0;
-    LOCK_VARIABLE(fps);
-    LOCK_VARIABLE(frameCount);    
-    LOCK_VARIABLE(tick1SecCount);
-    LOCK_FUNCTION(update_fps);
-    LOCK_FUNCTION(update_tick);
-    install_int_ex(update_fps, BPS_TO_TIMER(1));
-    install_int(update_tick, gameTickDuration);
+    useAllegroTimers = _useAllegroTimers;
+
+    if (useAllegroTimers)
+    {
+        LOCK_VARIABLE(fps);
+        LOCK_VARIABLE(frameCount);    
+        LOCK_VARIABLE(tick1SecCount);
+        LOCK_FUNCTION(update_fps);
+        LOCK_FUNCTION(update_tick);
+        install_int_ex(update_fps, BPS_TO_TIMER(1));
+        install_int(update_tick, gameTickDuration);
+    }
 }
 
 void timer_start_frame()
@@ -110,24 +115,24 @@ uint16_t fps_get()
 
 uint16_t clock_tick_get()
 {
-    #if ALLEGRO_USES_TIMER
-    if (tick)        
-        //limit the accumulated lastTickCount because on after fades fps drop
-        return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
-    else   
-        return 0;
-    #else
+    if (useAllegroTimers)
+    {
+        if (tick)        
+            //limit the accumulated lastTickCount because on after fades fps drop
+            return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
+        else   
+            return 0;
+    }
+    else
         return 1;
-    #endif
 }
 
 bool clock_counter_check(uint16_t time)
 {
-    #if ALLEGRO_USES_TIMER
+    if (useAllegroTimers)
         return ((tickCounter % time) == 0 && tick);
-    #else
+    else
         return 1;
-    #endif
 }
 
 int16_t clock_counter_get()

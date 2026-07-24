@@ -1207,10 +1207,8 @@ void game_init()
     //init systems
     #ifdef DEBUGMODE
         debug_init();
-    #endif
-    #if ALLEGRO_USES_TIMER
-        timer_init(GAME_CLOCK_TICK);
-    #endif
+    #endif    
+    timer_init(GAME_CLOCK_TICK, ALLEGRO_USES_TIMER);    
     lang_init(E_NUM_LANGS, E_TXT_NUM);
     entity_system_init();
     collision_system_init();
