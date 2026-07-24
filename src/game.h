@@ -21,6 +21,7 @@
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
+#define GAME_GFX_DOBLE_BUFFER   1
 #define GAME_COLOR_DEPTH        8
 #define SCREEN_X                320
 #define SCREEN_Y                200

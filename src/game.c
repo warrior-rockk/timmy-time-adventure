@@ -1187,7 +1187,11 @@ void game_init()
     gameFont[E_GAME_FONT_MID]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
 
     //initialize buffer screen
-    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    #if GAME_GFX_DOBLE_BUFFER
+        buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    #else
+        buffer = screen;
+    #endif
     clear(buffer);
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
@@ -1277,9 +1281,9 @@ void game_init()
 void game_draw()
 {   
     //blit worldScreen on buffer (centered on screen)
-    if (game.viewMap)
+    if (game.viewMap)        
         blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
-    
+           
     #ifdef DEBUGMODE
         //draw debug info
         if (debugOptions.showDebugInfo)
@@ -1290,8 +1294,10 @@ void game_draw()
     vsync();    
     timer_end_frame(&deltaTime);
     
-    //blit to screen
-    blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);  
+    //double buffer: blit to screen
+    #if GAME_GFX_DOBLE_BUFFER
+        blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);  
+    #endif
     
     //do pending fades
     game_do_fade();
