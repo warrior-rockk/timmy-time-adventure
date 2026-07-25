@@ -50,4 +50,4 @@ Only the player needs all collision points. Testing this:
 # Historical improveement
 
 - Blit tiles:               33-34fps (egypt) (24/7/26)
-- Min collision points:     26-29fps before / 32fps after (egypt spike trap with blocks) (NOT DONE YET!)
+- Min collision points:     26-29fps after / 32fps before (egypt spike trap with blocks)

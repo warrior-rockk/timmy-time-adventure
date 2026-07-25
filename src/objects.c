@@ -213,14 +213,14 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
-            collision_create_entity_points(entity);                  
+            collision_create_min_entity_points(entity);                  
         break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){21, 16};
             entity->size = (tVector){21, 16};      
-            collision_create_entity_points(entity);                    
+            collision_create_min_entity_points(entity);                    
             entity->properties = E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_END_LEVEL_OBJECT_TYPE:            
@@ -281,7 +281,7 @@ void object_create(tEntity *entity)
             entity->size = (tVector){20, 12};                                     
             entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
-            collision_create_entity_points(entity);            
+            collision_create_min_entity_points(entity);            
         break;
         case E_DYNAMITE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, DYNAMITE_BMP);
@@ -291,7 +291,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 16};
             entity->axis = E_ENT_AXIS_DOWN;             
-            collision_create_entity_points(entity);    
+            collision_create_min_entity_points(entity);    
             entity->properties =  E_ENT_PROP_NO_BREAKABLE;                          
         break;
         case E_BRIDGE_OBJECT_TYPE:            
@@ -307,7 +307,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
-            collision_create_entity_points(entity); 
+            collision_create_min_entity_points(entity); 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                 
         break;
         case E_GAME_OVER_OBJECT_TYPE:            
@@ -323,7 +323,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 21};
             entity->size = (tVector){16, 16};      
             entity->axis = E_ENT_AXIS_UP;       
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
         case E_SPIKE_FALL_OBJECT_TYPE:            
@@ -333,7 +333,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             entity->axis = E_ENT_AXIS_UP;       
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
         case E_BOX_OBJECT_TYPE:            
@@ -341,7 +341,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};             
-            collision_create_entity_points(entity);                  
+            collision_create_min_entity_points(entity);                  
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
         case E_HIDDEN_OBJECT_TYPE:        
@@ -352,7 +352,7 @@ void object_create(tEntity *entity)
             entity->size = (tVector){entity->spare, 32};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
-            collision_create_entity_points(entity);            
+            collision_create_min_entity_points(entity);            
         break;
         case E_TRAP_ARROW_OBJECT_TYPE:
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, OTRAPA_BMP);
@@ -367,7 +367,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};         
-            collision_create_entity_points(entity);        
+            collision_create_min_entity_points(entity);        
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT;
         break;
         case E_SYMBOL_HOLE_OBJECT_TYPE:                              
@@ -376,7 +376,7 @@ void object_create(tEntity *entity)
             load_entity_wav_resources(&objectSfx[E_SFX_PUZZLE_OK], objectDataFileIndex, PUZZLEOK_WAV);    
             entity->size = (tVector){16, 16};                         
             entity->properties = E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_NO_PICKABLE;                              
-            collision_create_entity_points(entity);        
+            collision_create_min_entity_points(entity);        
         break;
         case E_EGYPT_PLATFORM_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGYPTPLA_BMP);    
@@ -384,7 +384,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){32, 16};
             entity->size = (tVector){32, 16};                                     
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_FLIP;                        
-            collision_create_entity_points(entity);            
+            collision_create_min_entity_points(entity);            
         break;
         case E_SPIKE_TRAP_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SPKTRAP_BMP);
@@ -393,7 +393,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){32, 24};
             entity->size = (tVector){32, 8};      
             entity->axis = E_ENT_AXIS_UP;       
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_LANCE_OBJECT_TYPE:            
@@ -412,7 +412,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 22};
             entity->size = (tVector){16, 16};      
             entity->axis = E_ENT_AXIS_UP;       
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION | E_ENT_PROP_NO_BREAKABLE;
         break;
         case E_TRAP_FIRE_OBJECT_TYPE:
@@ -465,7 +465,7 @@ void object_create(tEntity *entity)
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
             entity->axis = E_ENT_AXIS_DOWN;       
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
         default:
@@ -1392,7 +1392,7 @@ void object_fall_update(tEntity *this, tDefaultObjectLocalData *local)
             
             this->ground = false;            
             //check only down point    
-            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            if (collision_check_tile(this, E_COLPOINT_CENTER_DOWN))            
             {
                 if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
                     this->state = E_OBJECT_FALL_ST_STILL;
@@ -1774,7 +1774,7 @@ void object_spike_trap_2_update(tEntity *this, tDefaultObjectLocalData *local)
             }
 
             //check only down point    
-            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            if (collision_check_tile(this, E_COLPOINT_CENTER_DOWN))            
             {
                     this->state = E_SPIKE_TRAP_2_ST_STOP;
                 

@@ -216,7 +216,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){46, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_TRICE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TRICE_BMP);
@@ -225,14 +225,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){40, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_SPIDER_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SPIDER_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){20, 29};                          
             entity->size = (tVector){16, 16};        
-            collision_create_entity_points(entity);              
+            collision_create_min_entity_points(entity);              
         break;        
         case E_PIRANHA_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, PIRANHA_BMP);
@@ -261,7 +261,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){32, 34};                          
             entity->size = (tVector){18, 12};      
-            collision_create_entity_points(entity);              
+            collision_create_min_entity_points(entity);              
         break;        
         case E_TUMBLE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, TUMBLE_BMP);
@@ -270,7 +270,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){28, 20};                  
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_PHYSICS_ON;
-            collision_create_entity_points(entity);
+            collision_create_min_entity_points(entity);
         break;
         case E_SCORPION_ENEMY_TYPE:
             if (entity->spare == 0)
@@ -282,7 +282,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){24, 16};      
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_NO_HURT;
-            collision_create_entity_points(entity);              
+            collision_create_min_entity_points(entity);              
         break;
         case E_INDIAN_AXE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, INDIAN_A_BMP);
@@ -321,7 +321,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){44, 41};                          
             entity->size = (tVector){16, 16};      
-            collision_create_entity_points(entity);              
+            collision_create_min_entity_points(entity);              
         break;        
         case E_EGYPTIAN_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, EGYPTIAN_BMP);
@@ -331,7 +331,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){20, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_TRAP_ARROW_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ETRAPA_BMP);
@@ -347,7 +347,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){26, 16};      
             entity->axis = E_ENT_AXIS_DOWN;            
             entity->properties = E_ENT_PROP_PHYSICS_ON;
-            collision_create_entity_points(entity);              
+            collision_create_min_entity_points(entity);              
         break;
         case E_MUMMY_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, MUMMY_BMP);
@@ -356,7 +356,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_HITBOX_ENEMY_TYPE:
             entity->size = (tVector){16, 16};
@@ -392,7 +392,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){18, 30};       
             entity->axis = E_ENT_AXIS_UP;   
             if (entity->spare) //patrol?
-                collision_create_entity_points(entity);
+                collision_create_min_entity_points(entity);
         break;
         case E_KNIGHT_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, KNIGHT_BMP);
@@ -402,7 +402,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){20, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_SKELETON_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SKELETON_BMP);
@@ -412,7 +412,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){20, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;
         case E_SPIKE_BALL_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SPKBALL_BMP);            
@@ -421,7 +421,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};
             entity->axis = E_ENT_AXIS_CENTER;  
             entity->properties = E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_FLIP;     
-            collision_create_entity_points(entity);     
+            collision_create_min_entity_points(entity);     
         break;        
         case E_CANNONBALL_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, CANBALL_BMP);
@@ -439,7 +439,7 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};  
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_NO_HURT;     
-            collision_create_entity_points(entity);             
+            collision_create_min_entity_points(entity);             
         break;
         case E_MEDIEVAL_ARMOUR_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARMOUR_BMP);
@@ -958,7 +958,7 @@ void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
             play_animation(&this->anim, ANIM_SPIDER_TURN);
             
             //check collision tile for collision point
-            colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
+            colDir = collision_check_tile(this, E_COLPOINT_CENTER_DOWN);        
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
@@ -980,7 +980,7 @@ void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
             play_animation(&this->anim, ANIM_SPIDER_TURN);
 
             //check collision tile for collision point
-            colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
+            colDir = collision_check_tile(this, E_COLPOINT_CENTER_DOWN);        
             //apply collision direction
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
             //change direction on collision
@@ -1177,7 +1177,7 @@ void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local)
                         
             //end attack                        
             //check collision tile for collision point
-            uint8_t colDir = collision_check_tile(this, E_COLPOINT_DOWN_L);        
+            uint8_t colDir = collision_check_tile(this, E_COLPOINT_CENTER_DOWN);        
             collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);
             if (colDir == E_COLLISION_DIR_DOWN)
             {
@@ -2330,7 +2330,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
             
             this->ground = false;            
             //check only down point    
-            if (collision_check_tile(this, E_COLPOINT_DOWN_L) || collision_check_tile(this, E_COLPOINT_DOWN_R))            
+            if (collision_check_tile(this, E_COLPOINT_CENTER_DOWN))            
             {
                 //enemy_trace(this);
                 int16_t tileX = this->pos.x / map_get_tile_size();

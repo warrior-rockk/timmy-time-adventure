@@ -7,7 +7,7 @@
 # Performance
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [ ] Draw map: more background color tiles?
-- [ ] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
+- [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 # Engine
 
 - [ ] Blink entity on slow machine can visible = false
