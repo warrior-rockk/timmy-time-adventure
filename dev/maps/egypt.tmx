@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="262">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="263">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -793,6 +793,11 @@
     <property name="spare" type="int" propertytype="levels" value="1"/>
    </properties>
   </object>
+  <object id="262" template="objects/solid.tx" x="816" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="levels" value="1"/>
+   </properties>
+  </object>
   <object id="133" template="objects/solid.tx" x="832" y="128">
    <properties>
     <property name="spare" type="int" propertytype="levels" value="1"/>
@@ -862,7 +867,7 @@
   <object id="155" name="spike-trap2" type="object" x="960" y="0" width="16" height="16"/>
   <object id="156" name="spike-trap2" type="object" x="976" y="0" width="16" height="16"/>
   <object id="157" name="spike-trap2" type="object" x="992" y="0" width="16" height="16"/>
-  <object id="159" template="triggers/door-in.tx" x="800" y="112">
+  <object id="159" template="triggers/door-in.tx" x="784" y="112">
    <properties>
     <property name="spare" type="int" value="4"/>
    </properties>
