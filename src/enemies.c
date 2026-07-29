@@ -871,7 +871,7 @@ void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define PIRANHA_VEL_X               0.8
 
     //enemy animations    
-    #define ANIM_PIRANHA_JUMP   1,   9,  5,  ANIM_ONCE
+    #define ANIM_PIRANHA_JUMP   1,   9,  6,  ANIM_ONCE
     #define ANIM_PIRANHA_DEAD   10,  10, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
     
     //enemy states
