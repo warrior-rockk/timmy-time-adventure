@@ -421,7 +421,8 @@ void object_create(tEntity *entity)
             load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_ARROW], objectDataFileIndex, TRAPA_WAV);
             entity->img = objectResources[entity->entType]; 
             entity->spriteSize = (tVector){16, 16};                          
-            entity->size = (tVector){16, 16};                     
+            entity->size = (tVector){16, 16};              
+            entity->properties = E_ENT_PROP_NO_PICKABLE;       
         break;
         case E_DEBUG_START_OBJECT_TYPE:
             entity->img = NULL;
