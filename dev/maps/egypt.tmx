@@ -961,6 +961,7 @@
   <object id="190" name="trap-fire" type="object" x="256" y="80" width="16" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" value="50"/>
    </properties>
   </object>
   <object id="193" name="trap-fire" type="object" x="256" y="208" width="16" height="16">
