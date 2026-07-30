@@ -10,6 +10,7 @@
 #include "timer.h"
 
 #define TRACE_FLAG      "[SCROLL]"
+#define DEBUG_SCROLL    0
 
 tScroll scroll;     //game scroll object
 
@@ -167,7 +168,8 @@ static void scroll_update_x(tVector cameraTarget, bool init)
 
     //scroll.pos.x = (int16_t)clamp(scroll.pos.x, game.stopScrollLeft, game.stopScrollRight - scroll.window.x);
     #if DEBUG_SCROLL
-    show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
+        ;
+        show_debug("stopRight %i stopLeft %i", scroll.stopScroll.right, scroll.stopScroll.left);  
     #endif
 
     //limit scroll position
