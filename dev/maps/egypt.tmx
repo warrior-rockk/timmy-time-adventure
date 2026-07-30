@@ -1046,6 +1046,6 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
-  <object id="263" template="triggers/debug-start.tx" x="560" y="256"/>
+  <object id="263" template="triggers/debug-start.tx" x="416" y="16"/>
  </objectgroup>
 </map>

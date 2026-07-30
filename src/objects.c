@@ -876,7 +876,7 @@ void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
         case E_STOP_SCROLL_OBJECT_TYPE:
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_LEFT))
             {
-                if (entity_get(entity_get_player_id())->pos.x > this->pos.x)    
+                if (entity_get(entity_get_player_id())->pos.x >= this->pos.x)    
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
                     //MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
@@ -884,7 +884,7 @@ void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_RIGHT))
             {
-                if (entity_get(entity_get_player_id())->pos.x < this->pos.x)
+                if (entity_get(entity_get_player_id())->pos.x <= this->pos.x)
                 {
                     scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
                     //MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
