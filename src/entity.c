@@ -524,7 +524,11 @@ void entity_update_vel_pos(tEntity *entity)
             //gravity             
             if (!entity->noGravity)
             {
-                entity->fixVel.y += entity->fixVel.y >= ftofix(ENTITY_MAX_VEL_Y) ? ftofix(ENTITY_MAX_VEL_Y) : fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
+                //add gravity to vel y
+                entity->fixVel.y += fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
+                //limit vel y
+                entity->fixVel.y = fix_clamp(entity->fixVel.y, ftofix(-ENTITY_MAX_VEL_Y), ftofix(ENTITY_MAX_VEL_Y));
+                //apply vel y
                 entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));            
             }
         }

@@ -18,7 +18,7 @@
 
 #define ENTITY_GRAVITY      0.18
 #define ENTITY_MIN_VEL_X    0.1
-#define ENTITY_MAX_VEL_Y    6
+#define ENTITY_MAX_VEL_Y    4.0 //6
 #define ENTITY_FRICTION     0.92
 
 #define DEBUG_POINT_ENABLED_COLOR       53

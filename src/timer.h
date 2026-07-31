@@ -14,7 +14,7 @@
 
 #define DISABLE_DELTATIME       0       //deltaTime always 1 when disable
 
-#define DELTA_TIME_LIMIT        6       //limit deltaTime values
+#define DELTA_TIME_LIMIT        2       //limit deltaTime values (deltaTime > 2 causes collision detection malfunction)
 #define MAX_ACUMULATED_TICKS    10      //limit accumulated game clock ticks
 
 //inits the timer system specifing game tick duration on ms
