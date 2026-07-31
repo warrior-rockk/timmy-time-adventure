@@ -14,6 +14,7 @@
 - [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
 
 # Engine
+- [ ] Too fast enemies! (west for example)
 - [ ] Blink entity on slow machine can visible = false
 - [ ] Egypt trap spike very slow
 - [ ] Use fixed for scroll main movements and velocities
