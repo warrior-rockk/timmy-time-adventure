@@ -4,7 +4,6 @@
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
 - [ ] Pick object already picked?? (prevented but review for better code?)
 - [ ] Variable deltaTime causes collision system fails (player falls on solid tiles)
-- [ ] pixel wrong color on west
 - [ ] falling on fire destroy blocks puzzle fails and loses lives
 
 # Performance
