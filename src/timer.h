@@ -39,4 +39,6 @@ void profile_start();
 void profile_end();
 //gets the time between profile_start and profile_end
 double profile_get_time();
+//toggles deltaTime use
+void toggle_delta_time();
 #endif

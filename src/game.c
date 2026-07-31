@@ -1332,6 +1332,9 @@ static void game_debug_update()
     //insert log mark
     if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
         MY_TRACE_MARK;
+    //toogle deltaTime
+    if (input_key_down(E_G_KEY_T) && (key_shifts & KB_CTRL_FLAG))
+        toggle_delta_time();    
 
     //record demo
     if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
@@ -1659,6 +1662,7 @@ static void game_load_config()
         gameConfig.gameKeys[E_G_KEY_JUMP]   = KEY_Z;
         gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;
 
+
         game_save_config();        
 
         //set first run flag
@@ -1696,6 +1700,7 @@ static void game_load_config()
     input_key_redefine(E_G_KEY_D,       KEY_D);
     input_key_redefine(E_G_KEY_S,       KEY_S);
     input_key_redefine(E_G_KEY_I,       KEY_I);
+    input_key_redefine(E_G_KEY_T,       KEY_T);
     //load string of controls of current language
     game_load_control_strings();
 }
