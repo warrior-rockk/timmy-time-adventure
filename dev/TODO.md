@@ -12,9 +12,9 @@
 - [ ] Draw map: more background color tiles?
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [ ] Jump on 486 deltatime not reach high sometimes
-- [ ] Egyptian stairs jump from mummy doesn't work the stop scroll left
-# Engine
+- [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
 
+# Engine
 - [ ] Blink entity on slow machine can visible = false
 - [ ] Egypt trap spike very slow
 - [ ] Use fixed for scroll main movements and velocities
