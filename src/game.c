@@ -877,8 +877,8 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    //TODO: replace with the duration of dead music
-                    if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
+                    //wait for dead jingle to end
+                    if (music_get_pos() < 0)
                     {
                         MY_TRACE_FLAG( "Lose live\n");                        
                         if (game.lives > 0) 
@@ -895,8 +895,6 @@ void game_update()
                         gameSeq.step = 0;    
                         music_stop();      
                     }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();            
                 break;
             }
         break;
@@ -923,14 +921,11 @@ void game_update()
                     
                 break;                
                 case 1:
-                    //TODO: replace with the duration of complete music
-                    if (gameSeq.timeCounter >= GAME_DEAD_WAIT_TIME)
+                    if (music_get_pos() < 0)
                     {                
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
                     }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2:
                     //obtain score for time left                         

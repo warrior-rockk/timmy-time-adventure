@@ -261,7 +261,6 @@ void map_draw(BITMAP *buffer, bool frontLayer)
     int16_t tx = scrollPos.x / mapHeader.tile_width;      //tile num x on scroll
     int16_t ty = scrollPos.y / mapHeader.tile_height;     //tile num y on scroll  
     
-    //TODO: replace clear all buffer with color only positions with no tiles?
     if (!frontLayer)
     {
         clear_to_color(buffer, mapHeader.backgroundColor);
