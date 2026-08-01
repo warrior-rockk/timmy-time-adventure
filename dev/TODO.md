@@ -1,22 +1,21 @@
 # Bugs
 
-- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
 - [ ] Pick object already picked?? (prevented but review for better code?)
+- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 - [X] Variable deltaTime causes collision system fails (player falls on solid tiles) (limit fall vY and deltaTime)
 - [X] falling on fire destroy blocks puzzle fails and loses lives (limit fall vY and deltaTine)
 
 # Performance
-- [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [ ] Draw map: more background color tiles?
+- [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
 - [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
 
 # Engine
-- [ ] Too fast enemies! (west for example)
+- [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Blink entity on slow machine can visible = false
-- [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] crouched by autoscroll? (memorize terrain/autoscroll collisions and check on objects?)
 - [ ] Review entities that can use minimal collision points (note on which points are using for detection in the logic!)
@@ -76,6 +75,7 @@
 - [X] With stop scroll y, don't check collision on tiles out scroll (fall on pit)
 - [X] Playback system
 - [X] Maps tmx with templates and generate output file on save
+- [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 
 # Sound
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
@@ -115,3 +115,4 @@
 - [ ] Tiles with same tile id but different properties
 - [ ] Parallax
 - [ ] Parse sprite dimensions and animations from aseprite json
+- [ ] Set size from Tiled export
