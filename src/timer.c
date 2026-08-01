@@ -81,7 +81,7 @@ void timer_start_frame()
         lastTickCount = tickCount;
         //reset timer interrupt var
         tickCount = 0;
-        tickCounter+= lastTickCount;
+        tickCounter++;
     }
 
     if (tick1SecCount)
@@ -140,8 +140,7 @@ uint16_t clock_tick_get()
 bool clock_counter_check(uint16_t time)
 {
     if (useAllegroTimers)
-        //since tickCounter increments the accumulated ticks, we need to check the module on a range
-        return ((((tickCounter % time) >= -lastTickCount) && ((tickCounter % time) <= lastTickCount)) && tick);
+        return ((tickCounter % (uint16_t)(time / deltaTime)) == 0 && tick);
     else
         return 1;
 }
