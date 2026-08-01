@@ -18,6 +18,7 @@ uint16_t tickCounter;               //general clock tick counter
 bool useAllegroTimers;
 uclock_t profileStart, profileEnd;  //profile uClock variables
 double profileTime;                 //profile time counter
+double deltaTime;                   //deltaTime
 bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
 
 //update fps callback
@@ -50,6 +51,7 @@ void timer_init(long gameTickDuration, bool _useAllegroTimers)
     tick1sec = false;
     tick1SecCount = 0;
     useAllegroTimers = _useAllegroTimers;
+    deltaTime = 1;
 
     if (useAllegroTimers)
     {
@@ -89,22 +91,22 @@ void timer_start_frame()
     }
 }
 
-void timer_end_frame(double *deltaTime)
+void timer_end_frame()
 {
     frameCount++;
 
     //delta time calculation
     if (disableDeltaTime)
-        *deltaTime = 1;
+        deltaTime = 1;
     else
     {
-        *deltaTime = (double)(retrace_count-trace);
+        deltaTime = (double)(retrace_count-trace);
         
         //deltaTime limits
-        if (*deltaTime < 1)
-            *deltaTime =  1;
-        else if (*deltaTime > DELTA_TIME_LIMIT)
-            *deltaTime =  DELTA_TIME_LIMIT;
+        if (deltaTime < 1)
+            deltaTime =  1;
+        else if (deltaTime > DELTA_TIME_LIMIT)
+            deltaTime =  DELTA_TIME_LIMIT;
     }
     
     //disable deltaTime on compilation time

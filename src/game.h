@@ -298,7 +298,6 @@ typedef struct
 } tSequence;
 
 extern tGame game;
-extern double deltaTime;
 extern uint8_t gameExit;
 
 #ifdef DEBUGMODE

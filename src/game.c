@@ -42,7 +42,6 @@
     tDebugOptions debugOptions = {0};   
 #endif
 
-double deltaTime;                           //deltaTime
 uint8_t gameExit = false;                   //flag to exit to main
 bool firstRun = false;                      //flag to set if first run (to show language selection menu)
 
@@ -1289,7 +1288,7 @@ void game_draw()
     
     //wait for vsync
     vsync();    
-    timer_end_frame(&deltaTime);
+    timer_end_frame();
     
     //double buffer: blit to screen
     #if GAME_GFX_DOBLE_BUFFER
