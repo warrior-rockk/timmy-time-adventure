@@ -1509,7 +1509,7 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
 void enemy_projectile_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
-    #define PROJECTILE_VELOCITY     4.0
+    #define PROJECTILE_VELOCITY     3.8 //4.0
 
     //enemy animations
     #define ANIM_ARROW_IDLE   0,   0, 10,  ANIM_LOOP
