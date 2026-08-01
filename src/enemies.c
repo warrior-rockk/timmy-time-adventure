@@ -1759,6 +1759,7 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_MUMMY_ST_IDLE:                        
             this->dir = player->pos.x > this->pos.x;
+            this->visible = true;
             //check range of player            
             if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, MUMMY_PLAYER_RANGE))
             {
