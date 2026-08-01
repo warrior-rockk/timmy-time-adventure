@@ -16,7 +16,7 @@
 # Engine
 - [ ] Too fast enemies! (west for example)
 - [ ] Blink entity on slow machine can visible = false
-- [ ] Egypt trap spike very slow
+- [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] crouched by autoscroll? (memorize terrain/autoscroll collisions and check on objects?)
 - [ ] Review entities that can use minimal collision points (note on which points are using for detection in the logic!)
