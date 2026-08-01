@@ -2399,6 +2399,7 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_ARMOUR_ST_IDLE:                        
             this->dir = E_ENT_DIR_LEFT;    
+            this->visible = true;
             
             //check range of player
             player = entity_get(entity_get_player_id());

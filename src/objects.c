@@ -281,7 +281,7 @@ void object_create(tEntity *entity)
             entity->size = (tVector){20, 12};                                     
             entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
-            collision_create_min_entity_points(entity);            
+            collision_create_entity_points(entity);            
         break;
         case E_DYNAMITE_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, DYNAMITE_BMP);

@@ -12,6 +12,7 @@
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
 - [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
+- [ ] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
 - [ ] Medieval: props, tile decorations and items
@@ -20,10 +21,8 @@
 
 # Engine
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
-- [ ] Blink entity on slow machine can visible = false
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] crouched by autoscroll? (memorize terrain/autoscroll collisions and check on objects?)
-- [ ] Review entities that can use minimal collision points (note on which points are using for detection in the logic!)
 - [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp
 - [ ] Respawn extra live item?
