@@ -13,6 +13,9 @@
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
 - [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
 
+# Level design
+- [ ] Medieval: props, tile decorations and items
+
 # Engine
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Blink entity on slow machine can visible = false
