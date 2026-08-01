@@ -8,7 +8,7 @@
 #define _H_GAME_
 
 //game title and versioning
-#define GAME_TITLE              "Dos platform game"
+#define GAME_TITLE              "Timmy Time Adventure"
 #define MAJOR_VERSION           0
 #define MINOR_VERSION           1
 #define CONFIG_FILE             "GAME.CFG"
@@ -270,7 +270,7 @@ typedef struct
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
 
     typedef struct
     {

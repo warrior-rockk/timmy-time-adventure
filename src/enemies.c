@@ -1316,7 +1316,7 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy definitions
     #define INDIAN_AXE_PLAYER_RANGE     120
     #define INDIAN_AXE_INIT_WAIT        50
-    #define INDIAN_AXE_WAIT_TIME        30
+    #define INDIAN_AXE_WAIT_TIME        40
     #define INDIAN_AXE_AXE_FRAME_THROW  6
     #define INDIAN_AXE_AXE_Y_OFFSET     6
     
@@ -1396,7 +1396,7 @@ void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN_BOW_PLAYER_RANGE        100
-    #define INDIAN_BOW_WAIT_TIME           30
+    #define INDIAN_BOW_WAIT_TIME           40
     #define INDIAN_BOW_ARROW_FRAME_THROW   17
     #define INDIAN_BOW_ARROW_Y_OFFSET      4
 
