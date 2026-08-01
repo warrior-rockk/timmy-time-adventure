@@ -303,6 +303,8 @@ extern uint8_t gameExit;
 extern tDebugOptions debugOptions;
 #endif
 
+//function to load initial game resources
+void game_load_resources();
 //function to init game
 void game_init();
 //function to updated game

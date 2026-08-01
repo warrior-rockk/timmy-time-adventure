@@ -1156,26 +1156,37 @@ static void game_init_flags()
     game.doorId         = 0;
 }
 
-void game_init()
+void game_load_resources()
 {
-    MY_TRACE_FLAG( "Init game\n");
-        
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
+    printf("\rStarting %s v%i.%i........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
 
     //load palettes
     introPal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);
+    printf("\rStarting %s v%i.%i.........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
     gamePal  = load_dat_pal_indexed(gameDataIndex, HUD_PAL);
+    printf("\rStarting %s v%i.%i..........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+
+    //loads game fonts
+    gameFont[E_GAME_FONT]        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
+    gameFont[E_GAME_FONT_BIG]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
+    gameFont[E_GAME_FONT_MID]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
+    printf("\rStarting %s v%i.%i...........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+
+    //load hud image
+    hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
+    printf("\rStarting %s v%i.%i............", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);  
+}
+
+void game_init()
+{
+    MY_TRACE_FLAG( "Init game\n");
 
     //set current game palette
     currentPal = introPal;
     set_palette(currentPal);
     
-    //loads game fonts
-    gameFont[E_GAME_FONT]        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
-    gameFont[E_GAME_FONT_BIG]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
-    gameFont[E_GAME_FONT_MID]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
-
     //initialize buffer screen
     #if GAME_GFX_DOBLE_BUFFER
         buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -1186,9 +1197,7 @@ void game_init()
     //initialize map bitmap
     worldScreen = create_bitmap(GAME_W, GAME_H);
     clear(worldScreen);
-
-    //load hud image
-    hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
+    
     //hud.hudImg = load_bmp("res/game/hud.bmp", NULL);
     hud.hudLifeOff = create_bitmap(15, 14);
     hud.hudLifeOn  = create_bitmap(15, 14);
@@ -1211,6 +1220,7 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    MY_TRACE_MARK;
     
     //load game sfx
     gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
