@@ -1152,10 +1152,7 @@ static void game_init_flags()
         game.actualLevel    = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    //TODO: temporal until starting make level        
-    #ifndef DEBUGMODE
-        game.levelComplete[E_GAME_LEVEL_MEDIEVAL] = true;
-    #endif
+    
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
