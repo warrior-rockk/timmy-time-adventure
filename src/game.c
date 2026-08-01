@@ -44,6 +44,7 @@
 
 uint8_t gameExit = false;                   //flag to exit to main
 bool firstRun = false;                      //flag to set if first run (to show language selection menu)
+uint8_t loadingProgress = 0;
 
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
@@ -1160,23 +1161,25 @@ void game_load_resources()
 {
     //create game data file index for fast open individual data objects
     gameDataIndex = create_dat_index("game.dat");
-    printf("\rStarting %s v%i.%i........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     //load palettes
     introPal = load_dat_pal_indexed(gameDataIndex, INTRO_PAL);
-    printf("\rStarting %s v%i.%i.........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
     gamePal  = load_dat_pal_indexed(gameDataIndex, HUD_PAL);
-    printf("\rStarting %s v%i.%i..........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     //loads game fonts
     gameFont[E_GAME_FONT]        = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, FONT_BMP));
+    game_loading_text();
     gameFont[E_GAME_FONT_BIG]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, BIGFONT_BMP));
+    game_loading_text();
     gameFont[E_GAME_FONT_MID]    = grab_font_from_bitmap(load_dat_bmp_indexed(gameDataIndex, MIDFONT_BMP));
-    printf("\rStarting %s v%i.%i...........", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     //load hud image
     hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
-    printf("\rStarting %s v%i.%i............", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);  
+    game_loading_text();
 }
 
 void game_init()
@@ -1934,4 +1937,10 @@ static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axi
         //need to destroy bitmap each time
         destroy_bitmap(objectSprite);
     }
+}
+
+void game_loading_text()
+{
+    printf("\rStarting %s v%i.%i (%i%%)", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION, loadingProgress);
+    loadingProgress += 10;
 }

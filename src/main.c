@@ -103,26 +103,26 @@ static void main_init()
     */
 
     //loading text
-    printf("Starting %s v%i.%i.", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     //initialize and install modules    
     if (allegro_init() != 0)
         abort_on_error("Error initializating Allegro");
-    printf("\rStarting %s v%i.%i..", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     #if ALLEGRO_USES_TIMER
         MY_TRACE_FLAG("Initializing timer\n");
         if (install_timer() != 0)
             abort_on_error("Error initializating timer module");
     #endif
-    printf("\rStarting %s v%i.%i...", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     #if ALLEGRO_USES_KEYBOARD
         MY_TRACE_FLAG("Initializing keyboard\n");
         if (install_keyboard() != 0)
             abort_on_error("Error initializating keyboard");
     #endif
-    printf("\rStarting %s v%i.%i....", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
     
     #if ALLEGRO_USES_MOUSE
         MY_TRACE_FLAG("Initializing mouse\n");
@@ -137,12 +137,13 @@ static void main_init()
         sound_set_mode(E_SOUND_OFF_MODE);
         sound_init();
     #endif
-    printf("\rStarting %s v%i.%i.....", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     MY_TRACE_FLAG("All system and modules initialized\n");
     
+    //load initial game resources
     game_load_resources();
-    printf("\rStarting %s v%i.%i.......", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
+    game_loading_text();
 
     //set video mode
     if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)

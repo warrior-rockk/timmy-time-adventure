@@ -311,6 +311,8 @@ void game_init();
 void game_update();
 //function to draw game
 void game_draw();
-//funtion to destroy game (unload resources)
+//function to destroy game (unload resources)
 void game_destroy();
+//function for print loading game progress
+void game_loading_text();
 #endif
