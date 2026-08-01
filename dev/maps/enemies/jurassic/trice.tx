@@ -3,6 +3,7 @@
  <object name="trice" type="enemy" width="48" height="32">
   <properties>
    <property name="dir" type="int" propertytype="dir" value="0"/>
+   <property name="spare" type="int" value="0"/>
   </properties>
  </object>
 </template>

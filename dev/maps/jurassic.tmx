@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="134">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="136">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -563,6 +563,7 @@
   <object id="85" template="enemies/jurassic/trice.tx" x="3088" y="96">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+    <property name="spare" type="int" value="60"/>
    </properties>
   </object>
   <object id="25" name="raptor" type="enemy" x="800" y="96" width="50" height="32">
@@ -625,7 +626,11 @@
     <property name="spare" type="int" value="50"/>
    </properties>
   </object>
-  <object id="77" template="enemies/jurassic/trice.tx" type="enemy" x="1968" y="416"/>
+  <object id="77" template="enemies/jurassic/trice.tx" type="enemy" x="1968" y="416">
+   <properties>
+    <property name="spare" type="int" value="0"/>
+   </properties>
+  </object>
   <object id="81" template="enemies/jurassic/spider.tx" x="2496" y="368"/>
   <object id="83" template="enemies/jurassic/trice.tx" x="2992" y="416"/>
   <object id="86" template="enemies/jurassic/raptor.tx" x="3632" y="96"/>

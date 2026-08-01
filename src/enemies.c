@@ -806,7 +806,7 @@ void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_TRICE_DEAD    19,  22, ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
 
     //enemy states
-    enum E_TRICE_ENEMY_STATES{E_TRICE_ST_IDLE, E_TRICE_ST_MOVING, E_TRICE_ST_ATTACK, E_TRICE_ST_HURT};   
+    enum E_TRICE_ENEMY_STATES{E_TRICE_ST_IDLE, E_TRICE_ST_WAIT, E_TRICE_ST_MOVING, E_TRICE_ST_ATTACK, E_TRICE_ST_HURT};   
 
     tEntity *player;
 
@@ -818,6 +818,15 @@ void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local)
     {
         case E_TRICE_ST_IDLE:            
             this->state++;
+        break;
+        case E_TRICE_ST_WAIT:
+            if (local->timer >= this->spare)
+            {
+                local->timer = 0;
+                this->state++;
+            }
+            else
+                local->timer += clock_tick_get();
         break;
         case E_TRICE_ST_MOVING:            
             //enemy_patrol_ia(this, ftofix(TRICE_WALK_VELOCITY), TRICE_PLAYER_RANGE);
