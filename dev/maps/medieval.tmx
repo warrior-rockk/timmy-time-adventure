@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="188">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="189">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -224,13 +224,13 @@
     <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
-  <object id="19" template="enemies/medieval/ghost.tx" x="2416" y="224" width="20" height="32">
+  <object id="19" template="enemies/medieval/ghost.tx" x="2416" y="228" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
     <property name="spare" type="int" propertytype="ghostSpare" value="1"/>
    </properties>
   </object>
-  <object id="22" template="enemies/medieval/ghost.tx" x="2416" y="128" width="20" height="32">
+  <object id="22" template="enemies/medieval/ghost.tx" x="2416" y="132" width="20" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" propertytype="ghostSpare" value="1"/>

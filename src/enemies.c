@@ -1721,7 +1721,7 @@ void enemy_beetle_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define MUMMY_VELOCITY          1.6    
+    #define MUMMY_VELOCITY          1.4    
     #define MUMMY_PLAYER_RANGE      100
     #define MUMMY_WAIT_TIME         60
     
@@ -1960,7 +1960,7 @@ void enemy_anubis_update(tEntity *this, tDefaultEnemyLocalData *local)
 
 void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
-    #define GHOST_VELOCITY            1.4
+    #define GHOST_VELOCITY            1.2
     //enemy definitions
     #define GHOST_PATROL_VELOCITY     0.8
     #define GHOST_PLAYER_RANGE        100
