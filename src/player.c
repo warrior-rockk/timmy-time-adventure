@@ -296,8 +296,7 @@ static void player_update_controls(tEntity *player)
         else 
         {
             //if not press jump, set flag jump
-            if (!input_key_press(E_G_KEY_JUMP))
-                playerFlags.jump = true;
+            playerFlags.jump = true;
             //reset jump flag on ground
             if(player->ground)                
                 playerFlags.jump = false;

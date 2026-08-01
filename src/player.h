@@ -29,7 +29,7 @@
 #define PLAYER_HURT_VEL_X           1.4     //velocity x when gets hurt
     //vertical
 #define PLAYER_ACCEL_Y              0.7     //jump acceleration
-#define PLAYER_JUMP_VEL_Y           3.4     //max jump velocity
+#define PLAYER_JUMP_VEL_Y           3.5     //max jump velocity
 #define PLAYER_HURT_VEL_Y           -3.6    //velocity y when gets hurt
 #define PLAYER_ATTACK_BOUNCE_VEL    -4      //velocity when bounces by attacking 
 #define PLAYER_STAIRS_VEL_Y         0.6     //velocity on stairs
