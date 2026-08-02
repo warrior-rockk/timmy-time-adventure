@@ -10,7 +10,7 @@
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
 - [X] Egyptian stairs jump from mummy doesn't work the stop scroll left
-- [ ] Don't draw (visible=false) persistent objects offscreen
+- [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
 - [ ] Medieval: props, tile decorations and items
