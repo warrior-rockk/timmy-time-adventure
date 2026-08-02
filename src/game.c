@@ -444,7 +444,21 @@ void game_update()
                     {
                         if (game.levelComplete[i])
                         {
-                            gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                            switch (i)
+                            {
+                                case E_GAME_LEVEL_JURASSIC:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_EGYPT:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, EGOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_MEDIEVAL:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, MEOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_WEST:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, WEOK_BMP);
+                                break;
+                            }
                             animSprite.frame = 8;
                             game_draw_object((tVector){36 + (69 * i), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
                             destroy_bitmap(gameSprite);
@@ -457,7 +471,21 @@ void game_update()
                         //set level completed
                         game.levelComplete[game.actualCompletedLevel] = true;
                         //load animation sprite
-                        gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                        switch (game.actualCompletedLevel)
+                            {
+                                case E_GAME_LEVEL_JURASSIC:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_EGYPT:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, EGOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_MEDIEVAL:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, MEOK_BMP);
+                                break;
+                                case E_GAME_LEVEL_WEST:
+                                    gameSprite = load_dat_bmp_indexed(gameDataIndex, WEOK_BMP);
+                                break;
+                            }
                         animSprite.frame = 0;
                         gameSeq.step = 1;
                     }
