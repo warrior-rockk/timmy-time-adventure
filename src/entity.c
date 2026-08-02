@@ -429,11 +429,6 @@ void entities_update()
         }        
         else
         {
-            #ifdef DEBUGMODE 
-                if (entityList[i].visible)
-                    entityCounter.visibles++;
-            #endif
-
             //if entity was sleeping, send awake signal 
             if (entityList[i].sleep)
                 entityList[i].signal = E_ENT_SIGNAL_AWAKE;
@@ -451,7 +446,17 @@ void entities_update()
             
             //update vel and pos
             entity_update_vel_pos(&entityList[i]);
+
+            //mark not visible persistent platform if are out screen
+            if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
+                entityList[i].visible = scroll_position_on_region(entityList[i].pos);
             
+            //debug counter
+            #ifdef DEBUGMODE 
+            if (entityList[i].visible)
+                entityCounter.visibles++;
+            #endif
+
             //trace debug
             #ifdef DEBUGMODE
                 #if DEBUG_TRACE_ENTITIES
