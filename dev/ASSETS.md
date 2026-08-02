@@ -6,13 +6,10 @@
 - [ ] Tim's Travel Adventure
 
 # Level TileSets
-- [ ] Jurassic level
-- [ ] Wild West level
-- [ ] Medieval level
-- [ ] Future level
-
-# Player spriteSet
-
+- [X] Jurassic level
+- [X] Wild West level
+- [X] Medieval level
+- [X] Egypt level
 
 # Enemies spriteSet
 ## Jurassic
@@ -31,34 +28,33 @@
 - [X] Tumble 
 
 ## Medieval
-- [ ] Knight
-- [ ] Cocodrile
-- [ ] Ghost
+- [X] Knight
+- [X] Ghost
+- [X] Skeleton
 
 ## Egypt
 
-- [ ] Mummy
-- [ ] Egyptian whip
-- [ ] Yellow scorpion
-- [ ] Beetle
+- [X] Mummy
+- [X] Egyptian whip
+- [X] Yellow scorpion
+- [X] Beetle
+- [X] Anubis
 
-## Future
-- [ ] Robot
-- [ ] Drone
-- [ ] 
-- [ ] 
+# Images
+
+- [ ] Intro images
+- [ ] Ending images
 
 # Music
 
 - [ ] Intro 
 - [ ] Title
 - [ ] Level Select
-- [ ] Game Over
-- [ ] Lose Live
-- [ ] End Level
+- [X] Game Over
+- [X] Lose Live
+- [X] End Level
 - [ ] Ending
-
-- [ ] Jurassic
+- [X] Jurassic
 - [X] Wild West
-- [ ] Medieval
-- [ ] Egypt
+- [X] Medieval (make tetrical version)
+- [X] Egypt

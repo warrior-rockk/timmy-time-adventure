@@ -1,7 +1,5 @@
 # Bugs
-
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
-- [ ] Pick object already picked?? (prevented but review for better code?)
 - [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 - [X] Variable deltaTime causes collision system fails (player falls on solid tiles) (limit fall vY and deltaTime)
 - [X] falling on fire destroy blocks puzzle fails and loses lives (limit fall vY and deltaTine)
@@ -18,20 +16,26 @@
 - [ ] Medieval: props, tile decorations and items
 - [ ] Jurassic: spider web, better lava tiles, lava half tile? improve cavern playability, improve position of piranhas?
 
+# Game design
+- [ ] Intro
+- [ ] Title screen
+- [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
+- [ ] Respawn extra live item for easy gameplay?
+- [ ] volume up all midi tracks
+- [ ] Secret areas?
+- [ ] Cheat codes?
+- [ ] Item coins?
+- [ ] Bonus stage? at each score points? item bonus collectable?
+- [ ] Sfx particles for spider web or player splash water
 
 # Engine
-- [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] crouched by autoscroll? (memorize terrain/autoscroll collisions and check on objects?)
 - [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp
-- [ ] Respawn extra live item?
 - [ ] freeze entities during dead animation? on crush?
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
-- [ ] volume up all midi tracks
 - [ ] solve balancing on edge direction. Balancing on objects?
-- [ ] Secret areas?
-- [ ] Cheat codes?
 - [ ] No need to check player on objects that hurt. Use a entity property OBJECT_HURT?
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
 - [ ] Dead enemies with dynamite explosion?
@@ -40,16 +44,7 @@
 - [ ] Review debug keys on different translation units
 - [ ] Unload game resources? unload interface system?
 - [ ] Reassign update object/enemy pointer on object/enemy create?
-- [ ] Debug teleport to next checkpoint? or mouse change position?
-- [ ] Item coins?
-- [ ] Bonus stage? at each score points? item bonus collectable?
-- [ ] Sfx particles for spider web or player splash water
 - [ ] PC Speaker effects?
-- [ ] Intro
-- [ ] Title screen
-- [ ] Tutorial
-- [ ] Loading screens? test on 86box
-- [ ] Background color fade to do sunset?
 - [X] Platform objects
 - [X] Continue menu with player animation crying?
 - [X] Animation: implement PING_PONG_ONCE
@@ -86,7 +81,6 @@
 - [ ] Possible spare channel for simultaneous sfx played?
 
 # Player
-- [ ] Change life icon on hurt/die
 - [X] Animation on edge
 - [X] Idle special animation when no control
 - [X] Slide crouched
@@ -120,3 +114,5 @@
 - [ ] Parallax
 - [ ] Parse sprite dimensions and animations from aseprite json
 - [ ] Set size from Tiled export
+- [ ] Background color fade to do sunset?
+- [ ] Change life icon on hurt/die
