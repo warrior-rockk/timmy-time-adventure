@@ -455,10 +455,17 @@ void game_update()
                             draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
                     }
                     destroy_bitmap(completeRing);   
+                    
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                    animSprite.frame = 0;
+                    
 
                     gameSeq.step++;
                 break;
                 case 1: //handle selection
+                    play_animation(&animSprite, 0, 8, 16, ANIM_LOOP);
+                    game_draw_object((tVector){36 + (69 * 0), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
+
                     if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 2)
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
