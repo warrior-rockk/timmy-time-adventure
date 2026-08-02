@@ -509,7 +509,32 @@ void game_update()
                     {
                         game.actualCompletedLevel = -1;
                         destroy_bitmap(gameSprite);
-                        gameSeq.step++;
+                        
+                        //check levels completed
+                        uint8_t levelsCompleted = 0;
+                        for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+                        {
+                            if (game.levelComplete[i])
+                                levelsCompleted++;
+                        }
+                        MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);
+
+                        //jump to state
+                        if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
+                        {
+                            //draw completed levels ring
+                            completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
+                            for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+                            {
+                                if (game.levelComplete[i])
+                                    draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
+                            }
+                            destroy_bitmap(completeRing); 
+
+                            gameSeq.step = 4;
+                        }
+                        else
+                            gameSeq.step++;
                     }
                 break;
                 case 2: //draw ring and selection cursor
@@ -559,6 +584,17 @@ void game_update()
                         game.state = E_GAME_ST_TITLE;
                         game.fadeOut = true;
                     }
+                break;
+                case 4: //wait for ending
+                    if (gameSeq.timeCounter >= 60)
+                    {
+                        gameSeq.step = 0;
+                        gameSeq.timeCounter = 0;
+                        game.fadeOut = true;
+                        game.state = E_GAME_ST_ENDING;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -1048,23 +1084,6 @@ void game_update()
                     gameSeq.step = 0;          
                     
                     game.state = E_GAME_ST_SELECT_LEVEL;
-
-                    //TODO: move check levels completed to select level state
-                    /*
-                    //check levels completed
-                    uint8_t levelsCompleted = 0;
-                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
-                    {
-                        if (game.levelComplete[i])
-                            levelsCompleted++;
-                    }
-                    MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);
-
-                    //jump to state
-                    if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
-                        game.state = E_GAME_ST_ENDING;
-                    else*/    
-                    
                 break;
             }
         break;
@@ -1160,6 +1179,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
+                    clear_bitmap(buffer);
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], "CONGRATULATIONS!", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
                     game.fadeIn = true;
 
@@ -1228,7 +1248,9 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    
+    game.levelComplete[0] = true;
+    game.levelComplete[1] = true;
+    game.levelComplete[2] = true;
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
