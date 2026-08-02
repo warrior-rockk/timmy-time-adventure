@@ -379,6 +379,7 @@ static void player_update_size(tEntity *player)
 static void player_update_collisions(tEntity *player)
 {
     uint8_t colDir = 0;
+    uint8_t memColTerrainHDir = 0;
     player->ground = false;
     objectForPickID = 0;
     collision_set_player_platform_id(-1);
@@ -390,6 +391,10 @@ static void player_update_collisions(tEntity *player)
         colDir = collision_check_tile(player, i);        
         //apply collision direction
         collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);   
+        
+        //memorize last collision dir
+        if (colDir == E_COLLISION_DIR_LEFT || colDir == E_COLLISION_DIR_RIGHT)
+            memColTerrainHDir = colDir;
 
         //reset jump if head collision
         if (colDir == E_COLLISION_DIR_UP)
@@ -402,7 +407,7 @@ static void player_update_collisions(tEntity *player)
                 playerFlags.hurt = true;
         }
     }
-
+    
     //check entities collisions
     uint8_t numEntities = entities_get_num();
     tEntity *checkEntity;
@@ -511,14 +516,16 @@ static void player_update_collisions(tEntity *player)
         }
     }
 
-    //check collision with autoscroll
+    //check collision with autoscroll (and dead if collision with horizontal terrain)
     if (scroll_get_scroll_mode() == E_SCROLL_MODE_AUTOSCROLL_X)
     {
         tFixVector scrollPosition = scroll_get_fix_position();    
         //left
-        collision_check_AABB(player, scrollPosition, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS);
+        if (collision_check_AABB(player, scrollPosition, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS) && memColTerrainHDir == E_COLLISION_DIR_RIGHT)
+            playerFlags.dead = true;
         //right
-        collision_check_AABB(player, (tFixVector){scrollPosition.x + itofix(GAME_W - 1), scrollPosition.y}, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS);
+        if (collision_check_AABB(player, (tFixVector){scrollPosition.x + itofix(GAME_W - 1), scrollPosition.y}, (tVector){1, GAME_H }, E_CHECK_PROCESS_HORIZONTALAXIS) && memColTerrainHDir == E_COLLISION_DIR_LEFT)
+            playerFlags.dead = true;
     }
 }
 

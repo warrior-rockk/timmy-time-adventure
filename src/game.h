@@ -14,10 +14,10 @@
 #define CONFIG_FILE             "GAME.CFG"
 
 //allegro engine
-#define ALLEGRO_USES_TIMER      0   //disable to profile with uclock
+#define ALLEGRO_USES_TIMER      1   //disable to profile with uclock
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      0   //disable to profile with uclock
+#define ALLEGRO_USES_SOUND      1   //disable to profile with uclock
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA
@@ -268,9 +268,9 @@ typedef struct
     #define DEBUG_TRACE_PLAYER              1
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
-    #define DEBUG_PROFILE                   1
+    #define DEBUG_PROFILE                   0
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_MEDIEVAL
 
     typedef struct
     {
