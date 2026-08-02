@@ -866,7 +866,7 @@ void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
             //if collision with player
             if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
             {
-                game.levelComplete[game.actualLevel] = true;
+                game.actualCompletedLevel = game.actualLevel;
                 sfx_play(objectSfx[E_SFX_END_OBJECT], E_SFX_OBJECT_VOICE);
             }
 

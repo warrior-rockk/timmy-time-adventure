@@ -431,13 +431,51 @@ void game_update()
                     game.fadeIn = true;
                     currentPal  = load_dat_pal_indexed(gameDataIndex, TIMELINE_PAL);
                     clear(buffer);
-                                        
+                                  
+                    //draw timeline image
                     BITMAP *timeline = load_dat_bmp_indexed(gameDataIndex, TIMELINE_BMP);               
                     draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
                     destroy_bitmap(timeline);   
-
+                    //draw text title
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
 
+                    //draw static image completed levels
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+                    {
+                        if (game.levelComplete[i])
+                        {
+                            gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                            animSprite.frame = 8;
+                            game_draw_object((tVector){36 + (69 * i), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
+                            destroy_bitmap(gameSprite);
+                        }           
+                    }
+
+                    //check recent completed level
+                    if (!game.levelComplete[game.actualCompletedLevel])
+                    {
+                        //set level completed
+                        game.levelComplete[game.actualCompletedLevel] = true;
+                        //load animation sprite
+                        gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
+                        animSprite.frame = 0;
+                        gameSeq.step = 1;
+                    }
+                    else
+                    {
+                        gameSeq.step = 2;
+                    }
+                break;
+                case 1: //level completed animation
+                    game_draw_object((tVector){36 + (69 * game.actualCompletedLevel), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
+                    if (play_animation(&animSprite, 0, 8, 16, ANIM_ONCE))
+                    {
+                        game.actualCompletedLevel = -1;
+                        destroy_bitmap(gameSprite);
+                        gameSeq.step++;
+                    }
+                break;
+                case 2: //draw ring and selection cursor
                     //draw select levelcursor and ring
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
                     draw_sprite(buffer, cursor, 47 + (69 * game.actualLevel), 130);    
@@ -454,29 +492,22 @@ void game_update()
                         if (game.levelComplete[i])
                             draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
                     }
-                    destroy_bitmap(completeRing);   
-                    
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, JUOK_BMP);
-                    animSprite.frame = 0;
-                    
+                    destroy_bitmap(completeRing); 
 
                     gameSeq.step++;
                 break;
-                case 1: //handle selection
-                    play_animation(&animSprite, 0, 8, 16, ANIM_LOOP);
-                    game_draw_object((tVector){36 + (69 * 0), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
-
+                case 3: //handle selection
                     if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 2)
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
                         game.actualLevel++;
-                        gameSeq.step--;
+                        gameSeq.step = 0;
                     }
                     if (input_key_down(E_G_KEY_LEFT) && game.actualLevel > 0)
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
                         game.actualLevel--;
-                        gameSeq.step--;
+                        gameSeq.step = 0;
                     }
                     if (input_key_down(E_G_KEY_ENTER) && !game.levelComplete[game.actualLevel])
                     {
@@ -678,7 +709,7 @@ void game_update()
             if (input_key_down(E_G_KEY_PAUSE))
                 game.state = E_GAME_ST_PAUSE_LEVEL;
 
-            if (game.levelComplete[game.actualLevel])
+            if (game.actualCompletedLevel != -1)
                 game.state = E_GAME_ST_COMPLETE_LEVEL;
             
             if (input_key_down(E_G_KEY_EXIT))
@@ -695,7 +726,7 @@ void game_update()
                     game.state = E_GAME_ST_INIT_LEVEL;
                 
                 if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
-                    game.levelComplete[game.actualLevel] = true;
+                    game.actualCompletedLevel = game.actualLevel;
             #endif
         break;
         case E_GAME_ST_MOVE_TO_DOOR:
@@ -979,6 +1010,10 @@ void game_update()
 
                     gameSeq.step = 0;          
                     
+                    game.state = E_GAME_ST_SELECT_LEVEL;
+
+                    //TODO: move check levels completed to select level state
+                    /*
                     //check levels completed
                     uint8_t levelsCompleted = 0;
                     for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
@@ -991,8 +1026,8 @@ void game_update()
                     //jump to state
                     if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
                         game.state = E_GAME_ST_ENDING;
-                    else    
-                        game.state = E_GAME_ST_SELECT_LEVEL;
+                    else*/    
+                    
                 break;
             }
         break;
@@ -1150,9 +1185,10 @@ static void game_destroy_level()
 
 static void game_init_flags()
 {
-    game.actualLevel    = 0;
+    game.actualLevel            = 0;
+    game.actualCompletedLevel   = -1;
     #ifdef DEBUGMODE
-        game.actualLevel    = DEBUG_INI_GAME_LEVEL;        
+        game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
     

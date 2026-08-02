@@ -255,6 +255,7 @@ typedef struct
     uint8_t fadeState;
     uint8_t viewMap;
     uint8_t scrollMode;
+    int8_t actualCompletedLevel;
     uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
     uint8_t doorId;
 } tGame;
