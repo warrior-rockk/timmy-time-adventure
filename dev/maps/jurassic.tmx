@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="136">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="137">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -237,7 +237,7 @@
   </tile>
   <tile id="65">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="9216"/>
    </properties>
   </tile>
   <tile id="66">
@@ -252,7 +252,7 @@
   </tile>
   <tile id="68">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="9216"/>
    </properties>
   </tile>
   <tile id="69">

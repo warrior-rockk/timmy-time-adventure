@@ -14,7 +14,7 @@
 
 # Level design
 - [ ] Medieval: props, tile decorations and items
-- [ ] Jurassic: spider web, better lava tiles, lava half tile? improve cavern playability, improve position of piranhas?
+- [ ] Jurassic: spider web, better lava tiles, improve cavern playability, improve position of piranhas?
 
 # Game design
 - [ ] Intro
