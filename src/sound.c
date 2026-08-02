@@ -121,7 +121,7 @@ long music_get_pos()
     //else if (soundMode == E_SOUND_SPEAKER_MODE)
         //return pc_speaker_song_pos;
     else
-        return 0;
+        return -1;
 }
 
 void music_seek(int position)

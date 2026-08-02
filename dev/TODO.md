@@ -1,5 +1,4 @@
 # Bugs
-- [ ] If not sound, game stuck on wait for music ends
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
 - [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
 - [X] Variable deltaTime causes collision system fails (player falls on solid tiles) (limit fall vY and deltaTime)
