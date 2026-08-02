@@ -27,7 +27,6 @@
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
-- [ ] Autofix player on wagon when collision on wagon movement
 
 # Engine
 - [ ] Use fixed for scroll main movements and velocities

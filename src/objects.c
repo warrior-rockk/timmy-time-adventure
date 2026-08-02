@@ -1076,6 +1076,12 @@ void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
                 entity_get(entity_get_player_id())->fixPos.x += itofix(nextPosX - this->pos.x);
                 entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y));                
             }
+            //put player on wagon if collided with him
+            else if (collision_check_entity(this, entity_get(entity_get_player_id()), E_CHECK_PROCESS_INFOONLY))
+            {
+                entity_get(entity_get_player_id())->fixPos.x = (this->fixPos.x + itofix(this->size.x >> 1));
+                entity_get(entity_get_player_id())->fixPos.y = this->fixPos.y - itofix(entity_get(entity_get_player_id())->size.y);
+            }
 
             //move border object
             /*
