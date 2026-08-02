@@ -449,7 +449,8 @@ void entities_update()
 
             //mark not visible persistent platform if are out screen
             if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_PERSISTENT))
-                entityList[i].visible = scroll_position_on_region(entityList[i].pos);
+                entityList[i].visible = scroll_rect_on_region((tRectangle){entityList[i].pos, entityList[i].size});
+                //entityList[i].visible = scroll_position_on_region(entityList[i].pos);
             
             //debug counter
             #ifdef DEBUGMODE 

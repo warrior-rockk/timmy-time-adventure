@@ -1857,7 +1857,9 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
 //summary function to update the world level
 static void game_update_level()
 {
+    profile_start();
     entities_update();
+    profile_end();
     scroll_update(entity_get(entity_get_player_id())->pos);        
 }
 
