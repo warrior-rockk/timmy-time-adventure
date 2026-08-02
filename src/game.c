@@ -464,6 +464,15 @@ void game_update()
                             destroy_bitmap(gameSprite);
                         }           
                     }
+                    
+                    //draw completed levels ring
+                    BITMAP *completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
+                    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+                    {
+                        if (game.levelComplete[i])
+                            draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
+                    }
+                    destroy_bitmap(completeRing); 
 
                     //check recent completed level
                     if (!game.levelComplete[game.actualCompletedLevel])
@@ -513,8 +522,8 @@ void game_update()
                     draw_sprite(buffer, ring, 32 + (69 * game.actualLevel), 78);    
                     destroy_bitmap(ring);   
 
-                    //draw complete levels ring
-                    BITMAP *completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
+                    //draw completed levels ring
+                    completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
                     for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
                     {
                         if (game.levelComplete[i])
