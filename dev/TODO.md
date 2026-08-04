@@ -29,6 +29,7 @@
 - [ ] Sfx particles for spider web or player splash water
 
 # Engine
+- [ ] Sound when extra live by score
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp

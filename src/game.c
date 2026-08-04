@@ -538,10 +538,11 @@ void game_update()
                             }
                             destroy_bitmap(completeRing); 
 
-                            gameSeq.step = 4;
+                            gameSeq.step = 4;   //wait for ending
                         }
                         else
                             gameSeq.step++;
+                        sfx_play(gameSfx[E_SFX_GAME_LEVEL_BLUE], E_SFX_GAME_VOICE);
                     }
                 break;
                 case 2: //draw ring and selection cursor
@@ -1294,6 +1295,7 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
     gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
+    gameSfx[E_SFX_GAME_LEVEL_BLUE]      = load_dat_wav_indexed(gameDataIndex, LEVELBLU_WAV);
     game_loading_text();
 }
 
