@@ -1287,6 +1287,14 @@ void game_load_resources()
     //load hud image
     hud.hudImg = load_dat_bmp_indexed(gameDataIndex, HUD_BMP);
     game_loading_text();
+
+    //load game sfx
+    gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
+    gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
+    gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
+    gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
+    gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
+    game_loading_text();
 }
 
 void game_init()
@@ -1332,13 +1340,6 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
     MY_TRACE_MARK;
     
-    //load game sfx
-    gameSfx[E_SFX_GAME_POINT]           = load_dat_wav_indexed(gameDataIndex, POINT_WAV);
-    gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
-    gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
-    gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
-    gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
-
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
     levelData[E_GAME_LEVEL_TUTORIAL].dataFile       = "tutorial.dat";
@@ -2050,5 +2051,5 @@ static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axi
 void game_loading_text()
 {
     printf("\rStarting %s v%i.%i (%i%%)", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION, loadingProgress);
-    loadingProgress += 10;
+    loadingProgress += 9; 
 }
