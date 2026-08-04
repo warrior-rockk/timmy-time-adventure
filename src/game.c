@@ -495,7 +495,7 @@ void game_update()
                                     gameSprite = load_dat_bmp_indexed(gameDataIndex, WEOK_BMP);
                                 break;
                             }
-                        animSprite.frame = 0;
+                        animSprite.frame = -1;
                         gameSeq.step = 1;
                     }
                     else
@@ -504,6 +504,13 @@ void game_update()
                     }
                 break;
                 case 1: //level completed animation
+                    //play animation sfx
+                    if (animSprite.frame == -1)
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_LEVEL_OK], E_SFX_GAME_VOICE);
+                        animSprite.frame = 0;
+                    }
+
                     game_draw_object((tVector){36 + (69 * game.actualCompletedLevel), 120}, E_ENT_DIR_RIGHT, (tVector){40,38}, E_ENT_AXIS_LEFT_DOWN, &animSprite, gameSprite, buffer);
                     if (play_animation(&animSprite, 0, 8, 16, ANIM_ONCE))
                     {
@@ -1248,9 +1255,7 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    game.levelComplete[0] = true;
-    game.levelComplete[1] = true;
-    game.levelComplete[2] = true;
+    
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
@@ -1332,6 +1337,7 @@ void game_init()
     gameSfx[E_SFX_GAME_POINT_END]       = load_dat_wav_indexed(gameDataIndex, POINTEND_WAV);
     gameSfx[E_SFX_GAME_MENU_NAV]        = load_dat_wav_indexed(gameDataIndex, SELECT_WAV);
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
+    gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
 
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
