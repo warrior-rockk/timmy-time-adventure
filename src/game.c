@@ -167,7 +167,7 @@ void game_update()
             {
                 case 0:
                     game.fadeIn = true;
-                    clear(buffer);
+                    clear_to_color(buffer, 160);
                                         
                     BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, DOSCLUB_BMP);
                                         
