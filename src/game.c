@@ -1251,9 +1251,9 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    game.levelComplete[1] = true;
+    /*game.levelComplete[1] = true;
     game.levelComplete[2] = true;
-    game.levelComplete[3] = true;
+    game.levelComplete[3] = true;*/
     
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
