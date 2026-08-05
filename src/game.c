@@ -45,7 +45,7 @@
 uint8_t gameExit = false;                   //flag to exit to main
 bool firstRun = false;                      //flag to set if first run (to show language selection menu)
 uint8_t loadingProgress = 0;
-uint8_t introCounter = 0;                   //intro counter
+uint8_t sceneCounter = 0;                   //intro counter
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
 FONT *gameFont[E_GAME_NUM_FONTS];           //game font array
@@ -239,23 +239,23 @@ void game_update()
                     game.fadeIn = true;
                     
                     clear_to_color(buffer, BLACK_COLOR);
-                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + introCounter);
+                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + sceneCounter);
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + introCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                                         
                     gameSeq.step++;
                 break;
                 case 1:
                     if (input_any_key_pressed())
                     {
-                        introCounter++;
-                        if (introCounter >= INTRO_SCENES)
+                        sceneCounter++;
+                        if (sceneCounter >= INTRO_SCENES)
                         {
                             game.state = E_GAME_ST_TITLE;
                             currentPal = gamePal;
-                            introCounter = 0;
+                            sceneCounter = 0;
                         }
                         gameSeq.step = 0;    
                         game.fadeOut = true;
@@ -1171,26 +1171,34 @@ void game_update()
             }
         break;
         case E_GAME_ST_ENDING:            
+            BITMAP *ending;
             switch (gameSeq.step)
             {
-                case 0:
-                    clear_bitmap(buffer);
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "CONGRATULATIONS!", SCREEN_W>>1, SCREEN_H>>1, WHITE_COLOR, BLACK_COLOR);
+                case 0: 
                     game.fadeIn = true;
+                    
+                    clear_to_color(buffer, BLACK_COLOR);
+                    ending = load_dat_bmp_indexed(gameDataIndex, ENDING1_BMP + sceneCounter);
+                    draw_sprite(buffer, ending, (SCREEN_W>>1) - (ending->w>>1), 0);    
+                    destroy_bitmap(ending);
 
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_ENDING_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                                        
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (gameSeq.timeCounter >= 800 || input_any_key_pressed())
+                    if (input_any_key_pressed())
                     {
-                        game.state = E_GAME_ST_TITLE;
-                        game_init_flags();
-                        gameSeq.timeCounter = 0;
-                        gameSeq.step = 0;
+                        sceneCounter++;
+                        if (sceneCounter >= ENDING_SCENES)
+                        {
+                            game.state = E_GAME_ST_TITLE;
+                            currentPal = gamePal;
+                            sceneCounter = 0;
+                        }
+                        gameSeq.step = 0;    
                         game.fadeOut = true;
                     }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -1243,6 +1251,9 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
+    game.levelComplete[1] = true;
+    game.levelComplete[2] = true;
+    game.levelComplete[3] = true;
     
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;

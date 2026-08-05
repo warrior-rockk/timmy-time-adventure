@@ -44,3 +44,6 @@ Finally, the machine it's ready.|It's time to testing it
 But something goes wrong and|the machine explodes when turn it on
 Timmy and parts of the machine|goes into the time vortex generated
 Now, Timmy is lost in time and need to|travel trought history eras and recover the|machine pieces to return to his time
+Finally, Timmy has all the|lost machine parts and can fix the machine
+With the machine fixed,|a time vortex brings Timmy to his time
+Now Timmy is in home again!

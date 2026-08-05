@@ -81,8 +81,9 @@
 #define SCORE_POINT_EXTRA_LIFE  500     //score needed to get extra life
 #define SCORE_OVERFLOW          65000   //overflow score
 
-//intro
+//scenes
 #define INTRO_SCENES            6       //number of intro scenes
+#define ENDING_SCENES           3       //number of ending scenes
 
 //game states
 enum E_GAME_STATE
@@ -190,6 +191,9 @@ enum E_GAME_TEXTS
     E_TXT_INTRO_4,
     E_TXT_INTRO_5,
     E_TXT_INTRO_6,
+    E_TXT_ENDING_1,
+    E_TXT_ENDING_2,
+    E_TXT_ENDING_3,
 
     E_TXT_NUM,
 };
@@ -281,7 +285,7 @@ typedef struct
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_DOS_LOGO
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
 
     typedef struct
