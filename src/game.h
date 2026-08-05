@@ -82,7 +82,7 @@
 #define SCORE_OVERFLOW          65000   //overflow score
 
 //intro
-#define INTRO_SCENES            2
+#define INTRO_SCENES            6       //number of intro scenes
 
 //game states
 enum E_GAME_STATE
