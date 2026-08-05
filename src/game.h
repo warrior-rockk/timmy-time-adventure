@@ -81,6 +81,9 @@
 #define SCORE_POINT_EXTRA_LIFE  500     //score needed to get extra life
 #define SCORE_OVERFLOW          65000   //overflow score
 
+//intro
+#define INTRO_SCENES            2
+
 //game states
 enum E_GAME_STATE
 {

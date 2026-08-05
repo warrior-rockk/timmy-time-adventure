@@ -45,7 +45,7 @@
 uint8_t gameExit = false;                   //flag to exit to main
 bool firstRun = false;                      //flag to set if first run (to show language selection menu)
 uint8_t loadingProgress = 0;
-
+uint8_t introCounter = 0;                   //intro counter
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
 FONT *gameFont[E_GAME_NUM_FONTS];           //game font array
@@ -239,38 +239,27 @@ void game_update()
                     game.fadeIn = true;
                     
                     clear_to_color(buffer, BLACK_COLOR);
-                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP);
+                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + introCounter);
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + introCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                                         
                     gameSeq.step++;
                 break;
-                case 2: 
-                    game.fadeIn = true;
-                    
-                    clear_to_color(buffer, BLACK_COLOR);
-                    intro = load_dat_bmp_indexed(gameDataIndex, INTRO2_BMP);
-                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
-                    destroy_bitmap(intro);
-
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_2), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-
-                    gameSeq.step++;
-                break;
-                default:
+                case 1:
                     if (input_any_key_pressed())
                     {
-                        gameSeq.step++;    
+                        introCounter++;
+                        if (introCounter >= INTRO_SCENES)
+                        {
+                            game.state = E_GAME_ST_TITLE;
+                            currentPal = gamePal;
+                            introCounter = 0;
+                        }
+                        gameSeq.step = 0;    
                         game.fadeOut = true;
                     }
-                break;
-                case 4:
-                    gameSeq.step = 0;
-                    game.state = E_GAME_ST_TITLE;
-                    currentPal = gamePal;
-                    game.fadeOut = true;
                 break;
             }
         break;
