@@ -24,8 +24,9 @@ void text_multiline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uin
 
     //make a copy of the string for tokenizer
     s = strdup(text);
+    
     //first token
-    ch = strtok(s, "\n");
+    ch = strtok(s, TEXT_LINE_DELIMITER);
     //sets the initial Y text position
     posY = y;
 
@@ -39,7 +40,7 @@ void text_multiline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uin
         posY += text_height(font);
         
         //get next token
-        ch = strtok(NULL, "\n");
+        ch = strtok(NULL, TEXT_LINE_DELIMITER);
     }
 }
 
@@ -63,7 +64,7 @@ uint8_t text_marquee_draw(BITMAP *buffer, FONT *font, uint8_t fontColor, uint8_t
         {
             char letter[2];
             sprintf(letter, "%c", marqueeTxt[marqueeActualPos]);    
-            if (letter[0] == '\n')
+            if (letter[0] == TEXT_LINE_DELIMITER_CHAR)
             {
                 marqueeY += text_height(font);
                 marqueeActualX = 0;

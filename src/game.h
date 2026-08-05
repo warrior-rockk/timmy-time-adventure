@@ -181,6 +181,12 @@ enum E_GAME_TEXTS
     E_TXT_TUTORIAL_THROW,
     E_TXT_TUTORIAL_SHORT_THROW,
     E_TXT_TUTORIAL_DOOR,
+    E_TXT_INTRO_1,
+    E_TXT_INTRO_2,
+    E_TXT_INTRO_3,
+    E_TXT_INTRO_4,
+    E_TXT_INTRO_5,
+    E_TXT_INTRO_6,
 
     E_TXT_NUM,
 };
@@ -272,7 +278,7 @@ typedef struct
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_SELECT_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_DOS_LOGO
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
 
     typedef struct

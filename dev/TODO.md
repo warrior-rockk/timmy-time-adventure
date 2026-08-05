@@ -17,6 +17,7 @@
 - [ ] Jurassic: spider web, better lava tiles, improve cavern playability, improve position of piranhas?
 
 # Game design
+- [ ] MSDOS club assets from telegram
 - [ ] Intro
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY

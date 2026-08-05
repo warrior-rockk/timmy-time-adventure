@@ -9,6 +9,9 @@
 
 #include "allegro.h"
 
+#define TEXT_LINE_DELIMITER         "|"
+#define TEXT_LINE_DELIMITER_CHAR    '|'
+
 //draws multiline text separated by \n
 void text_multiline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uint16_t y, uint8_t fontColor, uint8_t backColor);
 
