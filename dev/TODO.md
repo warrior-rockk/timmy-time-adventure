@@ -31,7 +31,6 @@
 # Engine
 - [ ] Sound when extra live by score
 - [ ] Use fixed for scroll main movements and velocities
-- [ ] Review translation texts lengths
 - [ ] midi fade off volume ramp
 - [ ] freeze entities during dead animation? on crush?
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
