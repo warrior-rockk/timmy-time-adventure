@@ -85,6 +85,42 @@
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
 
+//dialog defines
+#define FIRSTRUN_MENU_SIZE_X    80
+#define FIRSTRUN_MENU_SIZE_Y    0
+#define FIRSTRUN_MENU_POS_X     (SCREEN_W >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
+#define FIRSTRUN_MENU_POS_Y     50
+
+#define MAIN_MENU_SIZE_X        120
+#define MAIN_MENU_SIZE_Y        0
+#define MAIN_MENU_POS_X         (SCREEN_W >> 1) - (MAIN_MENU_SIZE_X >> 1)
+#define MAIN_MENU_POS_Y         120
+
+#define OPTIONS_MENU_SIZE_X     132
+#define OPTIONS_MENU_SIZE_Y     0
+#define OPTIONS_MENU_POS_X      (SCREEN_W >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
+#define OPTIONS_MENU_POS_Y      50
+
+#define GAMEOVER_MENU_SIZE_X    60
+#define GAMEOVER_MENU_SIZE_Y    0
+#define GAMEOVER_MENU_POS_X     (SCREEN_W >> 1) - (GAMEOVER_MENU_SIZE_X >> 1)
+#define GAMEOVER_MENU_POS_Y     150
+
+#define PLAY_MENU_SIZE_X        110
+#define PLAY_MENU_SIZE_Y        0
+#define PLAY_MENU_POS_X         (GAME_W >> 1) - (PLAY_MENU_SIZE_X >> 1)
+#define PLAY_MENU_POS_Y         40
+
+#define CONTROLS_MENU_SIZE_X    132
+#define CONTROLS_MENU_SIZE_Y    0
+#define CONTROLS_MENU_POS_X     (SCREEN_W >> 1) - (CONTROLS_MENU_SIZE_X >> 1)
+#define CONTROLS_MENU_POS_Y     50
+
+#define PAUSE_MENU_SIZE_X       140
+#define PAUSE_MENU_SIZE_Y       0
+#define PAUSE_MENU_POS_X        (GAME_W >> 1) - (PAUSE_MENU_SIZE_X >> 1)
+#define PAUSE_MENU_POS_Y        GAME_H >> 1
+
 //game states
 enum E_GAME_STATE
 {
