@@ -5,7 +5,7 @@
 - [X] falling on fire destroy blocks puzzle fails and loses lives (limit fall vY and deltaTine)
 
 # Performance
-- [ ] Draw map: more background color tiles?
+- [ ] Draw map: more background color tiles? (jurassic cavern)
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
@@ -35,14 +35,10 @@
 - [ ] freeze entities during dead animation? on crush?
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] solve balancing on edge direction. Balancing on objects?
-- [ ] No need to check player on objects that hurt. Use a entity property OBJECT_HURT?
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
 - [ ] Dead enemies with dynamite explosion?
-- [ ] Remove from game_init the initialization that goes to game_update on state GAME_INIT
 - [ ] Number counter dynamite?
 - [ ] Review debug keys on different translation units
-- [ ] Unload game resources? unload interface system?
-- [ ] Reassign update object/enemy pointer on object/enemy create?
 - [ ] PC Speaker effects?
 - [X] Platform objects
 - [X] Continue menu with player animation crying?
@@ -98,7 +94,6 @@
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
 - [ ] Simple collisions check on entity update?
-- [ ] Less collision points to entities than player?s
 - [ ] DeltaTime ¿double? Review deltaTime calculation
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Reset ground flag on entity init?
