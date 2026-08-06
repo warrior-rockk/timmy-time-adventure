@@ -38,12 +38,12 @@ COGER OBJETO CON [%s]
 LANZAR OBJETO CON [%s]
 PULSA [%s] PARA LANZAMIENTO CORTO
 ENTRA A LAS PUERTAS CON [%s]
-Late at night, a boy stills|working on his lab
-This boy is Timmy, and he is|working on his last invention:|A TIME MACHINE!
-Finally, the machine it's ready.|It's time to testing it
-But something goes wrong and|the machine explodes when turn it on
-Timmy and parts of the machine|goes into the time vortex generated
-Now, Timmy is lost in time and need to|travel trought history eras and recover the|machine pieces to return to his time
-Finally, Timmy has all the|lost machine parts
-With the machine fixed,|a time vortex brings Timmy to his time
-Now Timmy is in home again!
+En mitad la noche, un niño sigue|trabajando en su laboratorio
+Ese niño es Timmy y está trabajando|en su último invento:|¡UNA MAQUINA DEL TIEMPO!
+Por fin, la máqina está lista.|Es momento de probarla
+Pero algo va mal y la máquina|explota al encenderla
+Timmy y piezas de la máquina|son absorbidas por un vórtice temporal
+Ahora Timmy está perdido en épocas|del tiempo y tiene que viajar por la historia|para recuperar las piezas perdidas
+Al fin Timmy ha recuperado todas|las piezas de la maquina y puede arreglarla
+Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época
+¡Ahora Timmy esta en casa de nuevo!
