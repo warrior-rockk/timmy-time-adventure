@@ -143,7 +143,7 @@ void game_update()
                     draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1) + 20, (SCREEN_H>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);
                     
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, 30, 251);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, WHITE_COLOR, 0);
 
                     gameMusic = load_dat_midi_indexed(gameDataIndex, WARCOM_MID);
                     music_play(gameMusic, false);
@@ -167,7 +167,7 @@ void game_update()
             {
                 case 0:
                     game.fadeIn = true;
-                    clear_to_color(buffer, 160);
+                    clear_to_color(buffer, 188);
                                         
                     BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, DOSCLUB_BMP);
                                         
