@@ -236,18 +236,31 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0: 
-                    game.fadeIn = true;
-                    
                     clear_to_color(buffer, BLACK_COLOR);
                     intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + sceneCounter);
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                                        
+                    
+                    game.fadeIn = E_FADE_TYPE_0_63;
+
                     gameSeq.step++;
                 break;
                 case 1:
+                    if (gameSeq.timeCounter >= 20)
+                    {
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 2:
+                    game.fadeIn = E_FADE_TYPE_64_255;
+                    gameSeq.step++;
+                break;
+                case 3:
                     if (input_any_key_pressed())
                     {
                         sceneCounter++;
@@ -1563,14 +1576,27 @@ static void game_do_fade()
         
         game.fadeOut = false;        
     }
-    if (game.fadeIn)
+
+    //fade in
+    switch (game.fadeIn)
     {
-        if (game.fadeState == E_FADED_OFF)
-        {
-            fade_in(currentPal, GAME_FADE_SPEED);
-            game.fadeState = E_FADED_IN;
-        }
-        
+        case E_FADE_TYPE_NORMAL:
+            if (game.fadeState == E_FADED_OFF)
+            {
+                fade_in(currentPal, GAME_FADE_SPEED);
+            }
+        break;
+        case E_FADE_TYPE_0_63:
+            fade_in_range(currentPal, GAME_FADE_SPEED, 0, 63);
+        break;
+        case E_FADE_TYPE_64_255:
+            fade_in_range(currentPal, GAME_FADE_SPEED, 64, 255);
+        break;
+    }
+
+    if (game.fadeIn != E_FADE_TYPE_NONE)
+    {
+        game.fadeState = E_FADED_IN;
         game.fadeIn = false;
     }
 }

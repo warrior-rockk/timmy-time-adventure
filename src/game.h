@@ -290,6 +290,15 @@ enum E_GAME_FONTS
     E_GAME_NUM_FONTS,
 };
 
+//fade types
+enum E_FADE_TYPE
+{
+    E_FADE_TYPE_NONE,
+    E_FADE_TYPE_NORMAL,
+    E_FADE_TYPE_0_63,
+    E_FADE_TYPE_64_255,
+};
+
 //game data
 typedef struct
 {
@@ -321,7 +330,7 @@ typedef struct
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOGO
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
 
     typedef struct
