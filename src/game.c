@@ -251,16 +251,13 @@ void game_update()
                     if (gameSeq.timeCounter >= 20)
                     {
                         gameSeq.timeCounter = 0;
+                        game.fadeIn = E_FADE_TYPE_64_255;
                         gameSeq.step++;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2:
-                    game.fadeIn = E_FADE_TYPE_64_255;
-                    gameSeq.step++;
-                break;
-                case 3:
                     if (input_any_key_pressed())
                     {
                         sceneCounter++;
@@ -1188,6 +1185,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0: 
+                    currentPal = introPal;    
                     game.fadeIn = true;
                     
                     clear_to_color(buffer, BLACK_COLOR);
@@ -1197,9 +1195,21 @@ void game_update()
 
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_ENDING_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
                                         
+                    game.fadeIn = E_FADE_TYPE_0_63;
+
                     gameSeq.step++;
                 break;
                 case 1:
+                    if (gameSeq.timeCounter >= 20)
+                    {
+                        gameSeq.timeCounter = 0;
+                        game.fadeIn = E_FADE_TYPE_64_255;
+                        gameSeq.step++;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 2:
                     if (input_any_key_pressed())
                     {
                         sceneCounter++;
@@ -1264,9 +1274,10 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    /*game.levelComplete[1] = true;
+    //game.levelComplete[0] = true;
+    game.levelComplete[1] = true;
     game.levelComplete[2] = true;
-    game.levelComplete[3] = true;*/
+    game.levelComplete[3] = true;
     
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
