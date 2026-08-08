@@ -470,6 +470,10 @@ void object_create(tEntity *entity)
             collision_create_min_entity_points(entity);
             entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
         break;
+        case E_LAVA_DROP_OBJECT_TYPE:
+        entity->size = (tVector){16, 16};     
+        entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_HURT | E_ENT_PROP_NO_COLLISION;
+        break;
         default:
             abort_on_error("Object entity type (%i) not valid", entity->entType);
         break;
@@ -563,6 +567,9 @@ void object_update(tEntity *entity)
         break;
         case E_CANNON_OBJECT_TYPE:             
             object_cannon_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
+        break;
+        case E_LAVA_DROP_OBJECT_TYPE:
+            object_lava_drop_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         default:
             object_solid_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
@@ -2009,6 +2016,74 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
                 //hurt player if collided
                 entity_get(entity_get_player_id())->signal = E_ENT_SIGNAL_HURT;                
             }
+        break;
+    }    
+}
+
+void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
+{
+    //object defines
+    #define LAVA_DROP_DEFAULT_TIMER    120   
+
+    //object states
+    enum E_LAVA_DROP_OBJECT_STATES{E_LAVA_DROP_INIT_DELAY, E_LAVA_DROP_ST_FALL, E_LAVA_DROP_ST_WAIT, E_LAVA_DROP_ST_FLUSH};
+
+    switch (this->state)
+    {
+        case E_LAVA_DROP_INIT_DELAY:            
+            if (local->timer >= LAVA_DROP_DEFAULT_TIMER + this->spare)
+            {
+                this->state++;                
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+        break;
+        case E_LAVA_DROP_ST_FALL:            
+            if (clock_counter_check(6))
+            {
+                //TODO: sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
+                if (local->timer < this->dir - 1)
+                {
+                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 66, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
+                    map_set_tile_animation((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 66, 4);
+                }
+                else
+                {
+                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 69, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
+                    map_set_tile_animation((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 69, 5);
+                }
+                local->timer++;
+            }
+
+            if (local->timer >= this->dir)
+                this->state++;  //go to state not defined (do nothing)
+        break;
+        case E_LAVA_DROP_ST_WAIT:
+            if (local->timer >= LAVA_DROP_DEFAULT_TIMER)
+            {
+                this->state++;                
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
+        break;
+        case E_LAVA_DROP_ST_FLUSH:            
+            if (clock_counter_check(6))
+            {
+                if (local->timer == 0)
+                {
+                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 5, E_TILE_PROP_NO_SOLID);
+                }
+                else
+                {
+                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 100, E_TILE_PROP_NO_SOLID);
+                }
+                local->timer++;
+            }
+
+            if (local->timer >= this->dir)
+                this->state = 0;
         break;
     }    
 }

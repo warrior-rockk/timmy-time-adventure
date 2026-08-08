@@ -65,6 +65,7 @@ enum E_OBJECT_TYPE
     E_PATH_OBJECT_TYPE,
     E_CANNON_OBJECT_TYPE,
     E_TORCH_DROP_OBJECT_TYPE,
+    E_LAVA_DROP_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -192,4 +193,6 @@ void object_spike_trap_2_update(tEntity *this, tDefaultObjectLocalData *local);
 void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local);
 //cannon
 void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local);
+//lava drop
+void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local);
 #endif

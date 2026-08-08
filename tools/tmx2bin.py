@@ -61,6 +61,7 @@ object_ent_types = [
     "path",
     "cannon",
     "torch-drop",
+    "lava-drop",
 ]
 object_ent_types = {name: index for index, name in enumerate(object_ent_types)}
 
