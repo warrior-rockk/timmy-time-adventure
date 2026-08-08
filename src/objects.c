@@ -619,12 +619,16 @@ void object_init(tEntity *entity)
             ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.y = 0;
         break;
         case E_LAVA_DROP_OBJECT_TYPE:
+            #define LAVA_DROP_TILE_ROCK         5
+            #define LAVA_DROP_TILE_BACKGROUND   100
+
+            uint8_t tileSize = map_get_tile_size();
             for (uint8_t i = 0; i < entity->dir; i++)
             {
                 if (i == 0)
-                    map_change_tile((tVector){entity->pos.x / 16, (entity->pos.y / 16) + i}, 5, E_TILE_PROP_NO_SOLID);
+                    map_change_tile((tVector){entity->pos.x / tileSize, (entity->pos.y / tileSize) + i}, LAVA_DROP_TILE_ROCK, E_TILE_PROP_NO_SOLID);
                 else
-                    map_change_tile((tVector){entity->pos.x / 16, (entity->pos.y / 16) + i}, 100, E_TILE_PROP_NO_SOLID);
+                    map_change_tile((tVector){entity->pos.x / tileSize, (entity->pos.y / tileSize) + i}, LAVA_DROP_TILE_BACKGROUND, E_TILE_PROP_NO_SOLID);
             }
         break;
         default:            
@@ -2032,7 +2036,12 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
 {
     //object defines
-    #define LAVA_DROP_DEFAULT_TIMER    120   
+    #define LAVA_DROP_DEFAULT_TIMER     120   
+    #define LAVA_DROP_TILE              66
+    #define LAVA_FLOOR_TILE             69
+    #define LAVA_DROP_ANIM_ID           4
+    #define LAVA_FLOOR_ANIM_ID          5
+    #define LAVA_CADENCE                6
 
     //object states
     enum E_LAVA_DROP_OBJECT_STATES{E_LAVA_DROP_INIT_DELAY, E_LAVA_DROP_ST_FALL, E_LAVA_DROP_ST_WAIT, E_LAVA_DROP_ST_FLUSH};
@@ -2049,18 +2058,19 @@ void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
                 local->timer += clock_tick_get();
         break;
         case E_LAVA_DROP_ST_FALL:            
-            if (clock_counter_check(6))
+            if (clock_counter_check(LAVA_CADENCE))
             {
                 //TODO: sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
+                uint8_t tileSize = map_get_tile_size();
                 if (local->timer < this->dir - 1)
                 {
-                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 66, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
-                    map_set_tile_animation((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 66, 4);
+                    map_change_tile((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_DROP_TILE, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
+                    map_set_tile_animation((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_DROP_TILE, LAVA_DROP_ANIM_ID);
                 }
                 else
                 {
-                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 69, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
-                    map_set_tile_animation((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 69, 5);
+                    map_change_tile((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_FLOOR_TILE, E_TILE_PROP_NO_SOLID | E_TILE_PROP_HURT | E_TILE_PROP_ANIMATION);
+                    map_set_tile_animation((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_FLOOR_TILE, LAVA_FLOOR_ANIM_ID);
                 }
                 local->timer++;
             }
@@ -2077,16 +2087,17 @@ void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
             else
                 local->timer += clock_tick_get();
         break;
-        case E_LAVA_DROP_ST_FLUSH:            
-            if (clock_counter_check(6))
+        case E_LAVA_DROP_ST_FLUSH:      
+            uint8_t tileSize = map_get_tile_size();      
+            if (clock_counter_check(LAVA_CADENCE))
             {
                 if (local->timer == 0)
                 {
-                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 5, E_TILE_PROP_NO_SOLID);
+                    map_change_tile((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_DROP_TILE_ROCK, E_TILE_PROP_NO_SOLID);
                 }
                 else
                 {
-                    map_change_tile((tVector){this->pos.x / 16, (this->pos.y / 16) + local->timer}, 100, E_TILE_PROP_NO_SOLID);
+                    map_change_tile((tVector){this->pos.x / tileSize, (this->pos.y / tileSize) + local->timer}, LAVA_DROP_TILE_BACKGROUND, E_TILE_PROP_NO_SOLID);
                 }
                 local->timer++;
             }

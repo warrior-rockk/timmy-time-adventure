@@ -76,6 +76,8 @@ uint16_t map_get_tile_property(tVector checkPosition);
 int16_t map_snap_x_to_tile(tEntity *entity);
 //return y position snapped to tile
 int16_t map_snap_y_to_tile(tEntity *entity);
+//return tile position of a absolute position
+tVector map_get_tile_position(tVector absolutePosition);
 //change map background color
 void map_change_background_color(uint8_t color);
 //change map tile
