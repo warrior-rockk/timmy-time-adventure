@@ -45,6 +45,7 @@ enum E_ENEMY_TYPE
     E_CANNONBALL_ENEMY_TYPE,
     E_FIRE_DROP_ENEMY_TYPE,
     E_MEDIEVAL_ARMOUR_ENEMY_TYPE,
+    E_LAVA_BALL_ENEMY_TYPE,
 
     E_ENEMIES_TYPE_NUM,
 };
@@ -117,6 +118,7 @@ void enemy_raptor_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local);
+void enemy_lava_ball_update(tEntity *this, tDefaultEnemyLocalData *local);
 
 void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local);
 void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local);

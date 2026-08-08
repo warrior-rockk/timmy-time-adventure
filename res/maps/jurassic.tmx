@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="146">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="151">
  <properties>
   <property name="time" type="int" value="200"/>
  </properties>
@@ -453,7 +453,7 @@
   </tile>
   <tile id="109" type="tile_HURT">
    <properties>
-    <property name="property" type="int" propertytype="tileProperties" value="1024"/>
+    <property name="property" type="int" propertytype="tileProperties" value="1026"/>
    </properties>
   </tile>
  </tileset>
@@ -783,7 +783,7 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="138" name="debug-start" type="object" x="2560" y="384" width="16" height="32">
+  <object id="138" name="debug-start" type="object" x="1792" y="224" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
@@ -815,6 +815,36 @@
   <object id="145" name="lava-drop" type="object" x="3072" y="320" width="16" height="16">
    <properties>
     <property name="dir" type="int" value="8"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="146" name="lava-ball" type="enemy" x="1760" y="272" width="16" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="147" name="lava-ball" type="enemy" x="1712" y="272" width="16" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" value="100"/>
+   </properties>
+  </object>
+  <object id="148" name="lava-ball" type="enemy" x="1680" y="272" width="16" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="149" name="lava-ball" type="enemy" x="2176" y="448" width="16" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
+    <property name="spare" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="150" name="lava-ball" type="enemy" x="2864" y="448" width="16" height="16">
+   <properties>
+    <property name="dir" type="int" propertytype="dir" value="0"/>
     <property name="spare" type="int" value="50"/>
    </properties>
   </object>

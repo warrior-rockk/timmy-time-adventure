@@ -449,6 +449,14 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){12, 32};  
             entity->axis = E_ENT_AXIS_DOWN;
         break;
+        case E_LAVA_BALL_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, LAVABALL_BMP);
+            //load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);            
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){15, 28};                          
+            entity->size = (tVector){16, 16};  
+            entity->axis = E_ENT_AXIS_DOWN;
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -565,6 +573,9 @@ void enemy_update(tEntity *entity)
         break;        
         case E_MEDIEVAL_ARMOUR_ENEMY_TYPE:             
             enemy_medieval_armour_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;        
+        case E_LAVA_BALL_ENEMY_TYPE:
+            enemy_lava_ball_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         default:
         break;
@@ -2472,6 +2483,69 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->state = E_ARMOUR_ST_WAIT;         
             }
         break;
+    }       
+}
+
+void enemy_lava_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
+{              
+    //enemy definitions
+    #define LAVA_BALL_DEFAULT_WAIT_TIME   200
+    #define LAVA_BALL_VEL_Y               -4
+
+    //enemy animations    
+    #define ANIM_LAVA_BALL_UP       0,   2,  6,  ANIM_LOOP
+    #define ANIM_LAVA_BALL_DOWN     3,   5,  6,  ANIM_LOOP
+    
+    //enemy states
+    enum E_LAVA_BALL_ENEMY_STATES{E_LAVA_BALL_ST_IDLE, E_LAVA_BALL_ST_DELAY, E_LAVA_BALL_ST_JUMP, E_LAVA_BALL_ST_DOWN};   
+    
+    switch (this->state)
+    {
+        case E_LAVA_BALL_ST_IDLE:            
+            CLEAR_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+            SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+            this->anim.frame = 0;
+            this->visible = false;
+            this->fixPos.x = itofix(this->initPos.x);
+            this->fixPos.y = itofix(this->initPos.y);
+            this->fixVel.y = 0;
+            this->fixVel.x = 0;
+
+            if (clock_counter_check(LAVA_BALL_DEFAULT_WAIT_TIME))
+            {
+                this->state = E_LAVA_BALL_ST_DELAY;    
+            }
+        break;
+        case E_LAVA_BALL_ST_DELAY:
+            //waits spare delay
+            if (local->timer >= this->spare) 
+            {                
+                this->state = E_LAVA_BALL_ST_JUMP;     
+                sfx_play(enemySfx[E_SFX_ENEMY_SPLASH], E_SFX_ENEMY_VOICE);           
+                SET_FLAG(this->properties, E_ENT_PROP_PHYSICS_ON);
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+                this->fixVel.y = ftofix(LAVA_BALL_VEL_Y);
+                this->ground = false;
+            }
+            else
+                local->timer += clock_tick_get();
+        break;
+        case E_LAVA_BALL_ST_JUMP:            
+            local->timer = 0;
+            this->visible = true;            
+            play_animation(&this->anim, ANIM_LAVA_BALL_UP);
+            
+            if (this->fixVel.y >= 0)
+                this->state = E_LAVA_BALL_ST_DOWN;
+        break;
+        case E_LAVA_BALL_ST_DOWN:            
+            local->timer = 0;
+            this->visible = true;            
+            play_animation(&this->anim, ANIM_LAVA_BALL_DOWN);
+            
+            if (this->pos.y >= this->initPos.y)
+                this->state = E_LAVA_BALL_ST_IDLE;
+        break;             
     }       
 }
 
