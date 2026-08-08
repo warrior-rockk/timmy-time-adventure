@@ -13,7 +13,7 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] Medieval: props, tile decorations and items
+- [ ] Ghost animation too fast
 - [ ] Jurassic: spider web, improve cavern playability, improve position of piranhas?
 
 # Game design
