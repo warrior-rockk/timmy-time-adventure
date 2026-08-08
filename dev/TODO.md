@@ -13,7 +13,7 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] Jurassic: spider web, improve cavern playability, improve position of piranhas?
+- [ ] Jurassic: spider web, improve position of piranhas?
 
 # Game design
 - [ ] Title screen

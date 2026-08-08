@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="lava-drop" type="object" width="16" height="16">
+  <properties>
+   <property name="dir" type="int" value="5"/>
+   <property name="spare" type="int" value="0"/>
+  </properties>
+ </object>
+</template>

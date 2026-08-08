@@ -618,6 +618,15 @@ void object_init(tEntity *entity)
             ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.x = 0;
             ((tPathPlatformLocalData*)objectDataList[entity->entInstance].data)->pathPos.y = 0;
         break;
+        case E_LAVA_DROP_OBJECT_TYPE:
+            for (uint8_t i = 0; i < entity->dir; i++)
+            {
+                if (i == 0)
+                    map_change_tile((tVector){entity->pos.x / 16, (entity->pos.y / 16) + i}, 5, E_TILE_PROP_NO_SOLID);
+                else
+                    map_change_tile((tVector){entity->pos.x / 16, (entity->pos.y / 16) + i}, 100, E_TILE_PROP_NO_SOLID);
+            }
+        break;
         default:            
             ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
             ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;    
