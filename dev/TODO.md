@@ -17,7 +17,6 @@
 - [ ] Jurassic: spider web, improve cavern playability, improve position of piranhas?
 
 # Game design
-- [ ] Intro
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
