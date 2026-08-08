@@ -591,7 +591,7 @@ void game_update()
                     }
                 break;
                 case 4: //wait for ending
-                    if (gameSeq.timeCounter >= 60)
+                    if (gameSeq.timeCounter >= 160)
                     {
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
