@@ -1979,7 +1979,7 @@ void enemy_ghost_update(tEntity *this, tDefaultEnemyLocalData *local)
         
     //enemy animations
     #define ANIM_GHOST_APPEAR        0,   3, 10,  ANIM_ONCE
-    #define ANIM_GHOST_FLY           4,   7, 10,  ANIM_LOOP
+    #define ANIM_GHOST_FLY           4,   7, 18,  ANIM_LOOP
     #define ANIM_GHOST_DISAPPEAR     8,   11, 10,  ANIM_ONCE
     
     //enemy states
