@@ -401,9 +401,9 @@ static void player_update_collisions(tEntity *player)
             playerFlags.jump = true;
         
         //check tile with hurt property
-        if (!playerInvincible && colDir != E_COLLISION_DIR_NONE)
+        if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
         {
-            if (CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_HURT))
+            if (!playerInvincible && (colDir != E_COLLISION_DIR_NONE || CHECK_FLAG(collision_get_tile_property(player, i), E_TILE_PROP_NO_SOLID)))
                 playerFlags.hurt = true;
         }
     }
