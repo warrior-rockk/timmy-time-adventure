@@ -13,7 +13,8 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] Jurassic: spider web, improve position of piranhas?
+- [ ] Jurassic: spider web, make improve position of piranhas?
+- [ ] No scroll up spider jurassic. More time arrow trap egypt. Trap spike not move? Bug on restart level on room scroll different...
 
 # Game design
 - [ ] Title screen
