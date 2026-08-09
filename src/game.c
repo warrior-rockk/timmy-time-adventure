@@ -832,6 +832,7 @@ void game_update()
             {
                 if (input_log_play_finished() || key[KEY_ESC])
                 {
+                    input_log_stop();
                     game_destroy_level();                                
                     //game_init_flags();
                     game.fadeOut = true;
