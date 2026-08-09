@@ -14,7 +14,7 @@
 
 # Level design
 - [ ] Jurassic: spider web, make improve position of piranhas?
-- [ ] No scroll up spider jurassic. Bug on restart level on room scroll different...
+- [ ] No scroll up spider jurassic.
 
 # Game design
 - [ ] Title screen
