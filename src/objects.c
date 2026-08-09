@@ -360,7 +360,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType]; 
             entity->spriteSize = (tVector){16, 16};                          
             entity->size = (tVector){16, 16};      
-            entity->properties = E_ENT_PROP_NO_PICKABLE;               
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_COLLISION;               
         break;
         case E_EGYPT_SYMBOL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SYMBOL1_BMP);
@@ -422,7 +422,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType]; 
             entity->spriteSize = (tVector){16, 16};                          
             entity->size = (tVector){16, 16};              
-            entity->properties = E_ENT_PROP_NO_PICKABLE;       
+            entity->properties = E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_COLLISION;       
         break;
         case E_DEBUG_START_OBJECT_TYPE:
             entity->img = NULL;
