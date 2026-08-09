@@ -1804,7 +1804,7 @@ void object_spike_trap_2_update(tEntity *this, tDefaultObjectLocalData *local)
             //check only down point    
             if (collision_check_tile(this, E_COLPOINT_CENTER_DOWN))            
             {
-                    this->state = E_SPIKE_TRAP_2_ST_STOP;
+                this->state = E_SPIKE_TRAP_2_ST_STOP;
                 
             }
             if (collision_check_entity(this, player, E_CHECK_PROCESS_INFOONLY))

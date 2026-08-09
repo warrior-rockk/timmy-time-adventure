@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="275">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="277">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -411,31 +411,31 @@
   <object id="18" template="enemies/egypt/trap-arrow.tx" type="object" x="240" y="512">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
+    <property name="spare" type="int" value="100"/>
    </properties>
   </object>
   <object id="101" template="enemies/egypt/trap-arrow.tx" type="object" x="240" y="320">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
+    <property name="spare" type="int" value="100"/>
    </properties>
   </object>
   <object id="106" template="enemies/egypt/trap-arrow.tx" type="object" x="240" y="128">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
+    <property name="spare" type="int" value="100"/>
    </properties>
   </object>
   <object id="99" template="enemies/egypt/trap-arrow.tx" type="object" x="240" y="416">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
+    <property name="spare" type="int" value="100"/>
    </properties>
   </object>
   <object id="103" template="enemies/egypt/trap-arrow.tx" type="object" x="240" y="224">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
-    <property name="spare" type="int" value="50"/>
+    <property name="spare" type="int" value="100"/>
    </properties>
   </object>
   <object id="19" template="enemies/egypt/trap-arrow.tx" type="object" x="0" y="560">
@@ -1032,5 +1032,6 @@
     <property name="spare" type="int" propertytype="stopScroll" value="2"/>
    </properties>
   </object>
+  <object id="276" template="triggers/debug-start.tx" x="960" y="112"/>
  </objectgroup>
 </map>
