@@ -282,24 +282,77 @@ void game_update()
         case E_GAME_ST_TITLE:
             switch (gameSeq.step)
             {
-                case 0:                                      
+                case 0: //play jingle                                      
                     currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
                     clear_to_color(buffer, BLACK_COLOR);                                        
-                    gameSeq.step++;      
                     
                     //play title music
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, TITLE_MID);
                     music_play(jingleMusic, false);
-                    
-                case 1:
+
+                    //load title logo
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
+                    animSprite.frame = 0;
+                    game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+
+                    gameSeq.step++;      
+                break;
+                case 1: //wait 
                     if (gameSeq.timeCounter >= 200)
                     {
+                        gameSeq.step++;
+                        gameSeq.timeCounter = 0;
+                        game.fadeIn = true;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 2: //title logo
+                    //draw title logo
+                    play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
+                    game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+
+                    static uint8_t textColor = 0;
+                    if (clock_counter_check(14))
+                        textColor = textColor == 0 ? WHITE_COLOR : 0;
+                    
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, MAIN_MENU_POS_Y, textColor, 0);
+                    
+                    if (input_any_key_pressed())
+                    {
                         game.state = E_GAME_ST_MAIN_MENU;
+                        game.demo = 0;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;    
-                        //load title logo
-                        gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
-                        animSprite.frame = 0;
+                        clear_to_color(buffer, BLACK_COLOR);
+                    }
+
+                    //timeout for demo
+                    if (gameSeq.timeCounter >= DEMO_WAIT_TIME)
+                    {
+                        //next demo
+                        game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
+                        
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                        destroy_bitmap(gameSprite);
+
+                        switch (game.demo)
+                        {
+                            case E_DEMO_LEVEL:    
+                                game.actualLevel = DEMO_LEVEL;
+                                game.state = E_GAME_ST_LOAD_LEVEL;
+                            break;
+                            case E_DEMO_TUTORIAL:    
+                                game.actualLevel = E_GAME_LEVEL_TUTORIAL;
+                                game.state = E_GAME_ST_LOAD_LEVEL;
+                            break;
+                            case E_DEMO_INTRO:    
+                                currentPal = introPal;
+                                game.state = E_GAME_ST_INTRO;
+                            break;
+                        }
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
@@ -360,37 +413,6 @@ void game_update()
                             break;
                         }
                     }
-
-                    //timeout for demo
-                    if (gameSeq.timeCounter >= DEMO_WAIT_TIME)
-                    {
-                        //next demo
-                        game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
-                        
-                        gameSeq.timeCounter = 0;
-                        gameSeq.step = 0;
-                        game.fadeOut = true;
-                        dialog_destroy(&gameDialog);
-                        destroy_bitmap(gameSprite);
-
-                        switch (game.demo)
-                        {
-                            case E_DEMO_LEVEL:    
-                                game.actualLevel = DEMO_LEVEL;
-                                game.state = E_GAME_ST_LOAD_LEVEL;
-                            break;
-                            case E_DEMO_TUTORIAL:    
-                                game.actualLevel = E_GAME_LEVEL_TUTORIAL;
-                                game.state = E_GAME_ST_LOAD_LEVEL;
-                            break;
-                            case E_DEMO_INTRO:    
-                                currentPal = introPal;
-                                game.state = E_GAME_ST_INTRO;
-                            break;
-                        }
-                    }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }    
         break;
