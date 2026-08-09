@@ -589,12 +589,12 @@ void game_update()
                         game.state = E_GAME_ST_LOAD_LEVEL;
                         game.fadeOut = true;
                     }
-                    if (input_key_down(E_G_KEY_EXIT))
+                    /*if (input_key_down(E_G_KEY_EXIT))
                     {
                         gameSeq.step = 0;
                         game.state = E_GAME_ST_TITLE;
                         game.fadeOut = true;
-                    }
+                    }*/
                 break;
                 case 4: //wait for ending
                     if (gameSeq.timeCounter >= 160)
@@ -1284,10 +1284,10 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    game.levelComplete[0] = false;
+    /*game.levelComplete[0] = false;
     game.levelComplete[1] = true;
     game.levelComplete[2] = true;
-    game.levelComplete[3] = true;
+    game.levelComplete[3] = true;*/
     
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
