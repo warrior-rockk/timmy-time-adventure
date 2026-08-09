@@ -342,6 +342,7 @@ void game_update()
                                 game.state = E_GAME_ST_INIT;
                                 game.fadeOut = true;
                                 gameSeq.step = 0;
+                                game.demo = 0;
                                 dialog_destroy(&gameDialog);
                                 destroy_bitmap(gameSprite);
                             break;
@@ -359,6 +360,37 @@ void game_update()
                             break;
                         }
                     }
+
+                    //timeout for demo
+                    if (gameSeq.timeCounter >= DEMO_WAIT_TIME)
+                    {
+                        //next demo
+                        game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
+                        
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                        dialog_destroy(&gameDialog);
+                        destroy_bitmap(gameSprite);
+
+                        switch (game.demo)
+                        {
+                            case E_DEMO_LEVEL:    
+                                game.actualLevel = DEMO_LEVEL;
+                                game.state = E_GAME_ST_LOAD_LEVEL;
+                            break;
+                            case E_DEMO_TUTORIAL:    
+                                game.actualLevel = E_GAME_LEVEL_TUTORIAL;
+                                game.state = E_GAME_ST_LOAD_LEVEL;
+                            break;
+                            case E_DEMO_INTRO:    
+                                currentPal = introPal;
+                                game.state = E_GAME_ST_INTRO;
+                            break;
+                        }
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }    
         break;
@@ -649,10 +681,12 @@ void game_update()
                     
                     music_play(gameMusic, true);
 
-                    //record demo level
+                    //check demo mode
+                    if (game.demo)
+                        input_log_play("demo.rec");
+                    
+                    //record demo level (record on full cycles emulator)
                     //input_log_record("demo.rec");
-                    //play demo level
-                    //input_log_play("demo.rec");
                     
                     gameSeq.step++;
                 break;                
@@ -758,7 +792,10 @@ void game_update()
                     game_destroy_level();
                     gameSeq.step = 0;
                     game.actualLevel = 0;
-                    game.state = E_GAME_ST_SELECT_LEVEL;
+                    if (game.demo == 0)
+                        game.state = E_GAME_ST_SELECT_LEVEL;
+                    else
+                        game.state = E_GAME_ST_TITLE;
                 break;       
             }
         break;
@@ -768,6 +805,17 @@ void game_update()
 
             game_draw_level();
             game_hud_draw();
+
+            if (game.demo)
+            {
+                if (input_log_play_finished() || key[KEY_ESC])
+                {
+                    game_destroy_level();                                
+                    //game_init_flags();
+                    game.fadeOut = true;
+                    game.state = E_GAME_ST_TITLE;
+                }
+            }
 
             //check game lose life
             if (game.loseLive)
@@ -1422,6 +1470,7 @@ void game_init()
     game.prevState      = 255;
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;    
+    game.demo           = 0;
     
     //load game config
     game_load_config();

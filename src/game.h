@@ -85,7 +85,11 @@
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
 #define SCENE_IMAGE_DELAY       20      //time delay between text and image on scene
-#define SCENE_CHAR_DELAY        8       //delay time by text character        
+#define SCENE_CHAR_DELAY        8       //delay time by text character  
+
+//demo
+#define DEMO_WAIT_TIME          400     //time to wait on title to launch demo
+#define DEMO_LEVEL              E_GAME_LEVEL_JURASSIC
 
 //dialog defines
 #define FIRSTRUN_MENU_SIZE_X    80
@@ -301,6 +305,17 @@ enum E_FADE_TYPE
     E_FADE_TYPE_64_255,
 };
 
+//demo types
+enum E_DEMO_TYPE
+{
+    E_DEMO_NONE,
+    E_DEMO_LEVEL,
+    E_DEMO_TUTORIAL,
+    E_DEMO_INTRO,
+
+    E_NUM_DEMOS,
+};
+
 //game data
 typedef struct
 {
@@ -320,6 +335,7 @@ typedef struct
     int8_t actualCompletedLevel;
     uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
     uint8_t doorId;
+    uint8_t demo;
 } tGame;
 
 //options for debug mode
@@ -332,7 +348,7 @@ typedef struct
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
 
     typedef struct

@@ -800,7 +800,5 @@
    </properties>
   </object>
   <object id="227" template="triggers/checkpoint.tx" x="832" y="416"/>
-  <object id="280" template="triggers/debug-start.tx" x="800" y="416"/>
-  <object id="281" template="triggers/debug-start.tx" x="4144" y="112"/>
  </objectgroup>
 </map>
