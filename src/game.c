@@ -261,7 +261,7 @@ void game_update()
                     if (input_any_key_pressed())
                     {
                         sceneCounter++;
-                        if (sceneCounter >= INTRO_SCENES)
+                        if (sceneCounter >= INTRO_SCENES || input_key_down(E_G_KEY_EXIT))
                         {
                             game.state = E_GAME_ST_TITLE;
                             currentPal = gamePal;
