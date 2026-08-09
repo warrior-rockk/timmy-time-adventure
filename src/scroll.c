@@ -114,7 +114,7 @@ bool scroll_rect_on_region(tRectangle rect)
 bool scroll_position_on_region(tVector checkPosition)
 {
     //returns if the position are in the range of the scroll or not stop scroll assigned on his direction (to prevent no detection when player goes out scroll)
-    return  (checkPosition.y <= (scroll.pos.y + scroll.window.y))     && // || !scroll.stopScroll.down) && 
+    return  (checkPosition.y < (scroll.pos.y + scroll.window.y))     && // || !scroll.stopScroll.down) && 
             (checkPosition.y >= (scroll.pos.y))                       && //|| !scroll.stopScroll.up) &&
             (checkPosition.x <= (scroll.pos.x + scroll.window.x))    && //|| !scroll.stopScroll.right) && 
             (checkPosition.x >= (scroll.pos.x));                       //|| !scroll.stopScroll.left);

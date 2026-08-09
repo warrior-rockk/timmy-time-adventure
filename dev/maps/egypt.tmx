@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="280">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="281">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -489,7 +489,11 @@
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
   </object>
-  <object id="30" template="objects/item.tx" x="272" y="592"/>
+  <object id="30" template="objects/item.tx" x="272" y="592">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
   <object id="36" template="enemies/egypt/beetle.tx" x="1248" y="592"/>
   <object id="37" template="enemies/egypt/beetle.tx" x="1632" y="592"/>
   <object id="38" template="triggers/stopScroll.tx" x="2176" y="480">
