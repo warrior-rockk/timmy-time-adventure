@@ -16,6 +16,8 @@
 - [ ] Jurassic: spider web, make improve position of piranhas?
 
 # Game design
+- [ ] Confirm exit to title
+- [ ] No exit to title on level select 
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
