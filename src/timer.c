@@ -111,7 +111,7 @@ void timer_end_frame()
     
     //disable deltaTime on compilation time
     #if DISABLE_DELTATIME
-        *deltaTime = 1;
+        deltaTime = 1;
     #endif
     
     tick = false;
