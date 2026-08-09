@@ -763,6 +763,5 @@
     <property name="spare" type="int" value="50"/>
    </properties>
   </object>
-  <object id="154" template="triggers/debug-start.tx" x="2240" y="336"/>
  </objectgroup>
 </map>
