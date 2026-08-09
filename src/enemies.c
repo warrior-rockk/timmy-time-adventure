@@ -1027,7 +1027,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define COWBOY_PLAYER_RANGE             160
-    #define COWBOY_WAIT_TIME                15
+    #define COWBOY_WAIT_TIME                40
     #define COWBOY_BULLET_Y_OFFSET          4   
     #define COWBOY_BULLET_Y_CROUCH_OFFSET   14
     #define COWBOY_BULLET_X_OFFSET          4
@@ -1327,7 +1327,7 @@ void enemy_indian_axe_update(tEntity *this, tDefaultEnemyLocalData *local)
     //enemy definitions
     #define INDIAN_AXE_PLAYER_RANGE     120
     #define INDIAN_AXE_INIT_WAIT        50
-    #define INDIAN_AXE_WAIT_TIME        40
+    #define INDIAN_AXE_WAIT_TIME        60
     #define INDIAN_AXE_AXE_FRAME_THROW  6
     #define INDIAN_AXE_AXE_Y_OFFSET     6
     
@@ -1407,7 +1407,7 @@ void enemy_indian_bow_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy definitions
     #define INDIAN_BOW_PLAYER_RANGE        100
-    #define INDIAN_BOW_WAIT_TIME           40
+    #define INDIAN_BOW_WAIT_TIME           60
     #define INDIAN_BOW_ARROW_FRAME_THROW   17
     #define INDIAN_BOW_ARROW_Y_OFFSET      4
 
