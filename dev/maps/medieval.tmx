@@ -419,7 +419,7 @@
   <object id="72" template="enemies/medieval/spike-ball.tx" type="enemy" x="1952" y="176"/>
   <object id="73" template="enemies/medieval/spike-ball.tx" type="enemy" x="1872" y="272"/>
   <object id="74" template="enemies/medieval/spike-ball.tx" type="enemy" x="1952" y="352"/>
-  <object id="75" template="enemies/medieval/spike-ball.tx" type="enemy" x="1904" y="416">
+  <object id="75" template="enemies/medieval/spike-ball.tx" type="enemy" x="1904" y="414">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>

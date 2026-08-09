@@ -977,7 +977,7 @@
     <property name="dir" type="int" propertytype="dir" value="2"/>
    </properties>
   </object>
-  <object id="75" name="spike-ball" type="enemy" x="1904" y="416" width="16" height="16">
+  <object id="75" name="spike-ball" type="enemy" x="1904" y="414" width="16" height="16">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="0"/>
    </properties>
