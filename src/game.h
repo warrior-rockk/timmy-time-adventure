@@ -81,9 +81,11 @@
 #define SCORE_POINT_EXTRA_LIFE  500     //score needed to get extra life
 #define SCORE_OVERFLOW          65000   //overflow score
 
-//scenes
+//intro/ending
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
+#define SCENE_IMAGE_DELAY       20      //time delay between text and image on scene
+#define SCENE_CHAR_DELAY        8       //delay time by text character        
 
 //dialog defines
 #define FIRSTRUN_MENU_SIZE_X    80
@@ -330,7 +332,7 @@ typedef struct
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1
     #define DEBUG_PROFILE                   0
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_DOS_LOGO
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
 
     typedef struct

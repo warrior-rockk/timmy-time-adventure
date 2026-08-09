@@ -43,9 +43,11 @@
 #endif
 
 uint8_t gameExit = false;                   //flag to exit to main
-bool firstRun = false;                      //flag to set if first run (to show language selection menu)
-uint8_t loadingProgress = 0;
-uint8_t sceneCounter = 0;                   //intro counter
+static bool firstRun = false;               //flag to set if first run (to show language selection menu)
+static uint8_t loadingProgress = 0;         //counter for loading progress
+static uint8_t sceneCounter = 0;            //intro counter
+static uint16_t textDelay;                  //calculated text delay for intro and ending
+
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
 FONT *gameFont[E_GAME_NUM_FONTS];           //game font array
@@ -242,13 +244,14 @@ void game_update()
                     destroy_bitmap(intro);
 
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                    
+                    textDelay = strlen(lang_get_txt(E_TXT_INTRO_1 + sceneCounter)) * SCENE_CHAR_DELAY;
+
                     game.fadeIn = E_FADE_TYPE_0_63;
 
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (gameSeq.timeCounter >= 20)
+                    if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
                         game.fadeIn = E_FADE_TYPE_64_255;
@@ -258,7 +261,7 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2:
-                    if (input_any_key_pressed())
+                    if (input_any_key_pressed() || gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= INTRO_SCENES || input_key_down(E_G_KEY_EXIT))
@@ -268,8 +271,11 @@ void game_update()
                             sceneCounter = 0;
                         }
                         gameSeq.step = 0;    
+                        gameSeq.timeCounter = 0;
                         game.fadeOut = true;
                     }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -1194,13 +1200,14 @@ void game_update()
                     destroy_bitmap(ending);
 
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_ENDING_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
-                                        
+                    textDelay = strlen(lang_get_txt(E_TXT_ENDING_1 + sceneCounter)) * SCENE_CHAR_DELAY;
+
                     game.fadeIn = E_FADE_TYPE_0_63;
 
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (gameSeq.timeCounter >= 20)
+                    if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
                         game.fadeIn = E_FADE_TYPE_64_255;
@@ -1210,7 +1217,7 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2:
-                    if (input_any_key_pressed())
+                    if (input_any_key_pressed() || gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= ENDING_SCENES)
@@ -1219,9 +1226,12 @@ void game_update()
                             currentPal = gamePal;
                             sceneCounter = 0;
                         }
-                        gameSeq.step = 0;    
+                        gameSeq.step = 0;   
+                        gameSeq.timeCounter = 0; 
                         game.fadeOut = true;
                     }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
                 break;
             }
         break;
@@ -1274,10 +1284,10 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    /*game.levelComplete[0] = true;
+    game.levelComplete[0] = false;
     game.levelComplete[1] = true;
     game.levelComplete[2] = true;
-    game.levelComplete[3] = true;*/
+    game.levelComplete[3] = true;
     
     game.lives          = GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
