@@ -60,13 +60,13 @@ static void scroll_update_shake()
     {
         if (scroll.shakeValue.x == 0)
         {
-            scroll.shakeValue.x = 2;
+            scroll.shakeValue.x = 1;
             scroll.shakeValue.y = 1;
         }
         else
         {
             scroll.shakeValue.x = 0;
-            scroll.shakeValue.y = -2;
+            scroll.shakeValue.y = -1;
         }
 
         if (scroll.shakeTimer >= SCROLL_SHAKE_DURATION)

@@ -14,7 +14,6 @@
 
 # Level design
 - [ ] Jurassic: spider web, make improve position of piranhas?
-- [ ] No scroll up spider jurassic.
 
 # Game design
 - [ ] Title screen
