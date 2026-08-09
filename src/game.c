@@ -648,6 +648,11 @@ void game_update()
                     //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     
                     music_play(gameMusic, true);
+
+                    //record demo level
+                    //input_log_record("demo.rec");
+                    //play demo level
+                    //input_log_play("demo.rec");
                     
                     gameSeq.step++;
                 break;                
@@ -689,7 +694,7 @@ void game_update()
                     music_play(gameMusic, true);
                     //start tutorial record
                     input_log_play("tutorial.rec");
-                    //input_log_record("tutorial.rec");
+                    //input_log_record("tutorial.rec"); //uncomment to record the tutorial
                     game.fadeIn = true;
                     gameSeq.step++;
                 break;                
@@ -1485,13 +1490,13 @@ static void game_debug_update()
 
     //record demo
     if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())
-        input_log_record("tutorial.rec");
+        input_log_record("demo.rec");
     //stop recording demo
     if (key[KEY_O] && (key_shifts & KB_CTRL_FLAG) && (input_log_recording() || input_log_playing()))
         input_log_stop();
     //play recorded demo
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
-        input_log_play("tutorial.rec");
+        input_log_play("demo.rec");
 
     //trace state          
     if (game.state != game.prevState)
