@@ -1795,7 +1795,7 @@
   </object>
   <object id="215" name="item" type="object" x="784" y="128" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
   <object id="216" name="item" type="object" x="2992" y="128" width="16" height="16">

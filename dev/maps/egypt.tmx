@@ -1015,7 +1015,11 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
-  <object id="215" template="objects/item.tx" x="784" y="128"/>
+  <object id="215" template="objects/item.tx" x="784" y="128">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
   <object id="216" template="objects/item.tx" x="2992" y="128">
    <properties>
     <property name="spare" type="int" propertytype="items" value="1"/>

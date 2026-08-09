@@ -14,7 +14,7 @@
 
 # Level design
 - [ ] Jurassic: spider web, make improve position of piranhas?
-- [ ] No scroll up spider jurassic. Trap spike not move? Bug on restart level on room scroll different...
+- [ ] No scroll up spider jurassic. Bug on restart level on room scroll different...
 
 # Game design
 - [ ] Title screen
