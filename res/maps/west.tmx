@@ -932,7 +932,7 @@
   </object>
   <object id="75" name="item" type="object" x="512" y="0" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
   <object id="81" name="dynamite" type="object" x="2065" y="272" width="16" height="16"/>
