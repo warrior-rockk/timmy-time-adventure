@@ -313,7 +313,7 @@ void game_update()
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     static uint8_t textColor = 0;
-                    if (clock_counter_check(14))
+                    if (clock_counter_check(20))
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
                     
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
@@ -328,7 +328,7 @@ void game_update()
                     }
 
                     //timeout for demo
-                    if (gameSeq.timeCounter >= DEMO_WAIT_TIME)
+                    if (music_get_pos() < 0)
                     {
                         //next demo
                         game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
@@ -354,8 +354,7 @@ void game_update()
                             break;
                         }
                     }
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
+                    
                 break;
             }
         break;
