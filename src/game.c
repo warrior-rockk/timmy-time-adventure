@@ -316,7 +316,7 @@ void game_update()
                     if (clock_counter_check(14))
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
                     
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, MAIN_MENU_POS_Y, textColor, 0);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
                     
                     if (input_any_key_pressed())
                     {
