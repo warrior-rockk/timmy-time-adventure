@@ -693,7 +693,8 @@ void game_update()
                     //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     scroll_update(entity_get(entity_get_player_id())->pos);
                     //MY_TRACE_FLAG("1Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
-                    game_hud_init();                    
+                    if (!game.demo)
+                        game_hud_init();                    
 
                     game_update_level();
                     entities_update();  //second update after update scroll
@@ -716,14 +717,18 @@ void game_update()
 
                     if (gameSeq.timeCounter >= GAME_INIT_LEVEL_DELAY)
                     {
-                        game.state = E_GAME_ST_PLAY_LEVEL;                        
+                        if (game.demo == E_DEMO_NONE)
+                            game.state = E_GAME_ST_PLAY_LEVEL;                        
+                        else
+                            game.state = E_GAME_ST_PLAY_DEMO_LEVEL;
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;                        
                     }
                     else
                     {
                         game_draw_level();  
-                        game_hud_draw();    
+                        if (!game.demo)
+                            game_hud_draw();    
                         gameSeq.timeCounter += clock_tick_get();
                     }
                 break;                
@@ -889,6 +894,32 @@ void game_update()
                 if (key[KEY_C] && (key_shifts & KB_CTRL_FLAG))
                     game.actualCompletedLevel = game.actualLevel;
             #endif
+        break;
+        case E_GAME_ST_PLAY_DEMO_LEVEL:            
+            switch (gameSeq.step)
+            {
+                case 0: //play demo level
+                    game_update_level();
+                    game_draw_level();
+                    
+                    gameSeq.timeCounter += clock_tick_get();
+                    if (input_log_play_finished() || key[KEY_ESC] || gameSeq.timeCounter >= DEMO_TIMEOUT || game.loseLive)
+                    {   
+                        game.fadeOut = true;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;
+                    }
+                break;
+                case 1: //destroy level and jump to title
+                    music_stop(gameMusic);
+                    input_log_stop();
+                    game_destroy_level();                                
+                    game_init_flags();  
+                    
+                    gameSeq.step = 0;
+                    game.state = E_GAME_ST_TITLE;  
+                break;
+            }
         break;
         case E_GAME_ST_MOVE_TO_DOOR:
             //search door-out id                     
