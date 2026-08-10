@@ -722,7 +722,8 @@ void game_update()
                         else
                             game.state = E_GAME_ST_PLAY_DEMO_LEVEL;
                         gameSeq.step = 0;
-                        gameSeq.timeCounter = 0;                        
+                        gameSeq.timeCounter = 0;  
+                        textColor = WHITE_COLOR;                      
                     }
                     else
                     {
@@ -908,7 +909,7 @@ void game_update()
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, textColor, BLACK_COLOR);
 
                     gameSeq.timeCounter += clock_tick_get();
-                    if (input_log_play_finished() || key[KEY_ESC] || gameSeq.timeCounter >= DEMO_TIMEOUT || game.loseLive)
+                    if (input_log_play_finished() || input_any_key_pressed() || gameSeq.timeCounter >= DEMO_TIMEOUT || game.loseLive)
                     {   
                         game.fadeOut = true;
                         gameSeq.timeCounter = 0;
