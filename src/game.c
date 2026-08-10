@@ -47,6 +47,7 @@ static bool firstRun = false;               //flag to set if first run (to show 
 static uint8_t loadingProgress = 0;         //counter for loading progress
 static uint8_t sceneCounter = 0;            //intro counter
 static uint16_t textDelay;                  //calculated text delay for intro and ending
+static uint8_t textColor;                   //text color variable to blink text
 
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
@@ -312,7 +313,6 @@ void game_update()
                     play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
-                    static uint8_t textColor = 0;
                     if (clock_counter_check(20))
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
                     
@@ -901,7 +901,12 @@ void game_update()
                 case 0: //play demo level
                     game_update_level();
                     game_draw_level();
+
+                    if (clock_counter_check(20))
+                        textColor = textColor == BLACK_COLOR ? WHITE_COLOR : BLACK_COLOR;
                     
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, textColor, BLACK_COLOR);
+
                     gameSeq.timeCounter += clock_tick_get();
                     if (input_log_play_finished() || key[KEY_ESC] || gameSeq.timeCounter >= DEMO_TIMEOUT || game.loseLive)
                     {   
