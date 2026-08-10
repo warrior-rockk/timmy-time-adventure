@@ -88,7 +88,7 @@
 #define SCENE_CHAR_DELAY        8       //delay time by text character  
 
 //demo
-#define DEMO_WAIT_TIME          400     //time to wait on title to launch demo
+#define DEMO_TIMEOUT            3000     //demo timeout duration
 #define DEMO_LEVEL              E_GAME_LEVEL_JURASSIC
 
 //dialog defines

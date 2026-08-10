@@ -829,12 +829,14 @@ void game_update()
 
             if (game.demo)
             {
-                if (input_log_play_finished() || key[KEY_ESC])
+                gameSeq.timeCounter += clock_tick_get();
+                if (input_log_play_finished() || key[KEY_ESC] || gameSeq.timeCounter >= DEMO_TIMEOUT)
                 {
                     input_log_stop();
                     game_destroy_level();                                
-                    //game_init_flags();
+                    game_init_flags();
                     game.fadeOut = true;
+                    gameSeq.timeCounter = 0;
                     game.state = E_GAME_ST_TITLE;
                 }
             }
@@ -1086,8 +1088,17 @@ void game_update()
                         }
                         else
                         {
+                            if (game.demo)
+                            {
+                                input_log_stop();
+                                game_destroy_level();                                
+                                game_init_flags();
+                                game.state = E_GAME_ST_TITLE;   
+                            }
+                            else
+                                game.state = E_GAME_ST_GAME_OVER;
+                            
                             game.fadeOut = true; 
-                            game.state = E_GAME_ST_GAME_OVER;
                         } 
                         gameSeq.timeCounter = 0;      
                         gameSeq.step = 0;    
