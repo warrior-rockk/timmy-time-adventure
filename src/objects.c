@@ -252,7 +252,15 @@ void object_create(tEntity *entity)
         case E_DOOR_IN_OBJECT_TYPE:       
         case E_DOOR_OUT_OBJECT_TYPE:                    
             entity->img = NULL;
+            entity->visible = false;
             entity->size = (tVector){32, 32};      
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
+        case E_STOP_SCROLL_OBJECT_TYPE:
+        case E_SCROLLMODE_OBJECT_TYPE:            
+            entity->img = NULL;
+            entity->visible = false;
+            entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
         case E_ITEM_OBJECT_TYPE:         
@@ -262,14 +270,9 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT;
         break;
-        case E_STOP_SCROLL_OBJECT_TYPE:
-        case E_SCROLLMODE_OBJECT_TYPE:            
-            entity->img = NULL;
-            entity->size = (tVector){16, 16};      
-            entity->properties = E_ENT_PROP_NO_COLLISION;
-        break;
         case E_BACKCOLOR_OBJECT_TYPE:            
             entity->img = NULL;
+            entity->visible = false;
             entity->size = (tVector){16, 16};      
             entity->properties = E_ENT_PROP_NO_COLLISION;
         break;
