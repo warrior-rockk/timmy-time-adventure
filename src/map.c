@@ -43,6 +43,7 @@ BITMAP *mapTileSheet;
 uint8_t *mapIds;
 tVector screenLimit;
 bool tilesOnFrontLayer;
+bool useSlopes;
 
 void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
 {
@@ -108,6 +109,9 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
         //MY_TRACE_FLAG("\tReaded tile id: %i with property: %i\n", tilesWithProperty[i].tileId, tilesWithProperty[i].tileProperty);
     }
     
+    //reset flag
+    useSlopes = false;
+
     //fill the tile properties of full map
     for (uint16_t i = 0; i < total_tiles; i++)
     {
@@ -123,6 +127,19 @@ void map_load(char *mapFile, BITMAP *tileset, tVector screenSize)
             {
                 //if exists, asign property
                 map[i].tileProperty = tilesWithProperty[j].tileProperty;
+                //check use of slopes
+                switch (map[i].tileProperty)
+                {
+                    case E_TILE_PROP_SLOPE_135:
+                    case E_TILE_PROP_SLOPE_152:
+                    case E_TILE_PROP_SLOPE_152_2:
+                    case E_TILE_PROP_SLOPE_25:
+                    case E_TILE_PROP_SLOPE_25_2:
+                    case E_TILE_PROP_SLOPE_45:
+                        useSlopes = true;
+                        MY_TRACE_FLAG("\tMap USES slopes\n");
+                    break;
+                }
                 break;    
             }
         }
@@ -375,6 +392,11 @@ void map_change_background_color(uint8_t color)
 uint8_t map_get_tile_size()
 {
     return mapHeader.tile_height;
+}
+
+bool map_get_use_slopes()
+{
+    return useSlopes;
 }
 
 void map_change_tile(tVector tilePosition, uint8_t tileId, uint16_t tileProperty)

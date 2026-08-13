@@ -55,7 +55,7 @@ Only the player needs all collision points. Testing this:
 # Testing improvee platform persistent frame drop
 - Egypt platforms without modifications: 32~34fps (entities_update 12.2ms)
 - Platform object only checks 2 collision points (left and rigth or up and down) 34~35fps (entities_update 7.8ms)
-- Disable slope detection: (entities_update 4.9ms) <- Only slope detection on player or enabled by level?:
+- Disable slope detection: (60fps!! entities_update 4.9ms /5.4 with if and not #if) <- Only slope detection on player or enabled by level?:
     * Jurassic: slopes / no platforms
     * Egypt: no slopes / platforms
     * Medieval: no slopes / platforms

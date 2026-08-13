@@ -13,7 +13,6 @@
 #include "utils.h"
 #include "entity.h"
 
-#define USE_SLOPE_COLLISION                 0
 #define SLOPE_MAX_HEIGHT                    8   //max height to consider slope and adjust position to it
 
 #define ENTITY_MAX_NUM_COLLISION_POINTS     256
@@ -139,4 +138,7 @@ void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 void collision_set_player_platform_id(int16_t entityPlatformId);
 //returns the entity id of the player platform. -1 if player not in platform
 int16_t collision_get_player_platform_id();
+
+//enables or disables slope collision detection
+void collision_enable_slopes(bool enable);
 #endif

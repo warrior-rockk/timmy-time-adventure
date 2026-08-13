@@ -1661,7 +1661,10 @@ static void game_load_level(uint8_t numLevel)
     mapDimension.y = mapDimension.y - GAME_H;
     
     //create scroll    
-    scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode);   
+    scroll_create((tVector){GAME_W,GAME_H}, mapDimension, game.scrollMode); 
+    
+    //enable o disable slopes collision detection
+    collision_enable_slopes(map_get_use_slopes());
     
     //load music level
     gameMusic = (MIDI *)levelDAT[levelData[numLevel].musicFileIndex].dat;

@@ -18,6 +18,7 @@
 static tEntColPoints *entColPointsList;     //dynamic list of entities collision points
 static uint16_t numEntitiesColPoints;       //number of entities collision points
 static int16_t playerPlatformId;            //id of the platform entity that player stands
+static bool collisionEnabledSlopes;         //flag to enable slope detection
 
 DATAFILE_INDEX *collisionDataFileIndex;
 BITMAP *collisionMaps[E_COL_MAP_NUM];       //collision bitmap maps
@@ -46,6 +47,8 @@ void collision_system_init()
 
     //reset player platform entity id
     playerPlatformId = -1;
+    //reset slopes detection flag
+    collisionEnabledSlopes = false;
 
     MY_TRACE_FLAG("Initialized collision system\n");
 }
@@ -374,7 +377,8 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     //HORIZONTAL COLLISIONS
     //=====================
     
-    #if USE_SLOPE_COLLISION 
+    if (collisionEnabledSlopes)
+    {
         //check if entity on slope
         onSlope45 = CHECK_FLAG(map_get_tile_property((tVector){entity->pos.x + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.x, entity->pos.y + entColPointsList[entIndex].colPoint[E_COLPOINT_CENTER_DOWN].offset.y}), E_TILE_PROP_SLOPE_45)
                 ||
@@ -406,7 +410,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         //deactiva up collision points too (useful for wagon)
         entColPointsList[entIndex].colPoint[E_COLPOINT_LEFT_UP].enabled = !onSlope135;
         entColPointsList[entIndex].colPoint[E_COLPOINT_RIGHT_UP].enabled = !onSlope45;
-    #endif
+    }
     
     //check if collision point is horizontal
     if (entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_RIGHT || entColPointsList[entIndex].colPoint[pointNum].colCode == E_COLLISION_DIR_LEFT)
@@ -470,7 +474,8 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 entity->fixPos.y += distColY;                
                 colDir = E_COLLISION_DIR_DOWN;
                 
-                #if USE_SLOPE_COLLISION
+                if (collisionEnabledSlopes)
+                {
                     //Slope detection: check if buried
                                         
                     //define line path to check (center_down of entity)
@@ -485,7 +490,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                     //get up entity to slope
                     if (distColY > 0)
                         entity->fixPos.y = entity->fixPos.y - (distColY - itofix(1));
-                #endif
+                }
 
                 //remove decimal part
                 //entity->fixPos.y = itofix(fixtoi(entity->fixPos.y));
@@ -501,7 +506,8 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         }
         else 
         {            
-            #if USE_SLOPE_COLLISION
+            if (collisionEnabledSlopes)
+            {
                 //If not collision (point on air), check if has slope down (< SLOPE_MAX_HEIGHT)
 
                 //check if entity it's on slope and it's not going up and has physics activated                                
@@ -520,7 +526,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                     if (distColY > 0)
                         entity->fixPos.y = entity->fixPos.y + distColY;                    
                 }                
-            #endif
+            }
         } 
     }
     
@@ -976,6 +982,11 @@ void collision_set_player_platform_id(int16_t entityPlatformId)
 int16_t collision_get_player_platform_id()
 {
     return playerPlatformId;
+}
+
+void collision_enable_slopes(bool enable)
+{
+    collisionEnabledSlopes = enable;
 }
 
 //funcion que engloba la gestion de las fisicas de un proceso

@@ -64,6 +64,8 @@ tVector map_get_dimensions();
 uint16_t map_get_level_time();
 //get map tile size
 uint8_t map_get_tile_size();
+//get map use slopes
+bool map_get_use_slopes();
 
 //draw the current map
 void map_draw(BITMAP *buffer, bool frontLayer);
