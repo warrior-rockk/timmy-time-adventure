@@ -13,7 +13,7 @@
 #include "utils.h"
 #include "entity.h"
 
-#define USE_SLOPE_COLLISION                 1
+#define USE_SLOPE_COLLISION                 0
 #define SLOPE_MAX_HEIGHT                    8   //max height to consider slope and adjust position to it
 
 #define ENTITY_MAX_NUM_COLLISION_POINTS     256

@@ -1064,6 +1064,6 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
-  <object id="286" template="triggers/debug-start.tx" x="848" y="256"/>
+  <object id="286" template="triggers/debug-start.tx" x="3792" y="384"/>
  </objectgroup>
 </map>

@@ -52,6 +52,11 @@ Only the player needs all collision points. Testing this:
 - Blit tiles:               33-34fps (egypt) (24/7/26)
 - Min collision points:     26-29fps after / 32fps before (egypt spike trap with blocks)
 
-# Testing
+# Testing improvee platform persistent frame drop
 - Egypt platforms without modifications: 32~34fps (entities_update 12.2ms)
 - Platform object only checks 2 collision points (left and rigth or up and down) 34~35fps (entities_update 7.8ms)
+- Disable slope detection: (entities_update 4.9ms) <- Only slope detection on player or enabled by level?:
+    * Jurassic: slopes / no platforms
+    * Egypt: no slopes / platforms
+    * Medieval: no slopes / platforms
+    * West: slopes / no platforms
