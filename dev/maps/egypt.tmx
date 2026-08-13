@@ -740,7 +740,7 @@
     <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
-  <object id="120" template="platforms/egypt-platform.tx" x="1328" y="288">
+  <object id="120" template="platforms/egypt-platform.tx" x="1327" y="288">
    <properties>
     <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="platform_type" value="9"/>
@@ -1064,6 +1064,6 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
-  <object id="286" template="triggers/debug-start.tx" x="3824" y="384"/>
+  <object id="286" template="triggers/debug-start.tx" x="848" y="256"/>
  </objectgroup>
 </map>

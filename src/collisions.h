@@ -22,15 +22,15 @@
 //collision points (horizontal point must be first than uppers/lowers for good detection)
 enum E_COL_POINTS {
     E_COLPOINT_RIGHT_UP,
-    E_COLPOINT_RIGHT_DOWN,
     E_COLPOINT_LEFT_UP,
+    E_COLPOINT_RIGHT_DOWN,
     E_COLPOINT_LEFT_DOWN,
     E_COLPOINT_DOWN_L,
     E_COLPOINT_DOWN_R,
     E_COLPOINT_UP_L,
     E_COLPOINT_UP_R,
-    E_COLPOINT_CENTER,
     E_COLPOINT_CENTER_DOWN,
+    E_COLPOINT_CENTER,
     E_NUM_COL_POINTS  //counter
 };
 

@@ -1593,32 +1593,39 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
         //terrain collisions
         this->ground = false;
         //check all the entity collision points    
-        for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
-        {                
-            //check collision tile for collision point
-            colDir = collision_check_tile(this, i);        
-            //apply collision direction
-            collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
-            
-            //change direction on collision
-            if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
-            {            
+        if (this->dir == E_ENT_DIR_LEFT || this->dir == E_ENT_DIR_RIGHT)
+        {
+            //check only left and right points
+            for (uint8_t i = 0; i < 2; i++)
+            {
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);        
+                //apply collision direction
+                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);  
                 //change direction if horizontal collision
-                if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+                if (colDir)
                 {    
                     this->dir = !this->dir;
                     break;
-                }
+                }     
             }
-            if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
-            {            
-                //change direction if vertical collision
-                if (colDir == E_COLLISION_DIR_UP || colDir == E_COLLISION_DIR_DOWN)
-                {
+        }
+        else if (this->dir == E_ENT_DIR_DOWN || this->dir == E_ENT_DIR_UP)
+        {
+            //check only up and down points
+            for (uint8_t i = 7; i < 9; i++)
+            {
+                //check collision tile for collision point
+                colDir = collision_check_tile(this, i);        
+                //apply collision direction
+                collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);  
+                //change direction if horizontal collision
+                if (colDir)
+                {    
                     this->dir = this->dir == E_ENT_DIR_DOWN ? E_ENT_DIR_UP : E_ENT_DIR_DOWN;
                     break;
-                }
-            }                    
+                }     
+            }
         }
     }
 

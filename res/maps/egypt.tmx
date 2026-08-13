@@ -1453,7 +1453,7 @@
     <property name="spare" type="int" propertytype="platform_type" value="9"/>
    </properties>
   </object>
-  <object id="120" name="egypt-platform" type="platform" x="1328" y="288" width="32" height="16">
+  <object id="120" name="egypt-platform" type="platform" x="1327" y="288" width="32" height="16">
    <properties>
     <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="platform_type" value="9"/>
@@ -1838,7 +1838,7 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
-  <object id="286" name="debug-start" type="object" x="3824" y="384" width="16" height="32">
+  <object id="286" name="debug-start" type="object" x="848" y="256" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
