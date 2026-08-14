@@ -8,6 +8,8 @@
     - [X] allegro.cfg with options (does nothing)
     - [X] reset timer system (not fix)
     - [X] yield on vsync (Game blocked)
+    - [X] remove uclock
+
 - [ ] Record input bug with deltaTimes and different cycles
 - [ ] 104 lives!? when??
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
