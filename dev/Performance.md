@@ -65,6 +65,7 @@ Only the player needs all collision points. Testing this:
 
 BUG NOT APPEARS:
 (TESTED) window 1: no timer no sound, no install_timer (no level timeout): 30 MINUTES AND BUG DOESN'T APPEAR!
+(TESTED) a985c12 update TODO after modify mummy IA (BUG DOESNT APPEAR)
 
 BUG APPEARS
 (TESTED) window 2: timer and no sound (BUG APPPEARS AT 15 min)
