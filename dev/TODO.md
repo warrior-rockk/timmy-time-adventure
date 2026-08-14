@@ -5,6 +5,9 @@
     - [X] remove 03 optimization
     - [X] test on 86box and dosbox-x
     - [X] test on another level not medieval (happens at same time: 15 min aprox)
+    - [X] allegro.cfg with options (does nothing)
+    - [X] reset timer system (not fix)
+    - [X] yield on vsync (Game blocked)
 - [ ] Record input bug with deltaTimes and different cycles
 - [ ] 104 lives!? when??
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?

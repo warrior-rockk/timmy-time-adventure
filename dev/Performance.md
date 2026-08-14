@@ -64,7 +64,7 @@ Only the player needs all collision points. Testing this:
 # Vsync bug
 
 BUG NOT APPEARS:
-(TESTED) window 1: no timer no sound (no level timeout): 30 MINUTES AND BUG DOESN'T APPEAR!
+(TESTED) window 1: no timer no sound, no install_timer (no level timeout): 30 MINUTES AND BUG DOESN'T APPEAR!
 
 BUG APPEARS
 (TESTED) window 2: timer and no sound (BUG APPPEARS AT 15 min)
@@ -73,7 +73,8 @@ BUG APPEARS
 (TESTED) window 4: timer and sound: implemented control+g to restore video mode (DOESN'T WORK. BUG PERSIST)
 (TESTED) new window 4: timer and sound but not installed fps interrupt (BUG APPEARS)
 (TESTED) allegro install_timer and midi sound but not installed any custom interrupt (BUG APPEARS!!)
-
+(TESTED) window 1: Cntrl+G reset timer system when bug appears (RESET TIMER DOESN'T FIX)
+(TESTED) window 2: 8":30 (bug estimated on 22") allegro.cfg (DOES NOTHING)
 
 
 Betatester text:

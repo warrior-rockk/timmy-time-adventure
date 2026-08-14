@@ -1636,6 +1636,7 @@ static void game_debug_update()
     //insert log mark
     if (key[KEY_M] && (key_shifts & KB_CTRL_FLAG))
         MY_TRACE_MARK;
+
     //toogle deltaTime
     if (input_key_down(E_G_KEY_T) && (key_shifts & KB_CTRL_FLAG))
         toggle_delta_time();    
@@ -1650,11 +1651,12 @@ static void game_debug_update()
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
         input_log_play("demo.rec");
 
-    //restore gfx (for vsync bug?)
+    //restore timer (for vsync bug?)
     if (key[KEY_G] && (key_shifts & KB_CTRL_FLAG))
     {
-        set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
-        set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0);
+        remove_timer();
+        install_timer();
+        timer_init(GAME_CLOCK_TICK, ALLEGRO_USES_TIMER);
     }
 
     //trace state          
@@ -2188,9 +2190,7 @@ static void game_update_level()
 static void game_draw_level()
 {
     map_draw(worldScreen, false);
-    profile_start();
     entities_draw(worldScreen);
-    profile_end();
     map_draw(worldScreen, true);
 }
 
