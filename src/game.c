@@ -187,8 +187,12 @@ void game_update()
                     {
                         if (firstRun)
                             game.state = E_GAME_ST_FIRST_RUN_MENU;
-                        else
+                        else{    
                             game.state = E_GAME_ST_INTRO;
+                            #if BETATESTING
+                                game.state = E_GAME_ST_BETATESTING_MSG;
+                            #endif
+                        }
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;                        
                         game.fadeOut = true;
@@ -227,11 +231,38 @@ void game_update()
                         game_save_config();
                         
                         game.state = E_GAME_ST_INTRO;
+                        #if BETATESTING
+                            game.state = E_GAME_ST_BETATESTING_MSG;
+                        #endif
                         game.fadeOut = true;
                         gameSeq.step = 0;
                         dialog_destroy(&gameDialog);                                                
                     }                 
                 break;                
+            }
+        break;
+        case E_GAME_ST_BETATESTING_MSG:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    //create betatesting dialog
+                    clear(buffer);
+                    gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, false);
+                    dialog_draw(&gameDialog, buffer);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Notas Betatesting:| |*Falta la música del intro|*Música del título provisional|*Falta música selección nivel|Falta música final juego", SCREEN_W>>1, 30, WHITE_COLOR, BLACK_COLOR);
+                    
+                    game.fadeIn = true;
+                    gameSeq.step++;
+                break;
+                case 1:
+                    if (input_any_key_pressed())
+                    {
+                        gameSeq.step = 0;
+                        game.state = E_GAME_ST_INTRO;
+                        dialog_destroy(&gameDialog);
+                        game.fadeOut = true;
+                    }
+                break;
             }
         break;
         case E_GAME_ST_INTRO:
@@ -1618,6 +1649,13 @@ static void game_debug_update()
     //play recorded demo
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
         input_log_play("demo.rec");
+
+    //restore gfx (for vsync bug?)
+    if (key[KEY_G] && (key_shifts & KB_CTRL_FLAG))
+    {
+        set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
+        set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0);
+    }
 
     //trace state          
     if (game.state != game.prevState)

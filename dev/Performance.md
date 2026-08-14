@@ -72,9 +72,9 @@ BUG APPEARS
 (TESTED) new window 3: no timers but sound (I think midi it's not working) BUG APPEARS
 (TESTED) window 4: timer and sound: implemented control+g to restore video mode (DOESN'T WORK. BUG PERSIST)
 (TESTED) new window 4: timer and sound but not installed fps interrupt (BUG APPEARS)
+(TESTED) allegro install_timer and midi sound but not installed any custom interrupt (BUG APPEARS!!)
 
 
-testing: allegro install_timer and midi sound but not installed any custom interrupt
 
 Betatester text:
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="202">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="204">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -202,11 +202,6 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player1" type="player" x="16" y="384" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
   <object id="3" template="triggers/stopScroll.tx" x="512" y="400">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="3"/>
@@ -747,5 +742,7 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
+  <object id="202" template="triggers/debug-start.tx" x="2384" y="416"/>
+  <object id="203" template="objects/player1.tx" x="2368" y="416"/>
  </objectgroup>
 </map>
