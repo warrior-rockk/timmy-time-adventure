@@ -60,3 +60,25 @@ Only the player needs all collision points. Testing this:
     * Egypt: no slopes / platforms
     * Medieval: no slopes / platforms
     * West: slopes / no platforms
+
+# Vsync bug
+
+BUG NOT APPEARS:
+(TESTED) window 1: no timer no sound (no level timeout): 30 MINUTES AND BUG DOESN'T APPEAR!
+
+BUG APPEARS
+(TESTED) window 2: timer and no sound (BUG APPPEARS AT 15 min)
+(TESTED) window 3: all enabled and wait on level select to test timeout (15 minutes on level select and bug appears on start of level)
+(TESTED) new window 3: no timers but sound (I think midi it's not working) BUG APPEARS
+(TESTED) window 4: timer and sound: implemented control+g to restore video mode (DOESN'T WORK. BUG PERSIST)
+(TESTED) new window 4: timer and sound but not installed fps interrupt (BUG APPEARS)
+
+
+testing: allegro install_timer and midi sound but not installed any custom interrupt
+
+Betatester text:
+
+* Falta la música del intro
+* Música del título es provisional
+* Falta la música de la selección de nivel
+* Falta la música del final y alguna animación mas

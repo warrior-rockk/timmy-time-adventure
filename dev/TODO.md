@@ -1,5 +1,10 @@
 # Bugs
-- [ ] Lost vynsc (testing custom vsync check and remove 03 optimization)
+- [ ] Bug returning to tile no timeout reset?
+- [ ] Lost vynsc (testing custom vsync check and remove 03 optimization):
+    - [X] custom vsync
+    - [X] remove 03 optimization
+    - [X] test on 86box and dosbox-x
+    - [X] test on another level not medieval (happens at same time: 15 min aprox)
 - [ ] Record input bug with deltaTimes and different cycles
 - [ ] 104 lives!? when??
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
@@ -19,6 +24,8 @@
 - [ ] Jurassic: spider web, make improve position of piranhas?
 
 # Game design
+- [ ] fps timer interrupt and counter only on debug mode?
+- [ ] Animation of player run of level time?
 - [ ] Confirm exit to title
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
