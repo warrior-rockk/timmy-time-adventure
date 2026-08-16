@@ -78,10 +78,14 @@ BUG APPEARS
 (TESTED) window 1: Cntrl+G reset timer system when bug appears (RESET TIMER DOESN'T FIX)
 (TESTED) window 2: 8":30 (bug estimated on 22") allegro.cfg (DOES NOTHING)
 
+* Commit investigation:
 
-Betatester text:
-
-* Falta la música del intro
-* Música del título es provisional
-* Falta la música de la selección de nivel
-* Falta la música del final y alguna animación mas
+a72e200 fix egutp map  !!!BUG 
+--->d946513 refactor timer !!BUG. <--------------:
+fb313e1 solved bug on main menu options destroying logo sprite.. NO BUG
+b20f48e animation: increment frameTIme with the acumulated clock... NO BUG
+6d86a44 added debug option to disable allegro timers and simultate time NO BUG
+d82ffad apply deltaTime to jump velocity and aset dixed value of deltaTime... NO BUG
+552d341 medieval map NO BUG
+d7a4478 timer: limit tickcounts accumulated NO BUG
+a985c12 update TODO after modify mummy IA NO BUG
