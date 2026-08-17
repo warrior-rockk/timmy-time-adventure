@@ -1638,8 +1638,8 @@ static void game_debug_update()
         MY_TRACE_MARK;
 
     //toogle deltaTime
-    if (input_key_down(E_G_KEY_T) && (key_shifts & KB_CTRL_FLAG))
-        toggle_delta_time();    
+    /*if (input_key_down(E_G_KEY_T) && (key_shifts & KB_CTRL_FLAG))
+        toggle_delta_time();    */
 
     //record demo
     if (key[KEY_I] && (key_shifts & KB_CTRL_FLAG) && !input_log_recording())

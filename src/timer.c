@@ -6,20 +6,20 @@
 ********************************************************************/
 #include "timer.h"
 
-uint16_t fps;                       //fps counter
-uint16_t frameCount;                //count of frames for fps counter
-bool tick;                          //clock tick (set to one 1 frame on update tick time)
-uint16_t tickCount;                 //counter for tick
-uint16_t lastTickCount;             //stores how many clocks ticks has been passed since last frame
-bool tick1sec;                      //clock 1sec tick (set to one 1 frame on every second)
-uint8_t tick1SecCount;              //for tick1sec
-uint16_t trace;                     //trace video counter for calculate delta time
-uint16_t tickCounter;               //general clock tick counter
-bool useAllegroTimers;
-uclock_t profileStart, profileEnd;  //profile uClock variables
-double profileTime;                 //profile time counter
-double deltaTime;                   //deltaTime
-bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
+uint16_t fps;               //fps counter
+uint16_t frameCount;        //count of frames for fps counter
+bool tick;                  //clock tick (set to one 1 frame on update tick time)
+uint16_t tickCount;         //counter for tick
+uint16_t lastTickCount;     //stores how many clocks ticks has been passed since last frame
+bool tick1sec;              //clock 1sec tick (set to one 1 frame on every second)
+uint8_t tick1SecCount;      //for tick1sec
+uint16_t trace;             //trace video counter for calculate delta time
+uint16_t tickCounter;        //general clock tick counter
+
+uclock_t profileStart, profileEnd;
+double profileTime;
+
+double deltaTime;
 
 //update fps callback
 static void update_fps(void)
@@ -39,7 +39,7 @@ static void update_tick(void)
 }
 END_OF_FUNCTION(update_tick);
 
-void timer_init(long gameTickDuration, bool _useAllegroTimers)
+void timer_init(long gameTickDuration, bool spare)
 {
     fps = 0;
     frameCount = 0;
@@ -50,19 +50,13 @@ void timer_init(long gameTickDuration, bool _useAllegroTimers)
     tick = false;
     tick1sec = false;
     tick1SecCount = 0;
-    useAllegroTimers = _useAllegroTimers;
-    deltaTime = 1;
-
-    if (useAllegroTimers)
-    {
-        LOCK_VARIABLE(fps);
-        LOCK_VARIABLE(frameCount);    
-        LOCK_VARIABLE(tick1SecCount);
-        LOCK_FUNCTION(update_fps);
-        LOCK_FUNCTION(update_tick);
-        install_int_ex(update_fps, BPS_TO_TIMER(1));
-        install_int(update_tick, gameTickDuration);
-    }
+    LOCK_VARIABLE(fps);
+    LOCK_VARIABLE(frameCount);    
+    LOCK_VARIABLE(tick1SecCount);
+    LOCK_FUNCTION(update_fps);
+    LOCK_FUNCTION(update_tick);
+    install_int_ex(update_fps, BPS_TO_TIMER(1));
+    install_int(update_tick, gameTickDuration);
 }
 
 void timer_start_frame()
@@ -95,25 +89,18 @@ void timer_end_frame()
 {
     frameCount++;
 
-    //delta time calculation
-    if (disableDeltaTime)
-        deltaTime = 1;
-    else
-    {
+    if (trace != retrace_count)
         deltaTime = (double)(retrace_count-trace);
-        
-        //deltaTime limits
-        if (deltaTime < 1)
-            deltaTime =  1;
-        else if (deltaTime > DELTA_TIME_LIMIT)
-            deltaTime =  DELTA_TIME_LIMIT;
-    }
     
-    //disable deltaTime on compilation time
-    #if DISABLE_DELTATIME
+    //limit delta time
+    if (deltaTime > DELTA_TIME_LIMIT)
         deltaTime = 1;
-    #endif
+    else if (deltaTime > 1)
+        deltaTime = 1.8;
     
+    #if DISABLE_DELTATIME
+        *deltaTime = 1;
+    #endif
     tick = false;
     tick1sec = false;
 }
@@ -125,24 +112,24 @@ uint16_t fps_get()
 
 uint16_t clock_tick_get()
 {
-    if (useAllegroTimers)
-    {
-        if (tick)        
-            //limit the accumulated lastTickCount because on after fades fps drop
-            return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
-        else   
-            return 0;
-    }
-    else
+    #if ALLEGRO_USES_TIMER
+    if (tick)        
+        //limit the accumulated lastTickCount because on after fades fps drop
+        return lastTickCount < MAX_ACUMULATED_TICKS ? lastTickCount : MAX_ACUMULATED_TICKS;
+    else   
+        return 0;
+    #else
         return 1;
+    #endif
 }
 
 bool clock_counter_check(uint16_t time)
 {
-    if (useAllegroTimers)
-        return ((tickCounter % (uint16_t)(time / deltaTime)) == 0 && tick);
-    else
+    #if ALLEGRO_USES_TIMER
+        return ((tickCounter % time) == 0 && tick);
+    #else
         return 1;
+    #endif
 }
 
 int16_t clock_counter_get()
@@ -159,18 +146,11 @@ void profile_start()
 {
     profileStart= uclock();
 }
-
 void profile_end()
 {
     profileEnd= uclock();
 }
-
 double profile_get_time()
 {
     return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;
-}
-
-void toggle_delta_time()
-{
-    disableDeltaTime = !disableDeltaTime;
 }
