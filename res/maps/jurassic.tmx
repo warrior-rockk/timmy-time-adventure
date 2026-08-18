@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#8386e7" nextlayerid="4" nextobjectid="155">
  <properties>
-  <property name="time" type="int" value="200"/>
+  <property name="time" type="int" value="12"/>
  </properties>
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="110" columns="10">
   <image source="../../dev/gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="176"/>

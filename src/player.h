@@ -67,6 +67,7 @@
 #define ANIM_PLY_IDLE_WAIT          72, 83, 10, ANIM_ONCE
 #define ANIM_PLY_JUMP_ATTACK        85, 88, 5, ANIM_ONCE
 #define ANIM_PLY_ON_EDGE            95, 97, 10, ANIM_PING_PONG
+#define ANIM_PLY_TIMEOUT            98, 105, 10, ANIM_ONCE
 
 enum ePlayerState
 {
@@ -82,7 +83,8 @@ enum ePlayerState
     ST_PLAYER_PICKED,
     ST_PLAYER_THROWING,
     ST_PLAYER_ON_STAIRS,
-    ST_PLAYER_MOVING_ON_STAIRS,    
+    ST_PLAYER_MOVING_ON_STAIRS,  
+    ST_PLAYER_TIMEOUT,  
 };
 
 enum E_PLAYER_SFX

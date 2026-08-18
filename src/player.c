@@ -596,6 +596,12 @@ static void player_update_state(tEntity *player)
         if (player->prevState != player->state)
             sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE);
     }
+    else if (game.time <= 0)
+    {
+        player->state = ST_PLAYER_TIMEOUT;
+        playerFlags.disableMove = true;
+        player->fixVel.x = 0;
+    }
     #ifdef DEBUGMODE
     else if (playerFlags.hurt && debugOptions.invencible)
         playerFlags.hurt = false;
@@ -797,6 +803,13 @@ static void player_update_animations(tEntity *player)
             if (player->anim.frame != player->anim.lastFrame)
                 sfx_play(playerSfx[SFX_PLAYER_STAIR], E_SFX_PLAYER_VOICE);
         break;        
+        case ST_PLAYER_TIMEOUT:
+            if (player->ground)
+            {
+                if (play_animation(&player->anim, ANIM_PLY_TIMEOUT))
+                    game.loseLive = true;
+            }
+        break;
     }
 
     //blink

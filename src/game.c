@@ -888,7 +888,7 @@ void game_update()
 
             //game time
             if (game.time <= 0)
-                game.loseLive = true;
+                ;//game.loseLive = true;
             else if (clock_tick_1sec_get())
             {
                 game.time--;

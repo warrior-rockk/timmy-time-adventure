@@ -4,7 +4,7 @@
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
  <properties>
-  <property name="time" type="int" value="200"/>
+  <property name="time" type="int" value="12"/>
  </properties>
  <tileset firstgid="1" name="jurassic" tilewidth="16" tileheight="16" tilecount="110" columns="10">
   <image source="../gfx/maps/jurassic/jurassic_tileset.aseprite" width="160" height="176"/>
