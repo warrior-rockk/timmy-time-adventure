@@ -1,5 +1,4 @@
 # Bugs
-- [ ] Bug returning to title no timeout reset?
 - [ ] Record input bug with deltaTimes and different cycles
 - [ ] 104 lives!? when??
 - [ ] Slow down fps coming from fade out/in. Made custom function asyncronous?
