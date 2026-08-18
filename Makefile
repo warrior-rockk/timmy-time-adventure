@@ -26,7 +26,7 @@ else
 endif
 
 #project definition
-APP  				:= game.exe
+APP  				:= timmy.exe
 SRC_EXT				:= c
 #project folders
 SRC_DIR				:= ./src/
@@ -43,7 +43,7 @@ TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC}
 DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
-RELEASE_CFLAGS 		:= -Wall -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp
+RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp?
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
 #all targets

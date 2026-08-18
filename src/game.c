@@ -1590,9 +1590,9 @@ void game_draw()
     #endif
     
     //wait for vsync
-    //vsync();    
-    while(inportb(0x3DA) & 8);
-    while(!(inportb(0x3DA) & 8));
+    vsync();    
+    //while(inportb(0x3DA) & 8);
+    //while(!(inportb(0x3DA) & 8));
     timer_end_frame();
     
     //double buffer: blit to screen
