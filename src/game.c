@@ -1897,6 +1897,10 @@ void game_hud_draw()
         #else
             textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 220, HUD_POSITION_Y + 5, game.time <= GAME_HURRY_TIME_LEFT && game.state == E_GAME_ST_PLAY_LEVEL ? RED_COLOR : WHITE_COLOR, BLACK_COLOR, "%03u", game.time);
         #endif
+
+        #if DEBUG_DT_ON_SCORE
+            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04f", get_deltaTime());
+        #endif
     }
 
     //reset refresh flags

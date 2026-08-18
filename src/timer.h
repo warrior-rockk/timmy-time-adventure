@@ -43,4 +43,6 @@ void profile_end();
 double profile_get_time();
 //toggles deltaTime use
 void toggle_delta_time();
+
+double get_deltaTime();
 #endif

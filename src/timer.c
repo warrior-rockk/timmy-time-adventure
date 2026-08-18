@@ -12,10 +12,10 @@ bool tick;                          //clock tick (set to one 1 frame on update t
 uint16_t tickCount;                 //counter for tick
 uint16_t lastTickCount;             //stores how many clocks ticks has been passed since last frame
 bool tick1sec;                      //clock 1sec tick (set to one 1 frame on every second)
-uint16_t tick1SecCount;              //for tick1sec
-uint16_t trace;                     //trace video counter for calculate delta time
+uint16_t tick1SecCount;             //for tick1sec
+int trace;                          //trace video counter for calculate delta time (MUST BE INT!)
 uint16_t tickCounter;               //general clock tick counter
-bool useAllegroTimers;
+bool useAllegroTimers;              //flag to use allegro timers or not (set on init)
 uclock_t profileStart, profileEnd;  //profile uClock variables
 double profileTime;                 //profile time counter
 double deltaTime;                   //deltaTime
@@ -93,7 +93,6 @@ void timer_start_frame()
 
 void timer_end_frame()
 {
-    /*
     frameCount++;
 
     //delta time calculation
@@ -115,23 +114,6 @@ void timer_end_frame()
         deltaTime = 1;
     #endif
     
-    tick = false;
-    tick1sec = false;*/
-
-    frameCount++;
-
-    if (trace != retrace_count)
-        deltaTime = (double)(retrace_count-trace);
-    
-    //limit delta time
-    if (deltaTime > DELTA_TIME_LIMIT)
-        deltaTime = 1;
-    else if (deltaTime > 1)
-        deltaTime = 1.8;
-    
-    #if DISABLE_DELTATIME
-        *deltaTime = 1;
-    #endif
     tick = false;
     tick1sec = false;
 }
@@ -191,4 +173,9 @@ double profile_get_time()
 void toggle_delta_time()
 {
     disableDeltaTime = !disableDeltaTime;
+}
+
+double get_deltaTime()
+{
+    return deltaTime;
 }
