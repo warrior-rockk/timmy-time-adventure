@@ -474,7 +474,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 entity->fixPos.y += distColY;                
                 colDir = E_COLLISION_DIR_DOWN;
                 
-                if (collisionEnabledSlopes)
+                if (collisionEnabledSlopes || entity->id == entity_get_player_id()) 
                 {
                     //Slope detection: check if buried
                                         
