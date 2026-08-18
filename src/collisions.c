@@ -358,8 +358,8 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
     int16_t distColX;		    //X collision distance
     fixed distColY;		        //Y collision distance (fixed point)
     uint8_t colDir;			    //Direction of collision
-    bool onSlope45;             //flag to check if entity on slope 45
-    bool onSlope135;            //flag to check if entity on slope 135
+    bool onSlope45 = false;     //flag to check if entity on slope 45
+    bool onSlope135 = false;    //flag to check if entity on slope 135
     
     colDir = 0;
     
