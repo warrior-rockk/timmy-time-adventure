@@ -18,7 +18,6 @@
 - [ ] Jurassic: spider web, make improve position of piranhas?
 
 # Game design
-- [ ] fps timer interrupt and counter only on debug mode?
 - [ ] Animation of player run of level time?
 - [ ] Confirm exit to title
 - [ ] Title screen
@@ -32,6 +31,8 @@
 - [ ] Sfx particles for spider web or player splash water
 
 # Engine
+- [ ] fps timer interrupt and counter only on debug mode?
+- [ ] reset interrupt counters to not overflow?
 - [ ] Sound when extra live by score
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] midi fade off volume ramp
