@@ -7,14 +7,14 @@ IDIOMA:
 ENGLISH;ESPAÑOL
 CONTROLES
 VOLUMEN EFECTOS:
-VOLUMEN MUSICA:
+VOLUMEN MÚSICA:
 CONTINUAR
-SALIR AL TITULO
+SALIR AL TÍTULO
 SALIR AL DOS
 REINICIAR NIVEL
 PAUSA
 VIDAS
-ENERGIA
+ENERGÍA
 PUNTOS
 RELOJ
 ARRIBA
@@ -22,28 +22,28 @@ ABAJO
 IZQUIERDA
 DERECHA
 SALTAR
-ACCION
+ACCIÓN
 PULSA TECLA
 SI
 NO
 FIN DEL JUEGO
 ¿CONTINUAR?
 ELIGE NIVEL
-COMO JUGAR
+CÓMO JUGAR
 MOVER CON [%s] Y [%s]
 SALTAR CON [%s]
 AGACHAR CON [%s]
-ATACAR CON [%s] SALTANDO
+ATACAR CON [%s] EN EL AIRE
 COGER OBJETO CON [%s]
 LANZAR OBJETO CON [%s]
-PULSA [%s] PARA LANZAMIENTO CORTO
-ENTRA A LAS PUERTAS CON [%s]
-En mitad la noche, un niño sigue|trabajando en su laboratorio
-Ese niño es Timmy y está trabajando|en su último invento:|¡UNA MAQUINA DEL TIEMPO!
-Por fin, la máqina está lista.|Es momento de probarla
-Pero algo va mal y la máquina|explota al encenderla
-Timmy y piezas de la máquina|son absorbidas por un vórtice temporal
-Ahora Timmy está perdido en épocas|del tiempo y tiene que viajar por la historia|para recuperar las piezas perdidas
-Al fin Timmy ha recuperado todas|las piezas de la maquina y puede arreglarla
-Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época
+PULSAR [%s] PARA LANZAMIENTO CORTO
+ENTRAR A LAS PUERTAS CON [%s]
+En mitad la noche, un niño sigue|trabajando en su laboratorio.
+Ese niño es Timmy y está trabajando|en su último invento:|¡UNA MÁQUINA DEL TIEMPO!
+Por fin, la máquina está lista.|Es momento de probarla.
+Pero algo sale mal y la máquina|explota al encenderla.
+Timmy y piezas de la máquina|son absorbidas por un vórtice temporal.
+Ahora Timmy está perdido en épocas|del tiempo y tiene que viajar por la historia|para recuperar las piezas perdidas.
+Al fin Timmy ha recuperado todas|las piezas de la maquina y puede arreglarla.
+Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época.
 ¡Ahora Timmy esta en casa de nuevo!
