@@ -1316,6 +1316,7 @@ void game_update()
                                 object_system_destroy();
 
                                 game.state = E_GAME_ST_SELECT_LEVEL;
+                                game.lives = GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;

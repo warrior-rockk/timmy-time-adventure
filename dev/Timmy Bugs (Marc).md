@@ -2,8 +2,8 @@
 
 - At Jurassic stage after a death I've got the following issues:
   - Jumped from 6 to 4 lives
-  - After that, only one live when using a continue (starting with 0 lives?)
-  - After being killed later on the counter shown 255 lives. That looks like an underflow.
+  - [X] After that, only one live when using a continue (starting with 0 lives?) OK
+  - [X] After being killed later on the counter shown 255 lives. That looks like an underflow. (solved by previous bug)
 - Western stage:
   - After jumping over the first thimbleweed, I followed it and saw it stucked against a wall, I waited and it messed up the phyisics and clipped on the wall and felt out of bounds.
   - While in the stairs, holding jump button or jump + attack button allows player to "fly" on the stairs by also pushing up or down.
