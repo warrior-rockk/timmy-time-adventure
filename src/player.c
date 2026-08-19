@@ -825,7 +825,7 @@ static void player_trace(tEntity *player)
     show_debug( "p.X: %i,p.Y: %i", player->pos.x, player->pos.y);
     show_debug( "p.fX: %f,p.fY: %f", fixtof(player->fixPos.x), fixtof(player->fixPos.y));
     show_debug( "p.vX: %f,p.vY: %f", fixtof(player->fixVel.x),fixtof(player->fixVel.y));
-    
+    //show_debug( "p.iniX: %i,p.iniY: %i", player->initPos.x, player->initPos.y);
     //show_debug( "crouched: %i", playerFlags.crouched);     
     //show_debug("Property: %i", map_get_tile_property((tVector){1442,71}));
     //show_debug("Test: %i", CHECK_FLAG(map_get_tile_property((tVector){1442,71}), 256));

@@ -719,18 +719,18 @@ void game_update()
                     game.time = map_get_level_time();
 
                     entities_init();
-                    //MY_TRACE_FLAG("player on x %i y %i\n", entity_get(entity_get_player_id())->pos.x, entity_get(entity_get_player_id())->pos.y);
+                    MY_TRACE_FLAG("player on x %i y %i\n", entity_get(entity_get_player_id())->pos.x, entity_get(entity_get_player_id())->pos.y);
                     scroll_init(entity_get(entity_get_player_id())->pos);
-                    //MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    MY_TRACE_FLAG("Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     scroll_update(entity_get(entity_get_player_id())->pos);
-                    //MY_TRACE_FLAG("1Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    MY_TRACE_FLAG("1Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     if (!game.demo)
                         game_hud_init();                    
 
                     game_update_level();
                     entities_update();  //second update after update scroll
                     game_hud_update();
-                    //MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
+                    MY_TRACE_FLAG("2Scroll x %i y %i\n", scroll_get_position().x, scroll_get_position().y);
                     
                     music_play(gameMusic, true);
 
