@@ -887,9 +887,7 @@ void game_update()
             }            
 
             //game time
-            if (game.time <= 0)
-                ;//game.loseLive = true;
-            else if (clock_tick_1sec_get())
+            if (game.time > 0 && clock_tick_1sec_get())
             {
                 game.time--;
                 #ifdef DEBUGMODE

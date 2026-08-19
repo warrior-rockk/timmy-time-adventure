@@ -18,7 +18,6 @@
 - [ ] Jurassic: spider web, make improve position of piranhas?
 
 # Game design
-- [ ] Animation of player run of level time?
 - [ ] Confirm exit to title
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
