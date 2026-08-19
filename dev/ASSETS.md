@@ -42,8 +42,8 @@
 
 # Images
 
-- [ ] Intro images
-- [ ] Ending images
+- [X] Intro images
+- [X] Ending images
 
 # Music
 

@@ -61,7 +61,9 @@ Only the player needs all collision points. Testing this:
     * Medieval: no slopes / platforms
     * West: slopes / no platforms
 
-# Vsync bug
+# Vsync bug 
+
+* Finally, it's not a vsync bug. Instead it's deltaTime go high because last_retrace var is 16 bits and retrace_count 32 bits
 
 BUG NOT APPEARS:
 (TESTED) window 1: no timer no sound, no install_timer (no level timeout): 30 MINUTES AND BUG DOESN'T APPEAR!
