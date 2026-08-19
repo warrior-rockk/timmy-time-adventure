@@ -253,7 +253,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, BULLET_BMP);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){2, 2};                          
-            entity->size = (tVector){2, 2};  
+            entity->size = (tVector){3, 3};  
             entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;                  
         break;
         case E_EAGLE_ENEMY_TYPE:
@@ -1029,7 +1029,7 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define COWBOY_PLAYER_RANGE             160
     #define COWBOY_WAIT_TIME                40
     #define COWBOY_BULLET_Y_OFFSET          4   
-    #define COWBOY_BULLET_Y_CROUCH_OFFSET   14
+    #define COWBOY_BULLET_Y_CROUCH_OFFSET   16
     #define COWBOY_BULLET_X_OFFSET          4
 
     //enemy animations
