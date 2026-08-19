@@ -81,7 +81,7 @@ struct hud
     BITMAP *hudLifeOn;
     uint8_t last_lives;
     uint8_t last_life;
-    uint8_t last_score;
+    int last_score;
     uint16_t last_time;
     uint8_t refresh;     
 } hud;

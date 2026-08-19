@@ -328,7 +328,7 @@ typedef struct
     uint8_t lives;
     uint8_t life;
     uint8_t loseLive;
-    uint16_t score;
+    int score;
     uint16_t time;    
     uint8_t fadeIn;
     uint8_t fadeOut;    
@@ -350,7 +350,7 @@ typedef struct
     #define DEBUG_TRACE_PLAYER              1
     #define DEBUG_LOCAL_DATA_MEMORY         0
     #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
-    #define DEBUG_DT_ON_SCORE               1                   //show deltaTime value on score HUD position 
+    #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
     #define DEBUG_PROFILE                   0                   
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
