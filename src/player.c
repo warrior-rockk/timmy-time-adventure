@@ -188,7 +188,7 @@ static void player_update_controls(tEntity *player)
         }
 
         //Down control (crouch / go down stairs)
-        if (input_key_press(E_G_KEY_DOWN))
+        if (input_key_press(E_G_KEY_DOWN) && !input_key_press(E_G_KEY_JUMP))
         {
             if (!playerFlags.picked)
             {   
@@ -232,7 +232,7 @@ static void player_update_controls(tEntity *player)
         }
 
         //Up control: climb stairs
-		if (input_key_press(E_G_KEY_UP))	
+		if (input_key_press(E_G_KEY_UP) && !input_key_press(E_G_KEY_JUMP))	
         {		
 			//check if not object picked
 			if (!playerFlags.picked)
