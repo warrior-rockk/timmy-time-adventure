@@ -11,7 +11,7 @@
   - [ ] Dynamite kills you but not the enemy
   - [ ] Bats appears from nowhere
 - Egypt
-  - [ ] After dying inside the pyramid got spawn inside the 3 symbol room and died instantly, then appear in a different spawning spot
+  - [X] After dying inside the pyramid got spawn inside the 3 symbol room and died instantly, then appear in a different spawning spot
   - [X] symbol in the fire spitting tiles got to the bottom of the room by just throwing it against the left wall
 
 # Otros
