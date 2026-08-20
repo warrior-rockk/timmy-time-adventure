@@ -880,6 +880,13 @@ void enemy_trice_update(tEntity *this, tDefaultEnemyLocalData *local)
         colDir = collision_check_tile(this, i);        
         //apply collision direction
         collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
+        
+        //check tile with hurt property
+        if (CHECK_FLAG(collision_get_tile_property(this, i), E_TILE_PROP_HURT))
+        {
+            if (colDir == E_COLLISION_DIR_DOWN)
+                this->state = E_TRICE_ST_HURT;
+        }
     }
 }
 
