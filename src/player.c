@@ -169,6 +169,7 @@ static void player_update_controls(tEntity *player)
 {
     if (!playerFlags.disableMove)
     {
+        
         //Right direction control
         if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX && !playerFlags.onStairs)
         {
@@ -179,13 +180,14 @@ static void player_update_controls(tEntity *player)
         }
         
         //Left direction control
-        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.onStairs)
+        if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.onStairs && !input_key_press(E_G_KEY_RIGHT))
         {
             player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
             //player->fixVel.x -= fixmul(accelX, ftofix(deltaTime));
             player->dir = E_ENT_DIR_LEFT;
             playerFlags.moving = true;
         }
+        
 
         //Down control (crouch / go down stairs)
         if (input_key_press(E_G_KEY_DOWN) && !input_key_press(E_G_KEY_JUMP))
