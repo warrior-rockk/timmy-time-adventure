@@ -239,6 +239,7 @@ enum E_GAME_TEXTS
     E_TXT_ENDING_1,
     E_TXT_ENDING_2,
     E_TXT_ENDING_3,
+    E_TXT_TIMEOUT_LEVEL,
 
     E_TXT_NUM,
 };

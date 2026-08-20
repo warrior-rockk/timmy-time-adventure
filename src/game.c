@@ -888,7 +888,9 @@ void game_update()
             }            
 
             //game time
-            if (game.time > 0 && clock_tick_1sec_get())
+            if (game.time <= 0)
+                game.loseLive = true;
+            else if (clock_tick_1sec_get())
             {
                 game.time--;
                 #ifdef DEBUGMODE
@@ -1135,12 +1137,23 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0:
-                    //sfx_play(gameSfx[E_SFX_GAME_PLAYER_LOSE], E_SFX_GAME_VOICE);
                     //play game over music
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, LOSELIVE_MID);
                     music_play(jingleMusic, false);
 
                     entities_draw(worldScreen);
+                    
+                    //timeout text
+                    if (game.time <= 0)
+                    {
+                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) - 1, GAME_H>>1, BLACK_COLOR, -1);
+                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, (GAME_H>>1) + 1, BLACK_COLOR, -1);
+                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) + 1, GAME_H>>1, BLACK_COLOR, -1);
+                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, (GAME_H>>1) - 1, BLACK_COLOR, -1);
+
+                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, GAME_H>>1, WHITE_COLOR, -1);
+                    }
+
                     gameSeq.step++;
                 break;
                 case 1:
