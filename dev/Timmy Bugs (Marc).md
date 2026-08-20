@@ -1,7 +1,6 @@
 # Bugs
 
 - At Jurassic stage after a death I've got the following issues:
-  - [ ] Jumped from 6 to 4 lives
   - [X] After that, only one live when using a continue (starting with 0 lives?) OK
   - [X] After being killed later on the counter shown 255 lives. That looks like an underflow. (solved by previous bug)
 - Western stage:
