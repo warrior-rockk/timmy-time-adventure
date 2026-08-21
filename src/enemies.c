@@ -1248,15 +1248,17 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_TUMBLE_ROLL   0,   7, 8,  ANIM_LOOP
+    #define ANIM_TUMBLE_BREAK  8,   13, 5, ANIM_ONCE 
 
     //enemy states
-    enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL};
+    enum E_TUMBLE_ENEMY_STATES{E_TUMBLE_ST_ROLL, E_TUMBLE_ST_BREAK};
     
     if (this->signal == E_ENT_SIGNAL_AWAKE)
     {
         this->signal = E_ENT_SIGNAL_NONE;
         this->pos = this->initPos;
         this->fixPos = vector2fixvector(this->pos);
+        this->state = E_TUMBLE_ST_ROLL;
     }
 
     //terrain collisions
@@ -1268,7 +1270,10 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
         //check collision tile for collision point
         colDir = collision_check_tile(this, i);        
         //apply collision direction
-        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        if (colDir == E_COLLISION_DIR_LEFT || colDir == E_COLLISION_DIR_RIGHT)
+            this->state = E_TUMBLE_ST_BREAK;
     }
 
     switch (this->state)
@@ -1277,6 +1282,16 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
             enemy_fixed_move(this, TUMBLE_VELOCITY);
 
             play_animation(&this->anim, ANIM_TUMBLE_ROLL);
+        break;
+        case E_TUMBLE_ST_BREAK:
+            this->fixVel.x = 0;
+            this->fixVel.y = 0;
+            if (play_animation(&this->anim, ANIM_TUMBLE_BREAK))
+            {
+                this->sleep = true;
+                this->pos = this->initPos;
+                this->fixPos = vector2fixvector(this->pos);
+            }
         break;
     }       
 }
