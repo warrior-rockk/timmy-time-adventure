@@ -932,14 +932,14 @@ void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->fixVel.y = ftofix(PIRANHA_VEL_Y);
                 this->fixVel.x = ftofix(PIRANHA_VEL_X);
                 this->ground = false;
+                local->timer = 0;
+                this->visible = true;            
             }
             else
                 local->timer += clock_tick_get();
         break;
-        case E_PIRANHA_ST_JUMP:            
-            local->timer = 0;
-            this->visible = true;            
-            if (play_animation(&this->anim, ANIM_PIRANHA_JUMP))                
+        case E_PIRANHA_ST_JUMP:      
+            if (play_animation(&this->anim, ANIM_PIRANHA_JUMP) || this->pos.y >= this->initPos.y)                
                 this->state = E_PIRANHA_ST_IDLE;
         break;             
         case E_PIRANHA_ST_HURT:
