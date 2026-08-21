@@ -112,3 +112,4 @@
 - [ ] Set size from Tiled export
 - [ ] Background color fade to do sunset?
 - [ ] Change life icon on hurt/die
+- [ ] Option on make to specify level (and use this on Tiled command to test directly opened level)

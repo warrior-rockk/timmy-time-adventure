@@ -468,14 +468,21 @@ static void player_update_collisions(tEntity *player)
                             objectForPickID = checkEntity->id;      
                     
                     //check player crushed between object and terrain
-                    if (colDir)
+                    if (colDir == E_COLLISION_DIR_LEFT)
                     {                    
-                        //show_debug("tile check x %i y %i", player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6));
-                        //show_debug("TILE CODE %i", map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}));
-                        if (!map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}) || !map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y - (player->size.y / 6))}))
+                        if (!CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}), E_TILE_PROP_NO_SOLID) 
+                         || !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
+                        )
                             playerFlags.dead = true;
                     }
-                    
+                    else if (colDir == E_COLLISION_DIR_RIGHT)
+                    {
+                        if (!CHECK_FLAG(map_get_tile_property((tVector){player->pos.x, player->pos.y + (player->size.y / 6)}), E_TILE_PROP_NO_SOLID) 
+                         || !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x, player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
+                        )
+                            playerFlags.dead = true;
+                    }
+
                     //adjust collision position (object solid)
                     collision_apply_dir(player, colDir, E_COLLISION_NO_BOUNCE);            
                 break;
