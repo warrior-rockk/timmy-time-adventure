@@ -746,7 +746,7 @@ void object_solid_update(tEntity *this, tDefaultObjectLocalData *local)
                     switch (checkEntity->entClass)
                     {
                         case E_ENT_CLASS_OBJECT:
-                        case E_ENT_CLASS_PLATFORM:
+                        //case E_ENT_CLASS_PLATFORM:
                         case E_ENT_CLASS_TRIGGER:
                             colDir = collision_check_entity(this, checkEntity, E_CHECK_PROCESS_BOTHAXIS);
                             if (CHECK_FLAG(this->properties, E_ENT_PROP_NO_BREAKABLE))
