@@ -471,14 +471,14 @@ static void player_update_collisions(tEntity *player)
                     if (colDir == E_COLLISION_DIR_LEFT)
                     {                    
                         if (!CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y / 6)}), E_TILE_PROP_NO_SOLID) 
-                         || !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
+                         //|| !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x + (player->size.x >> 1), player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
                         )
                             playerFlags.dead = true;
                     }
                     else if (colDir == E_COLLISION_DIR_RIGHT)
                     {
                         if (!CHECK_FLAG(map_get_tile_property((tVector){player->pos.x, player->pos.y + (player->size.y / 6)}), E_TILE_PROP_NO_SOLID) 
-                         || !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x, player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
+                         //|| !CHECK_FLAG(map_get_tile_property((tVector){player->pos.x, player->pos.y + (player->size.y - (player->size.y / 6))}), E_TILE_PROP_NO_SOLID)
                         )
                             playerFlags.dead = true;
                     }
