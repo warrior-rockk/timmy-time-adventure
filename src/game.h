@@ -128,6 +128,9 @@
 #define PAUSE_MENU_POS_X        (GAME_W >> 1) - (PAUSE_MENU_SIZE_X >> 1)
 #define PAUSE_MENU_POS_Y        GAME_H >> 1
 
+#define EXPLOSION_TILE_RANGE_X       4
+#define EXPLOSION_TILE_RANGE_Y       4
+
 //game states
 enum E_GAME_STATE
 {
@@ -341,6 +344,7 @@ typedef struct
     uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
     uint8_t doorId;
     uint8_t demo;
+    tVector objectExplosion;                        //position of a object explosion (dynamite...)
 } tGame;
 
 //options for debug mode

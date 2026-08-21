@@ -7,7 +7,7 @@
   - [X] After jumping over the first thimbleweed, I followed it and saw it stucked against a wall, I waited and it messed up the phyisics and clipped on the wall and felt out of bounds.
   - [X] While in the stairs, holding jump button or jump + attack button allows player to "fly" on the stairs by also pushing up or down.
   - [X] Getting to close to the gunslinger right to the left of the stairs while crouching, makes it miss the shot even when shooting low (also crouching) but if you are standing up it does hurt you
-  - [ ] Dynamite kills you but not the enemy
+  - [X] Dynamite kills you but not the enemy
   - [X] Bats appears from nowhere (middle of the screen)
 - Egypt
   - [X] After dying inside the pyramid got spawn inside the 3 symbol room and died instantly, then appear in a different spawning spot

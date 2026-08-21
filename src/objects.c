@@ -26,7 +26,6 @@ BITMAP *objectResources[E_OBJECTS_TYPE_NUM];    //array of objects gfx resources
 SAMPLE *objectSfx[E_SFX_OBJECT_NUM];            //array of objects sfx resources
 DATAFILE_INDEX *objectDataFileIndex;            //object datafile index
 
-tVector objectExplosion;                        //position of a object explosion (dynamite...)
 bool egyptPuzzle;                               //status of egypt symbol (puzzle 1)
 int8_t egyptPuzzle2[PUZZLE2_SYMBOL_NUM];         //array of combinations of egypt symbols (puzzle 2)
 
@@ -1133,8 +1132,6 @@ void object_dynamite_update(tEntity *this, tDefaultObjectLocalData *local)
     //object defines
     #define DYNAMITE_PICKED_OFFSET_Y   20
     #define DYNAMITE_PICKED_OFFSET_X    1
-    #define DYNAMITE_TILE_RANGE_X       4
-    #define DYNAMITE_TILE_RANGE_Y       4
     #define DYNAMITE_TIMER_EXPLOSION    4 //seconds
     
     //object animations
@@ -1163,7 +1160,7 @@ void object_dynamite_update(tEntity *this, tDefaultObjectLocalData *local)
             sfx_play(objectSfx[E_SFX_EXPLOSION], E_SFX_OBJECT_VOICE);  
             scroll_shake_camera();
             //hurt player if on explosion region
-            if (in_range_vector(playerEnt->pos, this->pos, (tVector){(DYNAMITE_TILE_RANGE_X * map_get_tile_size()), (DYNAMITE_TILE_RANGE_X * map_get_tile_size())}))
+            if (in_range_vector(playerEnt->pos, this->pos, (tVector){(EXPLOSION_TILE_RANGE_X * map_get_tile_size()), (EXPLOSION_TILE_RANGE_X * map_get_tile_size())}))
                 playerEnt->signal = E_ENT_SIGNAL_HURT;
         } 
         else
@@ -1276,13 +1273,13 @@ void object_dynamite_update(tEntity *this, tDefaultObjectLocalData *local)
             SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             CLEAR_FLAG(this->properties, E_ENT_PROP_PERSISTENT);
 
-            objectExplosion = this->pos;
+            game.objectExplosion = this->pos;
 
             //play break animation
             if (play_animation(&this->anim, ANIM_DYNAMITE_EXPLOSION))
             {
                 this->dead = true;
-                objectExplosion = (tVector){0, 0};                
+                game.objectExplosion = (tVector){0, 0};                
             }
         break;
     }
@@ -1362,7 +1359,7 @@ void object_rock_explosion_update(tEntity *this, tDefaultObjectLocalData *local)
             this->anim.frame = 0;
             
             //check if there's some explosion on object range position
-            if (in_range_vector(this->pos, objectExplosion, (tVector){(DYNAMITE_TILE_RANGE_X * map_get_tile_size()), (DYNAMITE_TILE_RANGE_X * map_get_tile_size())}))
+            if (in_range_vector(this->pos, game.objectExplosion, (tVector){(EXPLOSION_TILE_RANGE_X * map_get_tile_size()), (EXPLOSION_TILE_RANGE_X * map_get_tile_size())}))
                 this->state++;
         break; 
         case E_ROCK_EXPLOSION_ST_EXPLOSION:

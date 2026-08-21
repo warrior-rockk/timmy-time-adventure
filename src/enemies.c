@@ -1050,6 +1050,9 @@ void enemy_cowboy_update(tEntity *this, tDefaultEnemyLocalData *local)
     if (this->signal == E_ENT_SIGNAL_HURT)
         this->state = E_COWBOY_ST_HURT;
 
+    if (in_range_vector(this->pos, game.objectExplosion, (tVector){(EXPLOSION_TILE_RANGE_X * map_get_tile_size()), (EXPLOSION_TILE_RANGE_X * map_get_tile_size())}))
+        this->state = E_COWBOY_ST_HURT;
+
     switch (this->state)
     {
         case E_COWBOY_ST_IDLE:        
