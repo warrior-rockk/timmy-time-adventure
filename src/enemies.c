@@ -321,6 +321,7 @@ void enemy_create(tEntity *entity)
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){44, 41};                          
             entity->size = (tVector){16, 16};      
+            entity->properties = E_ENT_PROP_DEAD_OUT_SCREEN;
             collision_create_min_entity_points(entity);              
         break;        
         case E_EGYPTIAN_ENEMY_TYPE:
@@ -648,15 +649,10 @@ static void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_rang
     }
 }
 
-//Enemy fixed move: moves enemy and dead when exit screen
+//Enemy fixed move: moves enemy horizontally
 static void enemy_fixed_move(tEntity *this, fixed velocity)
 {
     this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-velocity) : ftofix(velocity);
-
-    if (!scroll_rect_on_region((tRectangle){this->pos, this->size}))
-    {
-        this->dead = true;
-    }
 }
 
 //Do enemy dead

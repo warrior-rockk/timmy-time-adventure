@@ -406,9 +406,19 @@ void entities_update()
         {
             if (!entityList[i].sleep)
             {                
-                MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
-                //sleep the entity
-                entityList[i].sleep = true;
+                //check if dead by out of screen
+                if (!CHECK_FLAG(entityList[i].properties, E_ENT_PROP_DEAD_OUT_SCREEN))
+                {
+                    MY_TRACE_FLAG("Entity: %i Instance: %i set to sleep for out of region\n", entityList[i].id, entityList[i].entInstance);                
+                    //sleep the entity
+                    entityList[i].sleep = true;
+                }
+                else
+                {
+                    MY_TRACE_FLAG("Entity: %i Instance: %i set to dead for out of region\n", entityList[i].id, entityList[i].entInstance);                
+                    //sleep the entity
+                    entityList[i].dead = true;
+                }
             }
             //check autodestroy flag to destroy entity
             if (CHECK_FLAG(entityList[i].properties, E_ENT_PROP_AUTO_DESTROY))

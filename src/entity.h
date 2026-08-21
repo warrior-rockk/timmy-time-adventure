@@ -43,11 +43,12 @@ enum E_ENTITY_PROPERTIES
     E_ENT_PROP_PERSISTENT       = 0x04,     //entity doesn't sleep when out of region and doesn't init when in region
     E_ENT_PROP_NO_BREAKABLE     = 0x08,     //entity not breakable
     E_ENT_PROP_NO_PICKABLE      = 0x10,     //entity not pickable by player
-    E_ENT_PROP_AUTO_DESTROY     = 0x20,     //entity destroys when out region
+    E_ENT_PROP_AUTO_DESTROY     = 0x20,     //entity destroys when out region (no awake)
     E_ENT_PROP_NO_HURT          = 0x40,     //player can't hurt, but enemy entity can hurt player
     E_ENT_PROP_NO_SPAWN         = 0x80,     //entity doesn't spawn when dead (one pick items)
     E_ENT_PROP_HURTLESS         = 0x100,    //enemy entity can't hurt player and player can't hurt entity
     E_ENT_PROP_NO_FLIP          = 0x200,    //don't flip entity on draw based on direction
+    E_ENT_PROP_DEAD_OUT_SCREEN  = 0x400,    //entity dead when out screen (instead of sleep)
 };
 
 //entities direction (for drawing)
