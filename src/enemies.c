@@ -352,7 +352,7 @@ void enemy_create(tEntity *entity)
         case E_MUMMY_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, MUMMY_BMP);
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){57, 49};                          
+            entity->spriteSize = (tVector){57, 67};                          
             entity->size = (tVector){16, 32};
             entity->axis = E_ENT_AXIS_DOWN;  
             SET_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON);     
@@ -1766,18 +1766,25 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define MUMMY_VELOCITY          1.4    
     #define MUMMY_PLAYER_RANGE      100
     #define MUMMY_WAIT_TIME         60
+    #define MUMMY_HURT_WAIT_TIME    140
     
     //enemy animations
-    #define ANIM_MUMMY_IDLE     13,  18, 14, ANIM_LOOP
-    #define ANIM_MUMMY_WALK     1,   9,  4, ANIM_LOOP       
-    #define ANIM_MUMMY_DEAD     11,   11,  60, ANIM_ONCE
+    #define ANIM_MUMMY_IDLE         13,  18, 14, ANIM_LOOP
+    #define ANIM_MUMMY_WALK         1,   9,  4, ANIM_LOOP       
+    #define ANIM_MUMMY_DEAD         19,   26,  60, ANIM_ONCE
+    #define ANIM_MUMMY_HURT_IN      27,   29,  8, ANIM_ONCE
+    #define ANIM_MUMMY_HURT_OUT     30,   33,  8, ANIM_ONCE
 
     //enemy states
-    enum E_MUMMY_ENEMY_STATES{E_MUMMY_ST_IDLE, E_MUMMY_ST_MOVING, E_MUMMY_ST_WAIT, E_MUMMY_ST_HURT};   
+    enum E_MUMMY_ENEMY_STATES{E_MUMMY_ST_IDLE, E_MUMMY_ST_MOVING, E_MUMMY_ST_WAIT, E_MUMMY_ST_HURT_IN, E_MUMMY_ST_HURT_DELAY, E_MUMMY_ST_HURT_OUT};   
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_MUMMY_ST_HURT;
+    {
+        this->state = E_MUMMY_ST_HURT_IN;
+        SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
+        this->signal = E_ENT_SIGNAL_NONE;
+    }
 
     tEntity *player = entity_get(entity_get_player_id());
     
@@ -1838,19 +1845,34 @@ void enemy_mummy_update(tEntity *this, tDefaultEnemyLocalData *local)
 
             play_animation(&this->anim, ANIM_MUMMY_IDLE);
         break;
-        case E_MUMMY_ST_HURT:
-            //blink
-            entity_blink(this);
+        case E_MUMMY_ST_HURT_IN:
             //play dead sfx
             if (this->state != this->prevState)
             {
                 sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE);
                 game.score += SCORE_POINT_HURT_ENEMY;
             }
-            if (play_animation(&this->anim, ANIM_MUMMY_DEAD))
+            
+            if (play_animation(&this->anim, ANIM_MUMMY_HURT_IN))
             {
-                this->signal = E_ENT_SIGNAL_NONE;
+                this->state = E_MUMMY_ST_HURT_DELAY;
+            }
+            
+        break;
+        case E_MUMMY_ST_HURT_DELAY:
+            if (local->timer >= MUMMY_HURT_WAIT_TIME)
+            {
+                this->state = E_MUMMY_ST_HURT_OUT;
+                local->timer = 0;
+            }
+            else   
+                local->timer += clock_tick_get();
+        break;
+        case E_MUMMY_ST_HURT_OUT:
+            if (play_animation(&this->anim, ANIM_MUMMY_HURT_OUT))
+            {
                 this->state = E_MUMMY_ST_IDLE;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
             }
             
         break;        
