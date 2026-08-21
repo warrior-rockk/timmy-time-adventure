@@ -1066,6 +1066,5 @@
    </properties>
   </object>
   <object id="289" template="triggers/checkpoint.tx" x="976" y="112"/>
-  <object id="302" template="triggers/debug-start.tx" x="3712" y="384"/>
  </objectgroup>
 </map>

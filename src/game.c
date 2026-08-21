@@ -1141,7 +1141,7 @@ void game_update()
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, LOSELIVE_MID);
                     music_play(jingleMusic, false);
 
-                    entities_draw(worldScreen);
+                    game_draw_level();
                     
                     //timeout text
                     if (game.time <= 0)
