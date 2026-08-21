@@ -1426,11 +1426,6 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="202" name="debug-start" type="object" x="2384" y="416" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
   <object id="203" name="player1" type="player" x="16" y="384" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>

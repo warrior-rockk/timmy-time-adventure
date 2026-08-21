@@ -185,7 +185,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].noGravity       = false;
         entityList[newEntity].anim.frame      = 0;
         entityList[newEntity].anim.frameTime  = 0;
-
+        entityList[newEntity].signal          = E_ENT_SIGNAL_NONE;
 
         //if entity class is player, set the player id
         if (entityClass == E_ENT_CLASS_PLAYER)
