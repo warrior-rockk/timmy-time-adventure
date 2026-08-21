@@ -83,3 +83,14 @@ uint8_t text_marquee_draw(BITMAP *buffer, FONT *font, uint8_t fontColor, uint8_t
     else
         return 1;
 }
+
+void text_outline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uint16_t y, uint8_t fontColor, uint8_t borderColor)
+{
+    //draw borders
+    textout_centre_ex(buffer, font, text, x - 1, y, borderColor, -1);
+    textout_centre_ex(buffer, font, text, x, y + 1, borderColor, -1);
+    textout_centre_ex(buffer, font, text, x + 1, y, borderColor, -1);
+    textout_centre_ex(buffer, font, text, x, y - 1, borderColor, -1);
+    //draw text
+    textout_centre_ex(buffer, font, text, x, y, fontColor, -1);
+}

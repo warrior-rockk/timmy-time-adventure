@@ -1145,15 +1145,8 @@ void game_update()
                     
                     //timeout text
                     if (game.time <= 0)
-                    {
-                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) - 1, GAME_H>>1, BLACK_COLOR, -1);
-                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, (GAME_H>>1) + 1, BLACK_COLOR, -1);
-                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) + 1, GAME_H>>1, BLACK_COLOR, -1);
-                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, (GAME_H>>1) - 1, BLACK_COLOR, -1);
-
-                        textout_centre_ex(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), GAME_W>>1, GAME_H>>1, WHITE_COLOR, -1);
-                    }
-
+                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) - 1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                    
                     gameSeq.step++;
                 break;
                 case 1:

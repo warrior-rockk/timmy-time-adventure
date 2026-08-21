@@ -14,7 +14,10 @@
 
 //draws multiline text separated by \n
 void text_multiline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uint16_t y, uint8_t fontColor, uint8_t backColor);
-
+//inits text marquee text
 void text_marquee_init(char *text, uint16_t x, uint16_t y);
+//draws text marquee
 uint8_t text_marquee_draw(BITMAP *buffer, FONT *font, uint8_t fontColor, uint8_t backColor, uint16_t speed);
+//draws outline text
+void text_outline_draw(BITMAP *buffer, FONT *font, char *text, uint16_t x, uint16_t y, uint8_t fontColor, uint8_t borderColor);
 #endif
