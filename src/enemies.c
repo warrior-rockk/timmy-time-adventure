@@ -360,7 +360,7 @@ void enemy_create(tEntity *entity)
         break;
         case E_HITBOX_ENEMY_TYPE:
             entity->size = (tVector){16, 16};
-            entity->properties = E_ENT_PROP_AUTO_DESTROY;
+            entity->properties = E_ENT_PROP_AUTO_DESTROY | E_ENT_PROP_NO_HURT;
         break;
         case E_VULTURE_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, VULTURE_BMP);
