@@ -48,3 +48,4 @@ Finally, Timmy has all the lost machine|pieces and can fix the machine.
 With the machine fixed,|the vortex brings Timmy to his time.
 Now Timmy is in home again!
 TIME OVER!
+LEVEL CLEARED

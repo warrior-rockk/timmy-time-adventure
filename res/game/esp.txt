@@ -48,3 +48,4 @@ Al fin Timmy ha recuperado todas|las piezas de la maquina y puede arreglarla.
 Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época.
 ¡Ahora Timmy esta en casa de nuevo!
 ¡TIEMPO AGOTADO!
+NIVEL COMPLETADO

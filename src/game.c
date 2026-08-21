@@ -1183,10 +1183,7 @@ void game_update()
         case E_GAME_ST_COMPLETE_LEVEL:
             switch (gameSeq.step)
             {
-                case 0:
-                    //scroll_update(entity_get(entity_get_player_id())->pos);                    
-                    //entities_draw(worldScreen);
-
+                case 0: //initial freeze delay
                     music_stop(gameMusic);
                     
                     if (gameSeq.timeCounter >= 100)
@@ -1194,6 +1191,8 @@ void game_update()
                         //play game over music
                         jingleMusic = load_dat_midi_indexed(gameDataIndex, END_MID);
                         music_play(jingleMusic, false);
+                        //message level cleared
+                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_LEVEL_CLEARED), (GAME_W>>1) - 1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
                     }
@@ -1202,15 +1201,14 @@ void game_update()
 
                     
                 break;                
-                case 1:
+                case 1: //wait to jingle music ends
                     if (music_get_pos() < 0)
                     {                
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
                     }
                 break;
-                case 2:
-                    //obtain score for time left                         
+                case 2: //obtain score por time left
                     if (game.time > 0)
                     {                        
                         game.time--;
@@ -1236,7 +1234,7 @@ void game_update()
                         game.time = 0;
                     }
                 break;
-                case 3:
+                case 3: //delay after score count
                     //wait 2 seconds
                     if (gameSeq.timeCounter >= 2)
                     {                
@@ -1247,7 +1245,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_1sec_get();    
                 break;
-                case 4:                    
+                case 4: //go to select level                    
                     MY_TRACE_FLAG( "Completed level number: %i\n", game.actualLevel);
                     game_destroy_level();
 
