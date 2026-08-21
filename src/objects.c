@@ -758,12 +758,19 @@ void object_solid_update(tEntity *this, tDefaultObjectLocalData *local)
                                 {
                                     //check number of puzzle
                                     if (this->dir)
+                                    {
                                         egyptPuzzle = this->spare == checkEntity->spare ? true : false;
+                                        if (egyptPuzzle)
+                                            SET_FLAG(this->properties, E_ENT_PROP_NO_PICKABLE);
+                                    }
                                     else
                                     {    
                                         //check if combination is correct
                                         if (this->spare == checkEntity->spare)
+                                        {
                                             egyptPuzzle2[this->spare] = E_EGYPT_SYMBOL_STATUS_OK;                            
+                                            SET_FLAG(this->properties, E_ENT_PROP_NO_PICKABLE);
+                                        }
                                         else
                                             egyptPuzzle2[this->spare] = E_EGYPT_SYMBOL_STATUS_NOT_OK;
                                     }
