@@ -174,8 +174,3 @@ void toggle_delta_time()
 {
     disableDeltaTime = !disableDeltaTime;
 }
-
-double get_deltaTime()
-{
-    return deltaTime;
-}

@@ -1903,7 +1903,7 @@ void game_hud_draw()
         #endif
 
         #if DEBUG_DT_ON_SCORE
-            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04f", get_deltaTime());
+            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04f", deltaTime);
         #endif
     }
 
