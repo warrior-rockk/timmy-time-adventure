@@ -601,6 +601,7 @@ static void player_update_state(tEntity *player)
     {
         player->state = ST_PLAYER_DEAD;
         playerFlags.disableMove = true;
+        playerInvincible = false;
         player->fixVel.x = 0;
         if (player->prevState != player->state)
             sfx_play(playerSfx[SFX_PLAYER_DEAD], E_SFX_PLAYER_VOICE);
