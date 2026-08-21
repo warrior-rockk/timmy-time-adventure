@@ -18,7 +18,6 @@
 
 # Game design
 - [ ] More extra lives on maps
-- [ ] Confirm exit to title
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
@@ -30,6 +29,7 @@
 - [ ] Sfx particles for spider web or player splash water
 
 # Engine
+- [ ] Dialog: add_text without option prevent cursor to select
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
 - [ ] Sound when extra live by score

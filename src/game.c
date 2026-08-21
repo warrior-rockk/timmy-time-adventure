@@ -1054,12 +1054,7 @@ void game_update()
                                 dialog_destroy(&gameDialog);    
                             break;
                             case 3: //EXIT TO TITLE
-                                game_destroy_level();                                
-                                game_init_flags();
-                                game.fadeOut = true;
-                                game.state = E_GAME_ST_TITLE;
-                                
-                                gameSeq.step = 0;                               
+                                gameSeq.step = 4;   //jump to confirm                               
                                 dialog_destroy(&gameDialog); 
                             break;
                             case 4: //EXIT TO DOS
@@ -1124,6 +1119,43 @@ void game_update()
                         clear_to_color(worldScreen, BLACK_COLOR); 
                         game_draw_level();
                         game_hud_draw();
+                    }
+                break;
+                case 4: //create confirm dialog exit to title
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){60, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    //dialog_add_text(&gameDialog, "¿ESTAS SEGURO?");
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
+
+                    dialog_draw(&gameDialog, worldScreen);
+                    gameSeq.step++;
+                break;
+                case 5: //handle confirm dialog exit to title
+                    game_navigation_menu(&gameDialog, worldScreen);
+
+                    if (input_key_down(E_G_KEY_ENTER))
+                    {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                        
+                        switch (gameDialog.optionSelected)
+                        {
+                            case 0: //EXIT TO TITLE: YES
+                                game_destroy_level();                                
+                                game_init_flags();
+                                game.fadeOut = true;
+                                game.state = E_GAME_ST_TITLE;
+                                
+                                gameSeq.step = 0;                               
+                                dialog_destroy(&gameDialog); 
+                            break;
+                            case 1: //EXIT TO TITLE: NO
+                                gameSeq.step = 0;                                
+                                dialog_destroy(&gameDialog);             
+                                clear_to_color(worldScreen, BLACK_COLOR); 
+                                game_draw_level();
+                                game_hud_draw();
+                            break;                            
+                        }
                     }
                 break;
                 case 10:    //draw controls menu
