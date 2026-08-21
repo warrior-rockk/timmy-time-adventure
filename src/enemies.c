@@ -269,7 +269,7 @@ void enemy_create(tEntity *entity)
             entity->spriteSize = (tVector){30, 29};                          
             entity->size = (tVector){28, 20};                  
             entity->axis = E_ENT_AXIS_DOWN;
-            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            entity->properties = E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_DEAD_OUT_SCREEN;
             collision_create_min_entity_points(entity);
         break;
         case E_SCORPION_ENEMY_TYPE:
@@ -1284,9 +1284,7 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->fixVel.y = 0;
             if (play_animation(&this->anim, ANIM_TUMBLE_BREAK))
             {
-                this->sleep = true;
-                this->pos = this->initPos;
-                this->fixPos = vector2fixvector(this->pos);
+                this->dead = true;
             }
         break;
     }       
