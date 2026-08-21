@@ -17,6 +17,7 @@
 - [ ] Jurassic: spider web
 
 # Game design
+- [ ] More extra lives on maps
 - [ ] Confirm exit to title
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
@@ -38,7 +39,6 @@
 - [ ] adjust scroll threshold to prevent scroll movement when crouch (scroll target on players feet?)
 - [ ] solve balancing on edge direction. Balancing on objects?
 - [ ] Refactor remove entities (mark as deleted and reuse position with new)
-- [ ] Dead enemies with dynamite explosion?
 - [ ] Number counter dynamite?
 - [ ] Review debug keys on different translation units
 - [ ] PC Speaker effects?
