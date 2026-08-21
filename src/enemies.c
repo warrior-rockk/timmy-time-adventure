@@ -445,7 +445,7 @@ void enemy_create(tEntity *entity)
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARMOUR_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);            
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){52, 46};                          
+            entity->spriteSize = (tVector){60, 46};                          
             entity->size = (tVector){12, 32};  
             entity->axis = E_ENT_AXIS_DOWN;
         break;
@@ -2422,21 +2422,26 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ARMOUR_HITBOX_Y_OFFSET            6
     #define ARMOUR_HITBOX_DURATION            20
     #define ARMOUR_WAIT_ATTACK                50
+    #define ARMOUR_HURT_WAIT_DELAY            20
+    #define ARMOUR_DEAD_LAST_FRAME            16
     
     //enemy animations
     #define ANIM_ARMOUR_IDLE   0,   0,  10, ANIM_LOOP
     #define ANIM_ARMOUR_ATACK  1,   8,  8, ANIM_PING_PONG_ONCE    
-    #define ANIM_ARMOUR_DEAD   1,   1,  30, ANIM_ONCE
+    #define ANIM_ARMOUR_DEAD   9,   ARMOUR_DEAD_LAST_FRAME,  10, ANIM_PING_PONG_ONCE
 
     //enemy states
-    enum E_ARMOUR_ENEMY_STATES{E_ARMOUR_ST_IDLE, E_ARMOUR_ST_ATTACK, E_ARMOUR_ST_WAIT, E_ARMOUR_ST_HURT};   
+    enum E_ARMOUR_ENEMY_STATES{E_ARMOUR_ST_IDLE, E_ARMOUR_ST_ATTACK, E_ARMOUR_ST_WAIT, E_ARMOUR_ST_HURT, E_ARMOUR_ST_HURT_DELAY};   
 
     tEntity *player;
 
     //hurt signal
     if (this->signal == E_ENT_SIGNAL_HURT)
-        this->state = E_ARMOUR_ST_HURT;    
-    
+    {
+        this->state = E_ARMOUR_ST_HURT;  
+        SET_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);  
+        this->signal = E_ENT_SIGNAL_NONE;
+    }
     switch (this->state)
     {
         case E_ARMOUR_ST_IDLE:                        
@@ -2488,8 +2493,6 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
             play_animation(&this->anim, ANIM_ARMOUR_IDLE);
         break;
         case E_ARMOUR_ST_HURT:
-            //blink
-            entity_blink(this);
             //play dead sfx
             if (this->state != this->prevState)
             {
@@ -2500,10 +2503,22 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
             //play dead animation
             if (play_animation(&this->anim, ANIM_ARMOUR_DEAD))
             {
-                this->visible = true;
-                this->signal = E_ENT_SIGNAL_NONE;
+                CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
                 this->state = E_ARMOUR_ST_WAIT;         
             }
+
+            if (this->anim.frame == ARMOUR_DEAD_LAST_FRAME)
+                this->state = E_ARMOUR_ST_HURT_DELAY;
+            
+        break;
+        case E_ARMOUR_ST_HURT_DELAY:
+            if (local->timer >= ARMOUR_HURT_WAIT_DELAY)
+            {
+                this->state = E_ARMOUR_ST_HURT;                
+                local->timer = 0;
+            }
+            else
+                local->timer += clock_tick_get();
         break;
     }       
 }
