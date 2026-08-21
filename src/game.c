@@ -831,7 +831,7 @@ void game_update()
                             break;
                             case TUTORIAL_MSG_7_FRAME ... TUTORIAL_MSG_7_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
-                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
+                                textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)], keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_8_FRAME ... TUTORIAL_MSG_8_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);

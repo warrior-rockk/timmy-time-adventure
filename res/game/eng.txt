@@ -36,7 +36,7 @@ CROUCH WITH [%s]
 ATTACK WITH [%s] WHEN JUMPING
 TAKE OBJECT WITH [%s]
 THROW OBJECT WITH [%s]
-PRESS [%s] FOR SHORT THROW OBJECT
+PRESS [%s] AND [%s] FOR SHORT THROW OBJECT
 ENTER DOORS WITH [%s]
 Late at night, a boy stills|working on his lab.
 This boy is Timmy, and he is|working on his last invention:|A TIME MACHINE!
