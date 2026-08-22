@@ -449,6 +449,7 @@ void game_update()
                                 game.demo = 0;
                                 dialog_destroy(&gameDialog);
                                 destroy_bitmap(gameSprite);
+                                destroy_bitmap(titleScroll);
                             break;
                             case 1: //OPTIONS
                                 game.state = E_GAME_ST_OPTIONS_MENU;
@@ -461,6 +462,7 @@ void game_update()
                                 game.fadeOut = true;
                                 dialog_destroy(&gameDialog);                                
                                 destroy_bitmap(gameSprite);
+                                destroy_bitmap(titleScroll);
                             break;
                         }
                     }
