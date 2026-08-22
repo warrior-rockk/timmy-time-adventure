@@ -453,7 +453,27 @@ void game_update()
                 case 1: //process main menu dialog
                     play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
-                
+
+                    if (gameSeq.timeCounter >= 20)
+                        titleScrollPos.x += TITLE_SCROLL_VEL_X;
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+
+                    //blit first screen scroll
+                    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
+                    //reset if end of scroll image
+                    else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
+                    {
+                        titleScrollPos.x = 0;
+                    }
+                    else    //draws continuous scroll
+                    {
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+                        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+                    }
+
+                    dialog_draw(&gameDialog, buffer);
                     game_navigation_menu(&gameDialog, buffer);
 
                     if (input_key_down(E_G_KEY_ENTER))
