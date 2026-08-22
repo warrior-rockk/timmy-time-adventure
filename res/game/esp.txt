@@ -49,3 +49,5 @@ Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época.
 ¡Ahora Timmy esta en casa de nuevo!
 ¡TIEMPO AGOTADO!
 NIVEL COMPLETADO
+¿ESTÁS SEGURO?
+EMPEZARÁS DE NUEVO...

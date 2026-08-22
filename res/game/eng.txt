@@ -49,3 +49,5 @@ With the machine fixed,|the vortex brings Timmy to his time.
 Now Timmy is in home again!
 TIME OVER!
 LEVEL CLEARED
+ARE YOU SURE?
+GAME WILL RESTART... 

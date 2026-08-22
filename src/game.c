@@ -1123,8 +1123,10 @@ void game_update()
                     }
                 break;
                 case 4: //create confirm dialog exit to title
-                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){60, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
-                    //dialog_add_text(&gameDialog, "¿ESTAS SEGURO?");
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){160, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONFIRM_EXIT_TO_TITLE));
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_GAME_WILL_RESTART));
+                    dialog_add_text(&gameDialog, "");
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
 
@@ -1140,7 +1142,7 @@ void game_update()
                         
                         switch (gameDialog.optionSelected)
                         {
-                            case 0: //EXIT TO TITLE: YES
+                            case 3: //EXIT TO TITLE: YES
                                 game_destroy_level();                                
                                 game_init_flags();
                                 game.fadeOut = true;
@@ -1149,7 +1151,7 @@ void game_update()
                                 gameSeq.step = 0;                               
                                 dialog_destroy(&gameDialog); 
                             break;
-                            case 1: //EXIT TO TITLE: NO
+                            case 4: //EXIT TO TITLE: NO
                                 gameSeq.step = 0;                                
                                 dialog_destroy(&gameDialog);             
                                 clear_to_color(worldScreen, BLACK_COLOR); 

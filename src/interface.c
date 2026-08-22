@@ -210,7 +210,9 @@ void dialog_add_text(tDialog *dialog, const char *text)
     dialog->option[dialog->numOptions].inc          = 1;
     
     //increases num options
-    dialog->numOptions++;   
+    dialog->numOptions++;
+    //as option type text it's not selectable, initialize the option selected to the next option
+    dialog->optionSelected = dialog->numOptions;   
 
     //resize container if autoSize flag
     if (dialog->autoSize)
@@ -375,7 +377,7 @@ bool dialog_next_option(tDialog *dialog)
 
 bool dialog_prev_option(tDialog *dialog)
 {
-    if (dialog->optionSelected > 0)
+    if (dialog->optionSelected > 0 && dialog->option[dialog->optionSelected - 1].type != E_OPTION_TYPE_TEXT)
     {
         dialog->optionSelected--;
         return true;
