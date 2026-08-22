@@ -336,16 +336,8 @@ void game_update()
                     animSprite.frame = 0;
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
-                    //test title scroll
+                    //load title scroll
                     titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
-                    
-                    #define TITLE_SCROLL_WIDTH      640
-                    #define TITLE_SCROLL_POS_X      0
-                    #define TITLE_SCROLL_POS_Y      110
-                    #define TITLE_SCROLL_SIZE_X     320
-                    #define TITLE_SCROLL_SIZE_Y     80
-                    #define TITLE_SCROLL_VEL_X      1
-
                     titleScrollPos = (tVector){0, 0};
                     blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
                     gameSeq.step++;      

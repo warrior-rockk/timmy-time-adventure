@@ -135,6 +135,14 @@
 #define EXPLOSION_TILE_RANGE_X       4
 #define EXPLOSION_TILE_RANGE_Y       4
 
+#define TITLE_SCROLL_WIDTH      640
+#define TITLE_SCROLL_POS_X      0
+#define TITLE_SCROLL_POS_Y      110
+#define TITLE_SCROLL_SIZE_X     320
+#define TITLE_SCROLL_SIZE_Y     80
+#define TITLE_SCROLL_VEL_X      1
+
+
 //game states
 enum E_GAME_STATE
 {
