@@ -13,10 +13,9 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] Jurassic: spider web
+- [ ] More extra lives on maps
 
 # Game design
-- [ ] More extra lives on maps
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?

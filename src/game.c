@@ -736,10 +736,13 @@ void game_update()
                     
                     music_play(gameMusic, true);
 
+                    game_draw_level();  
+                    
                     //check demo mode
                     if (game.demo)
                         input_log_play("demo.rec");
-                    
+                    else
+                        game_hud_draw();
                     //record demo level (record on full cycles emulator)
                     //input_log_record("demo.rec");
                     
@@ -760,9 +763,6 @@ void game_update()
                     }
                     else
                     {
-                        game_draw_level();  
-                        if (!game.demo)
-                            game_hud_draw();    
                         gameSeq.timeCounter += clock_tick_get();
                     }
                 break;                
@@ -1174,7 +1174,7 @@ void game_update()
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, LOSELIVE_MID);
                     music_play(jingleMusic, false);
 
-                    game_draw_level();
+                    //game_draw_level();
                     
                     //timeout text
                     if (game.time <= 0)
