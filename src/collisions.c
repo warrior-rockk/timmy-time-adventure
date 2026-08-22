@@ -88,8 +88,8 @@ static int16_t collision_check_path_x(tEntity *entity, tLinePath *linePath, uint
         //only check with no persistent entities because may be off-region and doesn't affect the current stop scroll
         if (!CHECK_FLAG(entity->properties, E_ENT_PROP_PERSISTENT))
         {
-            if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT)) || 
-                ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT)))
+            if (((linePath->start.x) >= scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && scroll_get_stop_scroll(E_STOP_SCROLL_RIGHT) && !scroll_get_stop_scroll_nosolid(E_STOP_SCROLL_RIGHT)) || 
+                ((linePath->start.x) <= scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && scroll_get_stop_scroll(E_STOP_SCROLL_LEFT) && !scroll_get_stop_scroll_nosolid(E_STOP_SCROLL_LEFT)))
             {
                 return dist;
             }

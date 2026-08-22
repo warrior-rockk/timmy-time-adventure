@@ -58,18 +58,20 @@ enum E_STOP_SCROLL_OPTIONS
 //scroll object
 typedef struct
 {    
-    uint8_t mode;       //scroll mode
-    uint8_t moving;     //scroll moving flags
-    tVector pos;        //scroll actual position
-    tVector target;     //scroll target position
-    tVector window;     //scroll window size
-    tVector limit;      //scroll limit position
-    t4dir stopScroll;   //stop scroll direction positions
-    tFixVector fixPos;  //scroll actual position fixed point
-    tFixVector fixVel;  //scroll velocity fixed point
-    bool cameraShake;   //flag to shake camera
-    tVector shakeValue; //scroll offset shake value
-    uint16_t shakeTimer;//timer of duration of shake
+    uint8_t mode;                   //scroll mode
+    uint8_t moving;                 //scroll moving flags
+    tVector pos;                    //scroll actual position
+    tVector target;                 //scroll target position
+    tVector window;                 //scroll window size
+    tVector limit;                  //scroll limit position
+    t4dir stopScroll;               //stop scroll direction positions
+    bool stopScrollLeftNoSolid;     //flag for stop scroll not solid (for collisions)
+    bool stopScrollRightNoSolid;    //flag for stop scroll not solid (for collisions)
+    tFixVector fixPos;              //scroll actual position fixed point
+    tFixVector fixVel;              //scroll velocity fixed point
+    bool cameraShake;               //flag to shake camera
+    tVector shakeValue;             //scroll offset shake value
+    uint16_t shakeTimer;            //timer of duration of shake
 } tScroll;
 
 //creates scroll with the window dimensions, limits and mode
@@ -86,10 +88,12 @@ bool scroll_position_on_region(tVector checkPosition);
 tVector scroll_get_position();
 //returns scroll fxied position
 tFixVector scroll_get_fix_position();
-//set stop scroll value for a stop scroll direction (left, right, down or up)
-void scroll_stop_scroll(uint8_t dir, int16_t value);
+//set stop scroll value for a stop scroll direction (left, right, down or up) and no solid flag
+void scroll_stop_scroll(uint8_t dir, int16_t value, bool noSolid);
 //get stop scroll values for a stop scroll direction (left, right, down or up)
 int16_t scroll_get_stop_scroll(uint8_t dir);
+//gets not solid stop scroll flag for direction
+bool scroll_get_stop_scroll_nosolid(uint8_t dir);
 //function to shake screen camera
 void scroll_shake_camera();
 //sets the scroll mode

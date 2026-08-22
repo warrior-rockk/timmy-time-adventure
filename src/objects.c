@@ -907,7 +907,7 @@ void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
             {
                 if (entity_get(entity_get_player_id())->pos.x >= this->pos.x)    
                 {
-                    scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x);
+                    scroll_stop_scroll(E_STOP_SCROLL_LEFT, this->pos.x, this->dir == 1);
                     //MY_TRACE_FLAG("Entity %i set scroll stop left\n", this->id);
                 }
             }
@@ -915,18 +915,18 @@ void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)
             {
                 if (entity_get(entity_get_player_id())->pos.x <= this->pos.x)
                 {
-                    scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x);
+                    scroll_stop_scroll(E_STOP_SCROLL_RIGHT, this->pos.x, this->dir == 1);
                     //MY_TRACE_FLAG("Entity %i set scroll stop right\n", this->id);
                 }
             }
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_DOWN))
             {                
-                scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.y);
+                scroll_stop_scroll(E_STOP_SCROLL_DOWN, this->pos.y, this->dir == 1);
                 //MY_TRACE_FLAG("Entity %i set scroll stop down\n", this->id);                
             }   
             if (CHECK_FLAG(this->spare, E_STOP_SCROLL_UP))
             {                
-                scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y);
+                scroll_stop_scroll(E_STOP_SCROLL_UP, this->pos.y, this->dir == 1);
                 //MY_TRACE_FLAG("Entity %i set scroll stop up\n", this->id);                
             }
         break;

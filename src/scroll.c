@@ -27,7 +27,9 @@ static void scroll_init_flags()
     scroll.fixVel           = (tFixVector){0, 0}; 
     scroll.moving           = E_SCROLL_MOVE_NONE;
     memset(&scroll.stopScroll, 0, sizeof(scroll.stopScroll));
-    
+    scroll.stopScrollLeftNoSolid = false;
+    scroll.stopScrollRightNoSolid = false;
+
     scroll.cameraShake      = false;
     scroll.shakeValue       = (tVector){0, 0};    
     scroll.shakeTimer       = 0;
@@ -284,15 +286,17 @@ tFixVector scroll_get_fix_position()
     return scroll.fixPos;
 }
 
-void scroll_stop_scroll(uint8_t dir, int16_t value)
+void scroll_stop_scroll(uint8_t dir, int16_t value, bool noSolid)
 {
     switch (dir)
     {
         case E_STOP_SCROLL_LEFT:
             scroll.stopScroll.left = value;
+            scroll.stopScrollLeftNoSolid = noSolid;
         break;
         case E_STOP_SCROLL_RIGHT:
             scroll.stopScroll.right = value;
+            scroll.stopScrollRightNoSolid = noSolid;
         break;
         case E_STOP_SCROLL_DOWN:
             scroll.stopScroll.down = value;
@@ -321,6 +325,22 @@ int16_t scroll_get_stop_scroll(uint8_t dir)
         break;    
         default:
             return 0;
+        break;
+    }
+}
+
+bool scroll_get_stop_scroll_nosolid(uint8_t dir)
+{
+    switch (dir)
+    {
+        case E_STOP_SCROLL_LEFT:
+            return scroll.stopScrollLeftNoSolid;
+        break;
+        case E_STOP_SCROLL_RIGHT:
+            return scroll.stopScrollRightNoSolid;
+        break;
+        default:
+            return false;
         break;
     }
 }

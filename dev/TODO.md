@@ -19,15 +19,12 @@
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
 - [ ] volume up all midi tracks
-- [ ] Secret areas?
 - [ ] Cheat codes?
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
 
 # Engine
-- [ ] StopScroll: use dir entity to no collision with stop scroll to enter secret areas
-- [ ] Dialog: add_text without option prevent cursor to select
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
 - [ ] Sound when extra live by score
