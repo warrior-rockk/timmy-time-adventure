@@ -48,6 +48,7 @@
 #define GAME_INI_LIFE           3       //initial game life
 #define GAME_MAX_LIVES          99      //max lives can obtain
 #define GAME_CHEAT_CODE_KEYS    10      //num of keys for cheat code
+#define GAME_CHEAT_LIVES        50      //num of lives with cheat code
 
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
@@ -350,6 +351,7 @@ typedef struct
     uint8_t doorId;
     uint8_t demo;
     tVector objectExplosion;                        //position of a object explosion (dynamite...)
+    bool cheatCodeLivesOn;
 } tGame;
 
 //options for debug mode

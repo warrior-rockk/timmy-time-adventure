@@ -52,9 +52,9 @@ bool input_key_press(uint8_t keyId);
 bool input_key_down(uint8_t keyId);
 //return true if key pressed up (on raising edge)
 bool input_key_up(uint8_t keyId);
-//return key code if any key pressed of the game keys or 0 if none
+//return key code (need to increment 1 the result to return true on key 0) if any key pressed of the game keys or 0 if none
 uint8_t input_any_key_pressed();
-//return key code if any key down of the game keys or 0 if none
+//return key code (need to increment 1 the result to return true on key 0) if any key down of the game keys or 0 if none
 uint8_t input_any_key_down();
 
 //starts to record input log file

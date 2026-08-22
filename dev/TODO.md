@@ -19,7 +19,6 @@
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
 - [ ] volume up all midi tracks
-- [ ] Cheat codes?
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for spider web or player splash water
@@ -69,6 +68,8 @@
 - [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 
 # Sound
+- [ ] Add sound to cheat code OK
+- [ ] Add sound to extra life by score
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 - [ ] Possible spare channel for simultaneous sfx played?
 

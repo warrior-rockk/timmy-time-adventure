@@ -454,18 +454,22 @@ void game_update()
                     uint8_t keyPressed = input_any_key_down();
                     if (keyPressed)
                     {
-                        if (keyPressed == cheatCodeLives[cheatCodeCurrentKey])
+                        //MY_TRACE_FLAG("key %i current %i cheat %i\n", keyPressed - 1, cheatCodeCurrentKey, cheatCodeLives[cheatCodeCurrentKey]);
+                        //if key pressed is correct
+                        if ((keyPressed - 1) == cheatCodeLives[cheatCodeCurrentKey])
                         {
-                            if (cheatCodeCurrentKey < GAME_CHEAT_CODE_KEYS)
+                            if (cheatCodeCurrentKey < GAME_CHEAT_CODE_KEYS - 1)
                             {
-                                cheatCodeLogger[cheatCodeCurrentKey] = keyPressed;
+                                //store and wait next key
+                                cheatCodeLogger[cheatCodeCurrentKey] = keyPressed - 1;
                                 cheatCodeCurrentKey++;
                             }
-                            else
-                                HALT;
+                            else    //all keys correct
+                                game.cheatCodeLivesOn = true;
                         }
                         else
                         {
+                            //reset sequence if key wrong
                             cheatCodeCurrentKey = 0;    
                         }
                     }
@@ -529,7 +533,7 @@ void game_update()
             }    
         break;
         case E_GAME_ST_INIT:
-            game.lives          = GAME_INI_LIVES;
+            game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
             game.life           = GAME_INI_LIFE;
             game.score          = 0;
             game.loseLive       = false;
@@ -1384,7 +1388,7 @@ void game_update()
                                 object_system_destroy();
 
                                 game.state = E_GAME_ST_SELECT_LEVEL;
-                                game.lives = GAME_INI_LIVES;
+                                game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
@@ -1510,7 +1514,7 @@ static void game_init_flags()
     game.levelComplete[2] = true;
     game.levelComplete[3] = true;*/
     
-    game.lives          = GAME_INI_LIVES;
+    game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
     game.viewMap        = false;
