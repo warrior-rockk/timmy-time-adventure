@@ -13,7 +13,11 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-
+- [ ] medieval: last ghost on second door, too much down
+- [ ] medieval: item on moving platform on second door must be extra life
+- [ ] accept and exit from action and jump keys?
+- [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
+      
 # Game design
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
@@ -72,6 +76,7 @@
 - [ ] Add sound to extra life by score
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 - [ ] Possible spare channel for simultaneous sfx played?
+- [ ] sound for armour break and recover
 
 # Player
 - [X] Animation on edge
