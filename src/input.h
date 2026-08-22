@@ -52,8 +52,8 @@ bool input_key_press(uint8_t keyId);
 bool input_key_down(uint8_t keyId);
 //return true if key pressed up (on raising edge)
 bool input_key_up(uint8_t keyId);
-//return true if any key pressed of the game keys
-bool input_any_key_pressed();
+//return key code if any key pressed of the game keys or 0 if none
+uint8_t input_any_key_pressed();
 
 //starts to record input log file
 void input_log_record(char *filename);

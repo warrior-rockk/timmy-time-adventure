@@ -11,7 +11,7 @@
 
 #define TRACE_FLAG  "[INPUT]"
 
-bool _anyKeyPressed = false;    //flag for any key pressed
+uint8_t _anyKeyPressed = 0;     //flag for any key pressed
 static uint8_t numGameKeys;     //number of configured game keys
 static tKey *gameKeys;          //definition of keys assigned for game keys
 
@@ -78,7 +78,7 @@ uint8_t input_get_defined_key(uint8_t keyId)
 
 void input_keys_update()
 {
-    _anyKeyPressed = false;
+    _anyKeyPressed = 0;
 
     for (int i = 0; i < numGameKeys; i++)
     {
@@ -87,7 +87,7 @@ void input_keys_update()
 
         if (key[gameKeys[i].keyCode])
         {
-            _anyKeyPressed = true;
+            _anyKeyPressed = gameKeys[i].keyCode;
             SET_BIT(gameKeys[i].keyFlags, E_K_ST_PRESS);
             
             //check key down
@@ -132,7 +132,7 @@ bool input_key_up(uint8_t keyId)
     return (CHECK_BIT(gameKeys[keyId].keyFlags, E_K_ST_UP) && !inputLoggerStatus.playing)  || (controlLogger[keyId][E_K_ST_UP]  && inputLoggerStatus.playing);
 }
 
-bool input_any_key_pressed()
+uint8_t input_any_key_pressed()
 {
     return _anyKeyPressed;
 }

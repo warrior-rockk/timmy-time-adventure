@@ -451,7 +451,24 @@ void game_update()
                     }
 
                     //cheat code checker
-                    
+                    uint8_t keyPressed = input_any_key_pressed();
+                    if (keyPressed)
+                    {
+                        if (keyPressed == cheatCodeLives[cheatCodeCurrentKey])
+                        {
+                            if (cheatCodeCurrentKey < GAME_CHEAT_CODE_KEYS)
+                            {
+                                cheatCodeLogger[cheatCodeCurrentKey] = keyPressed;
+                                cheatCodeCurrentKey++;
+                            }
+                            else
+                                HALT;
+                        }
+                        else
+                        {
+                            cheatCodeCurrentKey = 0;    
+                        }
+                    }
                 break;
             }    
         break;
