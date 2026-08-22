@@ -69,6 +69,8 @@ RGB *introPal;                              //pal for intro sequence
 RGB *gamePal;                               //palette of 64 persistent colors for menus/title/hud/player
 
 BITMAP *gameSprite;                         //general use game sprite (title logo, game over animation...)
+BITMAP *titleScroll;
+tVector titleScrollPos;
 tAnimation animSprite;                      //general animation structure for game sprite
 
 //game controls string array
@@ -333,6 +335,10 @@ void game_update()
                     animSprite.frame = 0;
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
+                    //test title scroll
+                    titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
+                    titleScrollPos = (tVector){0, 0};
+                    blit(titleScroll, buffer, 0, 0, 0, 110, 320, 80);
                     gameSeq.step++;      
                 break;
                 case 1: //wait 
@@ -351,21 +357,39 @@ void game_update()
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     if (clock_counter_check(20))
+                    {
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
+                    }
+
+                    if (titleScrollPos.x <= (640 - 320))
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, 0, 110, 320, 80);
+                    else if (titleScrollPos.x >= 640)
+                    {
+                        titleScrollPos.x = 0;
+                    }
+                    else
+                    {
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, 0, 110, 320 - (titleScrollPos.x - 320), 80);
+                        blit(titleScroll, buffer, 0, 0, 320 - (titleScrollPos.x - 320), 110, (titleScrollPos.x - 320), 80);
+                    }
                     
+                    //show_debug("title scroll %i", titleScrollPos.x);
+
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
+                    //textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], SCREEN_W>>1, 140, textColor, 0, "title scroll %i", titleScrollPos.x);
                     
                     if (input_any_key_down())
                     {
-                        game.state = E_GAME_ST_MAIN_MENU;
+                        titleScrollPos.x += 16;
+                        /*game.state = E_GAME_ST_MAIN_MENU;
                         game.demo = 0;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;    
-                        clear_to_color(buffer, BLACK_COLOR);
+                        clear_to_color(buffer, BLACK_COLOR);*/
                     }
 
                     //timeout for demo
-                    if (music_get_pos() < 0)
+                    if (false) //music_get_pos() < 0)
                     {
                         //next demo
                         game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
