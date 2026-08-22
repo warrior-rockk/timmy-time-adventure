@@ -27,6 +27,7 @@
 #include "interface.h"
 #include "lang.h"
 #include "text.h"
+#include "fx.h"
 
 #include "data/gdata.h"
 #include "data/judata.h"
@@ -1557,6 +1558,7 @@ void game_init()
     interface_init(load_dat_bmp_indexed(gameDataIndex, DIALOG_BMP), gameFont[E_GAME_FONT]);
     sfx_init(load_dat_wav_indexed(gameDataIndex, POINT_WAV), E_SFX_NUM_VOICES);
     input_keys_init(E_GAME_KEYS_NUM);    
+    fx_init();
 
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
@@ -2232,6 +2234,7 @@ static void game_draw_level()
     map_draw(worldScreen, false);
     entities_draw(worldScreen);
     map_draw(worldScreen, true);
+    fx_draw(worldScreen);
 }
 
 static void game_load_control_strings()

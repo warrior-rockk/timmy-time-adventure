@@ -14,6 +14,7 @@
 #include "resources.h"
 #include "player.h"
 #include "map.h"
+#include "fx.h"
 
 #include "data/edata.h"
 
@@ -1023,6 +1024,13 @@ void enemy_spider_update(tEntity *this, tDefaultEnemyLocalData *local)
         case E_SPIDER_HURT:
            enemy_dead(this, ANIM_SPIDER_DEAD);
         break;
+    }
+    
+    //adds web spider sfx
+    if (this->state != E_SPIDER_HURT)
+    {
+        int16_t webPosX = this->pos.x + (this->size.x >> 1) - scroll_get_position().x;
+        fx_add_spider_web((tVector){webPosX, 0}, (tVector){webPosX, this->pos.y - scroll_get_position().y});
     }
 }
 
