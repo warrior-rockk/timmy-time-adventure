@@ -96,6 +96,11 @@ struct gameConfig
     uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys
 } gameConfig;
 
+//cheat code
+uint8_t cheatCodeLives[GAME_CHEAT_CODE_KEYS] = {E_G_KEY_UP, E_G_KEY_UP, E_G_KEY_DOWN, E_G_KEY_DOWN, E_G_KEY_LEFT, E_G_KEY_RIGHT, E_G_KEY_LEFT, E_G_KEY_RIGHT, E_G_KEY_JUMP, E_G_KEY_ACTION};
+uint8_t cheatCodeLogger[GAME_CHEAT_CODE_KEYS];
+uint8_t cheatCodeCurrentKey = 0;
+
 static void game_load_level(uint8_t numLevel);
 static void game_destroy_level();
 static void game_update_level();
@@ -444,6 +449,9 @@ void game_update()
                             break;
                         }
                     }
+
+                    //cheat code checker
+                    
                 break;
             }    
         break;

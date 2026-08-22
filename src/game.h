@@ -47,6 +47,7 @@
 #define GAME_INI_LIVES          6       //initial game lives
 #define GAME_INI_LIFE           3       //initial game life
 #define GAME_MAX_LIVES          99      //max lives can obtain
+#define GAME_CHEAT_CODE_KEYS    10      //num of keys for cheat code
 
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)

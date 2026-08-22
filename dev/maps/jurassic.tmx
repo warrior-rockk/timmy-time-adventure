@@ -789,7 +789,6 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="169" template="triggers/debug-start.tx" x="3184" y="416"/>
   <object id="171" template="objects/item.tx" x="3536" y="400"/>
   <object id="173" template="objects/item.tx" x="3424" y="384"/>
   <object id="174" template="objects/item.tx" x="3504" y="432"/>
