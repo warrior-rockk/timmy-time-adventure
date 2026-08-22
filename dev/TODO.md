@@ -27,6 +27,7 @@
 - [ ] Sfx particles for spider web or player splash water
 
 # Engine
+- [ ] StopScroll: use dir entity to no collision with stop scroll to enter secret areas
 - [ ] Dialog: add_text without option prevent cursor to select
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
