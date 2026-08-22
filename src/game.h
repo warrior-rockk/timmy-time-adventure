@@ -44,8 +44,8 @@
 #define GAME_CLOCK_TICK         10      //10ms game tick
 
 //general game definitions
-#define GAME_INI_LIVES          6       //initial game lives
-#define GAME_INI_LIFE           3       //initial game life
+#define GAME_INI_LIVES          1       //initial game lives
+#define GAME_INI_LIFE           1       //initial game life
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
 #else
@@ -108,10 +108,10 @@
 #define OPTIONS_MENU_POS_X      (SCREEN_W >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
 #define OPTIONS_MENU_POS_Y      50
 
-#define GAMEOVER_MENU_SIZE_X    60
+#define GAMEOVER_MENU_SIZE_X    80
 #define GAMEOVER_MENU_SIZE_Y    0
 #define GAMEOVER_MENU_POS_X     (SCREEN_W >> 1) - (GAMEOVER_MENU_SIZE_X >> 1)
-#define GAMEOVER_MENU_POS_Y     150
+#define GAMEOVER_MENU_POS_Y     110
 
 #define PLAY_MENU_SIZE_X        120
 #define PLAY_MENU_SIZE_Y        0

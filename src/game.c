@@ -1325,9 +1325,9 @@ void game_update()
 
                     if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
                     {
-                        textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_CONTINUE_QUESTION), SCREEN_W>>1, 138, DIALOG_SEL_TEXT_COLOR, BLACK_COLOR);
                         //create continue menu
                         gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                        dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONTINUE_QUESTION));
                         dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
                         dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
                         dialog_draw(&gameDialog, buffer);
@@ -1350,7 +1350,7 @@ void game_update()
                         music_stop();
                         switch (gameDialog.optionSelected)
                         {
-                            case 0: //CONTINUE: YES
+                            case 1: //CONTINUE: YES
                                 //destroy systems
                                 entities_destroy_all();
                                 object_system_destroy();
@@ -1362,7 +1362,7 @@ void game_update()
                                 game.fadeOut = true;
                                 dialog_destroy(&gameDialog);
                             break;
-                            case 1: //CONTINUE: NO
+                            case 2: //CONTINUE: NO
                                 //destroy systems
                                 entities_destroy_all();
                                 object_system_destroy();
