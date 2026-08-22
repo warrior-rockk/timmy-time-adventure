@@ -123,6 +123,7 @@ static void game_create_options_play_menu();
 static void game_load_control_strings();
 static void game_init_flags();
 static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
+static void game_draw_title_scroll();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -363,44 +364,22 @@ void game_update()
                     //draw title logo
                     play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
-
-                    if (clock_counter_check(20))
-                    {
-                        textColor = textColor == 0 ? WHITE_COLOR : 0;
-                    }
-
-                    if (gameSeq.timeCounter >= 20)
-                        titleScrollPos.x += TITLE_SCROLL_VEL_X;
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
-
-                    //blit first screen scroll
-                    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
-                    //reset if end of scroll image
-                    else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
-                    {
-                        titleScrollPos.x = 0;
-                    }
-                    else    //draws continuous scroll
-                    {
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
-                        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
-                    }
                     
+                    game_draw_title_scroll();
+
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
                     
                     if (input_any_key_down())
                     {
                         game.state = E_GAME_ST_MAIN_MENU;
                         game.demo = 0;
-                        gameSeq.timeCounter = 0;
+                        //gameSeq.timeCounter = 0;
                         gameSeq.step = 0;    
                         clear_to_color(buffer, BLACK_COLOR);
                     }
 
                     //timeout for demo
-                    if (false) //music_get_pos() < 0)
+                    if (music_get_pos() < 0)
                     {
                         //next demo
                         game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
@@ -453,26 +432,7 @@ void game_update()
                 case 1: //process main menu dialog
                     play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){197,87}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
-
-                    if (gameSeq.timeCounter >= 20)
-                        titleScrollPos.x += TITLE_SCROLL_VEL_X;
-                    else
-                        gameSeq.timeCounter += clock_tick_get();
-
-                    //blit first screen scroll
-                    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
-                    //reset if end of scroll image
-                    else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
-                    {
-                        titleScrollPos.x = 0;
-                    }
-                    else    //draws continuous scroll
-                    {
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
-                        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
-                    }
-
+                    game_draw_title_scroll();
                     dialog_draw(&gameDialog, buffer);
                     game_navigation_menu(&gameDialog, buffer);
 
@@ -2401,4 +2361,31 @@ void game_loading_text()
 {
     printf("\rStarting %s v%i.%i (%i%%)", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION, loadingProgress);
     loadingProgress += 9; 
+}
+
+void game_draw_title_scroll()
+{
+    if (clock_counter_check(20))
+    {
+        textColor = textColor == 0 ? WHITE_COLOR : 0;
+    }
+
+    if (gameSeq.timeCounter >= 20)
+        titleScrollPos.x += TITLE_SCROLL_VEL_X;
+    else
+        gameSeq.timeCounter += clock_tick_get();
+
+    //blit first screen scroll
+    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
+        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
+    //reset if end of scroll image
+    else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
+    {
+        titleScrollPos.x = 0;
+    }
+    else    //draws continuous scroll
+    {
+        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+    }
 }
