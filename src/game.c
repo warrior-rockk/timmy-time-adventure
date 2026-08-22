@@ -1143,13 +1143,8 @@ void game_update()
                         switch (gameDialog.optionSelected)
                         {
                             case 3: //EXIT TO TITLE: YES
-                                game_destroy_level();                                
-                                game_init_flags();
                                 game.fadeOut = true;
-                                game.state = E_GAME_ST_TITLE;
-                                
-                                gameSeq.step = 0;                               
-                                dialog_destroy(&gameDialog); 
+                                gameSeq.step++;                               
                             break;
                             case 4: //EXIT TO TITLE: NO
                                 gameSeq.step = 0;                                
@@ -1160,6 +1155,14 @@ void game_update()
                             break;                            
                         }
                     }
+                break;
+                case 6: //destroy level to exit to title
+                    game_destroy_level();                                
+                    game_init_flags();
+                    
+                    game.state = E_GAME_ST_TITLE;
+                    gameSeq.step = 0;                               
+                    dialog_destroy(&gameDialog); 
                 break;
                 case 10:    //draw controls menu
                 case 11:    //select key
