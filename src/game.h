@@ -139,7 +139,7 @@
 #define TITLE_SCROLL_POS_X      0
 #define TITLE_SCROLL_POS_Y      110
 #define TITLE_SCROLL_SIZE_X     320
-#define TITLE_SCROLL_SIZE_Y     80
+#define TITLE_SCROLL_SIZE_Y     64
 #define TITLE_SCROLL_VEL_X      1
 
 
