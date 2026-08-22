@@ -12,6 +12,7 @@
 #define TRACE_FLAG  "[INPUT]"
 
 uint8_t _anyKeyPressed = 0;     //flag for any key pressed
+uint8_t _anyKeyDown = 0;        //flag for any key down
 static uint8_t numGameKeys;     //number of configured game keys
 static tKey *gameKeys;          //definition of keys assigned for game keys
 
@@ -78,7 +79,8 @@ uint8_t input_get_defined_key(uint8_t keyId)
 
 void input_keys_update()
 {
-    _anyKeyPressed = 0;
+    _anyKeyPressed  = 0;
+    _anyKeyDown     = 0;
 
     for (int i = 0; i < numGameKeys; i++)
     {
@@ -95,6 +97,7 @@ void input_keys_update()
             {
                 SET_BIT(gameKeys[i].keyFlags, E_K_ST_MEM_PRESS);
                 SET_BIT(gameKeys[i].keyFlags, E_K_ST_DOWN); 
+                _anyKeyDown = gameKeys[i].keyCode;
             }
         }
         else
@@ -135,6 +138,11 @@ bool input_key_up(uint8_t keyId)
 uint8_t input_any_key_pressed()
 {
     return _anyKeyPressed;
+}
+
+uint8_t input_any_key_down()
+{
+    return _anyKeyDown;
 }
 
 void input_log_record(char *_file)//const char *filename)

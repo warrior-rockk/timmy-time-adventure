@@ -355,7 +355,7 @@ void game_update()
                     
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
                     
-                    if (input_any_key_pressed())
+                    if (input_any_key_down())
                     {
                         game.state = E_GAME_ST_MAIN_MENU;
                         game.demo = 0;
@@ -451,7 +451,7 @@ void game_update()
                     }
 
                     //cheat code checker
-                    uint8_t keyPressed = input_any_key_pressed();
+                    uint8_t keyPressed = input_any_key_down();
                     if (keyPressed)
                     {
                         if (keyPressed == cheatCodeLives[cheatCodeCurrentKey])
