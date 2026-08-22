@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="309">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="317">
  <properties>
   <property name="time" type="int" value="450"/>
  </properties>
@@ -1846,6 +1846,21 @@
   <object id="289" name="checkpoint" type="trigger" x="976" y="112" width="16" height="32">
    <properties>
     <property name="dir" type="int" propertytype="dir" value="1"/>
+   </properties>
+  </object>
+  <object id="311" name="item" type="object" x="528" y="352" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
+  <object id="313" name="item" type="object" x="16" y="320" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
+  <object id="315" name="item" type="object" x="1184" y="240" width="16" height="16">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
  </objectgroup>

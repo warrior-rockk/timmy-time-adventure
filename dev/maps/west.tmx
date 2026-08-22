@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="289">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="291">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
@@ -809,5 +809,11 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
+  <object id="289" template="objects/item.tx" x="4592" y="384">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="0"/>
+   </properties>
+  </object>
+  <object id="290" template="triggers/debug-start.tx" x="4336" y="352"/>
  </objectgroup>
 </map>

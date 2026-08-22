@@ -13,7 +13,6 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] More extra lives on maps
 
 # Game design
 - [ ] Title screen
