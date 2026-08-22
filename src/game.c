@@ -337,8 +337,15 @@ void game_update()
 
                     //test title scroll
                     titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
+                    
+                    #define TITLE_SCROLL_WIDTH      640
+                    #define TITLE_SCROLL_POS_X      0
+                    #define TITLE_SCROLL_POS_Y      110
+                    #define TITLE_SCROLL_SIZE_X     320
+                    #define TITLE_SCROLL_SIZE_Y     80
+
                     titleScrollPos = (tVector){0, 0};
-                    blit(titleScroll, buffer, 0, 0, 0, 110, 320, 80);
+                    blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
                     gameSeq.step++;      
                 break;
                 case 1: //wait 
@@ -361,22 +368,21 @@ void game_update()
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
                     }
 
-                    if (titleScrollPos.x <= (640 - 320))
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, 0, 110, 320, 80);
-                    else if (titleScrollPos.x >= 640)
+                    //blit first screen scroll
+                    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
+                    //reset if end of scroll image
+                    else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
                     {
                         titleScrollPos.x = 0;
                     }
-                    else
+                    else    //draws continuous scroll
                     {
-                        blit(titleScroll, buffer, titleScrollPos.x, 0, 0, 110, 320 - (titleScrollPos.x - 320), 80);
-                        blit(titleScroll, buffer, 0, 0, 320 - (titleScrollPos.x - 320), 110, (titleScrollPos.x - 320), 80);
+                        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+                        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
                     }
                     
-                    //show_debug("title scroll %i", titleScrollPos.x);
-
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
-                    //textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], SCREEN_W>>1, 140, textColor, 0, "title scroll %i", titleScrollPos.x);
                     
                     if (input_any_key_down())
                     {
