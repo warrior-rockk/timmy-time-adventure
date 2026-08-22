@@ -1870,13 +1870,14 @@ void game_hud_update()
         //check extra life by score
         if (!(game.score % SCORE_POINT_EXTRA_LIFE) && game.score > 0 && game.score != hud.last_score)
         {
-            game.lives++;
+            if (game.lives < GAME_MAX_LIVES) game.lives++;
         }
         //check overflow  (gain 3 lives)       
         if (game.score >= SCORE_OVERFLOW)
         {
             game.score = 0;
             game.lives += 3;
+            if (game.lives > GAME_MAX_LIVES) game.lives = GAME_MAX_LIVES;
         }
 
         hud.refresh |= E_REFRESH_HUD_SCORE;

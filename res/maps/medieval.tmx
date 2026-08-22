@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="208">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="211">
  <tileset firstgid="1" name="medieval" tilewidth="16" tileheight="16" tilecount="200" columns="10">
   <image source="../../dev/gfx/maps/medieval/medieval-tiles.aseprite" width="160" height="320"/>
   <tile id="14">
@@ -1377,7 +1377,7 @@
   </object>
   <object id="170" name="item" type="object" x="1280" y="224" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
   <object id="171" name="spike-ball" type="enemy" x="1440" y="240" width="16" height="16">
@@ -1413,7 +1413,7 @@
   </object>
   <object id="193" name="item" type="object" x="1328" y="496" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
   <object id="195" name="item" type="object" x="1040" y="112" width="16" height="16">

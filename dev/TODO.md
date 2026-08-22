@@ -15,7 +15,6 @@
 # Level design
 
 # Game design
-- [ ] Limit max lives
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
