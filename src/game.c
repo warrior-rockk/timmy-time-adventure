@@ -343,6 +343,7 @@ void game_update()
                     #define TITLE_SCROLL_POS_Y      110
                     #define TITLE_SCROLL_SIZE_X     320
                     #define TITLE_SCROLL_SIZE_Y     80
+                    #define TITLE_SCROLL_VEL_X      1
 
                     titleScrollPos = (tVector){0, 0};
                     blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
@@ -368,6 +369,11 @@ void game_update()
                         textColor = textColor == 0 ? WHITE_COLOR : 0;
                     }
 
+                    if (gameSeq.timeCounter >= 20)
+                        titleScrollPos.x += TITLE_SCROLL_VEL_X;
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+
                     //blit first screen scroll
                     if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
                         blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
@@ -386,12 +392,11 @@ void game_update()
                     
                     if (input_any_key_down())
                     {
-                        titleScrollPos.x += 16;
-                        /*game.state = E_GAME_ST_MAIN_MENU;
+                        game.state = E_GAME_ST_MAIN_MENU;
                         game.demo = 0;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;    
-                        clear_to_color(buffer, BLACK_COLOR);*/
+                        clear_to_color(buffer, BLACK_COLOR);
                     }
 
                     //timeout for demo
