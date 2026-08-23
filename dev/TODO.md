@@ -13,7 +13,6 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] accept and exit from action and jump keys?
 - [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
       
 # Game design

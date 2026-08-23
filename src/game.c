@@ -229,7 +229,7 @@ void game_update()
                     //process init menu
                     game_navigation_menu(&gameDialog, buffer);
 
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         
@@ -428,7 +428,7 @@ void game_update()
                     dialog_draw(&gameDialog, buffer);
                     game_navigation_menu(&gameDialog, buffer);
 
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
@@ -504,7 +504,7 @@ void game_update()
                         game_process_options_menu();    
                     }
 
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
@@ -523,7 +523,7 @@ void game_update()
                         }
                     }
 
-                    if (input_key_down(E_G_KEY_EXIT))
+                    if (input_key_down(E_G_KEY_EXIT) || input_key_down(E_G_KEY_ACTION))
                     {
                         game.state = E_GAME_ST_MAIN_MENU;
                         gameSeq.step = 0;                                
@@ -705,7 +705,7 @@ void game_update()
                         game.actualLevel--;
                         gameSeq.step = 0;
                     }
-                    if (input_key_down(E_G_KEY_ENTER) && !game.levelComplete[game.actualLevel])
+                    if ((input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP)) && !game.levelComplete[game.actualLevel])
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         gameSeq.step = 0;
@@ -1069,7 +1069,7 @@ void game_update()
                 case 1:
                     game_navigation_menu(&gameDialog, worldScreen);
                     
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
@@ -1107,7 +1107,7 @@ void game_update()
                         }
                     }
 
-                    if (input_key_down(E_G_KEY_EXIT))
+                    if (input_key_down(E_G_KEY_EXIT) || input_key_down(E_G_KEY_ACTION))
                     {
                         gameSeq.step = 0;
                         game.state = E_GAME_ST_PLAY_LEVEL;
@@ -1131,7 +1131,7 @@ void game_update()
                         game_process_options_menu();    
                     }
 
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
@@ -1151,7 +1151,7 @@ void game_update()
                         }
                     }
 
-                    if (input_key_down(E_G_KEY_EXIT))
+                    if (input_key_down(E_G_KEY_EXIT) || input_key_down(E_G_KEY_ACTION))
                     {
                         gameSeq.step = 0;                                
                         dialog_destroy(&gameDialog);             
@@ -1174,7 +1174,7 @@ void game_update()
                 case 5: //handle confirm dialog exit to title
                     game_navigation_menu(&gameDialog, worldScreen);
 
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         
@@ -1385,7 +1385,7 @@ void game_update()
                     entities_draw(buffer);
 
                     game_navigation_menu(&gameDialog, buffer);
-                    if (input_key_down(E_G_KEY_ENTER))
+                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         music_stop();
@@ -2206,7 +2206,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
             game_navigation_menu(&gameDialog, drawBuffer);
 
             //select key to redefine
-            if (input_key_down(E_G_KEY_ENTER))
+            if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
             {
                 sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                 
@@ -2232,7 +2232,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
                 }
             }
 
-            if (input_key_down(E_G_KEY_EXIT))
+            if (input_key_down(E_G_KEY_EXIT) || input_key_down(E_G_KEY_ACTION))
             {
                 gameSeq.step = stepReturn;
                 if (stepReturn == 2)
