@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="212">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="213">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>

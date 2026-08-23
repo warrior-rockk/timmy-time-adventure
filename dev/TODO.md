@@ -69,7 +69,6 @@
 - [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 
 # Sound
-- [ ] sound for armour break and recover
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 - [ ] Possible spare channel for simultaneous sfx played?
 

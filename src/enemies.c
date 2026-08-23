@@ -446,6 +446,8 @@ void enemy_create(tEntity *entity)
         case E_MEDIEVAL_ARMOUR_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ARMOUR_BMP);
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_SWORD], enemyDataFileIndex, SWORD_WAV);            
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARMOUR], enemyDataFileIndex, ARMOUR_WAV);            
+            load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_ARMOUR_REVERSE], enemyDataFileIndex, ARMOUR2_WAV);            
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){60, 46};                          
             entity->size = (tVector){12, 32};  
@@ -2449,7 +2451,7 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ARMOUR_HITBOX_Y_OFFSET            6
     #define ARMOUR_HITBOX_DURATION            20
     #define ARMOUR_WAIT_ATTACK                50
-    #define ARMOUR_HURT_WAIT_DELAY            20
+    #define ARMOUR_HURT_WAIT_DELAY            140
     #define ARMOUR_DEAD_LAST_FRAME            16
     
     //enemy animations
@@ -2523,7 +2525,7 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
             //play dead sfx
             if (this->state != this->prevState)
             {
-                sfx_play(enemySfx[E_SFX_ENEMY_DEAD], E_SFX_ENEMY_VOICE);
+                sfx_play(enemySfx[E_SFX_ENEMY_ARMOUR], E_SFX_ENEMY_VOICE);
                 game.score += SCORE_POINT_HURT_ENEMY;
             }
             
@@ -2531,18 +2533,21 @@ void enemy_medieval_armour_update(tEntity *this, tDefaultEnemyLocalData *local)
             if (play_animation(&this->anim, ANIM_ARMOUR_DEAD))
             {
                 CLEAR_FLAG(this->properties, E_ENT_PROP_NO_COLLISION);
-                this->state = E_ARMOUR_ST_WAIT;         
+                this->state = E_ARMOUR_ST_WAIT;   
+                this->spare = 0;      
             }
 
-            if (this->anim.frame == ARMOUR_DEAD_LAST_FRAME)
+            if (this->anim.frame == ARMOUR_DEAD_LAST_FRAME && this->spare != 1)
                 this->state = E_ARMOUR_ST_HURT_DELAY;
             
         break;
         case E_ARMOUR_ST_HURT_DELAY:
             if (local->timer >= ARMOUR_HURT_WAIT_DELAY)
             {
-                this->state = E_ARMOUR_ST_HURT;                
+                this->state = E_ARMOUR_ST_HURT;       
+                sfx_play(enemySfx[E_SFX_ENEMY_ARMOUR_REVERSE], E_SFX_ENEMY_VOICE);         
                 local->timer = 0;
+                this->spare = 1; //mem for hurt delay
             }
             else
                 local->timer += clock_tick_get();
