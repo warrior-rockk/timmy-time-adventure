@@ -69,10 +69,10 @@
 - [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 
 # Sound
-- [ ] Add sound to extra life by score
+- [ ] sound for armour break and recover
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 - [ ] Possible spare channel for simultaneous sfx played?
-- [ ] sound for armour break and recover
+
 
 # Player
 - [X] Animation on edge

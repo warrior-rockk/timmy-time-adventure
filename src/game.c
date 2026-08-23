@@ -1567,6 +1567,7 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
     gameSfx[E_SFX_GAME_LEVEL_BLUE]      = load_dat_wav_indexed(gameDataIndex, LEVELBLU_WAV);
     gameSfx[E_SFX_GAME_CHEAT_ON]        = load_dat_wav_indexed(gameDataIndex, CHEAT_WAV);
+    gameSfx[E_SFX_GAME_ADD_LIVE]        = load_dat_wav_indexed(gameDataIndex, ADDLIVE_WAV);
     game_loading_text();
 }
 
@@ -1913,14 +1914,22 @@ void game_hud_update()
         //check extra life by score
         if (!(game.score % SCORE_POINT_EXTRA_LIFE) && game.score > 0 && game.score != hud.last_score)
         {
-            if (game.lives < GAME_MAX_LIVES) game.lives++;
+            if (game.lives < GAME_MAX_LIVES)
+            {
+                game.lives++;
+                sfx_play(gameSfx[E_SFX_GAME_ADD_LIVE], E_SFX_GAME_VOICE);
+            }
         }
         //check overflow  (gain 3 lives)       
         if (game.score >= SCORE_OVERFLOW)
         {
             game.score = 0;
             game.lives += 3;
-            if (game.lives > GAME_MAX_LIVES) game.lives = GAME_MAX_LIVES;
+            sfx_play(gameSfx[E_SFX_GAME_ADD_LIVE], E_SFX_GAME_VOICE);
+            if (game.lives > GAME_MAX_LIVES)
+            { 
+                game.lives = GAME_MAX_LIVES;
+            }
         }
 
         hud.refresh |= E_REFRESH_HUD_SCORE;
