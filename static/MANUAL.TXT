@@ -1,0 +1,31 @@
+TIMMY TIME ADVENTURE (Warcom soft. (26))
+----------------------------------------
+
+Al pequeño Timmy siempre se le han dado bien las ciencias y los inventos..
+Tu grupo de rock favorito viene a la ciudad, pero no tienes el dinero suficiente para comprarte la entrada. 
+Necesitarßs conseguir el dinero, pero que las notas del instituto no te hayan ido muy bien no serß de gran ayuda para conseguir tu objetivo.
+
+Cuando el trabajo duro e "hincar los codos" ya estßn descartados de tu plan, solo queda utilizar el enga±o, la picardφa y la "jeta" para poder alcanzar tu sue±o.
+
+┐Serßs capaz de conseguirlo?
+
+Out of Cash (Sin Blanca) es una aventura grßfica "point and click" en tono de comedia ambientada en el instituto de EGB-BUP-COU de los a±os 90 y repleta de referencias culturales de la Θpoca.
+
+COMO JUGAR
+----------
+
+Es posible redefinir las teclas en el menú de configuración del juego.
+
+Estas son las funciones de cada tecla de juego:
+
+-IZQUIERDA: mueve el personaje a la izquierda o los valores de los menús
+-DERECHA: mueve el personaje a la derecha o los valores de los menús
+-ARRIBA: sube el personaje por las escaleras o se mueve por las opciones del menú
+-ABAJO: agacha al personaje, hace un lanzamiento corto del objeto (en combinación con la tecla de acción) o se mueve por las opciones del menú
+
+-SALTAR: realiza el salto del personaje. Cuanto mas tiempo se pulse la tecla, mas alto realiza el salto
+-ACCIÓN: recoge un objeto que se pueda coger y lo lanza. Al pulsarlo durane el salto, realiza el ataque con el puño
+
+-ENTER: acepta las selecciones de los menús
+-ESC: sale de los menús o cancela introducciones o saca el menu durante el nivel
+-ESPACIO: realiza la pausa del juego durante un nivel
