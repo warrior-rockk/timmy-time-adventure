@@ -13,8 +13,6 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] medieval: last ghost on second door, too much down
-- [ ] medieval: item on moving platform on second door must be extra life
 - [ ] accept and exit from action and jump keys?
 - [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
       

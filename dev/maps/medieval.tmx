@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="211">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="212">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -628,7 +628,7 @@
     <property name="spare" type="int" propertytype="scroll_modes" value="3"/>
    </properties>
   </object>
-  <object id="149" template="enemies/medieval/ghost.tx" x="1856" y="565.333" width="18" height="30">
+  <object id="149" template="enemies/medieval/ghost.tx" x="1856" y="552" width="18" height="30">
    <properties>
     <property name="spare" type="int" propertytype="ghostSpare" value="2"/>
    </properties>
@@ -731,7 +731,11 @@
    </properties>
   </object>
   <object id="192" template="enemies/medieval/knight.tx" x="1632" y="256"/>
-  <object id="193" template="objects/item.tx" x="1328" y="496"/>
+  <object id="193" template="objects/item.tx" x="1328" y="496">
+   <properties>
+    <property name="spare" type="int" propertytype="items" value="1"/>
+   </properties>
+  </object>
   <object id="195" template="objects/item.tx" x="1040" y="112">
    <properties>
     <property name="spare" type="int" propertytype="items" value="1"/>
