@@ -428,7 +428,7 @@ void game_update()
                     dialog_draw(&gameDialog, buffer);
                     game_navigation_menu(&gameDialog, buffer);
 
-                    if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
+                    if (input_key_down(E_G_KEY_ENTER))// || input_key_down(E_G_KEY_JUMP))
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
@@ -473,8 +473,12 @@ void game_update()
                                 cheatCodeLogger[cheatCodeCurrentKey] = keyPressed - 1;
                                 cheatCodeCurrentKey++;
                             }
-                            else    //all keys correct
+                            else
+                            {    //all keys correct
+                                if (!game.cheatCodeLivesOn)
+                                    sfx_play(gameSfx[E_SFX_GAME_CHEAT_ON], E_SFX_GAME_VOICE);
                                 game.cheatCodeLivesOn = true;
+                            }
                         }
                         else
                         {
@@ -1562,6 +1566,7 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_MENU_SELECT]     = load_dat_wav_indexed(gameDataIndex, SELECTED_WAV);
     gameSfx[E_SFX_GAME_LEVEL_OK]        = load_dat_wav_indexed(gameDataIndex, LEVELOK_WAV);
     gameSfx[E_SFX_GAME_LEVEL_BLUE]      = load_dat_wav_indexed(gameDataIndex, LEVELBLU_WAV);
+    gameSfx[E_SFX_GAME_CHEAT_ON]        = load_dat_wav_indexed(gameDataIndex, CHEAT_WAV);
     game_loading_text();
 }
 

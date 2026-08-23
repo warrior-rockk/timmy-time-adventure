@@ -69,7 +69,6 @@
 - [X] Egypt trap spike very slow (adjusted tickCounter to accumulate ticks and module check in range)
 
 # Sound
-- [ ] Add sound to cheat code OK
 - [ ] Add sound to extra life by score
 - [ ] Use sample id for not reallocate when id is allocated? Unique id number by voice group
 - [ ] Possible spare channel for simultaneous sfx played?
