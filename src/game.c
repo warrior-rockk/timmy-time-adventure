@@ -363,6 +363,7 @@ void game_update()
                     
                     if (input_any_key_down())
                     {
+                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
                         game.state = E_GAME_ST_MAIN_MENU;
                         game.demo = 0;
                         //gameSeq.timeCounter = 0;
