@@ -22,12 +22,11 @@
 - [ ] volume up all midi tracks
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
-- [ ] Sfx particles for spider web or player splash water
+- [ ] Sfx particles for player splash water
 
 # Engine
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
-- [ ] Sound when extra live by score
 - [ ] Use fixed for scroll main movements and velocities
 - [ ] midi fade off volume ramp
 - [ ] freeze entities during dead animation? on crush?
