@@ -256,7 +256,7 @@ void game_update()
                 case 0:
                     //create betatesting dialog
                     clear(buffer);
-                    gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, false);
+                    gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_draw(&gameDialog, buffer);
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Notas Betatesting:| |*Falta la música del intro|*Música del título provisional|*Falta música selección nivel|Falta música final juego", SCREEN_W>>1, 30, WHITE_COLOR, BLACK_COLOR);
                     
