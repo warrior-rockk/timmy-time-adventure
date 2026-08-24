@@ -24,6 +24,7 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] Put version on title (and on betatesting msg)
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
 - [ ] Use fixed for scroll main movements and velocities

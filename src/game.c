@@ -1455,7 +1455,12 @@ void game_update()
             BITMAP *ending;
             switch (gameSeq.step)
             {
-                case 0: 
+                case 0: //ending music
+                    jingleMusic = load_dat_midi_indexed(gameDataIndex, ENDING_MID);
+                    music_play(jingleMusic, false);
+                    gameSeq.step++;
+                break;
+                case 1: 
                     currentPal = introPal;    
                     game.fadeIn = true;
                     
@@ -1471,7 +1476,7 @@ void game_update()
 
                     gameSeq.step++;
                 break;
-                case 1:
+                case 2:
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -1481,8 +1486,8 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 2:
-                    if (input_any_key_pressed() || gameSeq.timeCounter >= textDelay)
+                case 3:
+                    if (gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= ENDING_SCENES)
@@ -1490,8 +1495,10 @@ void game_update()
                             game.state = E_GAME_ST_TITLE;
                             currentPal = gamePal;
                             sceneCounter = 0;
+                            gameSeq.step = 0;
                         }
-                        gameSeq.step = 0;   
+                        else
+                            gameSeq.step = 1;   
                         gameSeq.timeCounter = 0; 
                         game.fadeOut = true;
                     }
