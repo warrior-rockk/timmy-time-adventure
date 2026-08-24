@@ -324,7 +324,7 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 4:
-                    if (input_any_key_pressed() || gameSeq.timeCounter >= textDelay)
+                    if (gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= INTRO_SCENES || input_key_down(E_G_KEY_EXIT))
