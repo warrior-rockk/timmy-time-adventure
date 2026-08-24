@@ -286,7 +286,12 @@ void game_update()
             BITMAP *intro;
             switch (gameSeq.step)
             {
-                case 0: 
+                case 0: //intro music
+                    jingleMusic = load_dat_midi_indexed(gameDataIndex, INTRO_MID);
+                    music_play(jingleMusic, false);
+                    gameSeq.step++;
+                break;
+                case 1: 
                     clear_to_color(buffer, BLACK_COLOR);
                     intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + sceneCounter);
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
@@ -299,7 +304,7 @@ void game_update()
 
                     gameSeq.step++;
                 break;
-                case 1:
+                case 2:
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -309,7 +314,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 2:
+                case 3:
                     if (input_any_key_pressed() || gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
@@ -318,8 +323,12 @@ void game_update()
                             game.state = E_GAME_ST_TITLE;
                             currentPal = gamePal;
                             sceneCounter = 0;
+                            gameSeq.step = 0;
+                            music_stop();
                         }
-                        gameSeq.step = 0;    
+                        else
+                            gameSeq.step = 1;    
+                        
                         gameSeq.timeCounter = 0;
                         game.fadeOut = true;
                     }
