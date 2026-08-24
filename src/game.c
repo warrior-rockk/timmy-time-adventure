@@ -358,7 +358,7 @@ void game_update()
                     music_play(jingleMusic, false);
 
                     //load title logo
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE2_BMP);
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE3_BMP);
                     animSprite.frame = 0;
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h }, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
