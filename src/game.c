@@ -250,6 +250,7 @@ void game_update()
                 break;                
             }
         break;
+        #if BETATESTING
         case E_GAME_ST_BETATESTING_MSG:
             switch (gameSeq.step)
             {
@@ -257,8 +258,14 @@ void game_update()
                     //create betatesting dialog
                     clear(buffer);
                     gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    dialog_add_text(&gameDialog, "NOTAS BETATESTING");
+                    dialog_add_text(&gameDialog, "");
+                    dialog_add_text(&gameDialog, "-FALTA LA MÚSICA DEL INTRO");
+                    dialog_add_text(&gameDialog, "-MÚSICA DEL TÍTULO PROVISIONAL");
+                    dialog_add_text(&gameDialog, "-FALTA MÚSICA SELECCIÓN NIVEL");
+                    dialog_add_text(&gameDialog, "-FALTA MÚSICA FINAL JUEGO");
+
                     dialog_draw(&gameDialog, buffer);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Notas Betatesting:| |*Falta la música del intro|*Música del título provisional|*Falta música selección nivel|Falta música final juego", SCREEN_W>>1, 30, WHITE_COLOR, BLACK_COLOR);
                     
                     game.fadeIn = true;
                     gameSeq.step++;
@@ -274,6 +281,7 @@ void game_update()
                 break;
             }
         break;
+        #endif
         case E_GAME_ST_INTRO:
             BITMAP *intro;
             switch (gameSeq.step)
