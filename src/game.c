@@ -466,6 +466,7 @@ void game_update()
                                 game.fadeOut = true;
                                 gameSeq.step = 0;
                                 game.demo = 0;
+                                music_stop();
                                 dialog_destroy(&gameDialog);
                                 destroy_bitmap(gameSprite);
                                 destroy_bitmap(titleScroll);
@@ -931,6 +932,7 @@ void game_update()
                 break;   
                 case 2: //fade out
                     game.fadeOut = true;
+                    music_stop();
                     gameSeq.step++;
                 break;      
                 case 3: //jump to new state

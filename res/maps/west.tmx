@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="291">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="291">
  <properties>
   <property name="time" type="int" value="350"/>
  </properties>
@@ -927,7 +927,7 @@
   </object>
   <object id="74" name="item" type="object" x="2320" y="64" width="16" height="16">
    <properties>
-    <property name="spare" type="int" propertytype="items" value="1"/>
+    <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
   <object id="75" name="item" type="object" x="512" y="0" width="16" height="16">
@@ -1351,11 +1351,6 @@
   <object id="289" name="item" type="object" x="4592" y="384" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="items" value="0"/>
-   </properties>
-  </object>
-  <object id="290" name="debug-start" type="object" x="4336" y="352" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
  </objectgroup>
