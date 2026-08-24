@@ -6,6 +6,11 @@
                 "${workspaceFolder}/**",
                 "D:/Instalables/Proyectos/Programacion DOS/cross-compile/djgpp/include/**"
             ],
+            "browse": {
+                "path": [
+                    "D:/Instalables/Proyectos/Programacion DOS/proyectos/allegro/src/**"
+                ]
+            },
             "defines": [
                 "_DEBUG",
                 "UNICODE",
