@@ -376,8 +376,8 @@ typedef struct
     #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
     #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
     #define DEBUG_PROFILE                   0                   
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_INTRO
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
 
     typedef struct
     {

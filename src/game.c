@@ -1635,7 +1635,7 @@ void game_init()
     levelData[E_GAME_LEVEL_JURASSIC].dataFile       = "jurassic.dat";
     levelData[E_GAME_LEVEL_JURASSIC].tileFileIndex  = JURASSIC_BMP;
     levelData[E_GAME_LEVEL_JURASSIC].palFileIndex   = JURASSIC_PAL;
-    levelData[E_GAME_LEVEL_JURASSIC].musicFileIndex = JUNGLE_MID;
+    levelData[E_GAME_LEVEL_JURASSIC].musicFileIndex = JURASSIC_MID;
 
     levelData[E_GAME_LEVEL_EGYPT].mapFile           = "egypt.bin";
     levelData[E_GAME_LEVEL_EGYPT].dataFile          = "egypt.dat";

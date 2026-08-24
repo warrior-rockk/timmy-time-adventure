@@ -19,7 +19,6 @@
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?
-- [ ] volume up all midi tracks
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for player splash water
