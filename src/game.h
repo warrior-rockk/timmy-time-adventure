@@ -140,6 +140,10 @@
 #define EXPLOSION_TILE_RANGE_X       4
 #define EXPLOSION_TILE_RANGE_Y       4
 
+//title logo position
+#define TITLE_LOGO_POS_X        SCREEN_W >> 1
+#define TITLE_LOGO_POS_Y        SCREEN_H >> 2
+
 //title scroll defines
 #define TITLE_SCROLL_WIDTH      640
 #define TITLE_SCROLL_POS_X      0
