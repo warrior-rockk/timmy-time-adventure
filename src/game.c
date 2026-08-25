@@ -352,42 +352,57 @@ void game_update()
                 currentPal = gamePal;
                 sceneCounter = 0;
                 gameSeq.step = 0;
+                gameSeq.timeCounter = 0;
+                game.fadeOut = true;
                 music_stop();   
             }
         break;
         case E_GAME_ST_TITLE:
             switch (gameSeq.step)
             {
-                case 0: //play jingle                                      
-                    currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
-                    clear_to_color(buffer, BLACK_COLOR);                                        
-                    
+                case 0:
                     //play title music
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, TITLE_MID);
                     music_play(jingleMusic, false);
 
+                    gameSeq.step++;
+                break;
+                case 1:     //initial delay
+                    if (gameSeq.timeCounter >= 100)
+                    {
+                        gameSeq.step++;
+                        gameSeq.timeCounter = 0;                        
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 2:     //load title data
+                    currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
+                    clear_to_color(buffer, BLACK_COLOR);                                        
+                    
                     //load title logo
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE3_BMP);
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE4_BMP);
                     animSprite.frame = 0;
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h }, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     //load title scroll
                     titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
                     titleScrollPos = (tVector){0, 0};
-                    blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
+                    //blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
                     gameSeq.step++;      
+
+                    game.fadeIn = E_FADE_TYPE_VERY_SLOW;
                 break;
-                case 1: //wait 
-                    if (gameSeq.timeCounter >= 200)
+                case 3: //wait for scroll
+                    if (gameSeq.timeCounter >= 3)
                     {
                         gameSeq.step++;
-                        gameSeq.timeCounter = 0;
-                        game.fadeIn = true;
+                        gameSeq.timeCounter = 0;                        
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 2: //title logo
+                case 4: //title logo
                     //draw title logo
                     //play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
                     game_draw_object((tVector){SCREEN_W >> 1, SCREEN_H>>2}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
@@ -432,8 +447,7 @@ void game_update()
                                 game.state = E_GAME_ST_INTRO;
                             break;
                         }
-                    }
-                    
+                    }                    
                 break;
             }
         break;
@@ -1920,7 +1934,10 @@ static void game_do_fade()
     {
         if (game.fadeState == E_FADED_IN)
         {
-            fade_out(GAME_FADE_SPEED);
+            if (game.fadeOut == E_FADE_TYPE_NORMAL)
+                fade_out(GAME_FADE_SPEED);
+            else
+                fade_out(GAME_FADE_SLOW_SPEED);
             game.fadeState = E_FADED_OFF;
         }
         
@@ -1931,9 +1948,13 @@ static void game_do_fade()
     switch (game.fadeIn)
     {
         case E_FADE_TYPE_NORMAL:
+        case E_FADE_TYPE_VERY_SLOW:
             if (game.fadeState == E_FADED_OFF)
             {
-                fade_in(currentPal, GAME_FADE_SPEED);
+                if (game.fadeOut == E_FADE_TYPE_NORMAL)
+                    fade_in(currentPal, GAME_FADE_SPEED);
+                else
+                    fade_in(currentPal, GAME_FADE_SLOW_SPEED);
             }
         break;
         case E_FADE_TYPE_0_63:

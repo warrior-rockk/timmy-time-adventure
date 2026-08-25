@@ -50,8 +50,9 @@
 #define GAME_CHEAT_CODE_KEYS    10      //num of keys for cheat code
 #define GAME_CHEAT_LIVES        50      //num of lives with cheat code
 
+#define GAME_FADE_SLOW_SPEED    1       //slow fade speed
 #ifdef DEBUGMODE
-    #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)
+    #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)    
 #else
     #define GAME_FADE_SPEED         2       //general game fade speed (1: slowest 64: instantaneous)
 #endif
@@ -327,6 +328,7 @@ enum E_FADE_TYPE
 {
     E_FADE_TYPE_NONE,
     E_FADE_TYPE_NORMAL,
+    E_FADE_TYPE_VERY_SLOW,
     E_FADE_TYPE_0_63,
     E_FADE_TYPE_64_255,
 };
@@ -377,7 +379,7 @@ typedef struct
     #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
     #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
     #define DEBUG_PROFILE                   0                   
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_INTRO
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
 
     typedef struct
