@@ -124,25 +124,33 @@
 #define PLAY_MENU_POS_X         (GAME_W >> 1) - (PLAY_MENU_SIZE_X >> 1)
 #define PLAY_MENU_POS_Y         40
 
+//definitions of controls menu dialog
 #define CONTROLS_MENU_SIZE_X    140
 #define CONTROLS_MENU_SIZE_Y    0
 #define CONTROLS_MENU_POS_X     (SCREEN_W >> 1) - (CONTROLS_MENU_SIZE_X >> 1)
 #define CONTROLS_MENU_POS_Y     50
 
+//definitions of pause dialog
 #define PAUSE_MENU_SIZE_X       140
 #define PAUSE_MENU_SIZE_Y       0
 #define PAUSE_MENU_POS_X        (GAME_W >> 1) - (PAUSE_MENU_SIZE_X >> 1)
 #define PAUSE_MENU_POS_Y        GAME_H >> 1
 
+//number of shock wave tiles of explosion
 #define EXPLOSION_TILE_RANGE_X       4
 #define EXPLOSION_TILE_RANGE_Y       4
 
+//title scroll defines
 #define TITLE_SCROLL_WIDTH      640
 #define TITLE_SCROLL_POS_X      0
 #define TITLE_SCROLL_POS_Y      110
 #define TITLE_SCROLL_SIZE_X     320
 #define TITLE_SCROLL_SIZE_Y     64
 #define TITLE_SCROLL_VEL_X      1
+
+//position of version on title
+#define VERSION_TITLE_X         300
+#define VERSION_TITLE_Y         186
 
 
 //game states

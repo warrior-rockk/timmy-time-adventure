@@ -469,7 +469,9 @@ void game_update()
 
                     dialog_draw(&gameDialog, buffer);
 
-                    
+                    //version                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], 300, 186, WHITE_COLOR, 0, "v%i.%i", MAJOR_VERSION, MINOR_VERSION); 
+
                     game.fadeIn = true;
                     gameSeq.step++;
                 break;
