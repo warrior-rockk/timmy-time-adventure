@@ -410,7 +410,9 @@ void game_update()
                     game_draw_title_scroll();
 
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
-                    
+                    //version                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], 300, 186, WHITE_COLOR, 0, "v%i.%i", MAJOR_VERSION, MINOR_VERSION); 
+
                     if (input_any_key_down())
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
