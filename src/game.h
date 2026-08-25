@@ -140,9 +140,10 @@
 #define EXPLOSION_TILE_RANGE_X       4
 #define EXPLOSION_TILE_RANGE_Y       4
 
-//title logo position
+//title logo position and animation
 #define TITLE_LOGO_POS_X        SCREEN_W >> 1
 #define TITLE_LOGO_POS_Y        40 //SCREEN_H >> 2
+#define TITLE_LOGO_ANIM         0, 1, 15, ANIM_LOOP
 
 //press start text on title position
 #define PRESS_START_POS_X       SCREEN_W >> 1 

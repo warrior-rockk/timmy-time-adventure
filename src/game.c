@@ -383,7 +383,7 @@ void game_update()
                     //load title logo
                     gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE5_BMP);
                     animSprite.frame = 0;
-                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h }, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h }, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     //load title scroll
                     titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
@@ -404,8 +404,8 @@ void game_update()
                 break;
                 case 4: //title logo
                     //draw title logo
-                    //play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
-                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+                    play_animation(&animSprite, TITLE_LOGO_ANIM);
+                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
                     
                     game_draw_title_scroll();
 
@@ -459,8 +459,8 @@ void game_update()
             {
                 case 0: //create main menu dialog 
                     //draw title logo
-                    //play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
-                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+                    play_animation(&animSprite, TITLE_LOGO_ANIM);
+                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
                     gameDialog = dialog_create((tRectangle){(tVector){MAIN_MENU_POS_X, MAIN_MENU_POS_Y}, (tVector){MAIN_MENU_SIZE_X, MAIN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
@@ -476,8 +476,9 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1: //process main menu dialog
-                    //play_animation(&animSprite, 0, 9, 16, ANIM_LOOP);
-                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
+                    play_animation(&animSprite, TITLE_LOGO_ANIM);
+                    game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);
+                    
                     game_draw_title_scroll();
                     dialog_draw(&gameDialog, buffer);
                     game_navigation_menu(&gameDialog, buffer);
