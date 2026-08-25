@@ -1487,7 +1487,7 @@ void game_update()
                     music_play(jingleMusic, false);
                     gameSeq.step++;
                 break;
-                case 1: 
+                case 1: //load escene
                     currentPal = introPal;    
                     game.fadeIn = true;
                     
@@ -1503,7 +1503,7 @@ void game_update()
 
                     gameSeq.step++;
                 break;
-                case 2:
+                case 2: //fade in scene
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -1513,21 +1513,33 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 3:
+                case 3: //next scene or end
                     if (gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= ENDING_SCENES)
                         {
-                            game.state = E_GAME_ST_TITLE;
-                            currentPal = gamePal;
+                            gameSeq.step++;                            
                             sceneCounter = 0;
-                            gameSeq.step = 0;
                         }
                         else
+                        {
                             gameSeq.step = 1;   
-                        gameSeq.timeCounter = 0; 
-                        game.fadeOut = true;
+                            game.fadeOut = true;
+                        }
+                        gameSeq.timeCounter = 0;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 4: //end escene delay
+                    if (gameSeq.timeCounter >= 300)
+                    {
+                            game.state = E_GAME_ST_TITLE;
+                            currentPal = gamePal;                            
+                            gameSeq.step = 0;
+                            gameSeq.timeCounter = 0;
+                            game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();

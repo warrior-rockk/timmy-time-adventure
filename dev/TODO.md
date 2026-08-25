@@ -16,6 +16,7 @@
 - [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
       
 # Game design
+- [ ] Credits
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
 - [ ] Respawn extra live item for easy gameplay?

@@ -91,7 +91,7 @@
 #define ENDING_SCENES           3       //number of ending scenes
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
-#define SCENE_CHAR_DELAY        8       //delay time by text character  
+#define SCENE_CHAR_DELAY        9 //8       //delay time by text character  
 
 //demo
 #define DEMO_TIMEOUT            3000     //demo timeout duration
