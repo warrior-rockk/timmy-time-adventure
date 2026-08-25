@@ -327,7 +327,7 @@ void game_update()
                     if (gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
-                        if (sceneCounter >= INTRO_SCENES || input_key_down(E_G_KEY_EXIT))
+                        if (sceneCounter >= INTRO_SCENES)
                         {
                             game.state = E_GAME_ST_TITLE;
                             currentPal = gamePal;
@@ -343,7 +343,16 @@ void game_update()
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
-                break;
+                break;                
+            }
+            //bypass intro
+            if (input_key_down(E_G_KEY_EXIT))
+            {
+                game.state = E_GAME_ST_TITLE;
+                currentPal = gamePal;
+                sceneCounter = 0;
+                gameSeq.step = 0;
+                music_stop();   
             }
         break;
         case E_GAME_ST_TITLE:
