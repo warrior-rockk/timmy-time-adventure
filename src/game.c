@@ -409,7 +409,7 @@ void game_update()
                     
                     game_draw_title_scroll();
 
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), SCREEN_W>>1, 140, textColor, 0);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], lang_get_txt(E_TXT_PRESS_TO_START), PRESS_START_POS_X, PRESS_START_POS_Y, textColor, 0);
                     //version                    
                     textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], 300, 186, WHITE_COLOR, 0, "v%i.%i", MAJOR_VERSION, MINOR_VERSION); 
 

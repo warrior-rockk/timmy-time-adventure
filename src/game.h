@@ -142,7 +142,11 @@
 
 //title logo position
 #define TITLE_LOGO_POS_X        SCREEN_W >> 1
-#define TITLE_LOGO_POS_Y        SCREEN_H >> 2
+#define TITLE_LOGO_POS_Y        40 //SCREEN_H >> 2
+
+//press start text on title position
+#define PRESS_START_POS_X       SCREEN_W >> 1 
+#define PRESS_START_POS_Y       90 // 140
 
 //title scroll defines
 #define TITLE_SCROLL_WIDTH      640
