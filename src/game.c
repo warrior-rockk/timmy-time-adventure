@@ -394,7 +394,7 @@ void game_update()
                     game.fadeIn = E_FADE_TYPE_VERY_SLOW;
                 break;
                 case 3: //wait for scroll
-                    if (gameSeq.timeCounter >= 3)
+                    if (gameSeq.timeCounter >= 200 || music_get_pos() >= 4)
                     {
                         gameSeq.step++;
                         gameSeq.timeCounter = 0;                        
