@@ -109,6 +109,7 @@ uint8_t cheatCodeCurrentKey = 0;
 //credits entity data
 struct creditEntity
 {
+    tVector scenePos;
     tVector pos;
     tVector size;
     uint8_t dir;
@@ -1628,6 +1629,9 @@ void game_update()
                 case 0: //test credit
                     clear_to_color(buffer, BLACK_COLOR);
                     
+                    //load credit scene
+                    ending = load_dat_bmp_indexed(gameDataIndex, CREDITS1_BMP + sceneCounter);
+
                     switch (sceneCounter)
                     {
                         case 0:
@@ -1636,16 +1640,13 @@ void game_update()
                             currentPal = load_dat_pal_indexed(creditDataIndex, JURASSIC_PAL);
                             destroy_dat_index(creditDataIndex);
 
-                            //load credit scene
-                            ending = load_dat_bmp_indexed(gameDataIndex, CREDITS1_BMP);
-                            draw_sprite(buffer, ending, 29, 32);  
-
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
                             gameSprite = load_dat_bmp_indexed(creditDataIndex, 22);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
-                            creditEntity.pos = (tVector){93, 127};
+                            creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_1, CREDIT_SCENE_POS_Y_1};
+                            creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y};
                             creditEntity.size = (tVector){72, 44};
                             creditEntity.dir = E_ENT_DIR_LEFT;
                             creditEntity.startFrame = 4;
@@ -1659,16 +1660,13 @@ void game_update()
                             currentPal = load_dat_pal_indexed(creditDataIndex, EGYPT_PAL);
                             destroy_dat_index(creditDataIndex);
 
-                            //load credit scene
-                            ending = load_dat_bmp_indexed(gameDataIndex, CREDITS2_BMP);
-                            draw_sprite(buffer, ending, 29, 32);  
-
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
                             gameSprite = load_dat_bmp_indexed(creditDataIndex, 19);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
-                            creditEntity.pos = (tVector){93, 127};
+                            creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_2, CREDIT_SCENE_POS_Y_2};                            
+                            creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y};
                             creditEntity.size = (tVector){57, 67};
                             creditEntity.dir = E_ENT_DIR_RIGHT;
                             creditEntity.startFrame = 10;
@@ -1682,16 +1680,13 @@ void game_update()
                             currentPal = load_dat_pal_indexed(creditDataIndex, MEDIEVAL_PAL);
                             destroy_dat_index(creditDataIndex);
 
-                            //load credit scene
-                            ending = load_dat_bmp_indexed(gameDataIndex, CREDITS3_BMP);
-                            draw_sprite(buffer, ending, 29, 32);  
-
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
                             gameSprite = load_dat_bmp_indexed(creditDataIndex, 17);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
-                            creditEntity.pos = (tVector){93, 127};
+                            creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_1, CREDIT_SCENE_POS_Y_1};
+                            creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y};
                             creditEntity.size = (tVector){59, 49};
                             creditEntity.dir = E_ENT_DIR_RIGHT;
                             creditEntity.startFrame = 24;
@@ -1701,6 +1696,9 @@ void game_update()
                         break;
                     }
 
+                    //draw scene
+                    draw_sprite(buffer, ending, creditEntity.scenePos.x, creditEntity.scenePos.y); 
+                    //draw sprite scene
                     animSprite.frame = creditEntity.startFrame;
                     game_draw_object(creditEntity.pos, creditEntity.dir, creditEntity.size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
@@ -1709,7 +1707,7 @@ void game_update()
                     gameSeq.step++;
                 break;                
                 case 1: //fade in credit text
-                    draw_sprite(buffer, ending, 29, 32);        
+                    draw_sprite(buffer, ending, creditEntity.scenePos.x, creditEntity.scenePos.y); 
                     play_animation(&animSprite, creditEntity.startFrame, creditEntity.endFrame, creditEntity.animSpeed, creditEntity.animType);
                     game_draw_object(creditEntity.pos, creditEntity.dir, creditEntity.size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
@@ -1722,13 +1720,13 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2: //next credit or end
-                    draw_sprite(buffer, ending, 29, 32);
+                    draw_sprite(buffer, ending, creditEntity.scenePos.x, creditEntity.scenePos.y); 
                     play_animation(&animSprite, creditEntity.startFrame, creditEntity.endFrame, creditEntity.animSpeed, creditEntity.animType);
                     game_draw_object(creditEntity.pos, creditEntity.dir, creditEntity.size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
-                    //write credit text
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_TITLE_1 + sceneCounter), 201, 53, RED_COLOR, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_NAME_1 + sceneCounter), 201, 73, WHITE_COLOR, BLACK_COLOR);     
+                    //write credit text                           
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_TITLE_1 + sceneCounter), creditEntity.scenePos.x == CREDIT_SCENE_POS_X_1 ? CREDIT_TEXT_POS_X_1 : CREDIT_TEXT_POS_X_2, creditEntity.scenePos.x == CREDIT_SCENE_POS_Y_1 ? CREDIT_TEXT_POS_Y_1 : CREDIT_TEXT_POS_Y_2, RED_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_NAME_1 + sceneCounter), creditEntity.scenePos.x == CREDIT_SCENE_POS_X_1 ? CREDIT_TEXT_POS_X_1 : CREDIT_TEXT_POS_X_2, creditEntity.scenePos.x == CREDIT_SCENE_POS_Y_1 ? CREDIT_TEXT_POS_Y_1 + 20 : CREDIT_TEXT_POS_Y_2 + 20, WHITE_COLOR, BLACK_COLOR);     
 
                     if (gameSeq.timeCounter >= 300)
                     {

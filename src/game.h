@@ -95,6 +95,15 @@
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
 #define SCENE_CHAR_DELAY        9       //delay time by text character  
+#define CREDIT_SCENE_POS_X_1    28      //x position of credit scene variant 1
+#define CREDIT_SCENE_POS_Y_1    18      //y position of credit scene variant 1
+#define CREDIT_SCENE_POS_X_2    178     //x position of credit scene variant 1
+#define CREDIT_SCENE_POS_Y_2    58      //y position of credit scene variant 1
+#define CREDIT_SCENE_FLOOR_Y    32      //floor position of credit scene
+#define CREDIT_TEXT_POS_X_1     201     //x position of credit text variant 1
+#define CREDIT_TEXT_POS_Y_1     53      //y position of credit text variant 1
+#define CREDIT_TEXT_POS_X_2     28      //x position of credit text variant 1
+#define CREDIT_TEXT_POS_Y_2     18      //y position of credit text variant 1
 
 //demo
 #define DEMO_TIMEOUT            3000     //demo timeout duration
