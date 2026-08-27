@@ -1172,11 +1172,16 @@ void game_update()
                                 game.state = E_GAME_ST_INIT_LEVEL;
                                 dialog_destroy(&gameDialog);    
                             break;
-                            case 3: //EXIT TO TITLE
+                            case 3: //RETURN TO SELECT LEVEL
+                                game.fadeOut = true;
+                                gameSeq.step = 7;
+                                dialog_destroy(&gameDialog);
+                            break;
+                            case 4: //EXIT TO TITLE
                                 gameSeq.step = 4;   //jump to confirm                               
                                 dialog_destroy(&gameDialog); 
                             break;
-                            case 4: //EXIT TO DOS
+                            case 5: //EXIT TO DOS
                                 game_destroy_level(); 
                                 game.state = E_GAME_ST_EXIT;
                                 game.fadeOut = true;
@@ -1280,6 +1285,13 @@ void game_update()
                     game_init_flags();
                     
                     game.state = E_GAME_ST_TITLE;
+                    gameSeq.step = 0;                               
+                    dialog_destroy(&gameDialog); 
+                break;
+                case 7: //destroy level to exit to select level
+                    game_destroy_level();                                
+                                        
+                    game.state = E_GAME_ST_SELECT_LEVEL;
                     gameSeq.step = 0;                               
                     dialog_destroy(&gameDialog); 
                 break;
@@ -2266,6 +2278,7 @@ static void game_create_options_play_menu()
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_RESTART_LEVEL));
+    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_SELECT_LEVEL));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_TITLE));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT_TO_DOS));
 }
