@@ -441,7 +441,7 @@ void game_load_resources();
 void game_loading_text();
 //function to init game
 void game_init();
-//function to updated game
+//function to update game
 void game_update();
 //function to draw game
 void game_draw();

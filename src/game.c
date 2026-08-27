@@ -29,6 +29,7 @@
 #include "text.h"
 #include "fx.h"
 
+//data resources headers
 #include "data/gdata.h"
 #include "data/judata.h"
 #include "data/wedata.h"
@@ -69,14 +70,15 @@ RGB *introPal;                              //pal for intro sequence
 RGB *gamePal;                               //palette of 64 persistent colors for menus/title/hud/player
 
 BITMAP *gameSprite;                         //general use game sprite (title logo, game over animation...)
-BITMAP *titleScroll;
-tVector titleScrollPos;
 tAnimation animSprite;                      //general animation structure for game sprite
+BITMAP *titleScroll;                        //bitmap for title scroll animation
+tVector titleScrollPos;                     //position vector for title scroll
 
 //game controls string array
 char  *gameControlStrings[E_GAME_KEYS_NUM];
 char *keyStrings[] = {"", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","0_PAD","1_PAD","2_PAD","3_PAD","4_PAD","5_PAD","6_PAD","7_PAD","8_PAD","9_PAD","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","ESC","TILDE","MINUS","EQUALS","BACKSPACE","TAB","OPENBRACE","CLOSEBRACE","ENTER","COLON","QUOTE","BACKSLASH","BACKSLASH2","COMMA","STOP","SLASH","SPACE","INSERT","DEL","HOME","END","PGUP","PGDN","LEFT","RIGHT","UP","DOWN","SLASH_PAD","ASTERISK","MINUS_PAD","PLUS_PAD","DEL_PAD","ENTER_PAD"};
 
+//hud structure
 struct hud
 {
     BITMAP *hudImg;
@@ -103,6 +105,7 @@ uint8_t cheatCodeLives[GAME_CHEAT_CODE_KEYS] = {E_G_KEY_UP, E_G_KEY_UP, E_G_KEY_
 uint8_t cheatCodeLogger[GAME_CHEAT_CODE_KEYS];
 uint8_t cheatCodeCurrentKey = 0;
 
+//static functions
 static void game_load_level(uint8_t numLevel);
 static void game_destroy_level();
 static void game_update_level();
