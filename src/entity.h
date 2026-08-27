@@ -23,8 +23,6 @@
 
 #define DEBUG_POINT_ENABLED_COLOR       53
 #define DEBUG_POINT_DISABLED_COLOR      66
-#define DEBUG_SHOW_ALL_LAYER            1
-#define DEBUG_SHOW_COLL_LAYER           2
 
 //game entity classes
 enum E_ENTITY_CLASS

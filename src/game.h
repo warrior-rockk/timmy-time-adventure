@@ -15,51 +15,52 @@
 #define BETATESTING             1
 
 //allegro engine
-#define ALLEGRO_USES_TIMER      1   //disable to profile with uclock
+#define ALLEGRO_USES_TIMER      1           //disable to profile with uclock
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1   //disable to profile with uclock
+#define ALLEGRO_USES_SOUND      1           //disable to profile with uclock
 
 //screen video configuration
-#define GAME_GFX_MODE           GFX_VGA
-#define GAME_GFX_DOBLE_BUFFER   1
-#define GAME_COLOR_DEPTH        8
-#define SCREEN_X                320
-#define SCREEN_Y                200
+#define GAME_GFX_MODE           GFX_VGA     //selected video mode
+#define GAME_GFX_DOBLE_BUFFER   1           //enables or disables doble buffer (draws directly on screen or on BITMAP buffer)
+#define GAME_COLOR_DEPTH        8           //color depth bit
+#define SCREEN_X                320         //screen width resolution
+#define SCREEN_Y                200         //screen height resolution
 
-//game screen size (SMS resolution: 256x192 (testing 256x208: extra sms Y tile to center screen))
-#define GAME_W                  256     //16 tiles width
-#define GAME_H                  160     //10 tiles height
+//game/map screen size (SMS resolution: 256x192)
+#define GAME_W                  256         //16 tiles width. Border of 2 tiles of each side
+#define GAME_H                  160         //10 tiles height. 40px bottom border for HUD
 #define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
-#define GAME_Y                  0 //(SCREEN_H>>1) - (GAME_H>>1)
+#define GAME_Y                  0 
 
-//colors
+//clock iteration duration value
+#define GAME_CLOCK_TICK         10          //10ms game tick
+
+//game palette colors index
 #define BLACK_COLOR             1
 #define WHITE_COLOR             63
 #define RED_COLOR               21
 #define DIALOG_TEXT_COLOR       WHITE_COLOR
 #define DIALOG_SEL_TEXT_COLOR   56
 
-//clock iteration duration value
-#define GAME_CLOCK_TICK         10      //10ms game tick
-
 //general game definitions
-#define GAME_INI_LIVES          6       //initial game lives
-#define GAME_INI_LIFE           3       //initial game life
-#define GAME_MAX_LIVES          99      //max lives can obtain
-#define GAME_CHEAT_CODE_KEYS    10      //num of keys for cheat code
-#define GAME_CHEAT_LIVES        50      //num of lives with cheat code
+#define GAME_INI_LIVES          6           //initial game lives
+#define GAME_INI_LIFE           3           //initial game life
+#define GAME_MAX_LIVES          99          //max lives can obtain
+#define GAME_CHEAT_CODE_KEYS    10          //num of keys for cheat code
+#define GAME_CHEAT_LIVES        50          //num of lives with cheat code
+#define GAME_INIT_LEVEL_DELAY   100         //time delay on start level
+#define GAME_HURRY_TIME_LEFT    10          //time left to hurry up (time on red, speed up music...)
+#define GAME_HURRY_MUSIC_TEMPO  160         //tempo of music when time running out
+#define GAME_DEFAULT_SCROLL_MODE            E_SCROLL_MODE_BY_WINDOW_Y_ONLY
 
+//fade speeds
 #define GAME_FADE_SLOW_SPEED    1       //slow fade speed
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)    
 #else
     #define GAME_FADE_SPEED         2       //general game fade speed (1: slowest 64: instantaneous)
 #endif
-#define GAME_DEFAULT_SCROLL_MODE    E_SCROLL_MODE_BY_WINDOW_Y_ONLY
-#define GAME_INIT_LEVEL_DELAY   100     //time delay on start level
-#define GAME_HURRY_TIME_LEFT    10      //time left to hurry up (time on red, speed up music...)
-#define GAME_HURRY_MUSIC_TEMPO  160     //tempo of music when time running out
 
 //HUD defines
 #define HUD_POSITION_Y          166
@@ -92,13 +93,13 @@
 #define ENDING_SCENES           3       //number of ending scenes
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
-#define SCENE_CHAR_DELAY        9 //8       //delay time by text character  
+#define SCENE_CHAR_DELAY        9       //delay time by text character  
 
 //demo
 #define DEMO_TIMEOUT            3000     //demo timeout duration
 #define DEMO_LEVEL              E_GAME_LEVEL_JURASSIC
 
-//dialog defines
+//menu dialogos position and sizes definitions
 #define FIRSTRUN_MENU_SIZE_X    80
 #define FIRSTRUN_MENU_SIZE_Y    0
 #define FIRSTRUN_MENU_POS_X     (SCREEN_W >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
@@ -124,13 +125,11 @@
 #define PLAY_MENU_POS_X         (GAME_W >> 1) - (PLAY_MENU_SIZE_X >> 1)
 #define PLAY_MENU_POS_Y         40
 
-//definitions of controls menu dialog
 #define CONTROLS_MENU_SIZE_X    140
 #define CONTROLS_MENU_SIZE_Y    0
 #define CONTROLS_MENU_POS_X     (SCREEN_W >> 1) - (CONTROLS_MENU_SIZE_X >> 1)
 #define CONTROLS_MENU_POS_Y     50
 
-//definitions of pause dialog
 #define PAUSE_MENU_SIZE_X       140
 #define PAUSE_MENU_SIZE_Y       0
 #define PAUSE_MENU_POS_X        (GAME_W >> 1) - (PAUSE_MENU_SIZE_X >> 1)
@@ -160,7 +159,6 @@
 //position of version on title
 #define VERSION_TITLE_X         300
 #define VERSION_TITLE_Y         186
-
 
 //game states
 enum E_GAME_STATE
@@ -285,6 +283,7 @@ enum E_TEXT_LANGUAGES
 {    
     E_LANG_ENG,
     E_LANG_ESP,
+
     E_NUM_LANGS,
 };
 
@@ -303,6 +302,16 @@ enum E_FADE_STATE
 {
     E_FADED_IN,
     E_FADED_OFF,
+};
+
+//fade types
+enum E_FADE_TYPE
+{
+    E_FADE_TYPE_NONE,
+    E_FADE_TYPE_NORMAL,
+    E_FADE_TYPE_VERY_SLOW,
+    E_FADE_TYPE_0_63,
+    E_FADE_TYPE_64_255,
 };
 
 //game sfx voices
@@ -340,16 +349,6 @@ enum E_GAME_FONTS
     E_GAME_NUM_FONTS,
 };
 
-//fade types
-enum E_FADE_TYPE
-{
-    E_FADE_TYPE_NONE,
-    E_FADE_TYPE_NORMAL,
-    E_FADE_TYPE_VERY_SLOW,
-    E_FADE_TYPE_0_63,
-    E_FADE_TYPE_64_255,
-};
-
 //demo types
 enum E_DEMO_TYPE
 {
@@ -385,32 +384,11 @@ typedef struct
     bool cheatCodeLivesOn;
 } tGame;
 
-//options for debug mode
-#ifdef DEBUGMODE
-    #define DEBUG_TRACE_CREATE_ENTITIES     1
-    #define DEBUG_TRACE_ENTITIES            0
-    #define DEBUG_TRACE_COLL_POINTS_ARRAY   0
-    #define DEBUG_NO_LEVEL_TIME             0
-    #define DEBUG_TRACE_PLAYER              1
-    #define DEBUG_LOCAL_DATA_MEMORY         0
-    #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
-    #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
-    #define DEBUG_PROFILE                   0                   
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_INTRO
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST
-
-    typedef struct
-    {
-        uint8_t showDebugInfo; 
-        uint8_t stepByStep;
-        uint8_t invencible;
-    } tDebugOptions;
-#endif
-
+//level data
 typedef struct
 { 
-    char *mapFile;			    //binary file of map and entities
-    char *dataFile;             //datafile file for level
+    char *mapFile;			    //binary file of map and entities to load from disk
+    char *dataFile;             //datafile file for level to load from disk
     uint8_t tileFileIndex;		//index of bitmap file for map tiles on datafile
     uint8_t palFileIndex;		//index of palette file for map tiles on datafile
     uint8_t musicFileIndex;		//index of music file of level on datafile
@@ -419,19 +397,48 @@ typedef struct
 //sequence struct
 typedef struct
 {
-    uint8_t step;               //step of sequence
-    uint16_t timeCounter;       //time of sequence    
+    uint8_t step;               //numbre of step of sequence
+    uint16_t timeCounter;       //time counter of the step's sequence    
 } tSequence;
 
+//options for debug mode
+#ifdef DEBUGMODE
+    #define DEBUG_TRACE_CREATE_ENTITIES     1                   //traces when create entity and entity type
+    #define DEBUG_TRACE_ENTITIES            0                   //traces state change of all entities
+    #define DEBUG_TRACE_COLL_POINTS_ARRAY   0                   //traces the creation and destroy of entity collision points
+    #define DEBUG_NO_LEVEL_TIME             0                   //level time disable
+    #define DEBUG_TRACE_PLAYER              1                   //show debug of player data
+    #define DEBUG_LOCAL_DATA_MEMORY         0                   //traces the allocation and deallocation of entity dynamic local data
+    #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
+    #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
+    #define DEBUG_PROFILE                   0                   //traces the measure of profile functions
+    
+    #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
+    #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
+    
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_INTRO     //initial debug game state
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
+
+    //debug options data
+    typedef struct
+    {
+        uint8_t showDebugInfo;          //alternate show entity layers on debug mode
+        uint8_t stepByStep;             //activates debug mode step by step frame
+        uint8_t invencible;             //sets player invencible
+    } tDebugOptions;
+#endif
+
+//global data
 extern tGame game;
 extern uint8_t gameExit;
-
 #ifdef DEBUGMODE
 extern tDebugOptions debugOptions;
 #endif
 
 //function to load initial game resources
 void game_load_resources();
+//function for print loading game progress
+void game_loading_text();
 //function to init game
 void game_init();
 //function to updated game
@@ -440,6 +447,5 @@ void game_update();
 void game_draw();
 //function to destroy game (unload resources)
 void game_destroy();
-//function for print loading game progress
-void game_loading_text();
+
 #endif
