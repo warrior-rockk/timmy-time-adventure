@@ -56,7 +56,9 @@ GRAPHICS
 CODE AND LEVEL DESIGN
 MUSIC AND SOUND
 BETATESTERS
+SPECIAL THANKS
 Warrior
 Warrior
 Warrior
 Lolocop|Marc (onepopcorn)|Pedro (RandomShaper)
+Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
