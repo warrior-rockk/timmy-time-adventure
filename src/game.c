@@ -73,6 +73,7 @@ BITMAP *gameSprite;                         //general use game sprite (title log
 tAnimation animSprite;                      //general animation structure for game sprite
 BITMAP *titleScroll;                        //bitmap for title scroll animation
 tVector titleScrollPos;                     //position vector for title scroll
+BITMAP *ending;
 
 //game controls string array
 char  *gameControlStrings[E_GAME_KEYS_NUM];
@@ -104,6 +105,14 @@ struct gameConfig
 uint8_t cheatCodeLives[GAME_CHEAT_CODE_KEYS] = {E_G_KEY_UP, E_G_KEY_UP, E_G_KEY_DOWN, E_G_KEY_DOWN, E_G_KEY_LEFT, E_G_KEY_RIGHT, E_G_KEY_LEFT, E_G_KEY_RIGHT, E_G_KEY_JUMP, E_G_KEY_ACTION};
 uint8_t cheatCodeLogger[GAME_CHEAT_CODE_KEYS];
 uint8_t cheatCodeCurrentKey = 0;
+
+//credits entity data
+struct creditEntity
+{
+    tVector pos;
+    tVector size;
+    uint8_t dir;
+} creditEntity[1];
 
 //static functions
 static void game_load_level(uint8_t numLevel);
@@ -1520,8 +1529,7 @@ void game_update()
                 break;
             }
         break;
-        case E_GAME_ST_ENDING:            
-            BITMAP *ending;
+        case E_GAME_ST_ENDING:                        
             switch (gameSeq.step)
             {
                 case 0: //ending music
@@ -1618,45 +1626,51 @@ void game_update()
                     
                     //load credit scene
                     ending = load_dat_bmp_indexed(gameDataIndex, CREDITS1_BMP);
-                    draw_sprite(buffer, ending, 29, 32);    
-                    destroy_bitmap(ending);
+                    draw_sprite(buffer, ending, 29, 32);  
                     
-                    //write credit text
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Programming", 201, 53, RED_COLOR, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);     
+                    
                     
                     //draw animated sprite
                     creditDataIndex = create_dat_index("enemies.dat");
                     gameSprite = load_dat_bmp_indexed(creditDataIndex, 22);    
                     destroy_dat_index(creditDataIndex);
 
-                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    creditEntity[0].pos = (tVector){93, 127};
+                    creditEntity[0].size = (tVector){72, 44};
+                    creditEntity[0].dir = E_ENT_DIR_LEFT;
+
+                    game_draw_object(creditEntity[0].pos, creditEntity[0].dir, creditEntity[0].size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
                     creditDataIndex = create_dat_index("jurassic.dat");
                     currentPal = load_dat_pal_indexed(creditDataIndex, JURASSIC_PAL);
                     destroy_dat_index(creditDataIndex);
 
                     //fade in scene
-                    game.fadeIn = E_FADE_TYPE_64_255;
+                    game.fadeIn = true;
                     gameSeq.step++;
                 break;                
                 case 1: //fade in credit text
+                    draw_sprite(buffer, ending, 29, 32);        
                     play_animation(&animSprite, 4, 6, 16, ANIM_LOOP);
-                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    game_draw_object(creditEntity[0].pos, creditEntity[0].dir, creditEntity[0].size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
-                        game.fadeIn = E_FADE_TYPE_0_63;
                         gameSeq.step++;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2: //next credit or end
+                    draw_sprite(buffer, ending, 29, 32);
                     play_animation(&animSprite, 4, 6, 16, ANIM_LOOP);
-                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    game_draw_object(creditEntity[0].pos, creditEntity[0].dir, creditEntity[0].size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
+                    //write credit text
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Programming", 201, 53, RED_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);     
+
                     if (gameSeq.timeCounter >= 300)
                     {
                         gameSeq.step++;
@@ -1679,6 +1693,8 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 default:   //end of credits
+                    destroy_bitmap(ending);
+                    destroy_bitmap(gameSprite);
                     game.state = E_GAME_ST_TITLE;
                     game.fadeOut = true;
                     currentPal = gamePal;                            
