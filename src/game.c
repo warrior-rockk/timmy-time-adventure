@@ -1810,6 +1810,57 @@ void game_update()
                 default:   //end of credits
                     destroy_bitmap(ending);
                     destroy_bitmap(gameSprite);
+                    game.state = E_GAME_ST_BYE;
+                    game.fadeOut = E_FADE_TYPE_VERY_SLOW;
+                    currentPal = gamePal;                            
+                    gameSeq.step = 0;
+                    gameSeq.timeCounter = 0;                    
+                break;
+            }
+        break;
+        case E_GAME_ST_BYE:
+            switch (gameSeq.step)
+            {
+                case 0:
+                    game.fadeIn = E_FADE_TYPE_VERY_SLOW;
+                    clear_to_color(buffer, BLACK_COLOR);
+
+                    //load and draw bye bye sprite
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, BYEBYE_BMP);
+                    animSprite.frame = 0;
+                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+
+                    //draw thanks text
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+
+                    gameSeq.step++;
+                break;
+                case 1: //turn animation
+                    clear_to_color(buffer, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+
+                    if (play_animation(&animSprite, 0, 4, 10, ANIM_ONCE))
+                        gameSeq.step++;
+                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                break;
+                case 2: //bye animation
+                clear_to_color(buffer, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+
+                    play_animation(&animSprite, 5, 10, 20, ANIM_PING_PONG);
+                        
+                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+
+                    if (gameSeq.timeCounter >= 800)
+                    {
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step++;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                default:   //end of credits
+                    destroy_bitmap(gameSprite);
                     game.state = E_GAME_ST_TITLE;
                     game.fadeOut = E_FADE_TYPE_VERY_SLOW;
                     currentPal = gamePal;                            
@@ -1817,6 +1868,7 @@ void game_update()
                     gameSeq.timeCounter = 0;                    
                 break;
             }
+            
         break;
         case E_GAME_ST_DESTROY_LEVEL:
             game_destroy_level();
