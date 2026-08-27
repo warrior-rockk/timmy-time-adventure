@@ -1527,7 +1527,11 @@ void game_update()
                 case 0: //ending music
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, ENDING_MID);
                     music_play(jingleMusic, false);
+                    
                     gameSeq.step++;
+                    #ifdef DEBUGMODE
+                        gameSeq.step = 5;
+                    #endif
                 break;
                 case 1: //load escene
                     currentPal = introPal;    
@@ -1584,7 +1588,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 5:
+                case 5: //thanks msg
                     clear_to_color(buffer, BLACK_COLOR);
                     
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 100, WHITE_COLOR, BLACK_COLOR);
@@ -1592,11 +1596,60 @@ void game_update()
                     game.fadeIn = true;
                     gameSeq.step++;
                 break;
-                case 6:                    
+                case 6: //thanks delay                    
                     if (gameSeq.timeCounter >= 400)
                     {
+                            game.fadeOut = true;
                             gameSeq.step++;
                             gameSeq.timeCounter = 0;                            
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 7: //test credit
+                    clear_to_color(buffer, BLACK_COLOR);
+                    
+                    //load credit scene
+                    ending = load_dat_bmp_indexed(gameDataIndex, CREDITS1_BMP);
+                    draw_sprite(buffer, ending, 29, 32);    
+                    destroy_bitmap(ending);
+                    
+                    //write credit text
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Programming", 201, 53, RED_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);        
+
+                    //fade in scene
+                    game.fadeIn = E_FADE_TYPE_64_255;
+                    gameSeq.step++;
+                break;                
+                case 8: //fade in credit text
+                    if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
+                    {
+                        gameSeq.timeCounter = 0;
+                        game.fadeIn = E_FADE_TYPE_0_63;
+                        gameSeq.step++;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 9: //next credit or end
+                    if (gameSeq.timeCounter >= 300)
+                    {
+                        gameSeq.step++;
+                        gameSeq.timeCounter = 0;
+                        /*sceneCounter++;
+                        if (sceneCounter >= ENDING_SCENES)
+                        {
+                            gameSeq.step++;                            
+                            sceneCounter = 0;
+                        }
+                        else
+                        {
+                            gameSeq.step = 1;   
+                            game.fadeOut = true;
+                        }
+                        gameSeq.timeCounter = 0;
+                        */
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();

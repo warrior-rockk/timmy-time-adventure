@@ -75,3 +75,12 @@
 
 ## Debug objdump
 `..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
+
+## Credits
+
+* Programming: Warrior
+* Graphics: Warrior
+* Music: Warrior
+* Sound: Warrior
+* Level Design: Warrior
+* Betatesting: Lolocop / Marc (onepopcorn) / Pedro (RandomShaper)
