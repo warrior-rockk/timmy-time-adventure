@@ -1605,7 +1605,7 @@ void game_update()
                 case 5: //thanks msg
                     clear_to_color(buffer, BLACK_COLOR);
                     
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 100, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 100 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     game.fadeIn = true;
                     gameSeq.step++;
@@ -1652,8 +1652,8 @@ void game_update()
                             creditEntity.dir = E_ENT_DIR_LEFT;
                             creditEntity.startFrame = 4;
                             creditEntity.endFrame = 6;
-                            creditEntity.animSpeed = 16;
-                            creditEntity.animType = ANIM_LOOP;
+                            creditEntity.animSpeed = 10;
+                            creditEntity.animType = ANIM_PING_PONG;
                         break;
                         case 1:
                             //load credit scene palette
