@@ -1610,6 +1610,7 @@ void game_update()
             }
         break;
         case E_GAME_ST_CREDITS:
+            DATAFILE_INDEX *creditDataIndex;
             switch (gameSeq.step)
             {
                 case 0: //test credit
@@ -1622,13 +1623,27 @@ void game_update()
                     
                     //write credit text
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Programming", 201, 53, RED_COLOR, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);        
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);     
+                    
+                    //draw animated sprite
+                    creditDataIndex = create_dat_index("enemies.dat");
+                    gameSprite = load_dat_bmp_indexed(creditDataIndex, 22);    
+                    destroy_dat_index(creditDataIndex);
+
+                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    
+                    creditDataIndex = create_dat_index("jurassic.dat");
+                    currentPal = load_dat_pal_indexed(creditDataIndex, JURASSIC_PAL);
+                    destroy_dat_index(creditDataIndex);
 
                     //fade in scene
                     game.fadeIn = E_FADE_TYPE_64_255;
                     gameSeq.step++;
                 break;                
                 case 1: //fade in credit text
+                    play_animation(&animSprite, 4, 6, 16, ANIM_LOOP);
+                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -1639,6 +1654,9 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 2: //next credit or end
+                    play_animation(&animSprite, 4, 6, 16, ANIM_LOOP);
+                    game_draw_object((tVector){30, 40}, E_ENT_DIR_LEFT, (tVector){72, 44} ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    
                     if (gameSeq.timeCounter >= 300)
                     {
                         gameSeq.step++;
