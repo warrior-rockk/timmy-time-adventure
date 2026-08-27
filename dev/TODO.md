@@ -111,3 +111,4 @@
 - [ ] Change life icon on hurt/die
 - [ ] Option on make to specify level (and use this on Tiled command to test directly opened level)
 - [ ] Function get screenCoordinates(worldCoordinates) and get worldCoordinates to toogle between world and screen positions
+- [ ] Not use array of entities. Instead, array of pointers to entities. This mitigates the bug of the reallocation of the entire entity list pointer address when grows

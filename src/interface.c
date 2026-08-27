@@ -55,7 +55,7 @@ tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSele
     dialog.rect.size.x = (dialog.rect.size.x % interfaceSkin->h) ? (dialog.rect.size.x / interfaceSkin->h) * interfaceSkin->h: dialog.rect.size.x;
     if (autoSize)
     {
-        //TODO: autoSize of x?
+        //TODO: autoSize of x? need to check all the string options and take the larger
         //dialog.rect.size.x = interfaceSkin->h * 3;
         dialog.rect.size.y = interfaceSkin->h * 3;  //3 Y tiles minimun size: corner up+line+corner down
     }    

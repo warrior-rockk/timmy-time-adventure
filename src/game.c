@@ -1706,9 +1706,7 @@ void game_init()
 
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
-    //TODO: translate texts to spanish
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
-    MY_TRACE_MARK;
     
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
@@ -1874,7 +1872,6 @@ static void game_load_level(uint8_t numLevel)
     //load map and entities    
     map_load(levelData[numLevel].mapFile, (BITMAP *)levelDAT[levelData[numLevel].tileFileIndex].dat, (tVector){GAME_W, GAME_H});
     
-    //TODO: read scroll mode from map
     game.scrollMode =  E_SCROLL_MODE_BY_WINDOW_Y_ONLY;
     
     //calculate scroll dimensions based on map dimensions

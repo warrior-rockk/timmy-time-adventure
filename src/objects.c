@@ -1549,7 +1549,7 @@ void object_trap_arrow_update(tEntity *this, tDefaultObjectLocalData *local)
 
         break;
         case E_TRAP_ARROW_ST_SHOOT:
-            //TODO: after entity create must not modify any entity structure data in case pointer moves!            
+            //after entity create must not modify any entity structure data in case pointer moves!            
             if (play_animation(&this->anim, ANIM_TRAP_ARROW_SHOOT))
             {
                 this->state--;
@@ -2025,7 +2025,7 @@ void object_cannon_update(tEntity *this, tDefaultObjectLocalData *local)
 
         break;
         case E_CANNON_ST_SHOOT:
-            //TODO: after entity create must not modify any entity structure data in case pointer moves!            
+            //after entity create must not modify any entity structure data in case pointer moves!            
             if (play_animation(&this->anim, ANIM_CANNON_SHOOT))
             {
                 this->state--;
@@ -2074,7 +2074,6 @@ void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
         case E_LAVA_DROP_ST_FALL:            
             if (clock_counter_check(LAVA_CADENCE))
             {
-                //TODO: sfx_play(objectSfx[E_SFX_WAGON], E_SFX_OBJECT_VOICE);
                 uint8_t tileSize = map_get_tile_size();
                 if (local->timer < this->dir - 1)
                 {
