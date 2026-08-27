@@ -1694,6 +1694,26 @@ void game_update()
                             creditEntity.animSpeed = 16;
                             creditEntity.animType = ANIM_PING_PONG;
                         break;
+                        case 3:
+                            //load credit scene palette
+                            creditDataIndex = create_dat_index("west.dat");
+                            currentPal = load_dat_pal_indexed(creditDataIndex, WEST_PAL);
+                            destroy_dat_index(creditDataIndex);
+
+                            //load animated sprite for credit scene
+                            creditDataIndex = create_dat_index("enemies.dat");
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 16);    
+                            destroy_dat_index(creditDataIndex);
+                            //set sprite data
+                            creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_2, CREDIT_SCENE_POS_Y_2};
+                            creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y};
+                            creditEntity.size = (tVector){56, 51};
+                            creditEntity.dir = E_ENT_DIR_LEFT;
+                            creditEntity.startFrame = 9;
+                            creditEntity.endFrame = 20;
+                            creditEntity.animSpeed = 16;
+                            creditEntity.animType = ANIM_LOOP;
+                        break;
                     }
 
                     //draw scene
