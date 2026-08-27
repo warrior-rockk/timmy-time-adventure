@@ -1676,6 +1676,29 @@ void game_update()
                             creditEntity.animSpeed = 16;
                             creditEntity.animType = ANIM_PING_PONG;
                         break;
+                        case 2:
+                            //load credit scene palette
+                            creditDataIndex = create_dat_index("medieval.dat");
+                            currentPal = load_dat_pal_indexed(creditDataIndex, MEDIEVAL_PAL);
+                            destroy_dat_index(creditDataIndex);
+
+                            //load credit scene
+                            ending = load_dat_bmp_indexed(gameDataIndex, CREDITS3_BMP);
+                            draw_sprite(buffer, ending, 29, 32);  
+
+                            //load animated sprite for credit scene
+                            creditDataIndex = create_dat_index("enemies.dat");
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 17);    
+                            destroy_dat_index(creditDataIndex);
+                            //set sprite data
+                            creditEntity.pos = (tVector){93, 127};
+                            creditEntity.size = (tVector){59, 49};
+                            creditEntity.dir = E_ENT_DIR_RIGHT;
+                            creditEntity.startFrame = 24;
+                            creditEntity.endFrame = 31;
+                            creditEntity.animSpeed = 10;
+                            creditEntity.animType = ANIM_PING_PONG;
+                        break;
                     }
 
                     animSprite.frame = creditEntity.startFrame;

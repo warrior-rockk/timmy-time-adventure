@@ -91,7 +91,7 @@
 //intro/ending/credits
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
-#define CREDITS_SCENES          2       //number of credits scenes
+#define CREDITS_SCENES          3       //number of credits scenes
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
 #define SCENE_CHAR_DELAY        9       //delay time by text character  
