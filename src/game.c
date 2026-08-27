@@ -1544,7 +1544,7 @@ void game_update()
                     
                     gameSeq.step++;
                     #ifdef DEBUGMODE
-                        gameSeq.step = 5;
+                        //gameSeq.step = 5;
                     #endif
                 break;
                 case 1: //load escene
