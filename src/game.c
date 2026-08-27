@@ -1696,7 +1696,7 @@ void game_update()
                             creditEntity.dir = E_ENT_DIR_RIGHT;
                             creditEntity.startFrame = 24;
                             creditEntity.endFrame = 31;
-                            creditEntity.animSpeed = 10;
+                            creditEntity.animSpeed = 16;
                             creditEntity.animType = ANIM_PING_PONG;
                         break;
                     }
@@ -1727,8 +1727,8 @@ void game_update()
                     game_draw_object(creditEntity.pos, creditEntity.dir, creditEntity.size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
                     //write credit text
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Programming", 201, 53, RED_COLOR, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], "Warrior", 201, 73, WHITE_COLOR, BLACK_COLOR);     
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_TITLE_1 + sceneCounter), 201, 53, RED_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_NAME_1 + sceneCounter), 201, 73, WHITE_COLOR, BLACK_COLOR);     
 
                     if (gameSeq.timeCounter >= 300)
                     {
