@@ -1,8 +1,9 @@
 # Bugs
 - [ ] Record input bug with deltaTimes and different cycles
-- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent
+- [ ] There's a problem with the dynamic entity creation: when realloc the dynamic arrays, if the ram position it's not contiguious, may be the array moved to another position and the actual this or local pointer on enemy/object it's not longer pointing the actual entity. May be needs to memorize the creation of entity and creates and next frame to prevent each entity to control this? At the moment, access all local variables of entity before entity creation to prevent (temporal solution may be, store the actual id, create a instance, and reget the instance with the address updated with the stored id...)
 - [X] Variable deltaTime causes collision system fails (player falls on solid tiles) (limit fall vY and deltaTime)
 - [X] falling on fire destroy blocks puzzle fails and loses lives (limit fall vY and deltaTine)
+- [ ] It's seems that the variable deltaTime collision system bug are fixed by the slope detection. If I disable the slopes, player enter floor solid... So, i can't disable the slopes for the entities to save performance. Look that for a better solution....
 
 # Performance
 - [ ] entity_draw: don't get scroll position if not img?
@@ -20,13 +21,11 @@
 - [ ] Credits
 - [ ] Title screen
 - [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
-- [ ] Respawn extra live item for easy gameplay?
 - [ ] Item coins?
 - [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] Sfx particles for player splash water
 
 # Engine
-- [ ] Put version on title (and on betatesting msg)
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
 - [ ] Use fixed for scroll main movements and velocities
@@ -84,7 +83,7 @@
 
 # Gfx
 - [ ] Paint player jeans blue
-- [ ] Cleaunup enemy animations
+- [ ] Cleanup enemy animations
 
 # Improvements
 - [ ] check collision slopes only on player?
