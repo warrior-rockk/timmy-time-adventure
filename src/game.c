@@ -1745,10 +1745,10 @@ void game_update()
                     game_draw_object(creditEntity.pos, creditEntity.dir, creditEntity.size ,E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
                     //write credit text                           
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_TITLE_1 + sceneCounter), creditEntity.scenePos.x == CREDIT_SCENE_POS_X_1 ? CREDIT_TEXT_POS_X_1 : CREDIT_TEXT_POS_X_2, creditEntity.scenePos.x == CREDIT_SCENE_POS_Y_1 ? CREDIT_TEXT_POS_Y_1 : CREDIT_TEXT_POS_Y_2, RED_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_TITLE_1 + sceneCounter), creditEntity.scenePos.x == CREDIT_SCENE_POS_X_1 ? CREDIT_TEXT_POS_X_1 : CREDIT_TEXT_POS_X_2, creditEntity.scenePos.x == CREDIT_SCENE_POS_Y_1 ? CREDIT_TEXT_POS_Y_1 : CREDIT_TEXT_POS_Y_2, CREDIT_TITLE_COLOR, BLACK_COLOR);
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_CREDITS_NAME_1 + sceneCounter), creditEntity.scenePos.x == CREDIT_SCENE_POS_X_1 ? CREDIT_TEXT_POS_X_1 : CREDIT_TEXT_POS_X_2, creditEntity.scenePos.x == CREDIT_SCENE_POS_Y_1 ? CREDIT_TEXT_POS_Y_1 + 20 : CREDIT_TEXT_POS_Y_2 + 20, WHITE_COLOR, BLACK_COLOR);     
 
-                    if (gameSeq.timeCounter >= 300)
+                    if (gameSeq.timeCounter >= CREDIT_SCENE_DELAY)
                     {
                         sceneCounter++;
                         if (sceneCounter >= CREDITS_SCENES)
