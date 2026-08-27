@@ -1600,13 +1600,19 @@ void game_update()
                     if (gameSeq.timeCounter >= 400)
                     {
                             game.fadeOut = true;
-                            gameSeq.step++;
+                            gameSeq.step = 0;
                             gameSeq.timeCounter = 0;                            
+                            game.state = E_GAME_ST_CREDITS;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
-                break;
-                case 7: //test credit
+                break;                
+            }
+        break;
+        case E_GAME_ST_CREDITS:
+            switch (gameSeq.step)
+            {
+                case 0: //test credit
                     clear_to_color(buffer, BLACK_COLOR);
                     
                     //load credit scene
@@ -1622,7 +1628,7 @@ void game_update()
                     game.fadeIn = E_FADE_TYPE_64_255;
                     gameSeq.step++;
                 break;                
-                case 8: //fade in credit text
+                case 1: //fade in credit text
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -1632,7 +1638,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 9: //next credit or end
+                case 2: //next credit or end
                     if (gameSeq.timeCounter >= 300)
                     {
                         gameSeq.step++;
@@ -1654,7 +1660,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                default:   //end of ending
+                default:   //end of credits
                     game.state = E_GAME_ST_TITLE;
                     game.fadeOut = true;
                     currentPal = gamePal;                            
