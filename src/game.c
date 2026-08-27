@@ -1811,7 +1811,7 @@ void game_update()
                     destroy_bitmap(ending);
                     destroy_bitmap(gameSprite);
                     game.state = E_GAME_ST_TITLE;
-                    game.fadeOut = true;
+                    game.fadeOut = E_FADE_TYPE_VERY_SLOW;
                     currentPal = gamePal;                            
                     gameSeq.step = 0;
                     gameSeq.timeCounter = 0;                    
