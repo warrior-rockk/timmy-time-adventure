@@ -1248,6 +1248,7 @@ void game_update()
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
 
+                    gameDialog.optionSelected = 4;  //preselect NO
                     dialog_draw(&gameDialog, worldScreen);
                     gameSeq.step++;
                 break;
