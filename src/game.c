@@ -1969,7 +1969,7 @@ static void game_do_fade()
         case E_FADE_TYPE_VERY_SLOW:
             if (game.fadeState == E_FADED_OFF)
             {
-                if (game.fadeOut == E_FADE_TYPE_NORMAL)
+                if (game.fadeIn == E_FADE_TYPE_NORMAL)
                     fade_in(currentPal, GAME_FADE_SPEED);
                 else
                     fade_in(currentPal, GAME_FADE_SLOW_SPEED);
