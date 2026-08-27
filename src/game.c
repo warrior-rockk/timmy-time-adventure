@@ -368,6 +368,17 @@ void game_update()
                     jingleMusic = load_dat_midi_indexed(gameDataIndex, TITLE_MID);
                     music_play(jingleMusic, false);
 
+                    currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
+                    clear_to_color(buffer, BLACK_COLOR);
+
+                    //load title logo
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE5_BMP);
+                    animSprite.frame = 0;
+
+                    //load title scroll
+                    titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
+                    titleScrollPos = (tVector){0, 0};
+
                     gameSeq.step++;
                 break;
                 case 1:     //initial delay
@@ -378,23 +389,19 @@ void game_update()
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
+
+                    //bypass title delay
+                    if (input_any_key_pressed())
+                    {
+                        gameSeq.step = 4;
+                        gameSeq.timeCounter = 0;
+                        game.fadeIn = true;
+                    }
                 break;
                 case 2:     //load title data
-                    currentPal = load_dat_pal_indexed(gameDataIndex, TITLE_PAL);
-                    clear_to_color(buffer, BLACK_COLOR);                                        
-                    
-                    //load title logo
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE5_BMP);
-                    animSprite.frame = 0;
                     game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h }, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
-
-                    //load title scroll
-                    titleScroll = load_dat_bmp_indexed(gameDataIndex, SCROLL_BMP);
-                    titleScrollPos = (tVector){0, 0};
-                    //blit(titleScroll, buffer, 0, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
-                    gameSeq.step++;      
-
                     game.fadeIn = E_FADE_TYPE_VERY_SLOW;
+                    gameSeq.step++;                          
                 break;
                 case 3: //wait for scroll
                     if (gameSeq.timeCounter >= 200 || music_get_pos() >= 4)
