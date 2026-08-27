@@ -103,7 +103,7 @@
 #define CREDIT_SCENE_FLOOR_Y    32      //floor position of credit scene
 #define CREDIT_TEXT_POS_X_1     243     //x position of credit text variant 1
 #define CREDIT_TEXT_POS_Y_1     60      //y position of credit text variant 1
-#define CREDIT_TEXT_POS_X_2     79      //x position of credit text variant 2
+#define CREDIT_TEXT_POS_X_2     85      //x position of credit text variant 2
 #define CREDIT_TEXT_POS_Y_2     80      //y position of credit text variant 2
 #define CREDIT_TITLE_COLOR      35      //color of title credit text
 

@@ -36,6 +36,7 @@
 #include "data/medata.h"
 #include "data/egydata.h"
 #include "data/tutdata.h"
+#include "data/edata.h"
 
 #define TRACE_FLAG  "[GAME]"
 
@@ -1642,7 +1643,7 @@ void game_update()
 
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
-                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 22);    
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, RAPTOR2_BMP);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
                             creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_1, CREDIT_SCENE_POS_Y_1};
@@ -1662,7 +1663,7 @@ void game_update()
 
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
-                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 19);    
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, MUMMY_BMP);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
                             creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_2, CREDIT_SCENE_POS_Y_2};                            
@@ -1682,7 +1683,7 @@ void game_update()
 
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
-                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 17);    
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, KNIGHT_BMP);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
                             creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_1, CREDIT_SCENE_POS_Y_1};
@@ -1702,7 +1703,7 @@ void game_update()
 
                             //load animated sprite for credit scene
                             creditDataIndex = create_dat_index("enemies.dat");
-                            gameSprite = load_dat_bmp_indexed(creditDataIndex, 16);    
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, INDIAN_B_BMP);    
                             destroy_dat_index(creditDataIndex);
                             //set sprite data
                             creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_2, CREDIT_SCENE_POS_Y_2};
