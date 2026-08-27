@@ -1575,16 +1575,38 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;
                 case 4: //end escene delay
-                    if (gameSeq.timeCounter >= 300)
+                    if (gameSeq.timeCounter >= 400)
                     {
-                            game.state = E_GAME_ST_TITLE;
-                            currentPal = gamePal;                            
-                            gameSeq.step = 0;
+                            gameSeq.step++;
                             gameSeq.timeCounter = 0;
                             game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 5:
+                    clear_to_color(buffer, BLACK_COLOR);
+                    
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 100, WHITE_COLOR, BLACK_COLOR);
+
+                    game.fadeIn = true;
+                    gameSeq.step++;
+                break;
+                case 6:                    
+                    if (gameSeq.timeCounter >= 400)
+                    {
+                            gameSeq.step++;
+                            gameSeq.timeCounter = 0;                            
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                default:   //end of ending
+                    game.state = E_GAME_ST_TITLE;
+                    game.fadeOut = true;
+                    currentPal = gamePal;                            
+                    gameSeq.step = 0;
+                    gameSeq.timeCounter = 0;                    
                 break;
             }
         break;

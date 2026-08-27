@@ -275,7 +275,8 @@ enum E_GAME_TEXTS
     E_TXT_LEVEL_CLEARED,
     E_TXT_CONFIRM_EXIT_TO_TITLE,
     E_TXT_GAME_WILL_RESTART,
-
+    E_TXT_THANKS_PLAYING,
+    
     E_TXT_NUM,
 };
 
@@ -416,7 +417,7 @@ typedef struct
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_INTRO     //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING     //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
 
     //debug options data
