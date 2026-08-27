@@ -5,6 +5,7 @@
 - [X] falling on fire destroy blocks puzzle fails and loses lives (limit fall vY and deltaTine)
 
 # Performance
+- [ ] entity_draw: don't get scroll position if not img?
 - [ ] Draw map: more background color tiles? (jurassic cavern)
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
@@ -109,3 +110,4 @@
 - [ ] Background color fade to do sunset?
 - [ ] Change life icon on hurt/die
 - [ ] Option on make to specify level (and use this on Tiled command to test directly opened level)
+- [ ] Function get screenCoordinates(worldCoordinates) and get worldCoordinates to toogle between world and screen positions

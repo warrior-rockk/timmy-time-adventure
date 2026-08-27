@@ -134,9 +134,8 @@ void entity_system_destroy()
     MY_TRACE_FLAG("[ENTITY SYSTEM]: Destroyed entity system\n");
 }
 
-//creates new entity based on passed values
+//creates new entity passing entity parameters
 int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir, int16_t spare)
-//, tVector size, BITMAP *img, uint8_t entType, uint16_t properties, void (*entity_init)(tEntity *entity), void (*entity_create)(tEntity *entity), void (*entity_update)(tEntity *entity))
 {
     //inc num of entities
     numEntities++;
@@ -252,10 +251,11 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
     }
 }
 
-//function to return a entity
+//function to return a entity by id
 tEntity* entity_get(uint16_t numEntity)
 {
     if (entityList)
+        //TODO: check that entity position with id to ensure
         return &entityList[numEntity];
     else   
         return NULL;
@@ -491,6 +491,7 @@ void entities_update()
 //funtion to draws entities
 void entities_draw(BITMAP *buffer)
 {
+    //draw backwards: firsts entities on front
     for (int i=numEntities - 1; i >= 0; i--)
     {
         //only draws if visible and not sleep or dead
