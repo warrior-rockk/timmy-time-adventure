@@ -1340,7 +1340,7 @@ void game_update()
                     
                     //timeout text
                     if (game.time <= 0)
-                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) - 1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_TIMEOUT_LEVEL), (GAME_W>>1) - 1, (GAME_H>>1) - (text_height(gameFont[E_GAME_FONT_BIG])>>1), WHITE_COLOR, BLACK_COLOR);
                     
                     gameSeq.step++;
                 break;
@@ -1387,7 +1387,7 @@ void game_update()
                         jingleMusic = load_dat_midi_indexed(gameDataIndex, END_MID);
                         music_play(jingleMusic, false);
                         //message level cleared
-                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_LEVEL_CLEARED), (GAME_W>>1) - 1, GAME_H>>1, WHITE_COLOR, BLACK_COLOR);
+                        text_outline_draw(worldScreen, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_LEVEL_CLEARED), (GAME_W>>1) - 1, (GAME_H>>1) - (text_height(gameFont[E_GAME_FONT_BIG])>>1), WHITE_COLOR, BLACK_COLOR);
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
                     }
