@@ -99,8 +99,8 @@ struct gameConfig
     uint8_t lang;                           //game language
     uint8_t sfxVolume;                      //sfx volume (0..255)
     uint8_t musicVolume;                    //music volume (0..255)
-    uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys
     int highScore;                          //saved highScore
+    uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys    
 } gameConfig;
 
 //cheat code
@@ -1877,6 +1877,7 @@ void game_update()
         break;
         case E_GAME_ST_EXIT:
         default:
+            game_save_config();
             game_destroy();
             gameExit = true;
         break;
@@ -2152,6 +2153,7 @@ static void game_debug_update()
 static void game_debug_info()
 {
     //debug info    
+    //show_debug("HighScore: %i", game.highScore);
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
     
@@ -2161,7 +2163,7 @@ static void game_debug_info()
     //show_debug( "p.y: %d", entity_get(entity_get_player_id())->pos.y);
     //show_debug("Lives:%i Life:%i", game.lives, game.life);
     //show_debug("State: %i", game.state);
-    //show_debug("HighScore: %i", game.highScore);
+    
 }
 #endif
 
@@ -2338,7 +2340,10 @@ void game_hud_update()
 
         //check highscore
         if (game.score > game.highScore)
+        {
             game.highScore = game.score;
+            gameConfig.highScore = game.highScore;
+        }
 
         hud.refresh |= E_REFRESH_HUD_SCORE;
         hud.last_score = game.score;
@@ -2492,13 +2497,13 @@ static void game_load_config()
         gameConfig.lang                     = E_LANG_ENG;    
         gameConfig.sfxVolume                = 255;
         gameConfig.musicVolume              = 255;
+        gameConfig.highScore                = 0;
         gameConfig.gameKeys[E_G_KEY_UP]     = KEY_UP;
         gameConfig.gameKeys[E_G_KEY_DOWN]   = KEY_DOWN;
         gameConfig.gameKeys[E_G_KEY_LEFT]   = KEY_LEFT;
         gameConfig.gameKeys[E_G_KEY_RIGHT]  = KEY_RIGHT;
         gameConfig.gameKeys[E_G_KEY_JUMP]   = KEY_Z;
-        gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;
-
+        gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;        
 
         game_save_config();        
 
@@ -2514,6 +2519,7 @@ static void game_load_config()
         fread(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
         fread(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
         fread(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+        fread(&gameConfig.highScore,    sizeof(gameConfig.highScore),       1, file);
         for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
             fread(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
 
@@ -2523,6 +2529,7 @@ static void game_load_config()
         lang_set(gameConfig.lang);
         sfx_set_volume(gameConfig.sfxVolume);
         music_set_volume(gameConfig.musicVolume);
+        game.highScore = gameConfig.highScore;
 
         MY_TRACE_FLAG("Config file readed\n");
     }
@@ -2550,6 +2557,7 @@ static void game_save_config()
     fwrite(&gameConfig.lang,         sizeof(gameConfig.lang),            1, file);
     fwrite(&gameConfig.sfxVolume,    sizeof(gameConfig.sfxVolume),       1, file);
     fwrite(&gameConfig.musicVolume,  sizeof(gameConfig.musicVolume),     1, file);
+    fwrite(&gameConfig.highScore,    sizeof(gameConfig.highScore),       1, file);
     for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
         fwrite(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
 
