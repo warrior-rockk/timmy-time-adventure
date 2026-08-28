@@ -267,7 +267,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){16, 16};
             entity->size = (tVector){16, 16};      
-            entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT;
+            entity->properties = E_ENT_PROP_NO_COLLISION | E_ENT_PROP_PERSISTENT | E_ENT_PROP_NO_FLIP;
         break;
         case E_BACKCOLOR_OBJECT_TYPE:            
             entity->img = NULL;
@@ -833,6 +833,7 @@ void object_item_update(tEntity *this, tDefaultObjectLocalData *local)
     //object animations
     #define ANIM_ITEM_EXTRA_LIFE   0,   0, 10,  ANIM_LOOP
     #define ANIM_ITEM_FULL_LIFE    1,   1, 10,  ANIM_LOOP
+    #define INVISIBLE_ITEM_FRAME   2
 
     switch (this->state)
     {
@@ -872,6 +873,11 @@ void object_item_update(tEntity *this, tDefaultObjectLocalData *local)
         default:
             this->state = E_ITEM_ST_IDLE;
     }
+
+    //dir property on true make item invisible
+    if (this->dir)
+        this->anim.frame = INVISIBLE_ITEM_FRAME;
+
 }
 
 void object_trigger_update(tEntity *this, tDefaultObjectLocalData *local)

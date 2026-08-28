@@ -1441,11 +1441,6 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="213" name="debug-start" type="object" x="752" y="416" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
   <object id="215" name="stopScroll" type="trigger" x="1136" y="480" width="16" height="16">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
@@ -1471,28 +1466,33 @@
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
    </properties>
   </object>
-  <object id="220" name="item" type="object" x="1056" y="464" width="16" height="16">
+  <object id="220" name="item" type="object" x="1024" y="464" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="221" name="item" type="object" x="1024" y="464" width="16" height="16">
+  <object id="221" name="item" type="object" x="992" y="464" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="222" name="item" type="object" x="992" y="464" width="16" height="16">
+  <object id="222" name="item" type="object" x="960" y="464" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="223" name="item" type="object" x="960" y="464" width="16" height="16">
+  <object id="223" name="item" type="object" x="928" y="464" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="224" name="item" type="object" x="928" y="464" width="16" height="16">
+  <object id="224" name="item" type="object" x="896" y="464" width="16" height="16">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>

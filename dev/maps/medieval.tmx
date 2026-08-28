@@ -753,7 +753,6 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="213" template="triggers/debug-start.tx" x="752" y="416"/>
   <object id="215" template="triggers/stopScroll.tx" x="1136" y="480">
    <properties>
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
@@ -779,28 +778,33 @@
     <property name="spare" type="int" propertytype="stopScroll" value="8"/>
    </properties>
   </object>
-  <object id="220" template="objects/item.tx" x="1056" y="464">
+  <object id="220" template="objects/item.tx" x="1024" y="464">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="221" template="objects/item.tx" x="1024" y="464">
+  <object id="221" template="objects/item.tx" x="992" y="464">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="222" template="objects/item.tx" x="992" y="464">
+  <object id="222" template="objects/item.tx" x="960" y="464">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="223" template="objects/item.tx" x="960" y="464">
+  <object id="223" template="objects/item.tx" x="928" y="464">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="224" template="objects/item.tx" x="928" y="464">
+  <object id="224" template="objects/item.tx" x="896" y="464">
    <properties>
+    <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
