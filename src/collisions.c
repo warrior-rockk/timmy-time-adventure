@@ -33,7 +33,7 @@ void collision_system_init()
     numEntitiesColPoints = 0;
 
     //create data file index
-    collisionDataFileIndex = create_dat_index("coll.dat");
+    collisionDataFileIndex = create_dat_index("collmap.dat");
 
     //load special tile collision map    ;
     collisionMaps[E_COL_MAP_SLOPE_45]       = load_dat_bmp_indexed(collisionDataFileIndex, SLOPE45_BMP);

@@ -68,7 +68,7 @@ OBJ_FILES 		= $(patsubst $(SRC_DIR)/%.${SRC_EXT}, $(OBJ_DIR)/%.o, $(C_FILES))
 #map resources
 BIN_FILES 		= $(patsubst $(MAPS_SRC_DIR)/%.tmx, $(BUILD_DIR)bin/%.bin, $(TMX_FILES))
 #dat resources
-DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/coll.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat ${BUILD_DIR}bin/egypt.dat ${BUILD_DIR}bin/tutorial.dat
+DAT_RESOURCES := ${BUILD_DIR}bin/game.dat ${BUILD_DIR}bin/player.dat ${BUILD_DIR}bin/collmap.dat ${BUILD_DIR}bin/objects.dat ${BUILD_DIR}bin/enemies.dat ${BUILD_DIR}bin/jurassic.dat ${BUILD_DIR}bin/west.dat ${BUILD_DIR}bin/medieval.dat ${BUILD_DIR}bin/egypt.dat ${BUILD_DIR}bin/tutorial.dat
 
 #resource targets
 maps: $(BIN_FILES)
@@ -94,7 +94,7 @@ directories:
 ${BUILD_DIR}bin/game.dat: $(wildcard ${RESOURCES_DIR}game/*)
 	${DAT} create $@ --bmp ${RESOURCES_DIR}game/*.bmp --wav ${RESOURCES_DIR}game/*.wav --midi ${RESOURCES_DIR}game/*.mid --pal-bmp ${RESOURCES_DIR}game/*.pal --data ${RESOURCES_DIR}game/*.txt --h ${SRC_DIR}/data/gdata.h
 
-${BUILD_DIR}bin/coll.dat: $(wildcard ${RESOURCES_DIR}collisions/*)
+${BUILD_DIR}bin/collmap.dat: $(wildcard ${RESOURCES_DIR}collisions/*)
 	${DAT} create $@ --bmp ${RESOURCES_DIR}collisions/*.bmp --wav ${RESOURCES_DIR}collisions/*.wav --midi ${RESOURCES_DIR}collisions/*.mid --pal-bmp ${RESOURCES_DIR}collisions/*.pal --h ${SRC_DIR}/data/cdata.h
 
 ${BUILD_DIR}bin/player.dat: $(wildcard ${RESOURCES_DIR}player/*)

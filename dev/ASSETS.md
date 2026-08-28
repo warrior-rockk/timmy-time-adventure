@@ -47,13 +47,13 @@
 
 # Music
 
-- [ ] Intro 
-- [ ] Title
-- [ ] Level Select
+- [X] Intro 
+- [X] Title
+- [X] Level Select
 - [X] Game Over
 - [X] Lose Live
 - [X] End Level
-- [ ] Ending
+- [X] Ending
 - [X] Jurassic
 - [X] Wild West
 - [X] Medieval (make tetrical version)
