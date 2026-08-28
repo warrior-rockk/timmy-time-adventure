@@ -322,6 +322,13 @@ enum E_GAME_TEXTS
     E_TXT_CREDITS_NAME_4,
     E_TXT_CREDITS_NAME_5,
     E_TXT_CREDITS_NAME_6,
+    E_TXT_STATISTICS,
+    E_TXT_PLAY_TIME_STATS,
+    E_TXT_SCORE_STATS,
+    E_TXT_HIGHSCORE_STATS,
+    E_TXT_LIVES_LOSED_STATS,
+    E_TXT_LIVES_REMAIN_STATS,
+    E_TXT_CONTINUES_USED_STATS,
 
     E_TXT_NUM,
 };
@@ -413,7 +420,7 @@ typedef struct
     uint8_t state;
     uint8_t prevState;
     uint8_t actualLevel;
-    uint8_t lives;
+    uint8_t lives;    
     uint8_t life;
     uint8_t loseLive;
     int score;
@@ -430,6 +437,8 @@ typedef struct
     uint8_t demo;
     tVector objectExplosion;                        //position of a object explosion (dynamite...)
     bool cheatCodeLivesOn;
+    uint16_t livesLosed;
+    uint16_t continuesUsed;
 } tGame;
 
 //level data

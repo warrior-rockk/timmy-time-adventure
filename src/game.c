@@ -1027,7 +1027,8 @@ void game_update()
             //check game lose life
             if (game.loseLive)
             {                
-                game.lives--;                
+                game.lives--;       
+                game.livesLosed++;         
                 music_stop(gameMusic);
                 game.state = E_GAME_ST_LOSE_LIVE;                
             }            
@@ -1520,6 +1521,7 @@ void game_update()
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
+                                game.continuesUsed++;
                                 dialog_destroy(&gameDialog);
                             break;
                             case 2: //CONTINUE: NO
@@ -1886,30 +1888,30 @@ void game_update()
                     clear_to_color(buffer, BLACK_COLOR);
                     
                     //write title
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR, "STATISTICS");
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_STATISTICS));
                     
                     //write values
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y, CREDIT_TITLE_COLOR, BLACK_COLOR, "PLAY TIME:");
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y, CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_PLAY_TIME_STATS));
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y, WHITE_COLOR, BLACK_COLOR, "%02d:%02d", playTime_get_hours(), playTime_get_minutes());
 
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 1), CREDIT_TITLE_COLOR, BLACK_COLOR, "SCORE:");
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 1), CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_SCORE_STATS));
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 1), WHITE_COLOR, BLACK_COLOR, "%07d", game.score);
 
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 2), CREDIT_TITLE_COLOR, BLACK_COLOR, "HIGHSCORE:");
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 2), CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_HIGHSCORE_STATS));
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 2), WHITE_COLOR, BLACK_COLOR, "%07d", game.highScore);
 
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 3), CREDIT_TITLE_COLOR, BLACK_COLOR, "LIVES USED:");
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 3), WHITE_COLOR, BLACK_COLOR, "%02d", game.highScore);
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 3), CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_LIVES_LOSED_STATS));
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 3), WHITE_COLOR, BLACK_COLOR, "%02d", game.livesLosed);
 
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 4), CREDIT_TITLE_COLOR, BLACK_COLOR, "LIVES REMAIN:");
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 4), CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_LIVES_REMAIN_STATS));
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 4), WHITE_COLOR, BLACK_COLOR, "%02d", game.lives);
 
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 5), CREDIT_TITLE_COLOR, BLACK_COLOR, "CONTINUES USED:");
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 5), WHITE_COLOR, BLACK_COLOR, "%02d", game.highScore);
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 5), CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_CONTINUES_USED_STATS));
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X + STATISTIC_VALUE_OFFSET_X, STATISTIC_DATA_POS_Y + (STATISTIC_DATA_SPACING_Y * 5), WHITE_COLOR, BLACK_COLOR, "%02d", game.continuesUsed);
                     gameSeq.step++;
                 break;
                 case 1: //wait time
-                    if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
+                    if (gameSeq.timeCounter >= 3000 || input_any_key_pressed())
                     {                        
                         game.state = E_GAME_ST_TITLE;
                         game.fadeOut = E_FADE_TYPE_VERY_SLOW;
@@ -1983,6 +1985,8 @@ static void game_init_flags()
     game.viewMap        = false;
     hud.refresh         = E_REFRESH_HUD_ALL;
     game.doorId         = 0;
+    game.livesLosed      = 0;
+    game.continuesUsed  = 0;
 }
 
 void game_load_resources()

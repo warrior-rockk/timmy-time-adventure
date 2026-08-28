@@ -64,3 +64,10 @@ Warrior
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
 Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+STATISTICS
+PLAY TIME:
+SCORE:
+HIGHSCORE:
+LIVES LOSED:
+LIVES REMAIN:
+CONTINUES USED:
