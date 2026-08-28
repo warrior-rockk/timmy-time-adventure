@@ -96,10 +96,10 @@
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
 #define SCENE_CHAR_DELAY        9       //delay time by text character  
 #define CREDIT_SCENE_DELAY      600     //delay credit scene transition
-#define CREDIT_SCENE_POS_X_1    28      //x position of credit scene variant 1
-#define CREDIT_SCENE_POS_Y_1    18      //y position of credit scene variant 1
-#define CREDIT_SCENE_POS_X_2    178     //x position of credit scene variant 2
-#define CREDIT_SCENE_POS_Y_2    58      //y position of credit scene variant 2
+#define CREDIT_SCENE_POS_X_1    20      //x position of credit scene variant 1
+#define CREDIT_SCENE_POS_Y_1    20      //y position of credit scene variant 1
+#define CREDIT_SCENE_POS_X_2    172     //x position of credit scene variant 2
+#define CREDIT_SCENE_POS_Y_2    52      //y position of credit scene variant 2
 #define CREDIT_SCENE_FLOOR_Y    32      //floor position of credit scene
 #define CREDIT_TEXT_POS_X_1     243     //x position of credit text variant 1
 #define CREDIT_TEXT_POS_Y_1     60      //y position of credit text variant 1
@@ -171,6 +171,25 @@
 //position of version on title
 #define VERSION_TITLE_X         300
 #define VERSION_TITLE_Y         186
+
+//debug definitions
+#ifdef DEBUGMODE
+    #define DEBUG_TRACE_CREATE_ENTITIES     1                   //traces when create entity and entity type
+    #define DEBUG_TRACE_ENTITIES            0                   //traces state change of all entities
+    #define DEBUG_TRACE_COLL_POINTS_ARRAY   0                   //traces the creation and destroy of entity collision points
+    #define DEBUG_NO_LEVEL_TIME             0                   //level time disable
+    #define DEBUG_TRACE_PLAYER              1                   //show debug of player data
+    #define DEBUG_LOCAL_DATA_MEMORY         0                   //traces the allocation and deallocation of entity dynamic local data
+    #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
+    #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
+    #define DEBUG_PROFILE                   0                   //traces the measure of profile functions
+    
+    #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
+    #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
+    
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_CREDITS    //initial debug game state
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
+#endif
 
 //game states
 enum E_GAME_STATE
@@ -428,25 +447,8 @@ typedef struct
     uint16_t timeCounter;       //time counter of the step's sequence    
 } tSequence;
 
-//options for debug mode
+//debug structure
 #ifdef DEBUGMODE
-    #define DEBUG_TRACE_CREATE_ENTITIES     1                   //traces when create entity and entity type
-    #define DEBUG_TRACE_ENTITIES            0                   //traces state change of all entities
-    #define DEBUG_TRACE_COLL_POINTS_ARRAY   0                   //traces the creation and destroy of entity collision points
-    #define DEBUG_NO_LEVEL_TIME             0                   //level time disable
-    #define DEBUG_TRACE_PLAYER              1                   //show debug of player data
-    #define DEBUG_LOCAL_DATA_MEMORY         0                   //traces the allocation and deallocation of entity dynamic local data
-    #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
-    #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
-    #define DEBUG_PROFILE                   0                   //traces the measure of profile functions
-    
-    #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
-    #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
-    
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING    //initial debug game state
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
-
-    //debug options data
     typedef struct
     {
         uint8_t showDebugInfo;          //alternate show entity layers on debug mode
