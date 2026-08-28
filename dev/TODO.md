@@ -19,8 +19,10 @@
 # Game design
 
 - [ ] Sfx particles for player splash water
+- [ ] End level statistics
 
 # Engine
+- [ ] On cavern, fade level palette and take light to iluminate?
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
 - [ ] Use fixed for scroll main movements and velocities
