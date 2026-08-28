@@ -17,10 +17,10 @@
 # Level design
       
 # Game design
-
-- [ ] Fix repetition of thanks for playing
+- [ ] Credits to xabisan and opengamegart?
+- [ ] White frame on credits image scene?
+- [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water
-- [ ] End level statistics
 
 # Engine
 - [ ] On cavern, fade level palette and take light to iluminate?
