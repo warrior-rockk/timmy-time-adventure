@@ -814,6 +814,5 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="291" template="triggers/debug-start.tx" x="5056" y="112"/>
  </objectgroup>
 </map>
