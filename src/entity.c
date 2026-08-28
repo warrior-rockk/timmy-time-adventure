@@ -179,7 +179,6 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
         entityList[newEntity].prevState       = 0;
         entityList[newEntity].dead            = false;
         entityList[newEntity].visible         = true;
-        entityList[newEntity].noGravity       = false;
         entityList[newEntity].anim.frame      = 0;
         entityList[newEntity].anim.frameTime  = 0;
         entityList[newEntity].signal          = E_ENT_SIGNAL_NONE;
@@ -539,15 +538,13 @@ void entity_update_vel_pos(tEntity *entity)
         else  
         {
             //gravity             
-            if (!entity->noGravity)
-            {
-                //add gravity to vel y
-                entity->fixVel.y += fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
-                //limit vel y
-                entity->fixVel.y = fix_clamp(entity->fixVel.y, ftofix(-ENTITY_MAX_VEL_Y), ftofix(ENTITY_MAX_VEL_Y));
-                //apply vel y
-                entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));            
-            }
+            
+            //add gravity to vel y
+            entity->fixVel.y += fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
+            //limit vel y
+            entity->fixVel.y = fix_clamp(entity->fixVel.y, ftofix(-ENTITY_MAX_VEL_Y), ftofix(ENTITY_MAX_VEL_Y));
+            //apply vel y
+            entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));                        
         }
     }
     else
@@ -612,8 +609,7 @@ void entity_trace(tEntity *entity)
         MY_TRACE_FLAG("\tDead: %i\n", entity->dead);         
         MY_TRACE_FLAG("\tSleep: %i\n", entity->sleep);        
         MY_TRACE_FLAG("\tVisible: %i\n", entity->visible);      
-        MY_TRACE_FLAG("\tGround: %i\n", entity->ground);       
-        MY_TRACE_FLAG("\tNo Gravity: %i\n", entity->noGravity);    
+        MY_TRACE_FLAG("\tGround: %i\n", entity->ground);               
         MY_TRACE_FLAG("\tSpare: %i\n", entity->spare);     
         
         MY_TRACE_FLAG("End Trace Entity\n");

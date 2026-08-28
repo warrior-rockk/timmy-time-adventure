@@ -543,7 +543,11 @@ static void player_update_state(tEntity *player)
     //reset flags
     playerFlags.disableMove = false;
     playeridleCounter =  player->state != ST_PLAYER_IDLE ? 0 : playeridleCounter;
-    player->noGravity = playerFlags.onStairs; //TODO: move this
+    //disable physics on stairs
+    if (playerFlags.onStairs)
+        CLEAR_FLAG(player->properties, E_ENT_PROP_PHYSICS_ON);
+    else
+        SET_FLAG(player->properties, E_ENT_PROP_PHYSICS_ON);    
     
     //prevent double picking bug
     if (playerFlags.picked && objectPickedID == 0)
