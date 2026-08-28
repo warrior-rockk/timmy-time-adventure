@@ -26,6 +26,7 @@ Running the game:
 - DJGPP C (used this cross-compile binaries [repo](https://github.com/andrewwutw/build-djgpp/releases)
 - Allegro 4.2.3.1 (latest with DOS support)
 - Vscode
+- Python
 - DOSBOX-X
 - Tiled
 - Aseprite
@@ -38,6 +39,11 @@ You can build the game with `make release` (or compile from vscode) and run it i
 You need to edit the makefile `OS_INC_DIR`, `OS_GCC`, `OS_DOSBOX` vars with your actual paths.
 
 If you use C/C++ vscode extension you may edit `c_cpp_properties.json` to point your compiler and library paths.
+
+## Tooling:
+
+* You need python (at least 3.10.11) for the tools needed to convert the tmx Tiled map to binary files.
+* For resource dat files used by the game, has been used the Allegro dat replacement developed by [Jordi](https://github.com/jsmolina) [repo](https://github.com/jsmolina/allegro-dat-replacement)
 
 ## Author
 
