@@ -100,6 +100,10 @@ static void main_init()
             exit(-1);
     }
     */
+    //debug mode message
+    #ifdef DEBUGMODE
+        printf("THIS IS A DEBUG COMPILATION. NO INTENDEED FOR RELEASE!\n");    
+    #endif
 
     //loading text
     game_loading_text();

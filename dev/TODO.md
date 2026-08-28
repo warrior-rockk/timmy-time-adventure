@@ -17,6 +17,7 @@
 # Level design
       
 # Game design
+- [ ] Translate launch loading texts
 - [ ] Ensure knight guards on front dies on back
 - [ ] Countdown on gameover
 - [ ] Credits to xabisan and opengamegart?

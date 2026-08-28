@@ -10,7 +10,7 @@
 //game title and versioning
 #define GAME_TITLE              "Timmy Time Adventure"
 #define MAJOR_VERSION           0
-#define MINOR_VERSION           5
+#define MINOR_VERSION           6
 #define CONFIG_FILE             "GAME.CFG"
 #define BETATESTING             1
 
