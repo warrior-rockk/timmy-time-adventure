@@ -1867,6 +1867,7 @@ void game_update()
                 break;
                 default:   //end of credits
                     destroy_bitmap(gameSprite);
+                    music_stop();
                     game.state = E_GAME_ST_STATISTICS;
                     game.fadeOut = E_FADE_TYPE_VERY_SLOW;                    
                     gameSeq.step = 0;
@@ -1882,13 +1883,13 @@ void game_update()
                     #define STATISTIC_DATA_POS_Y        50
                     #define STATISTIC_DATA_POS_X        20
                     #define STATISTIC_DATA_SPACING_Y    20
-                    #define STATISTIC_VALUE_OFFSET_X    180    
+                    #define STATISTIC_VALUE_OFFSET_X    190    
                     
                     game.fadeIn = true;
                     clear_to_color(buffer, BLACK_COLOR);
                     
                     //write title
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_STATISTICS));
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 14, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_STATISTICS));
                     
                     //write values
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y, CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_PLAY_TIME_STATS));
