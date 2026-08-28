@@ -791,6 +791,10 @@ void game_update()
                     }
                     destroy_bitmap(completeRing); 
 
+                    //draw score and highscore                    
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT], 20, 170, WHITE_COLOR, BLACK_COLOR, "SCORE: %04u", game.score);
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT], (SCREEN_W>>1) + 20, 170, 56, BLACK_COLOR, "HIGH SCORE: %07u", game.highScore);
+                    
                     gameSeq.step++;
                 break;
                 case 4: //handle selection
