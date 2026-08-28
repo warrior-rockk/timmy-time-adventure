@@ -17,6 +17,8 @@
 # Level design
       
 # Game design
+- [ ] Ensure knight guards on front dies on back
+- [ ] Countdown on gameover
 - [ ] Credits to xabisan and opengamegart?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
