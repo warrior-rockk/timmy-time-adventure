@@ -18,6 +18,7 @@
       
 # Game design
 
+- [ ] Fix repetition of thanks for playing
 - [ ] Sfx particles for player splash water
 - [ ] End level statistics
 
