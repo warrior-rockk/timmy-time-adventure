@@ -1599,7 +1599,7 @@ void game_update()
                 case 4: //end escene delay
                     if (gameSeq.timeCounter >= 400)
                     {
-                            gameSeq.step++;
+                            gameSeq.step = 6;   //bypass thanks msg
                             gameSeq.timeCounter = 0;
                             game.fadeOut = true;
                     }
@@ -1615,7 +1615,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 6: //thanks delay                    
-                    if (gameSeq.timeCounter >= 400)
+                    if (gameSeq.timeCounter >= 200)
                     {
                             game.fadeOut = true;
                             gameSeq.step = 0;
