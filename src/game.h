@@ -91,11 +91,11 @@
 //intro/ending/credits
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
-#define CREDITS_SCENES          4       //number of credits scenes
+#define CREDITS_SCENES          6       //number of credits scenes
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
 #define SCENE_CHAR_DELAY        9       //delay time by text character  
-#define CREDIT_SCENE_DELAY      500     //delay credit scene transition
+#define CREDIT_SCENE_DELAY      600     //delay credit scene transition
 #define CREDIT_SCENE_POS_X_1    28      //x position of credit scene variant 1
 #define CREDIT_SCENE_POS_Y_1    18      //y position of credit scene variant 1
 #define CREDIT_SCENE_POS_X_2    178     //x position of credit scene variant 2
@@ -103,7 +103,7 @@
 #define CREDIT_SCENE_FLOOR_Y    32      //floor position of credit scene
 #define CREDIT_TEXT_POS_X_1     243     //x position of credit text variant 1
 #define CREDIT_TEXT_POS_Y_1     60      //y position of credit text variant 1
-#define CREDIT_TEXT_POS_X_2     79      //x position of credit text variant 2
+#define CREDIT_TEXT_POS_X_2     85      //x position of credit text variant 2
 #define CREDIT_TEXT_POS_Y_2     80      //y position of credit text variant 2
 #define CREDIT_TITLE_COLOR      35      //color of title credit text
 
@@ -200,6 +200,7 @@ enum E_GAME_STATE
     E_GAME_ST_EXIT,
     E_GAME_ST_BETATESTING_MSG,
     E_GAME_ST_CREDITS,
+    E_GAME_ST_BYE,
 };
 
 //game levels
@@ -293,10 +294,14 @@ enum E_GAME_TEXTS
     E_TXT_CREDITS_TITLE_2,
     E_TXT_CREDITS_TITLE_3,
     E_TXT_CREDITS_TITLE_4,
+    E_TXT_CREDITS_TITLE_5,
+    E_TXT_CREDITS_TITLE_6,
     E_TXT_CREDITS_NAME_1,
     E_TXT_CREDITS_NAME_2,
     E_TXT_CREDITS_NAME_3,
     E_TXT_CREDITS_NAME_4,
+    E_TXT_CREDITS_NAME_5,
+    E_TXT_CREDITS_NAME_6,
 
     E_TXT_NUM,
 };
@@ -438,7 +443,7 @@ typedef struct
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING     //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING    //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
 
     //debug options data

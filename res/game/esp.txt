@@ -52,11 +52,15 @@ NIVEL COMPLETADO
 ¿ESTÁS SEGURO?
 EMPEZARÁS DE NUEVO...
 ¡GRACIAS POR JUGAR!
-PROGRAMMING
-GRAPHICS
-MUSIC AND SOUND
+GRÁFICOS
+CÓDIGO
+MÚSICA Y SONIDO
+DISEÑO NIVELES
 BETATESTERS
-WARRIOR
-WARRIOR
-WARRIOR
-Lolocop|Marc (onepopcorn)|Pedro (RandomShaper)
+AGRADECIMIENTOS
+Warrior
+Warrior
+Warrior
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)

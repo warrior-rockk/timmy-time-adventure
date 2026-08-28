@@ -52,11 +52,15 @@ LEVEL CLEARED
 ARE YOU SURE?
 GAME WILL RESTART... 
 THANKS FOR PLAYING!
-CODE AND LEVEL DESIGN
 GRAPHICS
+CODE
 MUSIC AND SOUND
+LEVEL DESIGN
 BETATESTERS
+SPECIAL THANKS
 Warrior
 Warrior
 Warrior
-Lolocop|Marc (onepopcorn)|Pedro (RandomShaper)
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
