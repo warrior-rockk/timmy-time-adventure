@@ -100,6 +100,7 @@ struct gameConfig
     uint8_t sfxVolume;                      //sfx volume (0..255)
     uint8_t musicVolume;                    //music volume (0..255)
     uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys
+    int highScore;                          //saved highScore
 } gameConfig;
 
 //cheat code
@@ -2150,15 +2151,17 @@ static void game_debug_update()
 
 static void game_debug_info()
 {
-    //debug info
+    //debug info    
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
+    
     //show_debug( "p.vX: %f", fixtof(entity_get(entity_get_player_id())->fixVel.x));
     //show_debug( "p.vY: %f", fixtof(entity_get(entity_get_player_id())->fixVel.y));
     //show_debug( "p.x: %d", entity_get(entity_get_player_id())->pos.x);
     //show_debug( "p.y: %d", entity_get(entity_get_player_id())->pos.y);
     //show_debug("Lives:%i Life:%i", game.lives, game.life);
     //show_debug("State: %i", game.state);
+    //show_debug("HighScore: %i", game.highScore);
 }
 #endif
 
@@ -2332,6 +2335,10 @@ void game_hud_update()
                 game.lives = GAME_MAX_LIVES;
             }
         }
+
+        //check highscore
+        if (game.score > game.highScore)
+            game.highScore = game.score;
 
         hud.refresh |= E_REFRESH_HUD_SCORE;
         hud.last_score = game.score;

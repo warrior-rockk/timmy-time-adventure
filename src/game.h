@@ -416,6 +416,7 @@ typedef struct
     uint8_t life;
     uint8_t loseLive;
     int score;
+    int highScore;
     uint16_t time;    
     uint8_t fadeIn;
     uint8_t fadeOut;    
