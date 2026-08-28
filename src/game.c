@@ -717,11 +717,11 @@ void game_update()
                                 break;
                             }
                         animSprite.frame = -1;
-                        gameSeq.step = 2;
+                        gameSeq.step = 2;   //jump to level completed animation
                     }
                     else
                     {
-                        gameSeq.step = 3;
+                        gameSeq.step = 4;   //jump to select level
                     }
                 break;
                 case 2: //level completed animation
@@ -738,28 +738,24 @@ void game_update()
                         game.actualCompletedLevel = -1;
                         destroy_bitmap(gameSprite);
                         
-                        //check levels completed
+                        //check levels completed and draw completed levels ring
                         uint8_t levelsCompleted = 0;
+                        completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
                         for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
                         {
                             if (game.levelComplete[i])
+                            {
+                                draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
                                 levelsCompleted++;
+                            }
                         }
-                        MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);
+                        destroy_bitmap(completeRing); 
+                        MY_TRACE_FLAG( "Levels completed: %i\n", levelsCompleted);                        
 
                         //jump to state
                         if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
                         {
-                            //draw completed levels ring
-                            completeRing = load_dat_bmp_indexed(gameDataIndex, RINGC_BMP);          
-                            for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
-                            {
-                                if (game.levelComplete[i])
-                                    draw_sprite(buffer, completeRing, 32 + (69 * i), 78);    
-                            }
-                            destroy_bitmap(completeRing); 
-
-                            gameSeq.step = 5;   //wait for ending
+                            gameSeq.step = 6;   //wait for ending
                         }
                         else
                         {
@@ -772,7 +768,16 @@ void game_update()
                         sfx_play(gameSfx[E_SFX_GAME_LEVEL_BLUE], E_SFX_GAME_VOICE);
                     }
                 break;
-                case 3: //draw ring and selection cursor
+                case 3: //level complete sound delay
+                    if (gameSeq.timeCounter >= 100)
+                    {
+                        gameSeq.step++;
+                        gameSeq.timeCounter = 0;                        
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+                case 4: //draw ring and selection cursor
                     //draw select levelcursor and ring
                     BITMAP *cursor = load_dat_bmp_indexed(gameDataIndex, SELECT_BMP);               
                     draw_sprite(buffer, cursor, 47 + (69 * game.actualLevel), 130);    
@@ -797,7 +802,7 @@ void game_update()
                     
                     gameSeq.step++;
                 break;
-                case 4: //handle selection
+                case 5: //handle selection
                     if (input_key_down(E_G_KEY_RIGHT) && game.actualLevel < E_GAME_NUM_LEVELS - 2)
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
@@ -818,14 +823,8 @@ void game_update()
                         game.fadeOut = true;
                         music_stop();
                     }
-                    /*if (input_key_down(E_G_KEY_EXIT))
-                    {
-                        gameSeq.step = 1;
-                        game.state = E_GAME_ST_TITLE;
-                        game.fadeOut = true;
-                    }*/
                 break;
-                case 5: //wait for ending
+                case 6: //wait for ending
                     if (gameSeq.timeCounter >= 160)
                     {
                         gameSeq.step = 0;
