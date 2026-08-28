@@ -75,8 +75,7 @@ static void main_init()
     //TODO: option for pc speaker?
     sound_set_mode(E_SOUND_SB_MODE);
     /*
-    //prompt for sound driver
-    printf("Starting %s v%i.%i\n\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);      
+    //prompt for sound driver    
     printf("Select sound system:\n\n");
     printf("1. Sound Blaster and compatible\n");
     printf("2. PC Speaker\n");

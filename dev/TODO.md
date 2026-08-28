@@ -7,7 +7,7 @@
 
 # Performance
 - [X] entity_draw: don't get scroll position if not img?
-- [ ] Draw map: more background color tiles? (jurassic cavern)
+- [X] Draw map: more background color tiles? (jurassic cavern)
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 
 - [X] Jump on 486 deltatime not reach high sometimes (increment max player jump)
@@ -15,14 +15,9 @@
 - [X] Don't draw (visible=false) persistent objects offscreen
 
 # Level design
-- [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
       
 # Game design
-- [ ] Credits
-- [ ] Title screen
-- [ ] Too fast enemies! (west for example) TO FAST ALL! ADJUST FOR LOWER DIFFICULTY
-- [ ] Item coins?
-- [ ] Bonus stage? at each score points? item bonus collectable?
+
 - [ ] Sfx particles for player splash water
 
 # Engine
@@ -86,6 +81,8 @@
 - [ ] Cleanup enemy animations
 
 # Improvements
+- [ ] Item coins?
+- [ ] Bonus stage? at each score points? item bonus collectable?
 - [ ] check collision slopes only on player?
 - [ ] Maybe it's not necessary the structure type on local metadata on objects and enemies because i don't do any specified free on each type. (maybe global add and remove function?)
 - [ ] Refactor collision functions and unified get collision maps
@@ -111,3 +108,5 @@
 - [ ] Option on make to specify level (and use this on Tiled command to test directly opened level)
 - [ ] Function get screenCoordinates(worldCoordinates) and get worldCoordinates to toogle between world and screen positions
 - [ ] Not use array of entities. Instead, array of pointers to entities. This mitigates the bug of the reallocation of the entire entity list pointer address when grows
+- [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
+- [ ] swing on waters
