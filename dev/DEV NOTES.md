@@ -84,3 +84,12 @@
 * Sound: Warrior
 * Level Design: Warrior
 * Betatesting: Lolocop / Marc (onepopcorn) / Pedro (RandomShaper)
+
+## End stadistics
+
+* Play Time: 3h 30min 12seg
+* Score: 12312
+* HighScore: 12312
+* Lives used: 23
+* Lives remain: 12
+* Continues used: 10
