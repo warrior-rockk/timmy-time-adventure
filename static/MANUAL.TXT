@@ -1,14 +1,18 @@
-TIMMY TIME ADVENTURE (Warcom soft. (26))
+###########
+# ESPAÑOL #
+###########
+
+TIMMY TIME ADVENTURE (Warcom soft. 2026)
 ----------------------------------------
 
 Timmy es un pequeño inventor y su último proyecto es una máquina del tiempo.
 Pero las cosas no funcionan como esperaba a la hora de encender la máquina y ahora Timmy está perdido en distintas eras de la historia y tiene que recuperar las 4 piezas perdidas de su máquina para repararla y volver a su época.
 
-Ayuda a Timmy a conseguirlo recorriendo los 4 niveles de la historia a través de multiples enemigos y diversas trampas.
+Ayuda a Timmy a conseguirlo recorriendo los 4 niveles en distintas épocas de la historia a través de multiples enemigos y diversas trampas.
 
 Timmy Time Adventure es un juego de plataformas inspirado en la jugablidad de los juegos de consola de 8 bits y con el apartado gráfico de los juegos de 16 bits. 
 
-COMO JUGAR
+CÓMO JUGAR
 ----------
 
 Es posible redefinir las teclas en el menú de configuración del juego.
@@ -20,9 +24,45 @@ Estas son las funciones de cada tecla de juego:
 -ARRIBA: sube el personaje por las escaleras o se mueve por las opciones del menú
 -ABAJO: agacha al personaje, hace un lanzamiento corto del objeto (en combinación con la tecla de acción) o se mueve por las opciones del menú
 
--SALTAR: realiza el salto del personaje. Cuanto mas tiempo se pulse la tecla, mas alto realiza el salto
--ACCIÓN: recoge un objeto que se pueda coger y lo lanza. Al pulsarlo durane el salto, realiza el ataque con el puño
+-SALTAR (Z): realiza el salto del personaje. Cuanto mas tiempo se pulse la tecla, mas alto realiza el salto
+-ACCIÓN (X): recoge un objeto que se pueda coger y lo lanza. Al pulsarlo durane el salto, realiza el ataque con el puño
 
 -ENTER: acepta las selecciones de los menús
 -ESC: sale de los menús o cancela introducciones o saca el menu durante el nivel
 -ESPACIO: realiza la pausa del juego durante un nivel
+
+----------------------------------------------------------------------------------------
+
+###########
+# ENGLISH #
+###########
+
+TIMMY TIME ADVENTURE (Warcom soft. 2026)
+----------------------------------------
+
+Timmy is a little inventor, and his latest project is a time machine.
+
+But things don't go as planned when he turns it on, and now Timmy is lost in different eras of history. He has to recover the four missing pieces of his machine to repair it and return to his own time.
+
+Help Timmy succeed by traversing four levels set in different historical periods, overcoming numerous enemies and various traps.
+
+Timmy Time Adventure is a platform game inspired by the gameplay of 8-bit console games and featuring the graphics of 16-bit games.
+
+HOW TO PLAY
+----------
+
+You can remap the keys in the game's settings menu.
+
+These are the functions of each game key:
+
+-LEFT: Moves the character left or navigates menu options.
+-RIGHT: Moves the character right or navigates menu options.
+-UP: Moves the character up stairs or navigates menu options.
+-DOWN: Makes the character crouch, performs a short throw of an item (in combination with the action key), or navigates menu options.
+
+-JUMP (Z): Makes the character jump. The longer the key is held, the higher the jump.
+-ACTION (X): Picks up a grabable item and throws it. Pressing it while jumping performs a punch attack.
+
+-ENTER: Accepts menu selections.
+-ESC: Exits menus, cancels introductions, or brings up the menu during a level.
+-SPACE: Pauses the game during a level.
