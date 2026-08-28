@@ -6,7 +6,7 @@
 - [ ] It's seems that the variable deltaTime collision system bug are fixed by the slope detection. If I disable the slopes, player enter floor solid... So, i can't disable the slopes for the entities to save performance. Look that for a better solution....
 
 # Performance
-- [ ] entity_draw: don't get scroll position if not img?
+- [X] entity_draw: don't get scroll position if not img?
 - [ ] Draw map: more background color tiles? (jurassic cavern)
 - [X] Draw map: only draw_sprite front tiles. Use blit for backLayer
 - [X] All entities, except player, minimal collision points (ensure can check the same collision points of all set) 

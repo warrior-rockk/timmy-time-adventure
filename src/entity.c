@@ -22,10 +22,8 @@ static BITMAP *entitySprite;    //pointer to sub-bitmap of entity frame
 uint8_t playerEntityId = 0;     //id of the player on array of entities
 
 //private function to draw one entity
-static void entity_draw(BITMAP *buffer, tEntity *entity)
+static void entity_draw(BITMAP *buffer, tEntity *entity, tVector scrollPos)
 {
-    tVector scrollPos = scroll_get_position();
-        
     if (entity->img != NULL)
     {
         int16_t drawX, drawY;
@@ -491,13 +489,15 @@ void entities_update()
 //funtion to draws entities
 void entities_draw(BITMAP *buffer)
 {
+    tVector scrollPos = scroll_get_position();
+
     //draw backwards: firsts entities on front
     for (int i=numEntities - 1; i >= 0; i--)
     {
         //only draws if visible and not sleep or dead
         if (entityList[i].visible && !entityList[i].sleep && !entityList[i].dead)
         {
-            entity_draw(buffer, &entityList[i]);            
+            entity_draw(buffer, &entityList[i], scrollPos);            
         }
     }    
 }
