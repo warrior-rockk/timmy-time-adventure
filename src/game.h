@@ -63,7 +63,7 @@
 #endif
 
 //HUD defines
-#define HUD_POSITION_Y          166
+#define HUD_POSITION_Y          170 // 166
 #define HUD_POSITION_X          40
 
 //tutorial defines
