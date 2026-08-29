@@ -44,9 +44,9 @@ Por fin, la máquina está lista.|Es momento de probarla.
 Pero algo sale mal y la máquina|explota al encenderla.
 Timmy y piezas de la máquina|son absorbidas por un vórtice temporal.
 Ahora Timmy está perdido en épocas|del tiempo y tiene que viajar por la historia|para recuperar las piezas perdidas.
-Al fin Timmy ha recuperado todas|las piezas de la maquina y puede arreglarla.
+Al fin, Timmy ha recuperado todas|las piezas de la máquina y puede arreglarla.
 Con la máquina arreglada, el vórtice|temporal devuelve a Timmy a su época.
-¡Ahora Timmy esta en casa de nuevo!
+¡Ahora Timmy está en casa de nuevo!
 ¡TIEMPO AGOTADO!
 NIVEL COMPLETADO
 ¿ESTÁS SEGURO?
