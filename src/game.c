@@ -629,10 +629,6 @@ void game_update()
         break;
         case E_GAME_ST_INIT:
             game_init_flags();
-            //game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
-            //game.life           = GAME_INI_LIFE;
-            //game.score          = 0;
-            //game.loseLive       = false;
             game.actualLevel    = E_GAME_LEVEL_TUTORIAL;
                         
             game.state = E_GAME_ST_LOAD_LEVEL;            
@@ -1021,7 +1017,6 @@ void game_update()
                 {
                     input_log_stop();
                     game_destroy_level();                                
-                    game_init_flags();
                     game.fadeOut = true;
                     gameSeq.timeCounter = 0;
                     game.state = E_GAME_ST_TITLE;
@@ -1102,7 +1097,6 @@ void game_update()
                     music_stop(gameMusic);
                     input_log_stop();
                     game_destroy_level();                                
-                    game_init_flags();  
                     
                     gameSeq.step = 0;
                     game.state = E_GAME_ST_TITLE;  
@@ -1313,7 +1307,6 @@ void game_update()
                 break;
                 case 6: //destroy level to exit to title
                     game_destroy_level();                                
-                    game_init_flags();
                     
                     game.state = E_GAME_ST_TITLE;
                     gameSeq.step = 0;                               
@@ -1365,7 +1358,6 @@ void game_update()
                             {
                                 input_log_stop();
                                 game_destroy_level();                                
-                                game_init_flags();
                                 game.state = E_GAME_ST_TITLE;   
                             }
                             else
@@ -1533,7 +1525,6 @@ void game_update()
                                 entities_destroy_all();
                                 object_system_destroy();
 
-                                game_init_flags();
                                 game.state = E_GAME_ST_TITLE;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
