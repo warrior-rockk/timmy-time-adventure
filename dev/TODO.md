@@ -19,7 +19,6 @@
 # Game design
 - [ ] Final sound when timeline completed?
 - [ ] Scorpion tail cutted. Review all enemies gfx
-- [ ] If bypasses time score, gets extra life? = NO
 - [ ] Translate launch loading texts
 - [ ] Ensure knight guards on front dies on back
 - [ ] Countdown on gameover

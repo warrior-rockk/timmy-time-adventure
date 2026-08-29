@@ -180,7 +180,7 @@
     #define DEBUG_NO_LEVEL_TIME             0                   //level time disable
     #define DEBUG_TRACE_PLAYER              1                   //show debug of player data
     #define DEBUG_LOCAL_DATA_MEMORY         0                   //traces the allocation and deallocation of entity dynamic local data
-    #define DEBUG_FPS_ON_CLOCK              1                   //show fps value on clock HUD position
+    #define DEBUG_FPS_ON_CLOCK              0                   //show fps value on clock HUD position
     #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
     #define DEBUG_PROFILE                   0                   //traces the measure of profile functions
     
