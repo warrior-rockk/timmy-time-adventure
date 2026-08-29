@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="292">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="320" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#131412" nextlayerid="5" nextobjectid="292">
  <editorsettings>
   <export target="../../res/maps/west.tmx" format="tmx"/>
  </editorsettings>
