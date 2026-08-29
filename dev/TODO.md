@@ -17,6 +17,9 @@
 # Level design
       
 # Game design
+- [ ] After fixed reset flags on complete game, review unnecessary game_init_flags() on states. I thinks it's only needed on GAME_ST_INIT
+- [ ] Scorpion tail cutted. Review all enemies gfx
+- [ ] If bypasses time score, gets extra life?
 - [ ] Translate launch loading texts
 - [ ] Ensure knight guards on front dies on back
 - [ ] Countdown on gameover

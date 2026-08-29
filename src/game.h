@@ -12,7 +12,7 @@
 #define MAJOR_VERSION           0
 #define MINOR_VERSION           6
 #define CONFIG_FILE             "GAME.CFG"
-#define BETATESTING             1
+#define BETATESTING             0
 
 //allegro engine
 #define ALLEGRO_USES_TIMER      1           //disable to profile with uclock

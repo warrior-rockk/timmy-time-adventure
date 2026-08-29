@@ -628,11 +628,12 @@ void game_update()
             }    
         break;
         case E_GAME_ST_INIT:
-            game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
-            game.life           = GAME_INI_LIFE;
-            game.score          = 0;
-            game.loseLive       = false;
-            game.actualLevel    = E_GAME_LEVEL_TUTORIAL;     
+            game_init_flags();
+            //game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
+            //game.life           = GAME_INI_LIFE;
+            //game.score          = 0;
+            //game.loseLive       = false;
+            game.actualLevel    = E_GAME_LEVEL_TUTORIAL;
                         
             game.state = E_GAME_ST_LOAD_LEVEL;            
         break;
