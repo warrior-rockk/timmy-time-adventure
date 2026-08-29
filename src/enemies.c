@@ -279,7 +279,7 @@ void enemy_create(tEntity *entity)
             else
                 load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, SCORRED_BMP);
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){30, 23};                          
+            entity->spriteSize = (tVector){31, 23};                          
             entity->size = (tVector){24, 16};      
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_NO_HURT;

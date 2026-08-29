@@ -18,7 +18,7 @@
       
 # Game design
 - [ ] Final sound when timeline completed?
-- [ ] Scorpion tail cutted. Review all enemies gfx
+- [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts
 - [ ] Ensure knight guards on front dies on back
 - [ ] Countdown on gameover
