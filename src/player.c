@@ -266,7 +266,7 @@ static void player_update_controls(tEntity *player)
 		}
 
         //Jump control
-        if (input_key_press(E_G_KEY_JUMP))
+        if (input_key_press(E_G_KEY_JUMP) && !playerFlags.crouched)
         {
             if (playerFlags.onStairs)
 			{
