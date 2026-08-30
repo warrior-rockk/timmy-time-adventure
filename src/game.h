@@ -172,6 +172,10 @@
 #define VERSION_TITLE_X         300
 #define VERSION_TITLE_Y         186
 
+#define ANIM_GAME_OVER          0,   9, 10,  ANIM_LOOP   //game over animation
+#define GAME_OVER_POS           (tVector){(SCREEN_W>>1), 90}
+#define GAME_OVER_SIZE          (tVector){27, 40}
+
 //debug definitions
 #ifdef DEBUGMODE
     #define DEBUG_TRACE_CREATE_ENTITIES     1                   //traces when create entity and entity type

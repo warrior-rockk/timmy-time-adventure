@@ -175,8 +175,6 @@ void object_bridge_update(tEntity *this, tDefaultObjectLocalData *local);
 void object_rock_explosion_update(tEntity *this, tDefaultObjectLocalData *local);
 //object fall
 void object_fall_update(tEntity *this, tDefaultObjectLocalData *local);
-//game over animation
-void object_game_over_update(tEntity *this, tDefaultObjectLocalData *local);
 //platform quicksand
 void object_quick_sand_update(tEntity *this, tDefaultObjectLocalData *local);
 //trap arrow

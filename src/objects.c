@@ -312,12 +312,6 @@ void object_create(tEntity *entity)
             collision_create_min_entity_points(entity); 
             entity->properties =  E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;                 
         break;
-        case E_GAME_OVER_OBJECT_TYPE:            
-            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, GAMEOVER_BMP);
-            entity->img = objectResources[entity->entType];
-            entity->spriteSize = (tVector){27, 40};
-            entity->size = (tVector){27, 40};                           
-        break;
         case E_ROCK_FALL_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, ROCKFALL_BMP);
             load_entity_wav_resources(&objectSfx[E_SFX_OBJECT_FALL], objectDataFileIndex, ROCKFALL_WAV);            
@@ -535,9 +529,6 @@ void object_update(tEntity *entity)
         break;
         case E_ROCK_EXPLOSION_OBJECT_TYPE:
             object_rock_explosion_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
-        break;
-        case E_GAME_OVER_OBJECT_TYPE:
-            object_game_over_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         case E_ROCK_FALL_OBJECT_TYPE:
         case E_SPIKE_FALL_OBJECT_TYPE:
@@ -1578,15 +1569,6 @@ void object_trap_arrow_update(tEntity *this, tDefaultObjectLocalData *local)
             }
         break;
     }    
-}
-
-void object_game_over_update(tEntity *this, tDefaultObjectLocalData *local)
-{
-    //object animation
-    #define ANIM_GAME_OVER     0,   9, 10,  ANIM_LOOP
-    
-    play_animation(&this->anim, ANIM_GAME_OVER);    
-    
 }
 
 void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)

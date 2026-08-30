@@ -1457,15 +1457,11 @@ void game_update()
                     currentPal = gamePal;
                     //put game over text
                     textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
-                    //prepare systems to create an entity on screen
-                    scroll_create((tVector){SCREEN_W, SCREEN_H}, (tVector){SCREEN_W, SCREEN_H}, E_SCROLL_MODE_BY_WINDOW_Y_ONLY);
-                    object_system_init();
-                    entity_system_init();                   
-                    //create entity of player crying animation
-                    entity_create(E_ENT_CLASS_OBJECT, E_GAME_OVER_OBJECT_TYPE, (tVector){(SCREEN_W>>1) - 14, 60}, E_ENT_DIR_RIGHT, 0);
-                    //update and draw the entity animation
-                    entities_update();
-                    entities_draw(buffer);
+                    
+                    //load game over anim sprite
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, GAMEOVER_BMP);
+                    animSprite.frame = 0;
+                    game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
                     //play game over music
                     gameMusic = load_dat_midi_indexed(gameDataIndex, GAMEOVER_MID);
@@ -1476,9 +1472,10 @@ void game_update()
                     MY_TRACE_FLAG( "Game Over\n");
                 break;
                 case 1:
-                    //update and draw the entity animation
-                    entities_update();
-                    entities_draw(buffer);
+                    //update game over animation sprite
+                    play_animation(&animSprite, ANIM_GAME_OVER);
+                    game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+
 
                     if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
                     {
@@ -1496,9 +1493,9 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();                             
                 break;
                 case 2:
-                    //update and draw the entity animation
-                    entities_update();
-                    entities_draw(buffer);
+                    //update game over animation sprite
+                    play_animation(&animSprite, ANIM_GAME_OVER);
+                    game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
                     game_navigation_menu(&gameDialog, buffer);
                     if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
@@ -1508,10 +1505,6 @@ void game_update()
                         switch (gameDialog.optionSelected)
                         {
                             case 1: //CONTINUE: YES
-                                //destroy systems
-                                entities_destroy_all();
-                                object_system_destroy();
-
                                 game.state = E_GAME_ST_SELECT_LEVEL;
                                 game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
@@ -1519,17 +1512,15 @@ void game_update()
                                 game.fadeOut = true;
                                 game.continuesUsed++;
                                 dialog_destroy(&gameDialog);
+                                destroy_bitmap(gameSprite);
                             break;
                             case 2: //CONTINUE: NO
-                                //destroy systems
-                                entities_destroy_all();
-                                object_system_destroy();
-
                                 game.state = E_GAME_ST_TITLE;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
                                 dialog_destroy(&gameDialog);
+                                destroy_bitmap(gameSprite);
                             break;                            
                         }
                     }                         
