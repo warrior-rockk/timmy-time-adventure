@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="318">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="256" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#f9ebb3" nextlayerid="3" nextobjectid="319">
  <editorsettings>
   <export target="../../res/maps/egypt.tmx" format="tmx"/>
  </editorsettings>
@@ -676,27 +676,7 @@
   </object>
   <object id="92" template="triggers/stopScroll.tx" x="256" y="560">
    <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
-   </properties>
-  </object>
-  <object id="96" template="triggers/stopScroll.tx" x="240" y="560">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
-   </properties>
-  </object>
-  <object id="97" template="triggers/stopScroll.tx" x="240" y="400">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
-   </properties>
-  </object>
-  <object id="108" template="triggers/stopScroll.tx" x="240" y="272">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
-   </properties>
-  </object>
-  <object id="109" template="triggers/stopScroll.tx" x="240" y="80">
-   <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="2"/>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="89" template="triggers/scroll-mode.tx" type="trigger" x="112" y="560"/>
@@ -828,17 +808,17 @@
   </object>
   <object id="186" template="triggers/stopScroll.tx" x="256" y="64">
    <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="187" template="triggers/stopScroll.tx" x="256" y="192">
    <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="188" template="triggers/stopScroll.tx" x="256" y="352">
    <properties>
-    <property name="spare" type="int" propertytype="stopScroll" value="1"/>
+    <property name="spare" type="int" propertytype="stopScroll" value="3"/>
    </properties>
   </object>
   <object id="143" template="triggers/stopScroll.tx" x="1024" y="64">
@@ -1081,5 +1061,6 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
+  <object id="318" template="triggers/debug-start.tx" x="416" y="16"/>
  </objectgroup>
 </map>
