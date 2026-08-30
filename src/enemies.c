@@ -2125,9 +2125,9 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     #define KNIGHT_VELOCITY                   0.6
     #define KNIGHT_RANGE_PATROL               50    
-    #define KNIGHT_PLAYER_RANGE               50
+    #define KNIGHT_PLAYER_RANGE               30
     #define KNIGHT_ATTACK_FRAME               29
-    #define KNIGHT_HITBOX_X_OFFSET_LEFT       22
+    #define KNIGHT_HITBOX_X_OFFSET_LEFT       25
     #define KNIGHT_HITBOX_X_OFFSET_RIGHT      6
     #define KNIGHT_HITBOX_DURATION            20
     
@@ -2135,7 +2135,7 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
     #define ANIM_KNIGHT_WALK   0,   7,  10, ANIM_LOOP
     //#define ANIM_KNIGHT_ATACK  32,   40,  10, ANIM_ONCE
     #define ANIM_KNIGHT_ATACK  24,   31,  8, ANIM_ONCE
-    #define ANIM_KNIGHT_BLOCK   8,   15,  5, ANIM_ONCE
+    #define ANIM_KNIGHT_BLOCK   8,   15,  8, ANIM_ONCE
     #define ANIM_KNIGHT_DEAD   16,   23,  10, ANIM_ONCE
 
     //enemy states
@@ -2163,6 +2163,10 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->dir = !this->dir;
     }
 
+    //checks if enemy look on player direction
+    bool lookToPlayer = (this->dir == E_ENT_DIR_RIGHT && player->pos.x > this->pos.x) ||
+                        (this->dir == E_ENT_DIR_LEFT  && player->pos.x < this->pos.x);
+
     switch (this->state)
     {
         case E_KNIGHT_ST_IDLE:            
@@ -2181,11 +2185,9 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             else
                 this->anim.frame = 0;
             
-            //check range of player
-            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, KNIGHT_PLAYER_RANGE))
+            //check range of player and looking player
+            if (in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, KNIGHT_PLAYER_RANGE) && lookToPlayer)
                 this->state = E_KNIGHT_ST_ATTACK;
-
-            
         break;     
         case E_KNIGHT_ST_ATTACK:
             if (this->anim.frame == KNIGHT_ATTACK_FRAME)
@@ -2200,7 +2202,9 @@ void enemy_knight_update(tEntity *this, tDefaultEnemyLocalData *local)
             }
             else{
                 local->flag = false;
-                if (player->fixVel.y < 0 && in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->size.x))
+                //block if enemy looking to player
+                //if (player->fixVel.y < 0 && in_range(this->pos.x + (this->size.x * this->dir), player->pos.x, this->size.x))
+                if(player->fixVel.y < 0 && lookToPlayer)
                     this->state = E_KNIGHT_ST_BLOCK;
             }                
 
