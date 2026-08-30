@@ -1496,10 +1496,5 @@
     <property name="spare" type="int" propertytype="items" value="0"/>
    </properties>
   </object>
-  <object id="226" name="debug-start" type="object" x="624" y="416" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

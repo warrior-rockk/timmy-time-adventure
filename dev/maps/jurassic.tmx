@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="176">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="177">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -490,7 +490,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,47,47,47,47,47,47,47,47,47,47,101,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,102,110,60,65,101,47,47,47,47,92,92,92,92,92,92,92,92,92,92,47,47,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,47,47,47,47,47,47,65,110,60,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="entities" visible="0">
+ <objectgroup id="2" name="entities">
   <object id="1" template="objects/player1.tx" type="player" x="160" y="96"/>
   <object id="7" template="objects/solid.tx" type="object" x="672" y="32">
    <properties>
@@ -797,5 +797,6 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
+  <object id="176" template="triggers/debug-start.tx" x="2368" y="240"/>
  </objectgroup>
 </map>

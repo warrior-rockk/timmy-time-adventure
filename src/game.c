@@ -2412,7 +2412,7 @@ void game_hud_draw()
     //update lives
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_LIVES))
     {
-        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "  ", game.lives);
+        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "  ");
         textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 31, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
     }
 
