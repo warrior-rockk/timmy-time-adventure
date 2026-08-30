@@ -1477,7 +1477,7 @@ void game_update()
                     game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
 
-                    if (gameSeq.timeCounter >= 400 || input_any_key_pressed())
+                    if (gameSeq.timeCounter >= 100 || input_any_key_pressed())
                     {
                         //create continue menu
                         gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
@@ -1487,7 +1487,7 @@ void game_update()
                         dialog_draw(&gameDialog, buffer);
 
                         gameSeq.step++;
-                        gameSeq.timeCounter = 0;
+                        gameSeq.timeCounter = 10;
                     }      
                     else
                         gameSeq.timeCounter += clock_tick_get();                             
@@ -1496,6 +1496,23 @@ void game_update()
                     //update game over animation sprite
                     play_animation(&animSprite, ANIM_GAME_OVER);
                     game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    
+                    //count-down
+                    if (gameSeq.timeCounter > 0)
+                        gameSeq.timeCounter -= clock_tick_1sec_get();
+                    else
+                    {
+                        game.state = E_GAME_ST_TITLE;
+                        gameSeq.timeCounter = 0;
+                        gameSeq.step = 0;
+                        game.fadeOut = true;
+                        dialog_destroy(&gameDialog);
+                        destroy_bitmap(gameSprite);    
+                    }
+                    //count-down text
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "   ");                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
+
 
                     game_navigation_menu(&gameDialog, buffer);
                     if (input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP))
