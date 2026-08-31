@@ -17,6 +17,7 @@
 # Level design
       
 # Game design
+- [ ] Can pick the egypt puzzle rock until puzzle ended
 - [ ] Final sound when timeline completed?
 - [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts

@@ -624,6 +624,9 @@ void object_init(tEntity *entity)
                     map_change_tile((tVector){entity->pos.x / tileSize, (entity->pos.y / tileSize) + i}, LAVA_DROP_TILE_BACKGROUND, E_TILE_PROP_NO_SOLID);
             }
         break;
+        case E_EGYPT_SYMBOL_OBJECT_TYPE:
+            CLEAR_FLAG(entity->properties, E_ENT_PROP_NO_PICKABLE);
+        break;
         default:            
             ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
             ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->flag = 0;    
