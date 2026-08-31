@@ -1467,6 +1467,17 @@ void game_update()
                     gameMusic = load_dat_midi_indexed(gameDataIndex, GAMEOVER_MID);
                     music_play(gameMusic, true);
 
+                    //count down text
+                    gameSeq.timeCounter = GAME_OVER_COUNT_DOWN;
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
+
+                    //create continue menu
+                    gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONTINUE_QUESTION));
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
+                    dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
+                    dialog_draw(&gameDialog, buffer);
+
                     game.fadeIn = true;                    
                     gameSeq.step++;
                     MY_TRACE_FLAG( "Game Over\n");
@@ -1475,37 +1486,24 @@ void game_update()
                     //update game over animation sprite
                     play_animation(&animSprite, ANIM_GAME_OVER);
                     game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
-
-
-                    if (gameSeq.timeCounter >= 100 || input_any_key_pressed())
-                    {
-                        //create continue menu
-                        gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
-                        dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONTINUE_QUESTION));
-                        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
-                        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
-                        dialog_draw(&gameDialog, buffer);
-
-                        gameSeq.step++;
-                        gameSeq.timeCounter = 10;
-                    }      
-                    else
-                        gameSeq.timeCounter += clock_tick_get();                             
-                break;
-                case 2:
-                    //update game over animation sprite
-                    play_animation(&animSprite, ANIM_GAME_OVER);
-                    game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                     
                     //count-down
                     if (gameSeq.timeCounter > 0)
-                        gameSeq.timeCounter -= clock_tick_1sec_get();
+                    {
+                        if (clock_tick_1sec_get())
+                        {
+                            gameSeq.timeCounter --;
+                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE);
+                        }
+                    }
                     else
                     {
                         game.state = E_GAME_ST_TITLE;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
-                        game.fadeOut = true;
+                        game.fadeOut = E_FADE_TYPE_VERY_SLOW;
+                        music_stop();
+                        sfx_play(gameSfx[E_SFX_GAME_GAME_OVER], E_SFX_GAME_VOICE);
                         dialog_destroy(&gameDialog);
                         destroy_bitmap(gameSprite);    
                     }
@@ -1526,16 +1524,18 @@ void game_update()
                                 game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
-                                game.fadeOut = true;
+                                game.fadeOut = E_FADE_TYPE_VERY_SLOW;
                                 game.continuesUsed++;
                                 dialog_destroy(&gameDialog);
                                 destroy_bitmap(gameSprite);
+                                sfx_play(gameSfx[E_SFX_GAME_ADD_LIVE], E_SFX_GAME_VOICE);
                             break;
                             case 2: //CONTINUE: NO
                                 game.state = E_GAME_ST_TITLE;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
-                                game.fadeOut = true;
+                                game.fadeOut = E_FADE_TYPE_VERY_SLOW;
+                                sfx_play(gameSfx[E_SFX_GAME_GAME_OVER], E_SFX_GAME_VOICE);
                                 dialog_destroy(&gameDialog);
                                 destroy_bitmap(gameSprite);
                             break;                            
@@ -2026,6 +2026,7 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_LEVEL_BLUE]      = load_dat_wav_indexed(gameDataIndex, LEVELBLU_WAV);
     gameSfx[E_SFX_GAME_CHEAT_ON]        = load_dat_wav_indexed(gameDataIndex, CHEAT_WAV);
     gameSfx[E_SFX_GAME_ADD_LIVE]        = load_dat_wav_indexed(gameDataIndex, ADDLIVE_WAV);
+    gameSfx[E_SFX_GAME_GAME_OVER]       = load_dat_wav_indexed(gameDataIndex, GAMEOVER_WAV);
     game_loading_text();
 }
 

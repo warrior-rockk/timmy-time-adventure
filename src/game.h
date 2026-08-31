@@ -175,6 +175,7 @@
 #define ANIM_GAME_OVER          0,   9, 10,  ANIM_LOOP   //game over animation
 #define GAME_OVER_POS           (tVector){(SCREEN_W>>1), 90}
 #define GAME_OVER_SIZE          (tVector){27, 40}
+#define GAME_OVER_COUNT_DOWN    20
 
 //debug definitions
 #ifdef DEBUGMODE
@@ -393,6 +394,7 @@ enum E_GAME_SFX
     E_SFX_GAME_LEVEL_BLUE,
     E_SFX_GAME_CHEAT_ON,
     E_SFX_GAME_ADD_LIVE,
+    E_SFX_GAME_GAME_OVER,
     
     E_SFX_GAME_NUM,
 };
