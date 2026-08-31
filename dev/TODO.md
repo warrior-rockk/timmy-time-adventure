@@ -17,7 +17,6 @@
 # Level design
       
 # Game design
-- [ ] Jurassic level: No piranhas when go on cavern
 - [ ] Erase spot bright background brick tiles on egypt
 - [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts

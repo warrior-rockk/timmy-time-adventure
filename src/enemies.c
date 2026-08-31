@@ -919,7 +919,7 @@ void enemy_piranha_update(tEntity *this, tDefaultEnemyLocalData *local)
             this->fixVel.y = 0;
             this->fixVel.x = 0;
 
-            if (clock_counter_check(PIRANHA_DEFAULT_WAIT_TIME))
+            if (clock_counter_check(PIRANHA_DEFAULT_WAIT_TIME) && (scroll_position_on_region(this->pos)))
             {
                 this->state = E_PIRANHA_ST_DELAY;    
             }
