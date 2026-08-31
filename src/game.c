@@ -752,17 +752,15 @@ void game_update()
                         //jump to state
                         if (levelsCompleted == E_GAME_NUM_LEVELS - 1)
                         {
+                            sfx_play(gameSfx[E_SFX_GAME_GAME_END], E_SFX_GAME_VOICE);
                             gameSeq.step = 6;   //wait for ending
                         }
                         else
                         {
-                            //play level select music
-                            jingleMusic = load_dat_midi_indexed(gameDataIndex, LEVELSEL_MID);
-                            music_play(jingleMusic, true);
-
+                            sfx_play(gameSfx[E_SFX_GAME_LEVEL_BLUE], E_SFX_GAME_VOICE);
                             gameSeq.step++;
                         }
-                        sfx_play(gameSfx[E_SFX_GAME_LEVEL_BLUE], E_SFX_GAME_VOICE);
+                        
                     }
                 break;
                 case 3: //level complete sound delay
@@ -770,6 +768,9 @@ void game_update()
                     {
                         gameSeq.step++;
                         gameSeq.timeCounter = 0;                        
+                        //play level select music
+                        jingleMusic = load_dat_midi_indexed(gameDataIndex, LEVELSEL_MID);
+                        music_play(jingleMusic, true);
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
@@ -825,7 +826,7 @@ void game_update()
                     }
                 break;
                 case 6: //wait for ending
-                    if (gameSeq.timeCounter >= 160)
+                    if (gameSeq.timeCounter >= 300)
                     {
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
@@ -1978,11 +1979,13 @@ static void game_init_flags()
         game.actualLevel        = DEBUG_INI_GAME_LEVEL;        
     #endif
     memset(&game.levelComplete, 0, sizeof(game.levelComplete));
-    /*game.levelComplete[0] = false;
+    /*
+    game.levelComplete[0] = false;
     game.levelComplete[1] = true;
     game.levelComplete[2] = true;
-    game.levelComplete[3] = true;*/
-    
+    game.levelComplete[3] = true;
+    */
+   
     game.lives          = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
     game.life           = GAME_INI_LIFE;
     game.score          = 0;
@@ -2027,6 +2030,8 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_CHEAT_ON]        = load_dat_wav_indexed(gameDataIndex, CHEAT_WAV);
     gameSfx[E_SFX_GAME_ADD_LIVE]        = load_dat_wav_indexed(gameDataIndex, ADDLIVE_WAV);
     gameSfx[E_SFX_GAME_GAME_OVER]       = load_dat_wav_indexed(gameDataIndex, GAMEOVER_WAV);
+    gameSfx[E_SFX_GAME_GAME_END]        = load_dat_wav_indexed(gameDataIndex, ENDGAME_WAV);
+
     game_loading_text();
 }
 

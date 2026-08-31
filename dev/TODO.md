@@ -17,8 +17,8 @@
 # Level design
       
 # Game design
+- [ ] Jurassic level: No piranhas when go on cavern
 - [ ] Erase spot bright background brick tiles on egypt
-- [ ] Final sound when timeline completed?
 - [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts
 - [ ] Credits to xabisan and opengamegart?
@@ -27,6 +27,7 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] It's necessary to load all game sfx on init?
 - [ ] On cavern, fade level palette and take light to iluminate?
 - [ ] fps timer interrupt and counter only on debug mode?
 - [ ] reset interrupt counters to not overflow?
