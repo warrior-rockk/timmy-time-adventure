@@ -26,6 +26,7 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] Disable slope check if buried to player by multiply pathEndY by deltaTime (Measure) DeltaTime to fixed?
 - [ ] It's necessary to load all game sfx on init?
 - [ ] On cavern, fade level palette and take light to iluminate?
 - [ ] fps timer interrupt and counter only on debug mode?
