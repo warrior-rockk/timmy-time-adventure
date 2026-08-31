@@ -17,6 +17,7 @@
 # Level design
       
 # Game design
+- [ ] Erase spot bright background brick tiles on egypt
 - [ ] Final sound when timeline completed?
 - [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts
