@@ -763,7 +763,7 @@ void object_solid_update(tEntity *this, tDefaultObjectLocalData *local)
                                         if (this->spare == checkEntity->spare)
                                         {
                                             egyptPuzzle2[this->spare] = E_EGYPT_SYMBOL_STATUS_OK;                            
-                                            SET_FLAG(this->properties, E_ENT_PROP_NO_PICKABLE);
+                                            //SET_FLAG(this->properties, E_ENT_PROP_NO_PICKABLE);
                                         }
                                         else
                                             egyptPuzzle2[this->spare] = E_EGYPT_SYMBOL_STATUS_NOT_OK;
