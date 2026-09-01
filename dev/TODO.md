@@ -83,7 +83,6 @@
 - [X] Crouch change size
 
 # Gfx
-- [ ] Paint player jeans blue
 - [ ] Cleanup enemy animations
 
 # Improvements
