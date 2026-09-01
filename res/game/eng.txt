@@ -40,7 +40,7 @@ PRESS [%s] AND [%s] FOR SHORT THROW OBJECT
 ENTER DOORS WITH [%s]
 Late at night, a boy stills|working on his lab.
 This boy is Timmy, and he is|working on his last invention:|A TIME MACHINE!
-Finally, the machine it's ready.|It's time to testing it.
+After a lot of hard work, the machine it's ready.|It's time to testing it.
 But something goes wrong and|the machine explodes when turn it on.
 Timmy and pieces of the machine|goes into a time vortex.
 Now, Timmy is lost in time and need to|travel trought history eras to recover the|machine pieces to return to his time.
