@@ -15,10 +15,10 @@
 #define BETATESTING             0
 
 //allegro engine
-#define ALLEGRO_USES_TIMER      1           //disable to profile with uclock
+#define ALLEGRO_USES_TIMER      0           //disable to profile with uclock
 #define ALLEGRO_USES_KEYBOARD   1
 #define ALLEGRO_USES_MOUSE      0
-#define ALLEGRO_USES_SOUND      1           //disable to profile with uclock
+#define ALLEGRO_USES_SOUND      0           //disable to profile with uclock
 
 //screen video configuration
 #define GAME_GFX_MODE           GFX_VGA     //selected video mode
@@ -187,13 +187,13 @@
     #define DEBUG_LOCAL_DATA_MEMORY         0                   //traces the allocation and deallocation of entity dynamic local data
     #define DEBUG_FPS_ON_CLOCK              0                   //show fps value on clock HUD position
     #define DEBUG_DT_ON_SCORE               0                   //show deltaTime value on score HUD position 
-    #define DEBUG_PROFILE                   0                   //traces the measure of profile functions
+    #define DEBUG_PROFILE                   1                   //traces the measure of profile functions
     
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL    //initial debug game state
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC   //initial debug level
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
 #endif
 
 //game states

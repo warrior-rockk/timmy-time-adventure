@@ -17,7 +17,7 @@
 #define DELTA_TIME_LIMIT        2       //limit deltaTime values (deltaTime > 2 causes collision detection malfunction)
 #define MAX_ACUMULATED_TICKS    10      //limit accumulated game clock ticks
 
-extern double deltaTime;
+extern fixed deltaTime;
 
 //inits the timer system specifing game tick duration on ms
 void timer_init(long gameTickDuration, bool _useAllegroTimers);

@@ -525,7 +525,7 @@ void entity_update_vel_pos(tEntity *entity)
     if (CHECK_FLAG(entity->properties, E_ENT_PROP_PHYSICS_ON))
     {
         //apply X velocity
-        entity->fixPos.x += abs(entity->fixVel.x) < ftofix(ENTITY_MIN_VEL_X) ? 0 : fixmul(entity->fixVel.x, ftofix(deltaTime));        
+        entity->fixPos.x += abs(entity->fixVel.x) < ftofix(ENTITY_MIN_VEL_X) ? 0 : fixmul(entity->fixVel.x, deltaTime);        
         
         //apply Y velocity
         if (entity->ground)
@@ -540,18 +540,18 @@ void entity_update_vel_pos(tEntity *entity)
             //gravity             
             
             //add gravity to vel y
-            entity->fixVel.y += fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime));
+            entity->fixVel.y += fixmul(ftofix(ENTITY_GRAVITY), deltaTime);
             //limit vel y
             entity->fixVel.y = fix_clamp(entity->fixVel.y, ftofix(-ENTITY_MAX_VEL_Y), ftofix(ENTITY_MAX_VEL_Y));
             //apply vel y
-            entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));                        
+            entity->fixPos.y += fixmul(entity->fixVel.y, deltaTime);                        
         }
     }
     else
     {
         //apply velocity without gravity and friction
-        entity->fixPos.x += fixmul(entity->fixVel.x, ftofix(deltaTime));
-        entity->fixPos.y += fixmul(entity->fixVel.y, ftofix(deltaTime));
+        entity->fixPos.x += fixmul(entity->fixVel.x, deltaTime);
+        entity->fixPos.y += fixmul(entity->fixVel.y, deltaTime);
     }
 
     //update position

@@ -1090,12 +1090,12 @@ void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
             this->fixVel.x = ftofix(WAGON_VELOCITY);
 
             //calculate next wagon integer position (entity update do this)
-            int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+            int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, deltaTime));
             int16_t nextPosY;
             if (this->ground)
-                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime));
             else{
-                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)) + fixmul(ftofix(ENTITY_GRAVITY), ftofix(deltaTime))) + 1;                
+                nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime) + fixmul(ftofix(ENTITY_GRAVITY), deltaTime)) + 1;                
             }
 
             //only move player if collided
@@ -1338,8 +1338,8 @@ void object_bridge_update(tEntity *this, tDefaultObjectLocalData *local)
             this->fixVel.y = ftofix(BRIDGE_FALL_VEL_Y);
             
             //calculate next integer position (entity update do this)
-            //int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
-            int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+            //int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, deltaTime));
+            int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime));
 
             //only move player if collided
             if (collision_get_player_platform_id() == this->id)
@@ -1489,7 +1489,7 @@ void object_quick_sand_update(tEntity *this, tDefaultObjectLocalData *local)
                 this->fixVel.y = ftofix(QUICK_SAND_VELOCITY);
 
                 //calculate next integer position (entity update do this)
-                int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                int16_t nextPosY = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime));
 
                 //adds to player x position the integer part of platform delta movement
                 entity_get(entity_get_player_id())->fixPos.y += itofix((nextPosY - this->pos.y) + 1);
@@ -1666,7 +1666,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             {
                 this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
-                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, deltaTime));
                 //adds to player x position the integer part of platform delta movement                
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
@@ -1676,7 +1676,7 @@ void object_platform_update(tEntity *this, tDefaultObjectLocalData *local)
             {
                 this->fixVel.y = this->dir == E_ENT_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 //calculate next integer position (entity update do this)
-                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime));
                 //adds to player x position the integer part of platform delta movement
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);
@@ -1909,7 +1909,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                 this->fixVel.x = this->dir ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 
                 //calculate next integer position (entity update do this)
-                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, ftofix(deltaTime)));
+                nextPos = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, deltaTime));
                 //adds to player x position the integer part of platform delta movement                
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.x += itofix((nextPos - this->pos.x));
@@ -1921,7 +1921,7 @@ void object_path_platform_update(tEntity *this, tPathPlatformLocalData *local)
                 this->fixVel.y = this->dir == E_ENT_DIR_DOWN ? ftofix(PLATFORM_VELOCITY) : -ftofix(PLATFORM_VELOCITY);
                 
                 //calculate next integer position (entity update do this)
-                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, ftofix(deltaTime)));
+                nextPos = fixtoi(this->fixPos.y + fixmul(this->fixVel.y, deltaTime));
                 //adds to player x position the integer part of platform delta movement
                 if (collision_get_player_platform_id() == this->id)            
                     entity_get(entity_get_player_id())->fixPos.y += itofix((nextPos - this->pos.y) + 1);

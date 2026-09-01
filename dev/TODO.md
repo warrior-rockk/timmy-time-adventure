@@ -97,7 +97,6 @@
 - [ ] Check solid_object entities collision check! Any way to not check all the entities level?
 - [ ] Entity_draw: Not create sub_bitmap on each entity instead store a current frame bitmap on entity and change when last_frame != frame
 - [ ] Simple collisions check on entity update?
-- [ ] DeltaTime ¿double? Review deltaTime calculation
 - [ ] Are setting properties to all tiles of map? separate tile map codes of tiles info to save RAM
 - [ ] Reset ground flag on entity init?
 - [ ] Save half entity sizes on structure?

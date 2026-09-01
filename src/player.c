@@ -173,8 +173,8 @@ static void player_update_controls(tEntity *player)
         //Right direction control
         if (input_key_press(E_G_KEY_RIGHT) && player->fixVel.x < maxVelX && !playerFlags.onStairs)
         {
-            player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-            //player->fixVel.x+= fixmul(accelX, ftofix(deltaTime));
+            player->fixVel.x += fixmul(fixmul(localAccelX, (itofix(1) - friction)), deltaTime);
+            //player->fixVel.x+= fixmul(accelX, deltaTime);
             player->dir = E_ENT_DIR_RIGHT;
             playerFlags.moving = true;
         }
@@ -182,8 +182,8 @@ static void player_update_controls(tEntity *player)
         //Left direction control
         if (input_key_press(E_G_KEY_LEFT) && player->fixVel.x > -maxVelX && !playerFlags.onStairs && !input_key_press(E_G_KEY_RIGHT))
         {
-            player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), ftofix(deltaTime));
-            //player->fixVel.x -= fixmul(accelX, ftofix(deltaTime));
+            player->fixVel.x -= fixmul(fixmul(localAccelX, (itofix(1) - friction)), deltaTime);
+            //player->fixVel.x -= fixmul(accelX, deltaTime);
             player->dir = E_ENT_DIR_LEFT;
             playerFlags.moving = true;
         }
@@ -203,7 +203,7 @@ static void player_update_controls(tEntity *player)
 						//snap player on tile
                         player->fixPos.x = itofix(map_snap_x_to_tile(player));
                         //go down stairs
-                        player->fixPos.y += fixmul(ftofix(PLAYER_STAIRS_VEL_Y), ftofix(deltaTime));
+                        player->fixPos.y += fixmul(ftofix(PLAYER_STAIRS_VEL_Y), deltaTime);
                     }
                     //else, we are on the top of stairs
 					else
@@ -247,7 +247,7 @@ static void player_update_controls(tEntity *player)
 					//snap to tile
                     player->fixPos.x = itofix(map_snap_x_to_tile(player));
 					//going down stairs
-                    player->fixPos.y -= fixmul(ftofix(PLAYER_STAIRS_VEL_Y), ftofix(deltaTime));
+                    player->fixPos.y -= fixmul(ftofix(PLAYER_STAIRS_VEL_Y), deltaTime);
 					//set flags
 					playerFlags.onStairs = true;
 					//reset flags
@@ -289,7 +289,7 @@ static void player_update_controls(tEntity *player)
                 }
 
                 //apply y acceleration
-                player->fixVel.y += fixmul(-accelY, ftofix(deltaTime));
+                player->fixVel.y += fixmul(-accelY, deltaTime);
                 //if reached max jump velocity, set flag
                 if (player->fixVel.y < -(maxVelY))
                     playerFlags.jump = true;

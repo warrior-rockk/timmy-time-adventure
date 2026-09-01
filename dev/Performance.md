@@ -91,3 +91,8 @@ d82ffad apply deltaTime to jump velocity and aset dixed value of deltaTime... NO
 552d341 medieval map NO BUG
 d7a4478 timer: limit tickcounts accumulated NO BUG
 a985c12 update TODO after modify mummy IA NO BUG
+
+# DeltaTime double vs fixed
+
+* 5.0 ~ 5.6ms @ entity_update:  deltaTime double
+* 4.8 ~ 5.5ms @ entity_update:  deltaTime fixed

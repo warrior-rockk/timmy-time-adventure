@@ -2474,7 +2474,7 @@ void game_hud_draw()
         #endif
 
         #if DEBUG_DT_ON_SCORE
-            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04f", deltaTime);
+            textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 160, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%04f", fixtof(deltaTime));
         #endif
     }
 
@@ -2765,7 +2765,9 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
 //summary function to update the world level
 static void game_update_level()
 {
+    profile_start();
     entities_update();
+    profile_end();
     scroll_update(entity_get(entity_get_player_id())->pos);        
 }
 
