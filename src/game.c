@@ -143,6 +143,7 @@ static void game_load_control_strings();
 static void game_init_flags();
 static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
 static void game_draw_title_scroll();
+static void game_deallocate_level_voices();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -859,6 +860,8 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0: //Init level data and entities
+                    game_deallocate_level_voices();
+
                     game.life       = GAME_INI_LIFE;            
                     game.loseLive   = false;            
                     game.viewMap    = true;
@@ -2893,4 +2896,12 @@ void game_draw_title_scroll()
         blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
         blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
     }
+}
+
+//deallocate each game voice on each level init to prevent voice bugged
+static void game_deallocate_level_voices()
+{
+    sfx_voice_deallocate(E_SFX_ENEMY_VOICE);
+    sfx_voice_deallocate(E_SFX_OBJECT_VOICE);
+    sfx_voice_deallocate(E_SFX_PLAYER_VOICE);
 }

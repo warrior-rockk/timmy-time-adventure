@@ -423,6 +423,11 @@ void sfx_voice_reallocate(SAMPLE* sampleFile, uint8_t voice)
     reallocate_voice(voice, sampleFile);
 }
 
+void sfx_voice_deallocate(uint8_t voice)
+{
+    deallocate_voice(voice);
+}
+
 void sfx_voice_set_position(uint8_t voice, int position)
 {
     voice_set_position(voice, position);

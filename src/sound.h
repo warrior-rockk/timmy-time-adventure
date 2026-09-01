@@ -88,6 +88,8 @@ void sfx_set_volume(uint8_t volume);
 
 //reallocate sfx voice
 void sfx_voice_reallocate(SAMPLE* sampleFile, uint8_t voice);
+//deallocates (free and stop) a sfx voice
+void sfx_voice_deallocate(uint8_t voice);
 //set position, on millis, of sfx
 void sfx_voice_set_position(uint8_t voice, int position);
 #endif
