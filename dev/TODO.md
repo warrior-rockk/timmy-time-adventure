@@ -19,7 +19,7 @@
 - [ ] Erase spot bright background brick tiles on egypt
 - [ ] Scorpion tail cutted. Review all enemies gfx (scorpion OK)
 - [ ] Translate launch loading texts
-- [ ] Credits to xabisan and opengamegart?
+- [ ] Credits to opengamegart?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water
