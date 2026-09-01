@@ -100,7 +100,7 @@ void timer_end_frame()
         deltaTime = itofix(1);
     else
     {
-        deltaTime = (double)(retrace_count-trace);
+        deltaTime = itofix(retrace_count-trace);
         
         //deltaTime limits
         if (deltaTime < itofix(1))

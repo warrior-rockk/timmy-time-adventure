@@ -338,7 +338,7 @@ static void player_update_controls(tEntity *player)
     if ((!input_key_press(E_G_KEY_RIGHT) && !input_key_press(E_G_KEY_LEFT)) || playerFlags.crouched)
     {
         //this the equivalent formula for vX *= friction with deltaTime
-        player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (deltaTime * fixtof(localFriction))))); 
+        player->fixVel.x = fixmul(player->fixVel.x, ftofix(pow(fixtof(localFriction), (fixtof(deltaTime) * fixtof(localFriction))))); 
         //limit min x velocity
         if (abs(player->fixVel.x) > minVelToReset)
             playerFlags.moving = true;

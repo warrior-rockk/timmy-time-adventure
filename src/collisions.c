@@ -10,6 +10,7 @@
 #include "collisions.h"
 #include "map.h"
 #include "resources.h"
+#include "timer.h"
 
 #include "data/cdata.h"
 
@@ -456,7 +457,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
         fColLinePath.start.x = entity->fixPos.x + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.x);
         fColLinePath.end.x   = fColLinePath.start.x;
         fColLinePath.start.y = entity->fixPos.y + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.y);
-        fColLinePath.end.y   = fixadd(entity->fixPos.y, entity->fixVel.y) + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.y);
+        fColLinePath.end.y   = fixadd(entity->fixPos.y, fixmul(entity->fixVel.y, deltaTime)) + itofix(entColPointsList[entIndex].colPoint[pointNum].offset.y);
         
         //TRACE("sx: %f ex: %f sy: %f ey: %f \n", fixtof(fColLinePath.start.x), fixtof(fColLinePath.end.x), fixtof(fColLinePath.start.y), fixtof(fColLinePath.end.y));
         //show_debug("sx: %f ex: %f sy: %f ey: %f \n", fixtof(fColLinePath.start.x), fixtof(fColLinePath.end.x), fixtof(fColLinePath.start.y), fixtof(fColLinePath.end.y));
@@ -474,7 +475,7 @@ uint8_t collision_check_tile(tEntity *entity, uint16_t pointNum)
                 entity->fixPos.y += distColY;                
                 colDir = E_COLLISION_DIR_DOWN;
                 
-                if (collisionEnabledSlopes || entity->id == entity_get_player_id()) 
+                if (collisionEnabledSlopes) // || entity->id == entity_get_player_id()) 
                 {
                     //Slope detection: check if buried
                                         
