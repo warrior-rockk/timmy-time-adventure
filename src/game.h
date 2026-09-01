@@ -109,7 +109,8 @@
 
 //demo
 #define DEMO_TIMEOUT            3000     //demo timeout duration
-#define DEMO_LEVEL              E_GAME_LEVEL_JURASSIC
+#define DEMO_LEVEL_1            E_GAME_LEVEL_JURASSIC
+#define DEMO_LEVEL_2            E_GAME_LEVEL_WEST
 
 //menu dialogos position and sizes definitions
 #define FIRSTRUN_MENU_SIZE_X    80
@@ -193,7 +194,7 @@
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
     #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL    //initial debug game state
-    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
+    #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_WEST   //initial debug level
 #endif
 
 //game states
@@ -414,7 +415,8 @@ enum E_GAME_FONTS
 enum E_DEMO_TYPE
 {
     E_DEMO_NONE,
-    E_DEMO_LEVEL,
+    E_DEMO_LEVEL_JURASSIC,
+    E_DEMO_LEVEL_WEST,
     E_DEMO_TUTORIAL,
     E_DEMO_INTRO,
 

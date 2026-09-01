@@ -462,8 +462,12 @@ void game_update()
 
                         switch (game.demo)
                         {
-                            case E_DEMO_LEVEL:    
-                                game.actualLevel = DEMO_LEVEL;
+                            case E_DEMO_LEVEL_JURASSIC:    
+                                game.actualLevel = DEMO_LEVEL_1;
+                                game.state = E_GAME_ST_LOAD_LEVEL;
+                            break;
+                            case E_DEMO_LEVEL_WEST:    
+                                game.actualLevel = DEMO_LEVEL_2;
                                 game.state = E_GAME_ST_LOAD_LEVEL;
                             break;
                             case E_DEMO_TUTORIAL:    
@@ -884,11 +888,19 @@ void game_update()
                     
                     //check demo mode
                     if (game.demo)
-                        input_log_play("demo.rec");
+                        switch (game.demo)
+                        {
+                            case E_DEMO_LEVEL_JURASSIC:
+                                input_log_play("demo.rec");
+                            break;
+                            case E_DEMO_LEVEL_WEST:
+                                input_log_play("demo2.rec");
+                            break;
+                        }
                     else
                         game_hud_draw();
-                    //record demo level (record on full cycles emulator)
-                    //input_log_record("demo.rec");
+                    //record demo level (record on full cycles emulator and deltaTime disabled)
+                    //input_log_record("demo3.rec");
                     
                     gameSeq.step++;
                 break;                
