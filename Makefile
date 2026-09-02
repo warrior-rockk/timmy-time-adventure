@@ -43,7 +43,7 @@ MAPS_SRC_DIR 		= ${RESOURCES_DIR}maps
 TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC}
-DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
+DEBUG_CFLAGS  		:= -Wall -g  -DMINOR_VERSION=9 -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp?
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
