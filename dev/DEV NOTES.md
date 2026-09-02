@@ -93,3 +93,10 @@
 * Lives used: 23
 * Lives remain: 12
 * Continues used: 10
+
+## Compress web version (pshell)
+
+Compress-Archive -Path ..\build\release\bin\*.* -DestinationPath timmy.zip
+Compress-Archive -Path .\.jsdos\ -Update .\timmy.zip
+ren .\timmy.zip .\timmy.jsdos
+Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force

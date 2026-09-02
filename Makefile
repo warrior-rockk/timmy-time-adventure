@@ -10,6 +10,7 @@ ifeq ($(OS),Windows_NT)
 	#OS_DOSBOX  := 'D:/Instalables/Proyectos/Old Days/bin/DOSBox/DosBox.exe'
 	OS_DOSBOX  := 'D:/Instalables/Proyectos/DosBox-x/dosbox-x.exe'
 	DAT        := ./tools/dat/dat_win.exe
+	WEB_BUILD  := cd ./web && powershell.exe -File ./build.ps1
 else
 	UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
@@ -138,7 +139,7 @@ run_debug_stop: debug
 run_release: release
 	cd ./build/release/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 
-.PHONY: clean info
+.PHONY: clean info web
 
 clean:
 	rm -rvf ${BUILD_DIR}
@@ -148,4 +149,8 @@ info:
 	@echo ${OS}
 	@echo "Src objects:"
 	@echo "${SRCS}"
+
+web:
+	rm -rvf ./web/release
+	${WEB_BUILD}
 	
