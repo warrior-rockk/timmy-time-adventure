@@ -265,6 +265,7 @@ enum E_GAME_KEYS
     E_GAME_KEYS_NUM,
 };
 
+//game texts
 enum E_GAME_TEXTS
 {
     E_TXT_GAME_TITLE,
@@ -344,6 +345,7 @@ enum E_GAME_TEXTS
     E_TXT_NUM,
 };
 
+//game languages (to add language, copy txt to res/game, add to this enum and update the language options text on every language txt files)
 enum E_TEXT_LANGUAGES
 {    
     E_LANG_ENG,

@@ -236,10 +236,17 @@ void game_update()
                 case 0: //create init language menu                    
                     gameDialog = dialog_create((tRectangle){(tVector){FIRSTRUN_MENU_POS_X, FIRSTRUN_MENU_POS_Y}, (tVector){FIRSTRUN_MENU_SIZE_X, FIRSTRUN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     
-                    dialog_add_option(&gameDialog, "ENGLISH");
-                    dialog_add_option(&gameDialog, "ESPAÑOL");
-                    dialog_add_option(&gameDialog, "VALENCIÀ");
-
+                    //write language options
+                    char *token = strtok(lang_get_txt(E_TXT_MENU_LANG_OPTIONS), ";");
+                    for (uint8_t i = 0; i < E_NUM_LANGS; i++)
+                    {
+                        if (token != NULL)
+                        {
+                            dialog_add_option(&gameDialog, token);
+                            token = strtok(NULL, ";");    
+                        }
+                    }
+                    
                     clear_to_color(buffer, BLACK_COLOR);
                     dialog_draw(&gameDialog, buffer);
                     
