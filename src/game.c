@@ -238,6 +238,7 @@ void game_update()
                     
                     dialog_add_option(&gameDialog, "ENGLISH");
                     dialog_add_option(&gameDialog, "ESPAÑOL");
+                    dialog_add_option(&gameDialog, "VALENCIÀ");
 
                     clear_to_color(buffer, BLACK_COLOR);
                     dialog_draw(&gameDialog, buffer);
