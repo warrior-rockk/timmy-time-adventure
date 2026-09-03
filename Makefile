@@ -155,13 +155,25 @@ info:
 	@echo "${SRCS}"
 
 web:
+	@echo "# clean web release"
 	rm -rvf ${WEB_DIR}/release
+	
 	mkdir ${WEB_DIR}/release
+	
+	@echo "# Packing .jsdos file"
 	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/$(basename $(APP)).zip -Force"
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"
-	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"	
 	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
+
+	@echo "# Copying html resources"
+	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
+
+	@echo "# pack the web release on zip for itch.io"
 	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
 
+	@echo "# Open and run web release"
+	python -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
+	python -m http.server
+	
 #${WEB_BUILD}
 	
