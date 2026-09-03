@@ -57,12 +57,14 @@ CÓDIGO
 MÚSICA Y SONIDO
 DISEÑO NIVELES
 BETATESTERS
+TRADUCCIONES
 AGRADECIMIENTOS
 Warrior
 Warrior
 Warrior|Xabi (xabisan)
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)
 Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
 ESTADÍSTICAS
 TIEMPO DE JUEGO:

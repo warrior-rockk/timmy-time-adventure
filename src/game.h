@@ -96,7 +96,7 @@
 //intro/ending/credits
 #define INTRO_SCENES            6       //number of intro scenes
 #define ENDING_SCENES           3       //number of ending scenes
-#define CREDITS_SCENES          6       //number of credits scenes
+#define CREDITS_SCENES          7       //number of credits scenes
 #define INTRO_INITIAL_DELAY     200     //initial delay for show the first scene
 #define SCENE_IMAGE_DELAY       100     //time delay between text and image on scene
 #define SCENE_CHAR_DELAY        9       //delay time by text character  
@@ -178,6 +178,7 @@
 #define VERSION_TITLE_X         300
 #define VERSION_TITLE_Y         186
 
+//game over definitions
 #define ANIM_GAME_OVER          0,   9, 10,  ANIM_LOOP   //game over animation
 #define GAME_OVER_POS           (tVector){(SCREEN_W>>1), 90}
 #define GAME_OVER_SIZE          (tVector){27, 40}
@@ -328,12 +329,14 @@ enum E_GAME_TEXTS
     E_TXT_CREDITS_TITLE_4,
     E_TXT_CREDITS_TITLE_5,
     E_TXT_CREDITS_TITLE_6,
+    E_TXT_CREDITS_TITLE_7,
     E_TXT_CREDITS_NAME_1,
     E_TXT_CREDITS_NAME_2,
     E_TXT_CREDITS_NAME_3,
     E_TXT_CREDITS_NAME_4,
     E_TXT_CREDITS_NAME_5,
     E_TXT_CREDITS_NAME_6,
+    E_TXT_CREDITS_NAME_7,
     E_TXT_STATISTICS,
     E_TXT_PLAY_TIME_STATS,
     E_TXT_SCORE_STATS,

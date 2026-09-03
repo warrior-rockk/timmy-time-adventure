@@ -57,12 +57,14 @@ CODE
 MUSIC AND SOUND
 LEVEL DESIGN
 BETATESTERS
+TRANSLATIONS
 SPECIAL THANKS
 Warrior
 Warrior
 Warrior|Xabi (xabisan)
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)
 Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
 STATISTICS
 PLAY TIME:

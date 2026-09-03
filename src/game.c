@@ -1788,6 +1788,26 @@ void game_update()
                             creditEntity.animSpeed = 10;
                             creditEntity.animType = ANIM_LOOP;
                         break;
+                        case 6:
+                            //load credit scene palette
+                            creditDataIndex = create_dat_index("jurassic.dat");
+                            currentPal = load_dat_pal_indexed(creditDataIndex, JURASSIC_PAL);
+                            destroy_dat_index(creditDataIndex);
+
+                            //load animated sprite for credit scene
+                            creditDataIndex = create_dat_index("enemies.dat");
+                            gameSprite = load_dat_bmp_indexed(creditDataIndex, PTERO_BMP);    
+                            destroy_dat_index(creditDataIndex);
+                            //set sprite data
+                            creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_1, CREDIT_SCENE_POS_Y_1};
+                            creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y - 16};
+                            creditEntity.size = (tVector){71, 64};
+                            creditEntity.dir = E_ENT_DIR_RIGHT;
+                            creditEntity.startFrame = 0;
+                            creditEntity.endFrame = 1;
+                            creditEntity.animSpeed = 20;
+                            creditEntity.animType = ANIM_LOOP;
+                        break;
                     }
 
                     //draw scene
