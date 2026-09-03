@@ -10,7 +10,6 @@ ifeq ($(OS),Windows_NT)
 	#OS_DOSBOX  := 'D:/Instalables/Proyectos/Old Days/bin/DOSBox/DosBox.exe'
 	OS_DOSBOX  := 'D:/Instalables/Proyectos/DosBox-x/dosbox-x.exe'
 	DAT        := ./tools/dat/dat_win.exe
-	WEB_BUILD  := cd ./web && powershell.exe -File ./build.ps1
 else
 	UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
@@ -160,20 +159,19 @@ web:
 	
 	mkdir ${WEB_DIR}/release
 	
+	@echo "# Copying html resources"
+	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
+	
 	@echo "# Packing .jsdos file"
+ifeq ($(OS),Windows_NT)
 	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/$(basename $(APP)).zip -Force"
 	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"	
 	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
 
-	@echo "# Copying html resources"
-	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
-
-	@echo "# pack the web release on zip for itch.io"
+	@echo "# pack the web release on zip for itch.io"	
 	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+endif
 
 	@echo "# Open and run web release"
 	python -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
-	python -m http.server
-	
-#${WEB_BUILD}
-	
+	python -m http.server	
