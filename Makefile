@@ -38,6 +38,7 @@ RESOURCES_DIR		:= ./res/
 STATIC_DIR			:= ./static/
 INCLUDES_DIR		:= ${OS_INC_DIR}
 LIBS_DIR			:= ${OS_LIB_DIR}
+WEB_DIR				:= ./web
 #objects
 SRCS  				:= $(wildcard ${SRC_DIR}*.${SRC_EXT})
 C_FILES             = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
@@ -153,6 +154,14 @@ info:
 	@echo "${SRCS}"
 
 web:
-	rm -rvf ./web/release
-	${WEB_BUILD}
+	rm -rvf ${WEB_DIR}/release
+	powershell -Command "mkdir ${WEB_DIR}/release"
+	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/${APP}.zip -Force"
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/data/.jsdos/ -Update ${WEB_DIR}/release/${APP}.zip"
+	powershell -Command "cp ${WEB_DIR}/data/index.html ${WEB_DIR}/release"
+	powershell -Command "cp ${WEB_DIR}/data/title.png ${WEB_DIR}/release"
+	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/${APP}.zip' -NewName ${APP}.jsdos"
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'Timmy Time Adventure (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+
+#${WEB_BUILD}
 	
