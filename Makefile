@@ -142,18 +142,8 @@ run_debug_stop: debug
 run_release: release
 	cd ./build/release/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 
-.PHONY: clean info web
-
-clean:
-	rm -rvf ${BUILD_DIR}
-
-info:	
-	@echo "Operating system:"
-	@echo ${OS}
-	@echo "Src objects:"
-	@echo "${SRCS}"
-
-web:
+#pack web version with jsdos emulator and run on browser
+web: release
 	@echo "# clean web release"
 	rm -rvf ${WEB_DIR}/release
 	
@@ -174,4 +164,15 @@ endif
 
 	@echo "# Open and run web release"
 	python -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
-	python -m http.server	
+	python -m http.server
+
+.PHONY: clean info web
+
+clean:
+	rm -rvf ${BUILD_DIR}
+
+info:	
+	@echo "Operating system:"
+	@echo ${OS}
+	@echo "Src objects:"
+	@echo "${SRCS}"	
