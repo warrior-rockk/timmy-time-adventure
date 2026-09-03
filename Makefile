@@ -28,6 +28,7 @@ endif
 
 #project definition
 APP  				:= timmy.exe
+APP_TITLE			:= Timmy Time Adventure
 MAJOR_VERSION		:= 0
 MINOR_VERSION		:= 8
 SRC_EXT				:= c
@@ -155,13 +156,12 @@ info:
 
 web:
 	rm -rvf ${WEB_DIR}/release
-	powershell -Command "mkdir ${WEB_DIR}/release"
-	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/${APP}.zip -Force"
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/data/.jsdos/ -Update ${WEB_DIR}/release/${APP}.zip"
-	powershell -Command "cp ${WEB_DIR}/data/index.html ${WEB_DIR}/release"
-	powershell -Command "cp ${WEB_DIR}/data/title.png ${WEB_DIR}/release"
-	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/${APP}.zip' -NewName ${APP}.jsdos"
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'Timmy Time Adventure (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+	mkdir ${WEB_DIR}/release
+	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/$(basename $(APP)).zip -Force"
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"
+	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
+	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
 
 #${WEB_BUILD}
 	
