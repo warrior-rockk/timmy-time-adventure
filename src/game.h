@@ -7,10 +7,15 @@
 #ifndef _H_GAME_
 #define _H_GAME_
 
-//game title and versioning
+//general game definitions
 #define GAME_TITLE              "Timmy Time Adventure"
-#define MAJOR_VERSION           0
-//#define MINOR_VERSION           8
+//version cames from make define
+#ifndef MAJOR_VERSION  
+    #define MAJOR_VERSION           0    
+#endif
+#ifndef MINOR_VERSION  
+    #define MINOR_VERSION           0
+#endif
 #define CONFIG_FILE             "GAME.CFG"
 #define BETATESTING             0
 
@@ -193,7 +198,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL    //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE    //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
 #endif
 
@@ -343,6 +348,7 @@ enum E_TEXT_LANGUAGES
 {    
     E_LANG_ENG,
     E_LANG_ESP,
+    E_LANG_VAL,
 
     E_NUM_LANGS,
 };

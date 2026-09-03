@@ -62,3 +62,4 @@
 #define TITLE_PAL                     	61  	//PAL 
 #define ENG_TXT                       	62  	//DATA
 #define ESP_TXT                       	63  	//DATA
+#define VAL_TXT                       	64  	//DATA

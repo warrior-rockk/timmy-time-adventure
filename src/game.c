@@ -2091,6 +2091,7 @@ void game_init()
     //loads language texts and set language by default
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ENG_TXT)->dat, E_LANG_ENG);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, ESP_TXT)->dat, E_LANG_ESP);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, VAL_TXT)->dat, E_LANG_VAL);
     
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";

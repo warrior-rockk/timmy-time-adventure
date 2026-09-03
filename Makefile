@@ -28,6 +28,8 @@ endif
 
 #project definition
 APP  				:= timmy.exe
+MAJOR_VERSION		:= 0
+MINOR_VERSION		:= 8
 SRC_EXT				:= c
 #project folders
 SRC_DIR				:= ./src/
@@ -42,8 +44,8 @@ C_FILES             = $(wildcard $(SRC_DIR)/*.${SRC_EXT})
 MAPS_SRC_DIR 		= ${RESOURCES_DIR}maps
 TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
-CC					:= ${OS_GCC}
-DEBUG_CFLAGS  		:= -Wall -g  -DMINOR_VERSION=9 -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
+CC					:= ${OS_GCC} -DMAJOR_VERSION=$(MAJOR_VERSION) -DMINOR_VERSION=$(MINOR_VERSION)
+DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp?
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
