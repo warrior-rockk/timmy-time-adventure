@@ -1,0 +1,73 @@
+JOC PLATAFORMES DOS
+PRESIONA TECLA PER COMENÇAR
+JUGAR
+OPCIONS
+EIXIR
+IDIOMA:
+ENGLISH;ESPAÑOL;VALENCIÀ
+CONTROLS
+VOLUMEN EFECTES:
+VOLUMEN MÚSICA:
+CONTINUAR
+EIXIR AL TÍTOL
+EIXIR AL DOS
+REINICIAR NIVELL
+PAUSA
+VIDES
+ENERGIA
+PUNTS
+TEMPS
+DALT
+BAIX
+ESQUERRA
+DRETA
+BOTAR
+ACCIÓ
+PULSA TECLA
+SI
+NO
+FINAL DEL JOC
+CONTINUAR?
+TRIA NIVELL
+--COM JUGAR--
+MENEJAR AMB [%s] Y [%s]
+BOTAR AMB [%s]
+AGACHAR AMB [%s]
+ATACAR AMB [%s] EN L'AIRE
+AGAFAR OBJECTE AMB [%s]
+LLANÇAR OBJECTE AMB [%s]
+PULSAR [%s] AND [%s] PER LLANÇAMENT CURT
+ENTRAR A LES PORTES AMB [%s]
+Enmig la nit, un xiquet continua|treballant al seu laboratori.
+Eixe xiquet és Timmy i està treballant|en el seu últim invent:|UNA MÀQUINA DEL TEMPS!
+Després de molt de treball, la màquina|ja està preparada.|És moment de provar-la.
+Però alguna cosa va malament i la màquina|explota quan l'encén.
+Timmy i algunes peces de la màquina|són absorbides per un vòrtex temporal.
+Ara Timmy està perdut en el temps|i ha de viatjar per la història|per recuperar les peces perdudes.
+Per fi, Timmy ha recuperat totes|les pieces de la màquina i ja pot arreglar-la.
+Amb la màquina reparada, el vòrtex|temporal torna Timmy a la seua època.
+Ara Timmy està a casa de nou!
+TEMPS ESGOTAT!
+NIVELL COMPLETAT
+ESTÀS SEGUR?
+COMENÇARÀS DE NOU...
+GRÀCIES PER JUGAR!
+GRÀFICS
+CÒDIC
+MÚSICA I SO
+DISENY NIVELLS
+BETATESTERS
+AGRAÏMENTS
+Warrior
+Warrior
+Warrior|Xabi (xabisan)
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+ESTADÍSTIQUES
+TEMPS DE JOC:
+PUNTS:
+PUNTS MÀX:
+VIDES PERDUDES:
+VIDES RESTANTS:
+CONTINUACI. UTILITZADES:
