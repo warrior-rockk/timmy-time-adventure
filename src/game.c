@@ -1773,7 +1773,7 @@ void game_update()
                             //set sprite data
                             creditEntity.scenePos = (tVector){CREDIT_SCENE_POS_X_2, CREDIT_SCENE_POS_Y_2};
                             creditEntity.pos = (tVector){creditEntity.scenePos.x + (ending->w >>1), creditEntity.scenePos.y + (ending->h) - CREDIT_SCENE_FLOOR_Y};
-                            creditEntity.size = (tVector){30, 23};
+                            creditEntity.size = (tVector){31, 23};
                             creditEntity.dir = E_ENT_DIR_LEFT;
                             creditEntity.startFrame = 1;
                             creditEntity.endFrame = 4;
