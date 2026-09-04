@@ -60,6 +60,7 @@ debug: execute_build
 release: CFLAGS = ${RELEASE_CFLAGS}
 release: BUILD_DIR = ./build/release/
 release: execute_build
+release_pack: BUILD_DIR = ./build/release/
 
 #main make build
 execute_build:
@@ -142,6 +143,13 @@ run_debug_stop: debug
 run_release: release
 	cd ./build/release/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
 
+#pack release zip
+release_pack: release
+	@echo "# Packing release"
+ifeq ($(OS),Windows_NT)
+	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+endif
+
 #pack web version with jsdos emulator and run on browser
 web: release
 	@echo "# clean web release"
@@ -166,7 +174,7 @@ endif
 	python -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
 	python -m http.server
 
-.PHONY: clean info web
+.PHONY: clean info web release_pack
 
 clean:
 	rm -rvf ${BUILD_DIR}
