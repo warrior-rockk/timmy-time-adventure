@@ -1897,14 +1897,14 @@ void game_update()
                     game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                 break;
                 case 2: //bye animation
-                clear_to_color(buffer, BLACK_COLOR);
+                    clear_to_color(buffer, BLACK_COLOR);
                     text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     play_animation(&animSprite, 5, 10, 20, ANIM_PING_PONG);
                         
                     game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
-                    if (gameSeq.timeCounter >= 800)
+                    if (music_get_pos() < 0 || gameSeq.timeCounter >= 2000)
                     {
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;
@@ -2264,6 +2264,7 @@ static void game_debug_info()
 {
     //debug info    
     //show_debug("HighScore: %i", game.highScore);
+    show_debug("midipos: %d", music_get_pos());
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
     
