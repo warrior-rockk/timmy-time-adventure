@@ -4,7 +4,7 @@ PLAY
 OPTIONS
 EXIT
 LANG:
-ENGLISH;ESPAÑOL;VALENCIÀ
+ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO
 CONTROLS
 SFX VOLUME:
 MUSIC VOLUME:
@@ -64,7 +64,7 @@ Warrior
 Warrior|Xabi (xabisan)
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
-Alfred (Lolocop)
+Alfred (Lolocop)|Morgoth
 Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
 STATISTICS
 PLAY TIME:

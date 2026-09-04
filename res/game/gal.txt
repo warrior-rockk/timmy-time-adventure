@@ -1,0 +1,75 @@
+XOGO PLATAFORMAS DOS
+PREMA UNHA TECLA PARA COMENZAR
+XOGAR
+OPCIÓNS
+SAÍR
+LINGUA: 
+ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO
+CONTROIS
+VOLUME EFECTOS:
+VOLUME MÚSICA:
+PROSEGUIR
+SAÍR O TÍTULO
+SAÍR O DOS
+RECOMENZAR NIVEL
+PAUSA
+VIDAS
+ENERXÍA
+PUNTOS
+TEMPO
+ARRIBA
+ABAIXO
+ESQUERDA
+DEREITA
+SALTAR
+ACCIÓN
+PREMA UNHA TECLA
+SI
+NON
+FIN DO XOGO
+¿PROSEGUIR?
+ELIXE NIVEL
+--CÓMO XOGAR--
+MOVER CON [%s] E [%s]
+BRINCAR CON [%s]
+ACHANTAR CON [%s]
+ATACAR CON [%s] EN EL AIRE
+COLLER OBXETO CON [%s]
+LANZAR OBXETO CON [%s]
+PREMER [%s] E [%s] PARA LANZAMENTO CORTO
+ENTRAR NAS PORTAS CON [%s]
+Na mitade da noite, un raparigo|segue traballando no seu laboratorio.
+Ese picariño e Timmy e anda a |traballar na sua ultima invención:|¡UNHA MÁQUINA DO TEMPO!
+Déspois dun arduo traballo, a |máquina está lista.|E o momento de probala.
+Mais algo sae mal e a máqina|estoupa o encendela.
+Timmy xunto as pezas da máquina|son absorvidos por un vórtice temporal.
+Agora Timmy está perdido no tempo|e ten que viaxar pola historia para|recobrar as pezas perdidas.
+O fin, Timmy recuperou toda las pezas|da máquina e pode arranxala.
+Coa máquina amañada, o vórtice |temporal devolve a Timmy o seu tempo.
+¡Agora Timmy está na casa de novo!
+¡TEMPO ESGOTADO!
+NIVEL COMPLETADO
+¿ESTÁS SEGURO?
+COMENZARÁS DE NOVO...
+¡GRAZAS POR XOGAR!
+GRÁFICOS
+CÓDIGO
+MÚSICA E SON
+DESEÑO NIVEIS
+PROVADORES
+TRADUCIÓNS
+RECOÑECEMENTOS
+Warrior
+Warrior
+Warrior|Xabi (xabisan)
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)|Morgoth
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+ESTADÍSTICAS
+TEMPO DE XOGO:
+PUNTOS:
+PUNTOS MÁX:
+VIDAS PERDIDAS:
+VIDAS RESTANTES:
+CONTINUACIONS USADAS:

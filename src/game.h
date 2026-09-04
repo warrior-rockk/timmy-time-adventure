@@ -199,7 +199,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_CREDITS    //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE    //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
 #endif
 
@@ -348,12 +348,13 @@ enum E_GAME_TEXTS
     E_TXT_NUM,
 };
 
-//game languages (to add language, copy txt to res/game, add to this enum and update the language options text on every language txt files)
+//game languages (to add language, copy txt to res/game, add to this enum, load file on game_init and update the language options text on every language txt files)
 enum E_TEXT_LANGUAGES
 {    
     E_LANG_ENG,
     E_LANG_ESP,
     E_LANG_VAL,
+    E_LANG_GAL,
 
     E_NUM_LANGS,
 };

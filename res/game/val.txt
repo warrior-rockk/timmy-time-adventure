@@ -4,7 +4,7 @@ JUGAR
 OPCIONS
 EIXIR
 IDIOMA:
-ENGLISH;ESPAÑOL;VALENCIÀ
+ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO
 CONTROLS
 VOLUMEN EFECTES:
 VOLUMEN MÚSICA:
@@ -64,7 +64,7 @@ Warrior
 Warrior|Xabi (xabisan)
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
-Alfred (Lolocop)
+Alfred (Lolocop)|Morgoth
 Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
 ESTADÍSTIQUES
 TEMPS DE JOC:
