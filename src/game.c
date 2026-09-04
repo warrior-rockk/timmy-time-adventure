@@ -485,7 +485,7 @@ void game_update()
                             break;
                             case E_DEMO_INTRO:    
                                 currentPal = introPal;
-                                game.state = E_GAME_ST_INTRO;
+                                game.state = E_GAME_ST_LOGO;
                             break;
                         }
                     }                    
