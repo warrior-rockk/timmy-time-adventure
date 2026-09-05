@@ -1,0 +1,75 @@
+DOSERAKO PLATAFORMA JOKOA
+SAKATU TEKLA HASTEKO
+JOKATU
+AUKERAK
+IRTEN
+HIZKUNTZA:
+ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKERA
+AGINTEAK
+EFEKT. BOLUMENA:
+MUSIK. BOLUMENA:
+JARRAITU
+IRTEN TITULORA
+IRTEN DOSERA
+MAILA BERRABIARAZI
+ETENALDIA
+BIZITZAK
+ENERGIA
+PUNTUAK
+DENBORA
+GORA
+BEHERA
+EZKERRA
+EZKUMA
+SALTO EGIN
+AKZIOA
+TEKLA SAKATU
+BAI
+EZ
+JOKO AMAIERA
+JARRAITU?
+MAILA AUKERATU
+--NOLA JOKATU--
+MUGI [%s] ETA [%s] REKIN
+SALTO EGIN [%s] REKIN
+MAKURTU [%s] REKIN
+ERASO [%s] REKIN AIREAN
+GAUZAK HARTU [%s] REKIN
+GAUZAK BOTA [%s] REKIN
+[%s] ETA [%s] SAKATU JAURTIKETA LABURRA EGITEKO
+ATEETARA SARTU [%s] REKIN
+Gau erdian, ume bat oraindik|bere laborategian lan egiten ari da.
+Umea Timmy deitzen da eta bere azken|asmakizunan lanean dago:|DENBORA MAKINA BAT!
+Lan gogorraren ondoren, makina prest dago.|Probatzeko unea da.
+Baina zerbait gaizki dago eta makina|lehertzen da piztean.
+Timmy eta makinaren zenbait atalak|denbora zurrunbilo batek xurgatzen ditu.
+Orain Timmy denboran galduta dago|eta historian zehar bidaiatu behar du|galdutako atalak berreskuratzeko.
+Azkenean, Timmyk atal guztiak beerreskuratu| ditu eta makina konpon ditzake.
+Makina konponduta denbora|zurrunbiloak bere garaira itzultzen du Timmy.
+Orain Timmy berriro etxean dagoo!
+DENBORA AGORTUTA!
+MAILA OSATUTA
+ZIUR ZAUDE?
+BERRIRO HASIKO ZARA...
+ESKERRIK ASKO JOKATZEAGATIK!
+GRAFIKOAK
+KODEA
+MUSIKA ETA SOINUA
+MAILEN DISEINUA
+BETATESTERRAK
+ITZULPENAK
+ESKERRAK
+Warrior
+Warrior
+Warrior|Xabi (xabisan)
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)|Morgoth|Alain (Laertes)
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+ESTATISTIKAK
+JOKO DENBORA:
+PUNTUAK:
+GEHIEN.PUNTUAK:
+GALDUTAKO BIZITZAK:
+GAINERAKO BIZITZAK:
+JARRAIPEN ERABILIAK:

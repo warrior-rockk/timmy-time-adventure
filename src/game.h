@@ -199,7 +199,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_CREDITS    //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE    //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
 #endif
 
@@ -355,6 +355,7 @@ enum E_TEXT_LANGUAGES
     E_LANG_ESP,
     E_LANG_VAL,
     E_LANG_GAL,
+    E_LANG_EUSK,
 
     E_NUM_LANGS,
 };
