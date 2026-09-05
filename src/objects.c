@@ -281,7 +281,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
             entity->size = (tVector){20, 12};                                     
-            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_DEAD_OUT_SCREEN;            
+            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
         break;
@@ -626,6 +626,9 @@ void object_init(tEntity *entity)
         break;
         case E_EGYPT_SYMBOL_OBJECT_TYPE:
             CLEAR_FLAG(entity->properties, E_ENT_PROP_NO_PICKABLE);
+        break;
+        case E_WAGON_OBJECT_TYPE:
+            CLEAR_FLAG(entity->properties, E_ENT_PROP_DEAD_OUT_SCREEN);
         break;
         default:            
             ((tDefaultObjectLocalData*)objectDataList[entity->entInstance].data)->timer = 0;
@@ -1060,9 +1063,9 @@ void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
         //check collision tile for collision point
         colDir = collision_check_tile(this, i);        
         //apply collision direction
-        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);       
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);        
     }
-
+    
     switch (this->state)
     {
         case E_WAGON_ST_IDLE:
@@ -1088,6 +1091,10 @@ void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
         case E_WAGON_ST_MOVE:
             //apply linear wagon velocity
             this->fixVel.x = ftofix(WAGON_VELOCITY);
+
+            //if wagon falls, set property to dead (reinit) when out screen
+            if (!this->ground)
+                SET_FLAG(this->properties, E_ENT_PROP_DEAD_OUT_SCREEN);
 
             //calculate next wagon integer position (entity update do this)
             int16_t nextPosX = fixtoi(this->fixPos.x + fixmul(this->fixVel.x, deltaTime));
