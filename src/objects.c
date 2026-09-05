@@ -281,7 +281,7 @@ void object_create(tEntity *entity)
             entity->img = objectResources[entity->entType];
             entity->spriteSize = (tVector){36, 27};            
             entity->size = (tVector){20, 12};                                     
-            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE;            
+            entity->properties =  E_ENT_PROP_PHYSICS_ON | E_ENT_PROP_NO_PICKABLE | E_ENT_PROP_NO_BREAKABLE | E_ENT_PROP_DEAD_OUT_SCREEN;            
             entity->axis = E_ENT_AXIS_DOWN;
             collision_create_entity_points(entity);            
         break;
@@ -1131,7 +1131,6 @@ void object_wagon_update(tEntity *this, tDefaultObjectLocalData *local)
 
         break;
     }
-    
 }
 
 void object_dynamite_update(tEntity *this, tDefaultObjectLocalData *local)

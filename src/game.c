@@ -2265,7 +2265,7 @@ static void game_debug_info()
 {
     //debug info    
     //show_debug("HighScore: %i", game.highScore);
-    show_debug("midipos: %d", music_get_pos());
+    //show_debug("midipos: %d", music_get_pos());
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
     
