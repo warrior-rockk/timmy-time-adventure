@@ -2376,7 +2376,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
     int16_t dropPosX[] = {2, 4, 1, 0, 5, 2, 3, 6, 
                           7, 3, 4, 5, 2, 6, 4, 0,
                           2, 4, 1, 0, 5, 1, 3, 6,
-                          0, 2, 0, 2, 5, 6, 6, 7};
+                          0, 2, 0, 3, 5, 6, 6, 7};
 
     switch (this->state)
     {
@@ -2432,7 +2432,7 @@ void enemy_fire_drop_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->state = E_FIRE_DROP_ST_IDLE;
                 this->fixPos = vector2fixvector(this->initPos);
                 //next drop pos
-                if (local->flag < FIRE_DROP_POSITIONS)
+                if (local->flag < FIRE_DROP_POSITIONS - 1)
                     local->flag++;
                 else
                     this->state = E_FIRE_DROP_ST_STILL;   
