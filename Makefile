@@ -147,7 +147,10 @@ run_release: release
 release_pack: release
 	@echo "# Packing release"
 ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"	
+endif
+ifeq ($(OS),Mac)
+	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' ${BUILD_DIR}/bin/*.* -j
 endif
 
 #pack web version with jsdos emulator and run on browser
