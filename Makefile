@@ -29,7 +29,7 @@ endif
 APP  				:= timmy.exe
 APP_TITLE			:= Timmy Time Adventure
 MAJOR_VERSION		:= 0
-MINOR_VERSION		:= 8
+MINOR_VERSION		:= 9
 SRC_EXT				:= c
 #project folders
 SRC_DIR				:= ./src/
