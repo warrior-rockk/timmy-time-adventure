@@ -15,6 +15,7 @@
 - [ ] On cavern, fade level palette and take light to iluminate?
 
 # Game design
+- [ ] Sound with delay when start game?
 - [ ] Intro music stops on beat?
 - [ ] Credits to opengamegart?
 - [ ] White frame on credits image scene?
