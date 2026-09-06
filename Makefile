@@ -146,6 +146,7 @@ run_release: release
 #pack release zip
 release_pack: release
 	@echo "# Packing release"
+	rm -rf ${BUILD_DIR}/bin/*.zip
 ifeq ($(OS),Windows_NT)
 	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"	
 endif
@@ -172,10 +173,15 @@ ifeq ($(OS),Windows_NT)
 	@echo "# pack the web release on zip for itch.io"	
 	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
 endif
+ifeq ($(OS),Mac)
+	zip ${WEB_DIR}/release/$(basename $(APP)).zip ./build/release/bin/*.*  -j
+	zip ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/.jsdos/
+	mv ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/release/$(basename $(APP)).jsdos
+endif
 
 	@echo "# Open and run web release"
-	python -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
-	python -m http.server
+	python3 -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
+	python3 -m http.server
 
 .PHONY: clean info web release_pack
 
