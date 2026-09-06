@@ -175,7 +175,7 @@ ifeq ($(OS),Windows_NT)
 endif
 ifeq ($(OS),Mac)
 	zip ${WEB_DIR}/release/$(basename $(APP)).zip ./build/release/bin/*.*  -j
-	zip ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/.jsdos/
+	cd ${WEB_DIR} && zip ./release/$(basename $(APP)).zip .jsdos/*.*
 	mv ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/release/$(basename $(APP)).jsdos
 endif
 
