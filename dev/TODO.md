@@ -15,6 +15,7 @@
 - [ ] On cavern, fade level palette and take light to iluminate?
 
 # Game design
+- [ ] Intro music stops on beat?
 - [ ] Credits to opengamegart?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
