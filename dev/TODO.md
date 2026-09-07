@@ -15,7 +15,6 @@
 - [ ] On cavern, fade level palette and take light to iluminate?
 
 # Game design
-- [ ] Transparency on waves and lava
 - [ ] Sound with delay when start game?
 - [ ] Intro music stops on beat?
 - [ ] Credits to opengamegart?

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="179">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="180">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>

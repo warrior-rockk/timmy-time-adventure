@@ -319,9 +319,13 @@ void map_draw(BITMAP *buffer, bool frontLayer)
                         {
                             //check if tile animation 
                             if (CHECK_FLAG(tile->tileProperty, E_TILE_PROP_ANIMATION))
-                                //draw tile animation frame                            
-                                //draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                                                
-                                blit(tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], buffer, 0, 0, (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy, 16, 16);
+                            {
+                                //draw tile animation frame
+                                if (frontLayer)                            
+                                    draw_sprite(buffer, tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy);                                                
+                                else
+                                    blit(tiles[tileAnimation[tile->tileAnimationId].frames[tileAnimation[tile->tileAnimationId].anim.frame].frameId], buffer, 0, 0, (x * mapHeader.tile_width) - sx, (y * mapHeader.tile_height) - sy, 16, 16);
+                            }
                             else
                             {
                                 //draw tile id (for performance reasons, only draw sprite with transparency on front layer tiles)
