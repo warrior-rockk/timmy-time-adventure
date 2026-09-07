@@ -10,6 +10,12 @@ But things don't go as planned when he turns it on, and now Timmy is lost in dif
 
 Help Timmy succeed by traversing four levels set in different historical periods, overcoming numerous enemies and various traps.
 
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOS5wbmc=/347x500/a6W73Q.png)
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOC5wbmc=/347x500/lG5FhR.png)
+![https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMS5wbmc=/347x500/OzIqrK.png](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMS5wbmc=/347x500/OzIqrK.png)
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMC5wbmc=/347x500/uj5JOH.png)
+
+
 ## Requirements
 
 Running the game:
