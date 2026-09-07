@@ -537,13 +537,15 @@ void game_update()
 
                     if (input_key_down(E_G_KEY_ENTER))// || input_key_down(E_G_KEY_JUMP))
                     {
-                        sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
+                        if (gameDialog.optionSelected != 0)
+                            sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
 
                         switch (gameDialog.optionSelected)
                         {
                             case 0: //PLAY
+                                sfx_play(gameSfx[E_SFX_GAME_START], E_SFX_GAME_VOICE);
                                 game.state = E_GAME_ST_INIT;
-                                game.fadeOut = true;
+                                game.fadeOut = E_FADE_TYPE_VERY_SLOW;
                                 gameSeq.step = 0;
                                 game.demo = 0;
                                 music_stop();
@@ -2087,6 +2089,7 @@ void game_load_resources()
     gameSfx[E_SFX_GAME_ADD_LIVE]        = load_dat_wav_indexed(gameDataIndex, ADDLIVE_WAV);
     gameSfx[E_SFX_GAME_GAME_OVER]       = load_dat_wav_indexed(gameDataIndex, GAMEOVER_WAV);
     gameSfx[E_SFX_GAME_GAME_END]        = load_dat_wav_indexed(gameDataIndex, ENDGAME_WAV);
+    gameSfx[E_SFX_GAME_START]           = load_dat_wav_indexed(gameDataIndex, START2_WAV);
 
     game_loading_text();
 }
