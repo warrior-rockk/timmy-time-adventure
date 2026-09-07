@@ -16,8 +16,6 @@
 
 # Game design
 - [ ] Sound with delay when start game?
-- [ ] Intro music stops on beat?
-- [ ] Credits to opengamegart?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water

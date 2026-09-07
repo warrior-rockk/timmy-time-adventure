@@ -328,7 +328,7 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 2: 
+                case 2:  //draw scene
                     clear_to_color(buffer, BLACK_COLOR);
                     intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + sceneCounter);
                     draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
@@ -341,7 +341,7 @@ void game_update()
 
                     gameSeq.step++;
                 break;
-                case 3:
+                case 3: //image delay timer
                     if (gameSeq.timeCounter >= SCENE_IMAGE_DELAY)
                     {
                         gameSeq.timeCounter = 0;
@@ -351,27 +351,40 @@ void game_update()
                     else
                         gameSeq.timeCounter += clock_tick_get();
                 break;
-                case 4:
+                case 4: //scene delay timer
                     if (gameSeq.timeCounter >= textDelay)
                     {
                         sceneCounter++;
                         if (sceneCounter >= INTRO_SCENES)
                         {
-                            game.state = E_GAME_ST_TITLE;
-                            currentPal = gamePal;
-                            sceneCounter = 0;
-                            gameSeq.step = 0;
-                            music_stop();
+                            gameSeq.step++;
                         }
                         else
+                        {
                             gameSeq.step = 2;    
+                            game.fadeOut = true;
+                        }
+                            
+                        gameSeq.timeCounter = 0;                        
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;                
+                case 5: //wait for music stops (or timeout)
+                    if (music_get_pos() < 0 || gameSeq.timeCounter >= 600)
+                    {
                         
+                        game.state = E_GAME_ST_TITLE;
+                        currentPal = gamePal;
+                        sceneCounter = 0;
+                        gameSeq.step = 0;
+                        music_stop();
                         gameSeq.timeCounter = 0;
                         game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();
-                break;                
+                break;
             }
             //bypass intro
             if (input_key_down(E_G_KEY_EXIT))
@@ -2265,7 +2278,7 @@ static void game_debug_info()
 {
     //debug info    
     //show_debug("HighScore: %i", game.highScore);
-    //show_debug("midipos: %d", music_get_pos());
+    show_debug("midipos: %d", music_get_pos());
     show_debug("FPS: %d", fps_get());
     show_debug("s.x: %d, s.y: %d", scroll_get_position().x, scroll_get_position().y);
     
