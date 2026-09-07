@@ -461,7 +461,8 @@
                 "HURT",
                 "SLOPE_25_2",
                 "SLOPE_152_2",
-                "HALF_TILE"
+                "HALF_TILE",
+                "WATER"
             ],
             "valuesAsFlags": true
         },

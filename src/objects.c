@@ -798,7 +798,11 @@ void object_solid_update(tEntity *this, tDefaultObjectLocalData *local)
 
             if (this->ground && abs(this->fixVel.x) < ftofix(0.1))
             {
-                this->state = E_SOLID_ST_IDLE;            
+                //if object falls on water, deads
+                if (CHECK_FLAG(map_get_tile_property(this->pos),E_TILE_PROP_WATER))
+                    this->dead = true;
+                else
+                    this->state = E_SOLID_ST_IDLE;            
                 //if egypt symbol, play sound if it's on hole    
                 if (this->entType == E_EGYPT_SYMBOL_OBJECT_TYPE && this->anim.frame >= PUZZLE2_SYMBOL_NUM)
                     sfx_play(objectSfx[E_SFX_SYMBOL], E_SFX_OBJECT_VOICE);
