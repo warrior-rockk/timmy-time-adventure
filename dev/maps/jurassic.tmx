@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="180">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="240" height="30" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#a854a8" nextlayerid="4" nextobjectid="181">
  <editorsettings>
   <export target="../../res/maps/jurassic.tmx" format="tmx"/>
  </editorsettings>
@@ -659,18 +659,18 @@
   <object id="41" name="spider" type="enemy" x="2672" y="224" width="16" height="16"/>
   <object id="42" name="spider" type="enemy" x="2624" y="192" width="16" height="16"/>
   <object id="49" name="spider" type="enemy" x="1872" y="176" width="16" height="16"/>
-  <object id="12" name="piranha" type="enemy" x="2080" y="128" width="32" height="32">
+  <object id="12" name="piranha" type="enemy" x="2080.31" y="120" width="32" height="32">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>
   </object>
-  <object id="29" name="piranha" type="enemy" x="2192" y="128" width="32" height="32">
+  <object id="29" name="piranha" type="enemy" x="2192" y="120" width="32" height="32">
    <properties>
     <property name="dir" type="int" value="1"/>
    </properties>
   </object>
-  <object id="30" template="enemies/jurassic/piranha.tx" type="enemy" x="2288" y="128"/>
-  <object id="34" name="piranha" type="enemy" x="2336" y="128" width="32" height="32">
+  <object id="30" template="enemies/jurassic/piranha.tx" type="enemy" x="2288" y="120"/>
+  <object id="34" name="piranha" type="enemy" x="2336" y="120" width="32" height="32">
    <properties>
     <property name="dir" type="int" value="1"/>
     <property name="spare" type="int" value="60"/>
@@ -792,5 +792,6 @@
     <property name="spare" type="int" propertytype="items" value="1"/>
    </properties>
   </object>
+  <object id="180" template="triggers/debug-start.tx" x="2048" y="96"/>
  </objectgroup>
 </map>
