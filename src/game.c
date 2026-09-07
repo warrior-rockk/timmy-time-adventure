@@ -410,7 +410,7 @@ void game_update()
                     clear_to_color(buffer, BLACK_COLOR);
 
                     //load title logo
-                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE5_BMP);
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, TITLE_BMP);
                     animSprite.frame = 0;
 
                     //load title scroll
