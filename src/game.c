@@ -2262,12 +2262,10 @@ static void game_debug_update()
     if (key[KEY_P] && (key_shifts & KB_CTRL_FLAG) && !input_log_playing())
         input_log_play("demo.rec");
 
-    //restore timer (for vsync bug?)
+    //general porpouse debug key
     if (key[KEY_G] && (key_shifts & KB_CTRL_FLAG))
     {
-        remove_timer();
-        install_timer();
-        timer_init(GAME_CLOCK_TICK, ALLEGRO_USES_TIMER);
+        game.lives--;
     }
 
     //trace state          
@@ -2489,8 +2487,8 @@ void game_hud_draw()
     //update lives
     if (CHECK_FLAG(hud.refresh, E_REFRESH_HUD_LIVES))
     {
-        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + (game.lives < 10 ? 31 : 32), HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "  ");
-        textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + (game.lives < 10 ? 31 : 32), HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
+        textprintf_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + 26, HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "   ");
+        textprintf_ex(buffer, gameFont[E_GAME_FONT], HUD_POSITION_X + (game.lives < 10 ? 28 : 26), HUD_POSITION_Y + 5, WHITE_COLOR, BLACK_COLOR, "%u", game.lives);
     }
 
     //update life
