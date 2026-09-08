@@ -147,6 +147,8 @@ run_release: release
 release_pack: release
 	@echo "# Packing release"
 	rm -rf ${BUILD_DIR}/bin/*.zip
+	rm -f ${BUILD_DIR}/bin/dosbox.conf
+	rm -f ${BUILD_DIR}/bin/GAME.CFG
 ifeq ($(OS),Windows_NT)
 	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"	
 endif
@@ -157,10 +159,12 @@ endif
 #pack web version with jsdos emulator and run on browser
 web: release
 	@echo "# clean web release"
-	rm -rvf ${WEB_DIR}/release
-	
+	rm -rvf ${WEB_DIR}/release	
 	mkdir ${WEB_DIR}/release
 	
+	rm -f ./build/release/bin/dosbox.conf
+	rm -f ./build/release/bin/GAME.CFG
+
 	@echo "# Copying html resources"
 	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
 	
