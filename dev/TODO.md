@@ -100,7 +100,7 @@
 - [ ] 2 Layer tiles
 - [ ] Tiles with same tile id but different properties
 - [ ] Parallax
-- [ ] Parse sprite dimensions and animations from aseprite json
+- [ ] Parse sprite dimensions and animations from aseprite json (or aseprite file directly?)
 - [ ] Set size from Tiled export
 - [ ] Background color fade to do sunset?
 - [ ] Change life icon on hurt/die
@@ -111,3 +111,4 @@
 - [ ] swing on waters
 - [ ] negative coordinates? to place objects off screen limits?
 - [ ] Better fall on hole implementation for player and entities (maybe a fixed tile space between screen zones?)
+- [ ] Dynamic entity local parameters defined from tiled?
