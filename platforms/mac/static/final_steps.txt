@@ -1,0 +1,2 @@
+codesign --force --deep --sign - Timmy\ Time\ Adventure.app
+zip -r "Timmy Mac.zip" Timmy\ Time\ Adventure.app 
