@@ -269,7 +269,6 @@ enum E_GAME_KEYS
 //game texts
 enum E_GAME_TEXTS
 {
-    E_TXT_GAME_TITLE,
     E_TXT_PRESS_TO_START,
     E_TXT_MENU_PLAY,
     E_TXT_MENU_OPTIONS,
