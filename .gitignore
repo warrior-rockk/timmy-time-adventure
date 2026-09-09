@@ -57,3 +57,4 @@ build/
 *.tiled-session
 .DS_Store
 platforms/windows/release/
+web/release/
