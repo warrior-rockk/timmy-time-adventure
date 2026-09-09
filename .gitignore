@@ -56,3 +56,4 @@ build/
 !tools/dat/dat_win.exe
 *.tiled-session
 .DS_Store
+platforms/windows/release/

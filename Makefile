@@ -187,7 +187,26 @@ endif
 	python3 -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
 	python3 -m http.server
 
-.PHONY: clean info web release_pack
+#make windows release pack
+windows: release
+	@echo "# clean windows release"
+	rm -rvf ./platforms/windows/release	
+	rm -f ./build/release/bin/dosbox.conf
+	rm -f ./build/release/bin/GAME.CFG
+
+	@echo "# create release structure"
+	mkdir ./platforms/windows/release/
+	mkdir ./platforms/windows/release/$(basename $(APP))/	
+	cp ./build/release/bin/*.* ./platforms/windows/release/$(basename $(APP))/
+	cp ./platforms/windows/static/emu/*.* ./platforms/windows/release/$(basename $(APP))/
+	cp ./platforms/windows/static/*.* ./platforms/windows/release/
+
+	@echo "# packing data"
+ifeq ($(OS),Windows_NT)
+	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+endif
+
+.PHONY: clean info web release_pack windows
 
 clean:
 	rm -rvf ${BUILD_DIR}
