@@ -2,4 +2,6 @@
 
 DIR="$(dirname "$0")"
 
-"$DIR/dosbox-bin" -conf "$DIR/../Resources/dosbox.conf" -c "mount c '$DIR/../Resources/timmy'" -c "c:" -c "TIMMY.EXE"
+cd "$DIR/../Resources"
+
+"$DIR/dosbox-x-bin" -conf "dosbox.conf" -c "mount c timmy" -c "c:" -c "TIMMY.EXE" -c "exit"

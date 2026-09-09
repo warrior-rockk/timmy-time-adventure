@@ -206,7 +206,31 @@ ifeq ($(OS),Windows_NT)
 	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
 endif
 
-.PHONY: clean info web release_pack windows
+#make mac release pack app
+mac: release
+	@echo "# clean mac release"
+	rm -rvf ./platforms/mac/release	
+	rm -f ./build/release/bin/dosbox.conf
+	rm -f ./build/release/bin/GAME.CFG
+
+	mkdir ./platforms/mac/release/
+	@echo "# copy dosbox-x app"
+	cp -r /Applications/dosbox-x.app ./platforms/mac/release/'${APP_TITLE}.app'
+	
+	@echo "# copy release game to app resources"
+	mkdir ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/timmy
+	cp ./build/release/bin/*.* ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/timmy
+	cp ./static/dosbox.conf ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/
+	@echo "# rename original dosbox-x binary"
+	mv ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x-bin
+	@echo "# copy custom script to replace dosbox-x binary"
+	cp ./platforms/mac/static/dosbox-x ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x
+	@echo "# sign the app"
+	codesign --force --deep --sign - ./platforms/mac/release/'${APP_TITLE}.app'
+	@echo "# zip the app"
+	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (MAC v${MAJOR_VERSION}.${MINOR_VERSION}).zip" ./"${APP_TITLE}.app"
+	
+.PHONY: clean info web release_pack windows mac
 
 clean:
 	rm -rvf ${BUILD_DIR}
