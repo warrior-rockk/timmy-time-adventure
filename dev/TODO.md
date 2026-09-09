@@ -109,3 +109,5 @@
 - [ ] Not use array of entities. Instead, array of pointers to entities. This mitigates the bug of the reallocation of the entire entity list pointer address when grows
 - [ ] easy mode: auto attack / jumps shorts / more items? / slow enemy velocity?
 - [ ] swing on waters
+- [ ] negative coordinates? to place objects off screen limits?
+- [ ] Better fall on hole implementation for player and entities (maybe a fixed tile space between screen zones?)
