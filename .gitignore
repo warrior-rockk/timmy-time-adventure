@@ -52,9 +52,12 @@ Mkfile.old
 dkms.conf
 
 build/
-!static/CWSDPMI.EXE
-!tools/dat/dat_win.exe
 *.tiled-session
 .DS_Store
 platforms/windows/release/
 web/release/
+
+# Custom exclusions
+!static/CWSDPMI.EXE
+!tools/dat/dat_win.exe
+!platforms/mac/static/dosbox-x
