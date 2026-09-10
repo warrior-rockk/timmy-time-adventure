@@ -199,7 +199,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL   //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_ENDING   //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC   //initial debug level
 #endif
 
@@ -274,7 +274,6 @@ enum E_GAME_TEXTS
     E_TXT_MENU_OPTIONS,
     E_TXT_MENU_EXIT,
     E_TXT_MENU_LANG,
-    E_TXT_MENU_LANG_OPTIONS,
     E_TXT_MENU_CONTROLS,
     E_TXT_MENU_SFX_VOLUME,
     E_TXT_MENU_MUSIC_VOLUME,
@@ -347,7 +346,9 @@ enum E_GAME_TEXTS
     E_TXT_NUM,
 };
 
-//game languages (to add language, copy txt to res/game, add to this enum, load file on game_init and update the language options text on every language txt files)
+//game languages (to add language, copy txt to res/game, add to this enum, add lang name on LANG_TXT_OPTIONS and load file on game_init
+#define LANG_TXT_OPTIONS    "ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKARA;CATALÀ"        //text string options for language selection
+
 enum E_TEXT_LANGUAGES
 {    
     E_LANG_ENG,
@@ -355,9 +356,11 @@ enum E_TEXT_LANGUAGES
     E_LANG_VAL,
     E_LANG_GAL,
     E_LANG_EUSK,
+    E_LANG_CAT,
 
     E_NUM_LANGS,
 };
+
 
 //refresh HUD
 enum E_REFRESH_HUD

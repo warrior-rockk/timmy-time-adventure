@@ -1,0 +1,73 @@
+PREM TECLA PER A COMENÇAR
+JUGAR
+OPCIONS
+SORTIR
+IDIOMA:
+CONTROLS
+VOLUM EFECTES:
+VOLUM MÚSICA:
+CONTINUAR
+SORTIR AL TÍTOL
+SORTIR A DOS
+REINICIAR NIVELL
+PAUSA
+VIDES
+ENERGIA
+PUNTS
+TEMPS
+AMUNT
+AVALL
+ESQUERRA
+DRETA
+SALTAR
+ACCIÓ
+PULSA TECLA
+SI
+NO
+FI DEL JOC
+CONTINUAR?
+ESCULL NIVEL
+--COM JUGAR--
+MOURE AMB [%s] Y [%s]
+SALTAR AMB [%s]
+AJUPIR-SE AMB [%s]
+ATACAR AMB [%s] A L'AIRE
+AGAFAR OBJECTE AMB [%s]
+LLENÇAR OBJECTE AMB [%s]
+PREM [%s] I [%s] PER LLENÇAR EN CURT
+ENTRAR A LES PORTES AMB [%s]
+Al mig de la nit, un nen segueix|treballant al seu laboratori.
+Aquest nen és en Timmy i està treballant|en el seu últim invent:|UNA MÀQUINA DEL TEMPS!
+Després d'una feina dura, la màquina està llesta.|És el moment de provar-la.
+Però quelcom ha sortit malament i la màquina|explota al engegar-la.
+Timmy i peces de la màquina|són absorvides per un vòrtex temporal.
+Ara Timmy està perdut en el temps|i ha de viatjar per la història|per recuperar les peces perdudes.
+A la fi, Timmy ha recuperat totes|les peces de la màquina i pot arreglar-la.
+Amb la màquina reparada, el vòrtex|temporal torna a Timmy a la seva època.
+Ara Timmy està a casa de nou!
+TEMPS ESGOTAT!
+NIVELL COMPLETAT
+ESTÀS SEGUR?
+COMENÇARÀS DE NOU...
+GRÀCIES PER JUGAR!
+GRÀFICS
+CODIG
+MÚSICA I SO
+DISENY DE NIVELLS
+BETATESTERS
+TRADUCCIONS
+AGRAIMENTS
+Warrior
+Warrior
+Warrior|Xabi (xabisan)
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)|Morgoth|Alain (Laertes)
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+ESTADÍSTIQUES
+TEMPS DE JOC:
+PUNTS:
+PUNTS MÁX:
+VIDES PERDUDES:
+VIDES RESTANTS:
+CONTINUACI. UTILITZADES:

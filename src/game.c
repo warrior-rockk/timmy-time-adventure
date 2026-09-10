@@ -237,7 +237,7 @@ void game_update()
                     gameDialog = dialog_create((tRectangle){(tVector){FIRSTRUN_MENU_POS_X, FIRSTRUN_MENU_POS_Y}, (tVector){FIRSTRUN_MENU_SIZE_X, FIRSTRUN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     
                     //write language options
-                    char *token = strtok(lang_get_txt(E_TXT_MENU_LANG_OPTIONS), ";");
+                    char *token = strtok(LANG_TXT_OPTIONS, ";");
                     for (uint8_t i = 0; i < E_NUM_LANGS; i++)
                     {
                         if (token != NULL)
@@ -2138,6 +2138,7 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, VAL_TXT)->dat, E_LANG_VAL);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, GAL_TXT)->dat, E_LANG_GAL);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, EUSK_TXT)->dat, E_LANG_EUSK);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, CAT_TXT)->dat, E_LANG_CAT);
     
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
@@ -2695,7 +2696,8 @@ static void game_save_config()
 //creates menu options
 static void game_create_options_menu()
 {
-    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), lang_get_txt(E_TXT_MENU_LANG_OPTIONS), &gameConfig.lang);
+    const char *langTxtOptions = LANG_TXT_OPTIONS;
+    dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), langTxtOptions, &gameConfig.lang);
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS));
     dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, &gameConfig.sfxVolume, 10);
     dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);
