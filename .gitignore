@@ -55,6 +55,7 @@ build/
 *.tiled-session
 .DS_Store
 platforms/windows/release/
+platforms/mac/release/
 web/release/
 
 # Custom exclusions
