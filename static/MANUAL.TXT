@@ -66,3 +66,23 @@ These are the functions of each game key:
 -ENTER: Accepts menu selections.
 -ESC: Exits menus, cancels introductions, or brings up the menu during a level.
 -SPACE: Pauses the game during a level.
+ 
+
+                    .::::::::::::::
+ ::::::::::::::::   :::::::::::::::
+ ::::::::::::::::   ::::..         
+.::                .:::: ::::      
+.::                ::::  ::::      
+ ::                ::::  ::::      
+.::  .::::        :::::  ::::      
+:::   :::::       ::::   ::::      
+:::   :::::   :: :::::   ::::      
+:::    :::::::::::::::   ::::      
+:::    .::::::::::::::   ::::      
+:::     :::::::::::::    ::::      
+:::     :::::::::::::    ::::      
+:::      :::::  :::::    ::::      
+:::                      ::::      
+:::::::::::::::::::::::::::::      
+.:::::::::::::::::::::::::::       
+Warcom soft. 2026     
