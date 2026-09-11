@@ -59,8 +59,7 @@ TRANSLATIONS
 SPECIAL THANKS
 Warrior
 Warrior
-Warrior|Xabi (xabisan)
-MintoDog
+Warrior|Xabi (xabisan)|MintoDog
 Warrior
 Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
 Alfred (Lolocop)|Morgoth|Alain (Laertes)|Jordi (jbinary)
