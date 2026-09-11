@@ -150,10 +150,10 @@ release_pack: release
 	rm -f ${BUILD_DIR}/bin/dosbox.conf
 	rm -f ${BUILD_DIR}/bin/GAME.CFG
 ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"	
+	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} MSDOS).zip' -Force"	
 endif
 ifeq ($(OS),Mac)
-	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' ${BUILD_DIR}/bin/*.* -j
+	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} MSDOS).zip' ${BUILD_DIR}/bin/*.* -j
 endif
 
 #pack web version with jsdos emulator and run on browser
@@ -175,7 +175,7 @@ ifeq ($(OS),Windows_NT)
 	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
 
 	@echo "# pack the web release on zip for itch.io"	
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WEB).zip' -Force"
 endif
 ifeq ($(OS),Mac)
 	zip ${WEB_DIR}/release/$(basename $(APP)).zip ./build/release/bin/*.*  -j
@@ -203,10 +203,10 @@ windows: release
 
 	@echo "# packing data"
 ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
+	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WIN).zip' -Force"
 endif
 ifeq ($(OS),Mac)
-	zip ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' ./platforms/windows/release/*
+	zip ./platforms/windows/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WIN).zip' ./platforms/windows/release/*
 endif
 
 #make mac release pack app
@@ -235,7 +235,7 @@ ifeq ($(OS),Mac)
 	@echo "# sign the app"
 	codesign --force --deep --sign - ./platforms/mac/release/'${APP_TITLE}.app'
 	@echo "# zip the app"
-	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (MAC v${MAJOR_VERSION}.${MINOR_VERSION}).zip" ./"${APP_TITLE}.app"
+	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (MAC v${MAJOR_VERSION}.${MINOR_VERSION} Mac App).zip" ./"${APP_TITLE}.app"
 endif
 
 .PHONY: clean info web release_pack windows mac
