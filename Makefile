@@ -205,9 +205,16 @@ windows: release
 ifeq ($(OS),Windows_NT)
 	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' -Force"
 endif
+ifeq ($(OS),Mac)
+	zip ./platforms/windows/release/'${APP_TITLE} (WIN v${MAJOR_VERSION}.${MINOR_VERSION}).zip' ./platforms/windows/release/*
+endif
 
 #make mac release pack app
 mac: release
+ifeq ($(OS),Windows_NT)
+	@echo "# Can't make mac release from windows"
+endif
+ifeq ($(OS),Mac)
 	@echo "# clean mac release"
 	rm -rvf ./platforms/mac/release	
 	rm -f ./build/release/bin/dosbox.conf
@@ -229,7 +236,8 @@ mac: release
 	codesign --force --deep --sign - ./platforms/mac/release/'${APP_TITLE}.app'
 	@echo "# zip the app"
 	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (MAC v${MAJOR_VERSION}.${MINOR_VERSION}).zip" ./"${APP_TITLE}.app"
-	
+endif
+
 .PHONY: clean info web release_pack windows mac
 
 clean:
