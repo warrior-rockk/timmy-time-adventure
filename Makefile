@@ -235,7 +235,7 @@ ifeq ($(OS),Mac)
 	@echo "# sign the app"
 	codesign --force --deep --sign - ./platforms/mac/release/'${APP_TITLE}.app'
 	@echo "# zip the app"
-	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (MAC v${MAJOR_VERSION}.${MINOR_VERSION} Mac App).zip" ./"${APP_TITLE}.app"
+	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} Mac App).zip" ./"${APP_TITLE}.app"
 endif
 
 .PHONY: clean info web release_pack windows mac
