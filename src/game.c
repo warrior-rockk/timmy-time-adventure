@@ -172,10 +172,10 @@ void game_update()
                     
                     BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, WARCOM_BMP);
                     
-                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1) + 15, (SCREEN_H>>1) - (logo->h>>1) - 10);    
+                    draw_sprite(buffer, logo, (SCREEN_X>>1) - (logo->w>>1) + 15, (SCREEN_Y>>1) - (logo->h>>1) - 10);    
                     destroy_bitmap(logo);
                     
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "WARCOM SOFT 2026", SCREEN_W>>1, SCREEN_H - 16, WHITE_COLOR, 0);
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT], "WARCOM SOFT 2026", SCREEN_X>>1, SCREEN_Y - 16, WHITE_COLOR, 0);
 
                     gameMusic = load_dat_midi_indexed(gameDataIndex, WARCOM_MID);
                     music_play(gameMusic, false);
@@ -203,7 +203,7 @@ void game_update()
                                         
                     BITMAP *logo = load_dat_bmp_indexed(gameDataIndex, DOSCLUB_BMP);
                                         
-                    draw_sprite(buffer, logo, (SCREEN_W>>1) - (logo->w>>1), (SCREEN_H>>1) - (logo->h>>1));    
+                    draw_sprite(buffer, logo, (SCREEN_X>>1) - (logo->w>>1), (SCREEN_Y>>1) - (logo->h>>1));    
                     destroy_bitmap(logo);   
                                         
                     gameMusic = load_dat_midi_indexed(gameDataIndex, DOSCLUB_MID);
@@ -331,10 +331,10 @@ void game_update()
                 case 2:  //draw scene
                     clear_to_color(buffer, BLACK_COLOR);
                     intro = load_dat_bmp_indexed(gameDataIndex, INTRO1_BMP + sceneCounter);
-                    draw_sprite(buffer, intro, (SCREEN_W>>1) - (intro->w>>1), 0);    
+                    draw_sprite(buffer, intro, (SCREEN_X>>1) - (intro->w>>1), 0);    
                     destroy_bitmap(intro);
 
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_INTRO_1 + sceneCounter), SCREEN_X>>1, 140, WHITE_COLOR, BLACK_COLOR);
                     textDelay = strlen(lang_get_txt(E_TXT_INTRO_1 + sceneCounter)) * SCENE_CHAR_DELAY;
 
                     game.fadeIn = E_FADE_TYPE_0_63;
@@ -680,10 +680,10 @@ void game_update()
                                   
                     //draw timeline image
                     BITMAP *timeline = load_dat_bmp_indexed(gameDataIndex, TIMELINE_BMP);               
-                    draw_sprite(buffer, timeline, (SCREEN_W>>1) - (timeline->w>>1), (SCREEN_H>>1) - (timeline->h>>1));    
+                    draw_sprite(buffer, timeline, (SCREEN_X>>1) - (timeline->w>>1), (SCREEN_Y>>1) - (timeline->h>>1));    
                     destroy_bitmap(timeline);   
                     //draw text title
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_W>>1, 20, 56, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_SELECT_LEVEL), SCREEN_X>>1, 20, 56, BLACK_COLOR);                    
 
                     //draw static image completed levels
                     for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
@@ -826,8 +826,8 @@ void game_update()
                     textprintf_ex(buffer, gameFont[E_GAME_FONT], 20, 170, 56, BLACK_COLOR, lang_get_txt(E_TXT_SCORE_STATS));
                     textprintf_ex(buffer, gameFont[E_GAME_FONT], 20 + (text_length(gameFont[E_GAME_FONT], lang_get_txt(E_TXT_SCORE_STATS))), 170, WHITE_COLOR, BLACK_COLOR, " %04u", game.score);
                     
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT], (SCREEN_W>>1) + 20, 170, 56, BLACK_COLOR, lang_get_txt(E_TXT_HIGHSCORE_STATS));
-                    textprintf_ex(buffer, gameFont[E_GAME_FONT], (SCREEN_W>>1) + 20 + (text_length(gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HIGHSCORE_STATS))), 170, WHITE_COLOR, BLACK_COLOR, " %07u", game.highScore);
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT], (SCREEN_X>>1) + 20, 170, 56, BLACK_COLOR, lang_get_txt(E_TXT_HIGHSCORE_STATS));
+                    textprintf_ex(buffer, gameFont[E_GAME_FONT], (SCREEN_X>>1) + 20 + (text_length(gameFont[E_GAME_FONT], lang_get_txt(E_TXT_HIGHSCORE_STATS))), 170, WHITE_COLOR, BLACK_COLOR, " %07u", game.highScore);
                     
                     gameSeq.step++;
                 break;
@@ -985,39 +985,39 @@ void game_update()
                         switch (input_log_get_frame())
                         {
                             case TUTORIAL_INI_FRAME ... TUTORIAL_INI_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_WELCOME));
                             break;
                             case TUTORIAL_MSG_1_FRAME ... TUTORIAL_MSG_1_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_MOVE), keyStrings[input_get_defined_key(E_G_KEY_LEFT)], keyStrings[input_get_defined_key(E_G_KEY_RIGHT)]);
                             break;
                             case TUTORIAL_MSG_2_FRAME ... TUTORIAL_MSG_2_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_JUMP), keyStrings[input_get_defined_key(E_G_KEY_JUMP)]);
                             break;
                             case TUTORIAL_MSG_3_FRAME ... TUTORIAL_MSG_3_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_CROUCH), keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_4_FRAME ... TUTORIAL_MSG_4_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_ATTACK), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_5_FRAME ... TUTORIAL_MSG_5_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_TAKE), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_6_FRAME ... TUTORIAL_MSG_6_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
                             case TUTORIAL_MSG_7_FRAME ... TUTORIAL_MSG_7_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)], keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
                             case TUTORIAL_MSG_8_FRAME ... TUTORIAL_MSG_8_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
-                                rectfill(buffer, 0, GAME_H, SCREEN_W, SCREEN_H, BLACK_COLOR);
+                                rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_DOOR), keyStrings[input_get_defined_key(E_G_KEY_UP)]);
                             break;
                         }
@@ -1495,7 +1495,7 @@ void game_update()
                     //load pal
                     currentPal = gamePal;
                     //put game over text
-                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_GAME_OVER), SCREEN_W>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
+                    textout_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], lang_get_txt(E_TXT_GAME_OVER), SCREEN_X>>1, 20, WHITE_COLOR, BLACK_COLOR);                    
                     
                     //load game over anim sprite
                     gameSprite = load_dat_bmp_indexed(gameDataIndex, GAMEOVER_BMP);
@@ -1508,7 +1508,7 @@ void game_update()
 
                     //count down text
                     gameSeq.timeCounter = GAME_OVER_COUNT_DOWN;
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_X>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
 
                     //create continue menu
                     gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
@@ -1547,8 +1547,8 @@ void game_update()
                         destroy_bitmap(gameSprite);    
                     }
                     //count-down text
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "   ");                    
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_X>>1, 40, WHITE_COLOR, BLACK_COLOR, "   ");                    
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_X>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
 
 
                     game_navigation_menu(&gameDialog, buffer);
@@ -1601,10 +1601,10 @@ void game_update()
                     
                     clear_to_color(buffer, BLACK_COLOR);
                     ending = load_dat_bmp_indexed(gameDataIndex, ENDING1_BMP + sceneCounter);
-                    draw_sprite(buffer, ending, (SCREEN_W>>1) - (ending->w>>1), 0);    
+                    draw_sprite(buffer, ending, (SCREEN_X>>1) - (ending->w>>1), 0);    
                     destroy_bitmap(ending);
 
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_ENDING_1 + sceneCounter), SCREEN_W>>1, 140, WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_ENDING_1 + sceneCounter), SCREEN_X>>1, 140, WHITE_COLOR, BLACK_COLOR);
                     textDelay = strlen(lang_get_txt(E_TXT_ENDING_1 + sceneCounter)) * SCENE_CHAR_DELAY;
 
                     game.fadeIn = E_FADE_TYPE_0_63;
@@ -1653,7 +1653,7 @@ void game_update()
                 case 5: //thanks msg
                     clear_to_color(buffer, BLACK_COLOR);
                     
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 100 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_X>>1, 100 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     game.fadeIn = true;
                     gameSeq.step++;
@@ -1896,28 +1896,28 @@ void game_update()
                     //load and draw bye bye sprite
                     gameSprite = load_dat_bmp_indexed(gameDataIndex, BYEBYE_BMP);
                     animSprite.frame = 0;
-                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    game_draw_object((tVector){SCREEN_X>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
                     //draw thanks text
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_X>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     gameSeq.step++;
                 break;
                 case 1: //turn animation
                     clear_to_color(buffer, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_X>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     if (play_animation(&animSprite, 0, 4, 10, ANIM_ONCE))
                         gameSeq.step++;
-                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    game_draw_object((tVector){SCREEN_X>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
                 break;
                 case 2: //bye animation
                     clear_to_color(buffer, BLACK_COLOR);
-                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_W>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
+                    text_multiline_draw(buffer, gameFont[E_GAME_FONT_MID], lang_get_txt(E_TXT_THANKS_PLAYING), SCREEN_X>>1, 50 - (text_height(gameFont[E_GAME_FONT_MID]) >> 1), WHITE_COLOR, BLACK_COLOR);
 
                     play_animation(&animSprite, 5, 10, 20, ANIM_PING_PONG);
                         
-                    game_draw_object((tVector){SCREEN_W>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
+                    game_draw_object((tVector){SCREEN_X>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
                     if (music_get_pos() < 0 || gameSeq.timeCounter >= 2000)
                     {
@@ -1951,7 +1951,7 @@ void game_update()
                     clear_to_color(buffer, BLACK_COLOR);
                     
                     //write title
-                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_W>>1, 14, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_STATISTICS));
+                    textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_X>>1, 14, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_STATISTICS));
                     
                     //write values
                     textprintf_ex(buffer, gameFont[E_GAME_FONT_MID], STATISTIC_DATA_POS_X, STATISTIC_DATA_POS_Y, CREDIT_TITLE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_PLAY_TIME_STATS));
@@ -2104,7 +2104,7 @@ void game_init()
     
     //initialize buffer screen
     #if GAME_GFX_DOBLE_BUFFER
-        buffer = create_bitmap(SCREEN_W, SCREEN_H);
+        buffer = create_bitmap(SCREEN_X, SCREEN_Y);
     #else
         buffer = screen;
     #endif
@@ -2209,7 +2209,11 @@ void game_draw()
     
     //double buffer: blit to screen
     #if GAME_GFX_DOBLE_BUFFER
-        blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);  
+        #ifdef WIN32
+            stretch_blit(buffer, screen, 0, 0, SCREEN_X, SCREEN_Y, 0, 0, WINDOW_SIZE_W, WINDOW_SIZE_H);
+        #else
+            blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);  
+        #endif
     #endif
     
     //do pending fades
@@ -2932,7 +2936,7 @@ void game_draw_title_scroll()
         gameSeq.timeCounter += clock_tick_get();
 
     //blit first screen scroll
-    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_W))
+    if (titleScrollPos.x <= (TITLE_SCROLL_WIDTH - SCREEN_X))
         blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, TITLE_SCROLL_SIZE_X, TITLE_SCROLL_SIZE_Y);
     //reset if end of scroll image
     else if (titleScrollPos.x >= TITLE_SCROLL_WIDTH)
@@ -2941,8 +2945,8 @@ void game_draw_title_scroll()
     }
     else    //draws continuous scroll
     {
-        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
-        blit(titleScroll, buffer, 0, 0, SCREEN_W - (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_W), TITLE_SCROLL_SIZE_Y);
+        blit(titleScroll, buffer, titleScrollPos.x, 0, TITLE_SCROLL_POS_X, TITLE_SCROLL_POS_Y, SCREEN_X - (titleScrollPos.x - SCREEN_X), TITLE_SCROLL_SIZE_Y);
+        blit(titleScroll, buffer, 0, 0, SCREEN_X - (titleScrollPos.x - SCREEN_X), TITLE_SCROLL_POS_Y, (titleScrollPos.x - SCREEN_X), TITLE_SCROLL_SIZE_Y);
     }
 }
 

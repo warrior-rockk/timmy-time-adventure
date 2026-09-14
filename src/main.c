@@ -63,7 +63,9 @@ END_OF_MAIN()
 static void main_init()
 {
     //set env var MY_TRACE log file
-    setenv("ALLEGRO_TRACE", "GAME.LOG", 1);
+    #ifndef WIN32
+        setenv("ALLEGRO_TRACE", "GAME.LOG", 1);
+    #endif
 
     MY_TRACE_FLAG("%s %i.%i\n", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION);
     MY_TRACE_FLAG("Initializing systems and modules\n");
@@ -149,7 +151,11 @@ static void main_init()
     game_loading_text();
 
     //set video mode
-    if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
+    #ifdef WIN32
+        if (set_gfx_mode(GAME_GFX_MODE, WINDOW_SIZE_W, WINDOW_SIZE_H, 0, 0) != 0)
+    #else
+        if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
+    #endif
         abort_on_error("Error setting graphic mode");
     set_color_depth(GAME_COLOR_DEPTH);
 

@@ -26,16 +26,22 @@
 #define ALLEGRO_USES_SOUND      1           //disable to profile with uclock
 
 //screen video configuration
-#define GAME_GFX_MODE           GFX_VGA     //selected video mode
-#define GAME_GFX_DOBLE_BUFFER   1           //enables or disables doble buffer (draws directly on screen or on BITMAP buffer)
-#define GAME_COLOR_DEPTH        8           //color depth bit
+#ifdef WIN32
+    #define GAME_GFX_MODE           GFX_GDI     //selected video mode
+    #define WINDOW_SIZE_W           960
+    #define WINDOW_SIZE_H           600
+#else
+    #define GAME_GFX_MODE           GFX_VGA     //selected video mode    
+#endif
 #define SCREEN_X                320         //screen width resolution
 #define SCREEN_Y                200         //screen height resolution
+#define GAME_GFX_DOBLE_BUFFER   1           //enables or disables doble buffer (draws directly on screen or on BITMAP buffer)
+#define GAME_COLOR_DEPTH        8           //color depth bit
 
 //game/map screen size (SMS resolution: 256x192)
 #define GAME_W                  256         //16 tiles width. Border of 2 tiles of each side
 #define GAME_H                  160         //10 tiles height. 40px bottom border for HUD
-#define GAME_X                  (SCREEN_W>>1) - (GAME_W>>1)
+#define GAME_X                  (SCREEN_X>>1) - (GAME_W>>1)
 #define GAME_Y                  0 
 
 //clock iteration duration value
@@ -72,7 +78,7 @@
 #define HUD_POSITION_X          40
 
 //tutorial defines
-#define TUTORIAL_TXT_POSITION_X     SCREEN_W>>1
+#define TUTORIAL_TXT_POSITION_X     SCREEN_X>>1
 #define TUTORIAL_TXT_POSITION_Y     166
 #define TUTORIAL_TXT_MAX_LENGTH     20
 #define TUTORIAL_MSG_FRAME_OFFSET   5
@@ -120,22 +126,22 @@
 //menu dialogos position and sizes definitions
 #define FIRSTRUN_MENU_SIZE_X    80
 #define FIRSTRUN_MENU_SIZE_Y    0
-#define FIRSTRUN_MENU_POS_X     (SCREEN_W >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
+#define FIRSTRUN_MENU_POS_X     (SCREEN_X >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
 #define FIRSTRUN_MENU_POS_Y     50
 
 #define MAIN_MENU_SIZE_X        120
 #define MAIN_MENU_SIZE_Y        0
-#define MAIN_MENU_POS_X         (SCREEN_W >> 1) - (MAIN_MENU_SIZE_X >> 1)
+#define MAIN_MENU_POS_X         (SCREEN_X >> 1) - (MAIN_MENU_SIZE_X >> 1)
 #define MAIN_MENU_POS_Y         120
 
 #define OPTIONS_MENU_SIZE_X     160
 #define OPTIONS_MENU_SIZE_Y     0
-#define OPTIONS_MENU_POS_X      (SCREEN_W >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
+#define OPTIONS_MENU_POS_X      (SCREEN_X >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
 #define OPTIONS_MENU_POS_Y      50
 
 #define GAMEOVER_MENU_SIZE_X    80
 #define GAMEOVER_MENU_SIZE_Y    0
-#define GAMEOVER_MENU_POS_X     (SCREEN_W >> 1) - (GAMEOVER_MENU_SIZE_X >> 1)
+#define GAMEOVER_MENU_POS_X     (SCREEN_X >> 1) - (GAMEOVER_MENU_SIZE_X >> 1)
 #define GAMEOVER_MENU_POS_Y     110
 
 #define PLAY_MENU_SIZE_X        120
@@ -145,7 +151,7 @@
 
 #define CONTROLS_MENU_SIZE_X    140
 #define CONTROLS_MENU_SIZE_Y    0
-#define CONTROLS_MENU_POS_X     (SCREEN_W >> 1) - (CONTROLS_MENU_SIZE_X >> 1)
+#define CONTROLS_MENU_POS_X     (SCREEN_X >> 1) - (CONTROLS_MENU_SIZE_X >> 1)
 #define CONTROLS_MENU_POS_Y     50
 
 #define PAUSE_MENU_SIZE_X       140
@@ -158,12 +164,12 @@
 #define EXPLOSION_TILE_RANGE_Y       4
 
 //title logo position and animation
-#define TITLE_LOGO_POS_X        SCREEN_W >> 1
-#define TITLE_LOGO_POS_Y        40 //SCREEN_H >> 2
+#define TITLE_LOGO_POS_X        SCREEN_X >> 1
+#define TITLE_LOGO_POS_Y        40 //SCREEN_Y >> 2
 #define TITLE_LOGO_ANIM         0, 1, 15, ANIM_LOOP
 
 //press start text on title position
-#define PRESS_START_POS_X       SCREEN_W >> 1 
+#define PRESS_START_POS_X       SCREEN_X >> 1 
 #define PRESS_START_POS_Y       90 // 140
 
 //title scroll defines
@@ -180,7 +186,7 @@
 
 //game over definitions
 #define ANIM_GAME_OVER          0,   9, 10,  ANIM_LOOP   //game over animation
-#define GAME_OVER_POS           (tVector){(SCREEN_W>>1), 90}
+#define GAME_OVER_POS           (tVector){(SCREEN_X>>1), 90}
 #define GAME_OVER_SIZE          (tVector){27, 40}
 #define GAME_OVER_COUNT_DOWN    20
 
