@@ -8,12 +8,10 @@ A retro platformer for MS-DOS, with the gameplay of 8-bit console games and the 
 
 Timmy is a little inventor, and his latest project is a time machine. When he switches it on, it blows up, and Timmy and its pieces are scattered across history. Get him through four eras (the Jurassic, ancient Egypt, the Middle Ages and the Wild West), past enemies and traps, to recover the four missing pieces and get back home.
 
-<p align="center">
-  <img src="https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOS5wbmc=/347x500/a6W73Q.png" width="24%">
-  <img src="https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOC5wbmc=/347x500/lG5FhR.png" width="24%">
-  <img src="https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMS5wbmc=/347x500/OzIqrK.png" width="24%">
-  <img src="https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMC5wbmc=/347x500/uj5JOH.png" width="24%">
-</p>
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOS5wbmc=/347x500/a6W73Q.png)
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAyOC5wbmc=/347x500/lG5FhR.png)
+![https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMS5wbmc=/347x500/OzIqrK.png](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMS5wbmc=/347x500/OzIqrK.png)
+![alt text](https://img.itch.zone/aW1hZ2UvNDk2NDkyMS8yOTcxNDAzMC5wbmc=/347x500/uj5JOH.png)
 
 ## Playing
 
