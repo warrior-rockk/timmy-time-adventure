@@ -1,0 +1,73 @@
+PRIME UMA TECLA PARA COMEÇAR
+JOGAR
+OPÇÕES
+SAIR
+IDIOMA:
+CONTROLOS
+VOLUME EFEITOS:
+VOLUME MÚSICA:
+CONTINUAR
+VOLTAR AO INÍCIO
+SAIR PARA O DOS
+REINICIAR NÍVEL
+PAUSA
+VIDAS
+ENERGIA
+PONTOS
+TEMPO
+CIMA
+BAIXO
+ESQUERDA
+DIREITA
+SALTAR
+AÇÃO
+PRIME UMA TECLA
+SIM
+NÃO
+FIM DE JOGO
+CONTINUAR?
+ESCOLHE O NÍVEL
+--COMO JOGAR--
+ANDA COM [%s] E [%s]
+SALTA COM [%s]
+BAIXA-TE COM [%s]
+ATACA COM [%s] NO AR
+APANHA OBJETOS COM [%s]
+ATIRA OBJETOS COM [%s]
+PRIME [%s] E [%s] PARA ATIRAR DE MANSINHO
+ENTRA NAS PORTAS COM [%s]
+Noite dentro, um miúdo continua|enfiado no seu laboratório.
+O miúdo é o Timmy, e anda de volta|da sua última invenção:|UMA MÁQUINA DO TEMPO!
+Depois de muito suor,|a máquina está pronta.|Chegou a hora da verdade.
+Mas o tiro sai pela culatra:|a máquina explode mal é ligada.
+O Timmy e as peças da máquina|são sugados por um vórtice temporal.
+Agora o Timmy anda perdido no tempo|e tem de correr séculos de fio a pavio|para reaver as peças da máquina.
+Por fim, o Timmy juntou as peças todas|e pode deitar mãos à obra.
+Com a máquina arranjada, o vórtice|leva o Timmy de volta ao seu tempo.
+Lar, doce lar! O Timmy está de volta!
+ACABOU O TEMPO!
+NÍVEL CONCLUÍDO
+TENS A CERTEZA?
+VOLTAS À ESTACA ZERO
+OBRIGADO POR JOGARES!
+GRÁFICOS
+PROGRAMAÇÃO
+MÚSICA E SOM
+DESIGN DE NÍVEIS
+BETATESTERS
+TRADUÇÕES
+AGRADECIMENTOS
+Warrior
+Warrior
+Warrior|Xabi (xabisan)|MintoDog
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)|Morgoth|Alain (Laertes)|Jordi (jbinary)
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+ESTATÍSTICAS
+TEMPO DE JOGO:
+PONTOS:
+RECORDE:
+VIDAS PERDIDAS:
+VIDAS RESTANTES:
+CONTINUAÇÕES USADAS:

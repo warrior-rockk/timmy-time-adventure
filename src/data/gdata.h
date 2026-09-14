@@ -63,4 +63,5 @@
 #define ESP_TXT                       	62  	//DATA
 #define EUSK_TXT                      	63  	//DATA
 #define GAL_TXT                       	64  	//DATA
-#define VAL_TXT                       	65  	//DATA
+#define POR_TXT                       	65  	//DATA
+#define VAL_TXT                       	66  	//DATA

@@ -118,7 +118,7 @@
 #define DEMO_LEVEL_2            E_GAME_LEVEL_WEST
 
 //menu dialogos position and sizes definitions
-#define FIRSTRUN_MENU_SIZE_X    80
+#define FIRSTRUN_MENU_SIZE_X    96
 #define FIRSTRUN_MENU_SIZE_Y    0
 #define FIRSTRUN_MENU_POS_X     (SCREEN_W >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
 #define FIRSTRUN_MENU_POS_Y     50
@@ -347,7 +347,7 @@ enum E_GAME_TEXTS
 };
 
 //game languages (to add language, copy txt to res/game, add to this enum, add lang name on LANG_TXT_OPTIONS and load file on game_init
-#define LANG_TXT_OPTIONS    "ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKARA;CATALÀ"        //text string options for language selection
+#define LANG_TXT_OPTIONS    "ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKARA;CATALÀ;PORTUGUÊS"        //text string options for language selection
 
 enum E_TEXT_LANGUAGES
 {    
@@ -357,6 +357,7 @@ enum E_TEXT_LANGUAGES
     E_LANG_GAL,
     E_LANG_EUSK,
     E_LANG_CAT,
+    E_LANG_POR,
 
     E_NUM_LANGS,
 };
