@@ -237,7 +237,8 @@ void game_update()
                     gameDialog = dialog_create((tRectangle){(tVector){FIRSTRUN_MENU_POS_X, FIRSTRUN_MENU_POS_Y}, (tVector){FIRSTRUN_MENU_SIZE_X, FIRSTRUN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     
                     //write language options
-                    char *token = strtok(LANG_TXT_OPTIONS, ";");
+                    char langsText[DIALOG_MAX_OPTION_LENGTH] = LANG_TXT_OPTIONS; 
+                    char *token = strtok(langsText, ";");
                     for (uint8_t i = 0; i < E_NUM_LANGS; i++)
                     {
                         if (token != NULL)

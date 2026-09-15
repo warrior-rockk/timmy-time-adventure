@@ -9,6 +9,8 @@
 #include "allegro.h"
 #include "interface.h"
 
+#define TRACE_FLAG  "[INTERFACE]"
+
 BITMAP *interfaceSkin;                              //interface skin loaded on init
 FONT *interfaceFont;                                //interface font loaded on init
 BITMAP *dialogTiles[E_DIALOG_SKIN_NUM_TILES];       //tiles from skin to compose the dialog
