@@ -2416,6 +2416,9 @@ static void game_do_fade()
 //inits the hud
 void game_hud_init()
 {
+    //clear hud area
+    rectfill(buffer, 0, GAME_H + 3, SCREEN_X, SCREEN_Y, BLACK_COLOR);
+
     draw_sprite(buffer, hud.hudImg, HUD_POSITION_X, HUD_POSITION_Y);
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 65, HUD_POSITION_Y + 5);
     draw_sprite(buffer, hud.hudLifeOn, HUD_POSITION_X + 82, HUD_POSITION_Y + 5);
@@ -2727,6 +2730,12 @@ static void game_process_options_menu()
             lang_set(gameConfig.lang);
             game_load_control_strings();
             game_save_config();
+            //redraw hud
+            if (game.state == E_GAME_ST_PLAY_MENU)
+            {
+                game_hud_init();
+                game_hud_draw();
+            }
             //redraw dialog
             dialog_destroy(&gameDialog);
             gameSeq.step--;
