@@ -2,17 +2,17 @@ PRESS ANY KEY TO START
 PLAY
 OPTIONS
 EXIT
-LANG:
+LANGUAGE:
 CONTROLS
 SFX VOLUME:
 MUSIC VOLUME:
 CONTINUE
-EXIT TO TITLE
-EXIT TO DOS
+BACK TO TITLE
+QUIT TO DOS
 RESTART LEVEL
-PAUSE
+PAUSED
 LIVES
-LIFE
+HEALTH
 SCORE
 TIME
 UP
@@ -21,7 +21,7 @@ LEFT
 RIGHT
 JUMP
 ACTION
-PRESS KEY
+PRESS A KEY
 YES
 NO
 GAME OVER
@@ -31,30 +31,30 @@ SELECT LEVEL
 MOVE WITH [%s] AND [%s]
 JUMP WITH [%s]
 CROUCH WITH [%s]
-ATTACK WITH [%s] WHEN JUMPING
-TAKE OBJECT WITH [%s]
-THROW OBJECT WITH [%s]
-PRESS [%s] AND [%s] FOR SHORT THROW OBJECT
-ENTER DOORS WITH [%s]
-Late at night, a boy stills|working on his lab.
-This boy is Timmy, and he is|working on his last invention:|A TIME MACHINE!
-After a lot of hard work,|the machine it's ready.|It's time to testing it.
-But something goes wrong and|the machine explodes when turn it on.
-Timmy and pieces of the machine|goes into a time vortex.
-Now, Timmy is lost in time and need to|travel trought history eras to recover the|machine pieces to return to his time.
-Finally, Timmy has all the lost machine|pieces and can fix the machine.
-With the machine fixed,|the vortex brings Timmy to his time.
-Now Timmy is in home again!
-TIME OVER!
-LEVEL CLEARED
+PUNCH IN MID-AIR WITH [%s]
+PICK UP OBJECTS WITH [%s]
+THROW OBJECTS WITH [%s]
+PRESS [%s] AND [%s] FOR A GENTLE TOSS
+GO THROUGH DOORS WITH [%s]
+Late at night, a boy is still|burning the midnight oil in his lab.
+That boy is Timmy, and he is putting|the finishing touches on his latest|invention: A TIME MACHINE!
+After plenty of blood, sweat and tears,|the machine is finally ready.|Time to take it for a spin.
+But things go haywire, and the machine|blows up the moment he switches it on.
+Timmy and the pieces of the machine|get sucked into a time vortex.
+Now Timmy is lost in time, and he must|travel through the ages to recover|the pieces and find his way back.
+At long last, Timmy has every missing|piece and can fix the machine.
+With the machine up and running,|the vortex sends Timmy back to his time.
+Timmy is home, safe and sound!
+TIME'S UP!
+LEVEL COMPLETE!
 ARE YOU SURE?
-GAME WILL RESTART... 
+BACK TO SQUARE ONE!
 THANKS FOR PLAYING!
 GRAPHICS
-CODE
-MUSIC AND SOUND
+PROGRAMMING
+MUSIC & SOUND
 LEVEL DESIGN
-BETATESTERS
+BETA TESTERS
 TRANSLATIONS
 SPECIAL THANKS
 Warrior
@@ -67,7 +67,7 @@ Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
 STATISTICS
 PLAY TIME:
 SCORE:
-HIGHSCORE:
-LIVES LOSED:
-LIVES REMAIN:
+HIGH SCORE:
+LIVES LOST:
+LIVES LEFT:
 CONTINUES USED:

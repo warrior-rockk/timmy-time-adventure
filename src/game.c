@@ -2139,6 +2139,7 @@ void game_init()
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, GAL_TXT)->dat, E_LANG_GAL);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, EUSK_TXT)->dat, E_LANG_EUSK);
     lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, CAT_TXT)->dat, E_LANG_CAT);
+    lang_load_mem((char *)load_datafile_object_indexed(gameDataIndex, POR_TXT)->dat, E_LANG_POR);
     
     //initialize levels data    
     levelData[E_GAME_LEVEL_TUTORIAL].mapFile        = "tutorial.bin";
