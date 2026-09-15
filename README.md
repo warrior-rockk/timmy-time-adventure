@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="dev/promo/cover.png" alt="Timmy Time Adventure box art" width="480">
-</p>
-
 # Timmy Time Adventure
 
 A retro platformer for MS-DOS, with the gameplay of 8-bit console games and the graphics of 16-bit ones.
