@@ -50,6 +50,7 @@ tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSele
     dialog.option = NULL;
     dialog.textColor = textColor;
     dialog.textSelectedColor = textSelectedColor;
+    dialog.keyPressCounter = 0;
 
     //sets size
     dialog.rect = dialogRect;

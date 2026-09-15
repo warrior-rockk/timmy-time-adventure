@@ -16,6 +16,7 @@
 
 #define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
 #define DIALOG_MAX_OPTION_LENGTH    64      //max char length of options
+#define DIALOG_KEY_PRESS_DELAY      50      //delay of time press to quick move
 
 //types of dialog option
 enum E_DIALOG_OPTION_TYPE
@@ -64,6 +65,7 @@ typedef struct
     uint8_t textColor;                          //text color for inactive options of dialog
     uint8_t textSelectedColor;                  //text color for selected options of dialog
     bool autoSize;                              //flag for adjusts the height automatically based on options
+    int16_t keyPressCounter;                    //counter of key delay to move quick
 } tDialog;
 
 //initializates the interface system

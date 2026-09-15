@@ -2578,7 +2578,7 @@ static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
 {
     bool changedValue = false;
 
-    if (input_key_down(E_G_KEY_RIGHT))
+    if (input_key_down(E_G_KEY_RIGHT) || (input_key_press(E_G_KEY_RIGHT) && dialog->keyPressCounter >= DIALOG_KEY_PRESS_DELAY && clock_tick_get()))
     {
         if (dialog_inc_option_value(dialog))
         {
@@ -2587,7 +2587,7 @@ static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
             changedValue = true;
         }
     }
-    if (input_key_down(E_G_KEY_LEFT))
+    if (input_key_down(E_G_KEY_LEFT) || (input_key_press(E_G_KEY_LEFT) && dialog->keyPressCounter >= DIALOG_KEY_PRESS_DELAY && clock_tick_get()))
     {
         if (dialog_dec_option_value(dialog))
         {
@@ -2595,16 +2595,18 @@ static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
             dialog_draw(dialog, drawBuffer);
             changedValue = true;
         }
-    }
-    if (input_key_down(E_G_KEY_DOWN))
+    }    
+        
+    if (input_key_down(E_G_KEY_DOWN) || (input_key_press(E_G_KEY_DOWN) && dialog->keyPressCounter >= DIALOG_KEY_PRESS_DELAY && clock_tick_get()))
     {
         if (dialog_next_option(dialog))
         {
             sfx_play(gameSfx[E_SFX_GAME_MENU_NAV], E_SFX_GAME_VOICE);
             dialog_draw(dialog, drawBuffer);
         }
-    }
-    if (input_key_down(E_G_KEY_UP))
+    }    
+
+    if (input_key_down(E_G_KEY_UP)|| (input_key_press(E_G_KEY_UP) && dialog->keyPressCounter >= DIALOG_KEY_PRESS_DELAY && clock_tick_get()))
     {
         if (dialog_prev_option(dialog))
         {
@@ -2612,6 +2614,17 @@ static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer)
             dialog_draw(dialog, drawBuffer);
         }
     }
+    
+    //key counter for quick movement
+    if (input_key_press(E_G_KEY_DOWN) || input_key_press(E_G_KEY_UP) || input_key_press(E_G_KEY_LEFT) || input_key_press(E_G_KEY_RIGHT))
+    {
+        if (dialog->keyPressCounter < DIALOG_KEY_PRESS_DELAY)        
+            dialog->keyPressCounter += clock_tick_get();
+    }
+
+    //reset key delay counter
+    if (!input_key_press(E_G_KEY_DOWN) && !input_key_press(E_G_KEY_UP) && !input_key_press(E_G_KEY_LEFT) && !input_key_press(E_G_KEY_RIGHT))
+        dialog->keyPressCounter = 0;
 
     return changedValue;
 }
