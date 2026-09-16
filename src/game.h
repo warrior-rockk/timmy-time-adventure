@@ -347,7 +347,7 @@ enum E_GAME_TEXTS
 };
 
 //game languages (to add language, copy txt to res/game, add to this enum, add lang name on LANG_TXT_OPTIONS and load file on game_init
-#define LANG_TXT_OPTIONS    "ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKARA;CATALÀ;PORTUGUÊS"        //text string options for language selection
+#define LANG_TXT_OPTIONS    "ENGLISH;ESPAÑOL;VALENCIÀ;GALEGO;EUSKARA;CATALÀ;PORTUGUÊS;DEUTSCH"        //text string options for language selection
 
 enum E_TEXT_LANGUAGES
 {    
@@ -358,6 +358,7 @@ enum E_TEXT_LANGUAGES
     E_LANG_EUSK,
     E_LANG_CAT,
     E_LANG_POR,
+    E_LANG_GER,
 
     E_NUM_LANGS,
 };

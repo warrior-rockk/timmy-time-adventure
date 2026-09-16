@@ -1,0 +1,73 @@
+TASTE DRUECKEN ZUM STARTEN
+SPIELEN
+OPTIONEN
+BEENDEN
+SPRACHE:
+STEUERUNG
+SFX LAUTSTAERKE:
+MUSIK LAUTSTAERKE:
+WEITER
+ZURUECK ZUM TITEL
+BEENDEN ZU DOS
+LEVEL NEUSTART
+PAUSIERT
+LEBEN
+HEALTH
+PUNKTE
+ZEIT
+RAUF
+RUNTER
+LINKS
+RECHTS
+SPRINGEN
+AKTION
+DRUECKE EINE TASTE
+JA
+NEIN
+SPIEL ZU ENDE
+WEITERMACHEN?
+LEVEL WAEHLEN
+--WIE MAN SPIELT--
+BEWEGEN MIT [%s] UND [%s]
+SPRINGE MIT [%s]
+HOCKEN MIT [%s]
+IN DER LUFT ZUSCHLAGEN MIT [%s]
+OBJEKTE EINSAMMELN MIT [%s]
+OBJEKTE WERFEN MIT [%s]
+DRUECKE [%s] UND [%s] UM VORSICHTIG ZU WERFEN
+GEHE DURCH TUEREN MIT [%s]
+Spaet Abends ist ein Junge|noch immer in seinem Labor fleissig.
+Dieser Junge ist Timmy, und er macht|gerade seine neueste Erfindung|fertig: EINE ZEITMASCHINE!
+Nach viel Blut, Schweiss und Traenen|ist die Maschine endlich fertig.|Zeit, sie auszuprobieren.
+Aber sobald er die Maschine|einschaltet, geht alles kaputt.
+Timmy und die Teile der Maschine|werden in einem Zeit-Strudel gesogen.
+Jetzt ist Timmy verloren in der Zeit, und|er muss durch die Zeitalter reisen|um die Einzelteile zu finden.
+Endlich hat Timmy alle fehlenden Teile|und kann die Zeitmaschine reparieren.
+Die reparierte Zeitmaschine funktioniert wieder.|Sie schickt Timmy zurueck in seine Zeit.
+Timmy ist gut zuhause angekommen!
+ZEIT ABGELAUFEN!
+LEVEL ABGESCHLOSSEN!
+BIST DU SICHER?
+ZURUECK ZUM START!
+DANKE FUERS SPIELEN!
+GRAFIK
+PROGRAMMIERUNG
+MUSIK & SOUND
+LEVEL-DESIGN
+BETA-TESTER
+UEBERSETZUNGEN
+SPECIAL THANKS
+Warrior
+Warrior
+Warrior|Xabi (xabisan)|MintoDog
+Warrior
+Alfred (Lolocop)|Marc (onepopcorn)|Pedro (RandomShaper)
+Alfred (Lolocop)|Morgoth|Alain (Laertes)|Jordi (jbinary)|Pedro Catalão
+Jordi (jbinary)|Msdos Club|Xavi (Kalzakath)|Antonio (Logarán)
+STATISTIKEN
+SPIELZEIT:
+PUNKTE:
+HIGH SCORE:
+LEBEN VERLOREN:
+LEBEN UEBRIG:
+VERWENDETE CONTINUES:
