@@ -128,7 +128,7 @@
 #define MAIN_MENU_POS_X         (SCREEN_W >> 1) - (MAIN_MENU_SIZE_X >> 1)
 #define MAIN_MENU_POS_Y         120
 
-#define OPTIONS_MENU_SIZE_X     160
+#define OPTIONS_MENU_SIZE_X     164 //160
 #define OPTIONS_MENU_SIZE_Y     0
 #define OPTIONS_MENU_POS_X      (SCREEN_W >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
 #define OPTIONS_MENU_POS_Y      50
@@ -138,7 +138,7 @@
 #define GAMEOVER_MENU_POS_X     (SCREEN_W >> 1) - (GAMEOVER_MENU_SIZE_X >> 1)
 #define GAMEOVER_MENU_POS_Y     110
 
-#define PLAY_MENU_SIZE_X        120
+#define PLAY_MENU_SIZE_X        124 //120
 #define PLAY_MENU_SIZE_Y        0
 #define PLAY_MENU_POS_X         (GAME_W >> 1) - (PLAY_MENU_SIZE_X >> 1)
 #define PLAY_MENU_POS_Y         40
@@ -199,7 +199,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOAD_LEVEL        //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE       //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_JURASSIC   //initial debug level
 #endif
 

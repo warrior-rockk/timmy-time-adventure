@@ -15,7 +15,7 @@
 #define CURSOR_TEXT_OFFSET_Y        2       //vertical text offset to center cursor      
 
 #define DIALOG_OPTIONS_DELIMITER    ";"     //character as delimiter the string options
-#define DIALOG_MAX_OPTION_LENGTH    64      //max char length of options
+#define DIALOG_MAX_OPTION_LENGTH    80      //max char length of options
 #define DIALOG_KEY_PRESS_DELAY      50      //delay of time press to quick move
 
 //types of dialog option
