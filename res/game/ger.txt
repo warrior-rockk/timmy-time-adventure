@@ -1,13 +1,13 @@
-TASTE DRUECKEN ZUM STARTEN
+TASTE DRÜCKEN ZUM STARTEN
 SPIELEN
 OPTIONEN
 BEENDEN
 SPRACHE:
 STEUERUNG
-SFX LAUTSTAERKE:
-MUSIK LAUTSTAERKE:
+SFX LAUTSTÄRKE:
+MUSIK LAUTSTÄRKE:
 WEITER
-ZURUECK ZUM TITEL
+ZURÜCK ZUM TITEL
 BEENDEN ZU DOS
 LEVEL NEUSTART
 PAUSIERT
@@ -21,12 +21,12 @@ LINKS
 RECHTS
 SPRINGEN
 AKTION
-DRUECKE EINE TASTE
+DRÜCKE EINE TASTE
 JA
 NEIN
 SPIEL ZU ENDE
 WEITERMACHEN?
-LEVEL WAEHLEN
+LEVEL WÄHLEN
 --WIE MAN SPIELT--
 BEWEGEN MIT [%s] UND [%s]
 SPRINGE MIT [%s]
@@ -34,28 +34,28 @@ HOCKEN MIT [%s]
 IN DER LUFT ZUSCHLAGEN MIT [%s]
 OBJEKTE EINSAMMELN MIT [%s]
 OBJEKTE WERFEN MIT [%s]
-DRUECKE [%s] UND [%s] UM VORSICHTIG ZU WERFEN
-GEHE DURCH TUEREN MIT [%s]
-Spaet Abends ist ein Junge|noch immer in seinem Labor fleissig.
+DRÜCKE [%s] UND [%s] UM VORSICHTIG ZU WERFEN
+GEHE DURCH TÜREN MIT [%s]
+Spät Abends ist ein Junge|noch immer in seinem Labor fleissig.
 Dieser Junge ist Timmy, und er macht|gerade seine neueste Erfindung|fertig: EINE ZEITMASCHINE!
-Nach viel Blut, Schweiss und Traenen|ist die Maschine endlich fertig.|Zeit, sie auszuprobieren.
+Nach viel Blut, Schweiss und Tränen|ist die Maschine endlich fertig.|Zeit, sie auszuprobieren.
 Aber sobald er die Maschine|einschaltet, geht alles kaputt.
-Timmy und die Teile der Maschine|werden in einem Zeit-Strudel gesogen.
+Timmy und die Teile der Maschine|werden in den Zeit-Strudel gezogen.
 Jetzt ist Timmy verloren in der Zeit, und|er muss durch die Zeitalter reisen|um die Einzelteile zu finden.
 Endlich hat Timmy alle fehlenden Teile|und kann die Zeitmaschine reparieren.
-Die reparierte Zeitmaschine funktioniert wieder.|Sie schickt Timmy zurueck in seine Zeit.
+Die reparierte Zeitmaschine funktioniert wieder.|Sie schickt Timmy zurück in seine Zeit.
 Timmy ist gut zuhause angekommen!
 ZEIT ABGELAUFEN!
 LEVEL ABGESCHLOSSEN!
 BIST DU SICHER?
-ZURUECK ZUM START!
-DANKE FUERS SPIELEN!
+ZURÜCK ZUM START!
+DANKE FÜRS SPIELEN!
 GRAFIK
 PROGRAMMIERUNG
 MUSIK & SOUND
 LEVEL-DESIGN
 BETA-TESTER
-UEBERSETZUNGEN
+ÜBERSETZUNGEN
 SPECIAL THANKS
 Warrior
 Warrior
@@ -69,5 +69,5 @@ SPIELZEIT:
 PUNKTE:
 HIGH SCORE:
 LEBEN VERLOREN:
-LEBEN UEBRIG:
+LEBEN ÜBRIG:
 VERWENDETE CONTINUES:
