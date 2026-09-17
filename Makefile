@@ -48,6 +48,7 @@ TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 CC					:= ${OS_GCC} -DMAJOR_VERSION=$(MAJOR_VERSION) -DMINOR_VERSION=$(MINOR_VERSION)
 DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
 RELEASE_CFLAGS 		:= -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp?
+WEB_RELEASE_CFLAGS  := -DWEB -Wall -O3 -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 
 #all targets
@@ -61,6 +62,9 @@ release: CFLAGS = ${RELEASE_CFLAGS}
 release: BUILD_DIR = ./build/release/
 release: execute_build
 release_pack: BUILD_DIR = ./build/release/
+web: CFLAGS = ${WEB_RELEASE_CFLAGS}
+web: BUILD_DIR = ./web/build/release/
+web: execute_build
 
 #main make build
 execute_build:
@@ -157,34 +161,27 @@ ifeq ($(OS),Mac)
 endif
 
 #pack web version with jsdos emulator and run on browser
-web: release
-	@echo "# clean web release"
-	rm -rvf ${WEB_DIR}/release	
-	mkdir ${WEB_DIR}/release
-	
-	rm -f ./build/release/bin/dosbox.conf
-	rm -f ./build/release/bin/GAME.CFG
+web: 
+	@echo "# clean game configuration"	
+	rm -f ${BUILD_DIR}/bin/dosbox.conf
+	rm -f ${BUILD_DIR}/bin/GAME.CFG
 
 	@echo "# Copying html resources"
-	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
+	cp ${WEB_DIR}/html/*.* ${BUILD_DIR}
 	
 	@echo "# Packing .jsdos file"
-ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/$(basename $(APP)).zip -Force"
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"	
-	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
+	python.exe -m zipfile -c '${BUILD_DIR}/$(basename $(APP)).jsdos' ${BUILD_DIR}/bin/ ${WEB_DIR}/.jsdos/	
 
-	@echo "# pack the web release on zip for itch.io"	
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WEB).zip' -Force"
+	@echo "# pack the web release on zip for itch.io"
+ifeq ($(OS),Windows_NT)			
+	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/*.* -DestinationPath ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WEB).zip' -Force"
 endif
 ifeq ($(OS),Mac)
-	zip ${WEB_DIR}/release/$(basename $(APP)).zip ./build/release/bin/*.*  -j
-	cd ${WEB_DIR} && zip ./release/$(basename $(APP)).zip .jsdos/*.*
-	mv ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/release/$(basename $(APP)).jsdos
+	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WEB).zip' ${BUILD_DIR}/*.*  -j
 endif
 
 	@echo "# Open and run web release"
-	python3 -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
+	python3 -c "import webbrowser; webbrowser.open('http://localhost:8000/$(BUILD_DIR)')"
 	python3 -m http.server
 
 #make windows release pack
@@ -242,6 +239,7 @@ endif
 
 clean:
 	rm -rvf ${BUILD_DIR}
+	rm -rvf ${WEB_DIR}/build/
 
 info:	
 	@echo "Operating system:"
