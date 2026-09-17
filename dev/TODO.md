@@ -15,7 +15,6 @@
 - [ ] On cavern, fade level palette and take light to iluminate?
 
 # Game design
-- [ ] Add kiosk mode for web release (not exit to DOS, restart the game...)
 - [ ] Remove the UI on web release?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
