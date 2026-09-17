@@ -1,3 +1,5 @@
+#run this makefile from MSYS2 MINGW32 BASH!!
+
 #recursive search functions trought folders (don't use if resources are on root folder)
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
@@ -123,11 +125,9 @@ ${BUILD_DIR}bin/%.bin: $(MAPS_SRC_DIR)/%.tmx | ${BUILD_DIR}bin/
 
 #run targets
 run_debug: debug
-	cd ./build/debug/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
-run_debug_stop: debug
-	cd ./build/debug/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -noconsole
+	cd ${BUILD_DIR}/debug/bin && ./${APP}
 run_release: release
-	cd ./build/release/bin && ${OS_DOSBOX} ${APP} --fastbioslogo -conf dosbox.conf -exit -noconsole
+	cd ${BUILD_DIR}/release/bin && ./${APP}
 
 #pack release zip
 release_pack: release
@@ -140,88 +140,6 @@ ifeq ($(OS),Windows_NT)
 endif
 ifeq ($(OS),Mac)
 	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} MSDOS).zip' ${BUILD_DIR}/bin/*.* -j
-endif
-
-#pack web version with jsdos emulator and run on browser
-web: release
-	@echo "# clean web release"
-	rm -rvf ${WEB_DIR}/release	
-	mkdir ${WEB_DIR}/release
-	
-	rm -f ./build/release/bin/dosbox.conf
-	rm -f ./build/release/bin/GAME.CFG
-
-	@echo "# Copying html resources"
-	cp ${WEB_DIR}/html/*.* ${WEB_DIR}/release
-	
-	@echo "# Packing .jsdos file"
-ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ./build/release/bin/*.* -DestinationPath ${WEB_DIR}/release/$(basename $(APP)).zip -Force"
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/.jsdos/ -Update ${WEB_DIR}/release/$(basename $(APP)).zip"	
-	powershell -Command "Rename-Item -Path '${WEB_DIR}/release/$(basename $(APP)).zip' -NewName $(basename $(APP)).jsdos"
-
-	@echo "# pack the web release on zip for itch.io"	
-	powershell -Command "Compress-Archive -Path ${WEB_DIR}/release/*.* -DestinationPath ${WEB_DIR}/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WEB).zip' -Force"
-endif
-ifeq ($(OS),Mac)
-	zip ${WEB_DIR}/release/$(basename $(APP)).zip ./build/release/bin/*.*  -j
-	cd ${WEB_DIR} && zip ./release/$(basename $(APP)).zip .jsdos/*.*
-	mv ${WEB_DIR}/release/$(basename $(APP)).zip ${WEB_DIR}/release/$(basename $(APP)).jsdos
-endif
-
-	@echo "# Open and run web release"
-	python3 -c "import webbrowser; webbrowser.open('http://localhost:8000/$(basename $(notdir $(WEB_DIR)))/release/')"
-	python3 -m http.server
-
-#make windows release pack
-windows: release
-	@echo "# clean windows release"
-	rm -rvf ./platforms/windows/release	
-	rm -f ./build/release/bin/dosbox.conf
-	rm -f ./build/release/bin/GAME.CFG
-
-	@echo "# create release structure"
-	mkdir ./platforms/windows/release/
-	mkdir ./platforms/windows/release/$(basename $(APP))/	
-	cp ./build/release/bin/*.* ./platforms/windows/release/$(basename $(APP))/
-	cp ./platforms/windows/static/emu/*.* ./platforms/windows/release/$(basename $(APP))/
-	cp ./platforms/windows/static/*.* ./platforms/windows/release/
-
-	@echo "# packing data"
-ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ./platforms/windows/release/* -DestinationPath ./platforms/windows/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WIN).zip' -Force"
-endif
-ifeq ($(OS),Mac)
-	zip ./platforms/windows/release/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WIN).zip' ./platforms/windows/release/*
-endif
-
-#make mac release pack app
-mac: release
-ifeq ($(OS),Windows_NT)
-	@echo "# Can't make mac release from windows"
-endif
-ifeq ($(OS),Mac)
-	@echo "# clean mac release"
-	rm -rvf ./platforms/mac/release	
-	rm -f ./build/release/bin/dosbox.conf
-	rm -f ./build/release/bin/GAME.CFG
-
-	mkdir ./platforms/mac/release/
-	@echo "# copy dosbox-x app"
-	cp -r /Applications/dosbox-x.app ./platforms/mac/release/'${APP_TITLE}.app'
-	
-	@echo "# copy release game to app resources"
-	mkdir ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/timmy
-	cp ./build/release/bin/*.* ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/timmy
-	cp ./static/dosbox.conf ./platforms/mac/release/'${APP_TITLE}.app'/Contents/Resources/
-	@echo "# rename original dosbox-x binary"
-	mv ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x-bin
-	@echo "# copy custom script to replace dosbox-x binary"
-	cp ./platforms/mac/static/dosbox-x ./platforms/mac/release/'${APP_TITLE}.app'/Contents/MacOS/dosbox-x
-	@echo "# sign the app"
-	codesign --force --deep --sign - ./platforms/mac/release/'${APP_TITLE}.app'
-	@echo "# zip the app"
-	cd ./platforms/mac/release/ && zip -r "${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} Mac App).zip" ./"${APP_TITLE}.app"
 endif
 
 .PHONY: clean info web release_pack windows mac
