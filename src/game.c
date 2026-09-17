@@ -1993,10 +1993,16 @@ void game_update()
             game.state = E_GAME_ST_EXIT;
         break;
         case E_GAME_ST_EXIT:
-        default:
+        default:            
             game_save_config();
-            game_destroy();
-            gameExit = true;
+            #ifdef WEB
+                music_stop();
+                game.state = E_GAME_ST_LOGO;
+                currentPal = introPal;
+            #else
+                game_destroy();
+                gameExit = true;
+            #endif
         break;
     }
        
