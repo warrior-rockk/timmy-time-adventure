@@ -16,7 +16,9 @@ uint16_t tick1SecCount;             //for tick1sec
 int trace;                          //trace video counter for calculate delta time (MUST BE INT!)
 uint16_t tickCounter;               //general clock tick counter
 bool useAllegroTimers;              //flag to use allegro timers or not (set on init)
-uclock_t profileStart, profileEnd;  //profile uClock variables
+#ifndef WIN32
+    uclock_t profileStart, profileEnd;  //profile uClock variables
+#endif
 double profileTime;                 //profile time counter
 fixed deltaTime;                   //deltaTime
 bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
@@ -157,17 +159,25 @@ bool clock_tick_1sec_get()
 
 void profile_start()
 {
-    profileStart= uclock();
+    #ifndef WIN32
+        profileStart= uclock();
+    #endif
 }
 
 void profile_end()
 {
-    profileEnd= uclock();
+    #ifndef WIN32
+        profileEnd= uclock();
+    #endif
 }
 
 double profile_get_time()
 {
-    return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;
+    #ifndef WIN32
+        return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;
+    #else
+        return 0;
+    #endif
 }
 
 void toggle_delta_time()
