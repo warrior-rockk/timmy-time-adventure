@@ -41,6 +41,34 @@
                 "close": false
             },
             "promptOnClose": false
+        },
+        {
+            "label": "Build Windows Native Release (MSYS Mingw32)",
+            "type": "shell",
+            "options": {
+                "shell": {
+                    "executable": "C:\\msys64\\usr\\bin\\bash.exe",
+                    "args": ["--login", "-c"]                    
+                },
+                "env": {"MSYSTEM": "MINGW32",
+                "CHERE_INVOKING": "1"}
+            },   
+            "command": "make -f Makefile.windows run_release",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "close": false,
+            },
+            "promptOnClose": false                   
         }
     ]
 }
