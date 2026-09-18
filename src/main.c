@@ -22,6 +22,14 @@ static void main_exit();
 static void main_stepByStep();
 #endif
 
+#ifdef WIN32
+//function to close game with close window button
+void main_close_window()
+{
+    gameExit = true;
+}
+#endif
+
 int main()
 {    
     main_init();
@@ -153,10 +161,13 @@ static void main_init()
     //set video mode
     #ifdef WIN32
         if (set_gfx_mode(GAME_GFX_MODE, WINDOW_SIZE_W, WINDOW_SIZE_H, 0, 0) != 0)
+            abort_on_error("Error setting graphic mode");
+        set_window_title(GAME_TITLE);        
+        set_close_button_callback(main_close_window);
     #else
         if (set_gfx_mode(GAME_GFX_MODE, SCREEN_X, SCREEN_Y, 0, 0) != 0)
-    #endif
-        abort_on_error("Error setting graphic mode");
+            abort_on_error("Error setting graphic mode");
+    #endif        
     set_color_depth(GAME_COLOR_DEPTH);
 
     playTime_init();
