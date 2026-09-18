@@ -100,3 +100,10 @@ Compress-Archive -Path ..\build\release\bin\*.* -DestinationPath timmy.zip
 Compress-Archive -Path .\.jsdos\ -Update .\timmy.zip
 ren .\timmy.zip .\timmy.jsdos
 Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force
+
+## resource icon on executable (windows build)
+``windres resources.rc -O coff -o resources.res --preprocessor="cat"``
+
+``cp resources.res ../src/``
+
+``en el gcc de linker de los .o añadimos ./src/resources.res``

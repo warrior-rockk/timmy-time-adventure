@@ -8,7 +8,8 @@
         "scroll.h": "c",
         "KEYBOARD.H": "cpp",
         "TIMER.H": "cpp",
-        "ASTDINT.H": "cpp"
+        "ASTDINT.H": "cpp",
+        "Makefile.windows": "makefile"
     },
     "outline.showVariables": false,
     "outline.showConstants": false,

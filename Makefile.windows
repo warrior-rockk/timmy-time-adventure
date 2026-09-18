@@ -70,7 +70,7 @@ dat: ${DAT_RESOURCES}
 #binary target
 ${BUILD_DIR}bin/$(APP): $(OBJ_FILES)
 	@echo "## Linking ${APP}"
-	${CC} $(OBJ_FILES) -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
+	${CC} $(OBJ_FILES) ./src/resources.res -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
 
 #compile objects generating dependency files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
