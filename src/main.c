@@ -145,7 +145,10 @@ static void main_init()
     #if ALLEGRO_USES_SOUND
         MY_TRACE_FLAG("Initializing sound\n");        
         if (sound_init() != 0)
-            abort_on_error("Error initializating sound");
+        {
+            MY_TRACE_FLAG("Error initializating sound\n");
+            sound_set_mode(E_SOUND_OFF_MODE);
+        }
     #else
         sound_set_mode(E_SOUND_OFF_MODE);
         sound_init();

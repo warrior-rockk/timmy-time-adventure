@@ -190,6 +190,15 @@
 #define GAME_OVER_SIZE          (tVector){27, 40}
 #define GAME_OVER_COUNT_DOWN    20
 
+//timeouts when no sound
+#define LOGO_TIMEOUT            300
+#define INTRO_TIMEOUT           600
+#define TITLE_LOGO_TIMEOUT      100
+#define TITLE_TIMEOUT           1000
+#define DEAD_TIMEOUT            100
+#define COMPLETE_TIMEOUT        200
+#define BYE_TIMEOUT             500
+
 //debug definitions
 #ifdef DEBUGMODE
     #define DEBUG_TRACE_CREATE_ENTITIES     1                   //traces when create entity and entity type
