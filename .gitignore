@@ -57,6 +57,7 @@ build/
 platforms/windows/release/
 platforms/mac/release/
 web/release/
+*.suco
 
 # Custom exclusions
 !static/CWSDPMI.EXE
