@@ -170,7 +170,7 @@ web:
 	cp ${WEB_DIR}/html/*.* ${BUILD_DIR}
 	
 	@echo "# Packing .jsdos file"
-	python.exe -m zipfile -c '${BUILD_DIR}/$(basename $(APP)).jsdos' ${BUILD_DIR}/bin/ ${WEB_DIR}/.jsdos/	
+	python3 -m zipfile -c '${BUILD_DIR}/$(basename $(APP)).jsdos' ${BUILD_DIR}/bin/ ${WEB_DIR}/.jsdos/	
 
 	@echo "# pack the web release on zip for itch.io"
 ifeq ($(OS),Windows_NT)			
