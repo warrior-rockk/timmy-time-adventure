@@ -183,7 +183,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 2:
-                    if (music_get_pos() < 0 || input_any_key_pressed() || gameSeq.timeCounter >= LOGO_TIMEOUT)
+                    if (music_get_pos() < 0 || input_any_key_pressed() || (gameSeq.timeCounter >= LOGO_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         game.state++;
                         gameSeq.timeCounter = 0;
@@ -214,7 +214,7 @@ void game_update()
                     gameSeq.step++;
                 break;
                 case 1:
-                    if (music_get_pos() < 0 || input_any_key_pressed() || gameSeq.timeCounter >= LOGO_TIMEOUT)
+                    if (music_get_pos() < 0 || input_any_key_pressed() || (gameSeq.timeCounter >= LOGO_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         if (firstRun)
                             game.state = E_GAME_ST_FIRST_RUN_MENU;
@@ -376,7 +376,7 @@ void game_update()
                         gameSeq.timeCounter += clock_tick_get();
                 break;                
                 case 5: //wait for music stops (or timeout)
-                    if (music_get_pos() < 0 || gameSeq.timeCounter >= INTRO_TIMEOUT)
+                    if (music_get_pos() < 0 || (gameSeq.timeCounter >= INTRO_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         
                         game.state = E_GAME_ST_TITLE;
@@ -447,7 +447,7 @@ void game_update()
                     gameSeq.step++;                          
                 break;
                 case 3: //wait for scroll
-                    if (gameSeq.timeCounter >= TITLE_LOGO_TIMEOUT || music_get_pos() >= 4)
+                    if ((gameSeq.timeCounter >= TITLE_LOGO_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE) || music_get_pos() >= 4)
                     {
                         gameSeq.step++;
                         gameSeq.timeCounter = 0;                        
@@ -477,7 +477,7 @@ void game_update()
                     }
 
                     //timeout for demo
-                    if (music_get_pos() < 0 || gameSeq.timeCounter >= TITLE_TIMEOUT)
+                    if (music_get_pos() < 0 || (gameSeq.timeCounter >= TITLE_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         //next demo
                         game.demo = game.demo < E_NUM_DEMOS - 1 ? game.demo + 1 : 1;
@@ -1390,7 +1390,7 @@ void game_update()
                 break;
                 case 1:
                     //wait for dead jingle to end
-                    if (music_get_pos() < 0 || gameSeq.timeCounter >= DEAD_TIMEOUT)
+                    if (music_get_pos() < 0 || (gameSeq.timeCounter >= DEAD_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         MY_TRACE_FLAG( "Lose live\n");                        
                         if (game.lives > 0) 
@@ -1442,7 +1442,7 @@ void game_update()
                     
                 break;                
                 case 1: //wait to jingle music ends
-                    if (music_get_pos() < 0 || gameSeq.timeCounter >= DEAD_TIMEOUT)
+                    if (music_get_pos() < 0 || (gameSeq.timeCounter >= DEAD_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {                
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;                        
@@ -1930,7 +1930,7 @@ void game_update()
                         
                     game_draw_object((tVector){SCREEN_X>>1, 120}, E_ENT_DIR_RIGHT, (tVector){23, 40}, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
 
-                    if (music_get_pos() < 0 || gameSeq.timeCounter >= BYE_TIMEOUT)
+                    if (music_get_pos() < 0 || (gameSeq.timeCounter >= BYE_TIMEOUT && sound_get_mode() == E_SOUND_OFF_MODE))
                     {
                         gameSeq.timeCounter = 0;
                         gameSeq.step++;
