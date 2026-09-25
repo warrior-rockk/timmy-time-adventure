@@ -127,11 +127,8 @@
           {
             "row": 5,
             "column": 1,
-            "symbol": "↑",
-            "type": "Key",
-            "mapTo": [
-              265
-            ]
+            "type": "NippleActivator",
+            "symbol": "◯"
           },
           {
             "row": 6,
@@ -143,7 +140,25 @@
             ]
           },
           {
-            "row": 6,
+            "row": 4,
+            "column": 1,
+            "symbol": "↑",
+            "type": "Key",
+            "mapTo": [
+              265
+            ]
+          },
+          {
+            "row": 5,
+            "column": 2,
+            "symbol": "→",
+            "type": "Key",
+            "mapTo": [
+              262
+            ]
+          },
+          {
+            "row": 5,
             "column": 0,
             "symbol": "←",
             "type": "Key",
@@ -154,24 +169,64 @@
           {
             "row": 6,
             "column": 2,
-            "symbol": "→",
+            "symbol": "↘",
             "type": "Key",
             "mapTo": [
+              264,
               262
             ]
           },
           {
-            "row": 5,
-            "column": 1,
-            "symbol": "↑",
+            "row": 4,
+            "column": 2,
+            "symbol": "↗",
             "type": "Key",
             "mapTo": [
-              265
+              265,
+              262
+            ]
+          },
+          {
+            "row": 4,
+            "column": 0,
+            "symbol": "↖",
+            "type": "Key",
+            "mapTo": [
+              265,
+              263
             ]
           },
           {
             "row": 6,
-            "column": 8,
+            "column": 0,
+            "symbol": "↙",
+            "type": "Key",
+            "mapTo": [
+              264,
+              263
+            ]
+          },
+          {
+            "row": 0,
+            "column": 0,
+            "symbol": "␛",
+            "type": "Key",
+            "mapTo": [
+              256
+            ]
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "symbol": "␠",
+            "type": "Key",
+            "mapTo": [
+              32
+            ]
+          },
+          {
+            "row": 5,
+            "column": 9,
             "symbol": "z",
             "type": "Key",
             "mapTo": [
@@ -188,30 +243,12 @@
             ]
           },
           {
-            "row": 0,
-            "column": 0,
-            "symbol": "␛",
-            "type": "Key",
-            "mapTo": [
-              256
-            ]
-          },
-          {
-            "row": 6,
-            "column": 5,
+            "row": 4,
+            "column": 9,
             "symbol": "⏎",
             "type": "Key",
             "mapTo": [
               257
-            ]
-          },
-          {
-            "row": 0,
-            "column": 1,
-            "symbol": "␠",
-            "type": "Key",
-            "mapTo": [
-              32
             ]
           }
         ]
