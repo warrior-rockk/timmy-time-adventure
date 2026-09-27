@@ -1025,8 +1025,15 @@ void game_update()
                             case TUTORIAL_MSG_6_FRAME ... TUTORIAL_MSG_6_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
+                                if (!gameSeq.flag)
+                                {
+                                    gameSeq.flag = true;
+                                    entity_create(E_ENT_CLASS_ENEMY, E_ROBOT_ENEMY_TYPE, (tVector){176, 48}, E_ENT_DIR_LEFT, 0);
+                                    entity_create(E_ENT_CLASS_OBJECT, E_SMOKE_EXPLOSION_OBJECT_TYPE, (tVector){183, 55}, E_ENT_DIR_LEFT, 0);
+                                }
                             break;
                             case TUTORIAL_MSG_7_FRAME ... TUTORIAL_MSG_7_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
+                                gameSeq.flag = false;
                                 rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_SHORT_THROW), keyStrings[input_get_defined_key(E_G_KEY_ACTION)], keyStrings[input_get_defined_key(E_G_KEY_DOWN)]);
                             break;
