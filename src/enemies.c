@@ -464,8 +464,10 @@ void enemy_create(tEntity *entity)
         case E_ROBOT_ENEMY_TYPE:
             load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ROBOT_BMP);
             entity->img = enemyResources[entity->entType]; 
-            entity->spriteSize = (tVector){43, 40};                          
+            entity->spriteSize = (tVector){46, 40};                          
             entity->size = (tVector){32, 32};  
+            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            collision_create_min_entity_points(entity);
             entity->axis = E_ENT_AXIS_DOWN;
         break;
         default:
@@ -2640,7 +2642,7 @@ void enemy_robot_update(tEntity *this, tDefaultEnemyLocalData *local)
 
     //enemy animations
     #define ANIM_ROBOT_MOVE    1,   4,  20, ANIM_LOOP
-    #define ANIM_ROBOT_DEAD    2,   5,  ENEMY_DEFAULT_DEAD_TIME, ANIM_ONCE
+    #define ANIM_ROBOT_DEAD    1,   1,  50, ANIM_ONCE
     
     //enemy states
     enum E_ROBOT_ENEMY_STATE{E_ROBOT_ST_IDLE, E_ROBOT_ST_MOVE, E_ROBOT_ST_HURT};
@@ -2665,6 +2667,22 @@ void enemy_robot_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;
         default:
             this->state = E_ROBOT_ST_IDLE;
+    }
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
     }
 }
 

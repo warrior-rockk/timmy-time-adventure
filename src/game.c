@@ -1010,9 +1010,14 @@ void game_update()
                             case TUTORIAL_MSG_4_FRAME ... TUTORIAL_MSG_4_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
                                 rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_ATTACK), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
-                                entity_create(E_ENT_CLASS_ENEMY, E_ROBOT_ENEMY_TYPE, (tVector){100, 100}, E_ENT_DIR_LEFT, 0);
+                                if (!gameSeq.flag)
+                                {
+                                    gameSeq.flag = true;
+                                    entity_create(E_ENT_CLASS_ENEMY, E_ROBOT_ENEMY_TYPE, (tVector){176, 48}, E_ENT_DIR_LEFT, 0);
+                                }
                             break;
                             case TUTORIAL_MSG_5_FRAME ... TUTORIAL_MSG_5_FRAME + TUTORIAL_MSG_FRAME_OFFSET:
+                                gameSeq.flag = false;
                                 rectfill(buffer, 0, GAME_H, SCREEN_X, SCREEN_Y, BLACK_COLOR);
                                 textprintf_centre_ex(buffer, gameFont[E_GAME_FONT], TUTORIAL_TXT_POSITION_X, TUTORIAL_TXT_POSITION_Y, WHITE_COLOR, BLACK_COLOR, lang_get_txt(E_TXT_TUTORIAL_TAKE), keyStrings[input_get_defined_key(E_G_KEY_ACTION)]);
                             break;
@@ -1043,6 +1048,7 @@ void game_update()
                     game_destroy_level();
                     gameSeq.step = 0;
                     game.actualLevel = 0;
+                    gameSeq.flag = false;
                     if (game.demo == 0)
                         game.state = E_GAME_ST_SELECT_LEVEL;
                     else
@@ -2068,7 +2074,7 @@ static void game_init_flags()
     game.viewMap        = false;
     hud.refresh         = E_REFRESH_HUD_ALL;
     game.doorId         = 0;
-    game.livesLosed      = 0;
+    game.livesLosed     = 0;
     game.continuesUsed  = 0;
 }
 
@@ -2204,7 +2210,10 @@ void game_init()
     game.fadeState      = E_FADED_IN;    
     game.fadeOut        = true;    
     game.demo           = 0;
-    
+    gameSeq.step        = 0;
+    gameSeq.timeCounter = 0;
+    gameSeq.flag        = 0;
+
     //load game config
     game_load_config();
 }
