@@ -461,6 +461,15 @@ void enemy_create(tEntity *entity)
             entity->size = (tVector){16, 16};  
             entity->axis = E_ENT_AXIS_DOWN;
         break;
+        case E_ROBOT_ENEMY_TYPE:
+            load_entity_bmp_resources(&enemyResources[entity->entType], enemyDataFileIndex, ROBOT_BMP);
+            entity->img = enemyResources[entity->entType]; 
+            entity->spriteSize = (tVector){46, 40};                          
+            entity->size = (tVector){32, 32};  
+            entity->properties = E_ENT_PROP_PHYSICS_ON;
+            collision_create_min_entity_points(entity);
+            entity->axis = E_ENT_AXIS_DOWN;
+        break;
         default:
             abort_on_error("Enemy type entity not valid");
         break;
@@ -580,6 +589,9 @@ void enemy_update(tEntity *entity)
         break;        
         case E_LAVA_BALL_ENEMY_TYPE:
             enemy_lava_ball_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
+        break;        
+        case E_ROBOT_ENEMY_TYPE:
+            enemy_robot_update(entity, (tDefaultEnemyLocalData*)enemyDataList[entity->entInstance].data);
         break;        
         default:
         break;
@@ -2620,6 +2632,58 @@ void enemy_lava_ball_update(tEntity *this, tDefaultEnemyLocalData *local)
                 this->state = E_LAVA_BALL_ST_IDLE;
         break;             
     }       
+}
+
+void enemy_robot_update(tEntity *this, tDefaultEnemyLocalData *local)
+{
+    //enemy defines
+    #define ROBOT_VELOCITY                  0.4
+    #define ROBOT_DEFAULT_RANGE_PATROL      20
+
+    //enemy animations
+    #define ANIM_ROBOT_MOVE    1,   4,  20, ANIM_LOOP
+    #define ANIM_ROBOT_DEAD    1,   1,  50, ANIM_ONCE
+    
+    //enemy states
+    enum E_ROBOT_ENEMY_STATE{E_ROBOT_ST_IDLE, E_ROBOT_ST_MOVE, E_ROBOT_ST_HURT};
+
+    //hurt signal
+    if (this->signal == E_ENT_SIGNAL_HURT)       
+        this->state = E_ROBOT_ST_HURT;              
+
+    //check state
+    switch (this->state)
+    {
+        case E_ROBOT_ST_IDLE:
+            this->state = E_ROBOT_ST_MOVE;                
+        break;
+        case E_ROBOT_ST_MOVE:
+            enemy_patrol_ia(this, ftofix(ROBOT_VELOCITY), this->spare != 0 ? this->spare : ROBOT_DEFAULT_RANGE_PATROL);
+                                    
+            play_animation(&this->anim, ANIM_ROBOT_MOVE);            
+        break;
+        case E_ROBOT_ST_HURT:
+            enemy_dead(this, ANIM_ROBOT_DEAD);            
+        break;
+        default:
+            this->state = E_ROBOT_ST_IDLE;
+    }
+
+    //terrain collisions
+    uint8_t colDir = 0;
+    this->ground = false;
+    //check all the entity collision points    
+    for (uint8_t i = 0; i < E_NUM_COL_POINTS; i++)
+    {                
+        //check collision tile for collision point
+        colDir = collision_check_tile(this, i);        
+        //apply collision direction
+        collision_apply_dir(this, colDir, E_COLLISION_NO_BOUNCE);    
+        
+        //change direction if horizontal collision
+        if (colDir == E_COLLISION_DIR_RIGHT || colDir == E_COLLISION_DIR_LEFT)
+            this->dir = !this->dir;
+    }
 }
 
 void enemy_trace(tEntity *this)

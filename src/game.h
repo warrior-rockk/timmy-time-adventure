@@ -498,6 +498,7 @@ typedef struct
 {
     uint8_t step;               //numbre of step of sequence
     uint16_t timeCounter;       //time counter of the step's sequence    
+    int16_t flag;
 } tSequence;
 
 //debug structure
