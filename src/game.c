@@ -1014,6 +1014,7 @@ void game_update()
                                 {
                                     gameSeq.flag = true;
                                     entity_create(E_ENT_CLASS_ENEMY, E_ROBOT_ENEMY_TYPE, (tVector){176, 48}, E_ENT_DIR_LEFT, 0);
+                                    entity_create(E_ENT_CLASS_OBJECT, E_SMOKE_EXPLOSION_OBJECT_TYPE, (tVector){183, 55}, E_ENT_DIR_LEFT, 0);
                                 }
                             break;
                             case TUTORIAL_MSG_5_FRAME ... TUTORIAL_MSG_5_FRAME + TUTORIAL_MSG_FRAME_OFFSET:

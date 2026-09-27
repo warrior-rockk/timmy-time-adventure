@@ -66,6 +66,7 @@ enum E_OBJECT_TYPE
     E_CANNON_OBJECT_TYPE,
     E_TORCH_DROP_OBJECT_TYPE,
     E_LAVA_DROP_OBJECT_TYPE,
+    E_SMOKE_EXPLOSION_OBJECT_TYPE,
 
     E_OBJECTS_TYPE_NUM,
 };
@@ -161,6 +162,8 @@ void object_destroy(tEntity *entity);
 
 //object solid (pickable or not and breakable or not)
 void object_solid_update(tEntity *this, tDefaultObjectLocalData *local);
+//objet that plays animation and deads
+void object_anim_update(tEntity *this, tDefaultObjectLocalData *local);
 //items object (extra live, full life)
 void object_item_update(tEntity *this, tDefaultObjectLocalData *local);
 //special trigger objects (checkpoints, end level, stop scroll...)

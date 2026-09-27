@@ -214,6 +214,13 @@ void object_create(tEntity *entity)
             entity->size = (tVector){16, 16};             
             collision_create_min_entity_points(entity);                  
         break;
+        case E_SMOKE_EXPLOSION_OBJECT_TYPE:
+            load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, SMOKE_BMP);
+            entity->img = objectResources[entity->entType];
+            entity->spriteSize = (tVector){25, 25};
+            entity->size = (tVector){16, 16};             
+            entity->properties = E_ENT_PROP_NO_COLLISION;
+        break;
         case E_EGG_OBJECT_TYPE:            
             load_entity_bmp_resources(&objectResources[entity->entType], objectDataFileIndex, EGG_BMP);
             entity->img = objectResources[entity->entType];
@@ -563,6 +570,9 @@ void object_update(tEntity *entity)
         break;
         case E_LAVA_DROP_OBJECT_TYPE:
             object_lava_drop_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
+        break;
+        case E_SMOKE_EXPLOSION_OBJECT_TYPE:
+            object_anim_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
         break;
         default:
             object_solid_update(entity, (tDefaultObjectLocalData*)objectDataList[entity->entInstance].data);
@@ -2120,6 +2130,23 @@ void object_lava_drop_update(tEntity *this, tDefaultObjectLocalData *local)
                 this->state = 0;
         break;
     }    
+}
+
+void object_anim_update(tEntity *this, tDefaultObjectLocalData *local)
+{
+    //object states
+    enum E_ANIMATION_STATE {E_ITEM_ST_IDLE};
+
+    //object animations
+    #define ANIM_SMOKE_EXPLOSION   0,   8, 6,  ANIM_ONCE
+    
+    switch (this->state)
+    {
+        case E_ITEM_ST_IDLE:
+            if (play_animation(&this->anim, ANIM_SMOKE_EXPLOSION))
+                this->dead = true;
+        break;   
+    }
 }
 
 void object_trace(tEntity *this)
