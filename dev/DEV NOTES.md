@@ -74,7 +74,9 @@
 * Egypt: more traps
 
 ## Debug objdump
-`..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
+```ps
+..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
+```
 
 ## Compiler flags
 
@@ -106,8 +108,33 @@ ren .\timmy.zip .\timmy.jsdos
 Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force
 
 ## resource icon on executable (windows build)
-``windres resources.rc -O coff -o resources.res --preprocessor="cat"``
 
-``cp resources.res ../src/``
+```ps
+windres resources.rc -O coff -o resources.res --preprocessor="cat"
 
-``en el gcc de linker de los .o añadimos ./src/resources.res``
+cp resources.res ../src/
+```
+en el gcc de linker de los .o añadimos ./src/resources.res
+
+
+## Dos installation disks
+
+### Compress game data to build dir
+```dos
+md c:\timmy
+cd DOS-IN~1
+cd II204
+
+COMPRESS.EXE c:\TIMMY-~1\BUILD\RELEASE\BIN\*.* c:\timmy\ /s
+```
+If want to distribute on floppies, distributed the compressed files on folders (named e.g DISK1, DISK2) with size <= 1.44MB (Disk 1 needs 400KB for the installation .EXE)
+
+### Create installation with II204
+```dos
+IICFG.EXE
+```
+
+### Copy installation to build dir
+```dos
+move INSTALL.EXE c:\timmy
+```
