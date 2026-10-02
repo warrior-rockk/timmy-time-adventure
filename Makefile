@@ -47,7 +47,7 @@ TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC} -DMAJOR_VERSION=$(MAJOR_VERSION) -DMINOR_VERSION=$(MINOR_VERSION)
 DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -fgnu89-inline -I ${INCLUDES_DIR}
-RELEASE_CFLAGS 		:= -Wall -fgnu89-inline -I ${INCLUDES_DIR} #not use O3 with djgpp!! SEG FAULT ON 86box
+RELEASE_CFLAGS 		:= -Wall -O3 -fno-strict-aliasing -fgnu89-inline -I ${INCLUDES_DIR} #with use O3 with djgpp use -fno-strict-aliasing or seg.fault on real machine
 WEB_RELEASE_CFLAGS  := -DWEB -Wall -fgnu89-inline -I ${INCLUDES_DIR}
 LDFLAGS 			:= -fgnu89-inline -L ${LIBS_DIR} -lalleg
 

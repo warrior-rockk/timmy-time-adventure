@@ -6,22 +6,24 @@
 ********************************************************************/
 #include "timer.h"
 
-uint16_t fps;                       //fps counter
-uint16_t frameCount;                //count of frames for fps counter
+volatile uint16_t fps;              //fps counter
+volatile uint16_t frameCount;       //count of frames for fps counter
+volatile uint16_t tickCount;        //counter for tick
+volatile uint16_t tick1SecCount;    //for tick1sec
+
 bool tick;                          //clock tick (set to one 1 frame on update tick time)
-uint16_t tickCount;                 //counter for tick
 uint16_t lastTickCount;             //stores how many clocks ticks has been passed since last frame
 bool tick1sec;                      //clock 1sec tick (set to one 1 frame on every second)
-uint16_t tick1SecCount;             //for tick1sec
 int trace;                          //trace video counter for calculate delta time (MUST BE INT!)
 uint16_t tickCounter;               //general clock tick counter
 bool useAllegroTimers;              //flag to use allegro timers or not (set on init)
+fixed deltaTime;                   //deltaTime
+bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
+
 #ifndef WIN32
     uclock_t profileStart, profileEnd;  //profile uClock variables
 #endif
 double profileTime;                 //profile time counter
-fixed deltaTime;                   //deltaTime
-bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
 
 //update fps callback
 static void update_fps(void)
@@ -60,6 +62,7 @@ void timer_init(long gameTickDuration, bool _useAllegroTimers)
         LOCK_VARIABLE(fps);
         LOCK_VARIABLE(frameCount);    
         LOCK_VARIABLE(tick1SecCount);
+        LOCK_VARIABLE(tickCount);
         LOCK_FUNCTION(update_fps);
         LOCK_FUNCTION(update_tick);
         install_int_ex(update_fps, BPS_TO_TIMER(1));

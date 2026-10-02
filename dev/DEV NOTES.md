@@ -76,6 +76,10 @@
 ## Debug objdump
 `..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
 
+## Compiler flags
+
+I have a segmentation fault using -O3 flag on real machine (or 86box). Testing disabling the unitary optimization flags found that the fault is caused by strict-aliasing, that prevents casting of pointer of different types. Maybe this it's a problem with our dynamic local data structs pointers on entities. Solved by adding the flag -fno-strict-aliasing
+
 ## Credits
 
 * Programming: Warrior
