@@ -17,10 +17,10 @@ bool tick1sec;                      //clock 1sec tick (set to one 1 frame on eve
 int trace;                          //trace video counter for calculate delta time (MUST BE INT!)
 uint16_t tickCounter;               //general clock tick counter
 bool useAllegroTimers;              //flag to use allegro timers or not (set on init)
-fixed deltaTime;                   //deltaTime
+fixed deltaTime;                    //deltaTime
 bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
 
-#ifndef WIN32
+#if !defined(WIN32) && defined(DEBUGMODE)
     uclock_t profileStart, profileEnd;  //profile uClock variables
 #endif
 double profileTime;                 //profile time counter
@@ -162,21 +162,21 @@ bool clock_tick_1sec_get()
 
 void profile_start()
 {
-    #ifndef WIN32
+    #if !defined(WIN32) && defined(DEBUGMODE)
         profileStart= uclock();
     #endif
 }
 
 void profile_end()
 {
-    #ifndef WIN32
+    #if !defined(WIN32) && defined(DEBUGMODE)
         profileEnd= uclock();
     #endif
 }
 
 double profile_get_time()
 {
-    #ifndef WIN32
+    #if !defined(WIN32) && defined(DEBUGMODE)
         return (double)(profileEnd - profileStart) / UCLOCKS_PER_SEC;
     #else
         return 0;
