@@ -53,7 +53,7 @@
                 "env": {"MSYSTEM": "MINGW32",
                 "CHERE_INVOKING": "1"}
             },   
-            "command": "make -f Makefile.windows run_debug",
+            "command": "make -f Makefile.windows run_release",
             "problemMatcher": [
                 "$gcc"
             ],
