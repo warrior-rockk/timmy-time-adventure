@@ -438,7 +438,7 @@ void enemy_create(tEntity *entity)
             load_entity_wav_resources(&enemySfx[E_SFX_ENEMY_FIRE_BREAK], enemyDataFileIndex, FIREBRK_WAV);
             entity->img = enemyResources[entity->entType]; 
             entity->spriteSize = (tVector){18, 21};                          
-            entity->size = (tVector){16, 16};  
+            entity->size = (tVector){12, 12};  
             entity->axis = E_ENT_AXIS_DOWN;
             entity->properties = E_ENT_PROP_NO_HURT;     
             collision_create_min_entity_points(entity);             
