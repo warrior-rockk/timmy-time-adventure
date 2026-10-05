@@ -31,15 +31,24 @@ union uMidiTempo {
 
 int sound_init()
 {
+    MY_TRACE_FLAG("digi %i\n", detect_digi_driver(DIGI_AUTODETECT));
+    MY_TRACE_FLAG("digi SB %i\n", detect_digi_driver(DIGI_SB16));
+    MY_TRACE_FLAG("midi %i\n", detect_midi_driver(MIDI_AUTODETECT));
+    
     switch(soundMode)
     {
         case E_SOUND_SB_MODE:
-            MY_TRACE_FLAG("Sound Blaster sound system init\n");
-            return install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0);            
+            if (install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0) != 0)           
+            {
+                MY_TRACE_FLAG("Error initializating Sound Blaster\n");
+                soundMode = E_SOUND_OFF_MODE;
+                return 0;    
+            } 
         break;
         case E_SOUND_SPEAKER_MODE:            
             MY_TRACE_FLAG("PC Speaker not implemented\n");
-            return -1;
+            soundMode = E_SOUND_OFF_MODE;
+            return 0;
             /*MY_TRACE_FLAG("PC Speaker sound system init\n");
             return pc_speaker_init(10);*/
         break;
@@ -65,11 +74,11 @@ enum E_SOUND_MODES sound_get_mode()
 
 void music_play(MIDI *midiFile, bool loop)
 {
-    //stop actual music
-    music_stop();
-
     if (soundMode == E_SOUND_SB_MODE)
     {
+        //stop actual music
+        music_stop();
+
         //load index music index
         MY_TRACE_FLAG("Load music data file object\n");
         
@@ -134,13 +143,16 @@ void music_seek(int position)
 
 void music_set_volume(uint8_t volume)
 {
-    set_hardware_volume(-1, volume);
-    set_volume(-1, volume);
+    if (soundMode == E_SOUND_SB_MODE)
+    {
+        set_hardware_volume(-1, volume);
+        set_volume(-1, volume);
+    }
 }
 
 void music_set_tempo(uint8_t tempo)
 {
-    if (soundMode != E_SOUND_OFF_MODE)
+    if (soundMode == E_SOUND_SB_MODE)
     {
         union uMidiTempo midiTempo;
         
@@ -164,122 +176,130 @@ void music_set_tempo(uint8_t tempo)
 
 void sfx_init(SAMPLE *initSample, uint8_t numVoices)
 {
-    //allocate sfx array
-    sfx  = (tSfx *)malloc(numVoices * sizeof(tSfx));
-    sfxVoices = numVoices;
-
-    //assign the init sample for destroy later
-    initSfx = initSample;
-
-    //init all sfx voices with sample sfx (If you want always use a specific voice on sfx_play, you need to pre allocate all voices)
-    for (int i = 0; i < sfxVoices; i++)
+    if (soundMode == E_SOUND_SB_MODE)
     {
-        //get soundcard voice (reallocate if exists)
-        if (!voice_check(i))
+        //allocate sfx array
+        sfx  = (tSfx *)malloc(numVoices * sizeof(tSfx));
+        sfxVoices = numVoices;
+
+        //assign the init sample for destroy later
+        initSfx = initSample;
+
+        //init all sfx voices with sample sfx (If you want always use a specific voice on sfx_play, you need to pre allocate all voices)
+        for (int i = 0; i < sfxVoices; i++)
         {
-            int voice = allocate_voice(initSfx);
-            MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, voice);
+            //get soundcard voice (reallocate if exists)
+            if (!voice_check(i))
+            {
+                int voice = allocate_voice(initSfx);
+                MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, voice);
+            }
+            else
+                reallocate_voice(i, initSfx);
+            
+
+            //sfx[i].sampleId = sd_take;
+
+            //init channel flags
+            sfx[i].playing     = false;
+            sfx[i].paused      = false;
+            sfx[i].pause       = false;
+            sfx[i].stop        = false;
+            sfx[i].finished    = false;
+            sfx[i].position    = -1;
         }
-        else
-            reallocate_voice(i, initSfx);
         
-
-        //sfx[i].sampleId = sd_take;
-
-        //init channel flags
-        sfx[i].playing     = false;
-        sfx[i].paused      = false;
-        sfx[i].pause       = false;
-        sfx[i].stop        = false;
-        sfx[i].finished    = false;
-        sfx[i].position    = -1;
+        MY_TRACE_FLAG("SFX system initialized\n");
     }
-    
-    MY_TRACE_FLAG("SFX system initialized\n");
 }
 
 void sfx_destroy()
 {
     MY_TRACE_FLAG("Destroy SFX system\n");
-    
-    //free all sfx voices
-    for (int i = 0; i < sfxVoices; i++)
+    if (soundMode == E_SOUND_SB_MODE)
     {
-        //get soundcard voice (reallocate if exists)
-        if (!voice_check(i))
-            deallocate_voice(i);
+        //free all sfx voices
+        for (int i = 0; i < sfxVoices; i++)
+        {
+            //get soundcard voice (reallocate if exists)
+            if (!voice_check(i))
+                deallocate_voice(i);
+        }
+
+        //free sfx array
+        free(sfx);
+        sfx = NULL;
+        
+        //free init sample
+        destroy_sample(initSfx);
+
+        MY_TRACE_FLAG("SFX system destroyed\n");
     }
-
-    //free sfx array
-    free(sfx);
-    sfx = NULL;
-    
-    //free init sample
-    destroy_sample(initSfx);
-
-    MY_TRACE_FLAG("SFX system destroyed\n");
 }
 
 void sfx_update()
 {
-    for (int i = 0; i < sfxVoices; i++)
+    if (soundMode == E_SOUND_SB_MODE)
     {
-        //handles sound pause
-        if (sfx[i].pause)
+        for (int i = 0; i < sfxVoices; i++)
         {
-            if (sfx[i].playing)
+            //handles sound pause
+            if (sfx[i].pause)
             {
-                //do the stop/pause
-                voice_stop(i);
-                //set flag
-                sfx[i].paused = true;
+                if (sfx[i].playing)
+                {
+                    //do the stop/pause
+                    voice_stop(i);
+                    //set flag
+                    sfx[i].paused = true;
+                }
+                else
+                    //clear flag
+                    sfx[i].pause = false;
             }
-            else
+        
+            //handles sound resume
+            if (!sfx[i].pause && sfx[i].paused)
+            {
+                //resume sound if was started
+                if (sfx[i].position >= 0)
+                    voice_start(i);
                 //clear flag
-                sfx[i].pause = false;
-        }
-    
-        //handles sound resume
-        if (!sfx[i].pause && sfx[i].paused)
-        {
-            //resume sound if was started
-            if (sfx[i].position >= 0)
-                voice_start(i);
-            //clear flag
-            sfx[i].paused = false;
-        }
-    
-        //handles sound stop
-        if (sfx[i].stop)
-        {
-            if (sfx[i].playing)
-                //do sound stop
-                voice_stop(i);
-            //clear flag
-            sfx[i].stop = false;
-            //set flag
-            sfx[i].finished = true;
-        }
-    
-        //handles clear sound playing flag
-        if (sfx[i].playing && !sfx[i].paused)
-        {
-            //stores sound position
-            switch (soundMode)
-            {
-                case E_SOUND_SB_MODE:
-                    sfx[i].position = voice_get_position(i);
-                break;
-                case E_SOUND_SPEAKER_MODE:
-                    //sfx[i].position = (int)pc_speaker_song_pos;
-                break;
+                sfx[i].paused = false;
             }
-            
-            //clear flag when sound finished
-            if (sfx[i].position == -1)
+        
+            //handles sound stop
+            if (sfx[i].stop)
             {
-                sfx[i].playing = false;
+                if (sfx[i].playing)
+                    //do sound stop
+                    voice_stop(i);
+                //clear flag
+                sfx[i].stop = false;
+                //set flag
                 sfx[i].finished = true;
+            }
+        
+            //handles clear sound playing flag
+            if (sfx[i].playing && !sfx[i].paused)
+            {
+                //stores sound position
+                switch (soundMode)
+                {
+                    case E_SOUND_SB_MODE:
+                        sfx[i].position = voice_get_position(i);
+                    break;
+                    case E_SOUND_SPEAKER_MODE:
+                        //sfx[i].position = (int)pc_speaker_song_pos;
+                    break;
+                }
+                
+                //clear flag when sound finished
+                if (sfx[i].position == -1)
+                {
+                    sfx[i].playing = false;
+                    sfx[i].finished = true;
+                }
             }
         }
     }
@@ -287,11 +307,11 @@ void sfx_update()
 
 void sfx_play(SAMPLE* sampleFile, uint8_t voice)
 {
-    ASSERT(voice < sfxVoices);
-    
     switch (soundMode)
     {
         case E_SOUND_SB_MODE:            
+            ASSERT(voice < sfxVoices);
+            
             //reallocate the sample on select voice of selected channel
             if (!voice_check(voice))
             {                
@@ -305,24 +325,24 @@ void sfx_play(SAMPLE* sampleFile, uint8_t voice)
             //start sample allocated on voice channel
             voice_start(voice);
             MY_TRACE_FLAG("SFX voice %i played\n", voice);
+
+            //set flag
+            sfx[voice].playing = true;
+            sfx[voice].finished = false;
         break;
         case E_SOUND_SPEAKER_MODE:
             //pc_speaker_play_sfx(_sfx_notes, _sfx_durations);
         break;
     }
-
-    //set flag
-    sfx[voice].playing = true;
-    sfx[voice].finished = false;
 }
 
 void sfx_play_rnd(SAMPLE* sampleFile, uint8_t voice)
 {
-    ASSERT(voice < sfxVoices);
-    
     switch (soundMode)
     {
         case E_SOUND_SB_MODE:            
+            ASSERT(voice < sfxVoices);
+
             //reallocate the sample on select voice of selected channel
             if (!voice_check(voice))
             {                
@@ -365,27 +385,30 @@ void sfx_play_rnd(SAMPLE* sampleFile, uint8_t voice)
             //start sample allocated on voice channel
             voice_start(voice);
             MY_TRACE_FLAG("SFX voice %i played\n", voice);
+
+            //set flag
+            sfx[voice].playing = true;
+            sfx[voice].finished = false;
         break;
     }
-
-    //set flag
-    sfx[voice].playing = true;
-    sfx[voice].finished = false;
 }
 
 void sfx_stop(uint8_t voice)
 {
-    sfx[voice].stop = true;
+    if (soundMode == E_SOUND_SB_MODE)
+        sfx[voice].stop = true;
 }
 
 void sfx_pause(uint8_t voice)
 {
-    sfx[voice].pause = true;
+    if (soundMode == E_SOUND_SB_MODE)
+        sfx[voice].pause = true;
 }
 
 void sfx_resume(uint8_t voice)
 {
-    sfx[voice].pause = false;
+    if (soundMode == E_SOUND_SB_MODE)
+        sfx[voice].pause = false;
 }
 
 tSfx sfx_get_voice_data(uint8_t voice)
@@ -395,17 +418,24 @@ tSfx sfx_get_voice_data(uint8_t voice)
 
 void sfx_set_voice_data(uint8_t voice, tSfx voiceData)
 {
-    sfx[voice] = voiceData;
+    if (soundMode == E_SOUND_SB_MODE)
+        sfx[voice] = voiceData;
 }
 
 bool sfx_voice_is_playing(uint8_t voice)
 {
-    return sfx[voice].playing;
+    if (soundMode == E_SOUND_SB_MODE)
+        return sfx[voice].playing;
+    else
+        return false;
 }
 
 bool sfx_voice_finished(uint8_t voice)
 {
-    return sfx[voice].finished;
+    if (soundMode == E_SOUND_SB_MODE)
+        return sfx[voice].finished;
+    else
+        return false;
 }
 
 /*int sfx_get_voice_sample_id(uint8_t voice)
@@ -415,26 +445,33 @@ bool sfx_voice_finished(uint8_t voice)
 
 void sfx_voice_clear_finished(uint8_t voice)
 {
-    sfx[voice].finished = false;    
+    if (soundMode == E_SOUND_SB_MODE)
+        sfx[voice].finished = false;    
 }
 
 void sfx_voice_reallocate(SAMPLE* sampleFile, uint8_t voice)
 {
-    reallocate_voice(voice, sampleFile);
+    if (soundMode == E_SOUND_SB_MODE)
+        reallocate_voice(voice, sampleFile);
 }
 
 void sfx_voice_deallocate(uint8_t voice)
 {
-    deallocate_voice(voice);
+    if (soundMode == E_SOUND_SB_MODE)
+        deallocate_voice(voice);
 }
 
 void sfx_voice_set_position(uint8_t voice, int position)
 {
-    voice_set_position(voice, position);
+    if (soundMode == E_SOUND_SB_MODE)
+        voice_set_position(voice, position);
 }
 
 void sfx_set_volume(uint8_t volume)
 {
-    set_hardware_volume(volume, -1);
-    set_volume(volume, -1);
+    if (soundMode == E_SOUND_SB_MODE)
+    {
+        set_hardware_volume(volume, -1);
+        set_volume(volume, -1);
+    }
 }
