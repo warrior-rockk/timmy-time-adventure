@@ -36,22 +36,33 @@ int sound_init()
     //trace sound card hardware
     #if SOUND_TRACE_HW
         MY_TRACE_FLAG("Checking digital sound capabilities:\n");
-        MY_TRACE_FLAG("\tDIGI_SB10: %i voices\n", detect_digi_driver(DIGI_SB10));
-        MY_TRACE_FLAG("\tDIGI_SB15: %i voices\n", detect_digi_driver(DIGI_SB15));
-        MY_TRACE_FLAG("\tDIGI_SB20: %i voices\n", detect_digi_driver(DIGI_SB20));
-        MY_TRACE_FLAG("\tDIGI_SBPRO: %i voices\n", detect_digi_driver(DIGI_SBPRO));
-        MY_TRACE_FLAG("\tDIGI_SB16: %i voices\n", detect_digi_driver(DIGI_SB16));
-        MY_TRACE_FLAG("\tDIGI_AUDIODRIVE: %i voices\n", detect_digi_driver(DIGI_AUDIODRIVE));
-        MY_TRACE_FLAG("\tDIGI_SOUNDSCAPE: %i voices\n", detect_digi_driver(DIGI_SOUNDSCAPE));
-        MY_TRACE_FLAG("\tDIGI_WINSOUNDSYS: %i voices\n", detect_digi_driver(DIGI_WINSOUNDSYS));
+        #ifndef WIN32
+            MY_TRACE_FLAG("\tDIGI_SB10: %i voices\n", detect_digi_driver(DIGI_SB10));
+            MY_TRACE_FLAG("\tDIGI_SB15: %i voices\n", detect_digi_driver(DIGI_SB15));
+            MY_TRACE_FLAG("\tDIGI_SB20: %i voices\n", detect_digi_driver(DIGI_SB20));
+            MY_TRACE_FLAG("\tDIGI_SBPRO: %i voices\n", detect_digi_driver(DIGI_SBPRO));
+            MY_TRACE_FLAG("\tDIGI_SB16: %i voices\n", detect_digi_driver(DIGI_SB16));
+            MY_TRACE_FLAG("\tDIGI_AUDIODRIVE: %i voices\n", detect_digi_driver(DIGI_AUDIODRIVE));
+            MY_TRACE_FLAG("\tDIGI_SOUNDSCAPE: %i voices\n", detect_digi_driver(DIGI_SOUNDSCAPE));
+            MY_TRACE_FLAG("\tDIGI_WINSOUNDSYS: %i voices\n", detect_digi_driver(DIGI_WINSOUNDSYS));
 
-        MY_TRACE_FLAG("Checking MIDI sound capabilities:\n");
-        MY_TRACE_FLAG("\tMIDI_OPL2: %i voices\n", detect_midi_driver(MIDI_OPL2));
-        MY_TRACE_FLAG("\tMIDI_2XOPL2: %i voices\n", detect_midi_driver(MIDI_2XOPL2));
-        MY_TRACE_FLAG("\tMIDI_OPL3: %i voices\n", detect_midi_driver(MIDI_OPL3));
-        MY_TRACE_FLAG("\tMIDI_SB_OUT: %i voices\n", detect_midi_driver(MIDI_SB_OUT));
-        MY_TRACE_FLAG("\tMIDI_MPU: %i voices\n", detect_midi_driver(MIDI_MPU));
-        MY_TRACE_FLAG("\tMIDI_AWE32: %i voices\n", detect_midi_driver(MIDI_AWE32));
+            MY_TRACE_FLAG("Checking MIDI sound capabilities:\n");
+            MY_TRACE_FLAG("\tMIDI_OPL2: %i voices\n", detect_midi_driver(MIDI_OPL2));
+            MY_TRACE_FLAG("\tMIDI_2XOPL2: %i voices\n", detect_midi_driver(MIDI_2XOPL2));
+            MY_TRACE_FLAG("\tMIDI_OPL3: %i voices\n", detect_midi_driver(MIDI_OPL3));
+            MY_TRACE_FLAG("\tMIDI_SB_OUT: %i voices\n", detect_midi_driver(MIDI_SB_OUT));
+            MY_TRACE_FLAG("\tMIDI_MPU: %i voices\n", detect_midi_driver(MIDI_MPU));
+            MY_TRACE_FLAG("\tMIDI_AWE32: %i voices\n", detect_midi_driver(MIDI_AWE32));
+        #else
+            MY_TRACE_FLAG("\tDIGI_DIRECTX: %i voices\n", detect_digi_driver(DIGI_DIRECTX(0)));
+            MY_TRACE_FLAG("\tDIGI_DIRECTAMX: %i voices\n", detect_digi_driver(DIGI_DIRECTAMX(0)));
+            MY_TRACE_FLAG("\tDIGI_WAVOUTID: %i voices\n", detect_digi_driver(DIGI_WAVOUTID(0)));            
+
+            MY_TRACE_FLAG("Checking MIDI sound capabilities:\n");
+            MY_TRACE_FLAG("\tMIDI_WIN32MAPPER: %i voices\n", detect_midi_driver(MIDI_WIN32MAPPER));
+            MY_TRACE_FLAG("\tMMIDI_WIN32 %i voices\n", detect_midi_driver(MIDI_WIN32(0)));
+            MY_TRACE_FLAG("\tMIDI_DIGMID: %i voices\n", detect_midi_driver(MIDI_DIGMID));            
+        #endif
     #endif
 
     switch(soundMode)
@@ -60,46 +71,72 @@ int sound_init()
             int digitalSoundDriver = DIGI_AUTODETECT;
             int MIDISoundDriver    = MIDI_AUTODETECT;
             
-            //select available digital driver
-            if (detect_digi_driver(DIGI_SB16) > 0)
-                digitalSoundDriver = DIGI_SB16;
-            else if (detect_digi_driver(DIGI_SBPRO) > 0)
-                digitalSoundDriver = DIGI_SBPRO;
-            else if (detect_digi_driver(DIGI_SB20) > 0)
-                digitalSoundDriver = DIGI_SB20;
-            else if (detect_digi_driver(DIGI_SB15) > 0)
-                digitalSoundDriver = DIGI_SB15;
-            else if (detect_digi_driver(DIGI_SB10) > 0)
-                digitalSoundDriver = DIGI_SB10;            
-            else if (detect_digi_driver(DIGI_AUDIODRIVE) > 0)
-                digitalSoundDriver = DIGI_AUDIODRIVE;
-            else if (detect_digi_driver(DIGI_SOUNDSCAPE) > 0)
-                digitalSoundDriver = DIGI_SOUNDSCAPE;
-            else if (detect_digi_driver(DIGI_WINSOUNDSYS) > 0)
-                digitalSoundDriver = DIGI_WINSOUNDSYS;
-            else
-            {
-                MY_TRACE_FLAG("No digital sound card available\n");                
-            }
+            #ifndef WIN32
+                //select available digital driver
+                if (detect_digi_driver(DIGI_SB16) > 0)
+                    digitalSoundDriver = DIGI_SB16;
+                else if (detect_digi_driver(DIGI_SBPRO) > 0)
+                    digitalSoundDriver = DIGI_SBPRO;
+                else if (detect_digi_driver(DIGI_SB20) > 0)
+                    digitalSoundDriver = DIGI_SB20;
+                else if (detect_digi_driver(DIGI_SB15) > 0)
+                    digitalSoundDriver = DIGI_SB15;
+                else if (detect_digi_driver(DIGI_SB10) > 0)
+                    digitalSoundDriver = DIGI_SB10;            
+                else if (detect_digi_driver(DIGI_AUDIODRIVE) > 0)
+                    digitalSoundDriver = DIGI_AUDIODRIVE;
+                else if (detect_digi_driver(DIGI_SOUNDSCAPE) > 0)
+                    digitalSoundDriver = DIGI_SOUNDSCAPE;
+                else if (detect_digi_driver(DIGI_WINSOUNDSYS) > 0)
+                    digitalSoundDriver = DIGI_WINSOUNDSYS;
+                else
+                {
+                    MY_TRACE_FLAG("No digital sound card available\n");                
+                }
 
-            //select available MIDI driver
-            if (detect_midi_driver(MIDI_OPL3) != 0)
-                MIDISoundDriver = MIDI_OPL3;
-            else if (detect_midi_driver(MIDI_2XOPL2) != 0)
-                MIDISoundDriver = MIDI_2XOPL2;
-            else if (detect_midi_driver(MIDI_OPL2) != 0)
-                MIDISoundDriver = MIDI_OPL2;
-            else if (detect_midi_driver(MIDI_SB_OUT) != 0)
-                MIDISoundDriver = MIDI_SB_OUT;
-            else if (detect_midi_driver(MIDI_MPU) != 0)
-                MIDISoundDriver = MIDI_MPU;            
-            else if (detect_midi_driver(MIDI_AWE32) != 0)
-                MIDISoundDriver = MIDI_AWE32;            
-            else
-            {
-                MY_TRACE_FLAG("No MIDI sound card available\n");                
-            }
+                //select available MIDI driver
+                if (detect_midi_driver(MIDI_OPL3) != 0)
+                    MIDISoundDriver = MIDI_OPL3;
+                else if (detect_midi_driver(MIDI_2XOPL2) != 0)
+                    MIDISoundDriver = MIDI_2XOPL2;
+                else if (detect_midi_driver(MIDI_OPL2) != 0)
+                    MIDISoundDriver = MIDI_OPL2;
+                else if (detect_midi_driver(MIDI_SB_OUT) != 0)
+                    MIDISoundDriver = MIDI_SB_OUT;
+                else if (detect_midi_driver(MIDI_MPU) != 0)
+                    MIDISoundDriver = MIDI_MPU;            
+                else if (detect_midi_driver(MIDI_AWE32) != 0)
+                    MIDISoundDriver = MIDI_AWE32;            
+                else
+                {
+                    MY_TRACE_FLAG("No MIDI sound card available\n");                
+                }
+            #else
+                //select available digital driver
+                if (detect_digi_driver(DIGI_DIRECTX(0)) > 0)
+                    digitalSoundDriver = DIGI_DIRECTX(0);
+                else if (detect_digi_driver(DIGI_DIRECTAMX(0)) > 0)
+                    digitalSoundDriver = DIGI_DIRECTAMX(0);
+                else if (detect_digi_driver(DIGI_WAVOUTID(0)) > 0)
+                    digitalSoundDriver = DIGI_WAVOUTID(0);            
+                else
+                {
+                    MY_TRACE_FLAG("No digital sound card available\n");                
+                }
 
+                //select available MIDI driver
+                if (detect_midi_driver(MIDI_WIN32MAPPER) != 0)
+                    MIDISoundDriver = MIDI_WIN32MAPPER;
+                else if (detect_midi_driver(MIDI_WIN32(0)) != 0)
+                    MIDISoundDriver = MIDI_WIN32(0);
+                else if (detect_midi_driver(MIDI_DIGMID) != 0)
+                    MIDISoundDriver = MIDI_DIGMID;                
+                else
+                {
+                    MY_TRACE_FLAG("No MIDI sound card available\n");                
+                }
+            #endif
+            
             //initialize sound
             if (digitalSoundDriver != DIGI_AUTODETECT && MIDISoundDriver != MIDI_AUTODETECT)
             {
