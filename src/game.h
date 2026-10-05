@@ -16,7 +16,7 @@
 #ifndef MINOR_VERSION  
     #define MINOR_VERSION           0
 #endif
-#define CONFIG_FILE             "GAME.CFG"
+#define CONFIG_FILE             "TIMMY.CFG"
 #define BETATESTING             0
 
 //allegro engine

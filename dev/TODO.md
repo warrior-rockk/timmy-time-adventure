@@ -20,7 +20,6 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
-- [ ] Screen shake: not scroll - map blit instead
 - [ ] Translate launch loading texts
 - [ ] It's necessary to load all game sfx on init?
 - [ ] fps timer interrupt and counter only on debug mode?
