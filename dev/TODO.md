@@ -15,11 +15,13 @@
 - [ ] On cavern, fade level palette and take light to iluminate?
 
 # Game design
+- [ ] Lava drop collision box smaller?
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] Screen shake: not scroll - map blit instead
 - [ ] Translate launch loading texts
 - [ ] It's necessary to load all game sfx on init?
 - [ ] fps timer interrupt and counter only on debug mode?
