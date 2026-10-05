@@ -64,13 +64,13 @@ static void scroll_update_shake()
     {
         if (scroll.shakeValue.x == 0)
         {
-            scroll.shakeValue.x = 1;
+            scroll.shakeValue.x = 2;
             scroll.shakeValue.y = 1;
         }
         else
         {
             scroll.shakeValue.x = 0;
-            scroll.shakeValue.y = -1;
+            scroll.shakeValue.y = -2;
         }
 
         if (scroll.shakeTimer >= SCROLL_SHAKE_DURATION)
@@ -177,8 +177,9 @@ static void scroll_update_x(tVector cameraTarget, bool init)
 
     //limit scroll position
     scroll.pos.x = (int16_t)clamp(scroll.pos.x, 0, scroll.limit.x);
-    //add shake value
-    scroll.pos.x += scroll.shakeValue.x;
+    
+    //add shake value (this is on blit now, not on scroll)
+    //scroll.pos.x += scroll.shakeValue.x;
 
     //if init, set fixed part
     if (init)
@@ -272,8 +273,8 @@ static void scroll_update_y(tVector cameraTarget, bool init)
     #endif
     //limit scroll position
     scroll.pos.y = (int16_t)clamp(scroll.pos.y, 0, scroll.limit.y); 
-    //add shake value
-    scroll.pos.y += scroll.shakeValue.y;
+    //add shake value (this is on blit now, not on scroll)
+    //scroll.pos.y += scroll.shakeValue.y;
 }
 
 tVector scroll_get_position()
@@ -350,6 +351,11 @@ void scroll_shake_camera()
     #if SCROLL_SHAKE_ENABLE
         scroll.cameraShake = true;
     #endif
+}
+
+tVector scroll_get_shake()
+{
+    return scroll.shakeValue;
 }
 
 void scroll_set_scroll_mode(uint8_t mode)

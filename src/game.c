@@ -2233,8 +2233,11 @@ void game_draw()
 {   
     //blit worldScreen on buffer (centered on screen)
     if (game.viewMap)        
-        blit(worldScreen, buffer, 0, 0, GAME_X, GAME_Y, GAME_W, GAME_H);        
-           
+    {
+        tVector shakeCamera = scroll_get_shake();
+        blit(worldScreen, buffer, 0, 0, GAME_X + shakeCamera.x, GAME_Y + shakeCamera.y, GAME_W - shakeCamera.x, GAME_H - shakeCamera.y);        
+    }      
+
     #ifdef DEBUGMODE
         //draw debug info
         if (debugOptions.showDebugInfo)

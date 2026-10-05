@@ -809,6 +809,5 @@
    </properties>
   </object>
   <object id="225" template="triggers/debug-start.tx" x="816" y="176"/>
-  <object id="228" template="triggers/debug-start.tx" x="2688" y="48"/>
  </objectgroup>
 </map>

@@ -21,7 +21,7 @@
 #define SCROLL_IN_REGION_OFFSET_Y   8  //Offset Y to scroll region check
 
 #define SCROLL_SHAKE_VELOCITY       2
-#define SCROLL_SHAKE_DURATION       20
+#define SCROLL_SHAKE_DURATION       30 //20
 #define SCROLL_AUTOSCROLL_VEL       0.6
 
 #define SCROLL_SHAKE_ENABLE         1       
@@ -96,6 +96,8 @@ int16_t scroll_get_stop_scroll(uint8_t dir);
 bool scroll_get_stop_scroll_nosolid(uint8_t dir);
 //function to shake screen camera
 void scroll_shake_camera();
+//function to return shaka value
+tVector scroll_get_shake();
 //sets the scroll mode
 void scroll_set_scroll_mode(uint8_t mode);
 //gets scroll mode

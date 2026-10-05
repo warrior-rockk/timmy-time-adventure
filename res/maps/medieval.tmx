@@ -1501,10 +1501,5 @@
     <property name="dir" type="int" propertytype="dir" value="1"/>
    </properties>
   </object>
-  <object id="228" name="debug-start" type="object" x="2688" y="48" width="16" height="32">
-   <properties>
-    <property name="dir" type="int" propertytype="dir" value="1"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
