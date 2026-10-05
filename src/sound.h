@@ -11,7 +11,8 @@
 #include <stdbool.h>
 #include "allegro.h"
 
-#define SFX_FREQ_RND_PERCENT        20 //(+/- % freq variation on sfx_play_rnd)
+#define SFX_FREQ_RND_PERCENT        20  //(+/- % freq variation on sfx_play_rnd)
+#define SOUND_TRACE_HW              1   //trace sound hardware
 
 //sound modes
 enum E_SOUND_MODES{
