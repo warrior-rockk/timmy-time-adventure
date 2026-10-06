@@ -47,10 +47,12 @@
 
 uint8_t gameExit = false;                   //flag to exit to main
 static bool firstRun = false;               //flag to set if first run (to show language selection menu)
-static uint8_t loadingProgress = 0;         //counter for loading progress
 static uint8_t sceneCounter = 0;            //intro counter
 static uint16_t textDelay;                  //calculated text delay for intro and ending
 static uint8_t textColor;                   //text color variable to blink text
+#ifndef WIN32
+static uint8_t loadingProgress = 0;         //counter for loading progress
+#endif
 
 BITMAP *buffer;                             //screen buffer
 BITMAP *worldScreen;                        //map window buffer
@@ -2984,8 +2986,10 @@ static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axi
 
 void game_loading_text()
 {
-    printf("\rStarting %s v%i.%i (%i%%)", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION, loadingProgress);
-    loadingProgress += 9; 
+    #ifndef WIN32
+        printf("\rStarting %s v%i.%i (%i%%)", GAME_TITLE, MAJOR_VERSION, MINOR_VERSION, loadingProgress);
+        loadingProgress += 9; 
+    #endif
 }
 
 void game_draw_title_scroll()

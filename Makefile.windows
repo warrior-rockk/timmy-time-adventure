@@ -17,7 +17,7 @@ endif
 APP  				:= timmy.exe
 APP_TITLE			:= Timmy Time Adventure
 MAJOR_VERSION		:= 1
-MINOR_VERSION		:= 7
+MINOR_VERSION		:= 8
 SRC_EXT				:= c
 #project folders
 SRC_DIR				:= ./src/
@@ -34,8 +34,8 @@ MAPS_SRC_DIR 		= ${RESOURCES_DIR}maps
 TMX_FILES 			= $(wildcard $(MAPS_SRC_DIR)/*.tmx)
 #compiler/linker flags
 CC					:= ${OS_GCC} -DMAJOR_VERSION=$(MAJOR_VERSION) -DMINOR_VERSION=$(MINOR_VERSION) -DWIN32
-DEBUG_CFLAGS  		:= -Wall -g  -DDEBUGMODE -I ${INCLUDES_DIR}
-RELEASE_CFLAGS 		:= -Wall -I ${INCLUDES_DIR}
+DEBUG_CFLAGS  		:= -Wall -g -DDEBUGMODE -I ${INCLUDES_DIR}
+RELEASE_CFLAGS 		:= -Wall -O3 -fno-strict-aliasing -mwindows -I ${INCLUDES_DIR} #-mwindows flag disables console output
 LDFLAGS 			:= -L ${LIBS_DIR} -lalleg44
 
 #all targets

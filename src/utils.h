@@ -8,6 +8,7 @@
 #define _H_UTILS_
 
 #include <stdbool.h>
+#include <stdio.h>
 #include "allegro.h"
 
 //macros for bit masking
@@ -22,11 +23,15 @@
 #define TOOGLE_FLAG(data, bit)    ((data) ^=  ((bit)))
 #define CHECK_FLAG(data, bit)     (((data) & ((bit))) == bit)
 
-#ifdef ALLEGRO_H
+#ifdef DEBUGMODE
     #define MY_ASSERT(condition)                ASSERT(condition)
     #define MY_TRACE                            TRACE
-    #define MY_TRACE_FLAG(data, ...)            { TRACE("(%i)", get_frame_counter()); TRACE(TRACE_FLAG": " data, ##__VA_ARGS__); }
     #define MY_TRACE_MARK                       MY_TRACE("(%i)[MARK]\n", get_frame_counter())
+    #ifndef WIN32
+        #define MY_TRACE_FLAG(data, ...)            { MY_TRACE("(%i)", get_frame_counter()); MY_TRACE(TRACE_FLAG": " data, ##__VA_ARGS__); }    
+    #else
+        #define MY_TRACE_FLAG(data, ...)            { MY_TRACE("(%i)", get_frame_counter()); MY_TRACE(TRACE_FLAG": " data, ##__VA_ARGS__); printf("(%i)", get_frame_counter()); printf(TRACE_FLAG": " data, ##__VA_ARGS__);}    
+    #endif
 #else
     #define MY_ASSERT(condition)                
     #define MY_TRACE                            

@@ -303,8 +303,7 @@ void sfx_init(SAMPLE *initSample, uint8_t numVoices)
             //get soundcard voice (reallocate if exists)
             if (!voice_check(i))
             {
-                int voice = allocate_voice(initSfx);
-                MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, voice);
+                MY_TRACE_FLAG("SFX voice %i allocated to soundcard voice %i\n", i, allocate_voice(initSfx));
             }
             else
                 reallocate_voice(i, initSfx);
