@@ -14,7 +14,7 @@ ifeq ($(OS),Windows_NT)
 endif
 
 #project definition
-APP  				:= timmy.exe
+APP  				:= 'Timmy Time Adventure.exe'
 APP_TITLE			:= Timmy Time Adventure
 MAJOR_VERSION		:= 1
 MINOR_VERSION		:= 8
