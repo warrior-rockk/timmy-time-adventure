@@ -97,11 +97,12 @@ struct hud
 
 //save game data type
 typedef struct{
+    bool savedData;
     uint8_t lives;
     int score;        
-    uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
     uint16_t livesLosed;
     uint16_t continuesUsed;
+    uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
 } tGameSaveData;
 
 //game configuration
@@ -156,6 +157,8 @@ static void game_init_flags();
 static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
 static void game_draw_title_scroll();
 static void game_deallocate_level_voices();
+static void game_save();
+static void game_load();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -535,6 +538,8 @@ void game_update()
 
                     gameDialog = dialog_create((tRectangle){(tVector){MAIN_MENU_POS_X, MAIN_MENU_POS_Y}, (tVector){MAIN_MENU_SIZE_X, MAIN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
+                    //TODO: translate text
+                    dialog_add_option(&gameDialog, "CONTINUE GAME");
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 
@@ -572,12 +577,28 @@ void game_update()
                                 destroy_bitmap(gameSprite);
                                 destroy_bitmap(titleScroll);
                             break;
-                            case 1: //OPTIONS
+                            case 1: //CONTINUE GAME
+                                if (gameConfig.gameSaveData.savedData)
+                                {
+                                    sfx_play(gameSfx[E_SFX_GAME_START], E_SFX_GAME_VOICE);
+                                    game_load();
+                                    game.state = E_GAME_ST_SELECT_LEVEL;
+
+                                    game.fadeOut = E_FADE_TYPE_VERY_SLOW;
+                                    gameSeq.step = 0;
+                                    game.demo = 0;
+                                    music_stop();
+                                    dialog_destroy(&gameDialog);
+                                    destroy_bitmap(gameSprite);
+                                    destroy_bitmap(titleScroll);
+                                }
+                            break;
+                            case 2: //OPTIONS
                                 game.state = E_GAME_ST_OPTIONS_MENU;
                                 gameSeq.step = 0;
                                 dialog_destroy(&gameDialog);                                
                             break;
-                            case 2: //EXIT
+                            case 3: //EXIT
                                 game.state = E_GAME_ST_EXIT;
                                 gameSeq.step = 0;
                                 game.fadeOut = true;
@@ -677,8 +698,8 @@ void game_update()
         case E_GAME_ST_INIT:
             game_init_flags();
             game.actualLevel    = E_GAME_LEVEL_TUTORIAL;
-                        
-            game.state = E_GAME_ST_LOAD_LEVEL;            
+                    
+            game.state = E_GAME_ST_LOAD_LEVEL;
         break;
         case E_GAME_ST_SELECT_LEVEL:
             switch (gameSeq.step)
@@ -870,6 +891,7 @@ void game_update()
                         game.state = E_GAME_ST_LOAD_LEVEL;
                         game.fadeOut = true;
                         music_stop();
+                        game_save();
                     }
                 break;
                 case 6: //wait for ending
@@ -1282,6 +1304,7 @@ void game_update()
                                 dialog_destroy(&gameDialog); 
                             break;
                             case 5: //EXIT TO DOS
+                                game_save();
                                 game_destroy_level(); 
                                 game.state = E_GAME_ST_EXIT;
                                 game.fadeOut = true;
@@ -1381,6 +1404,7 @@ void game_update()
                     }
                 break;
                 case 6: //destroy level to exit to title
+                    game_save();
                     game_destroy_level();                                
                     
                     game.state = E_GAME_ST_TITLE;
@@ -2708,6 +2732,8 @@ static void game_load_config()
         gameConfig.gameKeys[E_G_KEY_JUMP]   = KEY_Z;
         gameConfig.gameKeys[E_G_KEY_ACTION] = KEY_X;        
 
+        gameConfig.gameSaveData.savedData   = false;
+
         game_save_config();        
 
         //set first run flag
@@ -2725,6 +2751,13 @@ static void game_load_config()
         fread(&gameConfig.highScore,    sizeof(gameConfig.highScore),       1, file);
         for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
             fread(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
+        fread(&gameConfig.gameSaveData.savedData,       sizeof(gameConfig.gameSaveData.savedData),      1, file);
+        fread(&gameConfig.gameSaveData.lives,           sizeof(gameConfig.gameSaveData.lives),          1, file);
+        fread(&gameConfig.gameSaveData.score,           sizeof(gameConfig.gameSaveData.score),          1, file);
+        fread(&gameConfig.gameSaveData.livesLosed,      sizeof(gameConfig.gameSaveData.livesLosed),     1, file);
+        fread(&gameConfig.gameSaveData.continuesUsed,   sizeof(gameConfig.gameSaveData.continuesUsed),  1, file);
+        for (uint8_t i = 0; i <= E_GAME_NUM_LEVELS - 1; i++)
+            fread(&gameConfig.gameSaveData.levelComplete[i],  sizeof(uint8_t),     1, file);
 
         fclose(file);
 
@@ -2763,6 +2796,13 @@ static void game_save_config()
     fwrite(&gameConfig.highScore,    sizeof(gameConfig.highScore),       1, file);
     for (uint8_t i = 0; i <= E_G_KEY_ACTION; i++)
         fwrite(&gameConfig.gameKeys[i],  sizeof(uint8_t),     1, file);
+    fwrite(&gameConfig.gameSaveData.savedData,       sizeof(gameConfig.gameSaveData.savedData),      1, file);
+    fwrite(&gameConfig.gameSaveData.lives,           sizeof(gameConfig.gameSaveData.lives),          1, file);
+    fwrite(&gameConfig.gameSaveData.score,           sizeof(gameConfig.gameSaveData.score),          1, file);
+    fwrite(&gameConfig.gameSaveData.livesLosed,      sizeof(gameConfig.gameSaveData.livesLosed),     1, file);
+    fwrite(&gameConfig.gameSaveData.continuesUsed,   sizeof(gameConfig.gameSaveData.continuesUsed),  1, file);
+    for (uint8_t i = 0; i <= E_GAME_NUM_LEVELS - 1; i++)
+        fwrite(&gameConfig.gameSaveData.levelComplete[i],  sizeof(uint8_t),     1, file);
 
     fclose(file);
     MY_TRACE_FLAG("Config file saved\n");     
@@ -3035,4 +3075,38 @@ static void game_deallocate_level_voices()
     sfx_voice_deallocate(E_SFX_ENEMY_VOICE);
     sfx_voice_deallocate(E_SFX_OBJECT_VOICE);
     sfx_voice_deallocate(E_SFX_PLAYER_VOICE);
+}
+
+//save game progress
+static void game_save()
+{
+    gameConfig.gameSaveData.savedData       = true;
+    gameConfig.gameSaveData.lives           = game.lives;
+    gameConfig.gameSaveData.livesLosed      = game.livesLosed;
+    gameConfig.gameSaveData.continuesUsed   = game.continuesUsed;
+    gameConfig.gameSaveData.score           = game.score;
+
+    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+        gameConfig.gameSaveData.levelComplete[i]   = game.levelComplete[i];
+
+    game_save_config();
+
+    MY_TRACE_FLAG("Game saved\n");
+}
+
+//load game progress
+static void game_load()
+{
+    if (gameConfig.gameSaveData.savedData)
+    {
+        game.lives          = gameConfig.gameSaveData.lives;
+        game.livesLosed     = gameConfig.gameSaveData.livesLosed;
+        game.continuesUsed  = gameConfig.gameSaveData.continuesUsed;
+        game.score          = gameConfig.gameSaveData.score;
+
+        for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+            game.levelComplete[i] = gameConfig.gameSaveData.levelComplete[i];
+
+        MY_TRACE_FLAG("Game loaded\n");
+    }
 }
