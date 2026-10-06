@@ -109,12 +109,13 @@ Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zi
 
 ## resource icon on executable (windows build)
 
-```ps
+execute on msys2 terminal:
+```sh
 windres resources.rc -O coff -o resources.res --preprocessor="cat"
 
 cp resources.res ../src/
 ```
-en el gcc de linker de los .o añadimos ./src/resources.res
+on gcc linking the .o,  add ./src/resources.res
 
 
 ## Dos installation disks
