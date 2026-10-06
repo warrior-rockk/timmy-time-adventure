@@ -20,6 +20,8 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] Save/Load game on game.cfg?
+- [ ] Fullscreen on windows native?
 - [ ] Translate launch loading texts
 - [ ] It's necessary to load all game sfx on init?
 - [ ] fps timer interrupt and counter only on debug mode?
