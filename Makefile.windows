@@ -24,6 +24,7 @@ SRC_DIR				:= ./src/
 BUILD_DIR			:= ./platforms/windows-native/build/
 RESOURCES_DIR		:= ./res/
 STATIC_DIR			:= ./platforms/windows-native/static/
+RC_DIR				:= ./platforms/windows-native/resources/
 INCLUDES_DIR		:= ${OS_INC_DIR}
 LIBS_DIR			:= ${OS_LIB_DIR}
 WEB_DIR				:= ./web
@@ -68,9 +69,9 @@ maps: $(BIN_FILES)
 dat: ${DAT_RESOURCES}	
 
 #binary target
-${BUILD_DIR}bin/$(APP): $(OBJ_FILES)
+${BUILD_DIR}bin/$(APP): $(OBJ_FILES) $(OBJ_DIR)/resources.res
 	@echo "## Linking ${APP}"
-	${CC} $(OBJ_FILES) ./src/resources.res -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
+	${CC} $(OBJ_FILES) $(OBJ_DIR)/resources.res -o $(BUILD_DIR)bin/$(APP) ${CFLAGS} ${LDFLAGS}
 
 #compile objects generating dependency files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
@@ -82,6 +83,10 @@ directories:
 	@mkdir -p ${BUILD_DIR}bin
 	@echo "## Copy static files"
 	cp -r ${STATIC_DIR}/*.* ${BUILD_DIR}bin/
+
+#resource file: icon
+$(OBJ_DIR)/resources.res: $(RC_DIR)/resources.rc
+	windres $< -O coff -o $@ --preprocessor="cat"
 
 #generate dat files
 ${BUILD_DIR}bin/game.dat: $(wildcard ${RESOURCES_DIR}game/*)
