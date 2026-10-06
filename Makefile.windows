@@ -21,9 +21,9 @@ MINOR_VERSION		:= 8
 SRC_EXT				:= c
 #project folders
 SRC_DIR				:= ./src/
-BUILD_DIR			:= ./build/windows/
+BUILD_DIR			:= ./platforms/windows-native/build/
 RESOURCES_DIR		:= ./res/
-STATIC_DIR			:= ./winstatic/
+STATIC_DIR			:= ./platforms/windows-native/static/
 INCLUDES_DIR		:= ${OS_INC_DIR}
 LIBS_DIR			:= ${OS_LIB_DIR}
 WEB_DIR				:= ./web
@@ -43,12 +43,12 @@ all: debug release
 
 #main target definitions
 debug: CFLAGS = ${DEBUG_CFLAGS}
-debug: BUILD_DIR = ./build/windows/debug/
+debug: BUILD_DIR = ./platforms/windows-native/build/debug/
 debug: execute_build
 release: CFLAGS = ${RELEASE_CFLAGS}
-release: BUILD_DIR = ./build/windows/release/
+release: BUILD_DIR = ./platforms/windows-native/build/release/
 release: execute_build
-release_pack: BUILD_DIR = ./build/windows/release/
+release_pack: BUILD_DIR = ./platforms/windows-native/build/release/
 
 #main make build
 execute_build:
@@ -135,13 +135,8 @@ release_pack: release
 	rm -rf ${BUILD_DIR}/bin/*.zip
 	rm -f ${BUILD_DIR}/bin/dosbox.conf
 	rm -f ${BUILD_DIR}/bin/GAME.CFG
-ifeq ($(OS),Windows_NT)
-	powershell -Command "Compress-Archive -Path ${BUILD_DIR}/bin/*.* -DestinationPath  ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} MSDOS).zip' -Force"	
-endif
-ifeq ($(OS),Mac)
-	zip ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} MSDOS).zip' ${BUILD_DIR}/bin/*.* -j
-endif
 
+	python3 -m zipfile -c ${BUILD_DIR}/'${APP_TITLE} (v${MAJOR_VERSION}.${MINOR_VERSION} WIN).zip' ${BUILD_DIR}/bin/*.*
 .PHONY: clean info web release_pack windows mac
 
 clean:
