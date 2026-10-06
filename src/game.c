@@ -95,6 +95,15 @@ struct hud
     uint8_t refresh;     
 } hud;
 
+//save game data type
+typedef struct{
+    uint8_t lives;
+    int score;        
+    uint8_t levelComplete[E_GAME_NUM_LEVELS - 1];
+    uint16_t livesLosed;
+    uint16_t continuesUsed;
+} tGameSaveData;
+
 //game configuration
 struct gameConfig
 {
@@ -103,6 +112,7 @@ struct gameConfig
     uint8_t musicVolume;                    //music volume (0..255)
     int highScore;                          //saved highScore
     uint8_t gameKeys[E_G_KEY_ACTION + 1];   //configured game keys    
+    tGameSaveData gameSaveData;             //save game data    
 } gameConfig;
 
 //cheat code
