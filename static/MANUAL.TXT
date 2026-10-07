@@ -31,6 +31,11 @@ Estas son las funciones de cada tecla de juego:
 -ESC: sale de los menús o cancela introducciones o saca el menu durante el nivel
 -ESPACIO: realiza la pausa del juego durante un nivel
 
+¿MUY DIFICIL?
+-------------
+
+Prueba el Konami code en el menu principal del título: (arriba arriba abajo abajo izquierda derecha izquierda derecha saltar acción)
+
 ----------------------------------------------------------------------------------------
 
 ###########
@@ -67,6 +72,13 @@ These are the functions of each game key:
 -ESC: Exits menus, cancels introductions, or brings up the menu during a level.
 -SPACE: Pauses the game during a level.
  
+VERY DIFFICULT?
+-------------
+
+Try Konami code on main title menu: (up up down down left right left right jump action)
+
+----------------------------------------------------------------------------------------
+
 
                     .::::::::::::::
  ::::::::::::::::   :::::::::::::::
