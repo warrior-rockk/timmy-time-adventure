@@ -896,11 +896,12 @@ void game_update()
                     if ((input_key_down(E_G_KEY_ENTER) || input_key_down(E_G_KEY_JUMP)) && !game.levelComplete[game.actualLevel])
                     {
                         sfx_play(gameSfx[E_SFX_GAME_MENU_SELECT], E_SFX_GAME_VOICE);
-                        gameSeq.step = 0;
-                        game.state = E_GAME_ST_LOAD_LEVEL;
-                        game.fadeOut = true;
                         music_stop();
-                        game_save();
+                        gameSeq.step = 0;
+                        gameSeq.flag = E_GAME_ST_LOAD_LEVEL;
+                        game.state = E_GAME_ST_SAVING_GAME;                                                
+                        
+                        game.fadeOut = true;
                     }
                 break;
                 case 6: //wait for ending
@@ -1421,10 +1422,11 @@ void game_update()
                     }
                 break;
                 case 6: //destroy level to exit to title
-                    game_save();
+                    
                     game_destroy_level();                                
                     
-                    game.state = E_GAME_ST_TITLE;
+                    gameSeq.flag = E_GAME_ST_TITLE;
+                    game.state = E_GAME_ST_SAVING_GAME;                    
                     gameSeq.step = 0;                               
                     dialog_destroy(&gameDialog); 
                 break;
@@ -2062,6 +2064,37 @@ void game_update()
                         currentPal = gamePal;                            
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
+                    }
+                    else
+                        gameSeq.timeCounter += clock_tick_get();
+                break;
+            }
+        break;
+        case E_GAME_ST_SAVING_GAME:
+            switch (gameSeq.step)
+            {
+                case 0: //create game save dialog                    
+                    clear_to_color(buffer, BLACK_COLOR);
+                    currentPal = gamePal;
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_X>>1) - (PAUSE_MENU_SIZE_X>>1), (SCREEN_Y>>1) - 20}, (tVector){PAUSE_MENU_SIZE_X, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
+                    //TODO: translate text
+                    dialog_add_text(&gameDialog, "SAVING GAME...");
+                    dialog_draw(&gameDialog, buffer);
+                    
+                    game_save();
+
+                    game.fadeIn = true;
+                    gameSeq.step ++;
+                break;
+                case 1: //wait time
+                    if (gameSeq.timeCounter >= 40)
+                    {
+                        dialog_destroy(&gameDialog);
+                        gameSeq.step = 0;
+                        gameSeq.timeCounter = 0;
+                        game.state = gameSeq.flag;
+                        gameSeq.flag = 0;
+                        game.fadeOut = true;
                     }
                     else
                         gameSeq.timeCounter += clock_tick_get();

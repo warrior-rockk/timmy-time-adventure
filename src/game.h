@@ -251,6 +251,7 @@ enum E_GAME_STATE
     E_GAME_ST_CREDITS,
     E_GAME_ST_BYE,
     E_GAME_ST_STATISTICS,
+    E_GAME_ST_SAVING_GAME,
 };
 
 //game levels
