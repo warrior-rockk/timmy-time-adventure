@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="229">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="176" height="40" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#1d1a1a" nextlayerid="3" nextobjectid="229">
  <editorsettings>
   <export target="../../res/maps/medieval.tmx" format="tmx"/>
  </editorsettings>
@@ -121,6 +121,7 @@
   </tile>
   <tile id="135" type="tile_NO_SOLID"/>
   <tile id="136" type="tile_NO_SOLID"/>
+  <tile id="137" type="tile_NO_SOLID"/>
   <tile id="138" type="tile_NO_SOLID"/>
   <tile id="139" type="tile_NO_SOLID"/>
   <tile id="140" type="tile_NO_SOLID"/>
@@ -130,12 +131,14 @@
   <tile id="144" type="tile_NO_SOLID"/>
   <tile id="145" type="tile_NO_SOLID"/>
   <tile id="146" type="tile_NO_SOLID"/>
+  <tile id="147" type="tile_NO_SOLID"/>
   <tile id="148" type="tile_NO_SOLID"/>
   <tile id="149" type="tile_NO_SOLID"/>
   <tile id="150" type="tile_NO_SOLID"/>
   <tile id="151" type="tile_NO_SOLID"/>
   <tile id="152" type="tile_NO_SOLID"/>
   <tile id="153" type="tile_NO_SOLID"/>
+  <tile id="154" type="tile_NO_SOLID"/>
   <tile id="155" type="tile_NO_SOLID">
    <animation>
     <frame tileid="155" duration="250"/>
