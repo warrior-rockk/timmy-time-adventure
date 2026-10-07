@@ -253,7 +253,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0: //create init language menu                    
-                    gameDialog = dialog_create((tRectangle){(tVector){FIRSTRUN_MENU_POS_X, FIRSTRUN_MENU_POS_Y}, (tVector){FIRSTRUN_MENU_SIZE_X, FIRSTRUN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){FIRSTRUN_MENU_POS_X, FIRSTRUN_MENU_POS_Y}, (tVector){FIRSTRUN_MENU_SIZE_X, FIRSTRUN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     
                     //write language options
                     char langsText[DIALOG_MAX_OPTION_LENGTH] = LANG_TXT_OPTIONS; 
@@ -305,7 +305,7 @@ void game_update()
                 case 0:
                     //create betatesting dialog
                     clear(buffer);
-                    gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){60, 20}, (tVector){200, 96}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     dialog_add_text(&gameDialog, "NOTAS BETATESTING");
                     dialog_add_text(&gameDialog, "");
                     dialog_add_text(&gameDialog, "-FALTA LA MÚSICA DEL INTRO");
@@ -536,10 +536,13 @@ void game_update()
                     play_animation(&animSprite, TITLE_LOGO_ANIM);
                     game_draw_object((tVector){TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w>>1, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
 
-                    gameDialog = dialog_create((tRectangle){(tVector){MAIN_MENU_POS_X, MAIN_MENU_POS_Y}, (tVector){MAIN_MENU_SIZE_X, MAIN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){MAIN_MENU_POS_X, MAIN_MENU_POS_Y}, (tVector){MAIN_MENU_SIZE_X, MAIN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
                     //TODO: translate text
-                    dialog_add_option(&gameDialog, "CONTINUE GAME");
+                    if (gameConfig.gameSaveData.savedData)
+                        dialog_add_option(&gameDialog, "CONTINUE GAME");
+                    else
+                        dialog_add_option_disabled(&gameDialog, "CONTINUE GAME");
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 
@@ -644,7 +647,7 @@ void game_update()
             {
                 case 0:
                     clear_to_color(buffer, 1);
-                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     
                     game_create_options_menu();
                     
@@ -1239,7 +1242,7 @@ void game_update()
                     game_pause_sound();
             
                     //create pause dialog
-                    gameDialog = dialog_create((tRectangle){(tVector){PAUSE_MENU_POS_X, PAUSE_MENU_POS_Y}, (tVector){PAUSE_MENU_SIZE_X, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){PAUSE_MENU_POS_X, PAUSE_MENU_POS_Y}, (tVector){PAUSE_MENU_SIZE_X, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_PAUSE));
                     dialog_draw(&gameDialog, worldScreen);
 
@@ -1324,7 +1327,7 @@ void game_update()
                     }
                 break;
                 case 2: //options menu    
-                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     
                     game_create_options_menu();
                     
@@ -1369,7 +1372,7 @@ void game_update()
                     }
                 break;
                 case 4: //create confirm dialog exit to title
-                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){160, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){160, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONFIRM_EXIT_TO_TITLE));
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_GAME_WILL_RESTART));
                     dialog_add_text(&gameDialog, "");
@@ -1575,7 +1578,7 @@ void game_update()
                     textprintf_centre_ex(buffer, gameFont[E_GAME_FONT_BIG], SCREEN_X>>1, 40, WHITE_COLOR, BLACK_COLOR, "%i", gameSeq.timeCounter);                    
 
                     //create continue menu
-                    gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){GAMEOVER_MENU_POS_X, GAMEOVER_MENU_POS_Y}, (tVector){GAMEOVER_MENU_SIZE_X, GAMEOVER_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_CONTINUE_QUESTION));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_YES));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_NO));                    
@@ -2822,7 +2825,7 @@ static void game_create_options_menu()
 //creates play menu options
 static void game_create_options_play_menu()
 {
-    gameDialog = dialog_create((tRectangle){(tVector){PLAY_MENU_POS_X, PLAY_MENU_POS_Y}, (tVector){PLAY_MENU_SIZE_X, PLAY_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+    gameDialog = dialog_create((tRectangle){(tVector){PLAY_MENU_POS_X, PLAY_MENU_POS_Y}, (tVector){PLAY_MENU_SIZE_X, PLAY_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTINUE));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_RESTART_LEVEL));
@@ -2870,7 +2873,7 @@ static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn)
     {
         case 10: //draw controls menu
             
-            gameDialog = dialog_create((tRectangle){(tVector){CONTROLS_MENU_POS_X, CONTROLS_MENU_POS_Y}, (tVector){CONTROLS_MENU_SIZE_X, CONTROLS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, true);
+            gameDialog = dialog_create((tRectangle){(tVector){CONTROLS_MENU_POS_X, CONTROLS_MENU_POS_Y}, (tVector){CONTROLS_MENU_SIZE_X, CONTROLS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR,  true);
             
             for (uint8_t i = 0; i < 6; i++)
             {

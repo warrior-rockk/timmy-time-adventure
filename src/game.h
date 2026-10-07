@@ -53,6 +53,7 @@
 #define RED_COLOR               21
 #define DIALOG_TEXT_COLOR       WHITE_COLOR
 #define DIALOG_SEL_TEXT_COLOR   56
+#define DIALOG_DISABLE_COLOR    13
 
 //general game definitions
 #define GAME_INI_LIVES          6           //initial game lives

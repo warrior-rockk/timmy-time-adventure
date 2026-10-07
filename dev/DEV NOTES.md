@@ -23,6 +23,7 @@
 # Menu structure
 ## Main Menu
 	|--PLAY: go to play
+	|--CONTINUE: continue last saved game?
 	|--OPTIONS
 		|--LANG: ENGLISH / ESPAÑOL
 		|--CONTROLS--
@@ -51,7 +52,7 @@
 	|--EXIT TO TITLE: exit to tile
 	+--EXIT TO DOS: exit game
 
-## Test gameplay
+# Test gameplay
 * Automatically atack the enemies when jump or get more visual feedback when press action. It's not very visible and confuse (OK)
 * Too difficult the perodayctile jump (OK)
 * Less time to pick a stone (OK)
@@ -68,21 +69,21 @@
 * velocyraptor stops on front on you without attacking
 * respawn lives to easy game?
 
-## Puzzles
+# Puzzles
 * Use two persistent solid objects to move trought spikes like floor is lava
 * Egypt: some kind of puzzle with buttons and eyes symbol closes... (bring eye, bettle, symbol object and throw on each piece to unlock area)
 * Egypt: more traps
 
-## Debug objdump
+# Debug objdump
 ```ps
 ..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
 ```
 
-## Compiler flags
+# Compiler flags
 
 I have a segmentation fault using -O3 flag on real machine (or 86box). Testing disabling the unitary optimization flags found that the fault is caused by strict-aliasing, that prevents casting of pointer of different types. Maybe this it's a problem with our dynamic local data structs pointers on entities. Solved by adding the flag -fno-strict-aliasing
 
-## Credits
+# Credits
 
 * Programming: Warrior
 * Graphics: Warrior
@@ -91,7 +92,7 @@ I have a segmentation fault using -O3 flag on real machine (or 86box). Testing d
 * Level Design: Warrior
 * Betatesting: Lolocop / Marc (onepopcorn) / Pedro (RandomShaper)
 
-## End stadistics
+# End stadistics
 
 * Play Time: 3h 30min 12seg
 * Score: 12312
@@ -100,14 +101,14 @@ I have a segmentation fault using -O3 flag on real machine (or 86box). Testing d
 * Lives remain: 12
 * Continues used: 10
 
-## Compress web version (pshell)
+# Compress web version (pshell)
 
 Compress-Archive -Path ..\build\release\bin\*.* -DestinationPath timmy.zip
 Compress-Archive -Path .\.jsdos\ -Update .\timmy.zip
 ren .\timmy.zip .\timmy.jsdos
 Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force
 
-## resource icon on executable (windows build)
+# resource icon on executable (windows build)
 
 execute on msys2 terminal:
 ```sh
@@ -118,9 +119,9 @@ cp resources.res ../src/
 on gcc linking the .o,  add ./src/resources.res
 
 
-## Dos installation disks
+# Dos installation disks
 
-### Compress game data to build dir
+## Compress game data to build dir
 ```dos
 md c:\timmy
 cd DOS-IN~1
@@ -130,12 +131,17 @@ COMPRESS.EXE c:\TIMMY-~1\BUILD\RELEASE\BIN\*.* c:\timmy\ /s
 ```
 If want to distribute on floppies, distributed the compressed files on folders (named e.g DISK1, DISK2) with size <= 1.44MB (Disk 1 needs 400KB for the installation .EXE)
 
-### Create installation with II204
+## Create installation with II204
 ```dos
 IICFG.EXE
 ```
 
-### Copy installation to build dir
+## Copy installation to build dir
 ```dos
 move INSTALL.EXE c:\timmy
 ```
+
+# Save/Load game
+* Autosave. Not need for dedicated menu
+* Continue menu entry on title (disabled when no game saved data?)
+* Autosave game on: select level after level complete, exit to title and exit to dos

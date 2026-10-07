@@ -38,7 +38,7 @@ void interface_destroy()
     interfaceFont = NULL;        
 }
 
-tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSelectedColor, bool autoSize)
+tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSelectedColor, uint8_t disableColor, bool autoSize)
 {
     //creates dialog object
     tDialog dialog;
@@ -50,6 +50,7 @@ tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSele
     dialog.option = NULL;
     dialog.textColor = textColor;
     dialog.textSelectedColor = textSelectedColor;
+    dialog.disableColor = disableColor;
     dialog.keyPressCounter = 0;
 
     //sets size
@@ -90,7 +91,8 @@ void dialog_destroy(tDialog *dialog)
     }
 }
 
-void dialog_add_option(tDialog *dialog, const char *optionText)
+//static function to add navigation option and navigation option disabled
+static void _dialog_add_option(tDialog *dialog, const char *optionText, uint8_t type)
 {
     ASSERT(strlen(optionText) < DIALOG_MAX_OPTION_LENGTH);
     
@@ -101,7 +103,7 @@ void dialog_add_option(tDialog *dialog, const char *optionText)
     
     //init data
     dialog->option[dialog->numOptions].value        = NULL;
-    dialog->option[dialog->numOptions].type         = E_OPTION_TYPE_NAVIGATION;
+    dialog->option[dialog->numOptions].type         = type;
     dialog->option[dialog->numOptions].minValue     = 0;
     dialog->option[dialog->numOptions].maxValue     = 0;
     dialog->option[dialog->numOptions].inc          = 1;
@@ -120,6 +122,16 @@ void dialog_add_option(tDialog *dialog, const char *optionText)
         destroy_bitmap(dialog->drawContainer);
         dialog->drawContainer = create_bitmap(dialog->rect.size.x, dialog->rect.size.y);    
     }
+}
+
+void dialog_add_option(tDialog *dialog, const char *optionText)
+{
+    _dialog_add_option(dialog, optionText, E_OPTION_TYPE_NAVIGATION);        
+}
+
+void dialog_add_option_disabled(tDialog *dialog, const char *optionText)
+{
+    _dialog_add_option(dialog, optionText, E_OPTION_TYPE_NAVIGATION_DISABLED);        
 }
 
 void dialog_add_text_option(tDialog *dialog, const char *textOptions, const char *strValues, uint8_t *value)
@@ -280,6 +292,11 @@ void dialog_draw_options(tDialog *dialog)
             case E_OPTION_TYPE_NAVIGATION:
                 //print text option
                 textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, i == dialog->optionSelected ? dialog->textSelectedColor : dialog->textColor, -1, "%s", dialog->option[i].text);
+                drawCursor = true;
+            break;
+            case E_OPTION_TYPE_NAVIGATION_DISABLED:
+                //print text option
+                textprintf_ex(dialog->drawContainer, interfaceFont, (interfaceSkin->h << 1) + DIALOG_SPACING_X, posY, dialog->disableColor, -1, "%s", dialog->option[i].text);
                 drawCursor = true;
             break;
             case E_OPTION_TYPE_TEXTLIST:
