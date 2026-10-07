@@ -1604,7 +1604,11 @@ void game_update()
                     gameSeq.step++;
                     MY_TRACE_FLAG( "Game Over\n");
                 break;
-                case 1:
+                case 1: //wait tick sync
+                    if (clock_tick_1sec_get())
+                        gameSeq.step++;
+                break;
+                case 2:
                     //update game over animation sprite
                     play_animation(&animSprite, ANIM_GAME_OVER);
                     game_draw_object(GAME_OVER_POS, E_ENT_DIR_LEFT, GAME_OVER_SIZE, E_ENT_AXIS_DOWN, &animSprite, gameSprite, buffer);
