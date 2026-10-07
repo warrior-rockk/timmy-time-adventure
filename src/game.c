@@ -672,7 +672,13 @@ void game_update()
                                 gameSeq.step = 10;
                                 dialog_destroy(&gameDialog);
                             break;
-                            case 4: //EXIT
+                            case 4: //clear saved game data
+                                game_clear_save_data();
+                                //redraw dialog
+                                dialog_destroy(&gameDialog);
+                                gameSeq.step = 0;
+                            break;
+                            case 5: //EXIT
                                 game.state = E_GAME_ST_MAIN_MENU;
                                 gameSeq.step = 0;                                
                                 dialog_destroy(&gameDialog);             
@@ -1355,7 +1361,13 @@ void game_update()
                                 gameSeq.step = 10;
                                 dialog_destroy(&gameDialog);
                             break;
-                            case 4: //EXIT
+                            case 4: //clear saved game data
+                                game_clear_save_data();    
+                                //redraw dialog
+                                dialog_destroy(&gameDialog);
+                                gameSeq.step = 2;                           
+                            break;
+                            case 5: //EXIT
                                 gameSeq.step = 0;                                
                                 dialog_destroy(&gameDialog);             
                                 clear_to_color(worldScreen, BLACK_COLOR); 
@@ -2821,7 +2833,12 @@ static void game_create_options_menu()
     dialog_add_text_option(&gameDialog, lang_get_txt(E_TXT_MENU_LANG), langTxtOptions, &gameConfig.lang);
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS));
     dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, &gameConfig.sfxVolume, 10);
-    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);
+    dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);    
+    //TODO: translate
+    if (gameConfig.gameSaveData.savedData)
+        dialog_add_option(&gameDialog, "CLEAR SAVED GAME");
+    else
+        dialog_add_option_disabled(&gameDialog, "CLEAR SAVED GAME");
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 }
 
@@ -2863,7 +2880,7 @@ static void game_process_options_menu()
         case 3: //music volume                                
             music_set_volume(gameConfig.musicVolume);                                
             game_save_config();
-        break;
+        break;        
     }
 }
 
