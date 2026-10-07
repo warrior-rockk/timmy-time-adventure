@@ -57,8 +57,8 @@
 #define DIALOG_TEXT_COLOR_SCHEMA    DIALOG_TEXT_COLOR, DIALOG_SEL_TEXT_COLOR, DIALOG_DISABLE_COLOR
 
 //general game definitions
-#define GAME_INI_LIVES          1           //initial game lives
-#define GAME_INI_LIFE           1           //initial game life
+#define GAME_INI_LIVES          6           //initial game lives
+#define GAME_INI_LIFE           3           //initial game life
 #define GAME_MAX_LIVES          99          //max lives can obtain
 #define GAME_CHEAT_CODE_KEYS    10          //num of keys for cheat code
 #define GAME_CHEAT_LIVES        50          //num of lives with cheat code

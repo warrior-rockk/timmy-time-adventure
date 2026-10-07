@@ -1648,8 +1648,7 @@ void game_update()
                         switch (gameDialog.optionSelected)
                         {
                             case 1: //CONTINUE: YES
-                                gameSeq.flag = E_GAME_ST_SELECT_LEVEL;
-                                game.state = E_GAME_ST_SAVING_GAME;
+                                game.state = E_GAME_ST_SELECT_LEVEL;
                                 game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
