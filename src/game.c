@@ -1615,7 +1615,7 @@ void game_update()
                         if (clock_tick_1sec_get())
                         {
                             gameSeq.timeCounter --;
-                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE);
+                            sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_OBJECT_VOICE);
                         }
                     }
                     else
