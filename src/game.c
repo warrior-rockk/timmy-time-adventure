@@ -2076,9 +2076,9 @@ void game_update()
                 case 0: //create game save dialog                    
                     clear_to_color(buffer, BLACK_COLOR);
                     currentPal = gamePal;
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_X>>1) - (PAUSE_MENU_SIZE_X>>1), (SCREEN_Y>>1) - 20}, (tVector){PAUSE_MENU_SIZE_X, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
-                    //TODO: translate text
-                    dialog_add_text(&gameDialog, "SAVING GAME...");
+                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_X>>1) - (PAUSE_MENU_SIZE_X>>1), (SCREEN_Y>>1) - 20}, (tVector){160, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
+                    
+                    dialog_add_text(&gameDialog, lang_get_txt(E_TXT_SAVING_GAME));
                     dialog_draw(&gameDialog, buffer);
                     
                     game_save();
