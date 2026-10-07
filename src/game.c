@@ -159,6 +159,7 @@ static void game_draw_title_scroll();
 static void game_deallocate_level_voices();
 static void game_save();
 static void game_load();
+static void game_clear_save_data();
 
 #ifdef DEBUGMODE
 static void game_debug_update();
@@ -902,6 +903,8 @@ void game_update()
                     {
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
+                        //clear saved game data
+                        game_clear_save_data();
                         game.fadeOut = true;
                         game.state = E_GAME_ST_ENDING;
                     }
@@ -3112,4 +3115,21 @@ static void game_load()
 
         MY_TRACE_FLAG("Game loaded\n");
     }
+}
+
+//clear save game data
+static void game_clear_save_data()
+{
+    gameConfig.gameSaveData.savedData       = false;
+    gameConfig.gameSaveData.lives           = GAME_INI_LIVES;
+    gameConfig.gameSaveData.livesLosed      = 0;
+    gameConfig.gameSaveData.continuesUsed   = 0;
+    gameConfig.gameSaveData.score           = 0;
+
+    for (uint8_t i = 0; i < E_GAME_NUM_LEVELS - 1; i++)
+        gameConfig.gameSaveData.levelComplete[i]   = 0;
+
+    game_save_config();
+
+    MY_TRACE_FLAG("Cleared game saved data\n");
 }

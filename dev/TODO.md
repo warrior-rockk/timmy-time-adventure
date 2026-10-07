@@ -20,7 +20,8 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
-- [ ] Save/Load game on game.cfg?
+- [ ] Clear saved game data on options
+- [ ] Show saving game data (new state?)
 - [ ] Fullscreen on windows native?
 - [ ] Translate launch loading texts
 - [ ] It's necessary to load all game sfx on init?
