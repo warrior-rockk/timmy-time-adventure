@@ -131,15 +131,16 @@
 #define FIRSTRUN_MENU_POS_X     (SCREEN_X >> 1) - (FIRSTRUN_MENU_SIZE_X >> 1)
 #define FIRSTRUN_MENU_POS_Y     50
 
-#define MAIN_MENU_SIZE_X        120
+#define MAIN_MENU_SIZE_X        130 //120
 #define MAIN_MENU_SIZE_Y        0
 #define MAIN_MENU_POS_X         (SCREEN_X >> 1) - (MAIN_MENU_SIZE_X >> 1)
 #define MAIN_MENU_POS_Y         120
 
-#define OPTIONS_MENU_SIZE_X     164 //160
+#define OPTIONS_MENU_SIZE_X     200 //164 //160
 #define OPTIONS_MENU_SIZE_Y     0
 #define OPTIONS_MENU_POS_X      (SCREEN_X >> 1) - (OPTIONS_MENU_SIZE_X >> 1)
 #define OPTIONS_MENU_POS_Y      50
+#define OPTIONS_PLAY_MENU_OFFSET_SIZE_X     10
 
 #define GAMEOVER_MENU_SIZE_X    80
 #define GAMEOVER_MENU_SIZE_Y    0
@@ -216,7 +217,7 @@
     #define DEBUG_SHOW_ALL_LAYER            1                   //value for showDebugInfo: shows entity collision layer + sprite layer
     #define DEBUG_SHOW_COLL_LAYER           2                   //value for showDebugInfo: shows only entity collision layer
     
-    #define DEBUG_INI_GAME_STATE            E_GAME_ST_LOGO         //initial debug game state
+    #define DEBUG_INI_GAME_STATE            E_GAME_ST_TITLE         //initial debug game state
     #define DEBUG_INI_GAME_LEVEL            E_GAME_LEVEL_EGYPT   //initial debug level
 #endif
 
@@ -359,6 +360,8 @@ enum E_GAME_TEXTS
     E_TXT_LIVES_LOSED_STATS,
     E_TXT_LIVES_REMAIN_STATS,
     E_TXT_CONTINUES_USED_STATS,
+    E_TXT_CONTINUE_GAME,
+    E_TXT_CLEAR_SAVED_GAME,
 
     E_TXT_NUM,
 };

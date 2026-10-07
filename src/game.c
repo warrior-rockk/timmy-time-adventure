@@ -539,11 +539,10 @@ void game_update()
 
                     gameDialog = dialog_create((tRectangle){(tVector){MAIN_MENU_POS_X, MAIN_MENU_POS_Y}, (tVector){MAIN_MENU_SIZE_X, MAIN_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_PLAY));
-                    //TODO: translate text
                     if (gameConfig.gameSaveData.savedData)
-                        dialog_add_option(&gameDialog, "CONTINUE GAME");
+                        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_CONTINUE_GAME));
                     else
-                        dialog_add_option_disabled(&gameDialog, "CONTINUE GAME");
+                        dialog_add_option_disabled(&gameDialog,  lang_get_txt(E_TXT_CONTINUE_GAME));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_OPTIONS));
                     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 
@@ -1336,7 +1335,7 @@ void game_update()
                     }
                 break;
                 case 2: //options menu    
-                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){OPTIONS_MENU_POS_X - OPTIONS_PLAY_MENU_OFFSET_SIZE_X, OPTIONS_MENU_POS_Y}, (tVector){OPTIONS_MENU_SIZE_X, OPTIONS_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
                     
                     game_create_options_menu();
                     
@@ -2834,11 +2833,10 @@ static void game_create_options_menu()
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_CONTROLS));
     dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_SFX_VOLUME), 0, 255, &gameConfig.sfxVolume, 10);
     dialog_add_num_option(&gameDialog, lang_get_txt(E_TXT_MENU_MUSIC_VOLUME), 0, 255, &gameConfig.musicVolume, 10);    
-    //TODO: translate
     if (gameConfig.gameSaveData.savedData)
-        dialog_add_option(&gameDialog, "CLEAR SAVED GAME");
+        dialog_add_option(&gameDialog, lang_get_txt(E_TXT_CLEAR_SAVED_GAME));
     else
-        dialog_add_option_disabled(&gameDialog, "CLEAR SAVED GAME");
+        dialog_add_option_disabled(&gameDialog, lang_get_txt(E_TXT_CLEAR_SAVED_GAME));
     dialog_add_option(&gameDialog, lang_get_txt(E_TXT_MENU_EXIT));
 }
 
