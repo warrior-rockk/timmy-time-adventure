@@ -1620,7 +1620,9 @@ void game_update()
                     }
                     else
                     {
-                        game.state = E_GAME_ST_TITLE;
+                        gameSeq.flag = E_GAME_ST_TITLE;
+                        game.state = E_GAME_ST_SAVING_GAME;
+                        game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                         gameSeq.timeCounter = 0;
                         gameSeq.step = 0;
                         game.fadeOut = E_FADE_TYPE_SLOW;
@@ -1642,7 +1644,8 @@ void game_update()
                         switch (gameDialog.optionSelected)
                         {
                             case 1: //CONTINUE: YES
-                                game.state = E_GAME_ST_SELECT_LEVEL;
+                                gameSeq.flag = E_GAME_ST_SELECT_LEVEL;
+                                game.state = E_GAME_ST_SAVING_GAME;
                                 game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
@@ -1653,7 +1656,9 @@ void game_update()
                                 sfx_play(gameSfx[E_SFX_GAME_ADD_LIVE], E_SFX_GAME_VOICE);
                             break;
                             case 2: //CONTINUE: NO
-                                game.state = E_GAME_ST_TITLE;
+                                gameSeq.flag = E_GAME_ST_TITLE;
+                                game.state = E_GAME_ST_SAVING_GAME;
+                                game.lives = game.cheatCodeLivesOn ? GAME_CHEAT_LIVES : GAME_INI_LIVES;
                                 gameSeq.timeCounter = 0;
                                 gameSeq.step = 0;
                                 game.fadeOut = E_FADE_TYPE_SLOW;
