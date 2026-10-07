@@ -20,6 +20,7 @@
 - [ ] Sfx particles for player splash water
 
 # Engine
+- [ ] On title only start game with enter or esc to cheat code (put cheat code on manual)
 - [ ] Clear saved game data on options
 - [ ] Show saving game data (new state?)
 - [ ] Fullscreen on windows native?
