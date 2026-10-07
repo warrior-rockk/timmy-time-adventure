@@ -68,7 +68,8 @@
 #define GAME_DEFAULT_SCROLL_MODE            E_SCROLL_MODE_BY_WINDOW_Y_ONLY
 
 //fade speeds
-#define GAME_FADE_SLOW_SPEED    1       //slow fade speed
+#define GAME_FADE_SLOW_SPEED    1           //slow fade speed
+#define GAME_FADE_FAST_SPEED    4           //fast fade speed
 #ifdef DEBUGMODE
     #define GAME_FADE_SPEED         3       //general game fade speed (1: slowest 64: instantaneous)    
 #else
@@ -413,7 +414,8 @@ enum E_FADE_TYPE
 {
     E_FADE_TYPE_NONE,
     E_FADE_TYPE_NORMAL,
-    E_FADE_TYPE_VERY_SLOW,
+    E_FADE_TYPE_SLOW,
+    E_FADE_TYPE_FAST,
     E_FADE_TYPE_0_63,
     E_FADE_TYPE_64_255,
 };
