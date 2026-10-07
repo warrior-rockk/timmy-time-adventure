@@ -74,11 +74,6 @@
 * Egypt: some kind of puzzle with buttons and eyes symbol closes... (bring eye, bettle, symbol object and throw on each piece to unlock area)
 * Egypt: more traps
 
-# Debug objdump
-```ps
-..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
-```
-
 # Compiler flags
 
 I have a segmentation fault using -O3 flag on real machine (or 86box). Testing disabling the unitary optimization flags found that the fault is caused by strict-aliasing, that prevents casting of pointer of different types. Maybe this it's a problem with our dynamic local data structs pointers on entities. Solved by adding the flag -fno-strict-aliasing
@@ -100,24 +95,6 @@ I have a segmentation fault using -O3 flag on real machine (or 86box). Testing d
 * Lives used: 23
 * Lives remain: 12
 * Continues used: 10
-
-# Compress web version (pshell)
-
-Compress-Archive -Path ..\build\release\bin\*.* -DestinationPath timmy.zip
-Compress-Archive -Path .\.jsdos\ -Update .\timmy.zip
-ren .\timmy.zip .\timmy.jsdos
-Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force
-
-# resource icon on executable (windows build)
-
-execute on msys2 terminal:
-```sh
-windres resources.rc -O coff -o resources.res --preprocessor="cat"
-
-cp resources.res ../src/
-```
-on gcc linking the .o,  add ./src/resources.res
-
 
 # Dos installation disks
 
@@ -145,3 +122,29 @@ move INSTALL.EXE c:\timmy
 * Autosave. Not need for dedicated menu
 * Continue menu entry on title (disabled when no game saved data?)
 * Autosave game on: select level after level complete, exit to title and exit to dos
+
+# Useful commands
+
+## Debug objdump
+```ps
+..\..\..\..\..\cross-compile\djgpp\bin\i586-pc-msdosdjgpp-objdump.exe -S -l -C game.exe > code.txt`
+```
+
+## Compress web version (pshell)
+
+```ps
+Compress-Archive -Path ..\build\release\bin\*.* -DestinationPath timmy.zip
+Compress-Archive -Path .\.jsdos\ -Update .\timmy.zip
+ren .\timmy.zip .\timmy.jsdos
+Compress-Archive -Path .\*.* -DestinationPath .\release\'Timmy Time Adventure.zip' -Force
+```
+
+## resource icon on executable (windows build)
+
+execute on msys2 terminal:
+```sh
+windres resources.rc -O coff -o resources.res --preprocessor="cat"
+
+cp resources.res ../src/
+```
+on gcc linking the .o,  add ./src/resources.res
