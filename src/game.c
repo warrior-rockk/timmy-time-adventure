@@ -1165,7 +1165,7 @@ void game_update()
             if (game.actualCompletedLevel != -1)
                 game.state = E_GAME_ST_COMPLETE_LEVEL;
             
-            if (input_key_down(E_G_KEY_EXIT))
+            if (input_key_down(E_G_KEY_EXIT) || input_key_down(E_G_KEY_ENTER))
                     game.state = E_GAME_ST_PLAY_MENU;            
             
             if (game.doorId != 0)

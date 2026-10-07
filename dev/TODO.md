@@ -21,7 +21,6 @@
 
 # Engine
 - [ ] On title only start game with enter or esc to cheat code (put cheat code on manual)
-- [ ] Play menu with enter too
 - [ ] Clear saved game data on options
 - [ ] Show saving game data (new state?)
 - [ ] Fullscreen on windows native?

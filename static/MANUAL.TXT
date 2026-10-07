@@ -27,7 +27,7 @@ Estas son las funciones de cada tecla de juego:
 -SALTAR (Z): realiza el salto del personaje. Cuanto mas tiempo se pulse la tecla, mas alto realiza el salto
 -ACCIÓN (X): recoge un objeto que se pueda coger y lo lanza. Al pulsarlo durane el salto, realiza el ataque con el puño
 
--ENTER: acepta las selecciones de los menús
+-ENTER: acepta las selecciones de los menús o saca el menu durante el nivel
 -ESC: sale de los menús o cancela introducciones o saca el menu durante el nivel
 -ESPACIO: realiza la pausa del juego durante un nivel
 
@@ -63,7 +63,7 @@ These are the functions of each game key:
 -JUMP (Z): Makes the character jump. The longer the key is held, the higher the jump.
 -ACTION (X): Picks up a grabable item and throws it. Pressing it while jumping performs a punch attack.
 
--ENTER: Accepts menu selections.
+-ENTER: Accepts menu selections, or brings up the menu during a level.
 -ESC: Exits menus, cancels introductions, or brings up the menu during a level.
 -SPACE: Pauses the game during a level.
  
