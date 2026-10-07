@@ -162,6 +162,11 @@
 #define PAUSE_MENU_POS_X        (GAME_W >> 1) - (PAUSE_MENU_SIZE_X >> 1)
 #define PAUSE_MENU_POS_Y        GAME_H >> 1
 
+#define SAVING_MENU_SIZE_X      160
+#define SAVING_MENU_SIZE_Y      0
+#define SAVING_MENU_POS_X      (SCREEN_X>>1) - (SAVING_MENU_SIZE_X>>1)
+#define SAVING_MENU_POS_Y      (SCREEN_Y>>1) - 20
+
 //number of shock wave tiles of explosion
 #define EXPLOSION_TILE_RANGE_X       4
 #define EXPLOSION_TILE_RANGE_Y       4

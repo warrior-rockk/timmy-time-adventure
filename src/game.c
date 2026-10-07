@@ -2076,11 +2076,16 @@ void game_update()
                 case 0: //create game save dialog                    
                     clear_to_color(buffer, BLACK_COLOR);
                     currentPal = gamePal;
-                    gameDialog = dialog_create((tRectangle){(tVector){(SCREEN_X>>1) - (PAUSE_MENU_SIZE_X>>1), (SCREEN_Y>>1) - 20}, (tVector){160, PAUSE_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
+                    gameDialog = dialog_create((tRectangle){(tVector){SAVING_MENU_POS_X, SAVING_MENU_POS_Y}, (tVector){SAVING_MENU_SIZE_X, SAVING_MENU_SIZE_Y}}, DIALOG_TEXT_COLOR_SCHEMA, true);
                     
                     dialog_add_text(&gameDialog, lang_get_txt(E_TXT_SAVING_GAME));
                     dialog_draw(&gameDialog, buffer);
                     
+                    //load floppy image
+                    gameSprite = load_dat_bmp_indexed(gameDataIndex, FLOPPY_BMP);
+                    animSprite.frame = 0;
+                    game_draw_object((tVector){SAVING_MENU_POS_X, SAVING_MENU_POS_Y}, E_ENT_DIR_RIGHT, (tVector){gameSprite->w, gameSprite->h}, E_ENT_AXIS_CENTER, &animSprite, gameSprite, buffer);   
+
                     game_save();
 
                     game.fadeIn = true;
@@ -2090,6 +2095,7 @@ void game_update()
                     if (gameSeq.timeCounter >= 40)
                     {
                         dialog_destroy(&gameDialog);
+                        destroy_bitmap(gameSprite);
                         gameSeq.step = 0;
                         gameSeq.timeCounter = 0;
                         game.state = gameSeq.flag;
