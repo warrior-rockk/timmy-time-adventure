@@ -22,8 +22,8 @@ bool disableDeltaTime = false;      //to disable delta time use (forces to 1)
 
 #if !defined(WIN32) && defined(DEBUGMODE)
     uclock_t profileStart, profileEnd;  //profile uClock variables
+    double profileTime;                 //profile time counter
 #endif
-double profileTime;                 //profile time counter
 
 //update fps callback
 static void update_fps(void)
@@ -160,6 +160,7 @@ bool clock_tick_1sec_get()
     return tick1sec;
 }
 
+
 void profile_start()
 {
     #if !defined(WIN32) && defined(DEBUGMODE)
@@ -174,6 +175,7 @@ void profile_end()
     #endif
 }
 
+#if !defined(WIN32) && defined(DEBUGMODE)
 double profile_get_time()
 {
     #if !defined(WIN32) && defined(DEBUGMODE)
@@ -182,6 +184,7 @@ double profile_get_time()
         return 0;
     #endif
 }
+#endif
 
 void toggle_delta_time()
 {

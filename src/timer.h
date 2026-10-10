@@ -39,8 +39,10 @@ int16_t clock_counter_get();
 void profile_start();
 //indicates the end point to profile function time
 void profile_end();
-//gets the time between profile_start and profile_end
-double profile_get_time();
+#if !defined(WIN32) && defined(DEBUGMODE)
+    //gets the time between profile_start and profile_end
+    double profile_get_time();
+#endif
 //toggles deltaTime use
 void toggle_delta_time();
 #endif
