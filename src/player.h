@@ -26,11 +26,11 @@
 #define PLAYER_ACCEL_X_AIR          0.36    //more acceleration on air
 #define PLAYER_FRICTION             0.86    //more friction, more sloppy (0.94-0.96 is like ice) 0.92 was too much
 #define PLAYER_AIR_FRICTION         0.98    //more than floor friction
-#define PLAYER_HURT_VEL_X           1.4     //velocity x when gets hurt
+#define PLAYER_HURT_VEL_X           1.0     //velocity x when gets hurt
     //vertical
 #define PLAYER_ACCEL_Y              0.7     //jump acceleration
 #define PLAYER_JUMP_VEL_Y           3.5     //max jump velocity
-#define PLAYER_HURT_VEL_Y           -3.6    //velocity y when gets hurt
+#define PLAYER_HURT_VEL_Y           -3.0    //velocity y when gets hurt
 #define PLAYER_ATTACK_BOUNCE_VEL    -4      //velocity when bounces by attacking 
 #define PLAYER_STAIRS_VEL_Y         0.6     //velocity on stairs
 

@@ -645,8 +645,8 @@ static void player_update_state(tEntity *player)
             else
             {
                 //set hurt velocities
-                player->fixVel.y = itofix(PLAYER_HURT_VEL_Y);
-                player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? itofix(-PLAYER_HURT_VEL_X) : itofix(PLAYER_HURT_VEL_X);
+                player->fixVel.y = ftofix(PLAYER_HURT_VEL_Y);
+                player->fixVel.x = player->dir == E_ENT_DIR_RIGHT ? ftofix(-PLAYER_HURT_VEL_X) : ftofix(PLAYER_HURT_VEL_X);
             }
 
             //if object picked, we lose it
