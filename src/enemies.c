@@ -667,7 +667,7 @@ static void enemy_patrol_ia(tEntity *entity, fixed velocity, int16_t patrol_rang
 //Enemy fixed move: moves enemy horizontally
 static void enemy_fixed_move(tEntity *this, fixed velocity)
 {
-    this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? ftofix(-velocity) : ftofix(velocity);
+    this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -velocity : velocity;
 }
 
 //Do enemy dead
@@ -1236,7 +1236,7 @@ void enemy_eagle_update(tEntity *this, tDefaultEnemyLocalData *local)
         break;
         case E_EAGLE_ST_RETURN:
             //set return velocities
-            this->fixVel.y = -itofix(EAGLE_ATTACK_VEL_Y);
+            this->fixVel.y = -ftofix(EAGLE_ATTACK_VEL_Y);
             this->fixVel.x = this->dir == E_ENT_DIR_LEFT ? -ftofix(EAGLE_ATTACK_VEL_Y) : ftofix(EAGLE_ATTACK_VEL_Y);
 
             if (in_range(this->pos.y, this->initPos.y, 2))
@@ -1300,7 +1300,7 @@ void enemy_tumble_update(tEntity *this, tDefaultEnemyLocalData *local)
     switch (this->state)
     {
         case E_TUMBLE_ST_ROLL:            
-            enemy_fixed_move(this, TUMBLE_VELOCITY);
+            enemy_fixed_move(this, ftofix(TUMBLE_VELOCITY));
 
             play_animation(&this->anim, ANIM_TUMBLE_ROLL);
         break;
@@ -1586,7 +1586,7 @@ void enemy_projectile_update(tEntity *this, tDefaultEnemyLocalData *local)
 void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
 {              
     //enemy defines
-    #define BAT_VELOCITY     1.6
+    #define BAT_VELOCITY     1.2
 
     //enemy animations
     #define ANIM_BAT_FLY    0,   4, 10,  ANIM_LOOP
@@ -1609,7 +1609,7 @@ void enemy_bat_update(tEntity *this, tDefaultEnemyLocalData *local)
     switch (this->state)
     {
         case E_BAT_ST_FLY:            
-            enemy_fixed_move(this, BAT_VELOCITY);
+            enemy_fixed_move(this, ftofix(BAT_VELOCITY));
 
             play_animation(&this->anim, ANIM_BAT_FLY);
         break;
