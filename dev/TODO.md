@@ -13,8 +13,14 @@
 
 # Level design
 - [ ] On cavern, fade level palette and take light to iluminate?
+- [ ] Dithering patterns on shadows tiles?
 
 # Game design
+- [ ] Dissapear complete the pyramid animation level complete?
+- [ ] Not get points from tutorial!!
+- [ ] AND text on spanish texts
+- [ ] Review end music to loop
+- [ ] Fix fast midi tempo with timeout if song finish, starts slow
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water
