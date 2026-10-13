@@ -1546,8 +1546,8 @@ void enemy_axe_update(tEntity *this, tAxeLocalData *local)
             fixed radio = itofix(AXE_RADIUS);
             
             //calculate the orbit
-            this->fixPos.x = local->cx + fmul(radio, fixcos(itofix(local->angle)));
-            this->fixPos.y = local->cy + fmul(radio, fixsin(itofix(local->angle)));
+            this->fixPos.x = local->cx + fixmul(radio, fixcos(itofix(local->angle)));
+            this->fixPos.y = local->cy + fixmul(radio, fixsin(itofix(local->angle)));
 
             //calculate rotation. As integer using only 0 to 255, ignore the upper bits
             //allowing to angle reset to zero automatic
