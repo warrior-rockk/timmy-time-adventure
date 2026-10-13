@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "7.56/win64" 1787567954 0
+<REAPER_PROJECT 0.1 "7.56/win64" 1791900867 0
   <NOTES 0 2
   >
   RIPPLE 0 0
@@ -19,7 +19,7 @@
   VIDEO_CONFIG 0 0 65792
   PANMODE 3
   PANLAWFLAGS 3
-  CURSOR 93.272634
+  CURSOR 94.90899600000863
   ZOOM 25.47655226259522 0 0
   VZOOMEX 6 0
   USE_REC_CFG 0
@@ -66,10 +66,10 @@
     MULT 1
   >
   GLOBAL_AUTO -1
-  TEMPO 110.00011000011 3 4 0
+  TEMPO 110.00011000009999 3 4 0
   PLAYRATE 1 0 0.25 4
-  SELECTION 0 101.454444
-  SELECTION2 0 101.454444
+  SELECTION 0 98.18172000000894
+  SELECTION2 0 98.18172000000894
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 0 0
   MASTERPEAKCOL 16576
@@ -97,7 +97,7 @@
     LANEHEIGHT 0 0
     ARM 0
     DEFSHAPE 1 -1 -1
-    PT 0.000000000000 110.0001100001 1 262147 0 1 0 "" 0 0 0 
+    PT 0.000000000000 110.0001100001 1 262147 0 1 0 "" 0 0 0 ...
   >
   MARKER 1 0 Am 0 0 1 R {AB82A800-32A4-4A2B-8768-81FDA7099256} 0
   MARKER 2 1.636362 G 0 0 1 R {B92A72EA-2642-4261-8CEE-A2E9B9F99189} 0
@@ -276,13 +276,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {08E807F0-8C1A-4E63-9F3C-6DAB80E580D4}
       IID 8
       NAME "SlipJig1.sty demo SlipJig1.sty demo [meta-events]"
@@ -521,10 +521,7 @@
         <X 2880 0 0 0 6 Am
           /wZBbQ==
         >
-        <X 682559 0 0 0 6 G
-          /wZH
-        >
-        E 1 b0 7b 00
+        E 2880 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {2D2951D9-950F-4D3F-A67D-41AC73712062}
@@ -548,6 +545,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
     FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
@@ -562,13 +560,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {FAF9F8BF-41B5-480D-858C-0E6571BFD24E}
       IID 9
       NAME "SlipJig1.sty demo [chan 2]"
@@ -948,15 +946,7 @@
         e 784 91 28 00
         e 160 91 1c 7b
         e 568 91 1c 00
-        e 392 91 21 7f
-        e 704 91 21 00
-        e 264 91 28 7f
-        e 640 91 28 00
-        e 312 91 1c 7f
-        e 616 91 1c 00
-        e 368 91 21 79
-        e 1992 91 21 00
-        E 674776 b0 7b 00
+        E 384 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {BAB1BC22-00EE-4E65-81DD-2812D56BB5E2}
@@ -985,6 +975,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
     FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
@@ -999,13 +990,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {32BA8247-4709-4C19-932A-3ACBB720F9FD}
       IID 10
       NAME "SlipJig1.sty demo [chan 3]"
@@ -1823,32 +1814,7 @@
         e 88 92 3c 00
         e 16 92 39 00
         e 16 92 34 00
-        e 240 92 34 30
-        e 488 92 34 00
-        e 152 92 39 2d
-        e 0 92 40 32
-        e 0 92 3c 27
-        e 208 92 40 00
-        e 0 92 3c 00
-        e 16 92 39 00
-        e 736 92 3c 2e
-        e 0 92 40 34
-        e 0 92 39 31
-        e 136 92 3c 00
-        e 0 92 40 00
-        e 56 92 39 00
-        e 464 92 3c 38
-        e 304 92 40 3b
-        e 216 92 3c 00
-        e 40 92 40 00
-        e 96 92 3c 2e
-        e 0 92 40 31
-        e 0 92 45 33
-        e 1872 92 3c 00
-        e 64 92 40 00
-        e 64 92 45 00
-        E 2744 b2 40 00
-        E 672000 b0 7b 00
+        E 216 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {790BBEA8-C2D6-445D-AE15-023A7EA0A036}
@@ -1877,6 +1843,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
     FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
@@ -1891,13 +1858,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {809FA271-C030-4D23-8D20-16F99AC1A983}
       IID 11
       NAME "SlipJig1.sty demo [chan 4]"
@@ -2560,27 +2527,7 @@
         e 408 93 4c 00
         e 552 93 4c 70
         e 1272 93 4c 00
-        e 656 93 4f 76
-        e 376 93 4f 00
-        e 248 93 51 45
-        e 296 93 51 00
-        e 40 93 4f 66
-        e 320 93 4f 00
-        e 0 93 4e 60
-        e 312 93 4e 00
-        e 0 93 4c 68
-        e 312 93 4c 00
-        e 24 93 4a 66
-        e 264 93 4a 00
-        e 344 93 4e 58
-        e 112 93 4e 00
-        e 0 93 4f 3f
-        e 120 93 4f 00
-        e 8 93 4e 3f
-        e 104 93 4e 00
-        e 0 93 4c 68
-        e 1880 93 4c 00
-        E 674888 b0 7b 00
+        E 624 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {56E7A866-3C54-4A9A-BBF6-C8F33E1263A6}
@@ -2609,6 +2556,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
     FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
     SEL 1
     REC 0 0 1 0 0 0 0 0
     VU 2
@@ -2623,13 +2571,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {A83EEB16-B13A-4034-85E9-6CE490C39E64}
       IID 12
       NAME "SlipJig1.sty demo [chan 6]"
@@ -5023,70 +4971,9 @@
         e 0 95 40 00
         e 144 95 2d 2d
         e 16 95 34 36
-        e 16 95 39 36
-        e 24 95 3c 36
-        e 16 95 40 36
-        e 560 95 34 00
-        e 16 95 34 43
-        e 8 95 2d 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        e 16 95 39 43
-        e 24 95 3c 43
-        e 16 95 40 43
-        e 80 95 34 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        e 184 95 2d 2d
-        e 16 95 34 36
-        e 16 95 39 36
-        e 24 95 3c 36
-        e 16 95 40 36
-        e 528 95 34 00
-        e 16 95 34 43
-        e 8 95 39 00
-        e 16 95 39 43
-        e 8 95 3c 00
-        e 16 95 3c 43
-        e 8 95 2d 00
-        e 0 95 40 00
-        e 8 95 40 43
-        e 88 95 34 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        e 176 95 2d 2d
-        e 16 95 34 36
-        e 16 95 39 36
-        e 24 95 3c 36
-        e 16 95 40 36
-        e 560 95 34 00
-        e 16 95 34 3b
-        e 8 95 2d 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        e 16 95 39 3b
-        e 24 95 3c 3b
-        e 16 95 40 3b
-        e 104 95 34 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        e 192 95 2d 46
-        e 16 95 34 53
-        e 16 95 39 53
-        e 24 95 3c 53
-        e 16 95 40 53
-        e 1872 95 2d 00
-        e 0 95 34 00
-        e 0 95 39 00
-        e 0 95 3c 00
-        e 0 95 40 00
-        E 2840 b5 40 00
-        E 672000 b0 7b 00
+        e 16 85 2d 2d
+        e 0 85 34 36
+        E 0 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {C8810C11-F2AC-488D-99B9-F804DC101B7F}
@@ -5130,13 +5017,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {88C7EEDD-6CE5-4DE8-8F9A-C267F72627E3}
       IID 13
       NAME "SlipJig1.sty demo [chan 7]"
@@ -8540,40 +8427,9 @@
         e 0 96 40 00
         e 200 96 2d 51
         e 16 96 34 5c
-        e 16 96 39 5c
-        e 24 96 3c 5c
-        e 16 96 40 5c
-        e 872 96 2d 00
-        e 0 96 34 00
-        e 0 96 39 00
-        e 0 96 3c 00
-        e 0 96 40 00
-        e 24 96 2d 48
-        e 16 96 34 51
-        e 16 96 39 51
-        e 24 96 3c 51
-        e 16 96 40 51
-        e 72 96 2d 00
-        e 0 96 34 00
-        e 0 96 39 00
-        e 0 96 3c 00
-        e 0 96 40 00
-        e 536 96 3c 61
-        e 312 96 39 5c
-        e 248 96 3c 00
-        e 384 96 39 00
-        e 344 96 2d 50
-        e 24 96 34 5b
-        e 40 96 39 5b
-        e 24 96 3c 5b
-        e 24 96 40 5b
-        e 1808 96 40 00
-        e 24 96 3c 00
-        e 16 96 39 00
-        e 8 96 2d 00
-        e 0 96 34 00
-        E 2808 b6 40 00
-        E 672000 b0 7b 00
+        e 16 86 2d 51
+        e 0 86 34 5c
+        E 0 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {295B064C-4569-4808-AC1F-824C1027E18B}
@@ -8617,13 +8473,13 @@
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 101.454444
+      LENGTH 98.18172000000894
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {5E552B05-BF39-4C2D-91FE-72D6A62D538D}
       IID 14
       NAME "SlipJig1.sty demo [chan 10]"
@@ -12090,101 +11946,7 @@
         e 0 99 25 00
         e 0 99 4c 00
         e 0 99 1f 00
-        e 120 99 23 53
-        e 0 99 2a 58
-        e 0 99 25 58
-        e 0 99 29 49
-        e 0 99 1f 53
-        e 200 99 23 00
-        e 0 99 2a 00
-        e 0 99 25 00
-        e 0 99 29 00
-        e 0 99 1f 00
-        e 120 99 1f 44
-        e 160 99 1f 3d
-        e 40 99 1f 00
-        e 120 99 2a 53
-        e 0 99 25 53
-        e 0 99 4c 49
-        e 0 99 1f 49
-        e 40 99 1f 00
-        e 160 99 2a 00
-        e 0 99 25 00
-        e 0 99 4c 00
-        e 0 99 1f 00
-        e 120 99 23 5d
-        e 0 99 26 5d
-        e 0 99 2a 5d
-        e 0 99 25 58
-        e 0 99 43 5d
-        e 0 99 1f 5d
-        e 200 99 23 00
-        e 0 99 26 00
-        e 0 99 2a 00
-        e 0 99 25 00
-        e 0 99 43 00
-        e 0 99 1f 00
-        e 120 99 26 49
-        e 0 99 1f 44
-        e 200 99 26 00
-        e 0 99 1f 00
-        e 120 99 26 49
-        e 0 99 2e 5d
-        e 0 99 25 53
-        e 0 99 4c 53
-        e 0 99 1f 49
-        e 160 99 26 41
-        e 40 99 26 00
-        e 0 99 2e 00
-        e 0 99 25 00
-        e 0 99 4c 00
-        e 0 99 1f 00
-        e 120 99 26 67
-        e 0 99 2a 5d
-        e 0 99 25 58
-        e 0 99 43 53
-        e 0 99 1f 67
-        e 40 99 26 00
-        e 160 99 26 00
-        e 0 99 2a 00
-        e 0 99 25 00
-        e 0 99 43 00
-        e 0 99 1f 00
-        e 120 99 23 53
-        e 0 99 26 5d
-        e 160 99 26 51
-        e 40 99 23 00
-        e 0 99 26 00
-        e 120 99 26 5d
-        e 0 99 2a 5d
-        e 0 99 25 53
-        e 0 99 4c 49
-        e 0 99 1f 49
-        e 40 99 26 00
-        e 160 99 26 00
-        e 0 99 2a 00
-        e 0 99 25 00
-        e 0 99 4c 00
-        e 0 99 1f 00
-        e 120 99 23 67
-        e 0 99 26 5d
-        e 0 99 2a 5d
-        e 0 99 25 49
-        e 0 99 31 5d
-        e 0 99 29 53
-        e 0 99 43 53
-        e 0 99 4c 49
-        e 0 99 1f 5d
-        e 200 99 23 00
-        e 0 99 26 00
-        e 0 99 2a 00
-        e 0 99 25 00
-        e 0 99 31 00
-        e 0 99 29 00
-        e 0 99 43 00
-        e 0 99 4c 00
-        e 0 99 1f 00
-        E 676600 b0 7b 00
+        E 120 b0 7b 00
         CCINTERP 32
         CHASE_CC_TAKEOFFS 1
         GUID {9D591DA3-4CF0-4165-8330-E2A13194FAE3}

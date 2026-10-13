@@ -17,7 +17,6 @@
 
 # Game design
 - [ ] Dissapear complete the pyramid animation level complete?
-- [ ] Review end music to loop
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water
