@@ -18,7 +18,6 @@
 # Game design
 - [ ] Dissapear complete the pyramid animation level complete?
 - [ ] Review end music to loop
-- [ ] Fix fast midi tempo with timeout if song finish, starts slow
 - [ ] White frame on credits image scene?
 - [ ] Blink blue circle on level complete?
 - [ ] Sfx particles for player splash water

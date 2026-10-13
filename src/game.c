@@ -1154,10 +1154,11 @@ void game_update()
                     #endif
                 #endif
                 //speed up music on 10 seconds left
-                if (game.time == GAME_HURRY_TIME_LEFT)
-                    music_set_tempo(GAME_HURRY_MUSIC_TEMPO);
                 if (game.time <= GAME_HURRY_TIME_LEFT)
+                {
                     sfx_play(gameSfx[E_SFX_GAME_POINT], E_SFX_GAME_VOICE);
+                    music_set_tempo(GAME_HURRY_MUSIC_TEMPO);
+                }
             }
             
             if (input_key_down(E_G_KEY_PAUSE))
