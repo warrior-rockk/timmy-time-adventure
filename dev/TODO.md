@@ -17,7 +17,6 @@
 
 # Game design
 - [ ] Dissapear complete the pyramid animation level complete?
-- [ ] Not get points from tutorial!!
 - [ ] AND text on spanish texts
 - [ ] Review end music to loop
 - [ ] Fix fast midi tempo with timeout if song finish, starts slow

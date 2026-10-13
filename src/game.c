@@ -1105,6 +1105,7 @@ void game_update()
                     gameSeq.step = 0;
                     game.actualLevel = 0;
                     gameSeq.flag = false;
+                    game.score = 0; //reset score gained by kill the tutorial enemies
                     if (game.demo == 0)
                         game.state = E_GAME_ST_SELECT_LEVEL;
                     else
