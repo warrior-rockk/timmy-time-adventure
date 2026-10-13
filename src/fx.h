@@ -14,7 +14,7 @@
 #define SPIDER_WEB_COLOR    46  //from jurassic palette    
 
 //initializes sfx system
-void fx_init();
+void fx_init(void);
 //draws special effects
 void fx_draw(BITMAP *bufer);
 

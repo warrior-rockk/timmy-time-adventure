@@ -104,23 +104,23 @@ bool in_range_vector(tVector value, tVector target, tVector offset);
 //function to abort program with critical error
 void abort_on_error(const char *format, ...);
 //funcion to init the debug vars
-void debug_init();
+void debug_init(void);
 //draws debug info
 void debug_draw(BITMAP *buffer);
 //function to show debug info on screen
 void show_debug(const char *format, ...);
 //function to init playTime
-void playTime_init();
+void playTime_init(void);
 //function to update playtine
 void playTime_update(bool clock1sec);
 //function to get playtime hours
-uint16_t playTime_get_hours();
+uint16_t playTime_get_hours(void);
 //function to get playtime minutes
-uint8_t playTime_get_minutes();
+uint8_t playTime_get_minutes(void);
 //gets frame counter
-uint16_t get_frame_counter();
+uint16_t get_frame_counter(void);
 //increments frame counter (put on game loop cycle)
-void inc_frame_counter();
+void inc_frame_counter(void);
 //converts tVector to tFixVector
 tFixVector vector2fixvector(tVector vector);
 #endif

@@ -16,10 +16,10 @@
 
 #define TRACE_FLAG "[MAIN]"
 
-static void main_init();
-static void main_exit();
+static void main_init(void);
+static void main_exit(void);
 #ifdef DEBUGMODE
-static void main_stepByStep();
+static void main_stepByStep(void);
 #endif
 
 #ifdef WIN32
@@ -30,7 +30,7 @@ void main_close_window()
 }
 #endif
 
-int main()
+int main(void)
 {    
     main_init();
     game_init();

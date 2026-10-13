@@ -18,7 +18,7 @@ static void scroll_update_x(tVector cameraTarget, bool init);
 static void scroll_update_y(tVector cameraTarget, bool init);
 
 //init all scroll flags except window, limit and mode (initialized on scroll_create)
-static void scroll_init_flags()
+static void scroll_init_flags(void)
 {
     //reset flags
     scroll.pos              = (tVector){0, 0};
@@ -58,7 +58,7 @@ void scroll_init(tVector initPos)
 }
 
 //do a scroll camera shake
-static void scroll_update_shake()
+static void scroll_update_shake(void)
 {
     if (scroll.cameraShake)
     {

@@ -96,9 +96,9 @@ typedef struct
 } tEntColPoints;
 
 //inits collision system
-void collision_system_init();
+void collision_system_init(void);
 //destroys collision system
-void collision_system_destroy();
+void collision_system_destroy(void);
 
 //function to create entity collision points for an entity
 void collision_create_entity_points(tEntity *entity);
@@ -137,7 +137,7 @@ void collision_apply_dir(tEntity *entity, int16_t colDir, uint8_t bounceMode);
 //sets the id of the entity of platform player. -1 to reset
 void collision_set_player_platform_id(int16_t entityPlatformId);
 //returns the entity id of the player platform. -1 if player not in platform
-int16_t collision_get_player_platform_id();
+int16_t collision_get_player_platform_id(void);
 
 //enables or disables slope collision detection
 void collision_enable_slopes(bool enable);

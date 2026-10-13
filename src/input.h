@@ -39,13 +39,13 @@ typedef struct {
 //inits input system
 void input_keys_init(uint8_t _numGameKeys);
 //destroys input system
-void input_keys_destroy();
+void input_keys_destroy(void);
 //redefine control
 void input_key_redefine(uint8_t keyId, uint8_t keyCode);
 //get defined control id
 uint8_t input_get_defined_key(uint8_t keyId);
 //updates keys state
-void input_keys_update();
+void input_keys_update(void);
 //return true if key is pressed
 bool input_key_press(uint8_t keyId);
 //return true if key pressed down (on raising edge)
@@ -53,22 +53,22 @@ bool input_key_down(uint8_t keyId);
 //return true if key pressed up (on raising edge)
 bool input_key_up(uint8_t keyId);
 //return key code (need to increment 1 the result to return true on key 0) if any key pressed of the game keys or 0 if none
-uint8_t input_any_key_pressed();
+uint8_t input_any_key_pressed(void);
 //return key code (need to increment 1 the result to return true on key 0) if any key down of the game keys or 0 if none
-uint8_t input_any_key_down();
+uint8_t input_any_key_down(void);
 
 //starts to record input log file
 void input_log_record(char *filename);
 //stops record or play input log
-void input_log_stop();
+void input_log_stop(void);
 //starts to play input log file
 void input_log_play(char *_file);
 //checks if recording input log file
-bool input_log_recording();
+bool input_log_recording(void);
 //check if playing input log file
-bool input_log_playing();
+bool input_log_playing(void);
 //checks if play input log file is finished
-bool input_log_play_finished();
+bool input_log_play_finished(void);
 //return play frame position of input log
-uint16_t input_log_get_frame();
+uint16_t input_log_get_frame(void);
 #endif

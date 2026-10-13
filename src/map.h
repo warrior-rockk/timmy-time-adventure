@@ -56,16 +56,16 @@ enum E_TILE_PROPERTY
 //loads a map level and creates level entities
 void map_load(char *mapFile, BITMAP *tileset, tVector screenSize);
 //unload the map and free resources
-void map_unload();
+void map_unload(void);
 
 //get the dimensions of the map (on tiles)
-tVector map_get_dimensions();
+tVector map_get_dimensions(void);
 //get level time
-uint16_t map_get_level_time();
+uint16_t map_get_level_time(void);
 //get map tile size
-uint8_t map_get_tile_size();
+uint8_t map_get_tile_size(void);
 //get map use slopes
-bool map_get_use_slopes();
+bool map_get_use_slopes(void);
 
 //draw the current map
 void map_draw(BITMAP *buffer, bool frontLayer);

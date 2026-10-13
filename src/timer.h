@@ -22,27 +22,27 @@ extern fixed deltaTime;
 //inits the timer system specifing game tick duration on ms
 void timer_init(long gameTickDuration, bool _useAllegroTimers);
 //indicates to timer the start of game frame to calculate deltaTime
-void timer_start_frame();
+void timer_start_frame(void);
 //indicates to end the start of game frame to calculate deltaTime and fps
-void timer_end_frame();
+void timer_end_frame(void);
 //gets the current fps
-uint16_t fps_get();
+uint16_t fps_get(void);
 //gets the current clock tick. Returns numbers of ticks for configured game tick duration base
-uint16_t clock_tick_get();
+uint16_t clock_tick_get(void);
 //get 1 second clock tick
-bool clock_tick_1sec_get();
+bool clock_tick_1sec_get(void);
 //return 1 each time times the clock counter (periodic counters)
 bool clock_counter_check(uint16_t time);
 //returns clock counter value 
-int16_t clock_counter_get();
+int16_t clock_counter_get(void);
 //indicates the start point to profile function time
-void profile_start();
+void profile_start(void);
 //indicates the end point to profile function time
-void profile_end();
+void profile_end(void);
 #if !defined(WIN32) && defined(DEBUGMODE)
     //gets the time between profile_start and profile_end
-    double profile_get_time();
+    double profile_get_time(void);
 #endif
 //toggles deltaTime use
-void toggle_delta_time();
+void toggle_delta_time(void);
 #endif

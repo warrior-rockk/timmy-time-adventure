@@ -32,8 +32,8 @@ tInputLogEvent inputLogEvent[INPUT_LOG_MAX_EVENTS]; //input log event
 bool **controlLogger;                               //input play logger array
 
 //prototypes
-void input_log_record_update();
-void input_log_player_update();
+void input_log_record_update(void);
+void input_log_player_update(void);
 
 void input_keys_init(uint8_t _numGameKeys)
 {

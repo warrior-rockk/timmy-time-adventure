@@ -146,9 +146,9 @@ enum E_PLATFORM_TYPES
 void object_trace(tEntity *this);
 
 //initializes the object systen
-void object_system_init();
+void object_system_init(void);
 //destroys the object system
-void object_system_destroy();
+void object_system_destroy(void);
 //inits an entity passing his entity structure
 void object_init(tEntity *entity);
 //creates an entity passing his entity structure

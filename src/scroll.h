@@ -85,9 +85,9 @@ bool scroll_rect_on_region(tRectangle rect);
 //check if position is on scroll region
 bool scroll_position_on_region(tVector checkPosition);
 //returns scroll position
-tVector scroll_get_position();
+tVector scroll_get_position(void);
 //returns scroll fxied position
-tFixVector scroll_get_fix_position();
+tFixVector scroll_get_fix_position(void);
 //set stop scroll value for a stop scroll direction (left, right, down or up) and no solid flag
 void scroll_stop_scroll(uint8_t dir, int16_t value, bool noSolid);
 //get stop scroll values for a stop scroll direction (left, right, down or up)
@@ -95,11 +95,11 @@ int16_t scroll_get_stop_scroll(uint8_t dir);
 //gets not solid stop scroll flag for direction
 bool scroll_get_stop_scroll_nosolid(uint8_t dir);
 //function to shake screen camera
-void scroll_shake_camera();
+void scroll_shake_camera(void);
 //function to return shaka value
-tVector scroll_get_shake();
+tVector scroll_get_shake(void);
 //sets the scroll mode
 void scroll_set_scroll_mode(uint8_t mode);
 //gets scroll mode
-uint8_t scroll_get_scroll_mode();
+uint8_t scroll_get_scroll_mode(void);
 #endif

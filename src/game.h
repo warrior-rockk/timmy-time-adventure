@@ -534,16 +534,16 @@ extern tDebugOptions debugOptions;
 #endif
 
 //function to load initial game resources
-void game_load_resources();
+void game_load_resources(void);
 //function for print loading game progress
-void game_loading_text();
+void game_loading_text(void);
 //function to init game
-void game_init();
+void game_init(void);
 //function to update game
-void game_update();
+void game_update(void);
 //function to draw game
-void game_draw();
+void game_draw(void);
 //function to destroy game (unload resources)
-void game_destroy();
+void game_destroy(void);
 
 #endif

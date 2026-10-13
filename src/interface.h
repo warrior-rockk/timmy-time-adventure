@@ -73,7 +73,7 @@ typedef struct
 //initializates the interface system
 void interface_init(BITMAP *_interfaceSkin, FONT *_interfaceFont);
 //destroys the interface system
-void interface_destroy();
+void interface_destroy(void);
 
 //creates a interface dialog with specified dimensions and position, background color and flag to autosize the height based on number of options
 tDialog dialog_create(tRectangle dialogRect, uint8_t textColor, uint8_t textSelectedColor, uint8_t disableColor, bool autoSize);

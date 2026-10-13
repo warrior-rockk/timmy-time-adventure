@@ -136,34 +136,34 @@ struct creditEntity
 
 //static functions
 static void game_load_level(uint8_t numLevel);
-static void game_destroy_level();
-static void game_update_level();
-static void game_draw_level();
-static void game_do_fade();
-static void game_pause_sound();
-static void game_resume_sound();
-static void game_hud_init();
-static void game_hud_update();
-static void game_hud_draw();
+static void game_destroy_level(void);
+static void game_update_level(void);
+static void game_draw_level(void);
+static void game_do_fade(void);
+static void game_pause_sound(void);
+static void game_resume_sound(void);
+static void game_hud_init(void);
+static void game_hud_update(void);
+static void game_hud_draw(void);
 static bool game_navigation_menu(tDialog *dialog, BITMAP *drawBuffer);
-static void game_load_config();
-static void game_save_config();
-static void game_create_options_menu();
-static void game_process_options_menu();
+static void game_load_config(void);
+static void game_save_config(void);
+static void game_create_options_menu(void);
+static void game_process_options_menu(void);
 static void game_update_controls_menu(BITMAP *drawBuffer, uint8_t stepReturn);
-static void game_create_options_play_menu();
-static void game_load_control_strings();
-static void game_init_flags();
+static void game_create_options_play_menu(void);
+static void game_load_control_strings(void);
+static void game_init_flags(void);
 static void game_draw_object(tVector pos, uint8_t dir, tVector size, uint8_t axis, tAnimation *anim, BITMAP *sprite, BITMAP *buffer);
-static void game_draw_title_scroll();
-static void game_deallocate_level_voices();
-static void game_save();
-static void game_load();
-static void game_clear_save_data();
+static void game_draw_title_scroll(void);
+static void game_deallocate_level_voices(void);
+static void game_save(void);
+static void game_load(void);
+static void game_clear_save_data(void);
 
 #ifdef DEBUGMODE
-static void game_debug_update();
-static void game_debug_info();
+static void game_debug_update(void);
+static void game_debug_info(void);
 #endif
 
 void game_update()
@@ -1138,7 +1138,7 @@ void game_update()
             {                
                 game.lives--;       
                 game.livesLosed++;         
-                music_stop(gameMusic);
+                music_stop();
                 game.state = E_GAME_ST_LOSE_LIVE;                
             }            
 
@@ -1204,7 +1204,7 @@ void game_update()
                     }
                 break;
                 case 1: //destroy level and jump to title
-                    music_stop(gameMusic);
+                    music_stop();
                     input_log_stop();
                     game_destroy_level();                                
                     
@@ -1497,7 +1497,7 @@ void game_update()
             switch (gameSeq.step)
             {
                 case 0: //initial freeze delay
-                    music_stop(gameMusic);
+                    music_stop();
                     
                     if (gameSeq.timeCounter >= 100)
                     {                

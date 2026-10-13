@@ -101,9 +101,9 @@ typedef struct {
 void enemy_trace(tEntity *this);
 
 //initializes the enemy systen
-void enemy_system_init();
+void enemy_system_init(void);
 //destroys the enemy system
-void enemy_system_destroy();
+void enemy_system_destroy(void);
 //inits an entity passing his entity structure
 void enemy_init(tEntity *entity);
 //creates an entity passing his entity structure

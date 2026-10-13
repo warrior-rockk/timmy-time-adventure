@@ -124,18 +124,18 @@ typedef struct tEntity
 } tEntity;
 
 //inits entity system
-void entity_system_init();
+void entity_system_init(void);
 //destroys entity system
-void entity_system_destroy();
+void entity_system_destroy(void);
 
 //calls the init function on all entitites
-void entities_init();
+void entities_init(void);
 //calls the update function on all entities
-void entities_update();
+void entities_update(void);
 //draws all entities on passed buffer
 void entities_draw(BITMAP *buffer);
 //destroy all entities
-void entities_destroy_all();
+void entities_destroy_all(void);
 
 //creates a new entity. Returns entity number
 int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, enum E_ENTITY_DIR initDir, int16_t spare);
@@ -143,7 +143,7 @@ int16_t entity_create(uint8_t entityClass, uint8_t entityType, tVector initPos, 
 void entity_update_vel_pos(tEntity *entity);
 
 //returns number of entities
-uint8_t entities_get_num();
+uint8_t entities_get_num(void);
 //returns entity based on entity number
 tEntity* entity_get(uint16_t numEntity);
 //function to return a entity by his entity class and instance. NULL if not found
@@ -157,7 +157,7 @@ int16_t entity_center_y(tEntity *entity);
 //sets the id of the player on entities array
 void entity_set_player_id(uint8_t playerId);
 //gets the id of the player on entities array
-uint8_t entity_get_player_id();
+uint8_t entity_get_player_id(void);
 
 //traces entity information
 void entity_trace(tEntity *entity);

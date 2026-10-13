@@ -33,22 +33,22 @@ typedef struct
 } tSfx;
 
 //inits sound system
-int sound_init();
+int sound_init(void);
 //sets sound mode
 void sound_set_mode(enum E_SOUND_MODES _soundMode);
 //get sound mode
-enum E_SOUND_MODES sound_get_mode();
+enum E_SOUND_MODES sound_get_mode(void);
 
 //plays game music
 void music_play(MIDI *midiFile, bool loop);
 //stops game music
-void music_stop();
+void music_stop(void);
 //pauses game music
-void music_pause();
+void music_pause(void);
 //resume game music
-void music_resume();
+void music_resume(void);
 //get music position
-long music_get_pos();
+long music_get_pos(void);
 //seeks music to position
 void music_seek(int position);
 //sets music volume
@@ -59,9 +59,9 @@ void music_set_tempo(uint8_t tempo);
 //inits sfx system. Uses any sample file to preallocate voices
 void sfx_init(SAMPLE *initSample, uint8_t numVoices);
 //destroys sfx system
-void sfx_destroy();
+void sfx_destroy(void);
 //updates sfx system
-void sfx_update();
+void sfx_update(void);
 //plays a sample on sound card voice
 void sfx_play(SAMPLE* sampleFile, uint8_t voice);
 //plays a sample on sound card voice randomize the frequency
