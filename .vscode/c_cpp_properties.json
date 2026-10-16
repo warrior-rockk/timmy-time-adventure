@@ -27,8 +27,13 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/Users/warrior/Downloads/allegro-xc/allegro-4.2.2-xc/include/**"
+                "/Users/warrior/code/dos/libs/allegro-xc/allegro-4.2.2-xc/include/**"
             ],
+            "browse": {
+                "path": [
+                    "/Users/warrior/code/dos/libs/allegro-xc/allegro-4.2.2-xc/src/**"
+                ]
+            },
             "defines": [
                 "DEBUGMODE"
             ],
